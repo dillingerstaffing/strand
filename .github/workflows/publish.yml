@@ -27,6 +27,6 @@ jobs:
       - run: pnpm --filter @dillingerstaffing/strand-ui publish --no-git-checks --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: pnpm --filter strand-ui publish --no-git-checks --access public --provenance
+      - run: pnpm --filter @dillingerstaffing/strand-cli publish --no-git-checks --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
