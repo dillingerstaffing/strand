@@ -12,6 +12,8 @@ export interface SelectProps
   extends Omit<JSX.HTMLAttributes<HTMLSelectElement>, "onChange"> {
   /** Array of options to display */
   options: SelectOption[];
+  /** Disabled state */
+  disabled?: boolean;
   /** Currently selected value */
   value?: string;
   /** Change handler */

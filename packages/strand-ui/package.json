@@ -1,6 +1,6 @@
 {
   "name": "@dillingerstaffing/strand-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Strand UI - Preact/React component library built on the Strand Design Language",
   "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
   "license": "MIT",
@@ -22,16 +22,17 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./css/*": "./dist/css/*"
+    "./css/strand-ui.css": "./dist/css/strand-ui.css"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "src/"
   ],
   "sideEffects": [
     "dist/css/*.css"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && tsc --emitDeclarationOnly",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"

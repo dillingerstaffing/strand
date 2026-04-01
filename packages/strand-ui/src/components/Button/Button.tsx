@@ -4,7 +4,7 @@ import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
 
 export interface ButtonProps
-  extends Omit<JSX.HTMLAttributes<HTMLButtonElement>, "size" | "loading"> {
+  extends Omit<JSX.HTMLAttributes<HTMLButtonElement>, "size" | "loading" | "type"> {
   /** Visual style variant */
   variant?: "primary" | "secondary" | "ghost" | "danger";
   /** Button size */
@@ -13,6 +13,10 @@ export interface ButtonProps
   loading?: boolean;
   /** Square button for icon-only use */
   iconOnly?: boolean;
+  /** HTML button type */
+  type?: "button" | "submit" | "reset";
+  /** Disabled state */
+  disabled?: boolean;
   /** Stretch to full container width */
   fullWidth?: boolean;
 }

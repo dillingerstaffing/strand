@@ -4,7 +4,7 @@ import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
 
 export interface SliderProps
-  extends Omit<JSX.HTMLAttributes<HTMLInputElement>, "type" | "onChange"> {
+  extends Omit<JSX.HTMLAttributes<HTMLInputElement>, "type" | "onChange" | "value"> {
   /** Minimum value */
   min?: number;
   /** Maximum value */
@@ -15,6 +15,8 @@ export interface SliderProps
   value?: number;
   /** Change handler */
   onChange?: (e: JSX.TargetedEvent<HTMLInputElement>) => void;
+  /** Disabled state */
+  disabled?: boolean;
 }
 
 export const Slider = forwardRef<HTMLInputElement, SliderProps>(

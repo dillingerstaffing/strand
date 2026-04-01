@@ -5,7 +5,7 @@ import { forwardRef } from "preact/compat";
 import { useCallback, useRef } from "preact/hooks";
 
 export interface TextareaProps
-  extends Omit<JSX.HTMLAttributes<HTMLTextAreaElement>, "onInput"> {
+  extends Omit<JSX.HTMLAttributes<HTMLTextAreaElement>, "onInput" | "value"> {
   /** Auto-resize to fit content */
   autoResize?: boolean;
   /** Show character count (requires maxLength) */
@@ -16,6 +16,10 @@ export interface TextareaProps
   maxLength?: number;
   /** Input handler */
   onInput?: JSX.GenericEventHandler<HTMLTextAreaElement>;
+  /** Disabled state */
+  disabled?: boolean;
+  /** Controlled value */
+  value?: string;
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(

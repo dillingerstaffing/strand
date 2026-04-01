@@ -13,6 +13,8 @@ export interface InputProps
   leadingAddon?: ComponentChildren;
   /** Element rendered after the input */
   trailingAddon?: ComponentChildren;
+  /** Disabled state */
+  disabled?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
