@@ -18,7 +18,7 @@
   justify-content: center;
   font-family: var(--strand-font-sans);
   font-weight: var(--strand-weight-semibold);
-  color: #fff;
+  color: var(--strand-on-blue-primary);
 }
 
 /* Position at top-right when wrapping children */

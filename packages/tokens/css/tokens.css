@@ -44,6 +44,8 @@
   --strand-green-positive: #10B981;
   --strand-violet-data: #8B5CF6;
   --strand-red-alert: #EF4444;
+  --strand-red-alert-vivid: #DC2626;
+  --strand-red-alert-deep: #B91C1C;
   --strand-amber-caution: #F59E0B;
 
   /* ── ON-COLORS (contrast-safe text pairings) ── */
@@ -54,8 +56,13 @@
   --strand-on-blue-vivid: #FFFFFF;
   --strand-on-blue-deep: #FFFFFF;
   --strand-on-red-alert: #FFFFFF;
+  --strand-on-red-alert-vivid: #FFFFFF;
+  --strand-on-red-alert-deep: #FFFFFF;
   --strand-on-teal-vital: #0F172A;
+  --strand-on-teal-tint: #0D7377;
   --strand-on-amber-caution: #0F172A;
+  --strand-on-amber-tint: #92400E;
+  --strand-on-red-tint: #991B1B;
 
   /* ── TYPE SCALE (Major Third, 1.250 ratio) ── */
   --strand-text-xs: 0.694rem;

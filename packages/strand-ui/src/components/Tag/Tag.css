@@ -23,7 +23,7 @@
 
 .strand-tag--solid.strand-tag--teal {
   background: rgba(20, 184, 166, 0.1);
-  color: #0D7377;
+  color: var(--strand-on-teal-tint);
 }
 
 .strand-tag--solid.strand-tag--blue {
@@ -33,12 +33,12 @@
 
 .strand-tag--solid.strand-tag--amber {
   background: rgba(245, 158, 11, 0.1);
-  color: #92400E;
+  color: var(--strand-on-amber-tint);
 }
 
 .strand-tag--solid.strand-tag--red {
   background: rgba(239, 68, 68, 0.1);
-  color: #991B1B;
+  color: var(--strand-on-red-tint);
 }
 
 /* ── Outlined variant ── */
@@ -53,7 +53,7 @@
 
 .strand-tag--outlined.strand-tag--teal {
   border-color: var(--strand-teal-vital);
-  color: #0D7377;
+  color: var(--strand-on-teal-tint);
 }
 
 .strand-tag--outlined.strand-tag--blue {
@@ -63,12 +63,12 @@
 
 .strand-tag--outlined.strand-tag--amber {
   border-color: var(--strand-amber-caution);
-  color: #92400E;
+  color: var(--strand-on-amber-tint);
 }
 
 .strand-tag--outlined.strand-tag--red {
   border-color: var(--strand-red-alert);
-  color: #991B1B;
+  color: var(--strand-on-red-tint);
 }
 
 /* ── Remove button ── */

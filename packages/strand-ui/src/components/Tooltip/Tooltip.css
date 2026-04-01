@@ -12,7 +12,7 @@
   z-index: 1200;
   padding: var(--strand-space-1) var(--strand-space-2);
   background: var(--strand-gray-900);
-  color: #fff;
+  color: var(--strand-on-blue-primary);
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-xs);
   border-radius: var(--strand-radius-md);

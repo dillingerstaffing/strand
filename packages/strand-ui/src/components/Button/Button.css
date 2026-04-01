@@ -128,13 +128,13 @@
 }
 
 .strand-btn--danger:hover:not(:disabled) {
-  background: #DC2626;
+  background: var(--strand-red-alert-vivid);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
 }
 
 .strand-btn--danger:active:not(:disabled) {
-  background: #B91C1C;
+  background: var(--strand-red-alert-deep);
 }
 
 /* ── Loading state ── */
