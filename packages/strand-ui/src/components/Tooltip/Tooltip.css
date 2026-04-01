@@ -1,0 +1,63 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Wrapper ── */
+.strand-tooltip__wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+/* ── Tooltip ── */
+.strand-tooltip {
+  position: absolute;
+  z-index: 1200;
+  padding: var(--strand-space-1) var(--strand-space-2);
+  background: var(--strand-gray-900);
+  color: #fff;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-xs);
+  border-radius: var(--strand-radius-md);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--strand-duration-fast) ease;
+}
+
+.strand-tooltip--visible {
+  opacity: 1;
+}
+
+/* ── Positions ── */
+.strand-tooltip--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: var(--strand-space-2);
+}
+
+.strand-tooltip--bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: var(--strand-space-2);
+}
+
+.strand-tooltip--left {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: var(--strand-space-2);
+}
+
+.strand-tooltip--right {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: var(--strand-space-2);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-tooltip {
+    transition: none;
+  }
+}

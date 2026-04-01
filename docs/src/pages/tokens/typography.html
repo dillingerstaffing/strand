@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typography Tokens - Strand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/tokens.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/reset.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/base.css">
+  <link rel="stylesheet" href="../../css/docs.css">
+</head>
+<body>
+  <div class="docs-layout">
+
+    <header class="docs-header">
+      <a href="../index.html" class="docs-logo">Strand</a>
+      <nav class="docs-header-nav" aria-label="Main navigation">
+        <a href="../getting-started.html">Getting Started</a>
+        <a href="../philosophy.html">Philosophy</a>
+        <a href="color.html" aria-current="page">Tokens</a>
+        <a href="../components/button.html">Components</a>
+      </nav>
+      <button class="docs-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </header>
+
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Guide</div>
+          <a href="../getting-started.html" class="docs-sidebar-link">Getting Started</a>
+          <a href="../philosophy.html" class="docs-sidebar-link">Philosophy</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Tokens</div>
+          <a href="color.html" class="docs-sidebar-link">Color</a>
+          <a href="typography.html" class="docs-sidebar-link" aria-current="page">Typography</a>
+          <a href="spacing.html" class="docs-sidebar-link">Spacing</a>
+          <a href="motion.html" class="docs-sidebar-link">Motion</a>
+          <a href="elevation.html" class="docs-sidebar-link">Elevation</a>
+          <a href="shape.html" class="docs-sidebar-link">Shape</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Components</div>
+          <a href="../components/button.html" class="docs-sidebar-link">Button</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+      <div class="docs-overline">Tokens</div>
+      <h1>Typography</h1>
+      <p>Typography carries 80% of the design. The type scale, tracking, weight hierarchy, and monospace labels create the Strand aesthetic without imagery.</p>
+
+      <h2>Font Stacks</h2>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-font-sans</div>
+        <p style="font-family: var(--strand-font-sans); font-size: var(--strand-text-xl); color: var(--strand-gray-700);">Inter, -apple-system, BlinkMacSystemFont, Segoe UI, system-ui, sans-serif</p>
+        <p style="font-size: var(--strand-text-sm); color: var(--strand-gray-500);">Primary UI and headline font. Geometric, engineered for screens.</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-font-mono</div>
+        <p style="font-family: var(--strand-font-mono); font-size: var(--strand-text-xl); color: var(--strand-gray-700);">JetBrains Mono, SF Mono, Fira Code, Cascadia Code, monospace</p>
+        <p style="font-size: var(--strand-text-sm); color: var(--strand-gray-500);">Data, labels, and code display. Excellent legibility at small sizes.</p>
+      </div>
+
+      <h2>Type Scale</h2>
+      <p>Major Third ratio (1.250). Each step rendered at its actual size.</p>
+
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-7xl / 5.96rem / 95.4px</div>
+        <p style="font-size: var(--strand-text-7xl); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tightest); line-height: var(--strand-leading-none); color: var(--strand-blue-midnight);">Ultra display</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-6xl / 4.768rem / 76.3px</div>
+        <p style="font-size: var(--strand-text-6xl); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tightest); line-height: var(--strand-leading-none); color: var(--strand-blue-midnight);">Display text</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-5xl / 3.815rem / 61px</div>
+        <p style="font-size: var(--strand-text-5xl); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tighter); line-height: var(--strand-leading-tight); color: var(--strand-blue-midnight);">Hero headline</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-4xl / 3.052rem / 48.8px</div>
+        <p style="font-size: var(--strand-text-4xl); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tight); line-height: var(--strand-leading-tight); color: var(--strand-gray-800);">Heading 1</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-3xl / 2.441rem / 39px</div>
+        <p style="font-size: var(--strand-text-3xl); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tight); line-height: var(--strand-leading-snug); color: var(--strand-gray-800);">Heading 2</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-2xl / 1.953rem / 31.3px</div>
+        <p style="font-size: var(--strand-text-2xl); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tight); line-height: var(--strand-leading-snug); color: var(--strand-gray-800);">Heading 3</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-xl / 1.563rem / 25px</div>
+        <p style="font-size: var(--strand-text-xl); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-tight); line-height: var(--strand-leading-snug); color: var(--strand-gray-700);">Subheading</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-lg / 1.25rem / 20px</div>
+        <p style="font-size: var(--strand-text-lg); line-height: var(--strand-leading-normal); color: var(--strand-gray-600);">Lead paragraph text, card titles. Slightly larger than body for emphasis.</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-base / 1rem / 16px</div>
+        <p style="font-size: var(--strand-text-base); line-height: var(--strand-leading-normal); color: var(--strand-gray-600);">Body text. The default reading size. Comfortable for sustained reading at 65ch line length.</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-sm / 0.833rem / 13.3px</div>
+        <p style="font-size: var(--strand-text-sm); line-height: var(--strand-leading-relaxed); color: var(--strand-gray-500);">Captions, timestamps, field labels. Used for secondary information.</p>
+      </div>
+      <div class="docs-type-row">
+        <div class="docs-type-meta">--strand-text-xs / 0.694rem / 11.1px</div>
+        <p style="font-size: var(--strand-text-xs); font-family: var(--strand-font-mono); letter-spacing: var(--strand-tracking-wider); line-height: var(--strand-leading-loose); color: var(--strand-gray-400);">MONOSPACE LABELS, FINE METADATA</p>
+      </div>
+
+      <h2>Tracking (Letter-Spacing)</h2>
+      <p>Large text tighter, small text looser. Tight tracking on large text is the single most impactful "premium" adjustment.</p>
+
+      <div class="docs-tracking-row">
+        <div class="docs-tracking-sample" style="font-size: var(--strand-text-3xl); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tightest); color: var(--strand-gray-700);">Tightest tracking</div>
+        <div class="docs-tracking-meta">--strand-tracking-tightest / -0.05em / Display 60px+</div>
+      </div>
+      <div class="docs-tracking-row">
+        <div class="docs-tracking-sample" style="font-size: var(--strand-text-2xl); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tighter); color: var(--strand-gray-700);">Tighter tracking</div>
+        <div class="docs-tracking-meta">--strand-tracking-tighter / -0.03em / Large headlines 40-60px</div>
+      </div>
+      <div class="docs-tracking-row">
+        <div class="docs-tracking-sample" style="font-size: var(--strand-text-xl); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-tight); color: var(--strand-gray-700);">Tight tracking</div>
+        <div class="docs-tracking-meta">--strand-tracking-tight / -0.02em / H1-H2, 30-48px</div>
+      </div>
+      <div class="docs-tracking-row">
+        <div class="docs-tracking-sample" style="letter-spacing: var(--strand-tracking-normal); color: var(--strand-gray-700);">Normal tracking</div>
+        <div class="docs-tracking-meta">--strand-tracking-normal / 0 / Body text 16-20px</div>
+      </div>
+      <div class="docs-tracking-row">
+        <div class="docs-tracking-sample" style="font-family: var(--strand-font-mono); letter-spacing: var(--strand-tracking-wide); color: var(--strand-gray-700);">Wide tracking</div>
+        <div class="docs-tracking-meta">--strand-tracking-wide / 0.02em / Monospace data</div>
+      </div>
+      <div class="docs-tracking-row">
+        <div class="docs-tracking-sample" style="font-size: var(--strand-text-sm); letter-spacing: var(--strand-tracking-wider); color: var(--strand-gray-700);">Wider tracking</div>
+        <div class="docs-tracking-meta">--strand-tracking-wider / 0.05em / Small labels</div>
+      </div>
+      <div class="docs-tracking-row">
+        <div class="docs-tracking-sample" style="font-size: var(--strand-text-xs); font-family: var(--strand-font-mono); text-transform: uppercase; letter-spacing: var(--strand-tracking-widest); color: var(--strand-gray-700);">Widest tracking</div>
+        <div class="docs-tracking-meta">--strand-tracking-widest / 0.08em / All-caps overlines</div>
+      </div>
+      <div class="docs-tracking-row">
+        <div class="docs-tracking-sample" style="font-size: var(--strand-text-xs); font-family: var(--strand-font-mono); text-transform: uppercase; letter-spacing: var(--strand-tracking-ultra); color: var(--strand-gray-700);">Ultra tracking</div>
+        <div class="docs-tracking-meta">--strand-tracking-ultra / 0.12em / Spaced-out micro-labels</div>
+      </div>
+
+      <h2>Weight Hierarchy</h2>
+      <p>Light-weight headlines at large sizes produce thin strokes that feel elegant. The contrast between weight 300 and weight 400 creates hierarchy.</p>
+
+      <div class="docs-weight-row">
+        <div class="docs-weight-sample" style="font-size: var(--strand-text-3xl); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tighter); color: var(--strand-gray-700);">Display headline (300 Light)</div>
+        <div class="docs-weight-meta">Weight 300 + tracking tighter (-0.03em) + leading tight (1.15)</div>
+      </div>
+      <div class="docs-weight-row">
+        <div class="docs-weight-sample" style="font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-tight); color: var(--strand-gray-700);">Subheading (500 Medium)</div>
+        <div class="docs-weight-meta">Weight 500 + tracking tight (-0.02em) + leading snug (1.25)</div>
+      </div>
+      <div class="docs-weight-row">
+        <div class="docs-weight-sample" style="font-size: var(--strand-text-base); font-weight: var(--strand-weight-regular); color: var(--strand-gray-600);">Body text (400 Regular)</div>
+        <div class="docs-weight-meta">Weight 400 + tracking normal (0) + leading normal (1.5)</div>
+      </div>
+      <div class="docs-weight-row">
+        <div class="docs-weight-sample" style="font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); text-transform: uppercase; letter-spacing: var(--strand-tracking-widest); color: var(--strand-gray-700);">Overline / Label (500 Medium + Mono)</div>
+        <div class="docs-weight-meta">Weight 500 + uppercase + monospace + tracking widest (0.08em)</div>
+      </div>
+      <div class="docs-weight-row">
+        <div class="docs-weight-sample" style="font-family: var(--strand-font-mono); font-weight: var(--strand-weight-semibold); letter-spacing: var(--strand-tracking-wide); color: var(--strand-gray-700);">Data value (600 SemiBold + Mono)</div>
+        <div class="docs-weight-meta">Weight 600 + monospace + tracking wide (0.02em)</div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../../js/docs.js"></script>
+</body>
+</html>

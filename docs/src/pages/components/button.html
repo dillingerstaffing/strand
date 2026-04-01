@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button - Strand Components</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/tokens.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/reset.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/base.css">
+  <link rel="stylesheet" href="../../../../packages/strand-ui/src/components/Button/Button.css">
+  <link rel="stylesheet" href="../../css/docs.css">
+</head>
+<body>
+  <div class="docs-layout">
+
+    <header class="docs-header">
+      <a href="../index.html" class="docs-logo">Strand</a>
+      <nav class="docs-header-nav" aria-label="Main navigation">
+        <a href="../getting-started.html">Getting Started</a>
+        <a href="../philosophy.html">Philosophy</a>
+        <a href="../tokens/color.html">Tokens</a>
+        <a href="button.html" aria-current="page">Components</a>
+      </nav>
+      <button class="docs-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </header>
+
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Guide</div>
+          <a href="../getting-started.html" class="docs-sidebar-link">Getting Started</a>
+          <a href="../philosophy.html" class="docs-sidebar-link">Philosophy</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Tokens</div>
+          <a href="../tokens/color.html" class="docs-sidebar-link">Color</a>
+          <a href="../tokens/typography.html" class="docs-sidebar-link">Typography</a>
+          <a href="../tokens/spacing.html" class="docs-sidebar-link">Spacing</a>
+          <a href="../tokens/motion.html" class="docs-sidebar-link">Motion</a>
+          <a href="../tokens/elevation.html" class="docs-sidebar-link">Elevation</a>
+          <a href="../tokens/shape.html" class="docs-sidebar-link">Shape</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Components</div>
+          <a href="button.html" class="docs-sidebar-link" aria-current="page">Button</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+      <div class="docs-overline">Components</div>
+      <h1>Button</h1>
+      <p>Buttons trigger actions. Four variants and three sizes cover all interaction contexts. Every button meets the 44px minimum touch target.</p>
+
+      <h2>Variants</h2>
+
+      <h3>Primary</h3>
+      <p>For the main action on a page or in a form. One primary button per context.</p>
+      <div class="docs-example">
+        <button class="strand-btn strand-btn--primary strand-btn--md" type="button">
+          <span class="strand-btn__content">Primary</span>
+        </button>
+      </div>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>&lt;button class="strand-btn strand-btn--primary strand-btn--md"&gt;
+  &lt;span class="strand-btn__content"&gt;Primary&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+      </div>
+
+      <h3>Secondary</h3>
+      <p>For supporting actions. Bordered style with elevated background.</p>
+      <div class="docs-example">
+        <button class="strand-btn strand-btn--secondary strand-btn--md" type="button">
+          <span class="strand-btn__content">Secondary</span>
+        </button>
+      </div>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>&lt;button class="strand-btn strand-btn--secondary strand-btn--md"&gt;
+  &lt;span class="strand-btn__content"&gt;Secondary&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+      </div>
+
+      <h3>Ghost</h3>
+      <p>For tertiary actions or inline controls. Transparent background, blue text.</p>
+      <div class="docs-example">
+        <button class="strand-btn strand-btn--ghost strand-btn--md" type="button">
+          <span class="strand-btn__content">Ghost</span>
+        </button>
+      </div>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>&lt;button class="strand-btn strand-btn--ghost strand-btn--md"&gt;
+  &lt;span class="strand-btn__content"&gt;Ghost&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+      </div>
+
+      <h3>Danger</h3>
+      <p>For destructive actions (delete, remove, cancel). Red background draws attention to irreversible choices.</p>
+      <div class="docs-example">
+        <button class="strand-btn strand-btn--danger strand-btn--md" type="button">
+          <span class="strand-btn__content">Danger</span>
+        </button>
+      </div>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>&lt;button class="strand-btn strand-btn--danger strand-btn--md"&gt;
+  &lt;span class="strand-btn__content"&gt;Danger&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+      </div>
+
+      <h2>Sizes</h2>
+      <div class="docs-example">
+        <button class="strand-btn strand-btn--primary strand-btn--sm" type="button">
+          <span class="strand-btn__content">Small</span>
+        </button>
+        <button class="strand-btn strand-btn--primary strand-btn--md" type="button">
+          <span class="strand-btn__content">Medium</span>
+        </button>
+        <button class="strand-btn strand-btn--primary strand-btn--lg" type="button">
+          <span class="strand-btn__content">Large</span>
+        </button>
+      </div>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>&lt;button class="strand-btn strand-btn--primary strand-btn--sm"&gt;...&lt;/button&gt;
+&lt;button class="strand-btn strand-btn--primary strand-btn--md"&gt;...&lt;/button&gt;
+&lt;button class="strand-btn strand-btn--primary strand-btn--lg"&gt;...&lt;/button&gt;</code></pre>
+      </div>
+
+      <h2>States</h2>
+
+      <h3>Disabled</h3>
+      <div class="docs-example">
+        <button class="strand-btn strand-btn--primary strand-btn--md" type="button" disabled>
+          <span class="strand-btn__content">Disabled</span>
+        </button>
+        <button class="strand-btn strand-btn--secondary strand-btn--md" type="button" disabled>
+          <span class="strand-btn__content">Disabled</span>
+        </button>
+      </div>
+
+      <h3>Loading</h3>
+      <div class="docs-example">
+        <button class="strand-btn strand-btn--primary strand-btn--md strand-btn--loading" type="button" aria-busy="true">
+          <span class="strand-btn__spinner" aria-hidden="true"></span>
+          <span class="strand-btn__content" style="visibility: hidden;">Loading</span>
+        </button>
+        <button class="strand-btn strand-btn--secondary strand-btn--md strand-btn--loading" type="button" aria-busy="true">
+          <span class="strand-btn__spinner" aria-hidden="true"></span>
+          <span class="strand-btn__content" style="visibility: hidden;">Loading</span>
+        </button>
+      </div>
+
+      <h3>Full Width</h3>
+      <div class="docs-example" style="flex-direction: column;">
+        <button class="strand-btn strand-btn--primary strand-btn--md strand-btn--full-width" type="button">
+          <span class="strand-btn__content">Full Width Primary</span>
+        </button>
+        <button class="strand-btn strand-btn--secondary strand-btn--md strand-btn--full-width" type="button">
+          <span class="strand-btn__content">Full Width Secondary</span>
+        </button>
+      </div>
+
+      <h2>Props</h2>
+      <table class="docs-props-table">
+        <thead>
+          <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>variant</code></td>
+            <td><code>"primary" | "secondary" | "ghost" | "danger"</code></td>
+            <td><code>"primary"</code></td>
+            <td>Visual style variant</td>
+          </tr>
+          <tr>
+            <td><code>size</code></td>
+            <td><code>"sm" | "md" | "lg"</code></td>
+            <td><code>"md"</code></td>
+            <td>Button size (height: 32/40/48px)</td>
+          </tr>
+          <tr>
+            <td><code>loading</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Show spinner and disable interaction</td>
+          </tr>
+          <tr>
+            <td><code>iconOnly</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Square button for icon-only use</td>
+          </tr>
+          <tr>
+            <td><code>fullWidth</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Stretch to full container width</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disable the button</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>CSS Classes</h2>
+      <table class="docs-props-table">
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>.strand-btn</code></td>
+            <td>Base button styles</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--primary</code></td>
+            <td>Primary variant (blue background)</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--secondary</code></td>
+            <td>Secondary variant (bordered)</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--ghost</code></td>
+            <td>Ghost variant (transparent)</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--danger</code></td>
+            <td>Danger variant (red background)</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--sm</code></td>
+            <td>Small size (32px height)</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--md</code></td>
+            <td>Medium size (40px height)</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--lg</code></td>
+            <td>Large size (48px height)</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--loading</code></td>
+            <td>Loading state (disables pointer events)</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--icon-only</code></td>
+            <td>Square button for icons</td>
+          </tr>
+          <tr>
+            <td><code>.strand-btn--full-width</code></td>
+            <td>Full container width</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Accessibility</h2>
+      <ul>
+        <li>All buttons use native <code>&lt;button&gt;</code> elements for keyboard and screen reader support.</li>
+        <li>Disabled buttons set both <code>disabled</code> and <code>aria-disabled="true"</code>.</li>
+        <li>Loading buttons set <code>aria-busy="true"</code> and the spinner is hidden from screen readers with <code>aria-hidden="true"</code>.</li>
+        <li>Focus indicators use a 2px blue ring with 2px offset (<code>:focus-visible</code>).</li>
+        <li>All sizes meet the 44px minimum touch target (small size is 32px height but should be used in desktop contexts only).</li>
+        <li>Color contrast on all variants meets WCAG 2.2 AA for interactive elements.</li>
+      </ul>
+    </main>
+
+  </div>
+
+  <script src="../../js/docs.js"></script>
+</body>
+</html>

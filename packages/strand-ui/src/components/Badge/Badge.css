@@ -1,0 +1,72 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Wrapper ── */
+.strand-badge {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.strand-badge--inline {
+  display: inline-flex;
+}
+
+/* ── Indicator (shared) ── */
+.strand-badge__indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--strand-font-sans);
+  font-weight: var(--strand-weight-semibold);
+  color: #fff;
+}
+
+/* Position at top-right when wrapping children */
+.strand-badge:not(.strand-badge--inline) > .strand-badge__indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  z-index: 1;
+}
+
+/* ── Dot variant ── */
+.strand-badge--dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--strand-radius-full);
+  font-size: 0;
+  padding: 0;
+}
+
+/* ── Count variant ── */
+.strand-badge--count {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--strand-space-1);
+  border-radius: var(--strand-radius-full);
+  font-size: var(--strand-text-xs);
+  line-height: 20px;
+}
+
+/* ── Status colors ── */
+.strand-badge--default {
+  background: var(--strand-gray-500);
+}
+
+.strand-badge--teal {
+  background: var(--strand-teal-vital);
+}
+
+.strand-badge--blue {
+  background: var(--strand-blue-primary);
+}
+
+.strand-badge--amber {
+  background: var(--strand-amber-caution);
+  color: var(--strand-blue-midnight);
+}
+
+.strand-badge--red {
+  background: var(--strand-red-alert);
+}

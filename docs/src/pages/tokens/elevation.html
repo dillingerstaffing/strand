@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elevation Tokens - Strand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/tokens.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/reset.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/base.css">
+  <link rel="stylesheet" href="../../css/docs.css">
+</head>
+<body>
+  <div class="docs-layout">
+
+    <header class="docs-header">
+      <a href="../index.html" class="docs-logo">Strand</a>
+      <nav class="docs-header-nav" aria-label="Main navigation">
+        <a href="../getting-started.html">Getting Started</a>
+        <a href="../philosophy.html">Philosophy</a>
+        <a href="color.html" aria-current="page">Tokens</a>
+        <a href="../components/button.html">Components</a>
+      </nav>
+      <button class="docs-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </header>
+
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Guide</div>
+          <a href="../getting-started.html" class="docs-sidebar-link">Getting Started</a>
+          <a href="../philosophy.html" class="docs-sidebar-link">Philosophy</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Tokens</div>
+          <a href="color.html" class="docs-sidebar-link">Color</a>
+          <a href="typography.html" class="docs-sidebar-link">Typography</a>
+          <a href="spacing.html" class="docs-sidebar-link">Spacing</a>
+          <a href="motion.html" class="docs-sidebar-link">Motion</a>
+          <a href="elevation.html" class="docs-sidebar-link" aria-current="page">Elevation</a>
+          <a href="shape.html" class="docs-sidebar-link">Shape</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Components</div>
+          <a href="../components/button.html" class="docs-sidebar-link">Button</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+      <div class="docs-overline">Tokens</div>
+      <h1>Elevation</h1>
+      <p>A 5-level shadow system creating z-axis depth. All shadows use blue-shifted rgba values for cohesion with the cool palette.</p>
+
+      <h2>Elevation Scale</h2>
+      <p>Hover over each card to see how elevation communicates interaction state.</p>
+
+      <div class="docs-elevation-grid">
+        <div class="docs-elevation-card" style="box-shadow: var(--strand-elevation-0);">
+          <div style="font-size: var(--strand-text-2xl); font-weight: var(--strand-weight-light); color: var(--strand-gray-700);">0</div>
+          <div class="docs-elevation-label">--strand-elevation-0</div>
+          <div class="docs-elevation-label">none</div>
+          <div class="docs-elevation-label" style="margin-top: var(--strand-space-2); color: var(--strand-gray-400);">Flat, no lift</div>
+        </div>
+        <div class="docs-elevation-card" style="box-shadow: var(--strand-elevation-1);">
+          <div style="font-size: var(--strand-text-2xl); font-weight: var(--strand-weight-light); color: var(--strand-gray-700);">1</div>
+          <div class="docs-elevation-label">--strand-elevation-1</div>
+          <div class="docs-elevation-label" style="margin-top: var(--strand-space-2); color: var(--strand-gray-400);">Cards at rest</div>
+        </div>
+        <div class="docs-elevation-card" style="box-shadow: var(--strand-elevation-2);">
+          <div style="font-size: var(--strand-text-2xl); font-weight: var(--strand-weight-light); color: var(--strand-gray-700);">2</div>
+          <div class="docs-elevation-label">--strand-elevation-2</div>
+          <div class="docs-elevation-label" style="margin-top: var(--strand-space-2); color: var(--strand-gray-400);">Cards on hover, dropdowns</div>
+        </div>
+        <div class="docs-elevation-card" style="box-shadow: var(--strand-elevation-3);">
+          <div style="font-size: var(--strand-text-2xl); font-weight: var(--strand-weight-light); color: var(--strand-gray-700);">3</div>
+          <div class="docs-elevation-label">--strand-elevation-3</div>
+          <div class="docs-elevation-label" style="margin-top: var(--strand-space-2); color: var(--strand-gray-400);">Modals, popovers</div>
+        </div>
+        <div class="docs-elevation-card" style="box-shadow: var(--strand-elevation-4);">
+          <div style="font-size: var(--strand-text-2xl); font-weight: var(--strand-weight-light); color: var(--strand-gray-700);">4</div>
+          <div class="docs-elevation-label">--strand-elevation-4</div>
+          <div class="docs-elevation-label" style="margin-top: var(--strand-space-2); color: var(--strand-gray-400);">Dialogs, toasts</div>
+        </div>
+      </div>
+
+      <h2>Shadow Values</h2>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>--strand-elevation-0: none;
+--strand-elevation-1: 0 1px 2px rgba(15, 23, 42, 0.04),
+                      0 4px 12px rgba(15, 23, 42, 0.02);
+--strand-elevation-2: 0 4px 6px rgba(15, 23, 42, 0.04),
+                      0 12px 24px rgba(15, 23, 42, 0.06);
+--strand-elevation-3: 0 8px 16px rgba(15, 23, 42, 0.06),
+                      0 24px 48px rgba(15, 23, 42, 0.08);
+--strand-elevation-4: 0 16px 32px rgba(15, 23, 42, 0.08),
+                      0 32px 64px rgba(15, 23, 42, 0.12);</code></pre>
+      </div>
+
+      <h2>Usage</h2>
+      <p>Use elevation transitions to communicate interactivity. Cards rest at level 1 and rise to level 2 on hover.</p>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>.card {
+  box-shadow: var(--strand-elevation-1);
+  transition: box-shadow var(--strand-duration-fast) ease,
+              transform var(--strand-duration-fast) var(--strand-ease-out-expo);
+}
+
+.card:hover {
+  box-shadow: var(--strand-elevation-2);
+  transform: translateY(-2px);
+}</code></pre>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../../js/docs.js"></script>
+</body>
+</html>

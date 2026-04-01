@@ -1,0 +1,94 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-2);
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-900);
+  line-height: var(--strand-leading-snug);
+}
+
+/* ── Track ── */
+.strand-switch__track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 40px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-gray-200);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--strand-duration-fast) ease,
+    border-color var(--strand-duration-fast) ease,
+    box-shadow var(--strand-duration-fast) ease;
+}
+
+.strand-switch__track:focus-visible {
+  border-color: var(--strand-blue-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+/* ── Thumb ── */
+.strand-switch__thumb {
+  position: absolute;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-surface-elevated);
+  box-shadow: var(--strand-elevation-1);
+  transition: transform var(--strand-duration-fast) var(--strand-ease-out-expo);
+}
+
+/* ── Checked ── */
+.strand-switch--checked .strand-switch__track {
+  background: var(--strand-blue-primary);
+  border-color: var(--strand-blue-primary);
+}
+
+.strand-switch--checked .strand-switch__thumb {
+  transform: translateX(18px);
+}
+
+/* ── Hover ── */
+.strand-switch:hover:not(.strand-switch--disabled) .strand-switch__track {
+  border-color: var(--strand-blue-indicator);
+}
+
+.strand-switch--checked:hover:not(.strand-switch--disabled) .strand-switch__track {
+  background: var(--strand-blue-vivid);
+  border-color: var(--strand-blue-vivid);
+}
+
+/* ── Label ── */
+.strand-switch__label {
+  color: var(--strand-gray-900);
+}
+
+/* ── Disabled ── */
+.strand-switch--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.strand-switch--disabled .strand-switch__track {
+  cursor: not-allowed;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-switch__track,
+  .strand-switch__thumb {
+    transition: none;
+  }
+}

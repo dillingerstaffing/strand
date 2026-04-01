@@ -1,0 +1,25 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 5vw, 4rem);
+}
+
+/* ── Sizes ── */
+.strand-container--narrow {
+  max-width: var(--strand-content-narrow);
+}
+
+.strand-container--default {
+  max-width: var(--strand-content-default);
+}
+
+.strand-container--wide {
+  max-width: var(--strand-content-wide);
+}
+
+.strand-container--full {
+  max-width: var(--strand-content-full);
+}

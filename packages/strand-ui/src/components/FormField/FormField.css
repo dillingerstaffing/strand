@@ -1,0 +1,47 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strand-space-1);
+}
+
+/* ── Label ── */
+.strand-form-field__label {
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-medium);
+  color: var(--strand-gray-700);
+  line-height: var(--strand-leading-snug);
+}
+
+/* ── Required indicator ── */
+.strand-form-field__required {
+  color: var(--strand-red-alert);
+  margin-left: var(--strand-space-1);
+}
+
+/* ── Control wrapper ── */
+.strand-form-field__control {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Hint ── */
+.strand-form-field__hint {
+  margin: 0;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-500);
+  line-height: var(--strand-leading-normal);
+}
+
+/* ── Error message ── */
+.strand-form-field__error {
+  margin: 0;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-red-alert);
+  line-height: var(--strand-leading-normal);
+}

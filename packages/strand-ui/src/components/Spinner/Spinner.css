@@ -1,0 +1,61 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Ring ── */
+.strand-spinner__ring {
+  display: block;
+  border: 2px solid var(--strand-gray-200);
+  border-top-color: var(--strand-blue-primary);
+  border-radius: var(--strand-radius-full);
+  animation: strand-spinner-rotate 0.8s linear infinite;
+}
+
+/* ── Sizes ── */
+.strand-spinner--sm .strand-spinner__ring {
+  width: 16px;
+  height: 16px;
+}
+
+.strand-spinner--md .strand-spinner__ring {
+  width: 20px;
+  height: 20px;
+}
+
+.strand-spinner--lg .strand-spinner__ring {
+  width: 32px;
+  height: 32px;
+}
+
+/* ── Animation ── */
+@keyframes strand-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Screen reader only text ── */
+.strand-spinner__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-spinner__ring {
+    animation: none;
+    border-style: dotted;
+  }
+}

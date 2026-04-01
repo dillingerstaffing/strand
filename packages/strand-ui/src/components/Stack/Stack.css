@@ -1,0 +1,56 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-stack {
+  display: flex;
+}
+
+/* ── Direction ── */
+.strand-stack--vertical {
+  flex-direction: column;
+}
+
+.strand-stack--horizontal {
+  flex-direction: row;
+}
+
+/* ── Alignment ── */
+.strand-stack--align-start {
+  align-items: flex-start;
+}
+
+.strand-stack--align-center {
+  align-items: center;
+}
+
+.strand-stack--align-end {
+  align-items: flex-end;
+}
+
+/* Default stretch handled by flexbox default */
+
+/* ── Justification ── */
+.strand-stack--justify-start {
+  justify-content: flex-start;
+}
+
+.strand-stack--justify-center {
+  justify-content: center;
+}
+
+.strand-stack--justify-end {
+  justify-content: flex-end;
+}
+
+.strand-stack--justify-between {
+  justify-content: space-between;
+}
+
+.strand-stack--justify-around {
+  justify-content: space-around;
+}
+
+/* ── Wrap ── */
+.strand-stack--wrap {
+  flex-wrap: wrap;
+}

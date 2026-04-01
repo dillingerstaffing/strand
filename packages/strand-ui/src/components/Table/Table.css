@@ -1,0 +1,78 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Wrapper (responsive scroll) ── */
+.strand-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Table ── */
+.strand-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* ── Header ── */
+.strand-table__th {
+  padding: var(--strand-space-3) var(--strand-space-4);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+  text-align: left;
+  border-bottom: 1px solid var(--strand-gray-200);
+  white-space: nowrap;
+}
+
+/* ── Sort button ── */
+.strand-table__sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-1);
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.strand-table__sort-btn:hover {
+  color: var(--strand-gray-600);
+}
+
+.strand-table__sort-indicator {
+  font-size: var(--strand-text-xs);
+  opacity: 0.6;
+}
+
+/* ── Body ── */
+.strand-table__td {
+  padding: var(--strand-space-3) var(--strand-space-4);
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-600);
+  border-bottom: 1px solid var(--strand-gray-200);
+}
+
+/* ── Row hover ── */
+.strand-table__row {
+  transition: background var(--strand-duration-fast) ease;
+}
+
+.strand-table__row:hover {
+  background: var(--strand-blue-glow);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-table__row {
+    transition: none;
+  }
+}

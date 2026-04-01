@@ -1,0 +1,93 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Bar base ── */
+.strand-progress--bar {
+  width: 100%;
+  background: var(--strand-gray-200);
+  border-radius: var(--strand-radius-full);
+  overflow: hidden;
+}
+
+/* ── Bar sizes ── */
+.strand-progress--bar.strand-progress--sm {
+  height: 4px;
+}
+
+.strand-progress--bar.strand-progress--md {
+  height: 8px;
+}
+
+.strand-progress--bar.strand-progress--lg {
+  height: 12px;
+}
+
+/* ── Bar fill ── */
+.strand-progress--bar .strand-progress__fill {
+  height: 100%;
+  background: var(--strand-blue-primary);
+  border-radius: var(--strand-radius-full);
+  transition: width var(--strand-duration-normal) ease;
+}
+
+/* ── Bar indeterminate ── */
+.strand-progress--bar.strand-progress--indeterminate .strand-progress__fill {
+  width: 40%;
+  animation: strand-progress-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes strand-progress-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+/* ── Ring base ── */
+.strand-progress--ring {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Ring track and fill ── */
+.strand-progress__track {
+  stroke: var(--strand-gray-200);
+}
+
+.strand-progress__fill {
+  stroke: var(--strand-blue-primary);
+}
+
+.strand-progress--ring .strand-progress__ring {
+  transition: stroke-dashoffset var(--strand-duration-normal) ease;
+}
+
+/* ── Ring indeterminate ── */
+.strand-progress--ring.strand-progress--indeterminate .strand-progress__ring {
+  animation: strand-progress-rotate 1.2s linear infinite;
+}
+
+@keyframes strand-progress-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-progress--bar .strand-progress__fill {
+    transition: none;
+  }
+
+  .strand-progress--bar.strand-progress--indeterminate .strand-progress__fill {
+    animation: none;
+    width: 100%;
+    opacity: 0.4;
+  }
+
+  .strand-progress--ring.strand-progress--indeterminate .strand-progress__ring {
+    animation: none;
+  }
+}

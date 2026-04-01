@@ -1,0 +1,80 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+.strand-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--strand-surface-elevated);
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-md);
+  transition:
+    border-color var(--strand-duration-fast) ease,
+    box-shadow var(--strand-duration-fast) ease;
+}
+
+.strand-input:focus-within {
+  border-color: var(--strand-blue-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ── Field ── */
+.strand-input__field {
+  flex: 1;
+  width: 100%;
+  padding: var(--strand-space-3) var(--strand-space-4);
+  background: transparent;
+  border: none;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-base);
+  color: var(--strand-gray-900);
+  outline: none;
+}
+
+.strand-input__field::placeholder {
+  color: var(--strand-gray-400);
+}
+
+/* ── Addons ── */
+.strand-input__leading,
+.strand-input__trailing {
+  display: flex;
+  align-items: center;
+  color: var(--strand-gray-500);
+  font-size: var(--strand-text-sm);
+}
+
+.strand-input__leading {
+  padding-left: var(--strand-space-3);
+}
+
+.strand-input__trailing {
+  padding-right: var(--strand-space-3);
+}
+
+.strand-input--has-leading .strand-input__field {
+  padding-left: var(--strand-space-2);
+}
+
+.strand-input--has-trailing .strand-input__field {
+  padding-right: var(--strand-space-2);
+}
+
+/* ── Error ── */
+.strand-input--error {
+  border-color: var(--strand-red-alert);
+}
+
+.strand-input--error:focus-within {
+  border-color: var(--strand-red-alert);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* ── Disabled ── */
+.strand-input--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.strand-input--disabled .strand-input__field {
+  cursor: not-allowed;
+}

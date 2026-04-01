@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motion Tokens - Strand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/tokens.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/reset.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/base.css">
+  <link rel="stylesheet" href="../../css/docs.css">
+</head>
+<body>
+  <div class="docs-layout">
+
+    <header class="docs-header">
+      <a href="../index.html" class="docs-logo">Strand</a>
+      <nav class="docs-header-nav" aria-label="Main navigation">
+        <a href="../getting-started.html">Getting Started</a>
+        <a href="../philosophy.html">Philosophy</a>
+        <a href="color.html" aria-current="page">Tokens</a>
+        <a href="../components/button.html">Components</a>
+      </nav>
+      <button class="docs-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </header>
+
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Guide</div>
+          <a href="../getting-started.html" class="docs-sidebar-link">Getting Started</a>
+          <a href="../philosophy.html" class="docs-sidebar-link">Philosophy</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Tokens</div>
+          <a href="color.html" class="docs-sidebar-link">Color</a>
+          <a href="typography.html" class="docs-sidebar-link">Typography</a>
+          <a href="spacing.html" class="docs-sidebar-link">Spacing</a>
+          <a href="motion.html" class="docs-sidebar-link" aria-current="page">Motion</a>
+          <a href="elevation.html" class="docs-sidebar-link">Elevation</a>
+          <a href="shape.html" class="docs-sidebar-link">Shape</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Components</div>
+          <a href="../components/button.html" class="docs-sidebar-link">Button</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+      <div class="docs-overline">Tokens</div>
+      <h1>Motion</h1>
+      <p>Motion in Strand is precise and restrained. Small translate distances, no bounce or elastic easing, and every animation respects <code>prefers-reduced-motion</code>.</p>
+
+      <h2>Easing Functions</h2>
+      <p>Four easing curves cover all animation needs. Watch the dot traverse each track to see the curve in action.</p>
+
+      <div class="docs-motion-row">
+        <div class="docs-motion-track">
+          <div class="docs-motion-indicator" style="animation-name: docs-ease-out-expo; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);"></div>
+        </div>
+        <div class="docs-motion-info">
+          <div class="docs-motion-name">--strand-ease-out-expo</div>
+          <div class="docs-motion-value">cubic-bezier(0.16, 1, 0.3, 1)</div>
+          <div class="docs-motion-value">Enter/open: snappy start, gentle settle</div>
+        </div>
+      </div>
+
+      <div class="docs-motion-row">
+        <div class="docs-motion-track">
+          <div class="docs-motion-indicator" style="animation-name: docs-ease-out-quart; animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);"></div>
+        </div>
+        <div class="docs-motion-info">
+          <div class="docs-motion-name">--strand-ease-out-quart</div>
+          <div class="docs-motion-value">cubic-bezier(0.25, 1, 0.5, 1)</div>
+          <div class="docs-motion-value">General smooth transitions</div>
+        </div>
+      </div>
+
+      <div class="docs-motion-row">
+        <div class="docs-motion-track">
+          <div class="docs-motion-indicator" style="animation-name: docs-ease-in-out-sine; animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);"></div>
+        </div>
+        <div class="docs-motion-info">
+          <div class="docs-motion-name">--strand-ease-in-out-sine</div>
+          <div class="docs-motion-value">cubic-bezier(0.37, 0, 0.63, 1)</div>
+          <div class="docs-motion-value">Gentle, scientific, balanced</div>
+        </div>
+      </div>
+
+      <div class="docs-motion-row">
+        <div class="docs-motion-track">
+          <div class="docs-motion-indicator" style="animation-name: docs-ease-in-expo; animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0);"></div>
+        </div>
+        <div class="docs-motion-info">
+          <div class="docs-motion-name">--strand-ease-in-expo</div>
+          <div class="docs-motion-value">cubic-bezier(0.7, 0, 0.84, 0)</div>
+          <div class="docs-motion-value">Exit/close: slow start, fast finish</div>
+        </div>
+      </div>
+
+      <h2>Duration Scale</h2>
+      <p>Five duration stops calibrated to match the perceived weight of different UI changes.</p>
+
+      <div style="margin-bottom: var(--strand-space-8);">
+        <div class="docs-duration-row">
+          <div class="docs-duration-label">--strand-duration-instant / 75ms</div>
+          <div class="docs-duration-bar" style="width: 30px;"></div>
+        </div>
+        <div class="docs-duration-row">
+          <div class="docs-duration-label">--strand-duration-fast / 150ms</div>
+          <div class="docs-duration-bar" style="width: 60px;"></div>
+        </div>
+        <div class="docs-duration-row">
+          <div class="docs-duration-label">--strand-duration-normal / 250ms</div>
+          <div class="docs-duration-bar" style="width: 100px;"></div>
+        </div>
+        <div class="docs-duration-row">
+          <div class="docs-duration-label">--strand-duration-slow / 400ms</div>
+          <div class="docs-duration-bar" style="width: 160px;"></div>
+        </div>
+        <div class="docs-duration-row">
+          <div class="docs-duration-label">--strand-duration-glacial / 700ms</div>
+          <div class="docs-duration-bar" style="width: 280px;"></div>
+        </div>
+      </div>
+
+      <h2>Usage</h2>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>.card {
+  transition:
+    transform var(--strand-duration-fast) var(--strand-ease-out-expo),
+    box-shadow var(--strand-duration-fast) ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--strand-elevation-2);
+}</code></pre>
+      </div>
+
+      <h2>Animation Principles</h2>
+      <h3>What signals precision</h3>
+      <ul>
+        <li>Small translate distances (16-32px)</li>
+        <li>No bounce or elastic easing</li>
+        <li>Short stagger intervals (60-100ms)</li>
+        <li>Opacity always animates (things fade, never pop)</li>
+        <li>Transform-only animations (GPU compositing, 60fps)</li>
+      </ul>
+
+      <h3>Never</h3>
+      <ul>
+        <li>Re-animate on every viewport entry/exit</li>
+        <li>Horizontal scroll hijacking</li>
+        <li>Override native scroll</li>
+        <li>Animations longer than 0.6s that block content</li>
+        <li>More than 3-4 elements animating simultaneously</li>
+        <li>Parallax on text</li>
+      </ul>
+
+      <h2>Reduced Motion</h2>
+      <p>All animations must respect <code>prefers-reduced-motion: reduce</code>. Durations drop to near-zero and scroll behavior becomes <code>auto</code>. This is handled automatically by the Strand reset.</p>
+    </main>
+
+  </div>
+
+  <script src="../../js/docs.js"></script>
+</body>
+</html>

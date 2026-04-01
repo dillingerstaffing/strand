@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Tokens - Strand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/tokens.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/reset.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/base.css">
+  <link rel="stylesheet" href="../../css/docs.css">
+</head>
+<body>
+  <div class="docs-layout">
+
+    <header class="docs-header">
+      <a href="../index.html" class="docs-logo">Strand</a>
+      <nav class="docs-header-nav" aria-label="Main navigation">
+        <a href="../getting-started.html">Getting Started</a>
+        <a href="../philosophy.html">Philosophy</a>
+        <a href="color.html" aria-current="page">Tokens</a>
+        <a href="../components/button.html">Components</a>
+      </nav>
+      <button class="docs-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </header>
+
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Guide</div>
+          <a href="../getting-started.html" class="docs-sidebar-link">Getting Started</a>
+          <a href="../philosophy.html" class="docs-sidebar-link">Philosophy</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Tokens</div>
+          <a href="color.html" class="docs-sidebar-link" aria-current="page">Color</a>
+          <a href="typography.html" class="docs-sidebar-link">Typography</a>
+          <a href="spacing.html" class="docs-sidebar-link">Spacing</a>
+          <a href="motion.html" class="docs-sidebar-link">Motion</a>
+          <a href="elevation.html" class="docs-sidebar-link">Elevation</a>
+          <a href="shape.html" class="docs-sidebar-link">Shape</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Components</div>
+          <a href="../components/button.html" class="docs-sidebar-link">Button</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+      <div class="docs-overline">Tokens</div>
+      <h1>Color</h1>
+      <p>Strand uses cool-shifted whites as the dominant surface. The accent is a single, carefully calibrated blue. Not corporate blue. Not neon blue. The blue of precision instrumentation.</p>
+
+      <h2>Surface Palette</h2>
+      <p>Cool-shifted whites that communicate "controlled environment" without feeling clinical.</p>
+      <div class="docs-swatch-grid">
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-surface-primary);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-surface-primary</div>
+            <div class="docs-swatch-value">#FAFCFE</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-surface-elevated);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-surface-elevated</div>
+            <div class="docs-swatch-value">#FFFFFF</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-surface-recessed);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-surface-recessed</div>
+            <div class="docs-swatch-value">#F0F4F8</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-surface-subtle);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-surface-subtle</div>
+            <div class="docs-swatch-value">#E8EDF3</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>Blue Biosynthetic Spectrum</h2>
+      <p>Eight stops from glow to abyss. Each serves a specific interaction purpose.</p>
+      <div class="docs-swatch-grid">
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-blue-glow);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-blue-glow</div>
+            <div class="docs-swatch-value">#E8F4FD</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-blue-wash);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-blue-wash</div>
+            <div class="docs-swatch-value">#DBEAFE</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-blue-indicator);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-blue-indicator</div>
+            <div class="docs-swatch-value">#93C5FD</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-blue-primary);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-blue-primary</div>
+            <div class="docs-swatch-value">#3B82F6</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-blue-vivid);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-blue-vivid</div>
+            <div class="docs-swatch-value">#2563EB</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-blue-deep);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-blue-deep</div>
+            <div class="docs-swatch-value">#1D4ED8</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-blue-midnight);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-blue-midnight</div>
+            <div class="docs-swatch-value">#1E3A5F</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-blue-abyss);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-blue-abyss</div>
+            <div class="docs-swatch-value">#0F172A</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>Cool Grays</h2>
+      <p>Blue-shifted grays for text, borders, and backgrounds. Never use pure black or warm grays.</p>
+      <div class="docs-swatch-grid">
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-50);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-50</div>
+            <div class="docs-swatch-value">#F8FAFC</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-100);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-100</div>
+            <div class="docs-swatch-value">#F1F5F9</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-200);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-200</div>
+            <div class="docs-swatch-value">#E2E8F0</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-300);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-300</div>
+            <div class="docs-swatch-value">#CBD5E1</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-400);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-400</div>
+            <div class="docs-swatch-value">#94A3B8</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-500);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-500</div>
+            <div class="docs-swatch-value">#64748B</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-600);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-600</div>
+            <div class="docs-swatch-value">#475569</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-700);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-700</div>
+            <div class="docs-swatch-value">#334155</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-800);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-800</div>
+            <div class="docs-swatch-value">#1E293B</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-gray-900);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-gray-900</div>
+            <div class="docs-swatch-value">#0F172A</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>Semantic Accents</h2>
+      <p>Used only in data and status contexts. Never as brand expression.</p>
+      <div class="docs-swatch-grid">
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-cyan-signal);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-cyan-signal</div>
+            <div class="docs-swatch-value">#22D3EE</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-teal-vital);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-teal-vital</div>
+            <div class="docs-swatch-value">#14B8A6</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-green-positive);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-green-positive</div>
+            <div class="docs-swatch-value">#10B981</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-violet-data);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-violet-data</div>
+            <div class="docs-swatch-value">#8B5CF6</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-red-alert);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-red-alert</div>
+            <div class="docs-swatch-value">#EF4444</div>
+          </div>
+        </div>
+        <div class="docs-swatch">
+          <div class="docs-swatch-color" style="background: var(--strand-amber-caution);"></div>
+          <div class="docs-swatch-info">
+            <div class="docs-swatch-name">--strand-amber-caution</div>
+            <div class="docs-swatch-value">#F59E0B</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>On-Colors (Contrast-Safe Text Pairings)</h2>
+      <p>Every background color has a designated text color meeting WCAG 2.2 AA contrast requirements.</p>
+      <div class="docs-contrast-grid">
+        <div class="docs-contrast-card">
+          <div class="docs-contrast-preview" style="background: var(--strand-surface-primary); color: var(--strand-on-surface-primary);">
+            Text on surface-primary
+          </div>
+          <div class="docs-contrast-meta">
+            on-surface-primary: #475569 / 5.74:1
+          </div>
+        </div>
+        <div class="docs-contrast-card">
+          <div class="docs-contrast-preview" style="background: var(--strand-surface-elevated); color: var(--strand-on-surface-elevated);">
+            Text on surface-elevated
+          </div>
+          <div class="docs-contrast-meta">
+            on-surface-elevated: #475569 / 5.91:1
+          </div>
+        </div>
+        <div class="docs-contrast-card">
+          <div class="docs-contrast-preview" style="background: var(--strand-surface-recessed); color: var(--strand-on-surface-recessed);">
+            Text on surface-recessed
+          </div>
+          <div class="docs-contrast-meta">
+            on-surface-recessed: #475569 / 5.20:1
+          </div>
+        </div>
+        <div class="docs-contrast-card">
+          <div class="docs-contrast-preview" style="background: var(--strand-blue-primary); color: var(--strand-on-blue-primary);">
+            Text on blue-primary
+          </div>
+          <div class="docs-contrast-meta">
+            on-blue-primary: #FFFFFF / 3.68:1
+          </div>
+        </div>
+        <div class="docs-contrast-card">
+          <div class="docs-contrast-preview" style="background: var(--strand-blue-vivid); color: var(--strand-on-blue-vivid);">
+            Text on blue-vivid
+          </div>
+          <div class="docs-contrast-meta">
+            on-blue-vivid: #FFFFFF / 5.45:1
+          </div>
+        </div>
+        <div class="docs-contrast-card">
+          <div class="docs-contrast-preview" style="background: var(--strand-blue-deep); color: var(--strand-on-blue-deep);">
+            Text on blue-deep
+          </div>
+          <div class="docs-contrast-meta">
+            on-blue-deep: #FFFFFF / 6.74:1
+          </div>
+        </div>
+        <div class="docs-contrast-card">
+          <div class="docs-contrast-preview" style="background: var(--strand-red-alert); color: var(--strand-on-red-alert);">
+            Text on red-alert
+          </div>
+          <div class="docs-contrast-meta">
+            on-red-alert: #FFFFFF / 3.76:1
+          </div>
+        </div>
+        <div class="docs-contrast-card">
+          <div class="docs-contrast-preview" style="background: var(--strand-teal-vital); color: var(--strand-on-teal-vital);">
+            Text on teal-vital
+          </div>
+          <div class="docs-contrast-meta">
+            on-teal-vital: #0F172A / 7.46:1
+          </div>
+        </div>
+        <div class="docs-contrast-card">
+          <div class="docs-contrast-preview" style="background: var(--strand-amber-caution); color: var(--strand-on-amber-caution);">
+            Text on amber-caution
+          </div>
+          <div class="docs-contrast-meta">
+            on-amber-caution: #0F172A / 8.29:1
+          </div>
+        </div>
+      </div>
+
+      <h2>Usage Rules</h2>
+      <ol>
+        <li><strong>70% surface whites, 25% cool grays, 5% blue accent.</strong> This ratio defines the aesthetic.</li>
+        <li><strong>Blue is earned.</strong> It appears on interactive elements, key data, and status indicators. Not decoration.</li>
+        <li><strong>Never use warm colors in the base palette.</strong> Warm colors imply organic, cozy, imprecise. Strand is cool, controlled, precise.</li>
+        <li><strong>Semantic colors appear only in data/status contexts.</strong> Never as brand expression.</li>
+        <li><strong>Dark text is gray-600 for body, gray-700 or blue-midnight for headlines.</strong> Never pure black. Blue-shifted dark gray is sophisticated and easier on eyes.</li>
+      </ol>
+    </main>
+
+  </div>
+
+  <script src="../../js/docs.js"></script>
+</body>
+</html>

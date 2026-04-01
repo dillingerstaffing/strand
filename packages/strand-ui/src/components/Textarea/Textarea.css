@@ -1,0 +1,73 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-textarea {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--strand-surface-elevated);
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-md);
+  transition:
+    border-color var(--strand-duration-fast) ease,
+    box-shadow var(--strand-duration-fast) ease;
+}
+
+.strand-textarea:focus-within {
+  border-color: var(--strand-blue-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ── Field ── */
+.strand-textarea__field {
+  width: 100%;
+  min-height: 80px;
+  padding: var(--strand-space-3) var(--strand-space-4);
+  background: transparent;
+  border: none;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-base);
+  color: var(--strand-gray-900);
+  outline: none;
+  resize: vertical;
+  line-height: var(--strand-leading-normal);
+}
+
+.strand-textarea__field::placeholder {
+  color: var(--strand-gray-400);
+}
+
+/* ── Auto-resize ── */
+.strand-textarea--auto-resize .strand-textarea__field {
+  resize: none;
+  overflow: hidden;
+}
+
+/* ── Character count ── */
+.strand-textarea__count {
+  align-self: flex-end;
+  padding: var(--strand-space-1) var(--strand-space-3) var(--strand-space-2);
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-500);
+}
+
+/* ── Error ── */
+.strand-textarea--error {
+  border-color: var(--strand-red-alert);
+}
+
+.strand-textarea--error:focus-within {
+  border-color: var(--strand-red-alert);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* ── Disabled ── */
+.strand-textarea--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.strand-textarea--disabled .strand-textarea__field {
+  cursor: not-allowed;
+}

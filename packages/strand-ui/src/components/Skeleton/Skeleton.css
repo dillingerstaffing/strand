@@ -1,0 +1,52 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-skeleton {
+  display: block;
+  background: var(--strand-gray-100);
+}
+
+/* ── Shimmer ── */
+.strand-skeleton--shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--strand-gray-100) 25%,
+    var(--strand-gray-50) 50%,
+    var(--strand-gray-100) 75%
+  );
+  background-size: 200% 100%;
+  animation: strand-skeleton-shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes strand-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ── Text variant ── */
+.strand-skeleton--text {
+  height: 1em;
+  border-radius: 4px;
+}
+
+/* ── Rectangle variant ── */
+.strand-skeleton--rectangle {
+  border-radius: var(--strand-radius-md);
+}
+
+/* ── Circle variant ── */
+.strand-skeleton--circle {
+  border-radius: var(--strand-radius-full);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-skeleton--shimmer {
+    animation: none;
+    background: var(--strand-gray-100);
+  }
+}

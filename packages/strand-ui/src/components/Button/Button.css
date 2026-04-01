@@ -1,0 +1,188 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strand-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--strand-radius-md);
+  font-family: var(--strand-font-sans);
+  font-weight: var(--strand-weight-medium);
+  line-height: var(--strand-leading-snug);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background var(--strand-duration-fast) ease,
+    border-color var(--strand-duration-fast) ease,
+    color var(--strand-duration-fast) ease,
+    transform var(--strand-duration-fast) var(--strand-ease-out-expo),
+    box-shadow var(--strand-duration-fast) ease;
+}
+
+.strand-btn:active:not(:disabled) {
+  transform: translateY(0);
+  transition-duration: 75ms;
+}
+
+.strand-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Sizes ── */
+.strand-btn--sm {
+  padding: var(--strand-space-1) var(--strand-space-3);
+  font-size: var(--strand-text-sm);
+  min-height: 32px;
+}
+
+.strand-btn--md {
+  padding: calc(var(--strand-space-2) + var(--strand-space-1) / 2) var(--strand-space-5);
+  font-size: var(--strand-text-sm);
+  min-height: 40px;
+}
+
+.strand-btn--lg {
+  padding: var(--strand-space-3) var(--strand-space-6);
+  font-size: var(--strand-text-base);
+  min-height: 48px;
+}
+
+/* ── Icon-only ── */
+.strand-btn--icon-only.strand-btn--sm {
+  padding: var(--strand-space-1);
+  min-width: 32px;
+}
+
+.strand-btn--icon-only.strand-btn--md {
+  padding: var(--strand-space-2);
+  min-width: 40px;
+}
+
+.strand-btn--icon-only.strand-btn--lg {
+  padding: var(--strand-space-3);
+  min-width: 48px;
+}
+
+/* ── Full width ── */
+.strand-btn--full-width {
+  width: 100%;
+}
+
+/* ── Primary variant ── */
+.strand-btn--primary {
+  background: var(--strand-blue-primary);
+  color: var(--strand-on-blue-primary);
+}
+
+.strand-btn--primary:hover:not(:disabled) {
+  background: var(--strand-blue-vivid);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.strand-btn--primary:active:not(:disabled) {
+  background: var(--strand-blue-deep);
+}
+
+/* ── Secondary variant ── */
+.strand-btn--secondary {
+  background: var(--strand-surface-elevated);
+  color: var(--strand-blue-midnight);
+  border-color: var(--strand-gray-200);
+}
+
+.strand-btn--secondary:hover:not(:disabled) {
+  background: var(--strand-blue-glow);
+  border-color: var(--strand-blue-indicator);
+  transform: translateY(-1px);
+  box-shadow: var(--strand-elevation-1);
+}
+
+.strand-btn--secondary:active:not(:disabled) {
+  background: var(--strand-blue-wash);
+}
+
+/* ── Ghost variant ── */
+.strand-btn--ghost {
+  background: transparent;
+  color: var(--strand-blue-primary);
+}
+
+.strand-btn--ghost:hover:not(:disabled) {
+  background: var(--strand-blue-glow);
+}
+
+.strand-btn--ghost:active:not(:disabled) {
+  background: var(--strand-blue-wash);
+}
+
+/* ── Danger variant ── */
+.strand-btn--danger {
+  background: var(--strand-red-alert);
+  color: var(--strand-on-red-alert);
+}
+
+.strand-btn--danger:hover:not(:disabled) {
+  background: #DC2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.strand-btn--danger:active:not(:disabled) {
+  background: #B91C1C;
+}
+
+/* ── Loading state ── */
+.strand-btn--loading {
+  pointer-events: none;
+}
+
+.strand-btn__spinner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--strand-radius-full);
+  animation: strand-btn-spin 0.8s linear infinite;
+  opacity: 0.8;
+}
+
+.strand-btn--lg .strand-btn__spinner {
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes strand-btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Content wrapper ── */
+.strand-btn__content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-2);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-btn {
+    transition: none;
+  }
+
+  .strand-btn:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .strand-btn__spinner {
+    animation: none;
+    border-style: dotted;
+  }
+}

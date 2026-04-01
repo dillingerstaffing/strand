@@ -1,0 +1,28 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-section {
+  width: 100%;
+}
+
+/* ── Variants ── */
+.strand-section--standard {
+  padding-block: clamp(4rem, 8vw, 8rem);
+}
+
+.strand-section--hero {
+  padding-block: clamp(6rem, 12vw, 12rem);
+}
+
+/* ── Backgrounds ── */
+.strand-section--bg-primary {
+  background-color: var(--strand-surface-primary);
+}
+
+.strand-section--bg-elevated {
+  background-color: var(--strand-surface-elevated);
+}
+
+.strand-section--bg-recessed {
+  background-color: var(--strand-surface-recessed);
+}

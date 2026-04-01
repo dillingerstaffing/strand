@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Philosophy - Strand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../packages/tokens/css/tokens.css">
+  <link rel="stylesheet" href="../../../packages/tokens/css/reset.css">
+  <link rel="stylesheet" href="../../../packages/tokens/css/base.css">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <div class="docs-layout">
+
+    <header class="docs-header">
+      <a href="index.html" class="docs-logo">Strand</a>
+      <nav class="docs-header-nav" aria-label="Main navigation">
+        <a href="getting-started.html">Getting Started</a>
+        <a href="philosophy.html" aria-current="page">Philosophy</a>
+        <a href="tokens/color.html">Tokens</a>
+        <a href="components/button.html">Components</a>
+      </nav>
+      <button class="docs-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </header>
+
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Guide</div>
+          <a href="getting-started.html" class="docs-sidebar-link">Getting Started</a>
+          <a href="philosophy.html" class="docs-sidebar-link" aria-current="page">Philosophy</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Tokens</div>
+          <a href="tokens/color.html" class="docs-sidebar-link">Color</a>
+          <a href="tokens/typography.html" class="docs-sidebar-link">Typography</a>
+          <a href="tokens/spacing.html" class="docs-sidebar-link">Spacing</a>
+          <a href="tokens/motion.html" class="docs-sidebar-link">Motion</a>
+          <a href="tokens/elevation.html" class="docs-sidebar-link">Elevation</a>
+          <a href="tokens/shape.html" class="docs-sidebar-link">Shape</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Components</div>
+          <a href="components/button.html" class="docs-sidebar-link">Button</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+      <div class="docs-overline">Guide</div>
+      <h1>Philosophy</h1>
+      <p>Strand is built on six principles. When making any design decision, apply these in order.</p>
+
+      <h2>1. Restraint is the signal of advancement</h2>
+      <p>The most advanced interfaces in fiction and reality share one trait: extreme restraint. Clutter signals primitive. Space signals advanced. Delete before you add.</p>
+      <p>Every pixel of whitespace in Strand is intentional. The 4px spacing system creates mathematical rhythm. The cool-shifted whites create a surface that feels controlled without feeling empty. When you are tempted to add an element, ask first: can this be communicated with space alone?</p>
+
+      <h2>2. Performance is design</h2>
+      <p>A 60fps animation is premium. A 30fps animation is cheap. A 1-second page load is confidence. A 3-second page load is doubt. No visual treatment compensates for poor performance. Speed is the first and last design decision.</p>
+      <p>Strand tokens are pure CSS custom properties with zero runtime cost. No JavaScript is required to render design tokens. Components use transform-only animations for GPU compositing. Every motion value is calibrated for 60fps on real devices.</p>
+
+      <h2>3. Blue is the biosynthetic signal</h2>
+      <p>One accent color. Used with discipline. It means: active, alive, processing, interactive, important. Everywhere else is white, gray, and negative space.</p>
+      <p>The blue spectrum is carefully calibrated: not corporate blue (too dark, too safe), not neon blue (too aggressive). The blue of precision instrumentation. Eight stops from glow to abyss give enough range for every interaction state without reaching for a second hue.</p>
+
+      <h2>4. Typography carries 80% of the design</h2>
+      <p>Strand does not rely on imagery to feel designed. The type scale, tracking, weight hierarchy, and monospace labels create the aesthetic on their own. If the design works in grayscale with no images, it works.</p>
+      <p>Light-weight headlines at large sizes produce thin strokes that feel elegant and engineered. The contrast between a 300-weight 72px heading and 400-weight 16px body creates hierarchy through weight differential alone. Tight tracking on large text is the single most impactful "premium" adjustment.</p>
+
+      <h2>5. Every element earns its place</h2>
+      <p>No decorative elements. No stock photos. No illustrations. No icons for decoration. If a visual element cannot state its purpose in one sentence, delete it.</p>
+      <p>This principle applies to the design system itself. Every token exists because a component needs it. Every component exists because a pattern recurs. The 4px base unit, the major-third type scale, the 5-level elevation system: each is the minimum set that covers the maximum range of real interface needs.</p>
+
+      <h2>6. Accessibility is physics, not a feature</h2>
+      <p>It is not negotiable, not optional, not aspirational. It is a constraint of the medium, like gravity is a constraint of architecture. Design within it.</p>
+      <p>Every color pairing in Strand meets WCAG 2.2 AA contrast requirements. Every interactive element has a visible focus indicator. Every animation respects <code>prefers-reduced-motion</code>. Every touch target meets 44px minimum. These are not features listed on a checklist. They are structural constraints baked into every token value.</p>
+    </main>
+
+  </div>
+
+  <script src="../js/docs.js"></script>
+</body>
+</html>

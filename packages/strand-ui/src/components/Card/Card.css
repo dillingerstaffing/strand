@@ -1,0 +1,59 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-card {
+  border-radius: var(--strand-radius-lg);
+  background: var(--strand-surface-elevated);
+  font-family: var(--strand-font-sans);
+}
+
+/* ── Variants ── */
+.strand-card--elevated {
+  box-shadow: var(--strand-elevation-1);
+}
+
+.strand-card--outlined {
+  box-shadow: none;
+  border: 1px solid var(--strand-gray-200);
+}
+
+.strand-card--interactive {
+  box-shadow: var(--strand-elevation-1);
+  cursor: pointer;
+  transition:
+    transform var(--strand-duration-fast) var(--strand-ease-out-expo),
+    box-shadow var(--strand-duration-fast) var(--strand-ease-out-expo);
+}
+
+.strand-card--interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--strand-elevation-2);
+}
+
+/* ── Padding ── */
+.strand-card--pad-none {
+  padding: 0;
+}
+
+.strand-card--pad-sm {
+  padding: var(--strand-space-3);
+}
+
+.strand-card--pad-md {
+  padding: var(--strand-space-5);
+}
+
+.strand-card--pad-lg {
+  padding: var(--strand-space-8);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-card--interactive {
+    transition: none;
+  }
+
+  .strand-card--interactive:hover {
+    transform: none;
+  }
+}

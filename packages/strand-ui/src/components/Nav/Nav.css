@@ -1,0 +1,169 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Nav bar ── */
+.strand-nav {
+  position: relative;
+  width: 100%;
+  height: 64px;
+  background: var(--strand-surface-elevated);
+  border-bottom: 1px solid var(--strand-gray-200);
+  font-family: var(--strand-font-sans);
+}
+
+/* ── Inner layout ── */
+.strand-nav__inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 var(--strand-space-6);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ── Logo ── */
+.strand-nav__logo {
+  flex-shrink: 0;
+  margin-right: var(--strand-space-8);
+}
+
+/* ── Desktop items ── */
+.strand-nav__items {
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-6);
+  flex: 1;
+}
+
+/* ── Links ── */
+.strand-nav__link {
+  color: var(--strand-gray-600);
+  text-decoration: none;
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-medium);
+  transition: color var(--strand-duration-fast) ease;
+}
+
+.strand-nav__link:hover {
+  color: var(--strand-gray-900);
+}
+
+.strand-nav__link--active {
+  color: var(--strand-blue-primary);
+  font-weight: var(--strand-weight-medium);
+}
+
+/* ── Actions ── */
+.strand-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-3);
+  margin-left: auto;
+}
+
+/* ── Hamburger ── */
+.strand-nav__hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--strand-radius-md);
+  background: transparent;
+  color: var(--strand-gray-600);
+  cursor: pointer;
+  transition: background var(--strand-duration-fast) ease;
+}
+
+.strand-nav__hamburger:hover {
+  background: var(--strand-gray-200);
+}
+
+.strand-nav__hamburger-icon {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  position: relative;
+}
+
+.strand-nav__hamburger-icon::before,
+.strand-nav__hamburger-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+}
+
+.strand-nav__hamburger-icon::before {
+  top: -6px;
+}
+
+.strand-nav__hamburger-icon::after {
+  top: 6px;
+}
+
+/* ── Mobile menu ── */
+.strand-nav__mobile-menu {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--strand-space-4) var(--strand-space-6);
+  background: var(--strand-surface-elevated);
+  border-bottom: 1px solid var(--strand-gray-200);
+}
+
+.strand-nav__mobile-link {
+  display: block;
+  padding: var(--strand-space-3) 0;
+  color: var(--strand-gray-600);
+  text-decoration: none;
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-medium);
+  transition: color var(--strand-duration-fast) ease;
+}
+
+.strand-nav__mobile-link:hover {
+  color: var(--strand-gray-900);
+}
+
+.strand-nav__mobile-link--active {
+  color: var(--strand-blue-primary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 767px) {
+  .strand-nav__items {
+    display: none;
+  }
+
+  .strand-nav__actions {
+    display: none;
+  }
+
+  .strand-nav__hamburger {
+    display: inline-flex;
+  }
+
+  .strand-nav__mobile-menu {
+    display: flex;
+  }
+
+  .strand-nav {
+    height: auto;
+    min-height: 64px;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-nav__link,
+  .strand-nav__mobile-link,
+  .strand-nav__hamburger {
+    transition: none;
+  }
+}

@@ -1,0 +1,98 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-1);
+  padding: var(--strand-space-1) var(--strand-space-2);
+  border-radius: var(--strand-radius-sm);
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  line-height: var(--strand-leading-snug);
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+/* ── Solid variant ── */
+.strand-tag--solid.strand-tag--default {
+  background: var(--strand-surface-recessed);
+  color: var(--strand-gray-600);
+}
+
+.strand-tag--solid.strand-tag--teal {
+  background: rgba(20, 184, 166, 0.1);
+  color: #0D7377;
+}
+
+.strand-tag--solid.strand-tag--blue {
+  background: var(--strand-blue-glow);
+  color: var(--strand-blue-deep);
+}
+
+.strand-tag--solid.strand-tag--amber {
+  background: rgba(245, 158, 11, 0.1);
+  color: #92400E;
+}
+
+.strand-tag--solid.strand-tag--red {
+  background: rgba(239, 68, 68, 0.1);
+  color: #991B1B;
+}
+
+/* ── Outlined variant ── */
+.strand-tag--outlined {
+  background: transparent;
+}
+
+.strand-tag--outlined.strand-tag--default {
+  border-color: var(--strand-gray-200);
+  color: var(--strand-gray-600);
+}
+
+.strand-tag--outlined.strand-tag--teal {
+  border-color: var(--strand-teal-vital);
+  color: #0D7377;
+}
+
+.strand-tag--outlined.strand-tag--blue {
+  border-color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
+}
+
+.strand-tag--outlined.strand-tag--amber {
+  border-color: var(--strand-amber-caution);
+  color: #92400E;
+}
+
+.strand-tag--outlined.strand-tag--red {
+  border-color: var(--strand-red-alert);
+  color: #991B1B;
+}
+
+/* ── Remove button ── */
+.strand-tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: currentColor;
+  opacity: 0.6;
+  cursor: pointer;
+  border-radius: var(--strand-radius-sm);
+  transition: opacity var(--strand-duration-fast) ease;
+}
+
+.strand-tag__remove:hover {
+  opacity: 1;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-tag__remove {
+    transition: none;
+  }
+}

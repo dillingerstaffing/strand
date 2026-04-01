@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started - Strand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../packages/tokens/css/tokens.css">
+  <link rel="stylesheet" href="../../../packages/tokens/css/reset.css">
+  <link rel="stylesheet" href="../../../packages/tokens/css/base.css">
+  <link rel="stylesheet" href="../../../packages/strand-ui/src/components/Button/Button.css">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <div class="docs-layout">
+
+    <header class="docs-header">
+      <a href="index.html" class="docs-logo">Strand</a>
+      <nav class="docs-header-nav" aria-label="Main navigation">
+        <a href="getting-started.html" aria-current="page">Getting Started</a>
+        <a href="philosophy.html">Philosophy</a>
+        <a href="tokens/color.html">Tokens</a>
+        <a href="components/button.html">Components</a>
+      </nav>
+      <button class="docs-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </header>
+
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Guide</div>
+          <a href="getting-started.html" class="docs-sidebar-link" aria-current="page">Getting Started</a>
+          <a href="philosophy.html" class="docs-sidebar-link">Philosophy</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Tokens</div>
+          <a href="tokens/color.html" class="docs-sidebar-link">Color</a>
+          <a href="tokens/typography.html" class="docs-sidebar-link">Typography</a>
+          <a href="tokens/spacing.html" class="docs-sidebar-link">Spacing</a>
+          <a href="tokens/motion.html" class="docs-sidebar-link">Motion</a>
+          <a href="tokens/elevation.html" class="docs-sidebar-link">Elevation</a>
+          <a href="tokens/shape.html" class="docs-sidebar-link">Shape</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Components</div>
+          <a href="components/button.html" class="docs-sidebar-link">Button</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+      <div class="docs-overline">Guide</div>
+      <h1>Getting Started</h1>
+      <p>Strand ships design tokens as CSS custom properties and a component library built on those tokens. You can use the tokens alone or with the full component library.</p>
+
+      <h2>Install</h2>
+      <p>Install the tokens package:</p>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>npm install @strand-ui/tokens</code></pre>
+      </div>
+      <p>Or with pnpm:</p>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>pnpm add @strand-ui/tokens</code></pre>
+      </div>
+
+      <h2>Import the CSS</h2>
+      <p>Strand requires three CSS files loaded in order: tokens (custom properties), reset (cross-browser normalization), and base (global styles including the lab surface).</p>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>&lt;link rel="stylesheet" href="@strand-ui/tokens/css/tokens.css"&gt;
+&lt;link rel="stylesheet" href="@strand-ui/tokens/css/reset.css"&gt;
+&lt;link rel="stylesheet" href="@strand-ui/tokens/css/base.css"&gt;</code></pre>
+      </div>
+      <p>Or in a CSS file:</p>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>@import '@strand-ui/tokens/css/tokens.css';
+@import '@strand-ui/tokens/css/reset.css';
+@import '@strand-ui/tokens/css/base.css';</code></pre>
+      </div>
+
+      <h2>Use the Tokens</h2>
+      <p>All tokens are available as CSS custom properties prefixed with <code>--strand-</code>. Use them in your own CSS:</p>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>.my-card {
+  background: var(--strand-surface-elevated);
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-lg);
+  padding: var(--strand-space-6);
+  box-shadow: var(--strand-elevation-1);
+  font-family: var(--strand-font-sans);
+  color: var(--strand-on-surface-elevated);
+}</code></pre>
+      </div>
+
+      <h2>First Component</h2>
+      <p>Here is a Strand Button rendered with pure CSS classes. No JavaScript required for the visual appearance.</p>
+      <div class="docs-example">
+        <button class="strand-btn strand-btn--primary strand-btn--md" type="button">
+          <span class="strand-btn__content">Primary Action</span>
+        </button>
+        <button class="strand-btn strand-btn--secondary strand-btn--md" type="button">
+          <span class="strand-btn__content">Secondary</span>
+        </button>
+      </div>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>&lt;button class="strand-btn strand-btn--primary strand-btn--md" type="button"&gt;
+  &lt;span class="strand-btn__content"&gt;Primary Action&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;button class="strand-btn strand-btn--secondary strand-btn--md" type="button"&gt;
+  &lt;span class="strand-btn__content"&gt;Secondary&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+      </div>
+      <p>See the full <a href="components/button.html">Button documentation</a> for all variants, sizes, and states.</p>
+
+      <h2>Next Steps</h2>
+      <ul>
+        <li>Read the <a href="philosophy.html">Design Philosophy</a> to understand the principles behind every decision.</li>
+        <li>Browse the <a href="tokens/color.html">Token documentation</a> for the full design system reference.</li>
+        <li>See <a href="components/button.html">Component documentation</a> for usage patterns.</li>
+      </ul>
+    </main>
+
+  </div>
+
+  <script src="../js/docs.js"></script>
+</body>
+</html>

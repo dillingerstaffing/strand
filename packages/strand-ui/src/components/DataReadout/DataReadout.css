@@ -1,0 +1,30 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Layout ── */
+.strand-data-readout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strand-space-1);
+}
+
+/* ── Label (overline) ── */
+.strand-data-readout__label {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-ultra);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+  line-height: var(--strand-leading-normal);
+}
+
+/* ── Value (instrument readout) ── */
+.strand-data-readout__value {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-3xl);
+  font-weight: var(--strand-weight-light);
+  letter-spacing: var(--strand-tracking-tighter);
+  color: var(--strand-blue-midnight);
+  line-height: var(--strand-leading-tight);
+  font-variant-numeric: tabular-nums;
+}

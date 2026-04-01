@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spacing Tokens - Strand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/tokens.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/reset.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/base.css">
+  <link rel="stylesheet" href="../../css/docs.css">
+</head>
+<body>
+  <div class="docs-layout">
+
+    <header class="docs-header">
+      <a href="../index.html" class="docs-logo">Strand</a>
+      <nav class="docs-header-nav" aria-label="Main navigation">
+        <a href="../getting-started.html">Getting Started</a>
+        <a href="../philosophy.html">Philosophy</a>
+        <a href="color.html" aria-current="page">Tokens</a>
+        <a href="../components/button.html">Components</a>
+      </nav>
+      <button class="docs-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </header>
+
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Guide</div>
+          <a href="../getting-started.html" class="docs-sidebar-link">Getting Started</a>
+          <a href="../philosophy.html" class="docs-sidebar-link">Philosophy</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Tokens</div>
+          <a href="color.html" class="docs-sidebar-link">Color</a>
+          <a href="typography.html" class="docs-sidebar-link">Typography</a>
+          <a href="spacing.html" class="docs-sidebar-link" aria-current="page">Spacing</a>
+          <a href="motion.html" class="docs-sidebar-link">Motion</a>
+          <a href="elevation.html" class="docs-sidebar-link">Elevation</a>
+          <a href="shape.html" class="docs-sidebar-link">Shape</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Components</div>
+          <a href="../components/button.html" class="docs-sidebar-link">Button</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+      <div class="docs-overline">Tokens</div>
+      <h1>Spacing</h1>
+      <p>Every spacing value is a multiple of 4px (0.25rem). Mathematical rhythm the eye perceives as "designed."</p>
+
+      <h2>Spacing Scale</h2>
+      <p>Visual representation of each spacing token. The bar width shows the actual size.</p>
+
+      <div style="margin-bottom: var(--strand-space-8);">
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-1 / 4px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-1);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-2 / 8px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-2);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-3 / 12px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-3);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-4 / 16px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-4);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-5 / 20px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-5);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-6 / 24px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-6);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-8 / 32px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-8);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-10 / 40px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-10);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-12 / 48px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-12);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-16 / 64px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-16);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-20 / 80px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-20);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-24 / 96px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-24);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-32 / 128px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-32);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-40 / 160px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-40);"></div>
+        </div>
+        <div class="docs-spacing-row">
+          <div class="docs-spacing-label">--strand-space-48 / 192px</div>
+          <div class="docs-spacing-bar" style="width: var(--strand-space-48);"></div>
+        </div>
+      </div>
+
+      <h2>Section Rhythm</h2>
+      <p>Consistent vertical rhythm across page sections creates a cadence that feels intentional.</p>
+
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>/* Standard section padding */
+padding-block: clamp(4rem, 8vw, 8rem);
+
+/* Hero section padding */
+padding-block: clamp(6rem, 12vw, 12rem);
+
+/* Section header margin-bottom */
+margin-bottom: clamp(2rem, 4vw, 4rem);
+
+/* Overline to heading */
+margin-bottom: 0.75rem; /* space-3 */
+
+/* Heading to description */
+margin-bottom: 1rem; /* space-4 */</code></pre>
+      </div>
+
+      <h2>Premium Whitespace</h2>
+      <p>Premium whitespace has four properties:</p>
+      <ul>
+        <li><strong>Consistent:</strong> All gaps are multiples of 4px.</li>
+        <li><strong>Proportional:</strong> Larger elements get more space around them.</li>
+        <li><strong>Directional:</strong> More space above a heading than below it.</li>
+        <li><strong>Purposeful:</strong> Every gap groups or separates content intentionally.</li>
+      </ul>
+      <p>Test: if you can remove 30% of the whitespace and nothing feels cramped, you had too much.</p>
+    </main>
+
+  </div>
+
+  <script src="../../js/docs.js"></script>
+</body>
+</html>

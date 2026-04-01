@@ -1,0 +1,67 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-alert {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--strand-space-4);
+  border-radius: var(--strand-radius-md);
+  border-left: 4px solid transparent;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+}
+
+/* ── Status variants ── */
+.strand-alert--info {
+  background: var(--strand-blue-glow);
+  border-left-color: var(--strand-blue-primary);
+}
+
+.strand-alert--success {
+  background: rgba(34, 197, 94, 0.08);
+  border-left-color: var(--strand-green-positive);
+}
+
+.strand-alert--warning {
+  background: rgba(245, 158, 11, 0.08);
+  border-left-color: var(--strand-amber-caution);
+}
+
+.strand-alert--error {
+  background: rgba(239, 68, 68, 0.08);
+  border-left-color: var(--strand-red-alert);
+}
+
+/* ── Content ── */
+.strand-alert__content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Dismiss button ── */
+.strand-alert__dismiss {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: var(--strand-space-4);
+  padding: 0;
+  border: none;
+  border-radius: var(--strand-radius-md);
+  background: transparent;
+  color: var(--strand-gray-500);
+  font-size: var(--strand-text-base);
+  cursor: pointer;
+  transition: background var(--strand-duration-fast) ease,
+    color var(--strand-duration-fast) ease;
+}
+
+.strand-alert__dismiss:hover {
+  background: var(--strand-gray-100);
+  color: var(--strand-gray-600);
+}

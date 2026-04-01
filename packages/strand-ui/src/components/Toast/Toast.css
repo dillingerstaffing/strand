@@ -1,0 +1,103 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Container ── */
+.strand-toast__container {
+  position: fixed;
+  right: var(--strand-space-6);
+  bottom: var(--strand-space-6);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--strand-space-3);
+  pointer-events: none;
+}
+
+/* ── Toast ── */
+.strand-toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 280px;
+  max-width: 420px;
+  padding: var(--strand-space-4);
+  background: var(--strand-surface-elevated);
+  border-radius: var(--strand-radius-lg);
+  border-left: 4px solid transparent;
+  box-shadow: var(--strand-elevation-3);
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  pointer-events: auto;
+  animation: strand-toast-in var(--strand-duration-normal) var(--strand-ease-out-expo);
+}
+
+/* ── Status accents ── */
+.strand-toast--info {
+  border-left-color: var(--strand-blue-primary);
+}
+
+.strand-toast--success {
+  border-left-color: var(--strand-green-positive);
+}
+
+.strand-toast--warning {
+  border-left-color: var(--strand-amber-caution);
+}
+
+.strand-toast--error {
+  border-left-color: var(--strand-red-alert);
+}
+
+/* ── Message ── */
+.strand-toast__message {
+  flex: 1;
+  min-width: 0;
+  color: var(--strand-gray-900);
+}
+
+/* ── Dismiss button ── */
+.strand-toast__dismiss {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: var(--strand-space-3);
+  padding: 0;
+  border: none;
+  border-radius: var(--strand-radius-md);
+  background: transparent;
+  color: var(--strand-gray-500);
+  font-size: var(--strand-text-base);
+  cursor: pointer;
+  transition: background var(--strand-duration-fast) ease,
+    color var(--strand-duration-fast) ease;
+}
+
+.strand-toast__dismiss:hover {
+  background: var(--strand-gray-200);
+  color: var(--strand-gray-600);
+}
+
+/* ── Animations ── */
+@keyframes strand-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-toast {
+    animation: none;
+  }
+
+  .strand-toast__dismiss {
+    transition: none;
+  }
+}

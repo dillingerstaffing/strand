@@ -1,0 +1,97 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-2);
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-900);
+  line-height: var(--strand-leading-snug);
+}
+
+/* ── Hidden native input ── */
+.strand-checkbox__native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Custom visual ── */
+.strand-checkbox__control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-sm);
+  background: var(--strand-surface-elevated);
+  color: var(--strand-on-blue-primary);
+  flex-shrink: 0;
+  transition:
+    background var(--strand-duration-fast) ease,
+    border-color var(--strand-duration-fast) ease,
+    box-shadow var(--strand-duration-fast) ease;
+}
+
+.strand-checkbox__icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── Focus ring ── */
+.strand-checkbox__native:focus-visible ~ .strand-checkbox__control {
+  border-color: var(--strand-blue-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ── Checked ── */
+.strand-checkbox--checked .strand-checkbox__control {
+  background: var(--strand-blue-primary);
+  border-color: var(--strand-blue-primary);
+}
+
+/* ── Indeterminate ── */
+.strand-checkbox--indeterminate .strand-checkbox__control {
+  background: var(--strand-blue-primary);
+  border-color: var(--strand-blue-primary);
+}
+
+/* ── Hover ── */
+.strand-checkbox:hover:not(.strand-checkbox--disabled) .strand-checkbox__control {
+  border-color: var(--strand-blue-indicator);
+}
+
+.strand-checkbox--checked:hover:not(.strand-checkbox--disabled) .strand-checkbox__control,
+.strand-checkbox--indeterminate:hover:not(.strand-checkbox--disabled) .strand-checkbox__control {
+  background: var(--strand-blue-vivid);
+  border-color: var(--strand-blue-vivid);
+}
+
+/* ── Label ── */
+.strand-checkbox__label {
+  color: var(--strand-gray-900);
+}
+
+/* ── Disabled ── */
+.strand-checkbox--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-checkbox__control {
+    transition: none;
+  }
+}

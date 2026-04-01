@@ -1,0 +1,103 @@
+import * as fs from "node:fs";
+import * as path from "node:path";
+
+const CONFIG_FILE = "strand.config.json";
+
+const DEFAULT_CONFIG = {
+  cssDir: "./src/styles",
+  componentDir: "./src/components",
+};
+
+function resolvePackagePath(packageName: string): string | null {
+  try {
+    const resolved = import.meta.resolve?.(packageName);
+    if (resolved) {
+      const filePath = resolved.startsWith("file://")
+        ? new URL(resolved).pathname
+        : resolved;
+      // Walk up from the resolved entry point to find the package root
+      let dir = path.dirname(filePath);
+      while (dir !== path.dirname(dir)) {
+        if (fs.existsSync(path.join(dir, "package.json"))) {
+          return dir;
+        }
+        dir = path.dirname(dir);
+      }
+    }
+  } catch {
+    // Fall through to manual resolution
+  }
+
+  // Manual resolution: walk up from cwd looking for node_modules
+  let dir = process.cwd();
+  while (dir !== path.dirname(dir)) {
+    const candidate = path.join(dir, "node_modules", packageName);
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+    dir = path.dirname(dir);
+  }
+  return null;
+}
+
+function copyCssFiles(cssDir: string): boolean {
+  const packagePath = resolvePackagePath("@dillingerstaffing/strand");
+
+  if (!packagePath) {
+    console.log(
+      "\n@dillingerstaffing/strand is not installed. Install it first:\n"
+    );
+    console.log("  npm install @dillingerstaffing/strand\n");
+    console.log("Then run `strand-ui init` again to copy the CSS files.");
+    return false;
+  }
+
+  const cssSourceDir = path.join(packagePath, "css");
+  const files = ["tokens.css", "reset.css", "base.css"];
+
+  fs.mkdirSync(cssDir, { recursive: true });
+
+  for (const file of files) {
+    const src = path.join(cssSourceDir, file);
+    const dest = path.join(cssDir, file);
+
+    if (!fs.existsSync(src)) {
+      console.log(`  Warning: ${file} not found in @dillingerstaffing/strand`);
+      continue;
+    }
+
+    const content = fs.readFileSync(src, "utf-8");
+    const header = `/* Strand UI | MIT License | dillingerstaffing.com */\n`;
+    fs.writeFileSync(dest, header + content);
+    console.log(`  Copied ${file} -> ${dest}`);
+  }
+
+  return true;
+}
+
+export async function init(): Promise<void> {
+  console.log("Strand by Dillinger Staffing -- dillingerstaffing.com\n");
+
+  const configPath = path.join(process.cwd(), CONFIG_FILE);
+
+  if (fs.existsSync(configPath)) {
+    console.log(`${CONFIG_FILE} already exists. Skipping config creation.`);
+  } else {
+    fs.writeFileSync(configPath, JSON.stringify(DEFAULT_CONFIG, null, 2) + "\n");
+    console.log(`Created ${CONFIG_FILE}`);
+  }
+
+  const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+  const cssDir = path.resolve(process.cwd(), config.cssDir);
+
+  const copied = copyCssFiles(cssDir);
+
+  if (copied) {
+    console.log("\nAdd these imports to your main CSS or entry file:\n");
+    console.log(`  @import "${config.cssDir}/tokens.css";`);
+    console.log(`  @import "${config.cssDir}/reset.css";`);
+    console.log(`  @import "${config.cssDir}/base.css";`);
+  }
+
+  console.log("\nDone. Run `strand-ui add <component>` to add components.");
+}

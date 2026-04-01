@@ -1,0 +1,46 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Tab list ── */
+.strand-tabs [role="tablist"] {
+  display: flex;
+  gap: var(--strand-space-1);
+  border-bottom: 1px solid var(--strand-gray-400);
+}
+
+/* ── Tab button ── */
+.strand-tabs__tab {
+  position: relative;
+  padding: var(--strand-space-2) var(--strand-space-4);
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-medium);
+  color: var(--strand-gray-500);
+  cursor: pointer;
+  transition:
+    color var(--strand-duration-fast) ease,
+    border-color var(--strand-duration-normal) var(--strand-ease-out-expo);
+}
+
+.strand-tabs__tab:hover {
+  color: var(--strand-gray-600);
+}
+
+.strand-tabs__tab--active {
+  color: var(--strand-blue-primary);
+  border-bottom-color: var(--strand-blue-primary);
+}
+
+/* ── Panel ── */
+.strand-tabs [role="tabpanel"] {
+  padding: var(--strand-space-4) 0;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-tabs__tab {
+    transition: none;
+  }
+}

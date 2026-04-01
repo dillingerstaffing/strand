@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shape Tokens - Strand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/tokens.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/reset.css">
+  <link rel="stylesheet" href="../../../../packages/tokens/css/base.css">
+  <link rel="stylesheet" href="../../css/docs.css">
+</head>
+<body>
+  <div class="docs-layout">
+
+    <header class="docs-header">
+      <a href="../index.html" class="docs-logo">Strand</a>
+      <nav class="docs-header-nav" aria-label="Main navigation">
+        <a href="../getting-started.html">Getting Started</a>
+        <a href="../philosophy.html">Philosophy</a>
+        <a href="color.html" aria-current="page">Tokens</a>
+        <a href="../components/button.html">Components</a>
+      </nav>
+      <button class="docs-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </header>
+
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Guide</div>
+          <a href="../getting-started.html" class="docs-sidebar-link">Getting Started</a>
+          <a href="../philosophy.html" class="docs-sidebar-link">Philosophy</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Tokens</div>
+          <a href="color.html" class="docs-sidebar-link">Color</a>
+          <a href="typography.html" class="docs-sidebar-link">Typography</a>
+          <a href="spacing.html" class="docs-sidebar-link">Spacing</a>
+          <a href="motion.html" class="docs-sidebar-link">Motion</a>
+          <a href="elevation.html" class="docs-sidebar-link">Elevation</a>
+          <a href="shape.html" class="docs-sidebar-link" aria-current="page">Shape</a>
+        </div>
+        <div class="docs-sidebar-section">
+          <div class="docs-sidebar-label">Components</div>
+          <a href="../components/button.html" class="docs-sidebar-link">Button</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+      <div class="docs-overline">Tokens</div>
+      <h1>Shape</h1>
+      <p>Border radius communicates personality. Strand uses subtle rounding that signals precision without looking corporate (sharp) or playful (round).</p>
+
+      <h2>Radius Scale</h2>
+
+      <div class="docs-shape-grid">
+        <div class="docs-shape-item">
+          <div class="docs-shape-box" style="border-radius: var(--strand-radius-sm);"></div>
+          <div>
+            <div class="docs-shape-label">--strand-radius-sm</div>
+            <div class="docs-shape-label">4px</div>
+            <div class="docs-shape-label" style="color: var(--strand-gray-400);">Tags, badges</div>
+          </div>
+        </div>
+        <div class="docs-shape-item">
+          <div class="docs-shape-box" style="border-radius: var(--strand-radius-md);"></div>
+          <div>
+            <div class="docs-shape-label">--strand-radius-md</div>
+            <div class="docs-shape-label">6px</div>
+            <div class="docs-shape-label" style="color: var(--strand-gray-400);">Buttons, inputs</div>
+          </div>
+        </div>
+        <div class="docs-shape-item">
+          <div class="docs-shape-box" style="border-radius: var(--strand-radius-lg);"></div>
+          <div>
+            <div class="docs-shape-label">--strand-radius-lg</div>
+            <div class="docs-shape-label">8px</div>
+            <div class="docs-shape-label" style="color: var(--strand-gray-400);">Cards</div>
+          </div>
+        </div>
+        <div class="docs-shape-item">
+          <div class="docs-shape-box" style="border-radius: var(--strand-radius-xl);"></div>
+          <div>
+            <div class="docs-shape-label">--strand-radius-xl</div>
+            <div class="docs-shape-label">12px</div>
+            <div class="docs-shape-label" style="color: var(--strand-gray-400);">Modals, dialogs</div>
+          </div>
+        </div>
+        <div class="docs-shape-item">
+          <div class="docs-shape-box" style="border-radius: var(--strand-radius-full);"></div>
+          <div>
+            <div class="docs-shape-label">--strand-radius-full</div>
+            <div class="docs-shape-label">9999px</div>
+            <div class="docs-shape-label" style="color: var(--strand-gray-400);">Avatars, pills</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>Rules</h2>
+      <ul>
+        <li><strong>Never 0px.</strong> Sharp corners feel cold and corporate. Even the smallest elements get <code>--strand-radius-sm</code>.</li>
+        <li><strong>Never 16px or more</strong> (except <code>--strand-radius-full</code> for circles). Too much rounding feels playful, which conflicts with Strand's precision aesthetic.</li>
+      </ul>
+
+      <h2>Usage</h2>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>.tag {
+  border-radius: var(--strand-radius-sm);
+}
+
+.button {
+  border-radius: var(--strand-radius-md);
+}
+
+.card {
+  border-radius: var(--strand-radius-lg);
+}
+
+.modal {
+  border-radius: var(--strand-radius-xl);
+}
+
+.avatar {
+  border-radius: var(--strand-radius-full);
+}</code></pre>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../../js/docs.js"></script>
+</body>
+</html>
