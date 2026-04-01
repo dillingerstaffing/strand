@@ -4,6 +4,7 @@
   "description": "Strand UI - Preact/React component library built on the Strand Design Language",
   "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
   "license": "MIT",
+  "keywords": ["design-system", "ui-components", "preact", "react", "css-custom-properties", "design-tokens", "accessibility", "wcag", "aria", "component-library"],
   "homepage": "https://dillingerstaffing.com/labs/strand",
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     },
     "./css/strand-ui.css": "./dist/css/strand-ui.css"
   },
+  "style": "./dist/css/strand-ui.css",
   "files": [
     "dist/",
     "src/"

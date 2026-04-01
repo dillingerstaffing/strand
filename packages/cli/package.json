@@ -4,6 +4,7 @@
   "description": "CLI for adding Strand UI components to your project",
   "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
   "license": "MIT",
+  "keywords": ["design-system", "cli", "component-generator", "copy-paste", "strand", "ui-components"],
   "homepage": "https://dillingerstaffing.com/labs/strand",
   "repository": {
     "type": "git",

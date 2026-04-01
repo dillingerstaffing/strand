@@ -14,20 +14,26 @@
 
 ---
 
-## Install
+## Quick Start
+
+### 1. Install
 
 ```bash
 npm install @dillingerstaffing/strand @dillingerstaffing/strand-ui
 ```
 
-## Use
+### 2. Import CSS (required)
+
+Components are unstyled without these imports. Add them to your app entry point:
 
 ```css
-/* Import the foundation */
 @import '@dillingerstaffing/strand/css/reset.css';
 @import '@dillingerstaffing/strand/css/tokens.css';
 @import '@dillingerstaffing/strand/css/base.css';
+@import '@dillingerstaffing/strand-ui/css/strand-ui.css';
 ```
+
+### 3. Use components
 
 ```jsx
 import { Button, Input, Card, Stack } from '@dillingerstaffing/strand-ui';
@@ -44,13 +50,72 @@ function App() {
 }
 ```
 
-That's it. You're building.
+---
+
+## Framework Setup
+
+### Preact (native)
+
+Strand UI is built with Preact. No additional configuration needed.
+
+```bash
+npm install preact @dillingerstaffing/strand @dillingerstaffing/strand-ui
+```
+
+### React
+
+Strand UI works with React via Preact's compatibility layer. Add a bundler alias so `preact` resolves to `preact/compat`:
+
+**Vite** (vite.config.ts):
+```ts
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      'preact': 'preact/compat',
+      'preact/hooks': 'preact/hooks',
+    },
+  },
+});
+```
+
+**Next.js** (next.config.js):
+```js
+module.exports = {
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'preact/compat': 'preact/compat',
+      'preact': 'preact/compat',
+    };
+    return config;
+  },
+};
+```
+
+**webpack** (webpack.config.js):
+```js
+module.exports = {
+  resolve: {
+    alias: {
+      'preact': 'preact/compat',
+      'preact/hooks': 'preact/hooks',
+    },
+  },
+};
+```
+
+In all cases, install preact alongside react:
+```bash
+npm install preact @dillingerstaffing/strand @dillingerstaffing/strand-ui
+```
 
 ---
 
-## Tokens only
+## Tokens Only
 
-Use the design system with any framework. No components required.
+Use the design system with any framework. No components, no runtime, no peer dependencies.
 
 ```bash
 npm install @dillingerstaffing/strand
@@ -66,7 +131,7 @@ npm install @dillingerstaffing/strand
   padding: var(--strand-space-6);
 }
 
-.title {
+.label {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
   letter-spacing: var(--strand-tracking-widest);
@@ -75,7 +140,7 @@ npm install @dillingerstaffing/strand
 }
 ```
 
-Tokens are also available as typed constants:
+Tokens are also available as typed JavaScript constants:
 
 ```ts
 import { colors, spacing, typography } from '@dillingerstaffing/strand';
@@ -83,7 +148,7 @@ import { colors, spacing, typography } from '@dillingerstaffing/strand';
 
 ---
 
-## Copy-paste components
+## Copy-Paste Components
 
 Own the source. No dependency lock-in.
 
@@ -91,40 +156,118 @@ Own the source. No dependency lock-in.
 npx strand init          # Set up tokens in your project
 npx strand add button    # Copy Button source to your codebase
 npx strand add dialog    # Copy Dialog source to your codebase
-npx strand list           # See all 31 components
+npx strand list          # See all 31 components
 ```
+
+Copies the full TypeScript source (.tsx + .css) into your project. Modify freely.
 
 ---
 
 ## Components
 
-31 components. Every interaction state. Keyboard accessible. ARIA compliant. `prefers-reduced-motion` supported.
+31 components across 5 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior.
 
-**Input** &mdash; Button, Input, Textarea, Select, Checkbox, Radio, Switch, Slider, FormField
+### Input
 
-**Display** &mdash; Card, Badge, Avatar, Tag, Table, DataReadout
+| Component | Description | Key Props |
+|---|---|---|
+| `Button` | Primary action trigger | `variant`: primary, secondary, ghost, danger. `size`: sm, md, lg. `loading`, `iconOnly`, `fullWidth` |
+| `Input` | Single-line text entry | `type`: text, email, password, search, number. `error`, `leadingAddon`, `trailingAddon` |
+| `Textarea` | Multi-line text entry | `autoResize`, `maxLength` (with character count) |
+| `Select` | Option selection | `options`: SelectOption[]. `searchable`, `onChange` |
+| `Checkbox` | Binary toggle (multiple) | `checked`, `indeterminate`, `onChange` |
+| `Radio` | Single selection from set | `checked`, `name`, `value`, `onChange` |
+| `Switch` | Binary toggle (single) | `checked`, `onChange`, inline label |
+| `Slider` | Range value selection | `min`, `max`, `step`, `value`, `onChange` |
+| `FormField` | Label + input + hint + error wrapper | `label`, `hint`, `error`, `required`. Wraps any input component |
 
-**Layout** &mdash; Stack, Grid, Container, Divider, Section
+### Display
 
-**Navigation** &mdash; Link, Tabs, Breadcrumb, Nav
+| Component | Description | Key Props |
+|---|---|---|
+| `Card` | Content container | `variant`: elevated, outlined, interactive. `padding`: sm, md, lg |
+| `Badge` | Status/count indicator | `variant`: dot, count. `status`: teal, blue, amber, red, default |
+| `Avatar` | User/entity representation | `src`, `initials`, `size`: sm, md, lg, xl. Image/initials/icon fallback |
+| `Tag` | Categorization label | `variant`: solid, outlined. `removable`, `onRemove`. Status colors |
+| `Table` | Tabular data display | `columns`: TableColumn[]. `data`: T[]. Sortable headers, responsive scroll |
+| `DataReadout` | Monospace metric display | `label` (overline), `value` (large display). The instrument readout pattern |
 
-**Feedback** &mdash; Toast, Alert, Dialog, Tooltip, Progress, Spinner, Skeleton
+### Layout
+
+| Component | Description | Key Props |
+|---|---|---|
+| `Stack` | Flex layout primitive | `direction`: vertical, horizontal. `gap`, `align`, `justify`, `wrap` |
+| `Grid` | Grid layout primitive | `columns`, `gap`. Responsive column counts |
+| `Container` | Width constraint | `width`: narrow (640px), default (768px), wide (1024px), full (1280px) |
+| `Divider` | Visual separator | `direction`: horizontal, vertical. `label` (optional text in middle) |
+| `Section` | Page section | `variant`: default, hero. Standard padding rhythm, background variants |
+
+### Navigation
+
+| Component | Description | Key Props |
+|---|---|---|
+| `Link` | Inline navigation | Standard anchor props. Underline-grow-from-left hover animation |
+| `Tabs` | Content switching | `items`: TabItem[]. `activeIndex`, `onChange`. Full WAI-ARIA tabs pattern |
+| `Breadcrumb` | Hierarchical location | `items`: BreadcrumbItem[]. `separator`. aria-current on last item |
+| `Nav` | Site/app navigation | `children`, `logo`. Responsive hamburger collapse, focus trap on mobile |
+
+### Feedback
+
+| Component | Description | Key Props |
+|---|---|---|
+| `Toast` | Transient notification | `status`: info, success, warning, error. Use with `ToastProvider` + `useToast()` hook |
+| `Alert` | Persistent notification | `status`: info, success, warning, error. `dismissible`, `onDismiss` |
+| `Dialog` | Modal overlay | `open`, `onClose`, `title`. Focus trap, escape-to-close, portal rendering |
+| `Tooltip` | Contextual hint | `content`, `position`: top, right, bottom, left. `delay` |
+| `Progress` | Completion indicator | `variant`: bar, ring. `value` (0-100), `indeterminate` |
+| `Spinner` | Loading indicator | `size`: sm, md, lg. Screen reader text included |
+| `Skeleton` | Content placeholder | `variant`: text, rectangle, circle. `width`, `height`. Shimmer animation |
 
 ---
 
-## What this is
+## Design Tokens Reference
 
-Strand is a design language with a specific point of view. Clean surfaces. Cool-shifted whites. A single blue accent. Typography that does 80% of the work. Performance as design.
+### Surfaces
+`--strand-surface-primary` (page bg) | `--strand-surface-elevated` (cards) | `--strand-surface-recessed` (inputs) | `--strand-surface-subtle` (borders)
 
-Everything traces back to the [design language specification](./DESIGN_LANGUAGE.md): color, typography, spacing, motion, elevation, shape, layout, accessibility, and component interaction patterns.
+### Blue Spectrum
+`--strand-blue-glow` | `--strand-blue-wash` | `--strand-blue-indicator` | `--strand-blue-primary` | `--strand-blue-vivid` | `--strand-blue-deep` | `--strand-blue-midnight` | `--strand-blue-abyss`
 
-**Zero-runtime CSS.** All tokens are CSS custom properties. No ThemeProvider. No CSS-in-JS. No runtime style computation.
+### Typography
+Fonts: `--strand-font-sans` (Inter) | `--strand-font-mono` (JetBrains Mono)
+Scale: `--strand-text-xs` through `--strand-text-7xl` (Major Third 1.250 ratio)
+Tracking: `--strand-tracking-tightest` through `--strand-tracking-ultra`
 
-**Framework-agnostic tokens.** CSS custom properties work everywhere. The component library targets Preact/React. The tokens work with anything.
+### Spacing
+`--strand-space-1` (4px) through `--strand-space-48` (192px). Base unit: 4px.
 
-**WCAG 2.2 AA.** Every color pairing passes contrast. Every component is keyboard-navigable. Every animation respects `prefers-reduced-motion`.
+### Motion
+Easings: `--strand-ease-out-expo` | `--strand-ease-out-quart` | `--strand-ease-in-out-sine` | `--strand-ease-in-expo`
+Durations: `--strand-duration-instant` (75ms) | `--strand-duration-fast` (150ms) | `--strand-duration-normal` (250ms) | `--strand-duration-slow` (400ms)
 
-**< 50KB gzipped.** The entire component library. Static CSS. Tree-shakeable exports.
+### Elevation
+`--strand-elevation-0` through `--strand-elevation-4`. Cards at rest: level 1. Hover: level 2. Modals: level 3.
+
+### Shape
+`--strand-radius-sm` (4px) | `--strand-radius-md` (6px) | `--strand-radius-lg` (8px) | `--strand-radius-xl` (12px) | `--strand-radius-full` (9999px)
+
+Full token specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
+
+---
+
+## Troubleshooting
+
+**Components render without styles**
+You must import the CSS files. See step 2 of Quick Start. All four CSS imports are required for the component library: reset.css, tokens.css, base.css, and strand-ui.css.
+
+**Peer dependency warning for preact**
+Install preact: `npm install preact`. Strand UI is built with Preact (3KB). If using React, you still need preact installed for the compatibility layer. See Framework Setup above.
+
+**TypeScript errors with JSX**
+Ensure your tsconfig.json includes `"jsxImportSource": "preact"` (or the appropriate alias if using React). Components export typed props interfaces for full IntelliSense.
+
+**Copy-paste components need TypeScript**
+The `strand add` command copies .tsx source files. For JavaScript projects, rename files from .tsx to .jsx and remove type annotations manually. TypeScript is recommended.
 
 ---
 

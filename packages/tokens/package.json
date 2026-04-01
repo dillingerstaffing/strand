@@ -4,6 +4,7 @@
   "description": "Strand Design Language tokens - CSS custom properties and JS constants",
   "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
   "license": "MIT",
+  "keywords": ["design-tokens", "css-custom-properties", "design-system", "color-tokens", "typography", "spacing", "motion", "accessibility"],
   "homepage": "https://dillingerstaffing.com/labs/strand",
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "./css/reset.css": "./css/reset.css",
     "./css/base.css": "./css/base.css"
   },
+  "style": "./css/tokens.css",
   "files": [
     "css/",
     "dist/"

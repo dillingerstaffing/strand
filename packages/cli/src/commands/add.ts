@@ -103,4 +103,15 @@ export async function add(componentName: string): Promise<void> {
   }
 
   console.log(`\n${entry.name} added to ${targetDir}`);
+
+  // Warn if project doesn't appear to use TypeScript
+  const hasTsConfig = fs.existsSync(path.join(process.cwd(), "tsconfig.json"));
+  if (!hasTsConfig) {
+    console.log(
+      "\nNote: Strand UI components are TypeScript (.tsx). If your project"
+    );
+    console.log(
+      "uses JavaScript, rename .tsx files to .jsx and remove type annotations."
+    );
+  }
 }
