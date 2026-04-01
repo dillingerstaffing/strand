@@ -41,6 +41,6 @@ describe("list command", () => {
     await list();
     const combined = output.join("\n");
 
-    expect(combined).toContain("strand-ui add");
+    expect(combined).toContain("strand add");
   });
 });

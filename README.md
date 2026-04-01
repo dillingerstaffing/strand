@@ -88,10 +88,10 @@ import { colors, spacing, typography } from '@dillingerstaffing/strand';
 Own the source. No dependency lock-in.
 
 ```bash
-npx strand-ui init          # Set up tokens in your project
-npx strand-ui add button    # Copy Button source to your codebase
-npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list           # See all 31 components
+npx strand init          # Set up tokens in your project
+npx strand add button    # Copy Button source to your codebase
+npx strand add dialog    # Copy Dialog source to your codebase
+npx strand list           # See all 31 components
 ```
 
 ---

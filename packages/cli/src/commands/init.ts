@@ -48,7 +48,7 @@ function copyCssFiles(cssDir: string): boolean {
       "\n@dillingerstaffing/strand is not installed. Install it first:\n"
     );
     console.log("  npm install @dillingerstaffing/strand\n");
-    console.log("Then run `strand-ui init` again to copy the CSS files.");
+    console.log("Then run `strand init` again to copy the CSS files.");
     return false;
   }
 
@@ -99,5 +99,5 @@ export async function init(): Promise<void> {
     console.log(`  @import "${config.cssDir}/base.css";`);
   }
 
-  console.log("\nDone. Run `strand-ui add <component>` to add components.");
+  console.log("\nDone. Run `strand add <component>` to add components.");
 }

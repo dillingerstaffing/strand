@@ -4,10 +4,10 @@ import { init } from "./commands/init.js";
 import { add } from "./commands/add.js";
 import { list } from "./commands/list.js";
 
-const HELP = `strand-ui - CLI for adding Strand UI components to your project
+const HELP = `strand - CLI for adding Strand UI components to your project
 
 Usage:
-  strand-ui <command> [options]
+  strand <command> [options]
 
 Commands:
   init              Set up tokens and base styles
@@ -16,9 +16,9 @@ Commands:
   help              Show this help message
 
 Examples:
-  strand-ui init
-  strand-ui add button
-  strand-ui list
+  strand init
+  strand add button
+  strand list
 
 https://dillingerstaffing.com/labs/strand
 `;

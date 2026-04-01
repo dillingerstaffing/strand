@@ -32,8 +32,8 @@ function resolveStrandUiPath(): string | null {
 
 export async function add(componentName: string): Promise<void> {
   if (!componentName) {
-    console.error("Usage: strand-ui add <component>");
-    console.error("Run `strand-ui list` to see available components.");
+    console.error("Usage: strand add <component>");
+    console.error("Run `strand list` to see available components.");
     process.exit(1);
   }
 
@@ -42,14 +42,14 @@ export async function add(componentName: string): Promise<void> {
 
   if (!entry) {
     console.error(`Unknown component: "${componentName}"`);
-    console.error("Run `strand-ui list` to see available components.");
+    console.error("Run `strand list` to see available components.");
     process.exit(1);
   }
 
   const config = loadConfig();
   if (!config) {
     console.error(
-      "No strand.config.json found. Run `strand-ui init` first."
+      "No strand.config.json found. Run `strand init` first."
     );
     process.exit(1);
   }

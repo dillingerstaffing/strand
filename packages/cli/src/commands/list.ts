@@ -32,5 +32,5 @@ export async function list(): Promise<void> {
   }
 
   console.log(`${components.size} components available.`);
-  console.log('Run `strand-ui add <name>` to add a component.');
+  console.log('Run `strand add <name>` to add a component.');
 }

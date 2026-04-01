@@ -15,7 +15,7 @@
   },
   "type": "module",
   "bin": {
-    "strand-ui": "./dist/index.js"
+    "strand": "./dist/index.js"
   },
   "files": ["dist/"],
   "scripts": {
