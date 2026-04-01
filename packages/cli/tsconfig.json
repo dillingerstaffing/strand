@@ -3,10 +3,11 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "jsx": "preserve",
-    "jsxImportSource": "",
     "declaration": true,
     "sourceMap": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
     "lib": ["ES2022"]
   },
   "include": ["src/**/*.ts"],
