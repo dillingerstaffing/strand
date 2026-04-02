@@ -23,6 +23,25 @@ Wrap static previews in `.strand-static` to render at full visual fidelity witho
 
 The `disabled` attribute prevents interaction. `.strand-static` overrides the disabled visual styling so components appear at full opacity. All transitions and animations are also suppressed inside `.strand-static`.
 
+## Recessed Viewport
+
+Use `.strand-viewport` for component previews and showcase containers. It creates a recessed instrument panel effect (sits below the card surface):
+
+```html
+<div class="strand-viewport strand-static">
+  <!-- component previews here -->
+</div>
+```
+
+Provides: `--strand-surface-recessed` background, inset shadow, `--strand-radius-lg` corners, `--strand-space-6` padding.
+
+## Padding Tiers
+
+Card padding tiers (used via `strand-card--pad-{sm|md|lg}`):
+- `sm`: 16px (compact widgets, dense UIs)
+- `md`: 24px (standard cards, default for most contexts)
+- `lg`: 40px (showcase, hero, documentation)
+
 ---
 
 ## Input Components
