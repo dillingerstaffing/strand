@@ -3,6 +3,12 @@
 /* ── Base ── */
 .strand-stack {
   display: flex;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.strand-stack > * {
+  min-width: 0;
 }
 
 /* ── Direction ── */

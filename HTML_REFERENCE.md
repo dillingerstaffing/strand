@@ -42,6 +42,10 @@ Card padding tiers (used via `strand-card--pad-{sm|md|lg}`):
 - `md`: 24px (standard cards, default for most contexts)
 - `lg`: 40px (showcase, hero, documentation)
 
+## Boundary Integrity
+
+All container components (Grid, Stack, Card, Container) enforce boundary integrity. Children cannot visually breach the parent's padding zone. This is enforced at the CSS level via `overflow: hidden`, `max-width: 100%`, and `min-width: 0` on children. You do not need to add these yourself.
+
 ---
 
 ## Input Components

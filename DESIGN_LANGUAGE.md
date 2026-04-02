@@ -374,6 +374,14 @@ Max-width: 1280px. Centered. Horizontal padding: `clamp(1.5rem, 5vw, 4rem)`.
 
 Text-heavy content never exceeds ~980px wide, even on wider canvases. The remaining space is breathing room.
 
+### 8.4 Boundary Integrity
+
+Padding is inviolable. No child element may visually breach its parent's padding zone. Not by overflow, not by shadow, not by negative margin, not by any mechanism. If a container has 24px of padding, every child renders at least 24px inset from the container's edge on every side.
+
+This is enforced at the component level, not by the consumer. Container components (Grid, Stack, Card, Section, Container) apply `overflow: hidden` and ensure children cannot exceed the content box. Layout primitives (Grid, Stack) apply `min-width: 0` to their children so flex/grid items shrink correctly rather than overflowing.
+
+A consumer who places any component inside any container should never see asymmetric padding, clipped content at one edge, or children touching a container boundary. If they do, the container component has a bug.
+
 ---
 
 ## 9. Accessibility

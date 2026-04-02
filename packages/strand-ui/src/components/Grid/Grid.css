@@ -3,6 +3,13 @@
 /* ── Base ── */
 .strand-grid {
   display: grid;
+  overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.strand-grid > * {
+  min-width: 0;
 }
 
 /* ── Column utilities ── */

@@ -5,6 +5,9 @@
   border-radius: var(--strand-radius-lg);
   background: var(--strand-surface-elevated);
   font-family: var(--strand-font-sans);
+  overflow: hidden;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 /* ── Variants ── */
