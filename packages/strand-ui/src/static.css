@@ -1,0 +1,36 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Presentation mode ──
+   Add .strand-static to a parent element to render components
+   at full visual fidelity without interaction.
+   Use for documentation, showcases, and screenshots. */
+
+.strand-static {
+  pointer-events: none;
+}
+
+.strand-static [disabled],
+.strand-static [aria-disabled="true"] {
+  opacity: 1;
+  cursor: default;
+}
+
+.strand-static .strand-btn:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.strand-static .strand-toast {
+  position: static;
+}
+
+.strand-static .strand-tooltip {
+  position: static;
+}
+
+.strand-static *,
+.strand-static *::before,
+.strand-static *::after {
+  transition: none !important;
+  animation: none !important;
+}

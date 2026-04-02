@@ -24,6 +24,14 @@ function collectCss() {
         }
       }
 
+      // Append static presentation mode CSS
+      try {
+        const staticCss = readFileSync(resolve(__dirname, "src/static.css"), "utf-8");
+        allCss += `/* Static */\n${staticCss}\n\n`;
+      } catch {
+        // static.css not found, skip
+      }
+
       mkdirSync(resolve(__dirname, "dist/css"), { recursive: true });
       writeFileSync(resolve(__dirname, "dist/css/strand-ui.css"), allCss);
     },

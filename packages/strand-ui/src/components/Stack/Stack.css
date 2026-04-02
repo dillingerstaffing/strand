@@ -54,3 +54,12 @@
 .strand-stack--wrap {
   flex-wrap: wrap;
 }
+
+/* ── Gap utilities ── */
+.strand-stack--gap-1 { gap: var(--strand-space-1); }
+.strand-stack--gap-2 { gap: var(--strand-space-2); }
+.strand-stack--gap-3 { gap: var(--strand-space-3); }
+.strand-stack--gap-4 { gap: var(--strand-space-4); }
+.strand-stack--gap-5 { gap: var(--strand-space-5); }
+.strand-stack--gap-6 { gap: var(--strand-space-6); }
+.strand-stack--gap-8 { gap: var(--strand-space-8); }
