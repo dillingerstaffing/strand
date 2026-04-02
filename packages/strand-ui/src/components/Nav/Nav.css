@@ -47,6 +47,11 @@
   color: var(--strand-gray-900);
 }
 
+.strand-nav__link:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}
+
 .strand-nav__link--active {
   color: var(--strand-blue-primary);
   font-weight: var(--strand-weight-medium);
@@ -79,6 +84,11 @@
 
 .strand-nav__hamburger:hover {
   background: var(--strand-gray-200);
+}
+
+.strand-nav__hamburger:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
 }
 
 .strand-nav__hamburger-icon {

@@ -115,6 +115,7 @@
 
 .strand-btn--ghost:hover:not(:disabled) {
   background: var(--strand-blue-glow);
+  transform: translateY(-1px);
 }
 
 .strand-btn--ghost:active:not(:disabled) {
@@ -169,6 +170,12 @@
   display: inline-flex;
   align-items: center;
   gap: var(--strand-space-2);
+}
+
+/* ── Focus ring (Part XII: Accessibility Ring) ── */
+.strand-btn:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
 }
 
 /* ── Reduced motion ── */

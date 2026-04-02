@@ -15,7 +15,7 @@
     var(--strand-gray-100) 75%
   );
   background-size: 200% 100%;
-  animation: strand-skeleton-shimmer 1.8s ease-in-out infinite;
+  animation: strand-skeleton-shimmer 1.8s var(--strand-ease-in-out-sine) infinite;
 }
 
 @keyframes strand-skeleton-shimmer {
@@ -30,7 +30,7 @@
 /* ── Text variant ── */
 .strand-skeleton--text {
   height: 1em;
-  border-radius: 4px;
+  border-radius: var(--strand-radius-sm);
 }
 
 /* ── Rectangle variant ── */

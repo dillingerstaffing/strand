@@ -47,6 +47,11 @@
   color: var(--strand-gray-600);
 }
 
+.strand-table__sort-btn:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}
+
 .strand-table__sort-indicator {
   font-size: var(--strand-text-xs);
   opacity: 0.6;

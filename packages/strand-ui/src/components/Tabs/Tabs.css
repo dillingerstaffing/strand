@@ -21,11 +21,16 @@
   cursor: pointer;
   transition:
     color var(--strand-duration-fast) ease,
-    border-color var(--strand-duration-normal) var(--strand-ease-out-expo);
+    border-color var(--strand-duration-fast) var(--strand-ease-out-expo);
 }
 
 .strand-tabs__tab:hover {
   color: var(--strand-gray-600);
+}
+
+.strand-tabs__tab:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
 }
 
 .strand-tabs__tab--active {

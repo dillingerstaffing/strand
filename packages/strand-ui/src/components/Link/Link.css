@@ -16,6 +16,12 @@
   background-size: 100% 1px;
 }
 
+/* ── Focus ring ── */
+.strand-link:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .strand-link {

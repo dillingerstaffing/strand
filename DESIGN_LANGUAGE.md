@@ -1098,7 +1098,7 @@ For data series that need categorical distinction:
 }
 
 .chart-title {
-  font-family: var(--strand-font-primary);
+  font-family: var(--strand-font-sans);
   font-size: var(--strand-text-lg);
   font-weight: 500;
   color: var(--strand-gray-800);
