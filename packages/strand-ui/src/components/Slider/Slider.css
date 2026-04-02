@@ -17,7 +17,7 @@
   border-radius: var(--strand-radius-full);
   outline: none;
   cursor: pointer;
-  transition: background var(--strand-duration-fast) ease;
+  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 /* ── Thumb: Webkit ── */
@@ -31,7 +31,7 @@
   cursor: pointer;
   box-shadow: var(--strand-elevation-1);
   transition:
-    background var(--strand-duration-fast) ease,
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
     transform var(--strand-duration-fast) var(--strand-ease-out-expo);
 }
 
@@ -55,7 +55,7 @@
   cursor: pointer;
   box-shadow: var(--strand-elevation-1);
   transition:
-    background var(--strand-duration-fast) ease,
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
     transform var(--strand-duration-fast) var(--strand-ease-out-expo);
 }
 
@@ -78,11 +78,11 @@
 
 /* ── Focus ── */
 .strand-slider__field:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--strand-focus-ring);
 }
 
 .strand-slider__field:focus-visible::-moz-range-thumb {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--strand-focus-ring);
 }
 
 /* ── Disabled ── */

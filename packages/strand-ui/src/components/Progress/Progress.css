@@ -26,7 +26,7 @@
   height: 100%;
   background: var(--strand-blue-primary);
   border-radius: var(--strand-radius-full);
-  transition: width var(--strand-duration-normal) ease;
+  transition: width var(--strand-duration-normal) var(--strand-ease-out-quart);
 }
 
 /* ── Bar indeterminate ── */
@@ -61,7 +61,7 @@
 }
 
 .strand-progress--ring .strand-progress__ring {
-  transition: stroke-dashoffset var(--strand-duration-normal) ease;
+  transition: stroke-dashoffset var(--strand-duration-normal) var(--strand-ease-out-quart);
 }
 
 /* ── Ring indeterminate ── */

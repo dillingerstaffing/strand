@@ -40,7 +40,7 @@
   text-decoration: none;
   font-size: var(--strand-text-sm);
   font-weight: var(--strand-weight-medium);
-  transition: color var(--strand-duration-fast) ease;
+  transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-nav__link:hover {
@@ -79,7 +79,7 @@
   background: transparent;
   color: var(--strand-gray-600);
   cursor: pointer;
-  transition: background var(--strand-duration-fast) ease;
+  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-nav__hamburger:hover {
@@ -134,7 +134,7 @@
   text-decoration: none;
   font-size: var(--strand-text-sm);
   font-weight: var(--strand-weight-medium);
-  transition: color var(--strand-duration-fast) ease;
+  transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-nav__mobile-link:hover {

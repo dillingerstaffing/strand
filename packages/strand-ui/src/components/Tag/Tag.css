@@ -83,7 +83,7 @@
   opacity: 0.6;
   cursor: pointer;
   border-radius: var(--strand-radius-sm);
-  transition: opacity var(--strand-duration-fast) ease;
+  transition: opacity var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-tag__remove:hover {

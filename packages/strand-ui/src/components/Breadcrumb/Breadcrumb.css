@@ -25,7 +25,7 @@
 .strand-breadcrumb__link {
   color: var(--strand-gray-500);
   text-decoration: none;
-  transition: color var(--strand-duration-fast) ease;
+  transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-breadcrumb__link:hover {

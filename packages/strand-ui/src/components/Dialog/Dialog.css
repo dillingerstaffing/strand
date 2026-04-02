@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15, 23, 42, 0.5);
+  background: var(--strand-backdrop);
 }
 
 /* ── Panel ── */
@@ -57,8 +57,8 @@
   color: var(--strand-gray-500);
   font-size: var(--strand-text-lg);
   cursor: pointer;
-  transition: background var(--strand-duration-fast) ease,
-    color var(--strand-duration-fast) ease;
+  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart),
+    color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-dialog__close:hover {

@@ -27,14 +27,14 @@
   cursor: pointer;
   flex-shrink: 0;
   transition:
-    background var(--strand-duration-fast) ease,
-    border-color var(--strand-duration-fast) ease,
-    box-shadow var(--strand-duration-fast) ease;
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
+    border-color var(--strand-duration-fast) var(--strand-ease-out-quart),
+    box-shadow var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-switch__track:focus-visible {
   border-color: var(--strand-blue-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--strand-focus-ring);
   outline: none;
 }
 

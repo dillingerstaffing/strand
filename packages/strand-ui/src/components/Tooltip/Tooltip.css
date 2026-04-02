@@ -19,7 +19,7 @@
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--strand-duration-fast) ease;
+  transition: opacity var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-tooltip--visible {

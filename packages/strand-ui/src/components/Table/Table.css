@@ -68,7 +68,7 @@
 
 /* ── Row hover ── */
 .strand-table__row {
-  transition: background var(--strand-duration-fast) ease;
+  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-table__row:hover {

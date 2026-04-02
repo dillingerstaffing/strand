@@ -16,11 +16,11 @@
   cursor: pointer;
   user-select: none;
   transition:
-    background var(--strand-duration-fast) ease,
-    border-color var(--strand-duration-fast) ease,
-    color var(--strand-duration-fast) ease,
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
+    border-color var(--strand-duration-fast) var(--strand-ease-out-quart),
+    color var(--strand-duration-fast) var(--strand-ease-out-quart),
     transform var(--strand-duration-fast) var(--strand-ease-out-expo),
-    box-shadow var(--strand-duration-fast) ease;
+    box-shadow var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-btn:active:not(:disabled) {
@@ -82,7 +82,7 @@
 .strand-btn--primary:hover:not(:disabled) {
   background: var(--strand-blue-vivid);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  box-shadow: var(--strand-hover-shadow-primary);
 }
 
 .strand-btn--primary:active:not(:disabled) {
@@ -131,7 +131,7 @@
 .strand-btn--danger:hover:not(:disabled) {
   background: var(--strand-red-alert-vivid);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+  box-shadow: var(--strand-hover-shadow-danger);
 }
 
 .strand-btn--danger:active:not(:disabled) {

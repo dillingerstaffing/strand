@@ -20,7 +20,7 @@
   color: var(--strand-gray-500);
   cursor: pointer;
   transition:
-    color var(--strand-duration-fast) ease,
+    color var(--strand-duration-fast) var(--strand-ease-out-quart),
     border-color var(--strand-duration-fast) var(--strand-ease-out-expo);
 }
 

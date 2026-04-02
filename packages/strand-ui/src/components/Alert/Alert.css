@@ -58,8 +58,8 @@
   color: var(--strand-gray-500);
   font-size: var(--strand-text-base);
   cursor: pointer;
-  transition: background var(--strand-duration-fast) ease,
-    color var(--strand-duration-fast) ease;
+  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart),
+    color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-alert__dismiss:hover {

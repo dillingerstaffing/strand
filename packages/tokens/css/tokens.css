@@ -138,6 +138,17 @@
   --strand-elevation-3: 0 8px 16px rgba(15, 23, 42, 0.06), 0 24px 48px rgba(15, 23, 42, 0.08);
   --strand-elevation-4: 0 16px 32px rgba(15, 23, 42, 0.08), 0 32px 64px rgba(15, 23, 42, 0.12);
 
+  /* ── INTERACTION: FOCUS ── */
+  --strand-focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  --strand-focus-ring-error: 0 0 0 3px rgba(239, 68, 68, 0.1);
+
+  /* ── INTERACTION: HOVER SHADOWS ── */
+  --strand-hover-shadow-primary: 0 4px 12px rgba(37, 99, 235, 0.2);
+  --strand-hover-shadow-danger: 0 4px 12px rgba(239, 68, 68, 0.2);
+
+  /* ── INTERACTION: BACKDROP ── */
+  --strand-backdrop: rgba(15, 23, 42, 0.5);
+
   /* ── SHAPE (border-radius) ── */
   --strand-radius-sm: 4px;
   --strand-radius-md: 6px;

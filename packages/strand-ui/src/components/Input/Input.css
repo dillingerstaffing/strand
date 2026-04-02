@@ -8,13 +8,13 @@
   border: 1px solid var(--strand-gray-200);
   border-radius: var(--strand-radius-md);
   transition:
-    border-color var(--strand-duration-fast) ease,
-    box-shadow var(--strand-duration-fast) ease;
+    border-color var(--strand-duration-fast) var(--strand-ease-out-quart),
+    box-shadow var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-input:focus-within {
   border-color: var(--strand-blue-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--strand-focus-ring);
 }
 
 /* ── Field ── */
@@ -66,7 +66,7 @@
 
 .strand-input--error:focus-within {
   border-color: var(--strand-red-alert);
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  box-shadow: var(--strand-focus-ring-error);
 }
 
 /* ── Disabled ── */

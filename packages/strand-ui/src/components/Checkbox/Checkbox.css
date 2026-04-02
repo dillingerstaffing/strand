@@ -39,9 +39,9 @@
   color: var(--strand-on-blue-primary);
   flex-shrink: 0;
   transition:
-    background var(--strand-duration-fast) ease,
-    border-color var(--strand-duration-fast) ease,
-    box-shadow var(--strand-duration-fast) ease;
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
+    border-color var(--strand-duration-fast) var(--strand-ease-out-quart),
+    box-shadow var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-checkbox__icon {
@@ -52,7 +52,7 @@
 /* ── Focus ring ── */
 .strand-checkbox__native:focus-visible ~ .strand-checkbox__control {
   border-color: var(--strand-blue-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--strand-focus-ring);
 }
 
 /* ── Checked ── */
