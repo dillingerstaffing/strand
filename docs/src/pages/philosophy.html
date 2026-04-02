@@ -58,31 +58,48 @@
     <main class="docs-content">
       <div class="docs-overline">Guide</div>
       <h1>Philosophy</h1>
-      <p>Strand is built on six principles. When making any design decision, apply these in order.</p>
+      <p>Strand occupies a specific aesthetic niche: the biosynthetic laboratory. Not corporate. Not playful. Not dark-mode tech. A near-future research facility where precision instrumentation meets organic engineering.</p>
+      <p>Every design decision traces to one of 10 named principles. Each has a definition, a rationale, and a test. When in doubt, apply them in order.</p>
 
-      <h2>1. Restraint is the signal of advancement</h2>
-      <p>The most advanced interfaces in fiction and reality share one trait: extreme restraint. Clutter signals primitive. Space signals advanced. Delete before you add.</p>
-      <p>Every pixel of whitespace in Strand is intentional. The 4px spacing system creates mathematical rhythm. The cool-shifted whites create a surface that feels controlled without feeling empty. When you are tempted to add an element, ask first: can this be communicated with space alone?</p>
+      <h2>1. Cognitive Economy</h2>
+      <p>Every visual element earns its place by reducing the cognitive operations needed to understand the interface. The total count of operations from "screen loaded" to "task complete" is the cognitive cost. Decoration increases it. Information decreases it.</p>
+      <p><strong>Test:</strong> Remove an element. If the user can still complete their task, the element was decoration. Delete it. If you are not adding back at least 10% of what you delete, you are not deleting enough.</p>
 
-      <h2>2. Performance is design</h2>
-      <p>A 60fps animation is premium. A 30fps animation is cheap. A 1-second page load is confidence. A 3-second page load is doubt. No visual treatment compensates for poor performance. Speed is the first and last design decision.</p>
-      <p>Strand tokens are pure CSS custom properties with zero runtime cost. No JavaScript is required to render design tokens. Components use transform-only animations for GPU compositing. Every motion value is calibrated for 60fps on real devices.</p>
+      <h2>2. Biosynthetic Restraint</h2>
+      <p>The most advanced technology is always presented with extreme restraint. Clutter signals primitive. Space signals advanced. The fewer elements on screen, the more each one matters.</p>
+      <p><strong>Test:</strong> Count the distinct visual elements on any screen. If the count exceeds 12, reduce until each remaining element is irreducible.</p>
 
-      <h2>3. Blue is the biosynthetic signal</h2>
-      <p>One accent color. Used with discipline. It means: active, alive, processing, interactive, important. Everywhere else is white, gray, and negative space.</p>
-      <p>The blue spectrum is carefully calibrated: not corporate blue (too dark, too safe), not neon blue (too aggressive). The blue of precision instrumentation. Eight stops from glow to abyss give enough range for every interaction state without reaching for a second hue.</p>
+      <h2>3. Performance Gravity</h2>
+      <p>Performance is the gravitational field the design exists within. A 60fps animation is premium. A 30fps animation is cheap. There is no visual design that compensates for poor performance. Speed is the first and last design decision.</p>
+      <p><strong>Test:</strong> FCP &gt; 1.2s, or INP &gt; 50ms, or any animation below 60fps = the design has failed, regardless of how beautiful it looks in a screenshot.</p>
 
-      <h2>4. Typography carries 80% of the design</h2>
-      <p>Strand does not rely on imagery to feel designed. The type scale, tracking, weight hierarchy, and monospace labels create the aesthetic on their own. If the design works in grayscale with no images, it works.</p>
-      <p>Light-weight headlines at large sizes produce thin strokes that feel elegant and engineered. The contrast between a 300-weight 72px heading and 400-weight 16px body creates hierarchy through weight differential alone. Tight tracking on large text is the single most impactful "premium" adjustment.</p>
+      <h2>4. The Blue Discipline</h2>
+      <p>One accent color. Used with discipline. Blue means: interactive, alive, processing, important. If an element is not clickable, not data, and not a status indicator, it does not get blue. In a sea of white and gray, blue becomes a signal the eye learns to trust. When everything is blue, nothing is.</p>
+      <p><strong>Test:</strong> Audit every blue element. Is it clickable, live data, or a status indicator? If no, change it to gray. If more than 5% fail, the Blue Discipline has been violated.</p>
 
-      <h2>5. Every element earns its place</h2>
-      <p>No decorative elements. No stock photos. No illustrations. No icons for decoration. If a visual element cannot state its purpose in one sentence, delete it.</p>
-      <p>This principle applies to the design system itself. Every token exists because a component needs it. Every component exists because a pattern recurs. The 4px base unit, the major-third type scale, the 5-level elevation system: each is the minimum set that covers the maximum range of real interface needs.</p>
+      <h2>5. Earned Elevation</h2>
+      <p>Shadow is information, not decoration. A component earns shadow by existing on a higher z-layer. Shadow communicates stacking context, interactive potential, and transience.</p>
+      <p><strong>Test:</strong> For every element with box-shadow, answer: "What does the elevation communicate?" If the answer is "it just looks nicer," remove the shadow.</p>
 
-      <h2>6. Accessibility is physics, not a feature</h2>
-      <p>It is not negotiable, not optional, not aspirational. It is a constraint of the medium, like gravity is a constraint of architecture. Design within it.</p>
-      <p>Every color pairing in Strand meets WCAG 2.2 AA contrast requirements. Every interactive element has a visible focus indicator. Every animation respects <code>prefers-reduced-motion</code>. Every touch target meets 44px minimum. These are not features listed on a checklist. They are structural constraints baked into every token value.</p>
+      <h2>6. Compound Silence</h2>
+      <p>Negative space is the medium through which elements communicate their relationships. Things closer together belong together. The space between cards must exceed the space within cards. This hierarchy compounds: each level of spacing amplifies the structural clarity of every other level.</p>
+      <p><strong>Test (the 30% Test):</strong> Remove 30% of the whitespace. If nothing feels cramped, the original was decorative. If the layout breaks, the original was correct.</p>
+
+      <h2>7. The Grain of Precision</h2>
+      <p>A blank white page is empty. A white surface with a subtle dot-grid pattern, a faint overhead blue glow, and imperceptible film grain is a laboratory. Precision lives in details below conscious perception.</p>
+      <p><strong>Test:</strong> On a large display, does the background feel designed or blank? If blank: grain is missing. If obviously textured: too strong. The correct intensity is felt, not seen.</p>
+
+      <h2>8. Default Philosophy</h2>
+      <p>Your defaults ARE your design philosophy. A developer using every component at default settings, with zero customization, should produce output that embodies the biosynthetic laboratory aesthetic. If defaults produce generic output, the design language has failed, not the developer.</p>
+      <p><strong>Test:</strong> Build a form, card layout, and data table with only defaults. Show it to someone unfamiliar. They should describe the aesthetic in specific terms ("clean," "scientific") rather than generic ones ("nice," "fine").</p>
+
+      <h2>9. Typography Carries the Room</h2>
+      <p>In a restrained system with one accent color, no illustrations, and no stock photography, typography does 80% of the visual work. The contrast between a 300-weight headline and a tracked-out monospace overline IS the design.</p>
+      <p><strong>Test:</strong> Render the interface in grayscale with no images. Does it still feel designed? If yes, the typography is carrying the room.</p>
+
+      <h2>10. The Instrument Principle</h2>
+      <p>Every interface is an instrument in a laboratory. The metaphor is not decorative. It determines naming, microcopy, interaction patterns, and visual hierarchy. Forms are specimen collection instruments. Dashboards are analytical readout panels. Notifications are diagnostic events.</p>
+      <p><strong>Test:</strong> Describe the interface using laboratory vocabulary. If the description feels natural, the metaphor is correctly applied. If it feels forced, the metaphor has been misapplied.</p>
     </main>
 
   </div>

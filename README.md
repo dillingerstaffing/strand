@@ -255,6 +255,27 @@ Full token specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
 
 ---
 
+## 10 Named Principles
+
+Every design decision in Strand traces to one of 10 named principles. Each has a definition, a rationale, and a test.
+
+| # | Principle | Core Idea |
+|---|---|---|
+| 1 | **Cognitive Economy** | Every element reduces the cognitive operations needed to understand the interface. If removing it doesn't break the task, it was decoration. |
+| 2 | **Biosynthetic Restraint** | Clutter signals primitive. Space signals advanced. Max 12 visual elements per screen. |
+| 3 | **Performance Gravity** | FCP < 1.2s. INP < 50ms. 60fps. No exceptions. Speed is the first and last design decision. |
+| 4 | **The Blue Discipline** | Blue is earned by interactive, data, or status elements. Everything else is white and gray. |
+| 5 | **Earned Elevation** | Shadow communicates z-layer and purpose. "It just looks nicer" means remove the shadow. |
+| 6 | **Compound Silence** | Negative space communicates structure. Gap > padding, always. |
+| 7 | **The Grain of Precision** | Subliminal texture (dot-grid, glow, grain) transforms blank white into a laboratory surface. |
+| 8 | **Default Philosophy** | Defaults ARE the philosophy. Zero-config output must look like a precision laboratory, not a generic app. |
+| 9 | **Typography Carries the Room** | If the interface works in grayscale with no images, the typography is correct. |
+| 10 | **The Instrument Principle** | Every interface is an instrument in a laboratory. Forms are specimen instruments. Dashboards are analytical readouts. |
+
+Full specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
+
+---
+
 ## Troubleshooting
 
 **Components render without styles**

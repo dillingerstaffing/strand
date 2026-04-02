@@ -42,6 +42,23 @@ Card padding tiers (used via `strand-card--pad-{sm|md|lg}`):
 - `md`: 24px (standard cards, default for most contexts)
 - `lg`: 40px (showcase, hero, documentation)
 
+## Focus States
+
+All interactive elements include `:focus-visible` styling per Part XII of the design language:
+
+```css
+:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}
+```
+
+- Appears on keyboard navigation only (not on mouse click)
+- 2px solid blue outline with 2px offset from the element edge
+- Applied to: buttons, links, interactive cards, tab buttons, sort buttons, nav links, hamburger menu
+
+No additional classes needed. Focus rings are built into each component's CSS.
+
 ## Boundary Integrity
 
 All container components (Grid, Stack, Card, Container) enforce boundary integrity. Children cannot visually breach the parent's padding zone. This is enforced at the CSS level via `overflow: hidden`, `max-width: 100%`, and `min-width: 0` on children. You do not need to add these yourself.
