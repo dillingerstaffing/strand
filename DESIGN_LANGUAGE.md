@@ -28,6 +28,8 @@ No decorative elements. No stock photos. No illustrations. No icons for decorati
 **6. Accessibility is physics, not a feature.**
 It is not negotiable, not optional, not aspirational. It is a constraint of the medium, like gravity is a constraint of architecture. Design within it.
 
+Strand's defaults ARE the design philosophy. A consumer who uses every component at its default settings, without reading any documentation, should produce output that embodies the biosynthetic laboratory aesthetic. If the defaults produce cramped, generic, or visually flat output, the design language has failed, not the consumer. Every default value is a design decision.
+
 ---
 
 ## 2. Color
@@ -101,6 +103,10 @@ Every background color has a designated text color that meets WCAG 2.2 AA contra
 | `--strand-red-alert` | `--strand-on-red-alert` | `#FFFFFF` | 3.76:1 (large text/interactive) |
 | `--strand-teal-vital` | `--strand-on-teal-vital` | `#0F172A` (gray-900) | 7.46:1 |
 | `--strand-amber-caution` | `--strand-on-amber-caution` | `#0F172A` (gray-900) | 8.29:1 |
+
+### The Blue Discipline
+
+Blue is the single accent color. It signals: interactive, alive, important. It does NOT signal "this text is special" or "this label should stand out." If an element is not clickable, not data, and not a status indicator, it does not get blue. Non-interactive annotation text uses `--strand-gray-500`. The difference between a precision instrument and a decorated page is that blue MEANS something on the instrument.
 
 ### 2.7 Usage Rules
 
@@ -226,6 +232,32 @@ Premium whitespace is consistent (4px system), proportional (larger elements get
 
 Test: if you can remove 30% of the whitespace and nothing feels cramped, you had too much.
 
+### Component Padding Tiers
+
+Component containers (cards, alerts, dialogs, form groups) use named padding tiers that map to the spacing scale. The default tier (`md`) produces premium spacing without additional thought.
+
+| Tier | Token | Value | Context |
+|---|---|---|---|
+| `sm` | `--strand-space-4` | 16px | Compact: dashboard widgets, dense data UIs, badge clusters |
+| `md` | `--strand-space-6` | 24px | Standard: cards with text, form groups, alerts, toasts |
+| `lg` | `--strand-space-10` | 40px | Generous: showcase previews, hero cards, documentation containers |
+
+A consumer who uses `md` for everything should get output that feels generous, not cramped. Premium whitespace is the minimum amount that still feels generous.
+
+**Validation test:** Remove 30% of the padding. If the result feels cramped, the original value is correct. If it still feels comfortable, the value was too generous.
+
+### Spacing Hierarchy (Gestalt Proximity)
+
+The gap between sibling elements must be greater than the padding within each element. Things closer together feel grouped; things further apart feel separate.
+
+| Within-element padding | Minimum sibling gap |
+|---|---|
+| sm (16px) | space-6 (24px) |
+| md (24px) | space-8 (32px) |
+| lg (40px) | space-12 (48px) |
+
+This prevents visual hierarchy from collapsing. The eye must perceive where one card ends and the next begins without relying solely on borders.
+
 ---
 
 ## 5. Motion
@@ -283,6 +315,18 @@ All animations must respect `prefers-reduced-motion: reduce`. Animations disable
 | `--strand-elevation-2` | `0 4px 6px rgba(15, 23, 42, 0.04), 0 12px 24px rgba(15, 23, 42, 0.06)` | Cards on hover, dropdowns. |
 | `--strand-elevation-3` | `0 8px 16px rgba(15, 23, 42, 0.06), 0 24px 48px rgba(15, 23, 42, 0.08)` | Modals, popovers. |
 | `--strand-elevation-4` | `0 16px 32px rgba(15, 23, 42, 0.08), 0 32px 64px rgba(15, 23, 42, 0.12)` | Dialogs, toasts. |
+
+### Container Elevation Contexts
+
+| Context | Level | Treatment |
+|---|---|---|
+| Card at rest | 1 | Subtle lift off the page surface |
+| Card on hover | 2 | Responds to attention, signals interactivity |
+| Preview/showcase container | 0 (recessed) | Sits below the card surface. Uses `--strand-surface-recessed` + inset shadow: `box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06)`. The instrument viewport is recessed into the panel, not floating above it. |
+| Modal/dialog overlay | 3 | Floats above everything, demands focus |
+| Toast notification | 2 | Floats at viewport edge, temporary |
+
+Preview containers use the recessed treatment instead of flat borders. The `.strand-viewport` class provides this: recessed background, inner shadow, generous padding.
 
 ---
 

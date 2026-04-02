@@ -4,7 +4,7 @@
 .strand-form-field {
   display: flex;
   flex-direction: column;
-  gap: var(--strand-space-1);
+  gap: var(--strand-space-2);
 }
 
 /* ── Label ── */

@@ -36,15 +36,15 @@
 }
 
 .strand-card--pad-sm {
-  padding: var(--strand-space-3);
+  padding: var(--strand-space-4);
 }
 
 .strand-card--pad-md {
-  padding: var(--strand-space-5);
+  padding: var(--strand-space-6);
 }
 
 .strand-card--pad-lg {
-  padding: var(--strand-space-8);
+  padding: var(--strand-space-10);
 }
 
 /* ── Reduced motion ── */

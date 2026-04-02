@@ -17,7 +17,7 @@
   width: 100%;
   max-width: 560px;
   margin: var(--strand-space-4);
-  padding: var(--strand-space-6);
+  padding: var(--strand-space-8);
   background: var(--strand-surface-elevated);
   border-radius: var(--strand-radius-xl);
   box-shadow: var(--strand-elevation-4);
@@ -43,8 +43,8 @@
 /* ── Close button ── */
 .strand-dialog__close {
   position: absolute;
-  top: var(--strand-space-4);
-  right: var(--strand-space-4);
+  top: var(--strand-space-6);
+  right: var(--strand-space-6);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -68,6 +68,7 @@
 
 /* ── Body ── */
 .strand-dialog__body {
+  padding-top: var(--strand-space-6);
   color: var(--strand-gray-600);
   font-size: var(--strand-text-sm);
 }

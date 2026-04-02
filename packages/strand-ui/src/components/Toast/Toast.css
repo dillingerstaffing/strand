@@ -19,7 +19,7 @@
   justify-content: space-between;
   min-width: 280px;
   max-width: 420px;
-  padding: var(--strand-space-4);
+  padding: var(--strand-space-4) var(--strand-space-5);
   background: var(--strand-surface-elevated);
   border-radius: var(--strand-radius-lg);
   border-left: 4px solid transparent;
