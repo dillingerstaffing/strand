@@ -78,3 +78,10 @@
 .strand-input--disabled .strand-input__field {
   cursor: not-allowed;
 }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-input {
+    transition: none;
+  }
+}

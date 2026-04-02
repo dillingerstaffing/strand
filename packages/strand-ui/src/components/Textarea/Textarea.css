@@ -71,3 +71,10 @@
 .strand-textarea--disabled .strand-textarea__field {
   cursor: not-allowed;
 }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-textarea {
+    transition: none;
+  }
+}

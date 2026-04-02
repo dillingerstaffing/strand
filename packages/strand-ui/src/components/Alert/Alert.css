@@ -66,3 +66,10 @@
   background: var(--strand-gray-100);
   color: var(--strand-gray-600);
 }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-alert__dismiss {
+    transition: none;
+  }
+}
