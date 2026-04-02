@@ -12,7 +12,7 @@ function collectCss() {
         .filter((d) => d.isDirectory())
         .map((d) => d.name);
 
-      let allCss = "/*! Strand UI v0.1.1 | MIT License | dillingerstaffing.com */\n\n";
+      let allCss = "/*! Strand UI v0.2.0 | MIT License | dillingerstaffing.com */\n\n";
 
       for (const dir of dirs) {
         try {

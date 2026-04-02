@@ -1,4 +1,4 @@
-/*! Strand UI v0.1.0 | MIT License | dillingerstaffing.com */
+/*! Strand UI v0.2.0 | MIT License | dillingerstaffing.com */
 
 // Input components
 export { Button } from "./components/Button/index.js";
