@@ -1,0 +1,54 @@
+<!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<script setup lang="ts">
+import { computed } from 'vue'
+
+export interface AlertProps {
+  /** Visual status of the alert */
+  status?: 'info' | 'success' | 'warning' | 'error'
+  /** Show dismiss button */
+  dismissible?: boolean
+}
+
+const props = withDefaults(defineProps<AlertProps>(), {
+  status: 'info',
+  dismissible: false,
+})
+
+const emit = defineEmits<{
+  (e: 'dismiss'): void
+}>()
+
+const role = computed(() =>
+  props.status === 'error' || props.status === 'warning' ? 'alert' : 'status',
+)
+
+const classes = computed(() =>
+  [
+    'strand-alert',
+    `strand-alert--${props.status}`,
+  ]
+    .filter(Boolean)
+    .join(' '),
+)
+
+function handleDismiss() {
+  emit('dismiss')
+}
+</script>
+
+<template>
+  <div :class="classes" :role="role">
+    <div class="strand-alert__content">
+      <slot />
+    </div>
+    <button
+      v-if="dismissible"
+      type="button"
+      class="strand-alert__dismiss"
+      aria-label="Dismiss"
+      @click="handleDismiss"
+    >
+      &#215;
+    </button>
+  </div>
+</template>

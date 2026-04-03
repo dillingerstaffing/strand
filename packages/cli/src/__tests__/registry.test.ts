@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { components, VALID_CATEGORIES, type ComponentCategory } from "../registry.js";
+import { components, VALID_CATEGORIES } from "../registry.js";
 
 const EXPECTED_COMPONENTS = [
   "button",
@@ -46,12 +46,39 @@ describe("registry", () => {
     }
   });
 
-  it("each component has name, category, and files", () => {
-    for (const [key, entry] of components) {
+  it("each component has name, category, and framework-keyed files", () => {
+    for (const [, entry] of components) {
       expect(entry.name).toBeTruthy();
       expect(entry.category).toBeTruthy();
-      expect(Array.isArray(entry.files)).toBe(true);
-      expect(entry.files.length).toBeGreaterThan(0);
+      expect(typeof entry.files).toBe("object");
+      expect(entry.files.preact.length).toBeGreaterThan(0);
+      expect(entry.files.vue.length).toBeGreaterThan(0);
+      expect(entry.files["css-only"].length).toBeGreaterThan(0);
+    }
+  });
+
+  it("preact files include .tsx and .css", () => {
+    for (const [, entry] of components) {
+      const hasTsx = entry.files.preact.some((f) => f.endsWith(".tsx"));
+      const hasCss = entry.files.preact.some((f) => f.endsWith(".css"));
+      expect(hasTsx).toBe(true);
+      expect(hasCss).toBe(true);
+    }
+  });
+
+  it("vue files include .vue and .css", () => {
+    for (const [, entry] of components) {
+      const hasVue = entry.files.vue.some((f) => f.endsWith(".vue"));
+      const hasCss = entry.files.vue.some((f) => f.endsWith(".css"));
+      expect(hasVue).toBe(true);
+      expect(hasCss).toBe(true);
+    }
+  });
+
+  it("css-only files include only .css", () => {
+    for (const [, entry] of components) {
+      expect(entry.files["css-only"].length).toBe(1);
+      expect(entry.files["css-only"][0]).toMatch(/\.css$/);
     }
   });
 
@@ -65,16 +92,6 @@ describe("registry", () => {
     const names = Array.from(components.values()).map((e) => e.name);
     const unique = new Set(names);
     expect(unique.size).toBe(names.length);
-  });
-
-  it("files arrays are non-empty and contain expected file types", () => {
-    for (const [, entry] of components) {
-      expect(entry.files.length).toBeGreaterThanOrEqual(2);
-      const hasTs = entry.files.some(
-        (f) => f.endsWith(".ts") || f.endsWith(".tsx")
-      );
-      expect(hasTs).toBe(true);
-    }
   });
 
   it("VALID_CATEGORIES contains exactly 5 categories", () => {
