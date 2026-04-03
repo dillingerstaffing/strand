@@ -215,15 +215,9 @@ npm install @dillingerstaffing/strand @dillingerstaffing/strand-ui
 
 See [HTML_REFERENCE.md](./HTML_REFERENCE.md) for every component's CSS class API.
 
-**Using Bulma, Bootstrap, or another CSS framework?** Strand's `strand-` prefix means zero class name collisions. Load both stylesheets and use Strand components alongside your existing framework. See [Using Strand with Bulma](./docs/migration/from-bulma.md) or [Using Strand with Bootstrap](./docs/migration/from-bootstrap.md).
+**Using Bulma?** Strand ships a [Bulma theme](./docs/migration/from-bulma.md) that works with all four of Bulma's customization paths: CSS variables, Sass full import, modular Sass, or scoped `[data-theme="strand"]`. Bulma components adopt the Strand aesthetic through Bulma's own documented mechanisms.
 
-**Bulma users:** For full visual cohesion, load the compatibility layer that makes Bulma components adopt the Strand aesthetic:
-
-```html
-<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand/bulma/strand-bulma-compat.css">
-```
-
-Or in Sass: `@use "@dillingerstaffing/strand/bulma/strand-bulma-use"`. See [Using Strand with Bulma](./docs/migration/from-bulma.md) for all three integration paths.
+**Using Bootstrap or another CSS framework?** Strand's `strand-` prefix means zero class name collisions. Load both and use each where you want. See [Using Strand with Bootstrap](./docs/migration/from-bootstrap.md).
 
 ---
 

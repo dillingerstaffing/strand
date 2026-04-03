@@ -1,47 +1,55 @@
-/*! Strand Bulma Compatibility | MIT License | dillingerstaffing.com */
-/* Load after Bulma CSS + Strand tokens.css. Bulma components adopt the Strand aesthetic. */
+/*! Strand Theme for Bulma | MIT License | dillingerstaffing.com */
 
-:root {
+/*
+ * A Bulma theme that applies the Strand design language.
+ *
+ * Usage (CSS only, no build step):
+ *   <link rel="stylesheet" href="bulma.min.css">
+ *   <link rel="stylesheet" href="@dillingerstaffing/strand/css/tokens.css">
+ *   <link rel="stylesheet" href="@dillingerstaffing/strand/bulma/strand-bulma-compat.css">
+ *
+ * Or scope to specific elements:
+ *   <div data-theme="strand"> ... Bulma + Strand aesthetic ... </div>
+ *   <div class="theme-strand"> ... Bulma + Strand aesthetic ... </div>
+ */
+
+/* Apply globally when loaded */
+:root,
+[data-theme="strand"],
+.theme-strand {
   /* ── Primary Colors (HSL decomposed for Bulma's palette system) ── */
-  /* Strand blue-primary is #3B8EF6 = hsl(213, 91%, 60%) */
   --bulma-primary-h: 213deg;
   --bulma-primary-s: 91%;
   --bulma-primary-l: 60%;
 
-  /* Strand teal-vital is #14B8A6 = hsl(173, 80%, 40%) */
-  --bulma-success-h: 173deg;
-  --bulma-success-s: 80%;
-  --bulma-success-l: 40%;
-
-  /* Strand blue-indicator is #93CCFD = hsl(207, 96%, 78%) */
-  --bulma-info-h: 207deg;
-  --bulma-info-s: 96%;
-  --bulma-info-l: 78%;
-
-  /* Strand amber-caution is #F59E0B = hsl(38, 92%, 50%) */
-  --bulma-warning-h: 38deg;
-  --bulma-warning-s: 92%;
-  --bulma-warning-l: 50%;
-
-  /* Strand red-alert is #EF4444 = hsl(0, 84%, 60%) */
-  --bulma-danger-h: 0deg;
-  --bulma-danger-s: 84%;
-  --bulma-danger-l: 60%;
-
-  /* ── Link color (same as primary) ── */
   --bulma-link-h: 213deg;
   --bulma-link-s: 91%;
   --bulma-link-l: 60%;
 
-  /* ── Scheme (background/surface) ── */
-  /* Strand surface-primary is #FAFCFF -- cool-shifted white */
+  --bulma-info-h: 207deg;
+  --bulma-info-s: 96%;
+  --bulma-info-l: 78%;
+
+  --bulma-success-h: 173deg;
+  --bulma-success-s: 80%;
+  --bulma-success-l: 40%;
+
+  --bulma-warning-h: 38deg;
+  --bulma-warning-s: 92%;
+  --bulma-warning-l: 50%;
+
+  --bulma-danger-h: 0deg;
+  --bulma-danger-s: 84%;
+  --bulma-danger-l: 60%;
+
+  /* ── Scheme (surfaces) ── */
   --bulma-scheme-h: 220;
   --bulma-scheme-s: 100%;
   --bulma-scheme-main: var(--strand-surface-primary);
   --bulma-scheme-main-bis: var(--strand-surface-recessed);
   --bulma-scheme-main-ter: var(--strand-surface-subtle);
 
-  /* ── Text colors ── */
+  /* ── Text ── */
   --bulma-text: var(--strand-gray-600);
   --bulma-text-strong: var(--strand-gray-800);
   --bulma-text-weak: var(--strand-gray-500);
@@ -50,23 +58,19 @@
   --bulma-family-primary: var(--strand-font-sans);
   --bulma-family-secondary: var(--strand-font-sans);
   --bulma-family-code: var(--strand-font-mono);
-
-  --bulma-size-small: 0.833rem;  /* strand text-sm */
-  --bulma-size-normal: 1rem;     /* strand text-base */
-  --bulma-size-medium: 1.25rem;  /* strand text-lg */
-  --bulma-size-large: 1.563rem;  /* strand text-xl */
-
+  --bulma-size-small: 0.833rem;
+  --bulma-size-normal: 1rem;
+  --bulma-size-medium: 1.25rem;
+  --bulma-size-large: 1.563rem;
   --bulma-weight-light: 300;
   --bulma-weight-normal: 400;
   --bulma-weight-medium: 500;
   --bulma-weight-semibold: 600;
   --bulma-weight-bold: 700;
 
-  /* ── Border ── */
+  /* ── Borders ── */
   --bulma-border: var(--strand-gray-200);
   --bulma-border-weak: var(--strand-surface-subtle);
-
-  /* ── Border Radius ── */
   --bulma-radius-small: var(--strand-radius-sm);
   --bulma-radius: var(--strand-radius-md);
   --bulma-radius-medium: var(--strand-radius-lg);
@@ -85,7 +89,7 @@
   --bulma-focus-s: 91%;
   --bulma-focus-l: 60%;
 
-  /* ── Animation ── */
+  /* ── Motion ── */
   --bulma-duration: 250ms;
-  --bulma-easing: cubic-bezier(0.25, 1, 0.5, 1);  /* strand ease-out-quart */
+  --bulma-easing: cubic-bezier(0.25, 1, 0.5, 1);
 }
