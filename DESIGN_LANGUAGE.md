@@ -142,7 +142,7 @@ Things closer together belong together (Gestalt proximity). Things farther apart
 
 A blank white page is empty. A white surface with a subtle dot-grid pattern, a faint overhead blue glow, and imperceptible film grain is a laboratory.
 
-The difference is invisible in isolation. Place them side by side and it is obvious. The textured surface feels designed, controlled, intentional. The blank surface feels unfinished. Precision lives in details below conscious perception: the barely-blue-shifted background (#FAFCFE, not #FFFFFF), the 0.012 opacity grain overlay, the 0.07 opacity dot grid at 24px intervals. These do not register as individual effects. They register as "this feels right."
+The difference is invisible in isolation. Place them side by side and it is obvious. The textured surface feels designed, controlled, intentional. The blank surface feels unfinished. Precision lives in details below conscious perception: the barely-blue-shifted background (#FAFCFF, not #FFFFFF), the 0.012 opacity grain overlay, the 0.07 opacity dot grid at 24px intervals. These do not register as individual effects. They register as "this feels right."
 
 **The test:** Open the interface on a large, high-quality display. Does the background feel like a designed surface or a blank canvas? If blank: the grain is missing. If obviously textured: the grain is too strong. The correct intensity is felt, not seen.
 
@@ -206,10 +206,10 @@ The accent color is a single, carefully calibrated blue: the blue of biosyntheti
 
 | Token | Value | Purpose |
 |---|---|---|
-| `--strand-surface-primary` | `#FAFCFE` | Page background. Barely blue. The lab walls. |
+| `--strand-surface-primary` | `#FAFCFF` | Page background. Barely blue. The lab walls. |
 | `--strand-surface-elevated` | `#FFFFFF` | Cards, modals. Pure white. Lifted off the wall. |
-| `--strand-surface-recessed` | `#F0F4F8` | Secondary sections, form fields. The lab bench. |
-| `--strand-surface-subtle` | `#E8EDF3` | Borders, dividers, faint rules. The seams. |
+| `--strand-surface-recessed` | `#F0F5F8` | Secondary sections, form fields. The lab bench. |
+| `--strand-surface-subtle` | `#E8EEF3` | Borders, dividers, faint rules. The seams. |
 
 **Usage rule:** The page background is `--strand-surface-primary`. Cards and modals float above it on `--strand-surface-elevated`. Form fields and secondary areas are recessed into `--strand-surface-recessed`. Dividers and borders use `--strand-surface-subtle`. This four-layer system creates z-axis depth without shadow alone.
 
@@ -217,35 +217,35 @@ The accent color is a single, carefully calibrated blue: the blue of biosyntheti
 
 | Token | Value | Purpose |
 |---|---|---|
-| `--strand-blue-glow` | `#E8F4FD` | Hover backgrounds, selected rows, active sections. |
-| `--strand-blue-wash` | `#DBEAFE` | Light backgrounds for emphasis blocks. |
-| `--strand-blue-indicator` | `#93C5FD` | Progress bars, secondary interactive elements. |
-| `--strand-blue-primary` | `#3B82F6` | Primary actions, links, key data points. |
-| `--strand-blue-vivid` | `#2563EB` | Hover state on primary elements. |
-| `--strand-blue-deep` | `#1D4ED8` | Active/pressed states, high-emphasis data. |
-| `--strand-blue-midnight` | `#1E3A5F` | Headlines on light backgrounds. |
-| `--strand-blue-abyss` | `#0F172A` | Maximum contrast text, near-black. |
+| `--strand-blue-glow` | `#E8F5FD` | Hover backgrounds, selected rows, active sections. |
+| `--strand-blue-wash` | `#DBECFE` | Light backgrounds for emphasis blocks. |
+| `--strand-blue-indicator` | `#93CCFD` | Progress bars, secondary interactive elements. |
+| `--strand-blue-primary` | `#3B8EF6` | Primary actions, links, key data points. |
+| `--strand-blue-vivid` | `#2570EB` | Hover state on primary elements. |
+| `--strand-blue-deep` | `#1D5AD8` | Active/pressed states, high-emphasis data. |
+| `--strand-blue-midnight` | `#1E3E5F` | Headlines on light backgrounds. |
+| `--strand-blue-abyss` | `#0F192A` | Maximum contrast text, near-black. |
 
-The spectrum runs from near-white (#E8F4FD) to near-black (#0F172A), all blue-shifted. This is a single hue at varying luminance. The visual equivalent of a single instrument indicator at varying intensity levels.
+The spectrum runs from near-white (#E8F5FD) to near-black (#0F192A), all blue-shifted. This is a single hue at varying luminance. The visual equivalent of a single instrument indicator at varying intensity levels.
 
 ### 3.4 Cool Grays (Blue-Shifted)
 
 | Token | Value | Purpose |
 |---|---|---|
-| `--strand-gray-50` | `#F8FAFC` | Lightest gray. |
-| `--strand-gray-100` | `#F1F5F9` | Subtle backgrounds. |
-| `--strand-gray-200` | `#E2E8F0` | Borders, dividers. |
-| `--strand-gray-300` | `#CBD5E1` | Disabled states. |
-| `--strand-gray-400` | `#94A3B8` | Placeholder text. |
-| `--strand-gray-500` | `#64748B` | Secondary text, annotation labels. |
-| `--strand-gray-600` | `#475569` | Primary body text. |
-| `--strand-gray-700` | `#334155` | Headings. |
-| `--strand-gray-800` | `#1E293B` | Strong headings. |
-| `--strand-gray-900` | `#0F172A` | Maximum contrast. |
+| `--strand-gray-50` | `#F7FAFD` | Lightest gray. |
+| `--strand-gray-100` | `#F1F6F9` | Subtle backgrounds. |
+| `--strand-gray-200` | `#E2E9F0` | Borders, dividers. |
+| `--strand-gray-300` | `#CBD6E1` | Disabled states. |
+| `--strand-gray-400` | `#94A5B8` | Placeholder text. |
+| `--strand-gray-500` | `#64778B` | Secondary text, annotation labels. |
+| `--strand-gray-600` | `#475769` | Primary body text. |
+| `--strand-gray-700` | `#334355` | Headings. |
+| `--strand-gray-800` | `#1E2B3B` | Strong headings. |
+| `--strand-gray-900` | `#0F192A` | Maximum contrast. |
 
 Every gray is blue-shifted. Warm grays (yellow/brown undertone) feel corporate or literary. Cool grays feel clinical and controlled. The blue shift is subtle. 2-5%. But the cumulative effect across an entire interface is significant.
 
-**Never use pure black (#000000).** Pure black on white creates harsh optical vibration. `--strand-gray-900` (#0F172A) provides equivalent contrast (15.4:1) with less visual strain.
+**Never use pure black (#000000).** Pure black on white creates harsh optical vibration. `--strand-gray-900` (#0F192A) provides equivalent contrast (17.13:1) with less visual strain.
 
 ### 3.5 Semantic Accents
 
@@ -266,15 +266,15 @@ Every background color has a designated text color that guarantees WCAG 2.2 AA c
 
 | Background Token | On-Color Token | Value | Contrast Ratio |
 |---|---|---|---|
-| `--strand-surface-primary` | `--strand-on-surface-primary` | `#475569` (gray-600) | 5.74:1 |
-| `--strand-surface-elevated` | `--strand-on-surface-elevated` | `#475569` (gray-600) | 5.91:1 |
-| `--strand-surface-recessed` | `--strand-on-surface-recessed` | `#475569` (gray-600) | 5.20:1 |
+| `--strand-surface-primary` | `--strand-on-surface-primary` | `#475769` (gray-600) | 7.21:1 |
+| `--strand-surface-elevated` | `--strand-on-surface-elevated` | `#475769` (gray-600) | 7.41:1 |
+| `--strand-surface-recessed` | `--strand-on-surface-recessed` | `#475769` (gray-600) | 6.74:1 |
 | `--strand-blue-primary` | `--strand-on-blue-primary` | `#FFFFFF` | 3.68:1 (large text/interactive) |
 | `--strand-blue-vivid` | `--strand-on-blue-vivid` | `#FFFFFF` | 5.45:1 |
 | `--strand-blue-deep` | `--strand-on-blue-deep` | `#FFFFFF` | 6.74:1 |
 | `--strand-red-alert` | `--strand-on-red-alert` | `#FFFFFF` | 3.76:1 (large text/interactive) |
-| `--strand-teal-vital` | `--strand-on-teal-vital` | `#0F172A` (gray-900) | 7.46:1 |
-| `--strand-amber-caution` | `--strand-on-amber-caution` | `#0F172A` (gray-900) | 8.29:1 |
+| `--strand-teal-vital` | `--strand-on-teal-vital` | `#0F192A` (gray-900) | 7.07:1 |
+| `--strand-amber-caution` | `--strand-on-amber-caution` | `#0F192A` (gray-900) | 8.20:1 |
 
 **Rule:** When placing text on any colored background, use the corresponding `--strand-on-*` token. Never guess. Never manually check contrast. The token system handles it.
 
@@ -1137,10 +1137,10 @@ All text meets minimum contrast ratios against its background:
 - **UI components and graphical objects:** 3:1 minimum
 
 The color palette was designed to satisfy these ratios:
-- `--strand-gray-600` (#475569) on `--strand-surface-primary` (#FAFCFE) = **5.74:1** (passes AA and AAA)
-- `--strand-gray-500` (#64748B) on `--strand-surface-primary` = **4.54:1** (passes AA)
-- `--strand-blue-primary` (#3B82F6) on white = **3.14:1** (passes AA for large text; for small text, use `--strand-blue-deep`)
-- `--strand-blue-midnight` (#1E3A5F) on `--strand-surface-primary` = **8.91:1** (passes AAA)
+- `--strand-gray-600` (#475769) on `--strand-surface-primary` (#FAFCFF) = **7.21:1** (passes AA and AAA)
+- `--strand-gray-500` (#64778B) on `--strand-surface-primary` = **4.49:1** (passes AA)
+- `--strand-blue-primary` (#3B8EF6) on white = **3.29:1** (passes AA for large text; for small text, use `--strand-blue-deep`)
+- `--strand-blue-midnight` (#1E3E5F) on `--strand-surface-primary` = **10.70:1** (passes AAA)
 
 ### 14.3 Focus Indicators
 
@@ -1374,19 +1374,19 @@ Every component must satisfy ALL of the following before it is considered comple
 ### Colors
 | Token | Value | Role |
 |---|---|---|
-| `--strand-surface-primary` | #FAFCFE | Page background |
+| `--strand-surface-primary` | #FAFCFF | Page background |
 | `--strand-surface-elevated` | #FFFFFF | Cards, modals |
-| `--strand-surface-recessed` | #F0F4F8 | Form fields, secondary areas |
-| `--strand-surface-subtle` | #E8EDF3 | Borders, dividers |
-| `--strand-blue-glow` | #E8F4FD | Hover backgrounds, selections |
-| `--strand-blue-wash` | #DBEAFE | Light emphasis backgrounds |
-| `--strand-blue-indicator` | #93C5FD | Progress, secondary interactive |
-| `--strand-blue-primary` | #3B82F6 | Primary actions, links |
-| `--strand-blue-vivid` | #2563EB | Hover on primary |
-| `--strand-blue-deep` | #1D4ED8 | Active/pressed |
-| `--strand-blue-midnight` | #1E3A5F | Headlines |
-| `--strand-blue-abyss` | #0F172A | Maximum contrast |
-| `--strand-gray-50` to `--strand-gray-900` | #F8FAFC to #0F172A | Full neutral scale |
+| `--strand-surface-recessed` | #F0F5F8 | Form fields, secondary areas |
+| `--strand-surface-subtle` | #E8EEF3 | Borders, dividers |
+| `--strand-blue-glow` | #E8F5FD | Hover backgrounds, selections |
+| `--strand-blue-wash` | #DBECFE | Light emphasis backgrounds |
+| `--strand-blue-indicator` | #93CCFD | Progress, secondary interactive |
+| `--strand-blue-primary` | #3B8EF6 | Primary actions, links |
+| `--strand-blue-vivid` | #2570EB | Hover on primary |
+| `--strand-blue-deep` | #1D5AD8 | Active/pressed |
+| `--strand-blue-midnight` | #1E3E5F | Headlines |
+| `--strand-blue-abyss` | #0F192A | Maximum contrast |
+| `--strand-gray-50` to `--strand-gray-900` | #F7FAFD to #0F192A | Full neutral scale |
 | `--strand-cyan-signal` | #22D3EE | Data visualization energy |
 | `--strand-teal-vital` | #14B8A6 | Success, confirmed |
 | `--strand-green-positive` | #10B981 | Growth, positive |

@@ -15,34 +15,34 @@ export const fontMono =
 
 // ── Surface Palette ──
 
-export const surfacePrimary = "#FAFCFE" as const;
+export const surfacePrimary = "#FAFCFF" as const;
 export const surfaceElevated = "#FFFFFF" as const;
-export const surfaceRecessed = "#F0F4F8" as const;
-export const surfaceSubtle = "#E8EDF3" as const;
+export const surfaceRecessed = "#F0F5F8" as const;
+export const surfaceSubtle = "#E8EEF3" as const;
 
 // ── Blue: Biosynthetic Spectrum ──
 
-export const blueGlow = "#E8F4FD" as const;
-export const blueWash = "#DBEAFE" as const;
-export const blueIndicator = "#93C5FD" as const;
-export const bluePrimary = "#3B82F6" as const;
-export const blueVivid = "#2563EB" as const;
-export const blueDeep = "#1D4ED8" as const;
-export const blueMidnight = "#1E3A5F" as const;
-export const blueAbyss = "#0F172A" as const;
+export const blueGlow = "#E8F5FD" as const;
+export const blueWash = "#DBECFE" as const;
+export const blueIndicator = "#93CCFD" as const;
+export const bluePrimary = "#3B8EF6" as const;
+export const blueVivid = "#2570EB" as const;
+export const blueDeep = "#1D5AD8" as const;
+export const blueMidnight = "#1E3E5F" as const;
+export const blueAbyss = "#0F192A" as const;
 
-// ── Cool Grays (blue-shifted) ──
+// ── Cool Grays (cyan-shifted) ──
 
-export const gray50 = "#F8FAFC" as const;
-export const gray100 = "#F1F5F9" as const;
-export const gray200 = "#E2E8F0" as const;
-export const gray300 = "#CBD5E1" as const;
-export const gray400 = "#94A3B8" as const;
-export const gray500 = "#64748B" as const;
-export const gray600 = "#475569" as const;
-export const gray700 = "#334155" as const;
-export const gray800 = "#1E293B" as const;
-export const gray900 = "#0F172A" as const;
+export const gray50 = "#F7FAFD" as const;
+export const gray100 = "#F1F6F9" as const;
+export const gray200 = "#E2E9F0" as const;
+export const gray300 = "#CBD6E1" as const;
+export const gray400 = "#94A5B8" as const;
+export const gray500 = "#64778B" as const;
+export const gray600 = "#475769" as const;
+export const gray700 = "#334355" as const;
+export const gray800 = "#1E2B3B" as const;
+export const gray900 = "#0F192A" as const;
 
 // ── Semantic Accents ──
 
@@ -55,15 +55,15 @@ export const amberCaution = "#F59E0B" as const;
 
 // ── On-Colors (contrast-safe text pairings) ──
 
-export const onSurfacePrimary = "#475569" as const;
-export const onSurfaceElevated = "#475569" as const;
-export const onSurfaceRecessed = "#475569" as const;
+export const onSurfacePrimary = "#475769" as const;
+export const onSurfaceElevated = "#475769" as const;
+export const onSurfaceRecessed = "#475769" as const;
 export const onBluePrimary = "#FFFFFF" as const;
 export const onBlueVivid = "#FFFFFF" as const;
 export const onBlueDeep = "#FFFFFF" as const;
 export const onRedAlert = "#FFFFFF" as const;
-export const onTealVital = "#0F172A" as const;
-export const onAmberCaution = "#0F172A" as const;
+export const onTealVital = "#0F192A" as const;
+export const onAmberCaution = "#0F192A" as const;
 
 // ── Type Scale (Major Third, 1.250 ratio) ──
 
