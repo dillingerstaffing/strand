@@ -8,9 +8,20 @@
 
 ## Required CSS
 
+**CDN (no install):**
+
 ```html
-<link rel="stylesheet" href="path/to/@dillingerstaffing/strand/css/tokens.css">
-<link rel="stylesheet" href="path/to/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.5/css/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.5/css/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.5/css/base.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand-ui@0.5/dist/css/strand-ui.css">
+```
+
+**npm:**
+
+```html
+<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand/css/tokens.css">
+<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
 ```
 
 > **Token roles:** Don't guess which token to use. See [DESIGN_LANGUAGE.md 3.8: Color Roles (L290-L311)](./DESIGN_LANGUAGE.md#L290) for which color in which context, and [Appendix B: Token Quick Reference (L1372-L1431)](./DESIGN_LANGUAGE.md#L1372) for the full lookup table.
