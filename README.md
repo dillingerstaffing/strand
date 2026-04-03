@@ -24,7 +24,7 @@
 npx strand-ui init
 ```
 
-This installs tokens, copies CSS, creates config, and generates `STRAND.md` so AI coding agents (Claude Code, Cursor, Codex, etc.) automatically know how to build with Strand in your project.
+Auto-detects your framework (Preact/React, Vue, Svelte, or CSS-only), sets up tokens, CSS, and generates STRAND.md for AI coding agents.
 
 **Option B: Manual install**
 
@@ -82,6 +82,24 @@ import { Button, Card, Stack } from '@dillingerstaffing/strand-vue'
     </Stack>
   </Card>
 </template>
+```
+
+### Svelte
+
+```bash
+npm install svelte @dillingerstaffing/strand @dillingerstaffing/strand-svelte
+```
+
+```svelte
+<script>
+import { Button, Card, Stack } from '@dillingerstaffing/strand-svelte'
+</script>
+
+<Card variant="elevated" padding="lg">
+  <Stack gap={4}>
+    <Button>Get Started</Button>
+  </Stack>
+</Card>
 ```
 
 ### Preact (native)
@@ -199,6 +217,14 @@ See [HTML_REFERENCE.md](./HTML_REFERENCE.md) for every component's CSS class API
 
 **Using Bulma, Bootstrap, or another CSS framework?** Strand's `strand-` prefix means zero class name collisions. Load both stylesheets and use Strand components alongside your existing framework. See [Using Strand with Bulma](./docs/migration/from-bulma.md) or [Using Strand with Bootstrap](./docs/migration/from-bootstrap.md).
 
+**Bulma users:** For full visual cohesion, load the compatibility layer that makes Bulma components adopt the Strand aesthetic:
+
+```html
+<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand/bulma/strand-bulma-compat.css">
+```
+
+Or in Sass: `@use "@dillingerstaffing/strand/bulma/strand-bulma-use"`. See [Using Strand with Bulma](./docs/migration/from-bulma.md) for all three integration paths.
+
 ---
 
 ## Copy-Paste Components
@@ -209,10 +235,11 @@ Own the source. No dependency lock-in.
 npx strand-ui init          # Set up tokens in your project
 npx strand-ui add button    # Copy Button source to your codebase
 npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list          # See all 31 components
+npx strand-ui list          # See all 32 components
 ```
 
 After install, the CLI is available as `strand` (e.g., `strand add button`).
+The CLI auto-detects your framework (Preact, Vue, Svelte, or CSS-only) and copies the right file format.
 
 Copies the full TypeScript source (.tsx + .css) into your project. Modify freely.
 
@@ -220,7 +247,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-31 components across 5 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior.
+32 components across 5 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior.
 
 ### Input
 
@@ -246,6 +273,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 | `Tag` | Categorization label | `variant`: solid, outlined. `removable`, `onRemove`. Status colors |
 | `Table` | Tabular data display | `columns`: TableColumn[]. `data`: T[]. Sortable headers, responsive scroll |
 | `DataReadout` | Monospace metric display | `label` (overline), `value` (large display). The instrument readout pattern |
+| `CodeBlock` | Code snippet display | `code` (string), `language` (optional label). Terminal readout for code. |
 
 ### Layout
 

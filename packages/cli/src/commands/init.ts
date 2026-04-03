@@ -3,7 +3,7 @@ import * as path from "node:path";
 
 const CONFIG_FILE = "strand.config.json";
 
-export type Framework = "preact" | "vue" | "css-only";
+export type Framework = "preact" | "vue" | "svelte" | "css-only";
 
 function detectFramework(): Framework {
   const pkgPath = path.join(process.cwd(), "package.json");
@@ -13,6 +13,7 @@ function detectFramework(): Framework {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     if (allDeps.vue) return "vue";
+    if (allDeps.svelte) return "svelte";
     if (allDeps.preact || allDeps.react) return "preact";
   } catch {
     // Corrupt package.json, fall through
@@ -101,19 +102,33 @@ When building or modifying UI, read these files:
 - https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md (design constraints, token roles, interaction patterns, principles)
 `;
 
+  const bulmaNote =
+    "Using Bulma? Load @dillingerstaffing/strand/bulma/strand-bulma-compat.css for visual cohesion.";
+
   if (framework === "vue") {
     return `${base}
 Framework: Vue 3. Import components from @dillingerstaffing/strand-vue.
+${bulmaNote}
+`;
+  }
+
+  if (framework === "svelte") {
+    return `${base}
+Framework: Svelte. Import components from @dillingerstaffing/strand-svelte.
+${bulmaNote}
 `;
   }
 
   if (framework === "css-only") {
     return `${base}
 Framework: CSS only. Use Strand CSS classes directly per HTML_REFERENCE.md.
+${bulmaNote}
 `;
   }
 
-  return base;
+  return `${base}
+${bulmaNote}
+`;
 }
 
 function writeStrandMd(framework: Framework): void {
@@ -131,6 +146,7 @@ function writeStrandMd(framework: Framework): void {
 const FRAMEWORK_LABELS: Record<Framework, string> = {
   preact: "Preact/React",
   vue: "Vue 3",
+  svelte: "Svelte",
   "css-only": "CSS only",
 };
 
