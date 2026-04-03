@@ -9,11 +9,17 @@ export interface DataReadoutProps
   label: string;
   /** The large displayed value */
   value: string | number;
+  /** Size variant: sm (compact), md (default), lg (hero) */
+  size?: "sm" | "md" | "lg";
 }
 
 export const DataReadout = forwardRef<HTMLDivElement, DataReadoutProps>(
-  ({ label, value, className = "", ...rest }, ref) => {
-    const classes = ["strand-data-readout", className]
+  ({ label, value, size, className = "", ...rest }, ref) => {
+    const classes = [
+      "strand-data-readout",
+      size && size !== "md" ? `strand-data-readout--${size}` : "",
+      className,
+    ]
       .filter(Boolean)
       .join(" ");
 

@@ -93,6 +93,42 @@ describe("DataReadout", () => {
     expect(readout?.className).toContain("custom");
   });
 
+  // ── Size variants ──
+
+  it("applies sm size modifier class", () => {
+    const { container } = render(
+      <DataReadout label="Users" value="12.8K" size="sm" />,
+    );
+    const readout = container.querySelector(".strand-data-readout");
+    expect(readout?.className).toContain("strand-data-readout--sm");
+  });
+
+  it("applies lg size modifier class", () => {
+    const { container } = render(
+      <DataReadout label="Revenue" value="$1.2M" size="lg" />,
+    );
+    const readout = container.querySelector(".strand-data-readout");
+    expect(readout?.className).toContain("strand-data-readout--lg");
+  });
+
+  it("does not apply size modifier for md (default)", () => {
+    const { container } = render(
+      <DataReadout label="Metric" value="100" size="md" />,
+    );
+    const readout = container.querySelector(".strand-data-readout");
+    expect(readout?.className).not.toContain("strand-data-readout--md");
+    expect(readout?.className).not.toContain("strand-data-readout--sm");
+    expect(readout?.className).not.toContain("strand-data-readout--lg");
+  });
+
+  it("does not apply size modifier when size is omitted", () => {
+    const { container } = render(
+      <DataReadout label="Metric" value="100" />,
+    );
+    const readout = container.querySelector(".strand-data-readout");
+    expect(readout?.className).toBe("strand-data-readout");
+  });
+
   // ── Forwarded props ──
 
   it("forwards additional props", () => {

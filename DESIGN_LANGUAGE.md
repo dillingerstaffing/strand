@@ -870,6 +870,10 @@ This is enforced at the component level, not by the consumer. Container componen
 
 A consumer who places any component inside any container should never see asymmetric padding, clipped content at one edge, or children touching a container boundary. If they do, the container component has a bug.
 
+### 10.5 Composability Constraint
+
+Padding layers compound. When nesting containers with padding (e.g., page > card > viewport > card), available content width decreases at each level. Before composing more than two padded layers, calculate the remaining content width at the narrowest expected viewport. If content clips: use a compact (sm) component variant at the innermost level, reduce an inner padding tier, or reduce nesting depth. The preferred fix is always reducing nesting. A composition that requires four padding layers to show a single value has too many containers.
+
 ---
 
 ## Part XI: Component Design Patterns
@@ -939,6 +943,16 @@ When displaying processed data (metrics, scores, status), the interface becomes 
 ```
 
 **The DataReadout pattern**. Monospace overline + large light-weight value + tabular numerals. Is unique to this design language. It is the instrument panel made typographic.
+
+**Size variants.** The default value size (text-3xl, 39px) suits standard cards and standalone readouts. Compact and hero contexts need proportional scaling:
+
+| Modifier | Value Font | Pixel | Use Case |
+|---|---|---|---|
+| `--sm` | `--strand-text-xl` | 25px | Dashboard widgets, compact cards, sidebar metrics, dense data views |
+| (none) | `--strand-text-3xl` | 39px | Standard cards, standalone readouts |
+| `--lg` | `--strand-text-4xl` | 49px | Hero metrics, feature highlights, landing pages |
+
+The overline label stays at `--strand-text-xs` across all sizes. The label-to-value ratio shifts from 44% (sm) to 22% (lg): in larger readouts, the number is the hero and the label is the caption. The default (no modifier) preserves the current behavior.
 
 ### 11.3 Status Indicators
 

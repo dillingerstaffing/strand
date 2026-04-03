@@ -368,13 +368,26 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ### DataReadout
 
 ```html
+<!-- Default (md) -->
 <div class="strand-data-readout">
   <span class="strand-data-readout__label">Revenue</span>
   <span class="strand-data-readout__value">$142,800</span>
 </div>
+
+<!-- Small (compact dashboards, sidebar metrics) -->
+<div class="strand-data-readout strand-data-readout--sm">
+  <span class="strand-data-readout__label">Users</span>
+  <span class="strand-data-readout__value">12.8K</span>
+</div>
+
+<!-- Large (hero metrics, feature highlights) -->
+<div class="strand-data-readout strand-data-readout--lg">
+  <span class="strand-data-readout__label">Total Revenue</span>
+  <span class="strand-data-readout__value">$1.2M</span>
+</div>
 ```
 
-**Note:** Label uses mono font with uppercase tracking. Value uses mono font with tabular numerals at 3xl size. No variants or modifiers.
+**Sizes:** `--sm` (text-xl, 25px) | default (text-3xl, 39px) | `--lg` (text-4xl, 49px). Label stays xs across all sizes. Use `--sm` in compact cards and dense data views. Use `--lg` for hero and landing page metrics.
 
 ---
 
