@@ -24,22 +24,41 @@ jobs:
       - run: pnpm build
       - run: pnpm test
 
-      - name: Publish changed packages
+      - name: Publish @dillingerstaffing/strand
+        working-directory: packages/tokens
         run: |
-          publish_if_new() {
-            local pkg_dir="$1" pkg_name="$2"
-            local LOCAL=$(node -p "require('./${pkg_dir}/package.json').version")
-            local REMOTE=$(npm view "$pkg_name" version 2>/dev/null || echo "0.0.0")
-            if [ "$LOCAL" != "$REMOTE" ]; then
-              cd "$pkg_dir" && npm publish --access public --provenance && cd -
-              echo "Published ${pkg_name}@${LOCAL}"
-            else
-              echo "Skipped ${pkg_name}@${LOCAL} (already published)"
-            fi
-          }
-          publish_if_new packages/tokens @dillingerstaffing/strand
-          publish_if_new packages/strand-ui @dillingerstaffing/strand-ui
-          publish_if_new packages/cli strand-ui
+          LOCAL=$(node -p "require('./package.json').version")
+          REMOTE=$(npm view @dillingerstaffing/strand version 2>/dev/null || echo "0.0.0")
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            npm publish --access public --provenance
+            echo "Published @dillingerstaffing/strand@$LOCAL"
+          else
+            echo "Skipped @dillingerstaffing/strand@$LOCAL (already published)"
+          fi
+
+      - name: Publish @dillingerstaffing/strand-ui
+        working-directory: packages/strand-ui
+        run: |
+          LOCAL=$(node -p "require('./package.json').version")
+          REMOTE=$(npm view @dillingerstaffing/strand-ui version 2>/dev/null || echo "0.0.0")
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            npm publish --access public --provenance
+            echo "Published @dillingerstaffing/strand-ui@$LOCAL"
+          else
+            echo "Skipped @dillingerstaffing/strand-ui@$LOCAL (already published)"
+          fi
+
+      - name: Publish strand-ui (CLI)
+        working-directory: packages/cli
+        run: |
+          LOCAL=$(node -p "require('./package.json').version")
+          REMOTE=$(npm view strand-ui version 2>/dev/null || echo "0.0.0")
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            npm publish --access public --provenance
+            echo "Published strand-ui@$LOCAL"
+          else
+            echo "Skipped strand-ui@$LOCAL (already published)"
+          fi
 
       - name: Create release if versions changed
         run: |
