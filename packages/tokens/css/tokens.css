@@ -11,32 +11,32 @@
   --strand-font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
 
   /* ── SURFACE PALETTE ── */
-  --strand-surface-primary: #FAFCFE;
+  --strand-surface-primary: #FAFCFF;
   --strand-surface-elevated: #FFFFFF;
-  --strand-surface-recessed: #F0F4F8;
-  --strand-surface-subtle: #E8EDF3;
+  --strand-surface-recessed: #F0F5F8;
+  --strand-surface-subtle: #E8EEF3;
 
   /* ── BLUE: BIOSYNTHETIC SPECTRUM ── */
-  --strand-blue-glow: #E8F4FD;
-  --strand-blue-wash: #DBEAFE;
-  --strand-blue-indicator: #93C5FD;
-  --strand-blue-primary: #3B82F6;
-  --strand-blue-vivid: #2563EB;
-  --strand-blue-deep: #1D4ED8;
-  --strand-blue-midnight: #1E3A5F;
-  --strand-blue-abyss: #0F172A;
+  --strand-blue-glow: #E8F5FD;
+  --strand-blue-wash: #DBECFE;
+  --strand-blue-indicator: #93CCFD;
+  --strand-blue-primary: #3B8EF6;
+  --strand-blue-vivid: #2570EB;
+  --strand-blue-deep: #1D5AD8;
+  --strand-blue-midnight: #1E3E5F;
+  --strand-blue-abyss: #0F192A;
 
-  /* ── COOL GRAYS (blue-shifted) ── */
-  --strand-gray-50: #F8FAFC;
-  --strand-gray-100: #F1F5F9;
-  --strand-gray-200: #E2E8F0;
-  --strand-gray-300: #CBD5E1;
-  --strand-gray-400: #94A3B8;
-  --strand-gray-500: #64748B;
-  --strand-gray-600: #475569;
-  --strand-gray-700: #334155;
-  --strand-gray-800: #1E293B;
-  --strand-gray-900: #0F172A;
+  /* ── COOL GRAYS (cyan-shifted) ── */
+  --strand-gray-50: #F7FAFD;
+  --strand-gray-100: #F1F6F9;
+  --strand-gray-200: #E2E9F0;
+  --strand-gray-300: #CBD6E1;
+  --strand-gray-400: #94A5B8;
+  --strand-gray-500: #64778B;
+  --strand-gray-600: #475769;
+  --strand-gray-700: #334355;
+  --strand-gray-800: #1E2B3B;
+  --strand-gray-900: #0F192A;
 
   /* ── SEMANTIC ACCENTS ── */
   --strand-cyan-signal: #22D3EE;
@@ -49,18 +49,18 @@
   --strand-amber-caution: #F59E0B;
 
   /* ── ON-COLORS (contrast-safe text pairings) ── */
-  --strand-on-surface-primary: #475569;
-  --strand-on-surface-elevated: #475569;
-  --strand-on-surface-recessed: #475569;
+  --strand-on-surface-primary: #475769;
+  --strand-on-surface-elevated: #475769;
+  --strand-on-surface-recessed: #475769;
   --strand-on-blue-primary: #FFFFFF;
   --strand-on-blue-vivid: #FFFFFF;
   --strand-on-blue-deep: #FFFFFF;
   --strand-on-red-alert: #FFFFFF;
   --strand-on-red-alert-vivid: #FFFFFF;
   --strand-on-red-alert-deep: #FFFFFF;
-  --strand-on-teal-vital: #0F172A;
+  --strand-on-teal-vital: #0F192A;
   --strand-on-teal-tint: #0D7377;
-  --strand-on-amber-caution: #0F172A;
+  --strand-on-amber-caution: #0F192A;
   --strand-on-amber-tint: #92400E;
   --strand-on-red-tint: #991B1B;
 

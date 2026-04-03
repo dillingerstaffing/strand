@@ -636,21 +636,21 @@ describe("Grouped exports match flat exports", () => {
 
 describe("DESIGN_LANGUAGE.md value parity", () => {
   it("surface colors match spec", () => {
-    expect(tokens.surfacePrimary).toBe("#FAFCFE");
+    expect(tokens.surfacePrimary).toBe("#FAFCFF");
     expect(tokens.surfaceElevated).toBe("#FFFFFF");
-    expect(tokens.surfaceRecessed).toBe("#F0F4F8");
-    expect(tokens.surfaceSubtle).toBe("#E8EDF3");
+    expect(tokens.surfaceRecessed).toBe("#F0F5F8");
+    expect(tokens.surfaceSubtle).toBe("#E8EEF3");
   });
 
   it("blue spectrum matches spec", () => {
-    expect(tokens.blueGlow).toBe("#E8F4FD");
-    expect(tokens.blueWash).toBe("#DBEAFE");
-    expect(tokens.blueIndicator).toBe("#93C5FD");
-    expect(tokens.bluePrimary).toBe("#3B82F6");
-    expect(tokens.blueVivid).toBe("#2563EB");
-    expect(tokens.blueDeep).toBe("#1D4ED8");
-    expect(tokens.blueMidnight).toBe("#1E3A5F");
-    expect(tokens.blueAbyss).toBe("#0F172A");
+    expect(tokens.blueGlow).toBe("#E8F5FD");
+    expect(tokens.blueWash).toBe("#DBECFE");
+    expect(tokens.blueIndicator).toBe("#93CCFD");
+    expect(tokens.bluePrimary).toBe("#3B8EF6");
+    expect(tokens.blueVivid).toBe("#2570EB");
+    expect(tokens.blueDeep).toBe("#1D5AD8");
+    expect(tokens.blueMidnight).toBe("#1E3E5F");
+    expect(tokens.blueAbyss).toBe("#0F192A");
   });
 
   it("semantic accents match spec", () => {
