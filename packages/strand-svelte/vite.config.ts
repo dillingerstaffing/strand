@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
+import dts from "vite-plugin-dts";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
@@ -49,6 +50,10 @@ function collectCss(): import("vite").Plugin {
 export default defineConfig({
   plugins: [
     svelte(),
+    dts({
+      include: ["src/**/*.ts", "src/**/*.svelte"],
+      outDir: "dist",
+    }),
     collectCss(),
   ],
   build: {
