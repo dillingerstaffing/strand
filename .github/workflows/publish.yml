@@ -1,8 +1,8 @@
 name: Publish
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published]
 
 jobs:
   publish:
@@ -22,35 +22,19 @@ jobs:
       - run: pnpm build
       - run: pnpm test
 
-      - name: Publish @dillingerstaffing/strand
+      - name: Publish changed packages
         run: |
-          LOCAL=$(node -p "require('./packages/tokens/package.json').version")
-          REMOTE=$(npm view @dillingerstaffing/strand version 2>/dev/null || echo "0.0.0")
-          if [ "$LOCAL" != "$REMOTE" ]; then
-            pnpm --filter @dillingerstaffing/strand publish --no-git-checks --access public
-            echo "Published @dillingerstaffing/strand@$LOCAL"
-          else
-            echo "Skipped @dillingerstaffing/strand@$LOCAL (already published)"
-          fi
-
-      - name: Publish @dillingerstaffing/strand-ui
-        run: |
-          LOCAL=$(node -p "require('./packages/strand-ui/package.json').version")
-          REMOTE=$(npm view @dillingerstaffing/strand-ui version 2>/dev/null || echo "0.0.0")
-          if [ "$LOCAL" != "$REMOTE" ]; then
-            pnpm --filter @dillingerstaffing/strand-ui publish --no-git-checks --access public
-            echo "Published @dillingerstaffing/strand-ui@$LOCAL"
-          else
-            echo "Skipped @dillingerstaffing/strand-ui@$LOCAL (already published)"
-          fi
-
-      - name: Publish strand-ui (CLI)
-        run: |
-          LOCAL=$(node -p "require('./packages/cli/package.json').version")
-          REMOTE=$(npm view strand-ui version 2>/dev/null || echo "0.0.0")
-          if [ "$LOCAL" != "$REMOTE" ]; then
-            pnpm --filter strand-ui publish --no-git-checks --access public
-            echo "Published strand-ui@$LOCAL"
-          else
-            echo "Skipped strand-ui@$LOCAL (already published)"
-          fi
+          publish_if_new() {
+            local pkg_dir="$1" pkg_name="$2"
+            local LOCAL=$(node -p "require('./${pkg_dir}/package.json').version")
+            local REMOTE=$(npm view "$pkg_name" version 2>/dev/null || echo "0.0.0")
+            if [ "$LOCAL" != "$REMOTE" ]; then
+              pnpm --filter "$pkg_name" publish --no-git-checks --access public
+              echo "Published ${pkg_name}@${LOCAL}"
+            else
+              echo "Skipped ${pkg_name}@${LOCAL} (already published)"
+            fi
+          }
+          publish_if_new packages/tokens @dillingerstaffing/strand
+          publish_if_new packages/strand-ui @dillingerstaffing/strand-ui
+          publish_if_new packages/cli strand-ui
