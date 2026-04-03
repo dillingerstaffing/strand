@@ -71,7 +71,7 @@ jobs:
             "files": ["dist/"]
           }
           EOF
-            cd /tmp/strand-ui-publish && npm publish --access public
+            cd /tmp/strand-ui-publish && npm publish --access public --provenance
             echo "Published strand-ui@$CLI_VERSION"
           else
             echo "Skipped strand-ui@$CLI_VERSION (already published)"
