@@ -107,12 +107,16 @@ function ToastItem({ entry, onDismiss }: ToastItemProps) {
     .filter(Boolean)
     .join(" ");
 
+  const statusLabel =
+    entry.status === "success" ? "COMPLETE" : entry.status.toUpperCase();
+
   return (
     <div
       className={classes}
       role="status"
       aria-live={isUrgent ? "assertive" : "polite"}
     >
+      <span className="strand-toast__status">{statusLabel}</span>
       <span className="strand-toast__message">{entry.message}</span>
       <button
         type="button"
@@ -150,6 +154,9 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       .filter(Boolean)
       .join(" ");
 
+    const statusLabel =
+      status === "success" ? "COMPLETE" : status.toUpperCase();
+
     return (
       <div
         ref={ref}
@@ -158,6 +165,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         aria-live={isUrgent ? "assertive" : "polite"}
         {...rest}
       >
+        <span className="strand-toast__status">{statusLabel}</span>
         <span className="strand-toast__message">{message}</span>
         {onDismiss && (
           <button

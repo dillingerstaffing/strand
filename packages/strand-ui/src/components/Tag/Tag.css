@@ -22,7 +22,7 @@
 }
 
 .strand-tag--solid.strand-tag--teal {
-  background: rgba(20, 184, 166, 0.1);
+  background: var(--strand-surface-recessed);
   color: var(--strand-on-teal-tint);
 }
 
@@ -32,12 +32,12 @@
 }
 
 .strand-tag--solid.strand-tag--amber {
-  background: rgba(245, 158, 11, 0.1);
+  background: var(--strand-surface-recessed);
   color: var(--strand-on-amber-tint);
 }
 
 .strand-tag--solid.strand-tag--red {
-  background: rgba(239, 68, 68, 0.1);
+  background: var(--strand-surface-recessed);
   color: var(--strand-on-red-tint);
 }
 

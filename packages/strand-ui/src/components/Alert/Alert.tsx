@@ -38,8 +38,12 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       .filter(Boolean)
       .join(" ");
 
+    const statusLabel =
+      status === "success" ? "COMPLETE" : status.toUpperCase();
+
     return (
       <div ref={ref} className={classes} role={role} {...rest}>
+        <span className="strand-alert__status">{statusLabel}</span>
         <div className="strand-alert__content">{children}</div>
         {dismissible && (
           <button

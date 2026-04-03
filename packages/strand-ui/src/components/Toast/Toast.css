@@ -22,7 +22,6 @@
   padding: var(--strand-space-4) var(--strand-space-5);
   background: var(--strand-surface-elevated);
   border-radius: var(--strand-radius-lg);
-  border-left: 4px solid transparent;
   box-shadow: var(--strand-elevation-3);
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-sm);
@@ -30,22 +29,21 @@
   animation: strand-toast-in var(--strand-duration-normal) var(--strand-ease-out-expo);
 }
 
-/* ── Status accents ── */
-.strand-toast--info {
-  border-left-color: var(--strand-blue-primary);
+/* ── Status prefix ── */
+.strand-toast__status {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-semibold);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  margin-right: var(--strand-space-3);
+  flex-shrink: 0;
 }
 
-.strand-toast--success {
-  border-left-color: var(--strand-green-positive);
-}
-
-.strand-toast--warning {
-  border-left-color: var(--strand-amber-caution);
-}
-
-.strand-toast--error {
-  border-left-color: var(--strand-red-alert);
-}
+.strand-toast--info .strand-toast__status { color: var(--strand-blue-primary); }
+.strand-toast--success .strand-toast__status { color: var(--strand-teal-vital); }
+.strand-toast--warning .strand-toast__status { color: var(--strand-amber-caution); }
+.strand-toast--error .strand-toast__status { color: var(--strand-red-alert); }
 
 /* ── Message ── */
 .strand-toast__message {
@@ -60,8 +58,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: var(--strand-space-6);
+  height: var(--strand-space-6);
   margin-left: var(--strand-space-3);
   padding: 0;
   border: none;

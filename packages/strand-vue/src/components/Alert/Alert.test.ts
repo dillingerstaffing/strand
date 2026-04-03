@@ -97,4 +97,44 @@ describe('Alert', () => {
     const dismiss = container.querySelector('.strand-alert__dismiss')
     expect(dismiss).toHaveTextContent('\u00D7')
   })
+
+  it('renders status prefix for info', () => {
+    const { container } = render(Alert, {
+      props: { status: 'info' },
+      slots: { default: 'Info' },
+    })
+    const status = container.querySelector('.strand-alert__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('INFO')
+  })
+
+  it('renders status prefix for success as COMPLETE', () => {
+    const { container } = render(Alert, {
+      props: { status: 'success' },
+      slots: { default: 'OK' },
+    })
+    const status = container.querySelector('.strand-alert__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('COMPLETE')
+  })
+
+  it('renders status prefix for warning', () => {
+    const { container } = render(Alert, {
+      props: { status: 'warning' },
+      slots: { default: 'Warn' },
+    })
+    const status = container.querySelector('.strand-alert__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('WARNING')
+  })
+
+  it('renders status prefix for error', () => {
+    const { container } = render(Alert, {
+      props: { status: 'error' },
+      slots: { default: 'Fail' },
+    })
+    const status = container.querySelector('.strand-alert__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('ERROR')
+  })
 })

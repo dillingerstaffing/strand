@@ -9,10 +9,12 @@
 
 /* ── Label ── */
 .strand-form-field__label {
-  font-family: var(--strand-font-sans);
-  font-size: var(--strand-text-sm);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
   font-weight: var(--strand-weight-medium);
-  color: var(--strand-gray-700);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
   line-height: var(--strand-leading-snug);
 }
 

@@ -917,7 +917,7 @@ Forms are the primary input surface. They collect structured data for processing
 }
 ```
 
-**The monospace uppercase label** is the laboratory signature. It says "this field has a purpose" in the same way a specimen label on a vial says "this sample has been classified." This single pattern. Monospace, 11px, uppercase, tracked, gray-500. Is the most distinctive typographic element in the entire design language.
+**The monospace uppercase label** is the laboratory signature. It says "this field has a purpose" in the same way a specimen label on a vial says "this sample has been classified." This single pattern. Monospace, 11px, uppercase, tracked, gray-500. Is the most distinctive typographic element in the entire design language. **All form field labels MUST use this pattern** (font-mono, text-xs, weight-medium, tracking-widest, uppercase, gray-500). Sans-serif labels at body size violate the specimen instrument metaphor and are not permitted.
 
 ### 11.2 Data Display (The Readout Panel)
 
@@ -1021,10 +1021,12 @@ Navigation is the laboratory directory. It tells you where you are and what inst
 
 ### 11.6 Feedback Patterns
 
+Diagnostic events use a **monospace status prefix** (INFO / COMPLETE / WARNING / ERROR) rendered as the first element in the feedback component. Status color is applied to the **prefix text only**, never as a background tint or border stripe. Backgrounds are neutral: `surface-recessed` for inline alerts, `surface-elevated` for floating toasts. No colored borders or tinted backgrounds on feedback components.
+
 | Pattern | Treatment |
 |---|---|
-| Toast (transient) | Enters from top-right, auto-dismisses, Level 2 elevation, sr-only live region |
-| Alert (persistent) | Full-width within content flow, colored left border (4px), dismissible optional |
+| Toast (transient) | Monospace status prefix, surface-elevated background, Level 3 elevation, auto-dismisses, sr-only live region |
+| Alert (persistent) | Monospace status prefix, surface-recessed background, full-width within content flow, dismissible optional |
 | Dialog (modal) | Centered, focus-trapped, Level 3 elevation, backdrop overlay, escape-to-close |
 | Tooltip (contextual) | Small, positioned, delay on show (200ms), no delay on hide |
 | Progress (status) | Bar or ring, determinate or indeterminate, monospace percentage label |

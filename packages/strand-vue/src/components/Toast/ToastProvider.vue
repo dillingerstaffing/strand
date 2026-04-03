@@ -54,6 +54,17 @@ onUnmounted(() => {
 function isUrgent(status: ToastStatus): boolean {
   return status === 'error' || status === 'warning'
 }
+
+const statusLabels: Record<string, string> = {
+  info: 'INFO',
+  success: 'COMPLETE',
+  warning: 'WARNING',
+  error: 'ERROR',
+}
+
+function statusLabel(status: ToastStatus): string {
+  return statusLabels[status] ?? status.toUpperCase()
+}
 </script>
 
 <template>
@@ -66,6 +77,7 @@ function isUrgent(status: ToastStatus): boolean {
       role="status"
       :aria-live="isUrgent(entry.status) ? 'assertive' : 'polite'"
     >
+      <span class="strand-toast__status">{{ statusLabel(entry.status) }}</span>
       <span class="strand-toast__message">{{ entry.message }}</span>
       <button
         type="button"

@@ -27,6 +27,15 @@ const classes = computed(() =>
     .filter(Boolean)
     .join(' '),
 )
+
+const statusLabels: Record<string, string> = {
+  info: 'INFO',
+  success: 'COMPLETE',
+  warning: 'WARNING',
+  error: 'ERROR',
+}
+
+const statusLabel = computed(() => statusLabels[props.status] ?? props.status.toUpperCase())
 </script>
 
 <template>
@@ -35,6 +44,7 @@ const classes = computed(() =>
     role="status"
     :aria-live="isUrgent ? 'assertive' : 'polite'"
   >
+    <span class="strand-toast__status">{{ statusLabel }}</span>
     <span class="strand-toast__message">{{ message }}</span>
     <button
       type="button"
