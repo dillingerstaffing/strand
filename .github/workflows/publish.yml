@@ -17,10 +17,37 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+          registry-url: https://registry.npmjs.org
       - run: npm install -g npm@latest
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
+
+      # Scoped packages (OIDC provenance)
       - run: pnpm --filter @dillingerstaffing/strand publish --no-git-checks --access public
       - run: pnpm --filter @dillingerstaffing/strand-ui publish --no-git-checks --access public
       - run: pnpm --filter @dillingerstaffing/strand-cli publish --no-git-checks --access public
+
+      # Unscoped CLI (strand-ui on npm, bin: strand)
+      - name: Publish unscoped strand-ui CLI
+        run: |
+          CLI_VERSION=$(node -p "require('./packages/cli/package.json').version")
+          mkdir -p /tmp/strand-ui-publish
+          cp -r packages/cli/dist /tmp/strand-ui-publish/dist
+          chmod +x /tmp/strand-ui-publish/dist/index.js
+          cat > /tmp/strand-ui-publish/package.json << EOF
+          {
+            "name": "strand-ui",
+            "version": "${CLI_VERSION}",
+            "description": "CLI for the Strand design language. Add components, tokens, and base styles to your project.",
+            "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
+            "license": "MIT",
+            "keywords": ["design-system", "cli", "strand", "ui-components"],
+            "homepage": "https://dillingerstaffing.com/labs/strand",
+            "repository": { "type": "git", "url": "https://github.com/dillingerstaffing/strand" },
+            "type": "module",
+            "bin": { "strand": "./dist/index.js" },
+            "files": ["dist/"]
+          }
+          EOF
+          cd /tmp/strand-ui-publish && npm publish --access public
