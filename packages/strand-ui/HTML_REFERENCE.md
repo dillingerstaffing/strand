@@ -1,6 +1,8 @@
 # Strand HTML Reference
 
-CSS class API for using Strand UI components as raw HTML. Use this when building without the Preact/React library, for static sites, documentation pages, or server-rendered HTML.
+CSS class API for Strand UI components. For design constraints, token roles, interaction patterns, and principles, read [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md).
+
+> **Before writing any Strand HTML**, read [DESIGN_LANGUAGE.md Part II: Named Principles (L57-L193)](./DESIGN_LANGUAGE.md#L57). These 10 principles are hard constraints, not guidelines. Violating them produces valid HTML that looks wrong.
 
 ## Required CSS
 
@@ -8,6 +10,8 @@ CSS class API for using Strand UI components as raw HTML. Use this when building
 <link rel="stylesheet" href="path/to/@dillingerstaffing/strand/css/tokens.css">
 <link rel="stylesheet" href="path/to/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
 ```
+
+> **Token roles:** Don't guess which token to use. See [DESIGN_LANGUAGE.md 3.8: Color Roles (L290-L311)](./DESIGN_LANGUAGE.md#L290) for which color in which context, and [Appendix B: Token Quick Reference (L1372-L1431)](./DESIGN_LANGUAGE.md#L1372) for the full lookup table.
 
 ## Presentation Mode
 
@@ -25,7 +29,7 @@ The `disabled` attribute prevents interaction. `.strand-static` overrides the di
 
 ## Recessed Viewport
 
-Use `.strand-viewport` for component previews and showcase containers. It creates a recessed instrument panel effect (sits below the card surface):
+Use `.strand-viewport` for component previews and showcase containers:
 
 ```html
 <div class="strand-viewport strand-static">
@@ -33,39 +37,32 @@ Use `.strand-viewport` for component previews and showcase containers. It create
 </div>
 ```
 
-Provides: `--strand-surface-recessed` background, inset shadow, `--strand-radius-lg` corners, `--strand-space-6` padding.
+> **Why recessed?** See [DESIGN_LANGUAGE.md 7.3: The Recessed Viewport (L710-L725)](./DESIGN_LANGUAGE.md#L710) and [7.2: Container Elevation Contexts (L698-L708)](./DESIGN_LANGUAGE.md#L698).
 
 ## Padding Tiers
 
+> Tier values, usage guidance, and the 30% validation test: [DESIGN_LANGUAGE.md 5.2: Component Padding Tiers (L434-L444)](./DESIGN_LANGUAGE.md#L434). Spacing hierarchy rule (gap > padding): [5.3: Spacing Hierarchy (L446-L456)](./DESIGN_LANGUAGE.md#L446).
+
 Card padding tiers (used via `strand-card--pad-{sm|md|lg}`):
-- `sm`: 16px (compact widgets, dense UIs)
-- `md`: 24px (standard cards, default for most contexts)
-- `lg`: 40px (showcase, hero, documentation)
+- `sm`: 16px -- `md`: 24px -- `lg`: 40px
 
 ## Focus States
 
-All interactive elements include `:focus-visible` styling per Part XII of the design language:
-
-```css
-:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
-}
-```
-
-- Appears on keyboard navigation only (not on mouse click)
-- 2px solid blue outline with 2px offset from the element edge
-- Applied to: buttons, links, interactive cards, tab buttons, sort buttons, nav links, hamburger menu
+> Full specification: [DESIGN_LANGUAGE.md 14.3: Focus Indicators (L1145-L1151)](./DESIGN_LANGUAGE.md#L1145). Always `:focus-visible`, never all `:focus`.
 
 No additional classes needed. Focus rings are built into each component's CSS.
 
 ## Boundary Integrity
 
-All container components (Grid, Stack, Card, Container) enforce boundary integrity. Children cannot visually breach the parent's padding zone. This is enforced at the CSS level via `overflow: hidden`, `max-width: 100%`, and `min-width: 0` on children. You do not need to add these yourself.
+> Full specification: [DESIGN_LANGUAGE.md 10.4: Boundary Integrity (L865-L871)](./DESIGN_LANGUAGE.md#L865). Composability depth rule: [10.5: Composability Constraint (L873-L877)](./DESIGN_LANGUAGE.md#L873).
+
+All container components (Grid, Stack, Card, Container) enforce boundary integrity via `overflow: hidden`, `max-width: 100%`, and `min-width: 0` on children. You do not need to add these yourself.
 
 ---
 
 ## Input Components
+
+> **Interaction states for all inputs** (hover, focus, pressed, disabled, loading): [DESIGN_LANGUAGE.md Part XII: Interaction State System (L1013-L1067)](./DESIGN_LANGUAGE.md#L1013).
 
 ### Button
 
@@ -80,6 +77,8 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 **Modifiers:** `strand-btn--full-width` | `strand-btn--icon-only`
 **Loading:** Add class `strand-btn--loading` + `<span class="strand-btn__spinner" aria-hidden="true"></span>` before content. Set content span `style="visibility:hidden"`.
 **Disabled:** Add `disabled` attribute. Use `.strand-static` parent to show full opacity.
+
+> **Blue Discipline:** Only `--primary` buttons use blue. Non-interactive blue is a violation. See [DESIGN_LANGUAGE.md Principle 4 (L102-L112)](./DESIGN_LANGUAGE.md#L102).
 
 ---
 
@@ -127,8 +126,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **States:** `strand-select--error` | `strand-select--disabled`
-**Error:** Add `strand-select--error` to wrapper and `aria-invalid="true"` to the select.
-**Disabled:** Add `strand-select--disabled` to wrapper and `disabled` to the select.
 **Note:** The `strand-select__arrow` span renders the dropdown caret via CSS borders. Always include it.
 
 ---
@@ -167,7 +164,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **States:** `strand-radio--checked` | `strand-radio--disabled`
-**Unchecked:** Omit `strand-radio--checked`. The dot is hidden via `transform: scale(0)` in CSS.
 **Note:** The native input is visually hidden. The dot scales up when `strand-radio--checked` is present. Group radios with the same `name` attribute.
 
 ---
@@ -185,7 +181,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 **States:** `strand-switch--checked` | `strand-switch--disabled`
 **Off:** Omit `strand-switch--checked`. Set `aria-checked="false"`.
-**Disabled:** Add `strand-switch--disabled` to the label and `disabled` to the button.
 **Note:** The track is a `<button>` with `role="switch"`. The thumb translates right when checked via CSS.
 
 ---
@@ -200,7 +195,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **States:** `strand-slider--disabled`
-**Disabled:** Add `strand-slider--disabled` to wrapper and `disabled` to the input.
 **Note:** Thumb styling uses both `-webkit-slider-thumb` and `-moz-range-thumb` pseudo-elements in the CSS.
 
 ---
@@ -226,7 +220,9 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 **States:** `strand-form-field--error`
 **Error:** Replace `strand-form-field__hint` with `<p class="strand-form-field__error" id="email-error" role="alert">Invalid email address.</p>` and add `strand-form-field--error` to the wrapper.
 **Required indicator:** Include `<span class="strand-form-field__required" aria-hidden="true">*</span>` inside the label.
-**Note:** The `for` attribute on the label must match the `id` on the input control.
+**Note:** The `for` attribute on the label must match the `id` on the input control. FormField wraps ANY input component (Input, Select, Textarea, Checkbox, Radio, Switch, Slider).
+
+> **Label typography:** Labels render as monospace uppercase with ultra tracking. This is the laboratory specimen label pattern. See [DESIGN_LANGUAGE.md 11.1: Form Instruments (L877-L916)](./DESIGN_LANGUAGE.md#L877).
 
 ---
 
@@ -243,6 +239,8 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 **Variants:** `strand-card--elevated` | `strand-card--outlined` | `strand-card--interactive`
 **Padding:** `strand-card--pad-none` | `strand-card--pad-sm` | `strand-card--pad-md` | `strand-card--pad-lg`
 **Note:** `strand-card--interactive` adds hover lift and cursor pointer. Use for clickable cards.
+
+> **Elevation:** Cards at rest use Level 1 shadow. On hover, Level 2. See [DESIGN_LANGUAGE.md Principle 5: Earned Elevation (L114-L125)](./DESIGN_LANGUAGE.md#L114) and [7.2: Container Elevation Contexts (L698-L708)](./DESIGN_LANGUAGE.md#L698).
 
 ---
 
@@ -269,6 +267,8 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 **Display modes:** `strand-badge--dot` (8px circle, no text) | `strand-badge--count` (pill with number)
 **Colors:** `strand-badge--default` | `strand-badge--teal` | `strand-badge--blue` | `strand-badge--amber` | `strand-badge--red`
 **Note:** When wrapping children, omit `strand-badge--inline`. The indicator auto-positions to top-right via `position: absolute`.
+
+> **Semantic colors only in data contexts.** Badge colors encode status, not decoration. See [DESIGN_LANGUAGE.md 3.7: Usage Rules (L281-L288)](./DESIGN_LANGUAGE.md#L281).
 
 ---
 
@@ -318,8 +318,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </span>
 ```
 
-**Note:** Color classes combine with variant classes (e.g., `strand-tag--solid strand-tag--blue`). The remove icon SVG is required.
-
 ---
 
 ### Table
@@ -340,11 +338,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
         <td class="strand-table__td">Engineer</td>
         <td class="strand-table__td">Active</td>
       </tr>
-      <tr class="strand-table__row">
-        <td class="strand-table__td">Bob</td>
-        <td class="strand-table__td">Designer</td>
-        <td class="strand-table__td">Away</td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -361,7 +354,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **Sort indicators:** `&#8593;` (ascending) | `&#8595;` (descending) | `&#8597;` (unsorted)
-**Note:** `strand-table-wrapper` provides horizontal scroll on overflow. Rows highlight on hover.
+**Note:** `strand-table-wrapper` provides horizontal scroll on overflow. Rows highlight on hover to `--strand-blue-glow`.
 
 ---
 
@@ -387,16 +380,20 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </div>
 ```
 
-**Sizes:** `--sm` (text-xl, 25px) | default (text-3xl, 39px) | `--lg` (text-4xl, 49px). Label stays xs across all sizes. Use `--sm` in compact cards and dense data views. Use `--lg` for hero and landing page metrics.
+**Sizes:** `--sm` (text-xl, 25px) | default (text-3xl, 39px) | `--lg` (text-4xl, 49px). Label stays xs across all sizes.
+
+> **The DataReadout pattern** is uniquely Strand: monospace overline + large light-weight value + tabular numerals. See [DESIGN_LANGUAGE.md 11.2: Data Display (L918-L955)](./DESIGN_LANGUAGE.md#L918).
 
 ---
 
 ## Layout Components
 
+> **Spacing rules:** 4px base unit, padding tiers, and the gap > padding hierarchy: [DESIGN_LANGUAGE.md Part V: Spacing (L410-L496)](./DESIGN_LANGUAGE.md#L410). Responsive breakpoints and container system: [Part X: Layout (L829-L877)](./DESIGN_LANGUAGE.md#L829).
+
 ### Stack
 
 ```html
-<div class="strand-stack strand-stack--vertical" style="gap: var(--strand-space-4);">
+<div class="strand-stack strand-stack--vertical strand-stack--gap-4">
   <div>Item 1</div>
   <div>Item 2</div>
   <div>Item 3</div>
@@ -405,10 +402,9 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 **Direction:** `strand-stack--vertical` | `strand-stack--horizontal`
 **Gap (utility classes):** `strand-stack--gap-1` | `strand-stack--gap-2` | `strand-stack--gap-3` | `strand-stack--gap-4` | `strand-stack--gap-5` | `strand-stack--gap-6` | `strand-stack--gap-8`
-**Alignment:** `strand-stack--align-start` | `strand-stack--align-center` | `strand-stack--align-end` (default is stretch)
+**Alignment:** `strand-stack--align-start` | `strand-stack--align-center` | `strand-stack--align-end`
 **Justification:** `strand-stack--justify-start` | `strand-stack--justify-center` | `strand-stack--justify-end` | `strand-stack--justify-between` | `strand-stack--justify-around`
 **Wrap:** `strand-stack--wrap`
-**Note:** Use either the gap utility class (`strand-stack--gap-4`) or inline `style="gap: var(--strand-space-4)"`. The React component uses inline style; utility classes are available for pure HTML.
 
 ---
 
@@ -422,9 +418,11 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </div>
 ```
 
-**Columns (utility classes):** `strand-grid--cols-2` | `strand-grid--cols-3` | `strand-grid--cols-4`
-**Gap (utility classes):** `strand-grid--gap-1` | `strand-grid--gap-2` | `strand-grid--gap-3` | `strand-grid--gap-4` | `strand-grid--gap-5` | `strand-grid--gap-6` | `strand-grid--gap-8`
-**Note:** For column counts beyond 4, use inline style: `style="grid-template-columns: repeat(6, 1fr); gap: var(--strand-space-4);"`. The React component always uses inline style.
+**Columns:** `strand-grid--cols-2` | `strand-grid--cols-3` | `strand-grid--cols-4`
+**Gap:** `strand-grid--gap-1` through `strand-grid--gap-8`
+**Note:** For column counts beyond 4, use inline style: `style="grid-template-columns: repeat(6, 1fr); gap: var(--strand-space-4);"`.
+
+> **Composability:** Before nesting grids inside cards inside previews, check content width. See [DESIGN_LANGUAGE.md 10.5: Composability Constraint (L873-L877)](./DESIGN_LANGUAGE.md#L873).
 
 ---
 
@@ -436,8 +434,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </div>
 ```
 
-**Sizes:** `strand-container--narrow` | `strand-container--default` | `strand-container--wide` | `strand-container--full`
-**Note:** Centers content with `margin-inline: auto` and responsive horizontal padding via `clamp(1.5rem, 5vw, 4rem)`.
+**Sizes:** `strand-container--narrow` (640px) | `strand-container--default` (768px) | `strand-container--wide` (1024px) | `strand-container--full` (1280px)
 
 ---
 
@@ -465,8 +462,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 <div class="strand-divider strand-divider--vertical" role="separator" aria-orientation="vertical"></div>
 ```
 
-**Note:** Plain horizontal uses `<hr>`. Labeled horizontal uses `<div>` with two `__line` spans flanking the label. Vertical dividers use `align-self: stretch` to fill the parent height.
-
 ---
 
 ### Section
@@ -481,7 +476,8 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 **Variants:** `strand-section--standard` | `strand-section--hero`
 **Backgrounds:** `strand-section--bg-primary` | `strand-section--bg-elevated` | `strand-section--bg-recessed`
-**Note:** `standard` uses responsive vertical padding `clamp(4rem, 8vw, 8rem)`. `hero` uses `clamp(6rem, 12vw, 12rem)`. Pair with `strand-container` inside for horizontal constraints.
+
+> **Section rhythm** and responsive padding values: [DESIGN_LANGUAGE.md 5.4: Section Rhythm (L458-L466)](./DESIGN_LANGUAGE.md#L458). Background and surface choices: [Part IX: Surfaces and Backgrounds (L749-L826)](./DESIGN_LANGUAGE.md#L749).
 
 ---
 
@@ -494,7 +490,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **External:** Add `target="_blank"` and `rel="noopener noreferrer"`.
-**Note:** The underline animates on hover from 0% to 100% width via `background-size`. No variant or modifier classes.
+**Note:** The underline animates on hover from 0% to 100% width via `background-size`.
 
 ---
 
@@ -525,7 +521,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 **Active tab:** Add `strand-tabs__tab--active` + `aria-selected="true"` + `tabindex="0"`.
 **Inactive tabs:** Set `aria-selected="false"` + `tabindex="-1"`. Add `hidden` to their panels.
-**Note:** The tablist has a bottom border. Active tab shows a blue bottom border. Wire `aria-controls` / `aria-labelledby` IDs correctly. Arrow key navigation requires JavaScript.
+**Note:** Wire `aria-controls` / `aria-labelledby` IDs correctly. Arrow key navigation requires JavaScript.
 
 ---
 
@@ -549,7 +545,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </nav>
 ```
 
-**Note:** The last item uses `strand-breadcrumb__current` with `aria-current="page"` instead of a link. Separators use `aria-hidden="true"`. The first item has no separator.
+**Note:** Last item uses `strand-breadcrumb__current` with `aria-current="page"`. Separators use `aria-hidden="true"`. First item has no separator.
 
 ---
 
@@ -559,7 +555,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 <nav class="strand-nav" aria-label="Main navigation">
   <div class="strand-nav__inner">
     <div class="strand-nav__logo">
-      <!-- Logo element (image, SVG, or text) -->
       <strong>Brand</strong>
     </div>
     <div class="strand-nav__items">
@@ -568,7 +563,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
       <a href="/contact" class="strand-nav__link">Contact</a>
     </div>
     <div class="strand-nav__actions">
-      <!-- Action buttons or elements -->
       <button class="strand-btn strand-btn--primary strand-btn--sm" type="button">
         <span class="strand-btn__content">Sign in</span>
       </button>
@@ -577,7 +571,6 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
       <span class="strand-nav__hamburger-icon" aria-hidden="true"></span>
     </button>
   </div>
-  <!-- Mobile menu (hidden by default, shown via JS toggling display) -->
   <div class="strand-nav__mobile-menu" style="display:none;">
     <a href="/" class="strand-nav__mobile-link strand-nav__mobile-link--active" aria-current="page">Home</a>
     <a href="/about" class="strand-nav__mobile-link">About</a>
@@ -587,7 +580,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **Active link:** `strand-nav__link--active` (desktop) | `strand-nav__mobile-link--active` (mobile)
-**Note:** The nav bar is 64px tall. Desktop items and actions hide below 768px; the hamburger and mobile menu show instead. The hamburger icon is a CSS-only three-line icon (middle line + `::before`/`::after` pseudo-elements). Toggle mobile menu visibility with JavaScript.
+**Note:** Nav is 64px tall. Desktop items hide below 768px; hamburger and mobile menu show instead. Toggle mobile menu visibility with JavaScript.
 
 ---
 
@@ -603,7 +596,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **Statuses:** `strand-toast--info` | `strand-toast--success` | `strand-toast--warning` | `strand-toast--error`
-**Toast container (for stacking multiple toasts):**
+**Toast container (for stacking):**
 
 ```html
 <div class="strand-toast__container">
@@ -611,7 +604,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </div>
 ```
 
-**Note:** Container is fixed to bottom-right (`position: fixed`). Use `aria-live="assertive"` for `warning` and `error` statuses. Each status sets a colored left border accent. Dismiss button renders `&times;`.
+**Note:** Container is fixed to bottom-right. Use `aria-live="assertive"` for `warning` and `error`.
 
 ---
 
@@ -624,16 +617,8 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **Statuses:** `strand-alert--info` | `strand-alert--success` | `strand-alert--warning` | `strand-alert--error`
-**Dismissible:** Add a dismiss button after content:
-
-```html
-<div class="strand-alert strand-alert--warning" role="alert">
-  <div class="strand-alert__content">Disk space running low.</div>
-  <button type="button" class="strand-alert__dismiss" aria-label="Dismiss">&times;</button>
-</div>
-```
-
-**Note:** Use `role="alert"` for `warning` and `error`, `role="status"` for `info` and `success`. Each status has a colored left border and tinted background.
+**Dismissible:** Add `<button type="button" class="strand-alert__dismiss" aria-label="Dismiss">&times;</button>` after content.
+**Note:** Use `role="alert"` for `warning` and `error`, `role="status"` for `info` and `success`.
 
 ---
 
@@ -653,7 +638,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </div>
 ```
 
-**Note:** The backdrop covers the viewport with a semi-transparent overlay (`position: fixed; inset: 0`). The panel is centered, max-width 560px, with elevation shadow. Focus trap and scroll lock require JavaScript. Omit the `strand-dialog__header` div if no title is needed.
+**Note:** Backdrop covers the viewport. Panel is centered, max-width 560px. Focus trap and scroll lock require JavaScript.
 
 ---
 
@@ -670,7 +655,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 **Positions:** `strand-tooltip--top` | `strand-tooltip--right` | `strand-tooltip--bottom` | `strand-tooltip--left`
 **Visibility:** Add `strand-tooltip--visible` to show. Without it, tooltip has `opacity: 0`.
-**Note:** The wrapper needs `position: relative` (provided by `strand-tooltip__wrapper`). For static display, add `strand-tooltip--visible` directly. For interactive use, toggle that class via JavaScript on hover/focus. Wire `aria-describedby` on the wrapper to the tooltip `id`.
+**Note:** Wire `aria-describedby` on the wrapper to the tooltip `id`. For interactive use, toggle `strand-tooltip--visible` via JavaScript on hover/focus.
 
 ---
 
@@ -711,7 +696,9 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 **Sizes (bar):** `strand-progress--sm` (4px) | `strand-progress--md` (8px) | `strand-progress--lg` (12px)
 **Sizes (ring):** `strand-progress--sm` (24px) | `strand-progress--md` (40px) | `strand-progress--lg` (56px)
-**Note:** For indeterminate bars, omit `aria-valuenow`; the fill animates via CSS. For rings, compute `stroke-dasharray` as `2 * PI * radius` and `stroke-dashoffset` as `dasharray * (1 - value/100)`. Ring dimensions by size: sm=24 (r=10.5), md=40 (r=18.5), lg=56 (r=26.5). Stroke width is always 3.
+**Note:** For rings, compute `stroke-dasharray` as `2 * PI * radius` and `stroke-dashoffset` as `dasharray * (1 - value/100)`. Ring dimensions by size: sm=24 (r=10.5), md=40 (r=18.5), lg=56 (r=26.5). Stroke width is always 3.
+
+> **Loading state patterns:** [DESIGN_LANGUAGE.md 6.6: Loading States (L624-L654)](./DESIGN_LANGUAGE.md#L624).
 
 ---
 
@@ -725,7 +712,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **Sizes:** `strand-spinner--sm` (16px) | `strand-spinner--md` (20px) | `strand-spinner--lg` (32px)
-**Note:** The ring animates a spinning border. `strand-spinner__sr-only` provides accessible text (visually hidden, read by screen readers). Always include it.
+**Note:** `strand-spinner__sr-only` provides accessible text (visually hidden). Always include it.
 
 ---
 
@@ -736,7 +723,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
   style="width: 100%; height: 1em;"></div>
 ```
 
-**Variants:** `strand-skeleton--text` (4px border-radius, 1em default height) | `strand-skeleton--rectangle` (md border-radius) | `strand-skeleton--circle` (full border-radius)
+**Variants:** `strand-skeleton--text` (4px radius) | `strand-skeleton--rectangle` (md radius) | `strand-skeleton--circle` (full radius)
 **Shimmer:** Always add `strand-skeleton--shimmer` for the animated gradient effect.
 **Sizing:** Set `width` and `height` via inline `style`. For circles, set equal width and height.
 
@@ -751,3 +738,5 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **Note:** Always include `aria-hidden="true"`. Skeletons are placeholder visuals, not interactive.
+
+> **Animation:** Shimmer is 1.8s cycle. All animations respect `prefers-reduced-motion`. See [DESIGN_LANGUAGE.md 6.7: Reduced Motion (L656-L669)](./DESIGN_LANGUAGE.md#L656).
