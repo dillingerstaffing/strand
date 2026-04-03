@@ -29,8 +29,8 @@ importers:
   packages/strand-ui:
     dependencies:
       '@dillingerstaffing/strand':
-        specifier: workspace:*
-        version: link:../tokens
+        specifier: ^0.2.1
+        version: 0.2.2
     devDependencies:
       '@testing-library/jest-dom':
         specifier: ^6.6.0
@@ -157,6 +157,9 @@ packages:
   '@csstools/css-tokenizer@3.0.4':
     resolution: {integrity: sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==}
     engines: {node: '>=18'}
+
+  '@dillingerstaffing/strand@0.2.2':
+    resolution: {integrity: sha512-KI/xcG2KDmitaIJDNsVwPr9XWxckSoyMwvjqY/HHwoWWeVGaQr8Xx9mRvXFfn2wCTrUGrpeoS11WinTQgMECVA==}
 
   '@esbuild/aix-ppc64@0.25.12':
     resolution: {integrity: sha512-Hhmwd6CInZ3dwpuGTF8fJG6yoWmsToE+vYgD4nytZVxcu1ulHpUQRAB1UJ8+N1Am3Mz4+xOByoQoSZf4D+CpkA==}
@@ -1237,6 +1240,8 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.4
 
   '@csstools/css-tokenizer@3.0.4': {}
+
+  '@dillingerstaffing/strand@0.2.2': {}
 
   '@esbuild/aix-ppc64@0.25.12':
     optional: true
