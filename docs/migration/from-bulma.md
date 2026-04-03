@@ -1,67 +1,120 @@
 # Using Strand with Bulma
 
-Strand and Bulma coexist without conflicts. All Strand classes use the `strand-` prefix. Bulma classes are unprefixed (`button`, `columns`, `field`). Zero collisions. Load both CSS files and use each where you want.
+Strand provides a Bulma theme. Bulma components adopt the Strand aesthetic through Bulma's own customization mechanisms. Pick the path that matches how you already customize Bulma.
 
-## Setup
+---
+
+## Path 1: CSS Variables (Bulma's recommended no-build approach)
+
+Bulma's docs: [Customize with CSS variables](https://bulma.io/documentation/customize/with-css-variables/)
+
+Load the Strand theme after Bulma. Bulma's `--bulma-*` variables resolve to Strand token values at runtime.
 
 ```html
-<!-- Bulma (your existing CSS) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1/css/bulma.min.css">
-
-<!-- Strand tokens + components -->
-<link rel="stylesheet" href="path/to/@dillingerstaffing/strand/css/tokens.css">
-<link rel="stylesheet" href="path/to/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
+<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand/css/tokens.css">
+<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand/bulma/strand-bulma-compat.css">
 ```
 
-Both load. No conflicts. Use Bulma for layout, Strand for components, or mix freely.
+That's it. Bulma buttons, cards, forms, navbars, modals -- everything renders with Strand's colors, typography, spacing, and border radii. No build step.
 
-## Integration Paths
-
-Three ways to make Bulma components adopt the Strand aesthetic. Pick the one that matches your build setup.
-
-### Path 1: CSS Variables (no build step)
+The theme also supports Bulma's scoped theming. Apply the Strand aesthetic to a section instead of the whole page:
 
 ```html
-<link rel="stylesheet" href="bulma.min.css">
-<link rel="stylesheet" href="@dillingerstaffing/strand/css/tokens.css">
-<link rel="stylesheet" href="@dillingerstaffing/strand/bulma/strand-bulma-compat.css">
+<div data-theme="strand">
+  <!-- Bulma components here render with Strand aesthetic -->
+  <button class="button is-primary">Strand-styled Bulma button</button>
+</div>
 ```
 
-One extra file. Load order matters: Bulma first, Strand tokens second, compatibility layer third. Bulma's HSL color system, typography, border radii, shadows, and spacing all shift to match Strand's design language. No Sass required.
+Or with a CSS class: `<div class="theme-strand">`.
 
-### Path 2: Sass (full import)
+---
+
+## Path 2: Sass (Bulma's recommended full-import approach)
+
+Bulma's docs: [Customize with Sass](https://bulma.io/documentation/customize/with-sass/)
+
+Bulma recommends `@use "bulma/sass" with (...)` to override variables at compile time. Strand provides a drop-in file that does this for you:
 
 ```scss
+// my-project.scss
 @use "@dillingerstaffing/strand/bulma/strand-bulma-use";
 ```
 
-One line replaces your `@use "bulma/sass"` import. Bulma compiles with Strand's color palette, typography, and border radii baked into the output CSS. This produces the smallest CSS since Bulma's Sass compiler resolves values at build time rather than layering runtime overrides.
+This single line replaces your `@use "bulma/sass"` import. It passes Strand's colors, fonts, radii, and grays into Bulma's `with()` clause. The compiled CSS has Strand values baked in -- no runtime variable overhead.
 
-### Path 3: Sass (selective/modular)
+If you already have your own `@use "bulma/sass" with (...)`, merge Strand's variables into your existing overrides:
 
 ```scss
 @use "@dillingerstaffing/strand/bulma/strand-bulma-vars" as strand;
-@use "bulma/sass/utilities" with (
+
+@use "bulma/sass" with (
   $primary: strand.$strand-primary,
-  $family-primary: strand.$strand-family-sans
+  $family-primary: strand.$strand-family-sans,
+  $family-code: strand.$strand-family-mono,
+  $grey-dark: strand.$strand-grey-dark,
+  $radius: strand.$strand-radius,
+  // ... your other overrides
 );
-@forward "bulma/sass/elements/button";
-@forward "bulma/sass/components/card";
 ```
 
-Cherry-pick which Bulma modules to import and which Strand variables to apply. Use this when you only need a subset of Bulma and want full control over what ships.
+---
 
-## Naming Convention Shift
+## Path 3: Modular Sass (Bulma's recommended selective-import approach)
 
-Bulma uses `is-` modifiers: `button is-primary is-large`
-Strand uses BEM `--` modifiers: `strand-btn strand-btn--primary strand-btn--lg`
+Bulma's docs: [Customize with modular Sass](https://bulma.io/documentation/customize/with-modular-sass/)
 
-This pattern applies to every component. Once you see it, you can self-translate any Bulma class to its Strand equivalent.
+Import only the Bulma modules you need, with Strand's variables applied:
 
-## Practical Example: Bulma Layout + Strand Components
+```scss
+@use "@dillingerstaffing/strand/bulma/strand-bulma-vars" as strand;
+
+// Override utilities with Strand values
+@use "bulma/sass/utilities" with (
+  $family-primary: strand.$strand-family-sans,
+  $family-code: strand.$strand-family-mono,
+  $primary: strand.$strand-primary,
+  $link: strand.$strand-link,
+  $grey-dark: strand.$strand-grey-dark,
+  $grey-light: strand.$strand-grey-light,
+  $radius: strand.$strand-radius
+);
+
+// Import only what you need
+@forward "bulma/sass/base";
+@forward "bulma/sass/elements/button";
+@forward "bulma/sass/elements/tag";
+@forward "bulma/sass/components/card";
+@forward "bulma/sass/components/navbar";
+@forward "bulma/sass/layout/section";
+
+// Required: themes must be last
+@forward "bulma/sass/themes";
+```
+
+---
+
+## Path 4: Bulma Theme (Bulma's theme system)
+
+Bulma's docs: [Themes](https://bulma.io/documentation/features/themes/)
+
+A Bulma theme is a collection of CSS variables scoped to a selector. The Strand theme file (`strand-bulma-compat.css`) is a standard Bulma theme that applies at three scopes:
+
+- `:root` -- global default
+- `[data-theme="strand"]` -- scoped via HTML attribute
+- `.theme-strand` -- scoped via CSS class
+
+This is the same mechanism Bulma uses for its built-in light and dark themes.
+
+---
+
+## Using Strand Components Alongside Bulma
+
+All paths above make Bulma's own components look like Strand. You can ALSO use Strand's component library directly for components Bulma doesn't have (DataReadout, CodeBlock, Progress ring) or where you want Strand's ARIA and keyboard handling:
 
 ```html
-<!-- Bulma responsive grid with Strand cards inside -->
+<!-- Bulma layout with Strand component inside -->
 <section class="section">
   <div class="container">
     <div class="columns is-multiline">
@@ -73,143 +126,60 @@ This pattern applies to every component. Once you see it, you can self-translate
           </div>
         </div>
       </div>
-      <div class="column is-half-tablet is-one-third-desktop">
-        <div class="strand-card strand-card--elevated strand-card--pad-md">
-          <div class="strand-data-readout strand-data-readout--sm">
-            <span class="strand-data-readout__label">Users</span>
-            <span class="strand-data-readout__value">12.8K</span>
-          </div>
-        </div>
-      </div>
-      <div class="column is-half-tablet is-one-third-desktop">
-        <div class="strand-card strand-card--elevated strand-card--pad-md">
-          <div class="strand-data-readout strand-data-readout--sm">
-            <span class="strand-data-readout__label">Uptime</span>
-            <span class="strand-data-readout__value">99.9%</span>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
 ```
 
-Bulma's `section`, `container`, and `columns` handle the layout. Strand's `strand-card` and `strand-data-readout` handle the component visuals. No interference.
+Zero class collisions. Bulma's `section`, `container`, `columns` handle layout. Strand's `strand-card` and `strand-data-readout` handle the component. Both CSS files coexist.
 
-## Form Pattern Comparison
+---
 
-Bulma and Strand both wrap form controls. The structure differs:
+## Naming Convention
 
-**Bulma form:**
-```html
-<div class="field">
-  <label class="label">Email</label>
-  <div class="control">
-    <input class="input" type="email" placeholder="you@example.com">
-  </div>
-  <p class="help">We will never share your email.</p>
-</div>
-```
+Bulma: `is-` modifiers (`button is-primary is-large`)
+Strand: BEM `--` modifiers (`strand-btn strand-btn--primary strand-btn--lg`)
 
-**Strand form (inside Bulma layout):**
-```html
-<div class="column">
-  <div class="strand-form-field">
-    <label class="strand-form-field__label" for="email">Email</label>
-    <div class="strand-form-field__control">
-      <div class="strand-input">
-        <input id="email" class="strand-input__field" type="email" placeholder="you@example.com">
-      </div>
-    </div>
-    <p class="strand-form-field__hint">We will never share your email.</p>
-  </div>
-</div>
-```
+---
 
-Key differences: Strand wraps `<input>` in a `strand-input` div (for addon support). Strand labels use monospace uppercase tracking. Strand uses `strand-form-field__hint` instead of `help`.
+## Variable Reference
 
-## Class Mapping
+**CSS custom properties (runtime):**
 
-| Bulma | Strand | Notes |
-|-------|--------|-------|
-| `button is-primary` | `strand-btn strand-btn--primary strand-btn--md` | BEM with explicit size |
-| `button is-danger` | `strand-btn strand-btn--danger strand-btn--md` | |
-| `button is-light` | `strand-btn strand-btn--secondary strand-btn--md` | |
-| `button is-ghost` | `strand-btn strand-btn--ghost strand-btn--md` | |
-| `button is-loading` | `strand-btn strand-btn--loading strand-btn--md` | Add spinner span inside |
-| `card` | `strand-card strand-card--elevated strand-card--pad-md` | Requires variant + padding |
-| `input` | `strand-input` wrapper + `strand-input__field` | Wrapper div required |
-| `textarea` | `strand-textarea` wrapper + `strand-textarea__field` | |
-| `select` | `strand-select` wrapper + `strand-select__field` | + arrow span |
-| `field` + `label` + `control` | `strand-form-field` + `__label` + `__control` | See form comparison above |
-| `help` | `strand-form-field__hint` or `__error` | |
-| `notification is-success` | `strand-alert strand-alert--success` | |
-| `tag is-info` | `strand-tag strand-tag--solid strand-tag--blue` | |
-| `table` | `strand-table-wrapper` + `strand-table` | Wrapper for scroll |
-| `modal` | `strand-dialog__backdrop` + `strand-dialog__panel` | |
-| `progress` | `strand-progress strand-progress--bar` | |
-| `tabs` | `strand-tabs` | See HTML_REFERENCE.md |
-| `navbar` | `strand-nav` | See HTML_REFERENCE.md |
-| `breadcrumb` | `strand-breadcrumb` | See HTML_REFERENCE.md |
-
-## Variable Mapping
-
-Bulma v1 uses both Sass variables and `--bulma-` CSS custom properties. Strand uses `--strand-` CSS custom properties.
-
-**CSS custom properties (Bulma v1 -> Strand):**
-
-| Bulma CSS Variable | Strand Token |
+| Bulma Variable | Strand Token |
 |---|---|
-| `--bulma-primary` | `--strand-blue-primary` |
-| `--bulma-link` | `--strand-blue-primary` |
-| `--bulma-info` | `--strand-blue-indicator` |
-| `--bulma-success` | `--strand-teal-vital` |
-| `--bulma-warning` | `--strand-amber-caution` |
-| `--bulma-danger` | `--strand-red-alert` |
-| `--bulma-text` | `--strand-gray-600` |
-| `--bulma-text-strong` | `--strand-gray-800` |
-| `--bulma-background` | `--strand-surface-primary` |
-| `--bulma-border` | `--strand-gray-200` |
-| `--bulma-family-primary` | `--strand-font-sans` |
-| `--bulma-family-code` | `--strand-font-mono` |
-| `--bulma-radius` | `--strand-radius-md` |
-| `--bulma-radius-small` | `--strand-radius-sm` |
-| `--bulma-radius-large` | `--strand-radius-lg` |
-| `--bulma-size-small` | `--strand-text-sm` |
-| `--bulma-size-normal` | `--strand-text-base` |
-| `--bulma-size-medium` | `--strand-text-lg` |
+| `--bulma-primary` | Derived from `--strand-blue-primary` |
+| `--bulma-link` | Derived from `--strand-blue-primary` |
+| `--bulma-success` | Derived from `--strand-teal-vital` |
+| `--bulma-info` | Derived from `--strand-blue-indicator` |
+| `--bulma-warning` | Derived from `--strand-amber-caution` |
+| `--bulma-danger` | Derived from `--strand-red-alert` |
+| `--bulma-text` | `var(--strand-gray-600)` |
+| `--bulma-scheme-main` | `var(--strand-surface-primary)` |
+| `--bulma-family-primary` | `var(--strand-font-sans)` |
+| `--bulma-family-code` | `var(--strand-font-mono)` |
+| `--bulma-radius` | `var(--strand-radius-md)` |
+| `--bulma-shadow` | `var(--strand-elevation-1)` |
 
-**Sass variables (for build-time customization):**
+**Sass variables (compile time):**
 
-| Bulma Sass | Strand Token |
+| Bulma Sass | Strand Sass |
 |---|---|
-| `$primary` | `--strand-blue-primary` |
-| `$info` | `--strand-blue-indicator` |
-| `$success` | `--strand-teal-vital` |
-| `$warning` | `--strand-amber-caution` |
-| `$danger` | `--strand-red-alert` |
+| `$primary` | `strand.$strand-primary` (#3B8EF6) |
+| `$link` | `strand.$strand-link` (#3B8EF6) |
+| `$success` | `strand.$strand-success` (#14B8A6) |
+| `$warning` | `strand.$strand-warning` (#F59E0B) |
+| `$danger` | `strand.$strand-danger` (#EF4444) |
+| `$family-primary` | `strand.$strand-family-sans` (Inter) |
+| `$family-code` | `strand.$strand-family-mono` (JetBrains Mono) |
 
-## Layout: What to Keep vs What to Replace
-
-| Bulma Layout | Recommendation |
-|---|---|
-| `columns` + `column is-X` | **Keep.** Bulma's responsive grid works well. Use Strand components inside columns. |
-| `section` | **Keep or replace.** Both work. Strand's `strand-section` adds the laboratory padding rhythm. |
-| `container` | **Keep or replace.** Strand's `strand-container` has 4 width tiers (narrow/default/wide/full). |
-| `hero` | **Keep.** No Strand equivalent. |
-| `footer` | **Keep.** No Strand equivalent. |
-| `level` | **Keep.** No direct Strand equivalent. Use `strand-stack--horizontal` for similar flex layouts. |
-| `navbar` | **Replace with `strand-nav`** if you want the Strand aesthetic. Or keep Bulma's. |
+---
 
 ## Dark Mode
 
-Bulma v1 supports dark mode via `prefers-color-scheme` and `[data-theme]` attributes. Strand does not currently have a dark mode. If your Bulma project uses dark mode:
+Bulma supports dark mode via `prefers-color-scheme` and `[data-theme="dark"]`. Strand does not have an official dark theme. If your project uses Bulma dark mode, Strand components will stay light-themed.
 
-- Bulma layout elements (section, columns, hero) will switch to dark
-- Strand components will remain light-themed
-- This creates a visual mismatch in dark mode
-
-**Workaround:** Override Strand surface tokens in your dark theme scope:
+Workaround: override Strand surface tokens in a dark scope:
 
 ```css
 @media (prefers-color-scheme: dark) {
@@ -223,14 +193,9 @@ Bulma v1 supports dark mode via `prefers-color-scheme` and `[data-theme]` attrib
 }
 ```
 
-This is a manual override, not an official Strand dark theme. Use with caution and test contrast ratios.
+This is a manual override, not an official theme. Test contrast ratios before shipping.
 
-## When to Use Which
-
-- **Bulma layout** (columns, hero, section, container, footer) -- keep if your page structure is built with Bulma
-- **Strand components** (buttons, cards, forms, alerts, dialogs, data readouts, code blocks) -- use for the Strand design language quality
-- **Strand tokens** (colors, spacing, typography) -- use in your own custom CSS for consistency with Strand components
-- **Both simultaneously** -- a Bulma column containing a Strand card is the expected pattern
+---
 
 Full class API: [HTML_REFERENCE.md](../../HTML_REFERENCE.md)
 Design principles: [DESIGN_LANGUAGE.md](../../DESIGN_LANGUAGE.md)
