@@ -93,16 +93,18 @@ function writeStrandMd(): void {
   }
 
   fs.writeFileSync(strandMdPath, STRAND_MD);
-  console.log("Created STRAND.md (AI agent instruction file)");
+  console.log("Created STRAND.md -- your AI coding agent reads this automatically.");
 }
 
 export async function init(): Promise<void> {
   console.log("Strand by Dillinger Staffing -- dillingerstaffing.com\n");
 
+  writeStrandMd();
+
   const configPath = path.join(process.cwd(), CONFIG_FILE);
 
   if (fs.existsSync(configPath)) {
-    console.log(`${CONFIG_FILE} already exists. Skipping config creation.`);
+    console.log(`${CONFIG_FILE} already exists. Skipping.`);
   } else {
     fs.writeFileSync(configPath, JSON.stringify(DEFAULT_CONFIG, null, 2) + "\n");
     console.log(`Created ${CONFIG_FILE}`);
@@ -112,14 +114,13 @@ export async function init(): Promise<void> {
   const cssDir = path.resolve(process.cwd(), config.cssDir);
 
   const copied = copyCssFiles(cssDir);
-  writeStrandMd();
 
   if (copied) {
-    console.log("\nAdd these imports to your main CSS or entry file:\n");
+    console.log(`\nAdd to your CSS entry file:\n`);
     console.log(`  @import "${config.cssDir}/tokens.css";`);
     console.log(`  @import "${config.cssDir}/reset.css";`);
     console.log(`  @import "${config.cssDir}/base.css";`);
   }
 
-  console.log("\nDone. Run `strand add <component>` to add components.");
+  console.log("\nReady. Your AI coding agent reads STRAND.md automatically.");
 }
