@@ -22,7 +22,6 @@ jobs:
       - run: pnpm build
       - run: pnpm test
 
-      # Publish each package only if its version is not already on npm
       - name: Publish @dillingerstaffing/strand
         run: |
           LOCAL=$(node -p "require('./packages/tokens/package.json').version")
@@ -45,36 +44,13 @@ jobs:
             echo "Skipped @dillingerstaffing/strand-ui@$LOCAL (already published)"
           fi
 
-      # @dillingerstaffing/strand-cli is not published separately.
-      # The CLI ships as the unscoped "strand-ui" package (npx strand-ui init).
-
-      - name: Publish unscoped strand-ui CLI
+      - name: Publish strand-ui (CLI)
         run: |
-          CLI_VERSION=$(node -p "require('./packages/cli/package.json').version")
+          LOCAL=$(node -p "require('./packages/cli/package.json').version")
           REMOTE=$(npm view strand-ui version 2>/dev/null || echo "0.0.0")
-          if [ "$CLI_VERSION" != "$REMOTE" ]; then
-            mkdir -p /tmp/strand-ui-publish
-            cp -r packages/cli/dist /tmp/strand-ui-publish/dist
-            chmod +x /tmp/strand-ui-publish/dist/index.js
-            node -e "
-              const pkg = require('./packages/cli/package.json');
-              const out = {
-                name: 'strand-ui',
-                version: pkg.version,
-                description: 'CLI for the Strand design language.',
-                author: pkg.author,
-                license: 'MIT',
-                keywords: ['design-system', 'cli', 'strand', 'ui-components'],
-                homepage: 'https://dillingerstaffing.com/labs/strand',
-                repository: { type: 'git', url: 'https://github.com/dillingerstaffing/strand' },
-                type: 'module',
-                bin: { strand: './dist/index.js' },
-                files: ['dist/']
-              };
-              require('fs').writeFileSync('/tmp/strand-ui-publish/package.json', JSON.stringify(out, null, 2));
-            "
-            cd /tmp/strand-ui-publish && npm publish --access public --provenance
-            echo "Published strand-ui@$CLI_VERSION"
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            pnpm --filter strand-ui publish --no-git-checks --access public
+            echo "Published strand-ui@$LOCAL"
           else
-            echo "Skipped strand-ui@$CLI_VERSION (already published)"
+            echo "Skipped strand-ui@$LOCAL (already published)"
           fi
