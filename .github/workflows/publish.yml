@@ -1,17 +1,19 @@
 name: Publish
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [main]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -29,7 +31,7 @@ jobs:
             local LOCAL=$(node -p "require('./${pkg_dir}/package.json').version")
             local REMOTE=$(npm view "$pkg_name" version 2>/dev/null || echo "0.0.0")
             if [ "$LOCAL" != "$REMOTE" ]; then
-              pnpm --filter "$pkg_name" publish --no-git-checks --access public
+              cd "$pkg_dir" && npm publish --access public --provenance && cd -
               echo "Published ${pkg_name}@${LOCAL}"
             else
               echo "Skipped ${pkg_name}@${LOCAL} (already published)"
@@ -38,3 +40,28 @@ jobs:
           publish_if_new packages/tokens @dillingerstaffing/strand
           publish_if_new packages/strand-ui @dillingerstaffing/strand-ui
           publish_if_new packages/cli strand-ui
+
+      - name: Create release if versions changed
+        run: |
+          CHANGED=false
+          for pkg in packages/tokens/package.json packages/strand-ui/package.json packages/cli/package.json; do
+            if git diff HEAD~1 HEAD -- "$pkg" | grep -q '"version"'; then
+              CHANGED=true
+              break
+            fi
+          done
+          if [ "$CHANGED" = "true" ]; then
+            VERSION=$(node -p "
+              const fs = require('fs');
+              const versions = ['packages/tokens','packages/strand-ui','packages/cli']
+                .map(d => JSON.parse(fs.readFileSync(d+'/package.json')).version);
+              versions.sort((a,b) => b.localeCompare(a, undefined, {numeric:true}));
+              versions[0];
+            ")
+            gh release create "v${VERSION}" --title "v${VERSION}" --generate-notes --target main
+            echo "Created release v${VERSION}"
+          else
+            echo "No version changes, skipping release"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
