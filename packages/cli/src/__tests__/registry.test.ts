@@ -17,6 +17,7 @@ const EXPECTED_COMPONENTS = [
   "tag",
   "table",
   "datareadout",
+  "codeblock",
   "stack",
   "grid",
   "container",
@@ -36,8 +37,8 @@ const EXPECTED_COMPONENTS = [
 ];
 
 describe("registry", () => {
-  it("contains all 31 components", () => {
-    expect(components.size).toBe(31);
+  it("contains all 32 components", () => {
+    expect(components.size).toBe(32);
   });
 
   it("has an entry for every expected component", () => {

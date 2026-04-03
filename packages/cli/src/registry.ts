@@ -47,6 +47,7 @@ export const components: Map<string, ComponentEntry> = new Map([
   ["tag", entry("Tag", "Display")],
   ["table", entry("Table", "Display")],
   ["datareadout", entry("DataReadout", "Display")],
+  ["codeblock", entry("CodeBlock", "Display")],
 
   // Layout
   ["stack", entry("Stack", "Layout")],

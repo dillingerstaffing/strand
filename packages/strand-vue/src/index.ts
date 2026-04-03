@@ -18,6 +18,7 @@ export { default as Avatar } from "./components/Avatar/Avatar.vue";
 export { default as Tag } from "./components/Tag/Tag.vue";
 export { default as Table } from "./components/Table/Table.vue";
 export { default as DataReadout } from "./components/DataReadout/DataReadout.vue";
+export { default as CodeBlock } from "./components/CodeBlock/CodeBlock.vue";
 
 // Layout
 export { default as Stack } from "./components/Stack/Stack.vue";

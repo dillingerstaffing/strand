@@ -2,6 +2,8 @@
 
 **This is the CSS-only API for Strand.** Use these classes with any framework (Vue, Svelte, Angular) or plain HTML. No JavaScript required. For design constraints, token roles, interaction patterns, and principles, read [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md).
 
+> **Using Bulma, Bootstrap, or Tailwind?** Strand's CSS classes are prefixed with `strand-` and have zero collisions with other CSS frameworks. Load Strand CSS alongside your existing framework and use these classes directly.
+
 > **Before writing any Strand HTML**, read [DESIGN_LANGUAGE.md Part II: Named Principles (L57-L193)](./DESIGN_LANGUAGE.md#L57). These 10 principles are hard constraints, not guidelines. Violating them produces valid HTML that looks wrong.
 
 ## Required CSS
@@ -383,6 +385,22 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 **Sizes:** `--sm` (text-xl, 25px) | default (text-3xl, 39px) | `--lg` (text-4xl, 49px). Label stays xs across all sizes.
 
 > **The DataReadout pattern** is uniquely Strand: monospace overline + large light-weight value + tabular numerals. See [DESIGN_LANGUAGE.md 11.2: Data Display (L918-L955)](./DESIGN_LANGUAGE.md#L918).
+
+---
+
+### CodeBlock
+
+```html
+<div class="strand-code-block">
+  <span class="strand-code-block__label">bash</span>
+  <pre class="strand-code-block__pre"><code>npm install @dillingerstaffing/strand</code></pre>
+</div>
+```
+
+**Label:** Optional `strand-code-block__label` span renders as monospace uppercase overline (language indicator).
+**Inline code:** Use `<code class="strand-code-inline">variable</code>` for inline code within text.
+
+> See [DESIGN_LANGUAGE.md 11.4: Code Display](./DESIGN_LANGUAGE.md#L974)
 
 ---
 
