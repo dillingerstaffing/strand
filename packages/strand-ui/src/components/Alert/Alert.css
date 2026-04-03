@@ -8,33 +8,44 @@
   justify-content: space-between;
   width: 100%;
   padding: var(--strand-space-6);
-  padding-left: var(--strand-space-5);
   border-radius: var(--strand-radius-md);
-  border-left: 4px solid transparent;
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-sm);
+  background: var(--strand-surface-recessed);
 }
 
-/* ── Status variants ── */
+/* ── Status variants (neutral background, status color on prefix only) ── */
 .strand-alert--info {
-  background: var(--strand-blue-glow);
-  border-left-color: var(--strand-blue-primary);
+  background: var(--strand-surface-recessed);
 }
 
 .strand-alert--success {
-  background: rgba(34, 197, 94, 0.08);
-  border-left-color: var(--strand-green-positive);
+  background: var(--strand-surface-recessed);
 }
 
 .strand-alert--warning {
-  background: rgba(245, 158, 11, 0.08);
-  border-left-color: var(--strand-amber-caution);
+  background: var(--strand-surface-recessed);
 }
 
 .strand-alert--error {
-  background: rgba(239, 68, 68, 0.08);
-  border-left-color: var(--strand-red-alert);
+  background: var(--strand-surface-recessed);
 }
+
+/* ── Status prefix ── */
+.strand-alert__status {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-semibold);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  margin-right: var(--strand-space-3);
+  flex-shrink: 0;
+}
+
+.strand-alert--info .strand-alert__status { color: var(--strand-blue-primary); }
+.strand-alert--success .strand-alert__status { color: var(--strand-teal-vital); }
+.strand-alert--warning .strand-alert__status { color: var(--strand-amber-caution); }
+.strand-alert--error .strand-alert__status { color: var(--strand-red-alert); }
 
 /* ── Content ── */
 .strand-alert__content {
@@ -48,8 +59,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: var(--strand-space-6);
+  height: var(--strand-space-6);
   margin-left: var(--strand-space-4);
   padding: 0;
   border: none;

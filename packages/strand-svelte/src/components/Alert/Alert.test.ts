@@ -61,4 +61,32 @@ describe('Alert', () => {
     const { container } = render(Alert)
     expect(container.querySelector('.strand-alert__content')).toBeInTheDocument()
   })
+
+  it('renders status prefix for info', () => {
+    const { container } = render(Alert, { props: { status: 'info' } })
+    const status = container.querySelector('.strand-alert__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('INFO')
+  })
+
+  it('renders status prefix for success as COMPLETE', () => {
+    const { container } = render(Alert, { props: { status: 'success' } })
+    const status = container.querySelector('.strand-alert__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('COMPLETE')
+  })
+
+  it('renders status prefix for warning', () => {
+    const { container } = render(Alert, { props: { status: 'warning' } })
+    const status = container.querySelector('.strand-alert__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('WARNING')
+  })
+
+  it('renders status prefix for error', () => {
+    const { container } = render(Alert, { props: { status: 'error' } })
+    const status = container.querySelector('.strand-alert__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('ERROR')
+  })
 })

@@ -619,6 +619,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 ```html
 <div class="strand-toast strand-toast--info" role="status" aria-live="polite">
+  <span class="strand-toast__status">INFO</span>
   <span class="strand-toast__message">Changes saved successfully.</span>
   <button type="button" class="strand-toast__dismiss" aria-label="Dismiss">&times;</button>
 </div>
@@ -641,6 +642,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 ```html
 <div class="strand-alert strand-alert--info" role="status">
+  <span class="strand-alert__status">INFO</span>
   <div class="strand-alert__content">This is an informational message.</div>
 </div>
 ```

@@ -31,6 +31,15 @@ const classes = computed(() =>
     .join(' '),
 )
 
+const statusLabels: Record<string, string> = {
+  info: 'INFO',
+  success: 'COMPLETE',
+  warning: 'WARNING',
+  error: 'ERROR',
+}
+
+const statusLabel = computed(() => statusLabels[props.status] ?? props.status.toUpperCase())
+
 function handleDismiss() {
   emit('dismiss')
 }
@@ -38,6 +47,7 @@ function handleDismiss() {
 
 <template>
   <div :class="classes" :role="role">
+    <span class="strand-alert__status">{{ statusLabel }}</span>
     <div class="strand-alert__content">
       <slot />
     </div>

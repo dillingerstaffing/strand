@@ -79,6 +79,36 @@ describe("Alert", () => {
     expect(queryByLabelText("Dismiss")).toBeNull();
   });
 
+  // ── Status prefix ──
+
+  it("renders status prefix for info", () => {
+    const { container } = render(<Alert status="info">Info</Alert>);
+    const status = container.querySelector(".strand-alert__status");
+    expect(status).toBeTruthy();
+    expect(status!.textContent).toBe("INFO");
+  });
+
+  it("renders status prefix for success as COMPLETE", () => {
+    const { container } = render(<Alert status="success">OK</Alert>);
+    const status = container.querySelector(".strand-alert__status");
+    expect(status).toBeTruthy();
+    expect(status!.textContent).toBe("COMPLETE");
+  });
+
+  it("renders status prefix for warning", () => {
+    const { container } = render(<Alert status="warning">Warn</Alert>);
+    const status = container.querySelector(".strand-alert__status");
+    expect(status).toBeTruthy();
+    expect(status!.textContent).toBe("WARNING");
+  });
+
+  it("renders status prefix for error", () => {
+    const { container } = render(<Alert status="error">Fail</Alert>);
+    const status = container.querySelector(".strand-alert__status");
+    expect(status).toBeTruthy();
+    expect(status!.textContent).toBe("ERROR");
+  });
+
   // ── Custom className ──
 
   it("merges custom className", () => {

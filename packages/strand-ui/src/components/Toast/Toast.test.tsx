@@ -87,6 +87,34 @@ describe("Toast", () => {
       container.querySelector(".strand-toast--info"),
     ).toBeTruthy();
   });
+
+  it("renders status prefix for info", () => {
+    const { container } = render(<Toast message="Note" status="info" />);
+    const status = container.querySelector(".strand-toast__status");
+    expect(status).toBeTruthy();
+    expect(status!.textContent).toBe("INFO");
+  });
+
+  it("renders status prefix for success as COMPLETE", () => {
+    const { container } = render(<Toast message="OK" status="success" />);
+    const status = container.querySelector(".strand-toast__status");
+    expect(status).toBeTruthy();
+    expect(status!.textContent).toBe("COMPLETE");
+  });
+
+  it("renders status prefix for warning", () => {
+    const { container } = render(<Toast message="Warn" status="warning" />);
+    const status = container.querySelector(".strand-toast__status");
+    expect(status).toBeTruthy();
+    expect(status!.textContent).toBe("WARNING");
+  });
+
+  it("renders status prefix for error", () => {
+    const { container } = render(<Toast message="Fail" status="error" />);
+    const status = container.querySelector(".strand-toast__status");
+    expect(status).toBeTruthy();
+    expect(status!.textContent).toBe("ERROR");
+  });
 });
 
 describe("ToastProvider + useToast", () => {

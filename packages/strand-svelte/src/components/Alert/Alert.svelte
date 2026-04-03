@@ -13,9 +13,19 @@
     'strand-alert',
     `strand-alert--${status}`,
   ].filter(Boolean).join(' ')
+
+  const statusLabels: Record<string, string> = {
+    info: 'INFO',
+    success: 'COMPLETE',
+    warning: 'WARNING',
+    error: 'ERROR',
+  }
+
+  $: statusLabel = statusLabels[status] ?? status.toUpperCase()
 </script>
 
 <div class={classes} {role} {...$$restProps}>
+  <span class="strand-alert__status">{statusLabel}</span>
   <div class="strand-alert__content">
     <slot />
   </div>

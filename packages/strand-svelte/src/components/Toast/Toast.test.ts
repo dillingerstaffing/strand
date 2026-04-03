@@ -57,4 +57,32 @@ describe('Toast', () => {
     await fireEvent.click(container.querySelector('.strand-toast__dismiss')!)
     expect(ondismiss).toHaveBeenCalled()
   })
+
+  it('renders status prefix for info', () => {
+    const { container } = render(Toast, { props: { message: 'Note', status: 'info' } })
+    const status = container.querySelector('.strand-toast__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('INFO')
+  })
+
+  it('renders status prefix for success as COMPLETE', () => {
+    const { container } = render(Toast, { props: { message: 'OK', status: 'success' } })
+    const status = container.querySelector('.strand-toast__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('COMPLETE')
+  })
+
+  it('renders status prefix for warning', () => {
+    const { container } = render(Toast, { props: { message: 'Warn', status: 'warning' } })
+    const status = container.querySelector('.strand-toast__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('WARNING')
+  })
+
+  it('renders status prefix for error', () => {
+    const { container } = render(Toast, { props: { message: 'Fail', status: 'error' } })
+    const status = container.querySelector('.strand-toast__status')
+    expect(status).toBeInTheDocument()
+    expect(status).toHaveTextContent('ERROR')
+  })
 })
