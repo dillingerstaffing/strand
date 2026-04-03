@@ -18,21 +18,30 @@
 
 ## Quick Start
 
-**Option A: CLI** (recommended, sets up everything including AI agent support)
+**CDN** (zero install, one copy-paste)
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.5/css/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.5/css/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.5/css/base.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand-ui@0.5/dist/css/strand-ui.css">
+```
+
+Start using Strand classes immediately. No npm, no bundler, no build step. Works in static HTML, CodePen, JSFiddle, or any page.
+
+**CLI** (recommended for projects)
 
 ```bash
 npx strand-ui init
 ```
 
-Auto-detects your framework (Preact/React, Vue, Svelte, or CSS-only), sets up tokens, CSS, and generates STRAND.md for AI coding agents.
+Auto-detects your framework (Preact/React, Vue, Svelte, or CSS-only), copies tokens, and generates `STRAND.md` for AI coding agents.
 
-**Option B: Manual install**
+**npm** (manual install)
 
 ```bash
 npm install @dillingerstaffing/strand @dillingerstaffing/strand-ui
 ```
-
-Then import CSS in your app entry point (components are unstyled without these):
 
 ```css
 @import '@dillingerstaffing/strand/css/reset.css';
@@ -40,8 +49,6 @@ Then import CSS in your app entry point (components are unstyled without these):
 @import '@dillingerstaffing/strand/css/base.css';
 @import '@dillingerstaffing/strand-ui/css/strand-ui.css';
 ```
-
-If using an AI coding agent, run `npx strand-ui init` after install to generate `STRAND.md`.
 
 **Use components:**
 
