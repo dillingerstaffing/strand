@@ -45,16 +45,8 @@ jobs:
             echo "Skipped @dillingerstaffing/strand-ui@$LOCAL (already published)"
           fi
 
-      - name: Publish @dillingerstaffing/strand-cli
-        run: |
-          LOCAL=$(node -p "require('./packages/cli/package.json').version")
-          REMOTE=$(npm view @dillingerstaffing/strand-cli version 2>/dev/null || echo "0.0.0")
-          if [ "$LOCAL" != "$REMOTE" ]; then
-            pnpm --filter @dillingerstaffing/strand-cli publish --no-git-checks --access public
-            echo "Published @dillingerstaffing/strand-cli@$LOCAL"
-          else
-            echo "Skipped @dillingerstaffing/strand-cli@$LOCAL (already published)"
-          fi
+      # @dillingerstaffing/strand-cli is not published separately.
+      # The CLI ships as the unscoped "strand-ui" package (npx strand-ui init).
 
       - name: Publish unscoped strand-ui CLI
         run: |
