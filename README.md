@@ -18,15 +18,21 @@
 
 ## Quick Start
 
-### 1. Install
+**Option A: CLI** (recommended, sets up everything including AI agent support)
+
+```bash
+npx strand-ui init
+```
+
+This installs tokens, copies CSS, creates config, and generates `STRAND.md` so AI coding agents (Claude Code, Cursor, Codex, etc.) automatically know how to build with Strand in your project.
+
+**Option B: Manual install**
 
 ```bash
 npm install @dillingerstaffing/strand @dillingerstaffing/strand-ui
 ```
 
-### 2. Import CSS (required)
-
-Components are unstyled without these imports. Add them to your app entry point:
+Then import CSS in your app entry point (components are unstyled without these):
 
 ```css
 @import '@dillingerstaffing/strand/css/reset.css';
@@ -35,7 +41,9 @@ Components are unstyled without these imports. Add them to your app entry point:
 @import '@dillingerstaffing/strand-ui/css/strand-ui.css';
 ```
 
-### 3. Use components
+If using an AI coding agent, run `npx strand-ui init` after install to generate `STRAND.md`.
+
+**Use components:**
 
 ```jsx
 import { Button, Input, Card, Stack } from '@dillingerstaffing/strand-ui';
