@@ -64,6 +64,26 @@ function App() {
 
 ## Framework Setup
 
+### Vue 3
+
+```bash
+npm install vue @dillingerstaffing/strand @dillingerstaffing/strand-vue
+```
+
+```vue
+<script setup>
+import { Button, Card, Stack } from '@dillingerstaffing/strand-vue'
+</script>
+
+<template>
+  <Card variant="elevated" padding="lg">
+    <Stack :gap="4">
+      <Button>Get Started</Button>
+    </Stack>
+  </Card>
+</template>
+```
+
 ### Preact (native)
 
 Strand UI is built with Preact. No additional configuration needed.
@@ -155,6 +175,27 @@ Tokens are also available as typed JavaScript constants:
 ```ts
 import { colors, spacing, typography } from '@dillingerstaffing/strand';
 ```
+
+---
+
+## CSS Only (No Framework)
+
+Use Strand's full component library with plain HTML. No JavaScript required.
+
+```bash
+npm install @dillingerstaffing/strand @dillingerstaffing/strand-ui
+```
+
+```html
+<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand/css/tokens.css">
+<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
+
+<button class="strand-btn strand-btn--primary strand-btn--md" type="button">
+  <span class="strand-btn__content">Get Started</span>
+</button>
+```
+
+See [HTML_REFERENCE.md](./HTML_REFERENCE.md) for every component's CSS class API. Using [Bootstrap](./docs/migration/from-bootstrap.md) or [Bulma](./docs/migration/from-bulma.md)? Strand works alongside both.
 
 ---
 

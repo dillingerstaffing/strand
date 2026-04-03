@@ -3,6 +3,24 @@ import * as path from "node:path";
 
 const CONFIG_FILE = "strand.config.json";
 
+export type Framework = "preact" | "vue" | "css-only";
+
+function detectFramework(): Framework {
+  const pkgPath = path.join(process.cwd(), "package.json");
+  if (!fs.existsSync(pkgPath)) return "css-only";
+
+  try {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
+    const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
+    if (allDeps.vue) return "vue";
+    if (allDeps.preact || allDeps.react) return "preact";
+  } catch {
+    // Corrupt package.json, fall through
+  }
+
+  return "css-only";
+}
+
 const DEFAULT_CONFIG = {
   cssDir: "./src/styles",
   componentDir: "./src/components",
@@ -15,7 +33,6 @@ function resolvePackagePath(packageName: string): string | null {
       const filePath = resolved.startsWith("file://")
         ? new URL(resolved).pathname
         : resolved;
-      // Walk up from the resolved entry point to find the package root
       let dir = path.dirname(filePath);
       while (dir !== path.dirname(dir)) {
         if (fs.existsSync(path.join(dir, "package.json"))) {
@@ -28,7 +45,6 @@ function resolvePackagePath(packageName: string): string | null {
     // Fall through to manual resolution
   }
 
-  // Manual resolution: walk up from cwd looking for node_modules
   let dir = process.cwd();
   while (dir !== path.dirname(dir)) {
     const candidate = path.join(dir, "node_modules", packageName);
@@ -75,7 +91,8 @@ function copyCssFiles(cssDir: string): boolean {
   return true;
 }
 
-const STRAND_MD = `# STRAND.md
+function strandMdContent(framework: Framework): string {
+  const base = `# STRAND.md
 
 This project uses the Strand design language.
 
@@ -84,7 +101,22 @@ When building or modifying UI, read these files:
 - https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md (design constraints, token roles, interaction patterns, principles)
 `;
 
-function writeStrandMd(): void {
+  if (framework === "vue") {
+    return `${base}
+Framework: Vue 3. Import components from @dillingerstaffing/strand-vue.
+`;
+  }
+
+  if (framework === "css-only") {
+    return `${base}
+Framework: CSS only. Use Strand CSS classes directly per HTML_REFERENCE.md.
+`;
+  }
+
+  return base;
+}
+
+function writeStrandMd(framework: Framework): void {
   const strandMdPath = path.join(process.cwd(), "STRAND.md");
 
   if (fs.existsSync(strandMdPath)) {
@@ -92,21 +124,31 @@ function writeStrandMd(): void {
     return;
   }
 
-  fs.writeFileSync(strandMdPath, STRAND_MD);
+  fs.writeFileSync(strandMdPath, strandMdContent(framework));
   console.log("Created STRAND.md -- your AI coding agent reads this automatically.");
 }
+
+const FRAMEWORK_LABELS: Record<Framework, string> = {
+  preact: "Preact/React",
+  vue: "Vue 3",
+  "css-only": "CSS only",
+};
 
 export async function init(): Promise<void> {
   console.log("Strand by Dillinger Staffing -- dillingerstaffing.com\n");
 
-  writeStrandMd();
+  const framework = detectFramework();
+  console.log(`Detected framework: ${FRAMEWORK_LABELS[framework]}`);
+
+  writeStrandMd(framework);
 
   const configPath = path.join(process.cwd(), CONFIG_FILE);
 
   if (fs.existsSync(configPath)) {
     console.log(`${CONFIG_FILE} already exists. Skipping.`);
   } else {
-    fs.writeFileSync(configPath, JSON.stringify(DEFAULT_CONFIG, null, 2) + "\n");
+    const config = { ...DEFAULT_CONFIG, framework };
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n");
     console.log(`Created ${CONFIG_FILE}`);
   }
 
@@ -124,3 +166,6 @@ export async function init(): Promise<void> {
 
   console.log("\nReady. Your AI coding agent reads STRAND.md automatically.");
 }
+
+// Exported for testing
+export { detectFramework, strandMdContent };

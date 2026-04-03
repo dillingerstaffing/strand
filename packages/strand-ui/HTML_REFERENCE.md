@@ -1,6 +1,6 @@
 # Strand HTML Reference
 
-CSS class API for Strand UI components. For design constraints, token roles, interaction patterns, and principles, read [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md).
+**This is the CSS-only API for Strand.** Use these classes with any framework (Vue, Svelte, Angular) or plain HTML. No JavaScript required. For design constraints, token roles, interaction patterns, and principles, read [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md).
 
 > **Before writing any Strand HTML**, read [DESIGN_LANGUAGE.md Part II: Named Principles (L57-L193)](./DESIGN_LANGUAGE.md#L57). These 10 principles are hard constraints, not guidelines. Violating them produces valid HTML that looks wrong.
 
