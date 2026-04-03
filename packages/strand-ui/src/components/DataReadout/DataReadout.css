@@ -28,3 +28,12 @@
   line-height: var(--strand-leading-tight);
   font-variant-numeric: tabular-nums;
 }
+
+/* ── Size variants ── */
+.strand-data-readout--sm .strand-data-readout__value {
+  font-size: var(--strand-text-xl);
+}
+
+.strand-data-readout--lg .strand-data-readout__value {
+  font-size: var(--strand-text-4xl);
+}
