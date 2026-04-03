@@ -15,6 +15,42 @@ Strand and Bulma coexist without conflicts. All Strand classes use the `strand-`
 
 Both load. No conflicts. Use Bulma for layout, Strand for components, or mix freely.
 
+## Integration Paths
+
+Three ways to make Bulma components adopt the Strand aesthetic. Pick the one that matches your build setup.
+
+### Path 1: CSS Variables (no build step)
+
+```html
+<link rel="stylesheet" href="bulma.min.css">
+<link rel="stylesheet" href="@dillingerstaffing/strand/css/tokens.css">
+<link rel="stylesheet" href="@dillingerstaffing/strand/bulma/strand-bulma-compat.css">
+```
+
+One extra file. Load order matters: Bulma first, Strand tokens second, compatibility layer third. Bulma's HSL color system, typography, border radii, shadows, and spacing all shift to match Strand's design language. No Sass required.
+
+### Path 2: Sass (full import)
+
+```scss
+@use "@dillingerstaffing/strand/bulma/strand-bulma-use";
+```
+
+One line replaces your `@use "bulma/sass"` import. Bulma compiles with Strand's color palette, typography, and border radii baked into the output CSS. This produces the smallest CSS since Bulma's Sass compiler resolves values at build time rather than layering runtime overrides.
+
+### Path 3: Sass (selective/modular)
+
+```scss
+@use "@dillingerstaffing/strand/bulma/strand-bulma-vars" as strand;
+@use "bulma/sass/utilities" with (
+  $primary: strand.$strand-primary,
+  $family-primary: strand.$strand-family-sans
+);
+@forward "bulma/sass/elements/button";
+@forward "bulma/sass/components/card";
+```
+
+Cherry-pick which Bulma modules to import and which Strand variables to apply. Use this when you only need a subset of Bulma and want full control over what ships.
+
 ## Naming Convention Shift
 
 Bulma uses `is-` modifiers: `button is-primary is-large`

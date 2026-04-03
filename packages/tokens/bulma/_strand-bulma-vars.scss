@@ -1,0 +1,36 @@
+// Strand Bulma Compatibility (Sass)
+// Usage: @use "bulma/sass" with ($primary: $strand-primary, ...);
+
+// ── Colors ──
+$strand-primary: #3B8EF6;        // --strand-blue-primary
+$strand-link: #3B8EF6;           // --strand-blue-primary
+$strand-info: #93CCFD;           // --strand-blue-indicator
+$strand-success: #14B8A6;        // --strand-teal-vital
+$strand-warning: #F59E0B;        // --strand-amber-caution
+$strand-danger: #EF4444;         // --strand-red-alert
+
+// ── Grays (cyan-shifted) ──
+$strand-black: #0F192A;          // --strand-blue-abyss
+$strand-grey-darker: #1E2B3B;    // --strand-gray-800
+$strand-grey-dark: #334355;      // --strand-gray-700
+$strand-grey: #64778B;           // --strand-gray-500
+$strand-grey-light: #94A5B8;     // --strand-gray-400
+$strand-grey-lighter: #CBD6E1;   // --strand-gray-300
+$strand-grey-lightest: #E2E9F0;  // --strand-gray-200
+$strand-white-ter: #F0F5F8;      // --strand-surface-recessed
+$strand-white-bis: #F7FAFD;      // --strand-gray-50
+$strand-white: #FAFCFF;          // --strand-surface-primary
+
+// ── Typography ──
+$strand-family-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+$strand-family-mono: "JetBrains Mono", "SF Mono", "Fira Code", "Cascadia Code", monospace;
+
+// ── Border Radius ──
+$strand-radius-small: 4px;   // --strand-radius-sm
+$strand-radius: 6px;         // --strand-radius-md
+$strand-radius-medium: 8px;  // --strand-radius-lg
+$strand-radius-large: 12px;  // --strand-radius-xl
+
+// ── Duration ──
+$strand-duration: 250ms;
+$strand-easing: cubic-bezier(0.25, 1, 0.5, 1);
