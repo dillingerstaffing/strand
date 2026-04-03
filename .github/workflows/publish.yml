@@ -1,8 +1,8 @@
 name: Publish
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [main]
 
 jobs:
   publish:
@@ -23,19 +23,49 @@ jobs:
       - run: pnpm build
       - run: pnpm test
 
-      # Scoped packages (OIDC provenance)
-      - run: pnpm --filter @dillingerstaffing/strand publish --no-git-checks --access public
-      - run: pnpm --filter @dillingerstaffing/strand-ui publish --no-git-checks --access public
-      - run: pnpm --filter @dillingerstaffing/strand-cli publish --no-git-checks --access public
+      # Publish each package only if its version is not already on npm
+      - name: Publish @dillingerstaffing/strand
+        run: |
+          LOCAL=$(node -p "require('./packages/tokens/package.json').version")
+          REMOTE=$(npm view @dillingerstaffing/strand version 2>/dev/null || echo "0.0.0")
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            pnpm --filter @dillingerstaffing/strand publish --no-git-checks --access public
+            echo "Published @dillingerstaffing/strand@$LOCAL"
+          else
+            echo "Skipped @dillingerstaffing/strand@$LOCAL (already published)"
+          fi
 
-      # Unscoped CLI (strand-ui on npm, bin: strand)
+      - name: Publish @dillingerstaffing/strand-ui
+        run: |
+          LOCAL=$(node -p "require('./packages/strand-ui/package.json').version")
+          REMOTE=$(npm view @dillingerstaffing/strand-ui version 2>/dev/null || echo "0.0.0")
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            pnpm --filter @dillingerstaffing/strand-ui publish --no-git-checks --access public
+            echo "Published @dillingerstaffing/strand-ui@$LOCAL"
+          else
+            echo "Skipped @dillingerstaffing/strand-ui@$LOCAL (already published)"
+          fi
+
+      - name: Publish @dillingerstaffing/strand-cli
+        run: |
+          LOCAL=$(node -p "require('./packages/cli/package.json').version")
+          REMOTE=$(npm view @dillingerstaffing/strand-cli version 2>/dev/null || echo "0.0.0")
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            pnpm --filter @dillingerstaffing/strand-cli publish --no-git-checks --access public
+            echo "Published @dillingerstaffing/strand-cli@$LOCAL"
+          else
+            echo "Skipped @dillingerstaffing/strand-cli@$LOCAL (already published)"
+          fi
+
       - name: Publish unscoped strand-ui CLI
         run: |
           CLI_VERSION=$(node -p "require('./packages/cli/package.json').version")
-          mkdir -p /tmp/strand-ui-publish
-          cp -r packages/cli/dist /tmp/strand-ui-publish/dist
-          chmod +x /tmp/strand-ui-publish/dist/index.js
-          cat > /tmp/strand-ui-publish/package.json << EOF
+          REMOTE=$(npm view strand-ui version 2>/dev/null || echo "0.0.0")
+          if [ "$CLI_VERSION" != "$REMOTE" ]; then
+            mkdir -p /tmp/strand-ui-publish
+            cp -r packages/cli/dist /tmp/strand-ui-publish/dist
+            chmod +x /tmp/strand-ui-publish/dist/index.js
+            cat > /tmp/strand-ui-publish/package.json << EOF
           {
             "name": "strand-ui",
             "version": "${CLI_VERSION}",
@@ -50,4 +80,8 @@ jobs:
             "files": ["dist/"]
           }
           EOF
-          cd /tmp/strand-ui-publish && npm publish --access public
+            cd /tmp/strand-ui-publish && npm publish --access public
+            echo "Published strand-ui@$CLI_VERSION"
+          else
+            echo "Skipped strand-ui@$CLI_VERSION (already published)"
+          fi
