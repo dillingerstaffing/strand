@@ -71,6 +71,23 @@ jobs:
             echo "Skipped @dillingerstaffing/strand-vue@$LOCAL (already published)"
           fi
 
+      - name: Publish @dillingerstaffing/strand-svelte
+        run: |
+          LOCAL=$(node -p "require('./packages/strand-svelte/package.json').version")
+          REMOTE=$(npm view @dillingerstaffing/strand-svelte version 2>/dev/null || echo "0.0.0")
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            TOKENS_VERSION=$(node -p "require('./packages/tokens/package.json').version")
+            cd packages/strand-svelte
+            node -e "
+              const pkg = JSON.parse(require('fs').readFileSync('package.json','utf8'));
+              pkg.dependencies['@dillingerstaffing/strand'] = '^${TOKENS_VERSION}';
+              require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+            "
+            npm publish --access public
+          else
+            echo "Skipped @dillingerstaffing/strand-svelte@$LOCAL (already published)"
+          fi
+
       - name: Publish strand-ui (CLI)
         working-directory: packages/cli
         run: |
@@ -85,7 +102,7 @@ jobs:
       - name: Create release if versions changed
         run: |
           CHANGED=false
-          for pkg in packages/tokens/package.json packages/strand-ui/package.json packages/strand-vue/package.json packages/cli/package.json; do
+          for pkg in packages/tokens/package.json packages/strand-ui/package.json packages/strand-vue/package.json packages/strand-svelte/package.json packages/cli/package.json; do
             if git diff HEAD~1 HEAD -- "$pkg" | grep -q '"version"'; then
               CHANGED=true
               break
@@ -94,7 +111,7 @@ jobs:
           if [ "$CHANGED" = "true" ]; then
             VERSION=$(node -p "
               const fs = require('fs');
-              const versions = ['packages/tokens','packages/strand-ui','packages/strand-vue','packages/cli']
+              const versions = ['packages/tokens','packages/strand-ui','packages/strand-vue','packages/strand-svelte','packages/cli']
                 .map(d => JSON.parse(fs.readFileSync(d+'/package.json')).version);
               versions.sort((a,b) => b.localeCompare(a, undefined, {numeric:true}));
               versions[0];
