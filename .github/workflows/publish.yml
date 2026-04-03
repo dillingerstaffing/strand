@@ -19,18 +19,21 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
 
+      # No registry-url on setup-node (that creates .npmrc expecting NODE_AUTH_TOKEN).
+      # OIDC trusted publishing handles auth via --provenance flag.
+      - run: npm config set registry https://registry.npmjs.org/
+
       - name: Publish @dillingerstaffing/strand
+        working-directory: packages/tokens
         run: |
-          LOCAL=$(node -p "require('./packages/tokens/package.json').version")
+          LOCAL=$(node -p "require('./package.json').version")
           REMOTE=$(npm view @dillingerstaffing/strand version 2>/dev/null || echo "0.0.0")
           if [ "$LOCAL" != "$REMOTE" ]; then
-            pnpm --filter @dillingerstaffing/strand publish --no-git-checks --access public --provenance
-            echo "Published @dillingerstaffing/strand@$LOCAL"
+            npm publish --access public --provenance
           else
             echo "Skipped @dillingerstaffing/strand@$LOCAL (already published)"
           fi
@@ -41,18 +44,17 @@ jobs:
           REMOTE=$(npm view @dillingerstaffing/strand-ui version 2>/dev/null || echo "0.0.0")
           if [ "$LOCAL" != "$REMOTE" ]; then
             pnpm --filter @dillingerstaffing/strand-ui publish --no-git-checks --access public --provenance
-            echo "Published @dillingerstaffing/strand-ui@$LOCAL"
           else
             echo "Skipped @dillingerstaffing/strand-ui@$LOCAL (already published)"
           fi
 
       - name: Publish strand-ui (CLI)
+        working-directory: packages/cli
         run: |
-          LOCAL=$(node -p "require('./packages/cli/package.json').version")
+          LOCAL=$(node -p "require('./package.json').version")
           REMOTE=$(npm view strand-ui version 2>/dev/null || echo "0.0.0")
           if [ "$LOCAL" != "$REMOTE" ]; then
-            pnpm --filter strand-ui publish --no-git-checks --access public --provenance
-            echo "Published strand-ui@$LOCAL"
+            npm publish --access public --provenance
           else
             echo "Skipped strand-ui@$LOCAL (already published)"
           fi
