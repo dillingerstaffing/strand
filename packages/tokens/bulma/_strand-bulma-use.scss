@@ -1,0 +1,33 @@
+// Strand Bulma Integration
+// Import this INSTEAD of importing bulma/sass directly.
+// Usage: @use "@dillingerstaffing/strand/bulma/strand-bulma-use" as bulma;
+
+@use "./strand-bulma-vars" as strand;
+
+@use "bulma/sass" with (
+  $primary: strand.$strand-primary,
+  $link: strand.$strand-link,
+  $info: strand.$strand-info,
+  $success: strand.$strand-success,
+  $warning: strand.$strand-warning,
+  $danger: strand.$strand-danger,
+  $family-primary: strand.$strand-family-sans,
+  $family-secondary: strand.$strand-family-sans,
+  $family-code: strand.$strand-family-mono,
+  $black: strand.$strand-black,
+  $grey-darker: strand.$strand-grey-darker,
+  $grey-dark: strand.$strand-grey-dark,
+  $grey: strand.$strand-grey,
+  $grey-light: strand.$strand-grey-light,
+  $grey-lighter: strand.$strand-grey-lighter,
+  $grey-lightest: strand.$strand-grey-lightest,
+  $white-ter: strand.$strand-white-ter,
+  $white-bis: strand.$strand-white-bis,
+  $white: strand.$strand-white,
+  $radius-small: strand.$strand-radius-small,
+  $radius: strand.$strand-radius,
+  $radius-medium: strand.$strand-radius-medium,
+  $radius-large: strand.$strand-radius-large,
+  $duration: strand.$strand-duration,
+  $easing: strand.$strand-easing
+);

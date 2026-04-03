@@ -25,12 +25,14 @@
     },
     "./css/tokens.css": "./css/tokens.css",
     "./css/reset.css": "./css/reset.css",
-    "./css/base.css": "./css/base.css"
+    "./css/base.css": "./css/base.css",
+    "./bulma/*": "./bulma/*"
   },
   "style": "./css/tokens.css",
   "files": [
     "css/",
-    "dist/"
+    "dist/",
+    "bulma/"
   ],
   "sideEffects": [
     "css/*.css"
