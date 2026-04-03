@@ -54,6 +54,7 @@ describe("registry", () => {
       expect(typeof entry.files).toBe("object");
       expect(entry.files.preact.length).toBeGreaterThan(0);
       expect(entry.files.vue.length).toBeGreaterThan(0);
+      expect(entry.files.svelte.length).toBeGreaterThan(0);
       expect(entry.files["css-only"].length).toBeGreaterThan(0);
     }
   });
@@ -72,6 +73,15 @@ describe("registry", () => {
       const hasVue = entry.files.vue.some((f) => f.endsWith(".vue"));
       const hasCss = entry.files.vue.some((f) => f.endsWith(".css"));
       expect(hasVue).toBe(true);
+      expect(hasCss).toBe(true);
+    }
+  });
+
+  it("svelte files include .svelte and .css", () => {
+    for (const [, entry] of components) {
+      const hasSvelte = entry.files.svelte.some((f) => f.endsWith(".svelte"));
+      const hasCss = entry.files.svelte.some((f) => f.endsWith(".css"));
+      expect(hasSvelte).toBe(true);
       expect(hasCss).toBe(true);
     }
   });

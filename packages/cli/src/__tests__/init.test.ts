@@ -90,6 +90,15 @@ describe("init: framework detection", () => {
     expect(detectFramework()).toBe("vue");
   });
 
+  it("detects svelte when svelte is in dependencies", async () => {
+    fs.writeFileSync(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify({ dependencies: { svelte: "^4.0.0" } }),
+    );
+    const { detectFramework } = await import("../commands/init.js");
+    expect(detectFramework()).toBe("svelte");
+  });
+
   it("detects preact when preact is in dependencies", async () => {
     fs.writeFileSync(
       path.join(tmpDir, "package.json"),
@@ -126,6 +135,12 @@ describe("init: framework detection", () => {
     const { strandMdContent } = await import("../commands/init.js");
     const content = strandMdContent("vue");
     expect(content).toContain("strand-vue");
+  });
+
+  it("STRAND.md mentions Svelte when svelte detected", async () => {
+    const { strandMdContent } = await import("../commands/init.js");
+    const content = strandMdContent("svelte");
+    expect(content).toContain("strand-svelte");
   });
 
   it("STRAND.md mentions CSS only when css-only detected", async () => {

@@ -23,6 +23,7 @@ function entry(
     files: {
       preact: [`${name}.tsx`, `${name}.css`, "index.ts"],
       vue: [`${name}.vue`, `${name}.css`, "index.ts"],
+      svelte: [`${name}.svelte`, `${name}.css`, "index.ts"],
       "css-only": [`${name}.css`],
     },
   };

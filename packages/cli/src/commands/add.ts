@@ -23,6 +23,7 @@ function loadConfig(): Config | null {
 const PACKAGE_FOR_FRAMEWORK: Record<Framework, string> = {
   preact: "@dillingerstaffing/strand-ui",
   vue: "@dillingerstaffing/strand-vue",
+  svelte: "@dillingerstaffing/strand-svelte",
   "css-only": "@dillingerstaffing/strand-ui",
 };
 
