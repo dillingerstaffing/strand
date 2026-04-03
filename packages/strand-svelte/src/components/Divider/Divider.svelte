@@ -14,7 +14,7 @@
     aria-orientation="vertical"
     class={['strand-divider', 'strand-divider--vertical'].join(' ')}
     {...$$restProps}
-  />
+  ></div>
 {:else if label}
   <div
     role="separator"
@@ -22,9 +22,9 @@
     class={['strand-divider', 'strand-divider--horizontal', 'strand-divider--labeled'].join(' ')}
     {...$$restProps}
   >
-    <span class="strand-divider__line" />
+    <span class="strand-divider__line"></span>
     <span class="strand-divider__label">{label}</span>
-    <span class="strand-divider__line" />
+    <span class="strand-divider__line"></span>
   </div>
 {:else}
   <hr
