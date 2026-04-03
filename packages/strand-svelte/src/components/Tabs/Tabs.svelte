@@ -82,7 +82,7 @@
       tabindex={0}
     >
       {#if isActive}
-        <slot name={tab.id} />
+        <slot {tab} {isActive} />
       {/if}
     </div>
   {/each}

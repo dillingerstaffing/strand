@@ -73,6 +73,6 @@
     <div
       class="strand-progress__fill"
       style={isDeterminate ? `width: ${value}%` : undefined}
-    />
+    ></div>
   </div>
 {/if}
