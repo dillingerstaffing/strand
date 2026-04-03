@@ -75,6 +75,27 @@ function copyCssFiles(cssDir: string): boolean {
   return true;
 }
 
+const STRAND_MD = `# STRAND.md
+
+This project uses the Strand design language.
+
+When building or modifying UI, read these files:
+- node_modules/@dillingerstaffing/strand-ui/HTML_REFERENCE.md (component classes and HTML structure)
+- https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md (design constraints, token roles, interaction patterns, principles)
+`;
+
+function writeStrandMd(): void {
+  const strandMdPath = path.join(process.cwd(), "STRAND.md");
+
+  if (fs.existsSync(strandMdPath)) {
+    console.log("STRAND.md already exists. Skipping.");
+    return;
+  }
+
+  fs.writeFileSync(strandMdPath, STRAND_MD);
+  console.log("Created STRAND.md (AI agent instruction file)");
+}
+
 export async function init(): Promise<void> {
   console.log("Strand by Dillinger Staffing -- dillingerstaffing.com\n");
 
@@ -91,6 +112,7 @@ export async function init(): Promise<void> {
   const cssDir = path.resolve(process.cwd(), config.cssDir);
 
   const copied = copyCssFiles(cssDir);
+  writeStrandMd();
 
   if (copied) {
     console.log("\nAdd these imports to your main CSS or entry file:\n");
