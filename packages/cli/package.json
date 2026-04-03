@@ -1,6 +1,6 @@
 {
   "name": "strand-ui",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "CLI for adding Strand UI components to your project",
   "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
   "license": "MIT",
