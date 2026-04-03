@@ -47,6 +47,9 @@ export type { TableProps, TableColumn } from "./components/Table/index.js";
 export { DataReadout } from "./components/DataReadout/index.js";
 export type { DataReadoutProps } from "./components/DataReadout/index.js";
 
+export { CodeBlock } from "./components/CodeBlock/index.js";
+export type { CodeBlockProps } from "./components/CodeBlock/index.js";
+
 // Layout components
 export { Stack } from "./components/Stack/index.js";
 export type { StackProps } from "./components/Stack/index.js";

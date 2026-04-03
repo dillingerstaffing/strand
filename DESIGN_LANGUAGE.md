@@ -971,7 +971,45 @@ The overline label stays at `--strand-text-xs` across all sizes. The label-to-va
 .status-error      { color: var(--strand-red-alert); }
 ```
 
-### 11.4 Navigation
+### 11.4 Code Display (The Terminal Readout)
+
+Code is a readout. It should feel like reading terminal output in the laboratory.
+
+```css
+.code-block {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-sm);
+  line-height: var(--strand-leading-relaxed);
+  color: var(--strand-blue-midnight);
+  background: var(--strand-surface-recessed);
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06);
+  border-radius: var(--strand-radius-lg);
+  padding: var(--strand-space-3) var(--strand-space-4);
+  overflow-x: auto;
+  white-space: pre;
+  tab-size: 2;
+}
+
+.code-block__label {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+  margin-bottom: var(--strand-space-2);
+}
+```
+
+**Rules:**
+- Code never wraps. Horizontal scroll preserves structure.
+- Background uses the recessed surface with inner shadow (same as instrument viewport pattern from 7.3).
+- Font is always JetBrains Mono at text-sm (13.3px). Smaller than body text, larger than labels.
+- Padding uses space-4 horizontal (16px), space-3 vertical (12px). Compact but breathable.
+- Optional language label uses the overline pattern (monospace, uppercase, tracked).
+- Tab size is 2 spaces (consistent with modern code formatting).
+
+### 11.5 Navigation
 
 Navigation is the laboratory directory. It tells you where you are and what instruments are available.
 
@@ -981,7 +1019,7 @@ Navigation is the laboratory directory. It tells you where you are and what inst
 - Active item indicated by blue underline (2px, animated from left)
 - Navigation background: white or glassmorphic (for dark-viewport contexts)
 
-### 11.5 Feedback Patterns
+### 11.6 Feedback Patterns
 
 | Pattern | Treatment |
 |---|---|
@@ -991,7 +1029,7 @@ Navigation is the laboratory directory. It tells you where you are and what inst
 | Tooltip (contextual) | Small, positioned, delay on show (200ms), no delay on hide |
 | Progress (status) | Bar or ring, determinate or indeterminate, monospace percentage label |
 
-### 11.6 Microcopy Voice
+### 11.7 Microcopy Voice
 
 Inside instrument viewports, the microcopy speaks as a system, not as a person. This is the instrument's voice:
 

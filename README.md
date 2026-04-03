@@ -195,7 +195,9 @@ npm install @dillingerstaffing/strand @dillingerstaffing/strand-ui
 </button>
 ```
 
-See [HTML_REFERENCE.md](./HTML_REFERENCE.md) for every component's CSS class API. Using [Bootstrap](./docs/migration/from-bootstrap.md) or [Bulma](./docs/migration/from-bulma.md)? Strand works alongside both.
+See [HTML_REFERENCE.md](./HTML_REFERENCE.md) for every component's CSS class API.
+
+**Using Bulma, Bootstrap, or another CSS framework?** Strand's `strand-` prefix means zero class name collisions. Load both stylesheets and use Strand components alongside your existing framework. See [Using Strand with Bulma](./docs/migration/from-bulma.md) or [Using Strand with Bootstrap](./docs/migration/from-bootstrap.md).
 
 ---
 
