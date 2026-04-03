@@ -9,12 +9,10 @@
 <p align="center">
   <a href="./DESIGN_LANGUAGE.md">Design Language</a> &#183;
   <a href="./CONTRIBUTING.md">Contributing</a> &#183;
-  <a href="https://github.com/dillingerstaffing/strand/issues">Issues</a>
+  <a href="https://github.com/dillingerstaffing/strand/issues">Issues</a> &#183;
+  <a href="https://dillingerstaffing.com/labs/strand">Official Website</a>
 </p>
 
-<p align="center">
-    Official Website: https://dillingerstaffing.com/labs/strand
-</p>
 
 ---
 
