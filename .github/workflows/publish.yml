@@ -56,21 +56,23 @@ jobs:
             mkdir -p /tmp/strand-ui-publish
             cp -r packages/cli/dist /tmp/strand-ui-publish/dist
             chmod +x /tmp/strand-ui-publish/dist/index.js
-            cat > /tmp/strand-ui-publish/package.json << EOF
-          {
-            "name": "strand-ui",
-            "version": "${CLI_VERSION}",
-            "description": "CLI for the Strand design language. Add components, tokens, and base styles to your project.",
-            "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
-            "license": "MIT",
-            "keywords": ["design-system", "cli", "strand", "ui-components"],
-            "homepage": "https://dillingerstaffing.com/labs/strand",
-            "repository": { "type": "git", "url": "https://github.com/dillingerstaffing/strand" },
-            "type": "module",
-            "bin": { "strand": "./dist/index.js" },
-            "files": ["dist/"]
-          }
-          EOF
+            node -e "
+              const pkg = require('./packages/cli/package.json');
+              const out = {
+                name: 'strand-ui',
+                version: pkg.version,
+                description: 'CLI for the Strand design language.',
+                author: pkg.author,
+                license: 'MIT',
+                keywords: ['design-system', 'cli', 'strand', 'ui-components'],
+                homepage: 'https://dillingerstaffing.com/labs/strand',
+                repository: { type: 'git', url: 'https://github.com/dillingerstaffing/strand' },
+                type: 'module',
+                bin: { strand: './dist/index.js' },
+                files: ['dist/']
+              };
+              require('fs').writeFileSync('/tmp/strand-ui-publish/package.json', JSON.stringify(out, null, 2));
+            "
             cd /tmp/strand-ui-publish && npm publish --access public --provenance
             echo "Published strand-ui@$CLI_VERSION"
           else
