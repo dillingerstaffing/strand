@@ -834,3 +834,34 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 > **Keyboard navigation:** Tab/Shift+Tab reaches all interactive elements. Arrow keys navigate within Tabs and menus (requires JavaScript). Escape closes overlays. Enter/Space activates buttons. Dialog must trap focus. See [DL L1197-1204](./DESIGN_LANGUAGE.md#L1197).
 
 > **Motion anti-patterns (never do):** Never re-animate on viewport exit/re-enter. Never hijack scroll. Never animate width/height/margin/padding (use transform). Never use bounce/elastic easing. Never animate more than 3-4 elements simultaneously. Never use parallax on text. See [DL L671-680](./DESIGN_LANGUAGE.md#L671).
+
+---
+
+## Utility Classes
+
+### Overline
+
+```html
+<span class="strand-overline">Specimen Label</span>
+```
+
+The monospace uppercase tracked label pattern. Used for section labels, category headers, and data annotations.
+
+> **DL foundation:** This is the laboratory specimen label pattern from [DL Part IV.5 (L386-L396)](./DESIGN_LANGUAGE.md#L386).
+
+### Headline
+
+```html
+<div class="strand-headline strand-headline--xl">STRAND</div>
+<h2 class="strand-headline strand-headline--lg">Section Title</h2>
+```
+
+**Sizes:** `--xl` (hero, fluid 2.5rem-5rem) | `--lg` (section, fluid 1.5rem-2.5rem)
+
+### Lead
+
+```html
+<p class="strand-lead">Design tokens + UI components. Zero-runtime CSS. Ship faster.</p>
+```
+
+Intro paragraph. Max 50 characters per line. Used after headlines.

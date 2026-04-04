@@ -24,7 +24,7 @@
   line-height: var(--strand-leading-relaxed);
   color: var(--strand-blue-midnight);
   background: var(--strand-surface-recessed);
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06); /* strand-blue-abyss at 6% opacity */
+  box-shadow: var(--strand-shadow-inset);
   border-radius: var(--strand-radius-lg);
   padding: var(--strand-space-3) var(--strand-space-4);
   overflow-x: auto;

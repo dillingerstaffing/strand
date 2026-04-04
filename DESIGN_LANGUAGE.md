@@ -405,6 +405,16 @@ The Major Third (1.250) produces a tighter ratio than the default Major Second (
 
 Lines wider than 75ch cause the eye to lose track of the next line start. Lines shorter than 55ch create too many line breaks, disrupting reading flow.
 
+### 4.7 Named Text Patterns
+
+Three text patterns appear throughout the design language:
+
+**Overline (specimen label).** Monospace, text-xs, medium weight, ultra tracking, uppercase, gray-500. Used for section labels, data annotations, form field labels, and category headers. The most distinctive typographic element in the language. It says "this has been classified."
+
+**Headline (display).** Monospace, light weight (300), tracked, uppercase, blue-midnight. Two sizes: xl (hero, fluid 2.5rem-5rem with 0.35em tracking) and lg (section, fluid 1.5rem-2.5rem with tighter tracking).
+
+**Lead (intro).** Sans-serif, text-lg, gray-500, max-width 50ch, relaxed line-height. Follows headlines. Explains the purpose in one or two sentences.
+
 ---
 
 ## Part V: Spacing

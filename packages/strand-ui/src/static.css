@@ -41,7 +41,46 @@
 
 .strand-viewport {
   background: var(--strand-surface-recessed);
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06);
+  box-shadow: var(--strand-shadow-inset);
   border-radius: var(--strand-radius-lg);
   padding: var(--strand-space-6);
+}
+
+/* ── Overline (specimen label pattern, DL Part IV.5) ── */
+.strand-overline {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-ultra);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+  line-height: var(--strand-leading-normal);
+}
+
+/* ── Headline (display heading, DL Part IV.5) ── */
+.strand-headline {
+  font-family: var(--strand-font-mono);
+  font-weight: var(--strand-weight-light);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-blue-midnight);
+  line-height: var(--strand-leading-tight);
+}
+
+.strand-headline--xl {
+  font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
+  letter-spacing: 0.35em;
+}
+
+.strand-headline--lg {
+  font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
+  letter-spacing: var(--strand-tracking-tighter);
+}
+
+/* ── Lead (intro paragraph, DL Part IV.6) ── */
+.strand-lead {
+  font-size: var(--strand-text-lg);
+  color: var(--strand-gray-500);
+  max-width: 50ch;
+  line-height: var(--strand-leading-relaxed);
 }
