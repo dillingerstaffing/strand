@@ -865,3 +865,14 @@ The monospace uppercase tracked label pattern. Used for section labels, category
 ```
 
 Intro paragraph. Max 50 characters per line. Used after headlines.
+
+### Secondary Text
+
+```html
+<p class="strand-text-secondary">Supporting description for a card, feature, or section.</p>
+<span class="strand-text-secondary strand-text-secondary--xs">Fine print or metadata.</span>
+```
+
+Caption/description text. text-sm, gray-500, relaxed leading. The `--xs` modifier reduces to text-xs for metadata and fine print.
+
+> **DL foundation:** [DESIGN_LANGUAGE.md Part III.8 Color Roles](./DESIGN_LANGUAGE.md#L290) defines gray-500 as the secondary text role. [Part IV.7 Named Text Patterns](./DESIGN_LANGUAGE.md#L408) specifies the Secondary pattern.
