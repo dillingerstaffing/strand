@@ -101,16 +101,7 @@ When building or modifying UI, read these files:
 - node_modules/@dillingerstaffing/strand-ui/HTML_REFERENCE.md (component classes, HTML structure, and composition tripwires)
 - https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md (design constraints, token roles, interaction patterns, principles)
 
-Before composing any layout, apply these tests:
-- Principle 2: Identify the primary element. If all elements have equal visual weight, the composition has no focal point.
-- Principle 9: Largest to smallest text on the same screen must be at least 3:1 ratio. Uniform typography is a spreadsheet.
-- Principle 10: Describe the interface in laboratory vocabulary. If it sounds generic, redesign.
-
-Before shipping, audit every screen against these:
-- Principle 1: For each element, can the user complete the task without it? If yes, delete it.
-- Principle 4: For each colored element, is it clickable, live data, or a status indicator? If no, change to gray.
-- Principle 2: Is there exactly one visually dominant element? Do secondary elements support it, not compete?
-- Data consistency: Does every visual encoding (color, position, label) convey accurate information? Cross-check dates, values, and relationships.
+Before composing, and again before shipping, run every test in DESIGN_LANGUAGE.md Part II (Principles 1-10). Each principle has a specific test. If any test fails, the composition is not ready.
 `;
 
   const bulmaNote =
