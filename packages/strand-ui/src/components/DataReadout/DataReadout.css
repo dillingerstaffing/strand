@@ -37,3 +37,7 @@
 .strand-data-readout--lg .strand-data-readout__value {
   font-size: var(--strand-text-4xl);
 }
+
+.strand-data-readout--xl .strand-data-readout__value {
+  font-size: clamp(4.5rem, 10vw, 7rem);
+}

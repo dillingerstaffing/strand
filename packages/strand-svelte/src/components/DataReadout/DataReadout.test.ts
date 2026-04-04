@@ -27,6 +27,11 @@ describe('DataReadout', () => {
     expect(container.querySelector('.strand-data-readout')).toHaveClass('strand-data-readout--lg')
   })
 
+  it('applies xl size class', () => {
+    const { container } = render(DataReadout, { props: { label: 'L', value: 'V', size: 'xl' } })
+    expect(container.querySelector('.strand-data-readout')).toHaveClass('strand-data-readout--xl')
+  })
+
   it('does not apply size class for md', () => {
     const { container } = render(DataReadout, { props: { label: 'L', value: 'V', size: 'md' } })
     const el = container.querySelector('.strand-data-readout')

@@ -118,6 +118,9 @@
    Derivation: section-boundary production (DL 11.10).
    OVERLINE + border-bottom + margin-bottom + padding-bottom */
 .strand-card-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: var(--strand-space-3);
   padding-bottom: var(--strand-space-2);
   border-bottom: 1px solid var(--strand-gray-200);

@@ -983,8 +983,9 @@ When displaying processed data (metrics, scores, status), the interface becomes 
 | `--sm` | `--strand-text-xl` | 25px | Dashboard widgets, compact cards, sidebar metrics, dense data views |
 | (none) | `--strand-text-3xl` | 39px | Standard cards, standalone readouts |
 | `--lg` | `--strand-text-4xl` | 49px | Hero metrics, feature highlights, landing pages |
+| `--xl` | `clamp(4.5rem, 10vw, 7rem)` | 72-112px | Primary instrument readout. The single dominant number on the screen (Principle 2). |
 
-The overline label stays at `--strand-text-xs` across all sizes. The label-to-value ratio shifts from 44% (sm) to 22% (lg): in larger readouts, the number is the hero and the label is the caption. The default (no modifier) preserves the current behavior.
+The overline label stays at `--strand-text-xs` across all sizes. The label-to-value ratio shifts from 44% (sm) to 14% (xl): in larger readouts, the number is the hero and the label is the caption. The default (no modifier) preserves the current behavior.
 
 ### 11.3 Status Indicators
 
@@ -1179,10 +1180,11 @@ Items of equal semantic rank stack vertically. Adjacent same-rank siblings separ
 ```
 sectioned-surface →  section  ( section )* ;
 section           →  SECTION_BOUNDARY  section-content ;
-SECTION_BOUNDARY  →  OVERLINE  "border-bottom: 1px solid" COLOR_GRAY_200  "margin-bottom:" SPACE_3  "padding-bottom:" SPACE_2 ;
+SECTION_BOUNDARY  →  boundary-header  "border-bottom: 1px solid" COLOR_GRAY_200  "margin-bottom:" SPACE_3  "padding-bottom:" SPACE_2 ;
+boundary-header   →  OVERLINE | inline-pair ;
 section-content   →  ranked-sequence | centered-group | atom+ ;
 ```
-The last section in a surface omits its trailing border. A section boundary signals that content above and below relate to different aspects of the same subject.
+The boundary distributes its header children on the inline axis (space-between). A single OVERLINE sits at the start. Two elements (e.g., label + metadata, title + action) distribute to opposite ends. The last section in a surface omits its trailing border.
 
 **Column rules** (how data maps to proportional visual elements):
 

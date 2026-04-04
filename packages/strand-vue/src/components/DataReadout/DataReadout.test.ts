@@ -76,6 +76,13 @@ describe('DataReadout', () => {
     expect(container.firstElementChild?.className).toContain('strand-data-readout--lg')
   })
 
+  it('applies xl size class', () => {
+    const { container } = render(DataReadout, {
+      props: { label: 'Remaining', value: '284g', size: 'xl' },
+    })
+    expect(container.firstElementChild?.className).toContain('strand-data-readout--xl')
+  })
+
   // ── Custom className ──
 
   it('merges custom className', () => {
