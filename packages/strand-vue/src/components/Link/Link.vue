@@ -7,17 +7,20 @@ interface Props {
   href: string
   /** Opens in new tab with rel="noopener noreferrer" */
   external?: boolean
+  /** Style variant */
+  variant?: 'default' | 'cta' | 'mono'
   /** Additional CSS class */
   className?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   external: false,
+  variant: 'default',
   className: '',
 })
 
 const classes = computed(() =>
-  ['strand-link', props.className].filter(Boolean).join(' '),
+  ['strand-link', props.variant !== 'default' && `strand-link--${props.variant}`, props.className].filter(Boolean).join(' '),
 )
 </script>
 

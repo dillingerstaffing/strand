@@ -67,6 +67,18 @@ describe('Link', () => {
     expect(container.firstElementChild?.getAttribute('rel')).toBe('noopener noreferrer')
   })
 
+  // ── Variants ──
+
+  it('applies cta variant class', () => {
+    const { container } = render(Link, { props: { href: '/start', variant: 'cta' }, slots: { default: 'Start' } })
+    expect(container.firstElementChild?.className).toContain('strand-link--cta')
+  })
+
+  it('applies mono variant class', () => {
+    const { container } = render(Link, { props: { href: '/', variant: 'mono' }, slots: { default: 'Home' } })
+    expect(container.firstElementChild?.className).toContain('strand-link--mono')
+  })
+
   // ── Custom className ──
 
   it('merges custom className', () => {

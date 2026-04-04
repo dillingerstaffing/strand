@@ -18,17 +18,19 @@ export interface NavProps
   items?: NavItem[];
   /** Right-side action elements */
   actions?: ComponentChildren;
+  /** Glassmorphic variant (fixed, backdrop-filter, DL 11.5) */
+  glass?: boolean;
 }
 
 export const Nav = forwardRef<HTMLElement, NavProps>(
-  ({ logo, items = [], actions, className = "", ...rest }, ref) => {
+  ({ logo, items = [], actions, glass = false, className = "", ...rest }, ref) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = useCallback(() => {
       setMenuOpen((prev) => !prev);
     }, []);
 
-    const classes = ["strand-nav", className].filter(Boolean).join(" ");
+    const classes = ["strand-nav", glass && "strand-nav--glass", className].filter(Boolean).join(" ");
 
     return (
       <nav ref={ref} className={classes} aria-label="Main navigation" {...rest}>

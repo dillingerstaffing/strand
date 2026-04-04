@@ -37,6 +37,27 @@ describe("Section", () => {
     );
   });
 
+  it("applies compact variant class", () => {
+    const { container } = render(<Section variant="compact">content</Section>);
+    expect(container.firstElementChild?.className).toContain(
+      "strand-section--compact",
+    );
+  });
+
+  it("applies border-top class when borderTop is true", () => {
+    const { container } = render(<Section borderTop>content</Section>);
+    expect(container.firstElementChild?.className).toContain(
+      "strand-section--border-top",
+    );
+  });
+
+  it("does not apply border-top class by default", () => {
+    const { container } = render(<Section>content</Section>);
+    expect(container.firstElementChild?.className).not.toContain(
+      "strand-section--border-top",
+    );
+  });
+
   // ── Background ──
 
   it("applies primary background class by default", () => {

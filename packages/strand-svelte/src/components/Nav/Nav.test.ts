@@ -72,4 +72,9 @@ describe('Nav', () => {
     const { container } = render(Nav, { props: { items: testItems } })
     expect(container.querySelector('.strand-nav__inner')).toBeInTheDocument()
   })
+
+  it('applies glass class', () => {
+    const { container } = render(Nav, { props: { items: testItems, glass: true } })
+    expect(container.querySelector('.strand-nav')).toHaveClass('strand-nav--glass')
+  })
 })

@@ -5,9 +5,11 @@ import { forwardRef } from "preact/compat";
 
 export interface SectionProps extends JSX.HTMLAttributes<HTMLElement> {
   /** Padding variant */
-  variant?: "standard" | "hero";
+  variant?: "standard" | "hero" | "compact";
   /** Surface background */
   background?: "primary" | "elevated" | "recessed";
+  /** Top border separator */
+  borderTop?: boolean;
 }
 
 export const Section = forwardRef<HTMLElement, SectionProps>(
@@ -15,6 +17,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
     {
       variant = "standard",
       background = "primary",
+      borderTop = false,
       className = "",
       children,
       ...rest
@@ -25,6 +28,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
       "strand-section",
       `strand-section--${variant}`,
       `strand-section--bg-${background}`,
+      borderTop && "strand-section--border-top",
       className,
     ]
       .filter(Boolean)

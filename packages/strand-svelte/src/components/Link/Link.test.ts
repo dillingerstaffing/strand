@@ -25,4 +25,14 @@ describe('Link', () => {
     expect(el).toHaveAttribute('target', '_blank')
     expect(el).toHaveAttribute('rel', 'noopener noreferrer')
   })
+
+  it('applies cta variant class', () => {
+    const { container } = render(Link, { props: { href: '/start', variant: 'cta' } })
+    expect(container.querySelector('.strand-link')).toHaveClass('strand-link--cta')
+  })
+
+  it('applies mono variant class', () => {
+    const { container } = render(Link, { props: { href: '/', variant: 'mono' } })
+    expect(container.querySelector('.strand-link')).toHaveClass('strand-link--mono')
+  })
 })

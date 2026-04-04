@@ -168,4 +168,18 @@ describe('Nav', () => {
     })
     expect(container.querySelector('.strand-nav__logo')).toBeNull()
   })
+
+  it('applies glass class when glass is true', () => {
+    const { container } = render(Nav, {
+      props: { items: sampleItems, glass: true },
+    })
+    expect(container.firstElementChild?.className).toContain('strand-nav--glass')
+  })
+
+  it('does not apply glass class by default', () => {
+    const { container } = render(Nav, {
+      props: { items: sampleItems },
+    })
+    expect(container.firstElementChild?.className).not.toContain('strand-nav--glass')
+  })
 })
