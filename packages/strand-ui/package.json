@@ -1,6 +1,6 @@
 {
   "name": "@dillingerstaffing/strand-ui",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Strand UI - Preact/React component library built on the Strand Design Language",
   "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
   "license": "MIT",

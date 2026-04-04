@@ -1,6 +1,6 @@
 # @dillingerstaffing/strand-ui
 
-Preact/React component library built on the [Strand Design Language](https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md). 32 components. Zero-runtime CSS. WCAG 2.2 AA.
+Preact/React component library built on the [Strand Design Language](https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md). 34 components. Zero-runtime CSS. WCAG 2.2 AA.
 
 ## Install
 

@@ -236,7 +236,7 @@ Own the source. No dependency lock-in.
 npx strand-ui init          # Set up tokens in your project
 npx strand-ui add button    # Copy Button source to your codebase
 npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list          # See all 32 components
+npx strand-ui list          # See all 34 components
 ```
 
 After install, the CLI is available as `strand` (e.g., `strand add button`).
@@ -248,7 +248,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-32 components across 5 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior.
+34 components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior.
 
 ### Input
 
@@ -306,6 +306,18 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 | `Progress` | Completion indicator | `variant`: bar, ring. `value` (0-100), `indeterminate` |
 | `Spinner` | Loading indicator | `size`: sm, md, lg. Screen reader text included |
 | `Skeleton` | Content placeholder | `variant`: text, rectangle, circle. `width`, `height`. Shimmer animation |
+
+### Surface
+
+| Component | Description | Key Props |
+|---|---|---|
+| `InstrumentViewport` | Dark instrument panel container | `grid` (optional grid overlay). Abyss-background viewport for data displays |
+
+### Animation
+
+| Component | Description | Key Props |
+|---|---|---|
+| `ScrollReveal` | Scroll-triggered entrance animation | `threshold` (0-1), `once`. IntersectionObserver-powered fade+slide reveal |
 
 ---
 

@@ -6,6 +6,10 @@
 
 > **Before writing any Strand HTML**, read [DESIGN_LANGUAGE.md Part II: Named Principles (L57-L193)](./DESIGN_LANGUAGE.md#L57). These 10 principles are hard constraints, not guidelines. Violating them produces valid HTML that looks wrong.
 
+> **Principle 1 (Cognitive Economy):** Every element must earn its place. Test: remove an element. If the task still works, it was decoration. If you're not adding back 10% of what you delete, you're not deleting enough. See [DL L61-69](./DESIGN_LANGUAGE.md#L61).
+
+> **Principle 2 (Biosynthetic Restraint):** Max 12 distinct visual elements per screen. See [DL L71-79](./DESIGN_LANGUAGE.md#L71).
+
 ## Required CSS
 
 **CDN (no install):**
@@ -23,6 +27,8 @@
 <link rel="stylesheet" href="node_modules/@dillingerstaffing/strand/css/tokens.css">
 <link rel="stylesheet" href="node_modules/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
 ```
+
+> **Principle 7 (Grain of Precision):** Include reset.css and base.css for the laboratory surface texture (dot grid, LED glow, grain). Without these, the page is a blank canvas, not a lab. See [DL L141-147](./DESIGN_LANGUAGE.md#L141).
 
 > **Token roles:** Don't guess which token to use. See [DESIGN_LANGUAGE.md 3.8: Color Roles (L290-L311)](./DESIGN_LANGUAGE.md#L290) for which color in which context, and [Appendix B: Token Quick Reference (L1372-L1431)](./DESIGN_LANGUAGE.md#L1372) for the full lookup table.
 
@@ -74,6 +80,10 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ---
 
 ## Input Components
+
+> **Principle 10 (Instrument Principle):** Forms are specimen collection instruments. Labels use monospace uppercase tracking. The form should feel like filling out a specimen record, not a generic web form. See [DL L171-192](./DESIGN_LANGUAGE.md#L171).
+
+> **Microcopy voice:** Use instrument language. "Processing..." not "Loading...". "Format unrecognized" not "Invalid input". See [DL L1034-1049](./DESIGN_LANGUAGE.md#L1034).
 
 > **Interaction states for all inputs** (hover, focus, pressed, disabled, loading): [DESIGN_LANGUAGE.md Part XII: Interaction State System (L1013-L1067)](./DESIGN_LANGUAGE.md#L1013).
 
@@ -451,7 +461,9 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 **Gap:** `strand-grid--gap-1` through `strand-grid--gap-8`
 **Note:** For column counts beyond 4, use inline style: `style="grid-template-columns: repeat(6, 1fr); gap: var(--strand-space-4);"`.
 
-> **Composability:** Before nesting grids inside cards inside previews, check content width. See [DESIGN_LANGUAGE.md 10.5: Composability Constraint (L873-L877)](./DESIGN_LANGUAGE.md#L873).
+> **Principle 6 (Compound Silence):** Gap between siblings must exceed padding within components. If card padding is md (24px), card-to-card gap must be at least 32px. See [DL L127-140](./DESIGN_LANGUAGE.md#L127).
+
+> **Composability (DL 10.5):** Before nesting more than 2 padded containers, calculate remaining content width at narrowest viewport. See [DL L873-877](./DESIGN_LANGUAGE.md#L873).
 
 ---
 
@@ -615,6 +627,8 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 ## Feedback Components
 
+> **Microcopy voice:** Alerts are diagnostic events. Use "Process interrupted" not "Something went wrong". Use "Retry sequence" not "Please try again". See [DL L1034-1049](./DESIGN_LANGUAGE.md#L1034).
+
 ### Toast
 
 ```html
@@ -634,6 +648,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </div>
 ```
 
+**Status prefix:** Include `<span class="strand-toast__status">LABEL</span>` before the message. Labels: `INFO`, `COMPLETE` (success), `WARNING`, `ERROR`.
 **Note:** Container is fixed to bottom-right. Use `aria-live="assertive"` for `warning` and `error`.
 
 ---
@@ -648,6 +663,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **Statuses:** `strand-alert--info` | `strand-alert--success` | `strand-alert--warning` | `strand-alert--error`
+**Status prefix:** Include `<span class="strand-alert__status">LABEL</span>` before the content div. Labels: `INFO`, `COMPLETE` (success), `WARNING`, `ERROR`.
 **Dismissible:** Add `<button type="button" class="strand-alert__dismiss" aria-label="Dismiss">&times;</button>` after content.
 **Note:** Use `role="alert"` for `warning` and `error`, `role="status"` for `info` and `success`.
 
@@ -771,3 +787,50 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 **Note:** Always include `aria-hidden="true"`. Skeletons are placeholder visuals, not interactive.
 
 > **Animation:** Shimmer is 1.8s cycle. All animations respect `prefers-reduced-motion`. See [DESIGN_LANGUAGE.md 6.7: Reduced Motion (L656-L669)](./DESIGN_LANGUAGE.md#L656).
+
+---
+
+## InstrumentViewport
+
+```html
+<div class="strand-instrument-viewport">
+  <!-- Dark data-dense content -->
+</div>
+
+<!-- With grid overlay -->
+<div class="strand-instrument-viewport strand-instrument-viewport--grid">
+  <!-- Dark content with grid lines -->
+</div>
+```
+
+> **Dual-surface principle:** The white lab frame contains dark instrument viewports for data-dense contexts (maps, charts, terminal displays). The viewport is recessed INTO the lab, not floating above it. See [DL L795-814](./DESIGN_LANGUAGE.md#L795).
+
+> **Decision framework:** Use dark viewport for data-dense displays. Use clean white for dashboards. Use lab surface for content pages. See [DL L816-825](./DESIGN_LANGUAGE.md#L816).
+
+---
+
+## ScrollReveal
+
+```html
+<div class="strand-reveal">Fades up on scroll</div>
+
+<div class="strand-reveal-group">
+  <div class="strand-reveal">Staggers 0ms</div>
+  <div class="strand-reveal">Staggers 80ms</div>
+  <div class="strand-reveal">Staggers 160ms</div>
+</div>
+```
+
+> **Scientific reveal:** Scroll-triggered entrance. 24px translate, trigger once. Stagger 80ms between siblings. See [DL L538-563](./DESIGN_LANGUAGE.md#L538).
+
+---
+
+## Accessibility and Motion
+
+> **Accessibility checklist:** Exactly one h1 per page. Heading hierarchy (no skipping levels). All form inputs have visible labels. ARIA labels on non-text controls. ARIA live regions on dynamic content. Landmark regions (nav, main, footer). See [DL L1206-1213](./DESIGN_LANGUAGE.md#L1206).
+
+> **Touch targets:** All interactive elements must be at least 44x44px. See [DL L1215-1217](./DESIGN_LANGUAGE.md#L1215).
+
+> **Keyboard navigation:** Tab/Shift+Tab reaches all interactive elements. Arrow keys navigate within Tabs and menus (requires JavaScript). Escape closes overlays. Enter/Space activates buttons. Dialog must trap focus. See [DL L1197-1204](./DESIGN_LANGUAGE.md#L1197).
+
+> **Motion anti-patterns (never do):** Never re-animate on viewport exit/re-enter. Never hijack scroll. Never animate width/height/margin/padding (use transform). Never use bounce/elastic easing. Never animate more than 3-4 elements simultaneously. Never use parallax on text. See [DL L671-680](./DESIGN_LANGUAGE.md#L671).

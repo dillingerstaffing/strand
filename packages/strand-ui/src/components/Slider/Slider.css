@@ -20,14 +20,15 @@
   transition: background var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
-/* ── Thumb: Webkit ── */
+/* ── Thumb: Webkit (44px touch target, 20px visual) ── */
 .strand-slider__field::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
   height: 20px;
   background: var(--strand-blue-primary);
-  border: 2px solid var(--strand-surface-elevated);
+  border: 12px solid transparent;
   border-radius: var(--strand-radius-full);
+  background-clip: padding-box;
   cursor: pointer;
   box-shadow: var(--strand-elevation-1);
   transition:
@@ -37,21 +38,24 @@
 
 .strand-slider__field:hover:not(:disabled)::-webkit-slider-thumb {
   background: var(--strand-blue-vivid);
+  background-clip: padding-box;
   transform: scale(1.15);
 }
 
 .strand-slider__field:active:not(:disabled)::-webkit-slider-thumb {
   background: var(--strand-blue-deep);
+  background-clip: padding-box;
   transform: scale(1.05);
 }
 
-/* ── Thumb: Firefox ── */
+/* ── Thumb: Firefox (44px touch target, 20px visual) ── */
 .strand-slider__field::-moz-range-thumb {
   width: 20px;
   height: 20px;
   background: var(--strand-blue-primary);
-  border: 2px solid var(--strand-surface-elevated);
+  border: 12px solid transparent;
   border-radius: var(--strand-radius-full);
+  background-clip: padding-box;
   cursor: pointer;
   box-shadow: var(--strand-elevation-1);
   transition:
@@ -61,11 +65,13 @@
 
 .strand-slider__field:hover:not(:disabled)::-moz-range-thumb {
   background: var(--strand-blue-vivid);
+  background-clip: padding-box;
   transform: scale(1.15);
 }
 
 .strand-slider__field:active:not(:disabled)::-moz-range-thumb {
   background: var(--strand-blue-deep);
+  background-clip: padding-box;
   transform: scale(1.05);
 }
 

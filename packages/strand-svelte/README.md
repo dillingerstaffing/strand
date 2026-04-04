@@ -1,6 +1,6 @@
 # @dillingerstaffing/strand-svelte
 
-Svelte component library built on the [Strand Design Language](https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md). 32 components. Zero-runtime CSS. WCAG 2.2 AA.
+Svelte component library built on the [Strand Design Language](https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md). 34 components. Zero-runtime CSS. WCAG 2.2 AA.
 
 ## Quick Start
 
@@ -34,13 +34,15 @@ Use components:
 
 ## Components
 
-32 components across 5 categories. Every component includes all interaction states, keyboard navigation, ARIA compliance, and `prefers-reduced-motion` support.
+34 components across 7 categories. Every component includes all interaction states, keyboard navigation, ARIA compliance, and `prefers-reduced-motion` support.
 
 **Input:** Button, Input, Textarea, Select, Checkbox, Radio, Switch, Slider, FormField
 **Display:** Card, Badge, Avatar, Tag, Table, DataReadout, CodeBlock
 **Layout:** Stack, Grid, Container, Divider, Section
 **Navigation:** Link, Tabs, Breadcrumb, Nav
 **Feedback:** Toast, Alert, Dialog, Tooltip, Progress, Spinner, Skeleton
+**Surface:** InstrumentViewport
+**Animation:** ScrollReveal
 
 ## Same CSS, Different Framework
 

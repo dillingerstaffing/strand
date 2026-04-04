@@ -1,4 +1,4 @@
-/*! Strand v0.6.0 | MIT License | dillingerstaffing.com */
+/*! Strand v0.7.0 | MIT License | dillingerstaffing.com */
 
 :root {
   /* ═══════════════════════════════════════════
@@ -167,4 +167,18 @@
   --strand-content-default: 768px;
   --strand-content-wide: 1024px;
   --strand-content-full: 1280px;
+
+  /* ── ACCESSIBILITY ── */
+  --strand-touch-target: 44px;
+
+  /* ── COMPONENT SIZES ── */
+  --strand-nav-height: 64px;
+  --strand-control-size: 18px;
+
+  /* ── ANIMATION: STAGGER ── */
+  --strand-stagger-delay: 80ms;
+
+  /* ── SURFACE: VIEWPORT ── */
+  --strand-viewport-grid-opacity: 0.04;
+  --strand-viewport-grid-size: 40px;
 }

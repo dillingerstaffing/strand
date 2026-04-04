@@ -1,0 +1,29 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+.strand-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--strand-duration-glacial) var(--strand-ease-out-expo),
+              transform var(--strand-duration-glacial) var(--strand-ease-out-expo);
+}
+
+.strand-reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children */
+.strand-reveal-group > .strand-reveal:nth-child(1) { transition-delay: 0ms; }
+.strand-reveal-group > .strand-reveal:nth-child(2) { transition-delay: var(--strand-stagger-delay); }
+.strand-reveal-group > .strand-reveal:nth-child(3) { transition-delay: calc(var(--strand-stagger-delay) * 2); }
+.strand-reveal-group > .strand-reveal:nth-child(4) { transition-delay: calc(var(--strand-stagger-delay) * 3); }
+.strand-reveal-group > .strand-reveal:nth-child(5) { transition-delay: calc(var(--strand-stagger-delay) * 4); }
+.strand-reveal-group > .strand-reveal:nth-child(6) { transition-delay: var(--strand-duration-slow); }
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

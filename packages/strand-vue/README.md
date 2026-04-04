@@ -36,13 +36,15 @@ import { Button, Card, Stack, Input } from '@dillingerstaffing/strand-vue'
 
 ## Components
 
-31 components across 5 categories. Every component includes all interaction states, keyboard navigation, ARIA compliance, and `prefers-reduced-motion` support.
+34 components across 7 categories. Every component includes all interaction states, keyboard navigation, ARIA compliance, and `prefers-reduced-motion` support.
 
 **Input:** Button, Input, Textarea, Select, Checkbox, Radio, Switch, Slider, FormField
-**Display:** Card, Badge, Avatar, Tag, Table, DataReadout
+**Display:** Card, Badge, Avatar, Tag, Table, DataReadout, CodeBlock
 **Layout:** Stack, Grid, Container, Divider, Section
 **Navigation:** Link, Tabs, Breadcrumb, Nav
 **Feedback:** Toast, Alert, Dialog, Tooltip, Progress, Spinner, Skeleton
+**Surface:** InstrumentViewport
+**Animation:** ScrollReveal
 
 ## Same CSS, Different Framework
 

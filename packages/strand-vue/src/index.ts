@@ -26,6 +26,8 @@ export { default as Grid } from "./components/Grid/Grid.vue";
 export { default as Container } from "./components/Container/Container.vue";
 export { default as Divider } from "./components/Divider/Divider.vue";
 export { default as Section } from "./components/Section/Section.vue";
+export { default as InstrumentViewport } from "./components/InstrumentViewport/InstrumentViewport.vue";
+export { default as ScrollReveal } from "./components/ScrollReveal/ScrollReveal.vue";
 
 // Navigation
 export { default as Link } from "./components/Link/Link.vue";

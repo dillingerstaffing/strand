@@ -5,6 +5,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--strand-space-2);
+  min-height: var(--strand-touch-target);
   cursor: pointer;
   user-select: none;
   font-family: var(--strand-font-sans);
@@ -31,8 +32,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: var(--strand-control-size);
+  height: var(--strand-control-size);
   border: 1px solid var(--strand-gray-200);
   border-radius: var(--strand-radius-sm);
   background: var(--strand-surface-elevated);

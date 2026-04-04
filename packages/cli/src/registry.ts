@@ -5,7 +5,9 @@ export type ComponentCategory =
   | "Display"
   | "Layout"
   | "Navigation"
-  | "Feedback";
+  | "Feedback"
+  | "Surface"
+  | "Animation";
 
 export interface ComponentEntry {
   name: string;
@@ -71,6 +73,12 @@ export const components: Map<string, ComponentEntry> = new Map([
   ["progress", entry("Progress", "Feedback")],
   ["spinner", entry("Spinner", "Feedback")],
   ["skeleton", entry("Skeleton", "Feedback")],
+
+  // Surface
+  ["instrumentviewport", entry("InstrumentViewport", "Surface")],
+
+  // Animation
+  ["scrollreveal", entry("ScrollReveal", "Animation")],
 ]);
 
 export const VALID_CATEGORIES: ComponentCategory[] = [
@@ -79,4 +87,6 @@ export const VALID_CATEGORIES: ComponentCategory[] = [
   "Layout",
   "Navigation",
   "Feedback",
+  "Surface",
+  "Animation",
 ];
