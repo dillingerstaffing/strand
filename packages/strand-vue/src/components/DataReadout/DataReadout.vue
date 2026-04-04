@@ -7,8 +7,8 @@ interface Props {
   label: string
   /** The large displayed value */
   value: string | number
-  /** Size variant: sm (compact), md (default), lg (hero) */
-  size?: 'sm' | 'md' | 'lg'
+  /** Size variant: sm (compact), md (default), lg (hero), xl (primary instrument) */
+  size?: 'sm' | 'md' | 'lg' | 'xl'
   /** Additional CSS class */
   className?: string
 }

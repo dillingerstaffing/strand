@@ -11,57 +11,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- Strand Design Language (https://github.com/dillingerstaffing/strand) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.9/css/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.9/css/reset.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.9/css/base.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand-ui@0.9/dist/css/strand-ui.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.10/css/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.10/css/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.10/css/base.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand-ui@0.10/dist/css/strand-ui.css">
 
 <style>
-/* ════════════════════════════════════════════════
-   Supply Monitor — Strand component showcase
-   Layout only. All visual styling from Strand atoms
-   and composition molecules.
-   https://dillingerstaffing.com/labs/strand
-   ════════════════════════════════════════════════ */
+/* Template-level layout only. All atoms, molecules, and
+   tokens from Strand. See DL Part XI-B for grammar. */
 
-/* ── Page layout (not molecule territory) ── */
-
-.monitor-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: var(--strand-nav-height);
-  padding-inline: clamp(1.5rem, 5vw, 3rem);
-  background: var(--strand-surface-elevated);
-  border-bottom: 1px solid var(--strand-gray-200);
-}
-
-.monitor {
-  max-width: var(--strand-content-default);
-  margin-inline: auto;
-  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 3rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--strand-space-6);
-}
-
-/* ── Primary readout: the one number that matters (Principle 2) ── */
-
-.monitor-primary {
-  text-align: center;
-  padding-block: var(--strand-space-6);
-}
-
-.monitor-primary .strand-data-readout__value {
-  font-size: clamp(4.5rem, 10vw, 7rem);
-}
-
-.monitor-gauge {
-  max-width: var(--strand-space-40);
-  margin: var(--strand-space-4) auto 0;
-}
-
-/* ── Context row layout ── */
+.monitor-primary { text-align: center; padding-block: var(--strand-space-6); }
+.monitor-gauge { max-width: var(--strand-space-40); margin: var(--strand-space-4) auto 0; }
 
 .monitor-context {
   display: grid;
@@ -69,52 +29,28 @@
   gap: var(--strand-space-6);
   align-items: stretch;
 }
+@media (max-width: 640px) { .monitor-context { grid-template-columns: 1fr; } }
 
-@media (max-width: 640px) {
-  .monitor-context { grid-template-columns: 1fr; }
-}
-
-/* ── Forecast viewport header ── */
-
-.monitor-forecast { overflow: hidden; }
-
-.monitor-forecast-header {
-  padding: var(--strand-space-3) var(--strand-space-5);
-  border-bottom: 1px solid var(--strand-gray-200);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* ── Semantic overrides (earned color) ── */
-
-.monitor-nav-status { color: var(--strand-teal-vital); }
 .monitor-order-value { color: var(--strand-blue-primary); }
-.monitor-forecast-blend { color: var(--strand-gray-400); }
 .monitor-action { align-self: center; }
-
-/* ── Reduced motion ── */
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
 </style>
 </head>
 <body>
 
-<nav class="monitor-nav">
-  <span class="strand-overline" style="font-size: var(--strand-text-sm); font-weight: var(--strand-weight-semibold); color: var(--strand-blue-midnight)">Supply Monitor</span>
-  <span class="strand-overline monitor-nav-status">● Tracking</span>
+<nav class="strand-nav">
+  <div class="strand-nav__inner">
+    <span class="strand-overline strand-nav__logo" style="font-weight: var(--strand-weight-semibold); color: var(--strand-blue-midnight)">Supply Monitor</span>
+    <div class="strand-nav__actions">
+      <span class="strand-overline" style="color: var(--strand-teal-vital)">● Tracking</span>
+    </div>
+  </div>
 </nav>
 
-<main class="monitor">
+<main class="strand-container strand-container--default strand-stack strand-stack--vertical strand-stack--gap-6" style="padding-block: clamp(2rem, 5vw, 4rem)">
 
-  <!-- Primary readout -->
+  <!-- Primary readout (Principle 2: one dominant element) -->
   <section class="monitor-primary">
-    <div class="strand-data-readout strand-data-readout--lg">
+    <div class="strand-data-readout strand-data-readout--xl">
       <span class="strand-data-readout__label">Remaining</span>
       <span class="strand-data-readout__value">284g</span>
     </div>
@@ -124,7 +60,7 @@
     </div>
   </section>
 
-  <!-- Secondary readouts (centered-group derivation) -->
+  <!-- Secondary readouts (centered-group production) -->
   <section class="strand-metric-row">
     <div class="strand-data-readout strand-data-readout--sm">
       <span class="strand-data-readout__label">Daily</span>
@@ -140,12 +76,12 @@
     </div>
   </section>
 
-  <!-- Forecast viewport (column-array derivation) -->
-  <div class="strand-card strand-card--elevated strand-card--pad-none monitor-forecast">
-    <header class="monitor-forecast-header">
+  <!-- Forecast (column-array production inside instrument viewport) -->
+  <div class="strand-card strand-card--elevated strand-card--pad-none" style="overflow: hidden">
+    <div class="strand-card-section" style="padding: var(--strand-space-3) var(--strand-space-5); margin-bottom: 0">
       <span class="strand-overline">7-Day Depletion</span>
-      <span class="strand-overline monitor-forecast-blend">Ethiopian Yirgacheffe</span>
-    </header>
+      <span class="strand-overline" style="color: var(--strand-gray-400)">Ethiopian Yirgacheffe</span>
+    </div>
     <div class="strand-instrument-viewport strand-instrument-viewport--grid">
       <div class="strand-bar-chart">
         <div class="strand-bar-chart__col">
@@ -187,7 +123,7 @@
     </div>
   </div>
 
-  <!-- Context (section-boundary + inline-pair + ranked-sequence derivations) -->
+  <!-- Context (section-boundary + inline-pair + ranked-sequence) -->
   <section class="monitor-context">
     <div class="strand-card strand-card--elevated strand-card--pad-md">
       <div class="strand-card-section">

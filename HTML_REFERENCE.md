@@ -407,7 +407,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </div>
 ```
 
-**Sizes:** `--sm` (text-xl, 25px) | default (text-3xl, 39px) | `--lg` (text-4xl, 49px). Label stays xs across all sizes.
+**Sizes:** `--sm` (text-xl, 25px) | default (text-3xl, 39px) | `--lg` (text-4xl, 49px) | `--xl` (fluid 72-112px, primary instrument readout). Label stays xs across all sizes.
 
 > **The DataReadout pattern** is uniquely Strand: monospace overline + large light-weight value + tabular numerals. See [DESIGN_LANGUAGE.md 11.2: Data Display (L918-L955)](./DESIGN_LANGUAGE.md#L918).
 
@@ -900,15 +900,19 @@ Named CSS classes for common compositions. Each implements one or more productio
 Production: `section-boundary`.
 
 ```html
-<div class="strand-card strand-card--elevated strand-card--pad-md">
-  <div class="strand-card-section">
-    <span class="strand-overline">Section Label</span>
-  </div>
-  <!-- section content -->
+<!-- Single label -->
+<div class="strand-card-section">
+  <span class="strand-overline">Section Label</span>
+</div>
+
+<!-- Distributed header (label + secondary) -->
+<div class="strand-card-section">
+  <span class="strand-overline">7-Day Forecast</span>
+  <span class="strand-overline" style="color: var(--strand-gray-400)">Ethiopian Yirgacheffe</span>
 </div>
 ```
 
-Multiple sections stack. Last section omits trailing border via `:last-child`.
+Children distribute on the inline axis (space-between). Single child sits at the start. Multiple sections stack; last omits trailing border via `:last-child`.
 
 ### Key-Value Row
 

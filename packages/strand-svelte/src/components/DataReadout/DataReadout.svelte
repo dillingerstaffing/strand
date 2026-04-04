@@ -4,8 +4,8 @@
   export let label: string
   /** The large displayed value */
   export let value: string | number
-  /** Size variant: sm (compact), md (default), lg (hero) */
-  export let size: 'sm' | 'md' | 'lg' | undefined = undefined
+  /** Size variant: sm (compact), md (default), lg (hero), xl (primary instrument) */
+  export let size: 'sm' | 'md' | 'lg' | 'xl' | undefined = undefined
 
   $: classes = [
     'strand-data-readout',

@@ -111,6 +111,14 @@ describe("DataReadout", () => {
     expect(readout?.className).toContain("strand-data-readout--lg");
   });
 
+  it("applies xl size modifier class", () => {
+    const { container } = render(
+      <DataReadout label="Remaining" value="284g" size="xl" />,
+    );
+    const readout = container.querySelector(".strand-data-readout");
+    expect(readout?.className).toContain("strand-data-readout--xl");
+  });
+
   it("does not apply size modifier for md (default)", () => {
     const { container } = render(
       <DataReadout label="Metric" value="100" size="md" />,
