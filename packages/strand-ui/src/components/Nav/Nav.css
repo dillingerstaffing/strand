@@ -169,6 +169,21 @@
   }
 }
 
+/* ── Glassmorphic variant (DL 11.5: "white or glassmorphic") ── */
+.strand-nav--glass {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: auto;
+  padding: var(--strand-space-4) 0;
+  background: rgba(250, 252, 254, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .strand-nav__link,
