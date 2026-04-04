@@ -886,3 +886,100 @@ Intro paragraph. Max 50 characters per line. Used after headlines.
 Caption/description text. text-sm, gray-500, relaxed leading. The `--xs` modifier reduces to text-xs for metadata and fine print.
 
 > **DL foundation:** [DESIGN_LANGUAGE.md Part III.8 Color Roles](./DESIGN_LANGUAGE.md#L290) defines gray-500 as the secondary text role. [Part IV.7 Named Text Patterns](./DESIGN_LANGUAGE.md#L408) specifies the Secondary pattern.
+
+---
+
+## Composition Molecules
+
+Named CSS classes for common compositions. Each implements one or more productions from the [DL Composition Grammar (Part XI-B)](./DESIGN_LANGUAGE.md#L1085).
+
+> **Composition rules:** [DL 11.10 Productions](./DESIGN_LANGUAGE.md#L1144) | [DL 11.11 Containment](./DESIGN_LANGUAGE.md#L1199) | [DL 11.12 Derivation](./DESIGN_LANGUAGE.md#L1215) | [DL 11.13 Tests](./DESIGN_LANGUAGE.md#L1246)
+
+### Card Section
+
+Production: `section-boundary`.
+
+```html
+<div class="strand-card strand-card--elevated strand-card--pad-md">
+  <div class="strand-card-section">
+    <span class="strand-overline">Section Label</span>
+  </div>
+  <!-- section content -->
+</div>
+```
+
+Multiple sections stack. Last section omits trailing border via `:last-child`.
+
+### Key-Value Row
+
+Productions: `inline-pair` + `ranked-sequence`.
+
+```html
+<div class="strand-kv">
+  <span class="strand-kv__label">Blend</span>
+  <span class="strand-kv__value">Ethiopian Yirgacheffe</span>
+</div>
+<div class="strand-kv">
+  <span class="strand-kv__label">Status</span>
+  <span class="strand-kv__value strand-kv__value--status">Active</span>
+</div>
+```
+
+**Modifier:** `strand-kv__value--status` applies semantic color.
+
+### Diagnostic Log Entry
+
+Productions: `inline-sequence` + `ranked-sequence`.
+
+```html
+<div class="strand-log">
+  <span class="strand-log__time">9:15</span>
+  <span class="strand-log__status strand-log__status--complete">Brewed</span>
+  <span class="strand-text-secondary">Pour over. 18g.</span>
+</div>
+<div class="strand-log">
+  <span class="strand-log__time">6:30</span>
+  <span class="strand-log__status strand-log__status--process">Brewing</span>
+  <span class="strand-text-secondary">Espresso. 18g.</span>
+</div>
+```
+
+**Status variants:** `--complete` (teal) | `--process` (blue) | `--warning` (amber) | `--error` (red)
+
+### Metric Row
+
+Production: `centered-group`.
+
+```html
+<div class="strand-metric-row">
+  <div class="strand-data-readout strand-data-readout--sm">
+    <span class="strand-data-readout__label">Daily</span>
+    <span class="strand-data-readout__value">36g</span>
+  </div>
+  <div class="strand-data-readout strand-data-readout--sm">
+    <span class="strand-data-readout__label">Days Left</span>
+    <span class="strand-data-readout__value">7.9</span>
+  </div>
+</div>
+```
+
+### Bar Chart
+
+Production: `column-array`.
+
+```html
+<div class="strand-bar-chart">
+  <div class="strand-bar-chart__col">
+    <span class="strand-bar-chart__amount">284</span>
+    <div class="strand-bar-chart__bar" style="height: 100%"></div>
+    <span class="strand-bar-chart__label">Thu</span>
+  </div>
+  <div class="strand-bar-chart__col">
+    <span class="strand-bar-chart__amount">248</span>
+    <div class="strand-bar-chart__bar" style="height: 87%"></div>
+    <span class="strand-bar-chart__label">Fri</span>
+  </div>
+</div>
+```
+
+Heights are inline styles (data-driven). Place inside `.strand-instrument-viewport` for dual-surface treatment.

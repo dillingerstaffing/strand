@@ -105,3 +105,150 @@
 .strand-text-secondary--xs {
   font-size: var(--strand-text-xs);
 }
+
+/* ══════════════════════════════════════════════════
+   COMPOSITION MOLECULES (DL Part XI-B Grammar)
+   Named derivations of DL composition primitives.
+   Each molecule is a convenience class for a common
+   derivation chain. See DL 11.10 Productions for the
+   grammar rules; DL 11.12 Derivation for verification.
+   ══════════════════════════════════════════════════ */
+
+/* ── Card Section ──
+   Derivation: section-boundary production (DL 11.10).
+   OVERLINE + border-bottom + margin-bottom + padding-bottom */
+.strand-card-section {
+  margin-bottom: var(--strand-space-3);
+  padding-bottom: var(--strand-space-2);
+  border-bottom: 1px solid var(--strand-gray-200);
+}
+
+/* ── Key-Value Row ──
+   Derivation: inline-pair + ranked-sequence (DL 11.10).
+   identifier(OVERLINE) + quantifier(MONO_VALUE) + RANK_BORDER */
+.strand-kv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: var(--strand-space-2);
+}
+
+.strand-kv + .strand-kv {
+  border-top: 1px solid var(--strand-border-subtle);
+}
+
+.strand-kv__label {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+}
+
+.strand-kv__value {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-600);
+  font-variant-numeric: tabular-nums;
+}
+
+.strand-kv__value--status {
+  color: var(--strand-teal-vital);
+}
+
+/* ── Diagnostic Log Entry ──
+   Derivation: inline-sequence + ranked-sequence (DL 11.10).
+   time(OVERLINE) + status(OVERLINE+COLOR_SEMANTIC) + text(SECONDARY) + RANK_BORDER */
+.strand-log {
+  display: flex;
+  gap: var(--strand-space-3);
+  padding-block: var(--strand-space-2);
+}
+
+.strand-log + .strand-log {
+  border-top: 1px solid var(--strand-border-subtle);
+}
+
+.strand-log__time {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  color: var(--strand-gray-400);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.strand-log__status {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-semibold);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.strand-log__status--complete { color: var(--strand-teal-vital); }
+.strand-log__status--process { color: var(--strand-blue-primary); }
+.strand-log__status--warning { color: var(--strand-amber-caution); }
+.strand-log__status--error { color: var(--strand-red-alert); }
+
+/* ── Metric Row ──
+   Derivation: centered-group (DL 11.10).
+   self-contained(atom)* with center distribution + responsive gap */
+.strand-metric-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  text-align: center;
+}
+
+/* ── Bar Chart ──
+   Derivation: column-array (DL 11.10).
+   column(amount? + bar + label)* with equal flex + flex-end alignment.
+   Blue Discipline: one color (--strand-blue-indicator). Part XIII viz rules. */
+.strand-bar-chart {
+  display: flex;
+  gap: var(--strand-space-2);
+  align-items: flex-end;
+  height: var(--strand-space-24);
+  padding: var(--strand-space-5);
+}
+
+.strand-bar-chart__col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--strand-space-1);
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.strand-bar-chart__bar {
+  width: 100%;
+  background: var(--strand-blue-indicator);
+  border-radius: var(--strand-radius-sm) var(--strand-radius-sm) 0 0;
+  min-height: var(--strand-space-1);
+}
+
+.strand-bar-chart__amount {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  color: var(--strand-gray-300);
+  font-variant-numeric: tabular-nums;
+}
+
+.strand-bar-chart__label {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  color: var(--strand-gray-400);
+}

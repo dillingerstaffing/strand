@@ -1082,6 +1082,184 @@ This is not gimmicky sci-fi. It is precise, active-voice, system language. It co
 
 ---
 
+## Part XI-B: Composition Grammar
+
+Atoms compose into molecules through production rules. A finite set of rules generates the full space of valid compositions. This grammar is informed by context-free grammar theory: terminals are irreducible tokens, nonterminals are composition patterns that expand into other patterns, and derivation is the process of expanding a composition until only terminals remain.
+
+### 11.8 Notation
+
+```
+rule-name  →  body ;
+```
+
+- `→` separates the rule name (head) from what it produces (body).
+- `|` separates alternatives for the same rule.
+- `( )` groups sub-expressions.
+- `*` means zero or more. `+` means one or more. `?` means optional.
+- `UPPER_CASE` names are terminals (design tokens from Part III, text patterns from Part IV).
+- `lower-case` names are nonterminals (references to other rules in this grammar).
+- Quoted strings `"value"` are literal CSS property values.
+
+### 11.9 Terminals
+
+Terminals are the atomic alphabet. They do not decompose further. Every composition bottoms out at these.
+
+**Token terminals** (Part III):
+```
+COLOR         →  any --strand- color token ;
+SPACE         →  any --strand-space- token ;
+BORDER        →  "1px solid" COLOR ;
+RADIUS        →  any --strand-radius- token ;
+FONT          →  FONT_MONO | FONT_SANS ;
+FONT_MONO     →  "--strand-font-mono" ;
+FONT_SANS     →  "--strand-font-sans" ;
+WEIGHT        →  any --strand-weight- token ;
+SIZE          →  any --strand-text- token ;
+TRACKING      →  any --strand-tracking- token ;
+LEADING       →  any --strand-leading- token ;
+```
+
+**Text pattern terminals** (Part IV.5 -- these are named patterns, not CSS classes):
+```
+OVERLINE      →  FONT_MONO  SIZE_XS  WEIGHT_MEDIUM  TRACKING_ULTRA  "uppercase"  COLOR_GRAY_500  LEADING_NORMAL ;
+HEADLINE      →  FONT_MONO  WEIGHT_LIGHT  TRACKING_WIDEST  "uppercase"  COLOR_MIDNIGHT  LEADING_TIGHT ;
+TITLE         →  FONT_SANS  WEIGHT_LIGHT  TRACKING_TIGHTER  COLOR_MIDNIGHT  LEADING_SNUG ;
+LEAD          →  SIZE_LG  COLOR_GRAY_500  "max-width: 50ch"  LEADING_RELAXED ;
+SECONDARY     →  SIZE_SM  COLOR_GRAY_500  LEADING_RELAXED ;
+MONO_VALUE    →  FONT_MONO  SIZE_XS  COLOR_GRAY_600  "tabular-nums" ;
+STATUS_VALUE  →  FONT_MONO  SIZE_XS  COLOR_SEMANTIC  "tabular-nums" ;
+```
+
+**Semantic color terminals** (Part III.8):
+```
+COLOR_SEMANTIC  →  COLOR_TEAL_VITAL | COLOR_BLUE_PRIMARY | COLOR_AMBER_CAUTION | COLOR_RED_ALERT ;
+```
+
+**Surface terminals** (Part V):
+```
+SURFACE       →  SURFACE_BASE | SURFACE_ELEVATED | SURFACE_RECESSED ;
+ELEVATION     →  SHADOW_LEVEL_1 | SHADOW_LEVEL_2 | SHADOW_INSET ;
+```
+
+### 11.10 Productions
+
+These are the composition rules. Each rule defines how elements arrange. All visual styling comes from terminals; productions define only spatial relationships and containment.
+
+**Axis rules** (how elements share space):
+
+```
+inline-pair       →  identifier  quantifier ;
+identifier        →  OVERLINE ;
+quantifier        →  MONO_VALUE | STATUS_VALUE ;
+```
+Axis: horizontal. Distribution: `"space-between"`. Cross-alignment: `"center"`. The pair fills container width.
+
+```
+inline-sequence   →  element  element  element* ;
+```
+Axis: horizontal. Distribution: `"flex-start"`. Gap: `SPACE_3`. Elements do not stretch. Each element is a terminal text pattern.
+
+```
+centered-group    →  self-contained  self-contained  self-contained* ;
+self-contained    →  atom ;
+```
+Axis: horizontal. Distribution: `"center"`. Gap: `"clamp(2rem, 5vw, 4rem)"`. Each child is independent of sibling count or position. Text centers within each child.
+
+**Stacking rules** (how items repeat vertically):
+
+```
+ranked-sequence   →  ranked-item  ( RANK_BORDER  ranked-item )* ;
+ranked-item       →  inline-pair | inline-sequence | atom ;
+RANK_BORDER       →  "border-top: 1px solid" COLOR_BORDER_SUBTLE ;
+```
+Items of equal semantic rank stack vertically. Adjacent same-rank siblings separate with `RANK_BORDER`, never spacing alone. Padding-block is consistent across all items. Different-rank groups (a section header above a list) separate with space, not border.
+
+**Containment rules** (how sections nest inside surfaces):
+
+```
+sectioned-surface →  section  ( section )* ;
+section           →  SECTION_BOUNDARY  section-content ;
+SECTION_BOUNDARY  →  OVERLINE  "border-bottom: 1px solid" COLOR_GRAY_200  "margin-bottom:" SPACE_3  "padding-bottom:" SPACE_2 ;
+section-content   →  ranked-sequence | centered-group | atom+ ;
+```
+The last section in a surface omits its trailing border. A section boundary signals that content above and below relate to different aspects of the same subject.
+
+**Column rules** (how data maps to proportional visual elements):
+
+```
+column-array      →  column  column  column* ;
+column            →  column-amount?  column-bar  column-label ;
+column-amount     →  OVERLINE ;
+column-bar        →  COLOR_BLUE_INDICATOR  RADIUS_TOP  "height:" DATA_VALUE ;
+column-label      →  OVERLINE ;
+DATA_VALUE        →  inline style (CSS cannot know the data) ;
+```
+All columns are `"flex: 1"` (equal width). Columns align to `"flex-end"` (bottom). One color only for bars (Blue Discipline, Part III.4). Semantic color is earned through annotation on the label, not bar color. The array goes inside a `SURFACE_RECESSED` when it needs the dual-surface treatment (Part V).
+
+### 11.11 Containment Precedence
+
+Compositions nest in a strict hierarchy. Higher-level compositions contain lower-level ones, never the reverse. This is the stratification that prevents ambiguity.
+
+```
+page              →  surface* ;
+surface           →  SURFACE  ( sectioned-surface | ranked-sequence | centered-group | column-array | atom+ ) ;
+sectioned-surface →  section+ ;
+section           →  SECTION_BOUNDARY  ( ranked-sequence | centered-group | atom+ ) ;
+ranked-sequence   →  ranked-item+ ;
+ranked-item       →  inline-pair | inline-sequence | atom ;
+atom              →  (any component from Part XI: Button, Card, DataReadout, Badge, etc.) ;
+```
+
+Reading top-down: a page contains surfaces, a surface contains sections or sequences, a section contains ranked items, a ranked item contains atoms. No level skips. A `ranked-sequence` never directly contains a `surface`. An `inline-pair` never contains a `section`.
+
+### 11.12 Derivation
+
+Derivation is how you verify a composition. Start from the outermost nonterminal and expand each rule until only terminals remain. If you cannot reach all-terminals through legal productions, the composition is invalid.
+
+**Example: dashboard card with KV metadata**
+
+```
+surface
+  → SURFACE_ELEVATED  sectioned-surface
+  → SURFACE_ELEVATED  section
+  → SURFACE_ELEVATED  SECTION_BOUNDARY  ranked-sequence
+  → SURFACE_ELEVATED  ( OVERLINE  BORDER_GRAY_200  SPACE_3  SPACE_2 )  ranked-item  RANK_BORDER  ranked-item
+  → SURFACE_ELEVATED  ( OVERLINE  BORDER )  inline-pair  RANK_BORDER  inline-pair
+  → SURFACE_ELEVATED  ( OVERLINE  BORDER )  ( OVERLINE  MONO_VALUE )  RANK_BORDER  ( OVERLINE  STATUS_VALUE )
+  → all terminals ✓
+```
+
+**Example: secondary readout row**
+
+```
+centered-group
+  → self-contained  self-contained  self-contained
+  → atom  atom  atom
+  → DataReadout--sm  DataReadout--sm  DataReadout--sm
+  → all terminals ✓
+```
+
+**Validation rule:** A molecule is valid when it fully derives to terminals using only the productions in 11.10 and the containment precedence in 11.11. If derivation requires a rule not in this grammar, either:
+1. The composition is a new atom (it needs its own component in Part XI), or
+2. A production is missing from this section (propose it).
+
+### 11.13 Tests
+
+Each production has a test. Run these at composition time.
+
+| Production | Test |
+|---|---|
+| inline-pair | Cover the value. Can you tell what the row measures? Cover the label. Can you interpret the value? Both must pass. |
+| ranked-sequence | Remove one item from the middle. Does the layout still look correct (no double borders, no collapsed gaps)? |
+| section (boundary) | Remove the boundary. Can you tell where one section ends and the next begins? If yes, the boundary is redundant (Principle 1). |
+| centered-group | Remove one child. Does the group still look balanced? Add one child. Does it still fit? |
+| column-array | Reorder columns randomly. Is data still readable? (If not, labels are insufficient.) Swap all bar colors to gray. Is information lost? (If yes, Blue Discipline violation.) |
+| containment | Does each nonterminal nest inside a legal parent per 11.11? If a ranked-sequence sits directly inside a page with no surface, the containment is invalid. |
+
+Named molecules in strand-ui (see HTML_REFERENCE.md) are convenience CSS classes for common derivations. An agent that knows this grammar can compose any valid molecule from first principles without needing the named class.
+
+---
+
 ## Part XII: Interaction State System
 
 ### 12.1 Universal State Layer
