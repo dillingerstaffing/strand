@@ -77,6 +77,16 @@
   letter-spacing: var(--strand-tracking-tighter);
 }
 
+/* ── Title (human voice display, DL Part IV.7) ── */
+.strand-title {
+  font-family: var(--strand-font-sans);
+  font-weight: var(--strand-weight-light);
+  letter-spacing: var(--strand-tracking-tighter);
+  color: var(--strand-blue-midnight);
+  font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
+  line-height: var(--strand-leading-snug);
+}
+
 /* ── Lead (intro paragraph, DL Part IV.6) ── */
 .strand-lead {
   font-size: var(--strand-text-lg);
