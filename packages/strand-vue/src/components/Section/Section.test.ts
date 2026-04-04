@@ -30,6 +30,16 @@ describe('Section', () => {
     expect(container.firstElementChild?.className).toContain('strand-section--hero')
   })
 
+  it('applies compact variant class', () => {
+    const { container } = render(Section, { props: { variant: 'compact' }, slots: { default: 'c' } })
+    expect(container.firstElementChild?.className).toContain('strand-section--compact')
+  })
+
+  it('applies border-top class', () => {
+    const { container } = render(Section, { props: { borderTop: true }, slots: { default: 'c' } })
+    expect(container.firstElementChild?.className).toContain('strand-section--border-top')
+  })
+
   // ── Background ──
 
   it('applies primary background class by default', () => {

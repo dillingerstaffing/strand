@@ -8,15 +8,19 @@
 
   /** Navigation items */
   export let items: NavItem[] = []
+  /** Glassmorphic variant (fixed, backdrop-filter, DL 11.5) */
+  export let glass: boolean = false
 
   let menuOpen = false
 
   function toggleMenu() {
     menuOpen = !menuOpen
   }
+
+  $: navClasses = ['strand-nav', glass && 'strand-nav--glass'].filter(Boolean).join(' ')
 </script>
 
-<nav class="strand-nav" aria-label="Main navigation" {...$$restProps}>
+<nav class={navClasses} aria-label="Main navigation" {...$$restProps}>
   <div class="strand-nav__inner">
     {#if $$slots.logo}
       <div class="strand-nav__logo">

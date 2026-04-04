@@ -11,10 +11,13 @@ export interface NavItem {
 export interface NavProps {
   /** Navigation items */
   items?: NavItem[]
+  /** Glassmorphic variant (fixed, backdrop-filter, DL 11.5) */
+  glass?: boolean
 }
 
 const props = withDefaults(defineProps<NavProps>(), {
   items: () => [],
+  glass: false,
 })
 
 const menuOpen = ref(false)
@@ -23,7 +26,7 @@ function toggleMenu() {
   menuOpen.value = !menuOpen.value
 }
 
-const classes = computed(() => ['strand-nav'].filter(Boolean).join(' '))
+const classes = computed(() => ['strand-nav', props.glass && 'strand-nav--glass'].filter(Boolean).join(' '))
 </script>
 
 <template>

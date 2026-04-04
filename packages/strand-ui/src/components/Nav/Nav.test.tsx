@@ -67,6 +67,18 @@ describe("Nav", () => {
     expect(aboutLink.className).not.toContain("strand-nav__link--active");
   });
 
+  // ── Glass variant ──
+
+  it("applies glass class when glass is true", () => {
+    const { container } = render(<Nav glass />);
+    expect(container.firstElementChild?.className).toContain("strand-nav--glass");
+  });
+
+  it("does not apply glass class by default", () => {
+    const { container } = render(<Nav />);
+    expect(container.firstElementChild?.className).not.toContain("strand-nav--glass");
+  });
+
   // ── Actions ──
 
   it("renders actions content", () => {

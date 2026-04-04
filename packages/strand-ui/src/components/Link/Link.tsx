@@ -8,11 +8,17 @@ export interface LinkProps extends JSX.HTMLAttributes<HTMLAnchorElement> {
   href: string;
   /** Opens in new tab with rel="noopener noreferrer" */
   external?: boolean;
+  /** Style variant */
+  variant?: "default" | "cta" | "mono";
 }
 
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ href, external = false, className = "", children, ...rest }, ref) => {
-    const classes = ["strand-link", className].filter(Boolean).join(" ");
+  ({ href, external = false, variant = "default", className = "", children, ...rest }, ref) => {
+    const classes = [
+      "strand-link",
+      variant !== "default" && `strand-link--${variant}`,
+      className,
+    ].filter(Boolean).join(" ");
 
     return (
       <a

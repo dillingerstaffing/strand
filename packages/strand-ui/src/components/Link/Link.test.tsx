@@ -52,6 +52,23 @@ describe("Link", () => {
     expect(link).not.toHaveAttribute("rel");
   });
 
+  // ── Variants ──
+
+  it("applies cta variant class", () => {
+    const { getByRole } = render(<Link href="/start" variant="cta">Start</Link>);
+    expect(getByRole("link").className).toContain("strand-link--cta");
+  });
+
+  it("applies mono variant class", () => {
+    const { getByRole } = render(<Link href="/" variant="mono">Home</Link>);
+    expect(getByRole("link").className).toContain("strand-link--mono");
+  });
+
+  it("does not apply variant class for default", () => {
+    const { getByRole } = render(<Link href="/about">About</Link>);
+    expect(getByRole("link").className).not.toContain("strand-link--");
+  });
+
   // ── Custom className ──
 
   it("merges custom className with component class", () => {

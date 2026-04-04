@@ -18,6 +18,16 @@ describe('Section', () => {
     expect(container.querySelector('.strand-section')).toHaveClass('strand-section--hero')
   })
 
+  it('applies compact variant class', () => {
+    const { container } = render(Section, { props: { variant: 'compact' } })
+    expect(container.querySelector('.strand-section')).toHaveClass('strand-section--compact')
+  })
+
+  it('applies border-top class', () => {
+    const { container } = render(Section, { props: { borderTop: true } })
+    expect(container.querySelector('.strand-section')).toHaveClass('strand-section--border-top')
+  })
+
   it('applies background classes', () => {
     const backgrounds = ['primary', 'elevated', 'recessed'] as const
     for (const background of backgrounds) {
