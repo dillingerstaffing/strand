@@ -294,4 +294,42 @@
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-sm);
   font-weight: var(--strand-weight-semibold);
+  margin-bottom: var(--strand-space-3);
+}
+
+/* ── Text center ── */
+.strand-text-center {
+  text-align: center;
+}
+
+/* ── Code name (mono identifier heading) ── */
+.strand-code-name {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-base);
+  font-weight: var(--strand-weight-semibold);
+  color: var(--strand-blue-midnight);
+  margin: 0;
+}
+
+/* ── Heading small (section heading inside cards) ── */
+.strand-heading--sm {
+  font-size: var(--strand-text-lg);
+  font-weight: var(--strand-weight-medium);
+  color: var(--strand-gray-800);
+  margin: 0;
+}
+
+/* ── Viewport flex modifiers (component showcase layout) ── */
+.strand-viewport--flex {
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-4);
+  flex-wrap: wrap;
+}
+
+.strand-viewport--flex-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--strand-space-4);
 }

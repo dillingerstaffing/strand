@@ -27,6 +27,11 @@
   background-color: var(--strand-surface-recessed);
 }
 
+/* ── Compact variant ── */
+.strand-section--compact {
+  padding-block: var(--strand-space-12);
+}
+
 /* ── Border variant ── */
 .strand-section--border-top {
   border-top: 1px solid var(--strand-gray-200);
