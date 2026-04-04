@@ -22,6 +22,32 @@
   outline-offset: 2px;
 }
 
+/* ── CTA link variant ── */
+.strand-link--cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--strand-touch-target);
+  padding-block: var(--strand-space-2);
+  font-size: var(--strand-text-sm);
+}
+
+.strand-link--cta:hover {
+  color: var(--strand-blue-vivid);
+}
+
+/* ── Monospace link variant (footer, overline-style) ── */
+.strand-link--mono {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  letter-spacing: var(--strand-tracking-wider);
+  color: var(--strand-gray-400);
+  background-image: none;
+}
+
+.strand-link--mono:hover {
+  color: var(--strand-blue-primary);
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .strand-link {

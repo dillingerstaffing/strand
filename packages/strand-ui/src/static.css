@@ -255,3 +255,43 @@
   text-transform: uppercase;
   color: var(--strand-gray-400);
 }
+
+/* ══════════════════════════════════════════════════
+   UTILITIES
+   ══════════════════════════════════════════════════ */
+
+/* ── Screen reader only ── */
+.strand-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Section header ──
+   Derivation: section-boundary production (DL 11.10).
+   Centered heading group with bottom margin. */
+.strand-section-header {
+  margin-bottom: clamp(2rem, 4vw, 4rem);
+}
+
+/* ── Step indicator ──
+   Numbered position indicator for sequential steps. */
+.strand-step-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--strand-space-8);
+  height: var(--strand-space-8);
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-blue-glow);
+  color: var(--strand-blue-primary);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-semibold);
+}

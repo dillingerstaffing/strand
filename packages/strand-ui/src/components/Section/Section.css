@@ -26,3 +26,8 @@
 .strand-section--bg-recessed {
   background-color: var(--strand-surface-recessed);
 }
+
+/* ── Border variant ── */
+.strand-section--border-top {
+  border-top: 1px solid var(--strand-gray-200);
+}
