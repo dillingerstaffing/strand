@@ -8,7 +8,9 @@
 
 > **Principle 1 (Cognitive Economy):** Every element must earn its place. Test: remove an element. If the task still works, it was decoration. If you're not adding back 10% of what you delete, you're not deleting enough. See [DL L61-69](./DESIGN_LANGUAGE.md#L61).
 
-> **Principle 2 (Biosynthetic Restraint):** Max 12 distinct visual elements per screen. See [DL L71-79](./DESIGN_LANGUAGE.md#L71).
+> **Principle 2 (Biosynthetic Restraint):** Max 12 distinct visual elements per screen. Every composition must have exactly one visually dominant primary element. If all elements have equal visual weight, the composition has no focal point. An instrument without a focal point is a parts bin, not an instrument. See [DL L71-84](./DESIGN_LANGUAGE.md#L71).
+
+> **Principle 9 (Typography Carries the Room):** The largest text and smallest text on the same screen must have at least a 3:1 size ratio. Uniform typography is a spreadsheet. Hierarchical typography is an instrument panel. See [DL L165-178](./DESIGN_LANGUAGE.md#L165).
 
 ## Required CSS
 
@@ -265,6 +267,8 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 > **Elevation:** Cards at rest use Level 1 shadow. On hover, Level 2. See [DESIGN_LANGUAGE.md Principle 5: Earned Elevation (L114-L125)](./DESIGN_LANGUAGE.md#L114) and [7.2: Container Elevation Contexts (L698-L708)](./DESIGN_LANGUAGE.md#L698).
 
+> **Cards are instrument panels, not generic containers.** Before placing multiple cards in a layout, apply [Principle 2 hierarchy test (L71-84)](./DESIGN_LANGUAGE.md#L71): which card is the primary instrument? It should be visually dominant. Apply [Principle 10 (L171-196)](./DESIGN_LANGUAGE.md#L171): describe the layout in laboratory vocabulary. If it sounds generic, redesign.
+
 ---
 
 ### Badge
@@ -407,6 +411,8 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 > **The DataReadout pattern** is uniquely Strand: monospace overline + large light-weight value + tabular numerals. See [DESIGN_LANGUAGE.md 11.2: Data Display (L918-L955)](./DESIGN_LANGUAGE.md#L918).
 
+> **DataReadout has three sizes for hierarchy, not preference.** Use ONE default or lg readout as the primary focal point, with sm readouts as supporting secondaries. If all readouts on a screen are the same size, apply [Principle 2 hierarchy test (L71-84)](./DESIGN_LANGUAGE.md#L71) and [Principle 9 contrast ratio test (L165-178)](./DESIGN_LANGUAGE.md#L165).
+
 ---
 
 ### CodeBlock
@@ -428,6 +434,10 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ## Layout Components
 
 > **Spacing rules:** 4px base unit, padding tiers, and the gap > padding hierarchy: [DESIGN_LANGUAGE.md Part V: Spacing (L410-L496)](./DESIGN_LANGUAGE.md#L410). Responsive breakpoints and container system: [Part X: Layout (L829-L877)](./DESIGN_LANGUAGE.md#L829).
+
+> **Before composing a layout, apply [Principle 2 (L71-84)](./DESIGN_LANGUAGE.md#L71) and [Principle 10 (L171-196)](./DESIGN_LANGUAGE.md#L171).** Identify the primary element. Describe the layout in laboratory vocabulary. If the description sounds generic ("a grid of data cards"), the composition doesn't embody the DL. An analytical readout panel has one dominant readout and supporting secondaries -- not four equal panels.
+
+> **Before sizing text, apply [Principle 9 (L165-178)](./DESIGN_LANGUAGE.md#L165).** Largest to smallest text on the same screen must be at least 3:1. If all text is the same size, the typography is uniform. Uniform typography is a spreadsheet, not an instrument panel.
 
 ### Stack
 

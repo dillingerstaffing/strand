@@ -98,8 +98,13 @@ function strandMdContent(framework: Framework): string {
 This project uses the Strand design language.
 
 When building or modifying UI, read these files:
-- node_modules/@dillingerstaffing/strand-ui/HTML_REFERENCE.md (component classes and HTML structure)
+- node_modules/@dillingerstaffing/strand-ui/HTML_REFERENCE.md (component classes, HTML structure, and composition tripwires)
 - https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md (design constraints, token roles, interaction patterns, principles)
+
+Before composing any layout, apply these tests:
+- Principle 2: Identify the primary element. If all elements have equal visual weight, the composition has no focal point.
+- Principle 9: Largest to smallest text on the same screen must be at least 3:1 ratio. Uniform typography is a spreadsheet.
+- Principle 10: Describe the interface in laboratory vocabulary. If it sounds generic, redesign.
 `;
 
   const bulmaNote =
