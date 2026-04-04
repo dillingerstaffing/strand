@@ -34,11 +34,13 @@ const EXPECTED_COMPONENTS = [
   "progress",
   "spinner",
   "skeleton",
+  "instrumentviewport",
+  "scrollreveal",
 ];
 
 describe("registry", () => {
-  it("contains all 32 components", () => {
-    expect(components.size).toBe(32);
+  it("contains all 34 components", () => {
+    expect(components.size).toBe(34);
   });
 
   it("has an entry for every expected component", () => {
@@ -105,13 +107,15 @@ describe("registry", () => {
     expect(unique.size).toBe(names.length);
   });
 
-  it("VALID_CATEGORIES contains exactly 5 categories", () => {
+  it("VALID_CATEGORIES contains exactly 7 categories", () => {
     expect(VALID_CATEGORIES).toEqual([
       "Input",
       "Display",
       "Layout",
       "Navigation",
       "Feedback",
+      "Surface",
+      "Animation",
     ]);
   });
 

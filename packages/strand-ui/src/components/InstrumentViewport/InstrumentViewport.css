@@ -1,0 +1,36 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+.strand-instrument-viewport {
+  background: var(--strand-blue-abyss);
+  color: var(--strand-gray-100);
+  border-radius: var(--strand-radius-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.strand-instrument-viewport__label {
+  color: var(--strand-gray-400);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+}
+
+.strand-instrument-viewport__value {
+  color: var(--strand-on-blue-primary);
+  font-family: var(--strand-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Optional grid overlay */
+.strand-instrument-viewport--grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(59, 142, 246, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 142, 246, 0.04) 1px, transparent 1px);
+  background-size: var(--strand-viewport-grid-size) var(--strand-viewport-grid-size);
+  pointer-events: none;
+}

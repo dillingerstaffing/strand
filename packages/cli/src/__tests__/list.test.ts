@@ -34,7 +34,7 @@ describe("list command", () => {
     await list();
     const combined = output.join("\n");
 
-    expect(combined).toContain("32 components available.");
+    expect(combined).toContain("34 components available.");
   });
 
   it("shows usage hint", async () => {

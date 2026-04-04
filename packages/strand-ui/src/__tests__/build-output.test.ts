@@ -44,6 +44,7 @@ describe("Build output", () => {
       ".strand-nav", ".strand-toast", ".strand-alert",
       ".strand-dialog", ".strand-tooltip", ".strand-progress",
       ".strand-spinner", ".strand-skeleton",
+      ".strand-instrument-viewport", ".strand-reveal",
     ];
     for (const cls of expectedClasses) {
       expect(css, `Missing CSS class: ${cls}`).toContain(cls);

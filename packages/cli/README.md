@@ -15,7 +15,7 @@ Detects Preact/React, Vue, Svelte, or CSS-only. Creates `STRAND.md` (AI agent in
 ```bash
 strand init              # Set up Strand in your project
 strand add button        # Copy a component into your codebase
-strand list              # List all 32 components
+strand list              # List all 34 components
 ```
 
 ## Packages

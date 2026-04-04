@@ -37,13 +37,13 @@
 .strand-btn--sm {
   padding: var(--strand-space-1) var(--strand-space-3);
   font-size: var(--strand-text-sm);
-  min-height: 32px;
+  min-height: var(--strand-touch-target);
 }
 
 .strand-btn--md {
   padding: calc(var(--strand-space-2) + var(--strand-space-1) / 2) var(--strand-space-5);
   font-size: var(--strand-text-sm);
-  min-height: 40px;
+  min-height: var(--strand-touch-target);
 }
 
 .strand-btn--lg {
@@ -55,12 +55,12 @@
 /* ── Icon-only ── */
 .strand-btn--icon-only.strand-btn--sm {
   padding: var(--strand-space-1);
-  min-width: 32px;
+  min-width: var(--strand-touch-target);
 }
 
 .strand-btn--icon-only.strand-btn--md {
   padding: var(--strand-space-2);
-  min-width: 40px;
+  min-width: var(--strand-touch-target);
 }
 
 .strand-btn--icon-only.strand-btn--lg {

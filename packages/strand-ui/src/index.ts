@@ -100,3 +100,11 @@ export type { SpinnerProps } from "./components/Spinner/index.js";
 
 export { Skeleton } from "./components/Skeleton/index.js";
 export type { SkeletonProps } from "./components/Skeleton/index.js";
+
+// Surfaces
+export { InstrumentViewport } from "./components/InstrumentViewport/index.js";
+export type { InstrumentViewportProps } from "./components/InstrumentViewport/index.js";
+
+// Animation
+export { ScrollReveal } from "./components/ScrollReveal/index.js";
+export type { ScrollRevealProps } from "./components/ScrollReveal/index.js";

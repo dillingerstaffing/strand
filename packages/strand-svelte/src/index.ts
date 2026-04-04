@@ -26,6 +26,8 @@ export { default as Grid } from './components/Grid/Grid.svelte'
 export { default as Container } from './components/Container/Container.svelte'
 export { default as Divider } from './components/Divider/Divider.svelte'
 export { default as Section } from './components/Section/Section.svelte'
+export { default as InstrumentViewport } from './components/InstrumentViewport/InstrumentViewport.svelte'
+export { default as ScrollReveal } from './components/ScrollReveal/ScrollReveal.svelte'
 
 // Navigation
 export { default as Link } from './components/Link/Link.svelte'

@@ -49,7 +49,7 @@
 }
 
 .strand-avatar--xl {
-  width: 64px;
-  height: 64px;
+  width: var(--strand-space-16);
+  height: var(--strand-space-16);
   font-size: var(--strand-text-lg);
 }
