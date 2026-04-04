@@ -56,7 +56,20 @@ Use `.strand-viewport` for component previews and showcase containers:
 <div class="strand-viewport strand-static">
   <!-- component previews here -->
 </div>
+
+<!-- Flex layout for side-by-side component demos -->
+<div class="strand-viewport strand-viewport--flex strand-static">
+  <button class="strand-btn strand-btn--primary strand-btn--md" disabled>Primary</button>
+  <button class="strand-btn strand-btn--secondary strand-btn--md" disabled>Secondary</button>
+</div>
+
+<!-- Column layout for stacked component demos -->
+<div class="strand-viewport strand-viewport--flex-col strand-static">
+  <!-- vertically stacked previews -->
+</div>
 ```
+
+**Modifiers:** `strand-viewport--flex` (flex, center-aligned, gap-4, wrap) | `strand-viewport--flex-col` (flex-column, gap-4)
 
 > **Why recessed?** See [DESIGN_LANGUAGE.md 7.3: The Recessed Viewport (L710-L725)](./DESIGN_LANGUAGE.md#L710) and [7.2: Container Elevation Contexts (L698-L708)](./DESIGN_LANGUAGE.md#L698).
 
@@ -525,8 +538,9 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </section>
 ```
 
-**Variants:** `strand-section--standard` | `strand-section--hero`
+**Variants:** `strand-section--standard` | `strand-section--hero` | `strand-section--compact` (space-12 padding)
 **Backgrounds:** `strand-section--bg-primary` | `strand-section--bg-elevated` | `strand-section--bg-recessed`
+**Modifiers:** `strand-section--border-top` (1px gray-200 top border for visual separation between sections)
 
 > **Section rhythm** and responsive padding values: [DESIGN_LANGUAGE.md 5.4: Section Rhythm (L458-L466)](./DESIGN_LANGUAGE.md#L458). Background and surface choices: [Part IX: Surfaces and Backgrounds (L749-L826)](./DESIGN_LANGUAGE.md#L749).
 
@@ -538,10 +552,17 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 ```html
 <a href="/about" class="strand-link">About us</a>
+
+<!-- CTA link (touch-target height, used for call-to-action text links) -->
+<a href="/start" class="strand-link strand-link--cta">Start your profile</a>
+
+<!-- Mono link (overline-style, used for footers and metadata links) -->
+<a href="/" class="strand-link strand-link--mono">dillingerstaffing.com</a>
 ```
 
+**Variants:** `strand-link--cta` (inline-flex, touch-target min-height, hover to blue-vivid) | `strand-link--mono` (mono, xs, tracked, gray-400 with blue hover, no underline animation)
 **External:** Add `target="_blank"` and `rel="noopener noreferrer"`.
-**Note:** The underline animates on hover from 0% to 100% width via `background-size`.
+**Note:** Default link underline animates on hover from 0% to 100% width via `background-size`.
 
 ---
 
@@ -631,7 +652,8 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ```
 
 **Active link:** `strand-nav__link--active` (desktop) | `strand-nav__mobile-link--active` (mobile)
-**Note:** Nav is 64px tall. Desktop items hide below 768px; hamburger and mobile menu show instead. Toggle mobile menu visibility with JavaScript.
+**Variant:** `strand-nav--glass` (fixed, glassmorphic backdrop-filter, semi-transparent background, DL 11.5)
+**Note:** Default nav is relative-positioned at 64px tall. `--glass` makes it fixed to viewport top with frosted glass effect. Desktop items hide below 768px; hamburger and mobile menu show instead. Toggle mobile menu visibility with JavaScript.
 
 ---
 
@@ -883,9 +905,63 @@ Intro paragraph. Max 50 characters per line. Used after headlines.
 <span class="strand-text-secondary strand-text-secondary--xs">Fine print or metadata.</span>
 ```
 
-Caption/description text. text-sm, gray-500, relaxed leading. The `--xs` modifier reduces to text-xs for metadata and fine print.
+Caption/description text. text-sm, gray-500, relaxed leading. The `--xs` modifier reduces to text-xs for metadata and fine print. `<strong>` inside renders as gray-700. `<a>` inside renders as blue-primary with blue-vivid hover.
 
 > **DL foundation:** [DESIGN_LANGUAGE.md Part III.8 Color Roles](./DESIGN_LANGUAGE.md#L290) defines gray-500 as the secondary text role. [Part IV.7 Named Text Patterns](./DESIGN_LANGUAGE.md#L408) specifies the Secondary pattern.
+
+### Code Name
+
+```html
+<h4 class="strand-code-name">Button</h4>
+```
+
+Monospace identifier heading. base size, semibold, blue-midnight. Used for naming technical artifacts (component names, API identifiers).
+
+### Heading Small
+
+```html
+<h3 class="strand-heading--sm">Install</h3>
+```
+
+Section heading inside cards. text-lg, medium weight, gray-800.
+
+### Screen Reader Only
+
+```html
+<h1 class="strand-sr-only">Page Title</h1>
+```
+
+Visually hidden, accessible to screen readers. Use for headings that provide structure without visual presence.
+
+### Text Center
+
+```html
+<div class="strand-text-center">
+  <span class="strand-overline">Label</span>
+  <h2>Centered Heading</h2>
+</div>
+```
+
+Centers text content. Compose with `strand-container` for centered page sections.
+
+### Section Header
+
+```html
+<div class="strand-section-header strand-container strand-container--default strand-text-center">
+  <span class="strand-overline">Category</span>
+  <h2>Section Title</h2>
+</div>
+```
+
+Bottom margin per [DL 5.4](./DESIGN_LANGUAGE.md#L458): `clamp(2rem, 4vw, 4rem)`. Compose with container and text-center for centered page section headings.
+
+### Step Indicator
+
+```html
+<span class="strand-step-indicator">1</span>
+```
+
+32px circle with blue-glow background, blue-primary text, mono semibold. For numbered sequential steps.
 
 ---
 
