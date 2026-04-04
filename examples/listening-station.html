@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listening Station — Built with Strand</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Strand Design Language (https://github.com/dillingerstaffing/strand) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.14/css/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.14/css/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.14/css/base.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand-ui@0.14/dist/css/strand-ui.css">
+
+<style>
+/* Template layout only. All visual styling from Strand. */
+.station {
+  max-width: var(--strand-content-wide);
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 3rem);
+}
+.station-primary { text-align: center; padding-block: var(--strand-space-6); }
+.station-context {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--strand-space-6);
+}
+@media (max-width: 640px) { .station-context { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="strand-nav strand-nav--glass" aria-label="Listening Station">
+  <div class="strand-nav__inner">
+    <a href="#" class="strand-nav__logo">Listening Station</a>
+    <div class="strand-nav__actions">
+      <span class="strand-overline" style="color: var(--strand-teal-vital)">● Streaming</span>
+    </div>
+  </div>
+</nav>
+
+<main class="station strand-stack strand-stack--vertical strand-stack--gap-6">
+
+  <!-- Primary readout: the one number (Principle 2) -->
+  <section class="station-primary">
+    <div class="strand-data-readout strand-data-readout--xl">
+      <span class="strand-data-readout__label">Hours This Month</span>
+      <span class="strand-data-readout__value">127.4</span>
+    </div>
+    <div class="strand-progress strand-progress--bar strand-progress--sm" role="progressbar"
+         aria-valuemin="0" aria-valuemax="200" aria-valuenow="127" aria-label="Monthly listening"
+         style="max-width: var(--strand-space-40); margin: var(--strand-space-4) auto 0;">
+      <div class="strand-progress__fill" style="width: 64%"></div>
+    </div>
+  </section>
+
+  <!-- Secondary readouts -->
+  <section class="strand-metric-row">
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Tracks</span>
+      <span class="strand-data-readout__value">1,847</span>
+    </div>
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Artists</span>
+      <span class="strand-data-readout__value">312</span>
+    </div>
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Top Genre</span>
+      <span class="strand-data-readout__value">Ambient</span>
+    </div>
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Discovery</span>
+      <span class="strand-data-readout__value" style="color: var(--strand-blue-primary)">24%</span>
+    </div>
+  </section>
+
+  <!-- Weekly listening chart -->
+  <div class="strand-card strand-card--elevated strand-card--pad-none" style="overflow: hidden">
+    <div class="strand-card-section" style="padding: var(--strand-space-3) var(--strand-space-5); margin-bottom: 0">
+      <span class="strand-overline">This Week</span>
+      <span class="strand-overline" style="color: var(--strand-gray-400)">Hours / Day</span>
+    </div>
+    <div class="strand-instrument-viewport strand-instrument-viewport--grid">
+      <div class="strand-bar-chart">
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">4.2</span>
+          <div class="strand-bar-chart__bar" style="height: 60%"></div>
+          <span class="strand-bar-chart__label">Mon</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">3.1</span>
+          <div class="strand-bar-chart__bar" style="height: 44%"></div>
+          <span class="strand-bar-chart__label">Tue</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">5.8</span>
+          <div class="strand-bar-chart__bar" style="height: 83%"></div>
+          <span class="strand-bar-chart__label">Wed</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">6.4</span>
+          <div class="strand-bar-chart__bar" style="height: 91%"></div>
+          <span class="strand-bar-chart__label">Thu</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">7.0</span>
+          <div class="strand-bar-chart__bar" style="height: 100%"></div>
+          <span class="strand-bar-chart__label">Fri</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">5.2</span>
+          <div class="strand-bar-chart__bar" style="height: 74%"></div>
+          <span class="strand-bar-chart__label">Sat</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">2.8</span>
+          <div class="strand-bar-chart__bar" style="height: 40%"></div>
+          <span class="strand-bar-chart__label" style="color: var(--strand-teal-vital)">Today</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Context: recent plays + now playing -->
+  <section class="station-context">
+
+    <!-- Recent plays -->
+    <div class="strand-card strand-card--elevated strand-card--pad-md">
+      <div class="strand-card-section">
+        <span class="strand-overline">Recent</span>
+        <span class="strand-overline" style="color: var(--strand-gray-400)">Today</span>
+      </div>
+      <div class="strand-log">
+        <span class="strand-log__time">Now</span>
+        <span class="strand-log__status strand-log__status--process">Playing</span>
+        <span class="strand-text-secondary">Tycho -- Awake</span>
+      </div>
+      <div class="strand-log">
+        <span class="strand-log__time">14:12</span>
+        <span class="strand-log__status strand-log__status--complete">Played</span>
+        <span class="strand-text-secondary">Boards of Canada -- Dayvan Cowboy</span>
+      </div>
+      <div class="strand-log">
+        <span class="strand-log__time">14:07</span>
+        <span class="strand-log__status strand-log__status--complete">Played</span>
+        <span class="strand-text-secondary">Khruangbin -- Time (You and I)</span>
+      </div>
+      <div class="strand-log">
+        <span class="strand-log__time">14:02</span>
+        <span class="strand-log__status strand-log__status--complete">Played</span>
+        <span class="strand-text-secondary">Bonobo -- Kerala</span>
+      </div>
+    </div>
+
+    <!-- Now playing details -->
+    <div class="strand-card strand-card--elevated strand-card--pad-md">
+      <div class="strand-card-section">
+        <span class="strand-overline">Now Playing</span>
+        <span class="strand-badge strand-badge--inline">
+          <span class="strand-badge__indicator strand-badge--dot strand-badge--teal" role="status" aria-label="Playing"></span>
+        </span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Track</span>
+        <span class="strand-kv__value">Awake</span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Artist</span>
+        <span class="strand-kv__value">Tycho</span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Album</span>
+        <span class="strand-kv__value">Awake</span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Quality</span>
+        <span class="strand-kv__value">FLAC 24/96</span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Plays</span>
+        <span class="strand-kv__value strand-kv__value--status">47</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Actions -->
+  <div class="strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--justify-center strand-stack--wrap">
+    <button class="strand-btn strand-btn--primary strand-btn--md" type="button">
+      <span class="strand-btn__content">Share Wrapped</span>
+    </button>
+    <button class="strand-btn strand-btn--secondary strand-btn--md" type="button">
+      <span class="strand-btn__content">Export Stats</span>
+    </button>
+  </div>
+
+</main>
+</body>
+</html>
