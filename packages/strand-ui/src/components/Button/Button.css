@@ -35,21 +35,21 @@
 
 /* ── Sizes ── */
 .strand-btn--sm {
-  padding: var(--strand-space-1) var(--strand-space-3);
+  padding: var(--strand-space-2) var(--strand-space-5);
   font-size: var(--strand-text-sm);
   min-height: var(--strand-touch-target);
 }
 
 .strand-btn--md {
-  padding: calc(var(--strand-space-2) + var(--strand-space-1) / 2) var(--strand-space-5);
+  padding: var(--strand-space-3) var(--strand-space-8);
   font-size: var(--strand-text-sm);
   min-height: var(--strand-touch-target);
 }
 
 .strand-btn--lg {
-  padding: var(--strand-space-3) var(--strand-space-6);
+  padding: var(--strand-space-3) var(--strand-space-10);
   font-size: var(--strand-text-base);
-  min-height: 48px;
+  min-height: var(--strand-touch-target);
 }
 
 /* ── Icon-only ── */
@@ -75,18 +75,18 @@
 
 /* ── Primary variant ── */
 .strand-btn--primary {
-  background: var(--strand-blue-primary);
-  color: var(--strand-on-blue-primary);
+  background: var(--strand-blue-deep);
+  color: var(--strand-on-blue-deep);
 }
 
 .strand-btn--primary:hover:not(:disabled) {
-  background: var(--strand-blue-vivid);
+  background: var(--strand-blue-midnight);
   transform: translateY(-1px);
   box-shadow: var(--strand-hover-shadow-primary);
 }
 
 .strand-btn--primary:active:not(:disabled) {
-  background: var(--strand-blue-deep);
+  background: var(--strand-blue-abyss);
 }
 
 /* ── Secondary variant ── */
