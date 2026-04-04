@@ -1,4 +1,4 @@
-/*! Strand v0.7.0 | MIT License | dillingerstaffing.com */
+/*! Strand v0.8.0 | MIT License | dillingerstaffing.com */
 
 :root {
   /* ═══════════════════════════════════════════
@@ -181,4 +181,8 @@
   /* ── SURFACE: VIEWPORT ── */
   --strand-viewport-grid-opacity: 0.04;
   --strand-viewport-grid-size: 40px;
+
+  /* ── SURFACE: BORDERS & SHADOWS ── */
+  --strand-border-subtle: rgba(148, 163, 184, 0.12);
+  --strand-shadow-inset: inset 0 1px 3px rgba(15, 23, 42, 0.06);
 }
