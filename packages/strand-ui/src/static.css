@@ -84,3 +84,14 @@
   max-width: 50ch;
   line-height: var(--strand-leading-relaxed);
 }
+
+/* ── Secondary text (caption/description, DL Part III.8 Color Roles) ── */
+.strand-text-secondary {
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-500);
+  line-height: var(--strand-leading-relaxed);
+}
+
+.strand-text-secondary--xs {
+  font-size: var(--strand-text-xs);
+}

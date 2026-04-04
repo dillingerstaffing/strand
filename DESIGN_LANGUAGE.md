@@ -407,13 +407,15 @@ Lines wider than 75ch cause the eye to lose track of the next line start. Lines 
 
 ### 4.7 Named Text Patterns
 
-Three text patterns appear throughout the design language:
+Four text patterns appear throughout the design language:
 
 **Overline (specimen label).** Monospace, text-xs, medium weight, ultra tracking, uppercase, gray-500. Used for section labels, data annotations, form field labels, and category headers. The most distinctive typographic element in the language. It says "this has been classified."
 
 **Headline (display).** Monospace, light weight (300), tracked, uppercase, blue-midnight. Two sizes: xl (hero, fluid 2.5rem-5rem with 0.35em tracking) and lg (section, fluid 1.5rem-2.5rem with tighter tracking).
 
 **Lead (intro).** Sans-serif, text-lg, gray-500, max-width 50ch, relaxed line-height. Follows headlines. Explains the purpose in one or two sentences.
+
+**Secondary (caption/description).** Sans-serif, text-sm, gray-500, relaxed line-height. Used for feature descriptions, helper text, annotations, and any supporting content that accompanies a primary element. An xs variant exists for fine print and metadata.
 
 ---
 
@@ -492,6 +494,16 @@ The gap between sibling elements must exceed the padding within each element. Th
 ```
 
 Text-heavy content never exceeds the Default tier (768px), even on wide screens. The remaining space is structural whitespace that communicates restraint (Principle 2: Biosynthetic Restraint).
+
+**Responsive auto-fit grids.** For card layouts that adapt to viewport width, use `auto-fit` with minimum child widths:
+
+| Variant | Minimum child width | Use case |
+|---|---|---|
+| auto-sm | 200px | Compact cards, metric readouts, badge grids |
+| auto-md | 280px | Standard cards, feature showcases |
+| auto-lg | 360px | Wide cards, documentation panels |
+
+Columns adjust automatically. No breakpoint-specific overrides needed.
 
 ### 5.6 Premium Whitespace vs. Empty Whitespace
 
@@ -709,7 +721,7 @@ Five levels, each with a specific semantic meaning. All shadows use blue-shifted
 
 | Context | Level | Rationale |
 |---|---|---|
-| Card at rest | 1 | Lifted off page. "Glass instrument panel." |
+| Card at rest | 1 | Lifted off page. "Glass instrument panel." Border: `--strand-border-subtle` (1px, barely visible). |
 | Card on hover | 2 | Responds to attention. Signals interactivity. |
 | Dropdown menu | 2 | Floats above content. Temporary. |
 | Preview/showcase container | 0 (recessed) | Sits below card surface. Instrument viewport is recessed. |

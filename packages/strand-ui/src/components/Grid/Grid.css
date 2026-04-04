@@ -12,10 +12,15 @@
   min-width: 0;
 }
 
-/* ── Column utilities ── */
+/* ── Fixed column utilities ── */
 .strand-grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
 .strand-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
 .strand-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ── Responsive auto-fit (columns adjust to available width) ── */
+.strand-grid--auto-sm { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.strand-grid--auto-md { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.strand-grid--auto-lg { grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
 
 /* ── Gap utilities ── */
 .strand-grid--gap-1 { gap: var(--strand-space-1); }

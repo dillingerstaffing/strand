@@ -12,6 +12,7 @@
 
 /* ── Variants ── */
 .strand-card--elevated {
+  border: 1px solid var(--strand-border-subtle);
   box-shadow: var(--strand-elevation-1);
 }
 
@@ -21,6 +22,7 @@
 }
 
 .strand-card--interactive {
+  border: 1px solid var(--strand-border-subtle);
   box-shadow: var(--strand-elevation-1);
   cursor: pointer;
   transition:
