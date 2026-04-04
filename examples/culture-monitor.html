@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Culture Monitor — Built with Strand</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Strand Design Language (https://github.com/dillingerstaffing/strand) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.14/css/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.14/css/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.14/css/base.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand-ui@0.14/dist/css/strand-ui.css">
+
+<style>
+/* Template-level layout only. Every visual pattern from Strand. */
+.monitor {
+  max-width: var(--strand-content-wide);
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 3rem);
+}
+.monitor-primary { text-align: center; padding-block: var(--strand-space-6); }
+.monitor-context {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--strand-space-6);
+}
+@media (max-width: 640px) { .monitor-context { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- Glassmorphic nav (DL 11.5) -->
+<nav class="strand-nav strand-nav--glass" aria-label="Culture Monitor">
+  <div class="strand-nav__inner">
+    <a href="#" class="strand-nav__logo">Culture Monitor</a>
+    <div class="strand-nav__actions">
+      <span class="strand-overline" style="color: var(--strand-teal-vital)">● Live</span>
+    </div>
+  </div>
+</nav>
+
+<main class="monitor strand-stack strand-stack--vertical strand-stack--gap-6">
+
+  <!-- Primary readout: the one number that matters (Principle 2) -->
+  <section class="monitor-primary">
+    <div class="strand-data-readout strand-data-readout--xl">
+      <span class="strand-data-readout__label">Viability</span>
+      <span class="strand-data-readout__value">94.7%</span>
+    </div>
+    <div class="strand-progress strand-progress--bar strand-progress--sm" role="progressbar"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="94.7" aria-label="Cell viability"
+         style="max-width: var(--strand-space-40); margin: var(--strand-space-4) auto 0;">
+      <div class="strand-progress__fill" style="width: 94.7%"></div>
+    </div>
+  </section>
+
+  <!-- Secondary readouts (centered-group production) -->
+  <section class="strand-metric-row">
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Passage</span>
+      <span class="strand-data-readout__value">P12</span>
+    </div>
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Confluence</span>
+      <span class="strand-data-readout__value">87%</span>
+    </div>
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Growth Rate</span>
+      <span class="strand-data-readout__value">1.4x</span>
+    </div>
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Next Split</span>
+      <span class="strand-data-readout__value" style="color: var(--strand-blue-primary)">6h</span>
+    </div>
+  </section>
+
+  <!-- 7-day viability chart (column-array production in instrument viewport) -->
+  <div class="strand-card strand-card--elevated strand-card--pad-none" style="overflow: hidden">
+    <div class="strand-card-section" style="padding: var(--strand-space-3) var(--strand-space-5); margin-bottom: 0">
+      <span class="strand-overline">7-Day Viability</span>
+      <span class="strand-overline" style="color: var(--strand-gray-400)">HEK-293T</span>
+    </div>
+    <div class="strand-instrument-viewport strand-instrument-viewport--grid">
+      <div class="strand-bar-chart">
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">91.2</span>
+          <div class="strand-bar-chart__bar" style="height: 62%"></div>
+          <span class="strand-bar-chart__label">Mon</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">92.8</span>
+          <div class="strand-bar-chart__bar" style="height: 71%"></div>
+          <span class="strand-bar-chart__label">Tue</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">90.1</span>
+          <div class="strand-bar-chart__bar" style="height: 56%"></div>
+          <span class="strand-bar-chart__label">Wed</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">93.4</span>
+          <div class="strand-bar-chart__bar" style="height: 74%"></div>
+          <span class="strand-bar-chart__label">Thu</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">94.1</span>
+          <div class="strand-bar-chart__bar" style="height: 78%"></div>
+          <span class="strand-bar-chart__label">Fri</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">93.9</span>
+          <div class="strand-bar-chart__bar" style="height: 77%"></div>
+          <span class="strand-bar-chart__label">Sat</span>
+        </div>
+        <div class="strand-bar-chart__col">
+          <span class="strand-bar-chart__amount">94.7</span>
+          <div class="strand-bar-chart__bar" style="height: 82%"></div>
+          <span class="strand-bar-chart__label" style="color: var(--strand-teal-vital)">Today</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Context row: log + culture details -->
+  <section class="monitor-context">
+
+    <!-- Activity log (inline-sequence + ranked-sequence productions) -->
+    <div class="strand-card strand-card--elevated strand-card--pad-md">
+      <div class="strand-card-section">
+        <span class="strand-overline">Activity</span>
+        <span class="strand-overline" style="color: var(--strand-gray-400)">Today</span>
+      </div>
+      <div class="strand-log">
+        <span class="strand-log__time">14:30</span>
+        <span class="strand-log__status strand-log__status--complete">Sampled</span>
+        <span class="strand-text-secondary">Viability assay. 94.7% viable.</span>
+      </div>
+      <div class="strand-log">
+        <span class="strand-log__time">09:15</span>
+        <span class="strand-log__status strand-log__status--process">Fed</span>
+        <span class="strand-text-secondary">Complete media change. 12mL DMEM+10% FBS.</span>
+      </div>
+      <div class="strand-log">
+        <span class="strand-log__time">08:00</span>
+        <span class="strand-log__status strand-log__status--complete">Checked</span>
+        <span class="strand-text-secondary">Morphology normal. No contamination.</span>
+      </div>
+    </div>
+
+    <!-- Culture details (inline-pair + ranked-sequence productions) -->
+    <div class="strand-card strand-card--elevated strand-card--pad-md">
+      <div class="strand-card-section">
+        <span class="strand-overline">Culture</span>
+        <span class="strand-badge strand-badge--inline">
+          <span class="strand-badge__indicator strand-badge--dot strand-badge--teal" role="status" aria-label="Healthy"></span>
+        </span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Cell Line</span>
+        <span class="strand-kv__value">HEK-293T</span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Medium</span>
+        <span class="strand-kv__value">DMEM + 10% FBS</span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Vessel</span>
+        <span class="strand-kv__value">T-75 Flask</span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Incubator</span>
+        <span class="strand-kv__value">37C / 5% CO2</span>
+      </div>
+      <div class="strand-kv">
+        <span class="strand-kv__label">Status</span>
+        <span class="strand-kv__value strand-kv__value--status">Exponential</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Action bar -->
+  <div class="strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--justify-center strand-stack--wrap">
+    <button class="strand-btn strand-btn--primary strand-btn--md" type="button">
+      <span class="strand-btn__content">Log Observation</span>
+    </button>
+    <button class="strand-btn strand-btn--secondary strand-btn--md" type="button">
+      <span class="strand-btn__content">Split Protocol</span>
+    </button>
+  </div>
+
+</main>
+</body>
+</html>
