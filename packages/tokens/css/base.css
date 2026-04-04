@@ -20,7 +20,7 @@ body {
     /* Layer 2: Overhead LED glow */
     radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 130, 246, 0.03) 0%, transparent 100%),
     /* Layer 3: Gentle vertical gradient */
-    linear-gradient(180deg, var(--strand-surface-primary) 0%, #FFFFFF 40%, var(--strand-surface-recessed) 100%);
+    linear-gradient(180deg, var(--strand-surface-primary) 0%, var(--strand-surface-elevated) 40%, var(--strand-surface-recessed) 100%);
   background-size: 24px 24px, 100% 100%, 100% 100%;
   background-color: var(--strand-surface-primary);
 }
@@ -34,6 +34,46 @@ body::after {
   pointer-events: none;
   z-index: 9999;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Headings (DL 4.2 Type Scale + 4.5 Weight Hierarchy) ── */
+h1, h2, h3, h4 {
+  color: var(--strand-gray-800);
+  margin: 0;
+}
+
+/* Display headings: light weight, tighter tracking, tight leading */
+h1 {
+  font-size: var(--strand-text-4xl);
+  font-weight: var(--strand-weight-light);
+  letter-spacing: var(--strand-tracking-tighter);
+  line-height: var(--strand-leading-tight);
+}
+
+h2 {
+  font-size: var(--strand-text-3xl);
+  font-weight: var(--strand-weight-light);
+  letter-spacing: var(--strand-tracking-tight);
+  line-height: var(--strand-leading-snug);
+}
+
+/* Subheadings: medium weight, tight tracking, snug leading */
+h3 {
+  font-size: var(--strand-text-xl);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-tight);
+  line-height: var(--strand-leading-snug);
+}
+
+h4 {
+  font-size: var(--strand-text-lg);
+  font-weight: var(--strand-weight-medium);
+  line-height: var(--strand-leading-snug);
+}
+
+/* ── Code elements ── */
+code, pre {
+  font-family: var(--strand-font-mono);
 }
 
 /* ── Focus Ring ── */
