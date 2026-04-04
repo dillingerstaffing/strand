@@ -76,7 +76,11 @@ Consider the near-future research facility: concrete, glass, wood, whitespace. T
 
 The fewer elements on screen, the more each one matters. The more whitespace around a headline, the more authority it carries. The more restrained the color palette, the more impactful the single accent color becomes.
 
-**The test:** Count the distinct visual elements on any screen. If the count exceeds 12, the design has not been restrained enough. Reduce until each remaining element is irreducible.
+**The test (two parts, both must pass):**
+
+1. **Quantity.** Count the distinct visual elements on any screen. If the count exceeds 12, the design has not been restrained enough. Reduce until each remaining element is irreducible.
+
+2. **Hierarchy.** Identify the primary element. Every composition has exactly one. If all elements have equal visual weight (equal size, equal padding, equal spacing), the composition has no focal point. An instrument without a focal point is a parts bin, not an instrument. The primary element must be visually dominant: larger, more space around it, or positioned to draw the eye first. The remaining elements support it.
 
 ### Principle 3: Performance Gravity
 
@@ -166,7 +170,11 @@ The contrast between a 300-weight 72px headline with tight tracking and a tracke
 
 If the interface works in grayscale with no images, the typography is correct. If it falls apart without color and imagery, the typography is insufficient and the design is fragile.
 
-**The test:** Render the interface in grayscale. Remove all images and illustrations. Does it still feel designed? Does the hierarchy still communicate? If yes, the typography is carrying the room.
+**The test (two parts, both must pass):**
+
+1. **Grayscale.** Render the interface in grayscale. Remove all images and illustrations. Does it still feel designed? Does the hierarchy still communicate? If yes, the typography is carrying the room.
+
+2. **Contrast ratio.** Measure the font size of the largest text and the smallest text on the same screen. The ratio must be at least 3:1 (e.g., 39px value vs 11px overline = 3.5:1). If all text is within 2x of the same size, the typography is uniform. Uniform typography is a spreadsheet. Hierarchical typography is an instrument panel. The dramatic contrast between the specimen label (tiny, tracked, uppercase, monospace) and the readout value (large, light, tight) is what makes the design feel engineered, not templated.
 
 ### Principle 10: The Instrument Principle
 
