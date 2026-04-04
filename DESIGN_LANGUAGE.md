@@ -407,13 +407,15 @@ Lines wider than 75ch cause the eye to lose track of the next line start. Lines 
 
 ### 4.7 Named Text Patterns
 
-Four text patterns appear throughout the design language:
+Five text patterns appear throughout the design language:
 
 **Overline (specimen label).** Monospace, text-xs, medium weight, ultra tracking, uppercase, gray-500. Used for section labels, data annotations, form field labels, and category headers. The most distinctive typographic element in the language. It says "this has been classified."
 
 **Headline (display).** Monospace, light weight (300), tracked, uppercase, blue-midnight. Two sizes: xl (hero, fluid 2.5rem-5rem with 0.35em tracking) and lg (section, fluid 1.5rem-2.5rem with tighter tracking).
 
 **Lead (intro).** Sans-serif, text-lg, gray-500, max-width 50ch, relaxed line-height. Follows headlines. Explains the purpose in one or two sentences.
+
+**Title (human voice).** Sans-serif (Inter), light weight (300), tight tracking, blue-midnight. Fluid size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem). Used for marketing copy, CTAs, and any display text that speaks as a human, not as an instrument. The distinction from Headline: Headline is monospace uppercase (the system speaking). Title is sans-serif sentence case (a human speaking with authority). Both carry the room through weight contrast, but Title is warm where Headline is clinical.
 
 **Secondary (caption/description).** Sans-serif, text-sm, gray-500, relaxed line-height. Used for feature descriptions, helper text, annotations, and any supporting content that accompanies a primary element. An xs variant exists for fine print and metadata.
 
