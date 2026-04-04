@@ -102,6 +102,19 @@
   line-height: var(--strand-leading-relaxed);
 }
 
+.strand-text-secondary strong {
+  color: var(--strand-gray-700);
+}
+
+.strand-text-secondary a {
+  color: var(--strand-blue-primary);
+  text-decoration: none;
+}
+
+.strand-text-secondary a:hover {
+  color: var(--strand-blue-vivid);
+}
+
 .strand-text-secondary--xs {
   font-size: var(--strand-text-xs);
 }
