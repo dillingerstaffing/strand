@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supply Monitor — Built with Strand</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Strand Design Language (https://github.com/dillingerstaffing/strand) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.9/css/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.9/css/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand@0.9/css/base.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand-ui@0.9/dist/css/strand-ui.css">
+
+<style>
+/* ════════════════════════════════════════════════
+   Supply Monitor — Strand component showcase
+   Layout only. All visual styling from Strand.
+   https://dillingerstaffing.com/labs/strand
+   ════════════════════════════════════════════════ */
+
+/* ── Nav ── */
+
+.monitor-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--strand-nav-height);
+  padding-inline: clamp(1.5rem, 5vw, 3rem);
+  background: var(--strand-surface-elevated);
+  border-bottom: 1px solid var(--strand-gray-200);
+}
+
+.monitor-nav-brand {
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-semibold);
+  color: var(--strand-blue-midnight);
+}
+
+.monitor-nav-status {
+  color: var(--strand-teal-vital);
+}
+
+/* ── Instrument ── */
+
+.monitor {
+  max-width: var(--strand-content-default);
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strand-space-6);
+}
+
+/* ── Primary readout: the one number that matters ── */
+
+.monitor-primary {
+  text-align: center;
+  padding-block: var(--strand-space-6);
+}
+
+.monitor-primary .strand-data-readout__value {
+  font-size: clamp(4.5rem, 10vw, 7rem);
+}
+
+.monitor-gauge {
+  max-width: var(--strand-space-40);
+  margin: var(--strand-space-4) auto 0;
+}
+
+/* ── Secondary readouts ── */
+
+.monitor-secondaries {
+  display: flex;
+  justify-content: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  text-align: center;
+}
+
+.monitor-order-value {
+  color: var(--strand-blue-primary);
+}
+
+/* ── Forecast viewport ── */
+
+.monitor-forecast {
+  overflow: hidden;
+}
+
+.monitor-forecast-header {
+  padding: var(--strand-space-3) var(--strand-space-5);
+  border-bottom: 1px solid var(--strand-gray-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.monitor-forecast-blend {
+  color: var(--strand-gray-400);
+}
+
+.monitor-chart {
+  padding: var(--strand-space-5);
+  display: flex;
+  gap: var(--strand-space-2);
+  align-items: flex-end;
+  height: var(--strand-space-24);
+}
+
+.monitor-day {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--strand-space-1);
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.monitor-bar {
+  width: 100%;
+  background: var(--strand-blue-indicator);
+  border-radius: var(--strand-radius-sm) var(--strand-radius-sm) 0 0;
+  min-height: var(--strand-space-1);
+}
+
+.monitor-day-amount {
+  color: var(--strand-gray-300);
+}
+
+.monitor-day-label {
+  color: var(--strand-gray-400);
+}
+
+.monitor-day--today .monitor-day-label {
+  color: var(--strand-gray-200);
+}
+
+.monitor-day--today .monitor-day-amount {
+  color: var(--strand-gray-200);
+}
+
+.monitor-day--order .monitor-day-label {
+  color: var(--strand-blue-primary);
+}
+
+/* ── Context row ── */
+
+.monitor-context {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--strand-space-6);
+  align-items: stretch;
+}
+
+@media (max-width: 640px) {
+  .monitor-context { grid-template-columns: 1fr; }
+}
+
+.monitor-section-header {
+  margin-bottom: var(--strand-space-3);
+  padding-bottom: var(--strand-space-2);
+  border-bottom: 1px solid var(--strand-gray-200);
+}
+
+/* ── Log entries ── */
+
+.monitor-log {
+  display: flex;
+  gap: var(--strand-space-3);
+  padding-block: var(--strand-space-2);
+}
+
+.monitor-log + .monitor-log {
+  border-top: 1px solid var(--strand-border-subtle);
+}
+
+.monitor-log-time {
+  color: var(--strand-gray-400);
+}
+
+.monitor-log-status {
+  color: var(--strand-teal-vital);
+}
+
+/* ── Detail rows ── */
+
+.monitor-detail {
+  display: flex;
+  justify-content: space-between;
+  padding-block: var(--strand-space-2);
+}
+
+.monitor-detail + .monitor-detail {
+  border-top: 1px solid var(--strand-border-subtle);
+}
+
+.monitor-detail-label {
+  color: var(--strand-gray-500);
+}
+
+.monitor-detail-value {
+  color: var(--strand-gray-600);
+}
+
+.monitor-detail-value--fresh {
+  color: var(--strand-teal-vital);
+}
+
+/* ── Action ── */
+
+.monitor-action {
+  align-self: center;
+}
+
+/* ── Reduced motion ── */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<nav class="monitor-nav">
+  <span class="strand-overline monitor-nav-brand">Supply Monitor</span>
+  <span class="strand-overline monitor-nav-status">● Tracking</span>
+</nav>
+
+<main class="monitor">
+
+  <!-- Primary readout -->
+  <section class="monitor-primary">
+    <div class="strand-data-readout strand-data-readout--lg">
+      <span class="strand-data-readout__label">Remaining</span>
+      <span class="strand-data-readout__value">284g</span>
+    </div>
+    <div class="strand-progress strand-progress--bar strand-progress--sm monitor-gauge"
+         role="progressbar" aria-valuemin="0" aria-valuemax="500" aria-valuenow="284">
+      <div class="strand-progress__fill" style="width: 57%"></div>
+    </div>
+  </section>
+
+  <!-- Secondary readouts -->
+  <section class="monitor-secondaries">
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Daily</span>
+      <span class="strand-data-readout__value">36g</span>
+    </div>
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Days Left</span>
+      <span class="strand-data-readout__value">7.9</span>
+    </div>
+    <div class="strand-data-readout strand-data-readout--sm">
+      <span class="strand-data-readout__label">Order By</span>
+      <span class="strand-data-readout__value monitor-order-value">Apr 9</span>
+    </div>
+  </section>
+
+  <!-- Forecast viewport -->
+  <div class="strand-card strand-card--elevated strand-card--pad-none monitor-forecast">
+    <header class="monitor-forecast-header">
+      <span class="strand-overline">7-Day Depletion</span>
+      <span class="strand-overline monitor-forecast-blend">Ethiopian Yirgacheffe</span>
+    </header>
+    <div class="strand-instrument-viewport strand-instrument-viewport--grid monitor-chart">
+      <div class="monitor-day monitor-day--today">
+        <span class="strand-overline monitor-day-amount">284</span>
+        <div class="monitor-bar" style="height: 100%"></div>
+        <span class="strand-overline monitor-day-label">Today</span>
+      </div>
+      <div class="monitor-day">
+        <span class="strand-overline monitor-day-amount">248</span>
+        <div class="monitor-bar" style="height: 87%"></div>
+        <span class="strand-overline monitor-day-label">Fri</span>
+      </div>
+      <div class="monitor-day">
+        <span class="strand-overline monitor-day-amount">212</span>
+        <div class="monitor-bar" style="height: 75%"></div>
+        <span class="strand-overline monitor-day-label">Sat</span>
+      </div>
+      <div class="monitor-day">
+        <span class="strand-overline monitor-day-amount">176</span>
+        <div class="monitor-bar" style="height: 62%"></div>
+        <span class="strand-overline monitor-day-label">Sun</span>
+      </div>
+      <div class="monitor-day">
+        <span class="strand-overline monitor-day-amount">140</span>
+        <div class="monitor-bar" style="height: 49%"></div>
+        <span class="strand-overline monitor-day-label">Mon</span>
+      </div>
+      <div class="monitor-day">
+        <span class="strand-overline monitor-day-amount">104</span>
+        <div class="monitor-bar" style="height: 37%"></div>
+        <span class="strand-overline monitor-day-label">Tue</span>
+      </div>
+      <div class="monitor-day monitor-day--order">
+        <span class="strand-overline monitor-day-amount">68</span>
+        <div class="monitor-bar" style="height: 24%"></div>
+        <span class="strand-overline monitor-day-label">Wed ●</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Context -->
+  <section class="monitor-context">
+    <div class="strand-card strand-card--elevated strand-card--pad-md">
+      <div class="monitor-section-header">
+        <span class="strand-overline">Today</span>
+      </div>
+      <div class="monitor-log">
+        <span class="strand-overline monitor-log-time">9:15</span>
+        <span class="strand-overline monitor-log-status">Brewed</span>
+        <span class="strand-text-secondary">Pour over. 18g.</span>
+      </div>
+      <div class="monitor-log">
+        <span class="strand-overline monitor-log-time">6:30</span>
+        <span class="strand-overline monitor-log-status">Brewed</span>
+        <span class="strand-text-secondary">Espresso. 18g.</span>
+      </div>
+    </div>
+
+    <div class="strand-card strand-card--elevated strand-card--pad-md">
+      <div class="monitor-section-header">
+        <span class="strand-overline">Supply</span>
+      </div>
+      <div class="monitor-detail">
+        <span class="strand-overline monitor-detail-label">Blend</span>
+        <span class="strand-overline monitor-detail-value">Yirgacheffe</span>
+      </div>
+      <div class="monitor-detail">
+        <span class="strand-overline monitor-detail-label">Fresh</span>
+        <span class="strand-overline monitor-detail-value--fresh">Peak</span>
+      </div>
+    </div>
+
+    <button class="strand-btn strand-btn--primary strand-btn--md monitor-action" type="button">
+      <span class="strand-btn__content">Log Brew</span>
+    </button>
+  </section>
+
+</main>
+</body>
+</html>
