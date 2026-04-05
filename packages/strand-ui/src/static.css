@@ -451,6 +451,72 @@
   pointer-events: none;
 }
 
+/* ═══ HERO BACKGROUND (DL Part IX.4: hero surface treatment) ═══
+   Full-bleed container behind hero content. Holds animated SVG,
+   WebGL canvas, gradient, or any hero visual. */
+.strand-hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.strand-hero-bg > * {
+  width: 100%;
+  height: 100%;
+}
+
+/* ═══ PULSE INDICATOR (DL Principle 7: alive signal) ═══
+   Small pulsing dot. Indicates "this element is live/active."
+   Same concept as strand-card--active but as a point indicator.
+   Use as ::after on logos, status dots, live badges. */
+.strand-pulse {
+  position: relative;
+}
+
+.strand-pulse::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -6px;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-teal-vital);
+  animation: strand-pulse-glow 3s var(--strand-ease-in-out-sine) infinite;
+}
+
+@keyframes strand-pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ═══ AUTH INDICATOR (nav utility) ═══
+   Small text indicator for signed-in state in nav. */
+.strand-auth-indicator {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-400);
+  letter-spacing: var(--strand-tracking-wide);
+  white-space: nowrap;
+}
+
+.strand-auth-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-blue-glow);
+  color: var(--strand-blue-primary);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-semibold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 /* ═══ UTILITY CLASSES ═══ */
 .strand-block { display: block; }
 .strand-flex-1 { flex: 1; }
@@ -459,5 +525,14 @@
 @media (prefers-reduced-motion: reduce) {
   .strand-footer__link {
     transition: none;
+  }
+
+  .strand-pulse::after {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  .strand-hero-bg {
+    display: none;
   }
 }
