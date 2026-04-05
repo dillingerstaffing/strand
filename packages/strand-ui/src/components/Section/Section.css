@@ -12,6 +12,9 @@
 
 .strand-section--hero {
   padding-block: clamp(6rem, 12vw, 12rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 /* ── Backgrounds ── */
