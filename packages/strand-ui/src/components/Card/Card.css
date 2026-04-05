@@ -1,9 +1,16 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Base ── */
+/* CF-REF: craft-test.md [17]
+   DL Principle 8 (Default Philosophy): A card at default settings must look
+   like a glass instrument panel, not a blank rectangle. The base includes
+   elevation, border, and padding so zero-customization output is premium.
+   Craft test: place next to a Bootstrap/Material card. Must be visibly more refined. */
 .strand-card {
-  border-radius: var(--strand-radius-lg);
+  border-radius: var(--strand-radius-lg); /* CF-REF: radius-range.md [1] */
   background: var(--strand-surface-elevated);
+  border: 1px solid var(--strand-border-subtle, rgba(148, 163, 184, 0.12));
+  box-shadow: var(--strand-elevation-1); /* CF-REF: earned-elevation.md [1] */
+  padding: var(--strand-space-6); /* CF-REF: padding-tiers.md [1] */
   font-family: var(--strand-font-sans);
   overflow: hidden;
   box-sizing: border-box;
@@ -11,31 +18,61 @@
 }
 
 /* ── Variants ── */
-.strand-card--elevated {
-  border: 1px solid var(--strand-border-subtle);
-  box-shadow: var(--strand-elevation-1);
-}
-
 .strand-card--outlined {
   box-shadow: none;
   border: 1px solid var(--strand-gray-200);
 }
 
+.strand-card--flat {
+  box-shadow: none;
+  border: none;
+}
+
+/* CF-REF: motion-quality-signal.md [14]
+   DL Part VI.5: Card hover uses duration-normal (250ms), not fast (150ms).
+   Cards are content containers -- smoother transition than buttons.
+   Framerate test: play at 30fps, must feel broken. */
 .strand-card--interactive {
-  border: 1px solid var(--strand-border-subtle);
-  box-shadow: var(--strand-elevation-1);
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
   transition:
-    transform var(--strand-duration-fast) var(--strand-ease-out-expo),
-    box-shadow var(--strand-duration-fast) var(--strand-ease-out-expo);
+    transform var(--strand-duration-normal) var(--strand-ease-out-expo),
+    box-shadow var(--strand-duration-normal) ease;
 }
 
 .strand-card--interactive:hover {
   transform: translateY(-2px);
-  box-shadow: var(--strand-elevation-2);
+  box-shadow: var(--strand-elevation-2); /* CF-REF: five-level-shadow.md [1] */
 }
 
-/* ── Padding ── */
+/* CF-REF: energy-test.md [11]
+   The "alive" signal. A slow conic-gradient rotation at low opacity
+   indicates this card represents something live/active. The animation
+   is subtle -- biosynthetic indicator, not UI gimmick.
+   DL Principle 7 (Grain of Precision): below conscious perception.
+   Energy test: does this make the user want to explore? */
+.strand-card--active::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(from 0deg, transparent 0%, var(--strand-blue-primary) 10%, transparent 20%);
+  animation: strand-card-scan 8s linear infinite;
+  z-index: -1;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+@keyframes strand-card-scan {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Padding modifiers ── */
 .strand-card--pad-none {
   padding: 0;
 }
@@ -49,16 +86,20 @@
 }
 
 .strand-card--pad-lg {
+  padding: var(--strand-space-8);
+}
+
+.strand-card--pad-xl {
   padding: var(--strand-space-10);
 }
 
-/* ── Focus ring (interactive cards) ── */
+/* CF-REF: focus-visible.md [4] */
 .strand-card--interactive:focus-visible {
   outline: 2px solid var(--strand-blue-primary);
   outline-offset: 2px;
 }
 
-/* ── Reduced motion ── */
+/* CF-REF: reduced-motion.md [9] */
 @media (prefers-reduced-motion: reduce) {
   .strand-card--interactive {
     transition: none;
@@ -66,5 +107,10 @@
 
   .strand-card--interactive:hover {
     transform: none;
+  }
+
+  .strand-card--active::before {
+    animation: none;
+    opacity: 0;
   }
 }

@@ -346,3 +346,96 @@
   align-items: flex-start;
   gap: var(--strand-space-4);
 }
+
+/* ═══ CONNECTED STEPS (DL Part XI-B: connected-sequence production) ═══
+   Sequential process steps with a visual connector line between cards.
+   Use with a grid of strand-card elements inside. */
+.strand-steps-connected {
+  position: relative;
+}
+
+.strand-steps-connected::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: var(--strand-space-8);
+  right: var(--strand-space-8);
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--strand-blue-indicator) 20%, var(--strand-blue-indicator) 80%, transparent 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.strand-steps-connected > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 767px) {
+  .strand-steps-connected::before {
+    display: none;
+  }
+}
+
+/* ═══ FOOTER (DL Part XIX.5) ═══
+   Compact closing panel. Border-top, centered, quiet. */
+.strand-footer {
+  padding: var(--strand-space-12) 0;
+  border-top: 1px solid var(--strand-gray-200);
+  text-align: center;
+}
+
+.strand-footer__nav {
+  display: flex;
+  justify-content: center;
+  gap: var(--strand-space-6);
+  flex-wrap: wrap;
+  margin-bottom: var(--strand-space-6);
+}
+
+.strand-footer__link {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  letter-spacing: var(--strand-tracking-wider);
+  color: var(--strand-gray-400);
+  text-decoration: none;
+  transition: color var(--strand-duration-fast) ease;
+}
+
+.strand-footer__link:hover {
+  color: var(--strand-blue-primary);
+}
+
+.strand-footer__copy {
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-400);
+}
+
+/* ═══ FORM LAYOUT (DL Part XVIII.1: Specimen Collection Room) ═══ */
+.strand-form-grid {
+  display: grid;
+  gap: var(--strand-space-6);
+}
+
+.strand-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--strand-space-6);
+}
+
+@media (max-width: 639px) {
+  .strand-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══ UTILITY CLASSES ═══ */
+.strand-block { display: block; }
+.strand-flex-1 { flex: 1; }
+.strand-full-width { width: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-footer__link {
+    transition: none;
+  }
+}

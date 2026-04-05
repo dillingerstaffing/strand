@@ -184,11 +184,25 @@
   border-bottom: 1px solid rgba(148, 163, 184, 0.1);
 }
 
+/* ── Scrolled state (DL Part XIX.1) ──
+   Apply via JS scroll listener. Adds shadow + blue-shifted border. */
+.strand-nav--scrolled {
+  box-shadow: var(--strand-elevation-1);
+  border-bottom-color: rgba(59, 130, 246, 0.12);
+}
+
+.strand-nav--glass {
+  transition:
+    box-shadow var(--strand-duration-normal) ease,
+    border-color var(--strand-duration-normal) ease;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .strand-nav__link,
   .strand-nav__mobile-link,
-  .strand-nav__hamburger {
+  .strand-nav__hamburger,
+  .strand-nav--glass {
     transition: none;
   }
 }

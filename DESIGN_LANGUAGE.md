@@ -1,6 +1,6 @@
 # Strand Design Language
 
-**Version:** 0.2.0
+**Version:** 0.4.0
 **Status:** Production Specification
 
 ---
@@ -9,7 +9,16 @@
 
 This is a design language specification. Not guidelines. Not suggestions. Every value is defined. Every decision has a rationale. Every principle has a test.
 
-The language occupies a specific aesthetic niche: **the biosynthetic laboratory**. Not corporate. Not playful. Not dark-mode tech. A near-future research facility where precision instrumentation meets organic engineering. White polymer surfaces, blue biosynthetic indicators, monospace readouts, engineered grace.
+The language occupies a specific aesthetic niche: **the biosynthetic laboratory**. Not corporate. Not playful. Not dark-mode tech. A near-future research facility where precision instrumentation meets organic engineering. White polymer surfaces, blue biosynthetic indicators, monospace readouts, engineered grace. The instruments are synthetic and exact. The environment housing them is architect-designed: concrete, glass, warm wood, controlled natural light. The technology is precise; the space it inhabits is beautiful.
+
+**This language is NOT:**
+- A dark-mode interface (the environment is light, white-dominant, daylit)
+- A clinical or hospital aesthetic (the environment is warm, architected, quietly stunning)
+- A playful or consumer aesthetic (no bounce animations, no illustrations, no emojis, no bright saturated palettes)
+- A corporate or enterprise aesthetic (no generic components, no admin-panel feel, no brand-as-template)
+- An academic or research-paper aesthetic (applied, not theoretical; functional, not presentational)
+
+**The test:** Show the interface to five people. If any describe it as dark, clinical, playful, corporate, or academic, the aesthetic has drifted. Target descriptors: precise, elegant, forward-looking, controlled, alive.
 
 Two properties are optimized simultaneously: **aesthetic quality** (the design must be the best in its class) and **propagation fitness** (the design must spread through adoption, retention, and organic sharing). These properties are not in tension. The highest-quality design languages propagate fastest because quality is the propagation mechanism.
 
@@ -23,7 +32,15 @@ Institutional design systems tell you what to build. Enterprise component librar
 
 When a user interacts with an interface built on this language, the experience is identical in feeling to walking into a clean, white, advanced research facility. One that performs precise analytical work. The walls are white. The instruments are exact. The lighting is controlled. The outputs are scientific. You trust the results because the environment tells you: *serious systems do serious work here.*
 
-But this is not a sterile, cold, joyless laboratory. This is the laboratory from the near future, where biosynthetic materials glow faintly blue, where the technology feels organic yet obviously engineered, where the precision is beautiful, not intimidating.
+But this is not a sterile, cold, joyless laboratory. This is the laboratory from the near future, where biosynthetic materials glow faintly blue, where the technology feels organic yet obviously engineered, where the precision is beautiful, not intimidating. The aesthetic has permission to be exciting. This is not somber technology requiring clinical trust -- it is optimistic technology suggesting a future people want to inhabit. Interfaces should feel forward-looking, not conservative.
+
+**Two environments coexist.** The instruments are synthetic: polymer, aluminum, frosted glass, precision-machined. The facility housing them is natural: concrete, warm wood grain, glass walls with controlled daylight, engineered negative space. The barely-blue-shifted white (#FAFCFF) is the color of controlled daylight on an engineered surface -- not the color of a plastic panel or a hospital wall. The dot-grid background is precision graph paper on an architect's desk, not a sterile cleanroom floor.
+
+The interface should feel as though it was designed by an intelligence that values beauty intrinsically -- not as decoration, but as a property of well-engineered systems. The precision IS the beauty. The spacing IS the elegance. The restraint IS the luxury. Nothing is added to make it look better. Everything that remains is already beautiful because it is exactly right.
+
+**The environment test:** Describe the interface's materials. If the answer includes only synthetic materials (plastic, steel, LED), the aesthetic is too cold. If it includes natural materials alongside synthetic ones (glass, wood, concrete, controlled light, polymer, frosted surfaces), the environment is correct.
+
+**The energy test:** Does the interface make the user want to explore further, or does it make them feel they should be careful? If careful: too clinical. If drawn forward: correct.
 
 **The design space position:**
 
@@ -529,6 +546,10 @@ Empty whitespace is random, inconsistent, and directionless. The test: if you ca
 
 ## Part VI: Motion
 
+Motion in this language is not decoration. It is the primary quality signal. The difference between a 150ms exponential-ease hover transition and a 300ms linear one is the difference between a precision instrument and a cheap toy. Users cannot articulate why one feels premium and the other feels generic -- but they feel it instantly. The benchmark tools that dominated their categories did so not through features but through the feel of every interaction at 60fps. Every micro-interaction in this language must run at 60fps with the specified easing, or the interface reads as lower quality than a static page. Performance does not enable aesthetic ambition -- performance IS the aesthetic.
+
+**The framerate test:** Play any interaction at 30fps. If it still feels acceptable, the interaction is not doing enough visual work. If it feels broken or cheap, the interaction is correctly tuned -- its quality depends on framerate fidelity.
+
 ### 6.1 Easing Functions
 
 | Token | Value | Use |
@@ -910,6 +931,14 @@ Padding layers compound. When nesting containers with padding (e.g., page > card
 
 ## Part XI: Component Design Patterns
 
+Every component follows standard UX best practices -- forms are usable, buttons are clickable, navigation is clear. What distinguishes this language is not different interaction patterns but a different level of visual and tactile craft applied to the same patterns every interface uses.
+
+The distinction is in the details that accumulate into atmosphere. A button's hover lift is 1px, not 4px -- subtle enough to feel mechanical rather than bouncy. A button's press response is 75ms -- fast enough to feel tactile. A form label uses monospace uppercase at 11px with ultra tracking -- a visual treatment that reads as "classified" rather than "labeled." None of these break UX conventions. All of them, combined, create a specific aesthetic that generic component libraries do not produce.
+
+The token system is the constraint mechanism: components can only use values from the defined scales, which guarantees visual consistency. But consistency is not enough. The components must also carry the atmosphere of the environment -- the warm-but-precise feeling of an architect-designed research facility where every detail was considered.
+
+**The craft test:** Place any component next to the same component from a generic design system (a framework default button, a Bootstrap card, a Material form field). The Strand version must be visibly more refined -- not through added decoration, but through the quality of its spacing, typography, transitions, and shadow. If the two are indistinguishable, the component has not achieved the required level of craft.
+
 ### 11.1 Form Fields (The Specimen Instrument)
 
 Forms are the primary input surface. They collect structured data for processing. The visual treatment should feel like filling out a scientific specimen form, not a web application.
@@ -1175,6 +1204,16 @@ RANK_BORDER       →  "border-top: 1px solid" COLOR_BORDER_SUBTLE ;
 ```
 Items of equal semantic rank stack vertically. Adjacent same-rank siblings separate with `RANK_BORDER`, never spacing alone. Padding-block is consistent across all items. Different-rank groups (a section header above a list) separate with space, not border.
 
+**Connected sequence** (sequential process steps):
+
+```
+connected-sequence  →  step-card  CONNECTOR  step-card  ( CONNECTOR  step-card )* ;
+step-card           →  surface  step-indicator  heading  description ;
+step-indicator      →  FONT_MONO  SIZE_XS  WEIGHT_SEMIBOLD  COLOR_BLUE_PRIMARY ;
+CONNECTOR           →  "::before" gradient-line between siblings (hidden below 768px) ;
+```
+Connected sequences display process steps with a visual line linking them. The connector is a horizontal gradient line (`transparent → blue-indicator → transparent`) drawn behind the cards via a `::before` pseudo-element on the container. On mobile (below 768px), the connector hides and steps stack vertically. Each step is a surface (card) containing a step indicator (monospace number), heading, and description.
+
 **Containment rules** (how sections nest inside surfaces):
 
 ```
@@ -1323,12 +1362,15 @@ Disabled elements are powered-down instruments. They exist but are not operation
 
 ### 13.1 Principles
 
-Data visualization in this design language follows the same principles as the rest of the system: restrained, precise, earned.
+Data visualization in this design language follows the same principles as the rest of the system: restrained, precise, earned. But data visualization is also one of the primary aesthetic signatures of this language. A well-rendered chart should be visually compelling enough that someone would screenshot it and share it. The data IS the visual interest. No decorative elements are needed because the data itself, rendered with the right colors, typography, and spacing, is the art. Biology rendered as abstract composition. Workforce data treated with the same visual reverence that genomics companies give to DNA sequences.
 
 1. **Data-ink ratio.** Maximize the proportion of ink (pixels) used to display data vs. decoration. Remove gridlines that don't serve comprehension. Remove backgrounds that don't aid reading. Every pixel earns its place (Principle 1).
 2. **Color is data, not decoration.** Chart colors encode data categories. They do not exist for visual interest. Use the semantic accent palette for data series.
 3. **Typography is legible at chart scale.** Axis labels use monospace, text-xs, tracking-wider. Values use monospace, text-sm, tabular-nums.
 4. **Animation reveals, not entertains.** Data transitions should feel like a readout updating, not a show. Duration: 400ms. Easing: ease-in-out-sine.
+5. **Data as brand identity.** Data visualization is not a secondary feature -- it is where the biosynthetic aesthetic is most powerfully expressed. The combination of the blue spectrum, monospace typography, and precise spacing renders data the way advanced research facilities render experimental results: with clarity that is simultaneously functional and beautiful.
+
+**The abstract composition test:** Remove all axis labels and legends from a chart. Is the chart still visually interesting as an abstract composition? If yes, the visualization is correct. If it becomes a meaningless blob, the visual encoding is insufficient.
 
 ### 13.2 Chart Color Palette
 
@@ -1691,11 +1733,11 @@ The biosynthetic laboratory aesthetic draws from four cinematic interface lineag
 
 **The biosynthetic.** White polymer surfaces, blue LED indicators, smooth organic curves. Technology that has absorbed biological design language while remaining obviously artificial. Diffused, shadowless, clinical lighting. Materials: smooth polymers, brushed aluminum, frosted glass, soft-touch plastics. Everything slightly translucent or matte-sheen. This is the primary visual influence on the design language.
 
-**The minimalist research facility.** Brutalist concrete + Scandinavian minimalism. The most advanced technology presented in rooms that look like modern art galleries. Light is control. Technology is understated: screens embedded in walls, minimal interfaces. Restraint as the signal of true advancement.
+**The minimalist research facility.** Brutalist concrete + Scandinavian minimalism + warm wood + floor-to-ceiling glass. The most advanced technology presented in rooms that look like modern art galleries. Light is control -- daylight filtered through glass, not fluorescent tubes. Technology is understated: screens embedded in walls, minimal interfaces. The materials are natural (concrete, wood, glass, stone) and the technology is synthetic (polymer, aluminum, frosted surfaces). This duality -- natural environment, synthetic instruments -- is the spatial signature of the design language. Restraint as the signal of true advancement. The facility is beautiful before any instrument is turned on.
 
 **The analytical control room.** Clean, white/light palettes with precision data visualization. Corporate-future aesthetic. Interfaces designed to look like they process real information. Directly relevant to dashboard and analytical readout patterns in this language.
 
-**Fantasy user interfaces (FUI).** Interfaces designed as world-building elements. Each screen has internal logic: consistent iconography, type systems, color coding. Interfaces suggest how they would be used. Extreme detail density when needed: thin lines, small monospace type, layered semi-transparent panels. The best FUI work proves that futuristic interfaces can be clean and white, not dark and cluttered.
+**Fantasy user interfaces (FUI).** Interfaces designed as world-building elements. Each screen has internal logic: consistent iconography, type systems, color coding. Interfaces suggest how they would be used -- you can look at a control panel and understand its function before reading any text. Extreme detail density when needed: thin lines, small monospace type, layered semi-transparent panels. The best FUI work proves that futuristic interfaces can be clean and white, not dark and cluttered. This functional-feeling quality -- where every element implies purpose -- is what separates this design language from generic component libraries. It directly informs the component patterns in Part XI: every form field, data readout, and status indicator must feel like it is performing a function, not merely existing on screen.
 
 ### Performance-as-Design Precedents
 
@@ -1716,6 +1758,177 @@ The biosynthetic laboratory aesthetic draws from four cinematic interface lineag
 | AI research visualization | Data visualization as brand identity | Academic tone (Strand is applied, not research) |
 | Literary-humanist technology | Proof that warm palettes can feel scientific | Too warm (Strand is cool/blue-shifted) |
 | Humanoid robotics | Cinematic reverence for the subject | Single-product focus (Strand covers many instrument types) |
+
+---
+
+## Part XVII: Token Architecture
+
+### 17.1 Three-Tier Model
+
+Tokens organize into three tiers. Each tier serves a different audience and changes at a different frequency.
+
+**Reference tokens** are the raw palette. They name values without implying usage: `--strand-blue-500`, `--strand-gray-200`, `--strand-space-6`. These change only when the aesthetic itself changes (rare).
+
+**System tokens** are semantic decisions. They assign reference values to roles: `--strand-color-primary` resolves to `--strand-blue-primary`. `--strand-color-text-body` resolves to `--strand-gray-600`. These change when the design system evolves (occasional).
+
+**Component tokens** are scoped to a single component: `--strand-button-bg` resolves to `--strand-color-primary`. These change when a component is redesigned (component-level).
+
+**Implementation:** All three tiers are CSS custom properties in the same `:root` block. The tiers are a conceptual model for understanding change impact, not separate files. A change to a reference token cascades through every system and component token that references it. A change to a component token affects only that component.
+
+**Theming:** To create a variant theme (warmer lab, cooler lab), override system tokens only. Reference tokens define the palette; system tokens define how the palette is applied. Overriding `--strand-color-primary` from blue to teal changes every primary-colored element without touching component code.
+
+**The test:** Change one system token (e.g., `--strand-color-primary`). Does every component that uses primary color update correctly? If any component uses a hardcoded reference token instead of the system token, it will not update. That component has a token architecture violation.
+
+### 17.2 Contrast-Safe Pairing Rule
+
+Every background token has a paired foreground token that guarantees WCAG 2.2 AA contrast. Components MUST use the paired token, never select foreground colors independently.
+
+On `--strand-surface-primary` (#FAFCFF): use `--strand-on-surface-primary` (gray-600, 7.21:1).
+On `--strand-surface-recessed` (#F0F5F8): use `--strand-on-surface-recessed` (gray-600, 6.74:1).
+On `--strand-blue-primary` (#3B8EF6): use `--strand-on-blue-primary` (#FFFFFF, 3.68:1 large text).
+
+When a component moves to a different surface (e.g., overline inside a recessed section), it MUST switch to the paired foreground for that surface. This is not optional. The token system enforces accessibility; manual contrast checking is not acceptable.
+
+---
+
+## Part XVIII: Layout Archetypes
+
+The laboratory has a finite number of room types. Every page or view in this design language uses one of these archetypes.
+
+### 18.1 The Specimen Collection Room (Form Flow)
+
+Purpose: collect structured data from the user. The talent profile form. The employer role form. The feedback form.
+
+Structure: centered container (content-narrow or content-default), section header (overline + heading + lead), form fields in a vertical stack with Gestalt-compliant spacing, submit button, success/error feedback.
+
+The user's attention should be on the form. Nothing else competes. Whitespace communicates: "take your time, this matters."
+
+### 18.2 The Readout Panel (Dashboard)
+
+Purpose: display processed data. Match scores. Job intelligence. Analytics.
+
+Structure: full-width or content-wide container, grid of cards, each card is a sectioned-surface (Part XI-B) containing DataReadouts, inline-pairs, or ranked-sequences. The instrument viewport (dark recessed) may house charts or maps.
+
+The user scans, compares, and decides. Visual hierarchy directs the eye: the primary readout is largest (DataReadout --xl), supporting data is smaller.
+
+### 18.3 The Showcase Gallery (Feature Display)
+
+Purpose: demonstrate capabilities. The Strand lab page. The process steps. The lab card grid.
+
+Structure: alternating sections with generous padding (section rhythm from Part V.4), each section has a centered header (overline + heading + lead) followed by a grid or stack of cards. Scroll reveal animations (Part VI.4) create the "processing" feel.
+
+The user scrolls and discovers. Each section is a self-contained exhibit.
+
+### 18.4 The Directory (Navigation Hub)
+
+Purpose: orient the user and provide navigation. The lab discovery section. Breadcrumbs. Sidebar navigation.
+
+Structure: compact container, linked cards or list items, status indicators (badges). The navigation is the instrument — it should feel like a laboratory directory panel, not a website menu.
+
+### 18.5 The Report (Long-Form Content)
+
+Purpose: present extended text content. Documentation. Analysis. Articles.
+
+Structure: content-narrow container (640px max), prose typography (Part IV.6: 60-75 characters per line), generous line-height (leading-relaxed), section rhythm between blocks. The DataReadout pattern and overline pattern break up long text with instrument-like data callouts.
+
+**The archetype test:** For any new page, name the archetype. If it does not fit any of the five, either it is a new archetype that needs specification (strategy session), or the page is trying to do too many things at once (simplify per Principle 1).
+
+---
+
+## Part XIX: Navigation
+
+### 19.1 Primary Navigation
+
+Horizontal bar on desktop. Monospace lab identifier on the left. Linked items on the right. Active item indicated by a 2px blue underline that animates from left (250ms, ease-out-expo). Scrolled state: subtle background + elevation-1 shadow.
+
+Mobile: hamburger collapse into a slide-down panel. All items visible. Touch targets 44px minimum. The mobile nav is still the laboratory directory — compact but functional.
+
+### 19.2 Breadcrumbs
+
+Monospace text-xs, gray-500, separated by `/` or `>`. Current item is not linked and uses gray-700. Each breadcrumb level corresponds to a level of the containment hierarchy (Part XI-B 11.11): page > section > item.
+
+### 19.3 Tabs
+
+Horizontal tab bar. Each tab is a text button with a 2px bottom border. Active tab: blue-primary border + blue-primary text. Inactive: transparent border + gray-500 text. Hover: gray-700 text. Transition: color and border-color at duration-fast.
+
+Tabs switch content panels. The panel transition is instant (no animation between panels). The user is switching instruments, not navigating to a new room.
+
+### 19.4 Pagination
+
+Monospace page numbers. Current page: blue-primary text + blue-glow background. Other pages: gray-600 text. Navigation arrows at the ends. Touch targets 44px minimum.
+
+### 19.5 Footer
+
+The footer is the laboratory's closing panel. Compact, informational, visually quiet.
+
+Structure: border-top using the standard divider color (gray-200), generous padding (space-12), centered content. Navigation links in a horizontal row using monospace text-xs, tracking-wider, gray-400 with blue-primary hover. Copyright line in text-xs, gray-400.
+
+The footer does not compete with page content. It is the last instrument in the room — visible but unobtrusive.
+
+---
+
+## Part XX: Density
+
+### 20.1 Three Density Levels
+
+| Level | Token Modifier | Component Padding | Line Height | Use Case |
+|---|---|---|---|---|
+| Default | (none) | md (24px) | normal (1.5) | Marketing, forms, showcase |
+| Compact | `--compact` | sm (16px) | snug (1.25) | Dashboards, data tables, admin |
+| Dense | `--dense` | space-2 (8px) | tight (1.15) | Data-heavy readouts, logs, terminal views |
+
+Density affects padding, line-height, and gap values. It does NOT affect font sizes, colors, border-radius, or elevation. The aesthetic stays the same; the information density increases.
+
+**The density test:** Switch a view between default and compact density. Does it still feel like the same laboratory, just with instruments closer together? If the compact version feels like a different design system, the density implementation has leaked into aesthetic properties.
+
+---
+
+## Part XXI: Empty States
+
+When an instrument has no data, it does not disappear. It shows an idle state.
+
+### 21.1 The Idle Readout
+
+A DataReadout with no value displays `--` in the value position, with the label still visible. The label says what the instrument WOULD measure. The user understands: this instrument exists and will activate when data arrives.
+
+### 21.2 The Empty Collection
+
+A list or grid with no items displays a single centered message in instrument voice: "No [items] detected." Below it, an optional action: "Begin [process]" as a link. The empty state uses gray-400 text on the primary surface. No illustrations. No icons. The absence of data IS the visual.
+
+### 21.3 The Search With No Results
+
+"0 matches detected." followed by a suggestion in secondary text: "Adjust parameters and retry." The search instrument is still active — it ran and returned nothing. This is different from an error (process interrupted).
+
+**The empty state test:** Remove all data from any view. Is the resulting page still recognizable as a Strand interface? If it collapses into a blank white page, the empty states are insufficient.
+
+---
+
+## Part XXII: Formatting Standards
+
+The laboratory uses consistent notation for all data types.
+
+### 22.1 Numbers
+
+- Integers: no decimal, no thousands separator below 10,000. Above 10,000: use comma separator (10,000 / 1,000,000).
+- Decimals: maximum 2 decimal places for display. Trailing zeros preserved for consistency (94.00%, not 94%).
+- Percentages: number + % with no space. Always show one decimal for precision when the value matters (94.3%), integers when approximate (94%).
+- Currency: symbol prefix, no space, comma separator ($10,000 / $1,234.56).
+- Large numbers: abbreviate at millions (1.2M, not 1,200,000) unless precision matters.
+- All numeric values use `font-variant-numeric: tabular-nums` for alignment.
+
+### 22.2 Dates and Times
+
+- Absolute dates: YYYY-MM-DD (ISO 8601) in instrument voice. "March 15, 2026" in human voice.
+- Relative dates: "2 hours ago", "Yesterday", "3 days ago". Switch to absolute after 7 days.
+- Times: 12-hour format with AM/PM in human voice. 24-hour in instrument voice. Always include timezone abbreviation for non-local times.
+- Ranges: en-dash separator with spaces (Jan 1 -- Mar 15).
+
+### 22.3 Empty Values
+
+Never show blank. Always show a placeholder:
+- Numeric: `--`
+- Text: `Not provided` (human voice) / `null` (instrument voice)
+- Date: `Not set`
 
 ---
 

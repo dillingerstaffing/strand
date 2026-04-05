@@ -36,3 +36,8 @@
 .strand-section--border-top {
   border-top: 1px solid var(--strand-gray-200);
 }
+
+/* ── Scroll target (anchored section with nav offset) ── */
+.strand-section--scroll-target {
+  scroll-margin-top: 5rem;
+}
