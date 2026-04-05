@@ -17,6 +17,13 @@
   overflow: hidden;
 }
 
+.strand-section--hero-xl {
+  padding-block: clamp(8rem, 15vw, 14rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
 /* ── Backgrounds ── */
 .strand-section--bg-primary {
   background-color: var(--strand-surface-primary);

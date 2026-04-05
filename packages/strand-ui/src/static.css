@@ -91,7 +91,7 @@
 
 /* ── Gradient text effect (premium hero headlines) ── */
 .strand-headline--gradient {
-  background: linear-gradient(135deg, var(--strand-blue-midnight) 0%, var(--strand-blue-primary) 50%, var(--strand-blue-deep) 100%);
+  background: linear-gradient(180deg, var(--strand-gray-900) 0%, var(--strand-blue-midnight) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
