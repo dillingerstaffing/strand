@@ -980,6 +980,8 @@ Forms are the primary input surface. They collect structured data for processing
 
 **The monospace uppercase label** is the laboratory signature. It says "this field has a purpose" in the same way a specimen label on a vial says "this sample has been classified." This single pattern. Monospace, 11px, uppercase, tracked, gray-500. Is the most distinctive typographic element in the entire design language. **All form field labels MUST use this pattern** (font-mono, text-xs, weight-medium, tracking-widest, uppercase, gray-500). Sans-serif labels at body size violate the specimen instrument metaphor and are not permitted.
 
+**Form security: honeypot field.** Every public form should include a hidden honeypot input that bots fill but humans never see. The field is visually hidden (not `display: none` which some bots skip, but positioned offscreen with `aria-hidden="true"` and `tabindex="-1"`). If the honeypot contains a value on submission, the submission is silently rejected. This is a standard spam prevention pattern that belongs in the form component toolkit.
+
 ### 11.2 Data Display (The Readout Panel)
 
 When displaying processed data (metrics, scores, status), the interface becomes an analytical readout:
@@ -1089,6 +1091,7 @@ Diagnostic events use a **monospace status prefix** (INFO / COMPLETE / WARNING /
 |---|---|
 | Toast (transient) | Monospace status prefix, surface-elevated background, Level 3 elevation, auto-dismisses, sr-only live region |
 | Alert (persistent) | Monospace status prefix, surface-recessed background, full-width within content flow, dismissible optional |
+| Banner (page-level) | Fixed to top of viewport, full-width, surface-elevated or tinted background. Communicates system-wide status (maintenance, announcements, warnings). Dismissible. Pushes page content down. Variants: info (blue-glow bg), warning (amber-tint bg), critical (red-tint bg). Uses instrument voice for the message. |
 | Dialog (modal) | Centered, focus-trapped, Level 3 elevation, backdrop overlay, escape-to-close |
 | Tooltip (contextual) | Small, positioned, delay on show (200ms), no delay on hide |
 | Progress (status) | Bar or ring, determinate or indeterminate, monospace percentage label |

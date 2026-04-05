@@ -48,6 +48,11 @@
   --strand-red-alert-deep: #B91C1C;
   --strand-amber-caution: #F59E0B;
 
+  /* ── TINT BACKGROUNDS (light status backgrounds for banners/alerts) ── */
+  --strand-blue-tint: #EFF6FF;
+  --strand-amber-tint: #FEF3C7;
+  --strand-red-tint: #FEF2F2;
+
   /* ── ON-COLORS (contrast-safe text pairings) ── */
   --strand-on-surface-primary: #475769;
   --strand-on-surface-elevated: #475769;

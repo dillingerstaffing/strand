@@ -1,0 +1,84 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Banner (DL Part XI.6: page-level persistent alert) ──
+   Fixed to top of viewport. Pushes page content down.
+   System-wide status: maintenance, announcements, warnings. */
+.strand-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  padding: var(--strand-space-3) var(--strand-space-4);
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  line-height: var(--strand-leading-normal);
+  text-align: center;
+  border-bottom: 1px solid transparent;
+}
+
+/* Push nav down when banner is present */
+.strand-banner ~ .strand-nav--glass {
+  top: var(--strand-banner-height, 0px);
+}
+
+/* ── Variants ── */
+.strand-banner--info {
+  background: var(--strand-blue-glow);
+  color: var(--strand-blue-deep);
+  border-bottom-color: var(--strand-blue-indicator);
+}
+
+.strand-banner--warning {
+  background: var(--strand-amber-tint);
+  color: var(--strand-on-amber-tint);
+  border-bottom-color: var(--strand-amber-caution);
+}
+
+.strand-banner--critical {
+  background: var(--strand-red-tint);
+  color: var(--strand-on-red-tint);
+  border-bottom-color: var(--strand-red-alert);
+}
+
+/* ── Content ── */
+.strand-banner__text {
+  margin: 0;
+  font-weight: var(--strand-weight-medium);
+}
+
+/* ── Dismiss button ── */
+.strand-banner__dismiss {
+  position: absolute;
+  right: var(--strand-space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: var(--strand-space-2);
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--strand-radius-md);
+  transition: opacity var(--strand-duration-fast) ease;
+}
+
+.strand-banner__dismiss:hover {
+  opacity: 1;
+}
+
+.strand-banner__dismiss:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-banner__dismiss {
+    transition: none;
+  }
+}

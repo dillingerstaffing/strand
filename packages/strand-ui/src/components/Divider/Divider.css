@@ -42,3 +42,10 @@
   text-transform: uppercase;
   white-space: nowrap;
 }
+
+/* ── Gradient (biosynthetic separator) ── */
+.strand-divider--gradient {
+  border-top: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--strand-blue-indicator) 50%, transparent 100%);
+}

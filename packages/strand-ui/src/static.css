@@ -57,6 +57,13 @@
   line-height: var(--strand-leading-normal);
 }
 
+/* DL Part XVII.2: Contrast-safe pairing on recessed surfaces.
+   gray-500 on surface-recessed (#F0F5F8) = 4.19:1 (fails 4.5:1 for small text).
+   Auto-darken to gray-600 when inside a recessed context. */
+.strand-section--bg-recessed .strand-overline {
+  color: var(--strand-gray-600);
+}
+
 /* ── Headline (display heading, DL Part IV.5) ── */
 .strand-headline {
   font-family: var(--strand-font-mono);
@@ -427,6 +434,21 @@
   .strand-form-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* ═══ HONEYPOT (DL Part XI.1: form security) ═══
+   Hidden field that bots fill but humans never see.
+   NOT display:none (some bots skip those).
+   Positioned offscreen with aria-hidden and tabindex=-1. */
+.strand-honeypot {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* ═══ UTILITY CLASSES ═══ */
