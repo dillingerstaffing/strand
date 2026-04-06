@@ -63,10 +63,39 @@
 }
 
 /* DL Part XVII.2: Contrast-safe pairing on recessed surfaces.
-   gray-500 on surface-recessed (#F0F5F8) = 4.19:1 (fails 4.5:1 for small text).
+   gray-500 on surface-recessed fails 4.5:1 for small text.
    Auto-darken to gray-600 when inside a recessed context. */
 .strand-section--bg-recessed .strand-overline {
   color: var(--strand-gray-600);
+}
+
+.strand-section--bg-recessed .strand-overline--accent {
+  color: var(--strand-blue-deep);
+}
+
+.strand-section--bg-recessed .strand-lead {
+  color: var(--strand-gray-600);
+}
+
+.strand-section--bg-recessed .strand-text-secondary {
+  color: var(--strand-gray-600);
+}
+
+.strand-section--bg-recessed .strand-step-indicator {
+  color: var(--strand-blue-deep);
+}
+
+/* All small text on recessed surfaces needs darker colors for WCAG 4.5:1 */
+.strand-section--bg-recessed .strand-tabs__tab,
+.strand-section--bg-recessed .strand-form-field__label,
+.strand-section--bg-recessed .strand-form-field__hint,
+.strand-section--bg-recessed .strand-badge--default {
+  color: var(--strand-gray-600);
+}
+
+.strand-section--bg-recessed .strand-tabs__tab--active {
+  color: var(--strand-blue-deep);
+  border-bottom-color: var(--strand-blue-deep);
 }
 
 /* ── Headline (display heading, DL Part IV.5) ── */
