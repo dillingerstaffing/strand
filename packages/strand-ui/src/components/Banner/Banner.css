@@ -17,9 +17,29 @@
   border-bottom: 1px solid transparent;
 }
 
-/* Push nav down when banner is present */
+/* Push nav down when banner is present.
+   Two cases handled here:
+   - .strand-nav--glass is position:fixed, so it must be offset via top.
+   - All other nav variants (default, --instrument) are in document flow,
+     so they shift via margin-top instead. The fixed-positioning rule above
+     wins for --glass because top is meaningful only when position:fixed,
+     and margin-top has no effect on a fixed element. */
 .strand-banner ~ .strand-nav--glass {
   top: var(--strand-banner-height, 0px);
+}
+
+.strand-banner ~ .strand-nav:not(.strand-nav--glass) {
+  margin-top: var(--strand-banner-height, 0px);
+}
+
+/* When the page hosts a full-bleed instrument viewport AND a banner is
+   present, the viewport height calculation must subtract the banner
+   height as well as the nav height. The viewport is a descendant of body,
+   not a sibling of .strand-banner, so :has() is required to scope this
+   rule to "any document containing a banner". */
+body:has(.strand-banner) .strand-instrument-viewport--full-bleed {
+  height: calc(100vh - var(--strand-nav-height) - var(--strand-banner-height, 0px));
+  height: calc(100dvh - var(--strand-nav-height) - var(--strand-banner-height, 0px));
 }
 
 /* ── Variants ── */
