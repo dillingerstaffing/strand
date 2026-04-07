@@ -10,25 +10,50 @@
 
 /* ── Field ── */
 .strand-slider__field {
+  /* The field itself is a 44px-tall transparent hit area so the
+     full WCAG 2.5.5 touch target is draggable. The visible track
+     is painted via the ::before-equivalent (we cannot use
+     pseudo-elements on form controls, so the track tint is set
+     directly on the field with a small height plus a vertical
+     gradient that fades the bottom). */
   width: 100%;
-  height: 6px;
+  min-height: var(--strand-touch-target);
+  height: var(--strand-touch-target);
   appearance: none;
-  background: var(--strand-gray-200);
-  border-radius: var(--strand-radius-full);
+  background: transparent;
   outline: none;
   cursor: pointer;
-  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
-/* ── Thumb: Webkit (44px touch target, 20px visual) ── */
+/* ── Track: Webkit ── */
+.strand-slider__field::-webkit-slider-runnable-track {
+  height: 6px;
+  background: var(--strand-gray-200);
+  border-radius: var(--strand-radius-full);
+}
+
+/* ── Thumb: Webkit ──
+   The earlier approach of width: 20px + border: 12px solid transparent +
+   background-clip: padding-box collapses to a hollow ring in webkit
+   because the slider thumb pseudo-element does not honor the
+   padding-box clip the way regular elements do. The painted box
+   shows only the (currently empty) padding region while the
+   transparent border consumes the visible area. The fix is to use
+   a flat 20x20 thumb with NO transparent border. The 44px hit area
+   is provided by the field height above, not by an oversized
+   thumb. */
 .strand-slider__field::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
   height: 20px;
+  /* Vertically center the thumb on the 6px track inside the
+     44px field: (44 - 20) / 2 = 12 from the top, but the track is
+     also vertically centered, so the thumb sits on the track when
+     margin-top equals (track-height - thumb-height) / 2 = -7px. */
+  margin-top: -7px;
   background: var(--strand-blue-primary);
-  border: 12px solid transparent;
+  border: none;
   border-radius: var(--strand-radius-full);
-  background-clip: padding-box;
   cursor: pointer;
   box-shadow: var(--strand-elevation-1);
   transition:
@@ -38,24 +63,23 @@
 
 .strand-slider__field:hover:not(:disabled)::-webkit-slider-thumb {
   background: var(--strand-blue-vivid);
-  background-clip: padding-box;
   transform: scale(1.15);
 }
 
 .strand-slider__field:active:not(:disabled)::-webkit-slider-thumb {
   background: var(--strand-blue-deep);
-  background-clip: padding-box;
   transform: scale(1.05);
 }
 
-/* ── Thumb: Firefox (44px touch target, 20px visual) ── */
+/* ── Thumb: Firefox ──
+   Firefox does not need the manual margin offset because
+   ::-moz-range-thumb is centered on the track automatically. */
 .strand-slider__field::-moz-range-thumb {
   width: 20px;
   height: 20px;
   background: var(--strand-blue-primary);
-  border: 12px solid transparent;
+  border: none;
   border-radius: var(--strand-radius-full);
-  background-clip: padding-box;
   cursor: pointer;
   box-shadow: var(--strand-elevation-1);
   transition:
@@ -65,13 +89,11 @@
 
 .strand-slider__field:hover:not(:disabled)::-moz-range-thumb {
   background: var(--strand-blue-vivid);
-  background-clip: padding-box;
   transform: scale(1.15);
 }
 
 .strand-slider__field:active:not(:disabled)::-moz-range-thumb {
   background: var(--strand-blue-deep);
-  background-clip: padding-box;
   transform: scale(1.05);
 }
 
