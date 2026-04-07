@@ -40,6 +40,11 @@
   tab-size: 2;
   margin: 0;
   border: 1px solid var(--strand-gray-200);
+  /* Floor the pre at touch-target so that even a theoretical empty
+     code block leaves room for the copy affordance. Single-line
+     snippets naturally exceed this (padding + line-height + border
+     ≈ 47.66px) so this is defensive rather than active. */
+  min-height: var(--strand-touch-target);
 }
 
 /* ── Copy button ──
@@ -55,24 +60,31 @@
   padding-right: var(--strand-space-10);
 }
 
-/* Visual alignment: the 44x44 touch target is preserved for
-   accessibility, but the icon sits at the top of the button so it
-   aligns with the vertical center of the FIRST line of code, not the
-   center of the 44x44 box. Without this, on single-line or short
-   multi-line snippets the icon floats 6-7px below the text baseline
-   and reads as misaligned. The padding-top value is derived from:
-   pre padding-top (space-3) + half line-height - half touch target -
-   top offset (space-2) - 1px border. */
+/* Geometry derivation (why these exact values):
+   - <pre> for a 1-line snippet: 12 + 21.66 + 12 + 2 = ~47.66px tall
+     (padding-top + line-height + padding-bottom + 2×border).
+   - Button MUST fit inside the pre or its white surface bleeds out
+     the bottom. With top=8 and a 44x44 button, the bottom lands at
+     54px which overflows the 47.66 pre by ~6px (the bleed the
+     previous fix tried to mask).
+   - Visible button is therefore 32×32 (+ 2×1 border = 34×34). With
+     top=6 the box occupies y ∈ [6, 40], inside the 47.66 pre with
+     ~7.66px of breathing room.
+   - First code line center = padding-top (12) + ½ line-height
+     (~10.83) = ~22.83px from pre top. Button center = top (6) + 17
+     = 23px. Delta = 0.17px, well under the 2px test slop.
+   - A `::before` pseudo-element expands the hit area to 44×44
+     (WCAG 2.5.8 touch target) without affecting the visible box. */
 .strand-code-block__copy {
   position: absolute;
-  top: var(--strand-space-2);
-  right: var(--strand-space-2);
+  top: calc(var(--strand-space-2) - 2px);
+  right: calc(var(--strand-space-2) - 2px);
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  min-width: var(--strand-touch-target);
-  min-height: var(--strand-touch-target);
-  padding: calc(var(--strand-space-1) + 2px) 0 0 0;
+  width: var(--strand-space-8);
+  height: var(--strand-space-8);
+  padding: 0;
   border: 1px solid var(--strand-gray-200);
   border-radius: var(--strand-radius-md);
   background-color: var(--strand-surface-elevated);
@@ -85,6 +97,18 @@
     border-color var(--strand-duration-fast) ease,
     background-color var(--strand-duration-fast) ease,
     transform var(--strand-duration-fast) var(--strand-ease-out-expo);
+}
+
+/* Expanded hit area: the visible button is 32x32 so it fits in a
+   1-line code block, but WCAG 2.5.8 (Target Size Minimum) prefers a
+   larger touch target. This invisible pseudo-element extends the
+   click area to 44x44 without shifting any pixels. The halo is
+   contained within the reserved right-padding on the pre so it never
+   overlaps code text. */
+.strand-code-block__copy::before {
+  content: "";
+  position: absolute;
+  inset: calc((var(--strand-touch-target) - var(--strand-space-8)) / -2);
 }
 
 .strand-code-block:hover .strand-code-block__copy,
