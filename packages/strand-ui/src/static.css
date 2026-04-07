@@ -826,16 +826,42 @@
   max-width: 50ch;
 }
 
-/* ═══ UTILITY CLASSES ═══ */
+/* ═══ UTILITY CLASSES ══════════════════════════════
+   Atomic, single-property helpers. Token-only values.
+   Use sparingly: prefer named primitives and molecules
+   when a coherent concept exists. These exist to absorb
+   the long tail of one-off layout glue without forcing
+   consumers to ship inline styles or per-page CSS files.
+   ═══════════════════════════════════════════════════ */
+
+/* ── Display ── */
 .strand-block { display: block; }
+
+/* ── Flex / sizing ── */
 .strand-flex-1 { flex: 1; }
+.strand-min-w-0 { min-width: 0; }
 .strand-full-width { width: 100%; }
+.strand-w-full { width: 100%; }
+
+/* ── Margin top (token scale 1-8) ── */
+.strand-mt-1 { margin-top: var(--strand-space-1); }
+.strand-mt-2 { margin-top: var(--strand-space-2); }
+.strand-mt-3 { margin-top: var(--strand-space-3); }
 .strand-mt-4 { margin-top: var(--strand-space-4); }
+.strand-mt-5 { margin-top: var(--strand-space-5); }
 .strand-mt-6 { margin-top: var(--strand-space-6); }
 .strand-mt-8 { margin-top: var(--strand-space-8); }
+
+/* ── Margin bottom (token scale 1-8) ── */
+.strand-mb-1 { margin-bottom: var(--strand-space-1); }
+.strand-mb-2 { margin-bottom: var(--strand-space-2); }
+.strand-mb-3 { margin-bottom: var(--strand-space-3); }
 .strand-mb-4 { margin-bottom: var(--strand-space-4); }
+.strand-mb-5 { margin-bottom: var(--strand-space-5); }
 .strand-mb-6 { margin-bottom: var(--strand-space-6); }
 .strand-mb-8 { margin-bottom: var(--strand-space-8); }
+
+/* ── Margin auto (centering) ── */
 .strand-mx-auto { margin-inline: auto; }
 
 @media (prefers-reduced-motion: reduce) {
