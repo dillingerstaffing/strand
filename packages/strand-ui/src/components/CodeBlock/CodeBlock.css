@@ -55,16 +55,24 @@
   padding-right: var(--strand-space-10);
 }
 
+/* Visual alignment: the 44x44 touch target is preserved for
+   accessibility, but the icon sits at the top of the button so it
+   aligns with the vertical center of the FIRST line of code, not the
+   center of the 44x44 box. Without this, on single-line or short
+   multi-line snippets the icon floats 6-7px below the text baseline
+   and reads as misaligned. The padding-top value is derived from:
+   pre padding-top (space-3) + half line-height - half touch target -
+   top offset (space-2) - 1px border. */
 .strand-code-block__copy {
   position: absolute;
   top: var(--strand-space-2);
   right: var(--strand-space-2);
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-width: var(--strand-touch-target);
   min-height: var(--strand-touch-target);
-  padding: 0;
+  padding: calc(var(--strand-space-1) + 2px) 0 0 0;
   border: 1px solid var(--strand-gray-200);
   border-radius: var(--strand-radius-md);
   background-color: var(--strand-surface-elevated);
