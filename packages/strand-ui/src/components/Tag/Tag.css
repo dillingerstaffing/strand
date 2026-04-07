@@ -90,9 +90,60 @@
   opacity: 1;
 }
 
+/* ── Joined chip (interactive pill) ──
+   A compact pill the user taps to toggle membership off. Used
+   for "joined channel" style affordances where the in-content
+   pill carries the active signal and the parent card chrome
+   stays quiet. Designed to live inside a card header row. */
+.strand-chip--joined {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-1);
+  flex-shrink: 0;
+  padding: 2px var(--strand-space-2);
+  background: var(--strand-blue-glow);
+  color: var(--strand-blue-deep);
+  border: 1px solid var(--strand-blue-indicator);
+  border-radius: var(--strand-radius-full);
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-semibold);
+  line-height: 1;
+  letter-spacing: var(--strand-tracking-tight);
+  cursor: pointer;
+  transition:
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
+    border-color var(--strand-duration-fast) var(--strand-ease-out-quart),
+    color var(--strand-duration-fast) var(--strand-ease-out-quart);
+}
+
+.strand-chip--joined:hover:not(:disabled) {
+  background: var(--strand-blue-tint);
+  border-color: var(--strand-blue-deep);
+}
+
+.strand-chip--joined:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}
+
+.strand-chip--joined:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.strand-chip--joined__check {
+  font-size: 0.875em;
+  line-height: 1;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .strand-tag__remove {
+    transition: none;
+  }
+
+  .strand-chip--joined {
     transition: none;
   }
 }

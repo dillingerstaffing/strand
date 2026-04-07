@@ -62,36 +62,22 @@
   box-shadow: var(--strand-elevation-2); /* CF-REF: five-level-shadow.md [1] */
 }
 
-/* The "alive" signal for live/active cards. The earlier
-   implementation used a rotating conic-gradient as a continuous
-   radar sweep; in user testing it read as a "weird spinning blue
-   radar" rather than a subtle live indicator, so it was replaced
-   with a static treatment. The active state is now communicated
-   by a 1px solid blue-indicator border ring sitting just outside
-   the card edge plus a tiny tinted top edge accent, both of which
-   are perceived as "this thing is on" without any motion. */
-.strand-card--active {
-  box-shadow:
-    0 0 0 1px var(--strand-blue-indicator),
-    var(--strand-elevation-1);
-}
+/* The "alive" signal for live/active cards has been through several
+   iterations: a conic-gradient radar sweep (too animated, read as
+   spinning), a 1px blue-indicator halo plus 2px top edge accent
+   (too loud, trended toward the generic AI-workspace edge-stripe
+   aesthetic), and finally the current treatment.
 
-.strand-card--active::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  border-radius: var(--strand-radius-md) var(--strand-radius-md) 0 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--strand-blue-primary) 50%,
-    transparent 100%
-  );
-  opacity: 0.6;
-  pointer-events: none;
+   The active state is now expressed ONLY through a subtle
+   blue-glow tinted background. No border ring, no edge stripe,
+   no halo, no chrome animation. The in-content affordance (a
+   "Joined" pill, a status-chip--live, a StatusIndicator) carries
+   the primary signal. The tint is a quiet reinforcement: cards
+   that are "on" recede into a barely-there blue wash. Every
+   edge-bar treatment, including left, right, top, and bottom
+   stripes, is intentionally absent per the no-edge-bar rule. */
+.strand-card--active {
+  background: var(--strand-blue-glow);
 }
 
 /* ── Padding modifiers ── */
@@ -121,6 +107,60 @@
   outline-offset: 2px;
 }
 
+/* ── Consumer helpers: REDACTED channel grid ──
+   These classes are used by the REDACTED lab to lay out a
+   channel membership grid with cards that size to content and
+   an inline next-event preview row. They live in Card.css so
+   the cross-repo sync stays coherent; treat them as private
+   consumer helpers, not part of the public Strand API. */
+.strand-channel-grid {
+  align-items: start;
+}
+
+.strand-channel-title {
+  margin: 0;
+  line-height: var(--strand-leading-snug);
+}
+
+.strand-channel-description {
+  margin: 0;
+}
+
+.strand-channel-next {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--strand-space-2);
+  margin-top: var(--strand-space-1);
+  padding-top: var(--strand-space-2);
+  border-top: 1px dashed var(--strand-gray-200);
+  font-size: var(--strand-text-xs);
+  line-height: var(--strand-leading-snug);
+}
+
+.strand-channel-next__label {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+}
+
+.strand-channel-next__title {
+  color: var(--strand-gray-900);
+  font-weight: var(--strand-weight-medium);
+}
+
+.strand-channel-next__when {
+  color: var(--strand-gray-600);
+  font-variant-numeric: tabular-nums;
+}
+
+.strand-channel-signin-hint {
+  grid-column: 1 / -1;
+}
+
 /* CF-REF: reduced-motion.md [9] */
 @media (prefers-reduced-motion: reduce) {
   .strand-card--interactive {
@@ -129,9 +169,5 @@
 
   .strand-card--interactive:hover {
     transform: none;
-  }
-
-  .strand-card--active::before {
-    transition: none;
   }
 }
