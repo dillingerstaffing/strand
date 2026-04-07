@@ -68,6 +68,16 @@
   min-width: 48px;
 }
 
+/* ── Circular modifier (icon-only only) ──
+   Combine with strand-btn--icon-only + a size modifier for a
+   pill/circle button. Use for inline rating stars, avatar
+   actions, or reaction chips where a square outline would
+   feel harsh. */
+.strand-btn--circular {
+  border-radius: var(--strand-radius-full);
+  aspect-ratio: 1;
+}
+
 /* ── Full width ── */
 .strand-btn--full-width {
   width: 100%;

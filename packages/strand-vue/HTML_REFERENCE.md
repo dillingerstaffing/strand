@@ -12,6 +12,90 @@
 
 > **Principle 9 (Typography Carries the Room):** The largest text and smallest text on the same screen must have at least a 3:1 size ratio. Uniform typography is a spreadsheet. Hierarchical typography is an instrument panel. See [DL L165-178](./DESIGN_LANGUAGE.md#L165).
 
+---
+
+## Page Recipes
+
+Complete page skeletons demonstrating how Strand components compose into full pages. Copy-paste and customize.
+
+### Marketing Homepage
+
+```html
+<nav class="strand-nav strand-nav--glass">...</nav>
+<section class="strand-section strand-section--hero-xl">
+  <div class="strand-hero-bg">...</div>
+  <div class="strand-container">
+    <span class="strand-overline strand-overline--accent">Brand</span>
+    <h1 class="strand-headline--gradient">Headline</h1>
+    <p class="strand-lead">Description</p>
+    <div class="strand-stack strand-stack--horizontal strand-stack--justify-center strand-stack--gap-4">
+      <a class="strand-btn strand-btn--primary strand-btn--lg">Primary CTA</a>
+      <a class="strand-btn strand-btn--secondary strand-btn--lg">Secondary CTA</a>
+    </div>
+  </div>
+</section>
+<hr class="strand-divider strand-divider--horizontal strand-divider--gradient">
+<section class="strand-section strand-section--standard">
+  <div class="strand-container">
+    <div class="strand-section-header strand-container strand-container--default strand-text-center">
+      <span class="strand-overline">Section Label</span>
+      <h2>Section Heading</h2>
+      <p class="strand-lead">Description</p>
+    </div>
+    <div class="strand-grid strand-grid--auto-md strand-grid--gap-6">
+      <div class="strand-card strand-card--interactive strand-card--pad-lg">...</div>
+    </div>
+  </div>
+</section>
+<footer class="strand-footer">...</footer>
+```
+
+### Dashboard
+
+```html
+<nav class="strand-nav strand-nav--glass">...</nav>
+<section class="strand-section strand-section--compact">
+  <div class="strand-container strand-container--wide">
+    <div class="strand-grid strand-grid--cols-3 strand-grid--gap-6">
+      <div class="strand-card">
+        <div class="strand-data-readout strand-data-readout--lg">
+          <span class="strand-data-readout__label">Metric</span>
+          <span class="strand-data-readout__value">94%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+### Form Page
+
+```html
+<section class="strand-section strand-section--standard strand-section--bg-recessed strand-section--scroll-target">
+  <div class="strand-container strand-container--default">
+    <div class="strand-section-header strand-text-center">
+      <h2>Form Title</h2>
+      <p class="strand-lead">Description</p>
+    </div>
+    <div class="strand-form-grid">
+      <div class="strand-form-row">
+        <div class="strand-form-field">
+          <label class="strand-form-field__label">Name</label>
+          <div class="strand-input"><input class="strand-input__field"></div>
+        </div>
+        <div class="strand-form-field">
+          <label class="strand-form-field__label">Email</label>
+          <div class="strand-input"><input class="strand-input__field" type="email"></div>
+        </div>
+      </div>
+      <button class="strand-btn strand-btn--primary strand-btn--md strand-full-width">Submit</button>
+    </div>
+  </div>
+</section>
+```
+
+---
+
 ## Required CSS
 
 **CDN (no install):**
@@ -282,6 +366,20 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 > **Cards are instrument panels, not generic containers.** Before placing multiple cards in a layout, apply [Principle 2 hierarchy test (L71-84)](./DESIGN_LANGUAGE.md#L71): which card is the primary instrument? It should be visually dominant. Apply [Principle 10 (L171-196)](./DESIGN_LANGUAGE.md#L171): describe the layout in laboratory vocabulary. If it sounds generic, redesign.
 
+### Card Active State
+
+Add `strand-card--active` to interactive cards to show a scanning border glow indicating "this is live/active."
+
+```html
+<a href="/app" class="strand-card strand-card--interactive strand-card--active strand-card--pad-lg">
+  <span class="strand-overline">APP NAME</span>
+  <span class="strand-tag strand-tag--teal">Live</span>
+  <p class="strand-text-secondary">Description of the live application.</p>
+</a>
+```
+
+DL Principle 7 (Grain of Precision): the scanning animation is subtle -- below conscious perception. Respects `prefers-reduced-motion`.
+
 ---
 
 ### Badge
@@ -520,6 +618,12 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </div>
 ```
 
+**Gradient:**
+
+```html
+<hr class="strand-divider strand-divider--horizontal strand-divider--gradient">
+```
+
 **Vertical:**
 
 ```html
@@ -538,9 +642,12 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 </section>
 ```
 
-**Variants:** `strand-section--standard` | `strand-section--hero` | `strand-section--compact` (space-12 padding)
+**Variants:** `strand-section--standard` | `strand-section--hero` | `strand-section--hero-xl` | `strand-section--compact` (space-12 padding)
 **Backgrounds:** `strand-section--bg-primary` | `strand-section--bg-elevated` | `strand-section--bg-recessed`
-**Modifiers:** `strand-section--border-top` (1px gray-200 top border for visual separation between sections)
+**Modifiers:** `strand-section--border-top` (1px gray-200 top border for visual separation between sections) | `strand-section--scroll-target` (adds scroll-margin-top for anchor scroll offset)
+
+- `strand-section--hero-xl` -- extra-generous hero padding for marketing landing pages and splash screens.
+- `strand-section--scroll-target` -- adds `scroll-margin-top` so anchor-linked sections clear the fixed nav when scrolled to.
 
 > **Section rhythm** and responsive padding values: [DESIGN_LANGUAGE.md 5.4: Section Rhythm (L458-L466)](./DESIGN_LANGUAGE.md#L458). Background and surface choices: [Part IX: Surfaces and Backgrounds (L749-L826)](./DESIGN_LANGUAGE.md#L749).
 
@@ -653,6 +760,7 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 **Active link:** `strand-nav__link--active` (desktop) | `strand-nav__mobile-link--active` (mobile)
 **Variant:** `strand-nav--glass` (fixed, glassmorphic backdrop-filter, semi-transparent background, DL 11.5)
+**Modifier:** `strand-nav--scrolled` -- subtle shadow + border applied on scroll. Apply via JS scroll listener (e.g., toggle class when `window.scrollY > 0`).
 **Note:** Default nav is relative-positioned at 64px tall. `--glass` makes it fixed to viewport top with frosted glass effect. Desktop items hide below 768px; hamburger and mobile menu show instead. Toggle mobile menu visibility with JavaScript.
 
 ---
@@ -698,6 +806,21 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 **Status prefix:** Include `<span class="strand-alert__status">LABEL</span>` before the content div. Labels: `INFO`, `COMPLETE` (success), `WARNING`, `ERROR`.
 **Dismissible:** Add `<button type="button" class="strand-alert__dismiss" aria-label="Dismiss">&times;</button>` after content.
 **Note:** Use `role="alert"` for `warning` and `error`, `role="status"` for `info` and `success`.
+
+---
+
+### Banner
+
+```html
+<div class="strand-banner strand-banner--info">
+  <p class="strand-banner__text">Scheduled maintenance tonight at 11pm ET.</p>
+  <button class="strand-banner__dismiss" aria-label="Dismiss">...</button>
+</div>
+```
+
+**Variants:** `strand-banner--info` (blue) | `strand-banner--warning` (amber) | `strand-banner--critical` (red)
+**Behavior:** Fixed to top of viewport. Pushes nav down when present.
+**Dismissible:** Include `strand-banner__dismiss` button. Wire dismiss behavior with JavaScript.
 
 ---
 
@@ -857,6 +980,24 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 ---
 
+## Footer
+
+```html
+<footer class="strand-footer">
+  <div class="strand-container">
+    <nav class="strand-footer__nav">
+      <a href="/about" class="strand-footer__link">About</a>
+      <a href="/docs" class="strand-footer__link">Docs</a>
+    </nav>
+    <p class="strand-footer__copy">&copy; 2026 Your Company</p>
+  </div>
+</footer>
+```
+
+**Structure:** `strand-footer` wraps a `strand-container` with nav links and a copyright line. Links use `strand-footer__link`. Copyright uses `strand-footer__copy`.
+
+---
+
 ## Accessibility and Motion
 
 > **Accessibility checklist:** Exactly one h1 per page. Heading hierarchy (no skipping levels). All form inputs have visible labels. ARIA labels on non-text controls. ARIA live regions on dynamic content. Landmark regions (nav, main, footer). See [DL L1206-1213](./DESIGN_LANGUAGE.md#L1206).
@@ -879,6 +1020,14 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 
 The monospace uppercase tracked label pattern. Used for section labels, category headers, and data annotations.
 
+**Accent variant:**
+
+```html
+<span class="strand-overline strand-overline--accent">Accent Label</span>
+```
+
+`strand-overline--accent` applies the accent color for highlighted or branded overline labels.
+
 > **DL foundation:** This is the laboratory specimen label pattern from [DL Part IV.5 (L386-L396)](./DESIGN_LANGUAGE.md#L386).
 
 ### Headline
@@ -889,6 +1038,14 @@ The monospace uppercase tracked label pattern. Used for section labels, category
 ```
 
 **Sizes:** `--xl` (hero, fluid 2.5rem-5rem) | `--lg` (section, fluid 1.5rem-2.5rem)
+
+**Gradient variant:**
+
+```html
+<h1 class="strand-headline--gradient">Gradient Text</h1>
+```
+
+`strand-headline--gradient` applies a gradient text fill for hero headlines and marketing emphasis.
 
 ### Lead
 
@@ -962,6 +1119,68 @@ Bottom margin per [DL 5.4](./DESIGN_LANGUAGE.md#L458): `clamp(2rem, 4vw, 4rem)`.
 ```
 
 32px circle with blue-glow background, blue-primary text, mono semibold. For numbered sequential steps.
+
+### Additional Utilities
+
+| Class | Effect |
+|---|---|
+| `strand-block` | `display: block` |
+| `strand-flex-1` | `flex: 1` |
+| `strand-full-width` | `width: 100%` |
+| `strand-honeypot` | Hidden honeypot field for bot prevention (visually hidden, ignored by screen readers) |
+| `strand-pulse` | Pulsing alive indicator dot -- use for live/active status |
+| `strand-auth-indicator` | Signed-in text indicator for nav (mono, xs, tracked) |
+| `strand-auth-avatar` | Small avatar circle for nav (inline profile image) |
+
+---
+
+## Form Layout
+
+```html
+<div class="strand-form-grid">
+  <div class="strand-form-row">
+    <div class="strand-form-field">...</div>
+    <div class="strand-form-field">...</div>
+  </div>
+  <div class="strand-form-field">...</div>
+</div>
+```
+
+`strand-form-grid` provides vertical stacking with consistent gap for form sections. `strand-form-row` places multiple fields side by side (responsive -- stacks on narrow viewports). Compose with `strand-form-field` for label + input pairs.
+
+---
+
+## Hero Background
+
+```html
+<section class="strand-section strand-section--hero-xl">
+  <div class="strand-hero-bg" aria-hidden="true">
+    <!-- Any visual: SVG, WebGL canvas, gradient, video -->
+  </div>
+  <div class="strand-container" style="position:relative;z-index:1;">
+    <h1 class="strand-headline--gradient">Your Headline</h1>
+  </div>
+</section>
+```
+
+`strand-hero-bg` is an absolutely-positioned container that fills its parent section. Place any decorative visual inside (SVG pattern, canvas, gradient, video). Content above it needs `position: relative; z-index: 1` to layer on top. Always include `aria-hidden="true"` since the background is decorative.
+
+---
+
+## Connected Steps
+
+```html
+<div class="strand-grid strand-grid--auto-sm strand-grid--gap-8 strand-steps-connected">
+  <div class="strand-card strand-card--interactive strand-card--pad-lg">
+    <div class="strand-step-indicator">01</div>
+    <h3>Step Title</h3>
+    <p class="strand-text-secondary">Step description.</p>
+  </div>
+  <!-- More steps... -->
+</div>
+```
+
+`strand-steps-connected` adds visual connectors between step cards in a grid. Compose with `strand-grid--auto-sm` for responsive columns and `strand-step-indicator` for numbered circles.
 
 ---
 

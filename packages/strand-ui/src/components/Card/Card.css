@@ -28,6 +28,20 @@
   border: none;
 }
 
+/* ── Warm variant (DL Part 7.1b) ──
+   Showcase contexts where the warm wood / controlled daylight
+   spatial signature should be felt. Adds the warm shadow tint
+   alongside the existing cool layers. Default cool variant
+   stays the default. Use on hero/landing/gallery cards, never
+   on dashboard or readout cards. */
+.strand-card--warm {
+  box-shadow: var(--strand-elevation-1-warm);
+}
+
+.strand-card--warm.strand-card--interactive:hover {
+  box-shadow: var(--strand-elevation-2-warm);
+}
+
 /* CF-REF: motion-quality-signal.md [14]
    DL Part VI.5: Card hover uses duration-normal (250ms), not fast (150ms).
    Cards are content containers -- smoother transition than buttons.

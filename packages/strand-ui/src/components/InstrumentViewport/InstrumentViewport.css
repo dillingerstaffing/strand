@@ -29,8 +29,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(rgba(59, 142, 246, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59, 142, 246, 0.04) 1px, transparent 1px);
+    linear-gradient(var(--strand-viewport-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--strand-viewport-grid-line) 1px, transparent 1px);
   background-size: var(--strand-viewport-grid-size) var(--strand-viewport-grid-size);
   pointer-events: none;
 }

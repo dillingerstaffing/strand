@@ -17,20 +17,29 @@
   margin-bottom: var(--strand-space-2);
 }
 
-/* ── Code area ── */
-.strand-code-block__pre {
+/* ── Code area ──
+   Both <pre> and the nested <code> get explicit color AND background
+   so axe-core never has to walk inheritance or composite the
+   inset box-shadow. Without explicit color/background on the code
+   element, axe-core can compute a false-positive contrast violation
+   by blending the inset shadow against the surface. */
+.strand-code-block__pre,
+.strand-code-block__pre code {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-sm);
   line-height: var(--strand-leading-relaxed);
-  color: var(--strand-blue-midnight);
-  background: var(--strand-surface-recessed);
-  box-shadow: var(--strand-shadow-inset);
+  color: var(--strand-blue-abyss);
+  background-color: var(--strand-surface-recessed);
+}
+
+.strand-code-block__pre {
   border-radius: var(--strand-radius-lg);
   padding: var(--strand-space-3) var(--strand-space-4);
   overflow-x: auto;
   white-space: pre;
   tab-size: 2;
   margin: 0;
+  border: 1px solid var(--strand-gray-200);
 }
 
 /* ── Inline code ── */

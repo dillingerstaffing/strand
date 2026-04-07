@@ -46,6 +46,33 @@
   padding: var(--strand-space-6);
 }
 
+/* ── Frosted viewport (DL Part 9.4) ──
+   Light data-dense context with frosted-glass character. The
+   "frosted instrument panel embedded in the lab bench" feel,
+   without going dark. Backdrop-filter requires content behind it. */
+.strand-viewport--frosted {
+  background: var(--strand-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strand-glass-blur));
+  backdrop-filter: blur(var(--strand-glass-blur));
+  border: 1px solid var(--strand-glass-border);
+  border-radius: var(--strand-radius-lg);
+  box-shadow: var(--strand-shadow-inset);
+  padding: var(--strand-space-6);
+}
+
+/* ── Glass surface utility (DL Part 9.5) ──
+   Frosted-glass treatment for any element that wants the
+   "glass walls with controlled daylight" character. Apply to
+   nav, sticky toolbars, modal headers, surfaces above content.
+   backdrop-filter only renders meaningfully when there is
+   something behind the element. */
+.strand-glass-surface {
+  background: var(--strand-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strand-glass-blur));
+  backdrop-filter: blur(var(--strand-glass-blur));
+  border: 1px solid var(--strand-glass-border);
+}
+
 /* ── Overline (specimen label pattern, DL Part IV.5) ── */
 .strand-overline {
   font-family: var(--strand-font-mono);
@@ -57,9 +84,47 @@
   line-height: var(--strand-leading-normal);
 }
 
-/* ── Overline accent variant (blue instead of gray) ── */
+/* ── Overline accent variant (blue instead of gray) ──
+   Uses blue-deep so the small uppercase text meets WCAG AA 4.5:1
+   contrast on the default white surface. blue-primary (#3b82f6)
+   only scores 3.28:1 at 10.4px mono. */
 .strand-overline--accent {
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
+}
+
+/* ── Overline with pulse dot (DL Part 7: alive signal) ──
+   Adds an animated dot prefix that pulses in a slow rhythm. Use on
+   the primary hero overline to signal "this is a living system."
+   Combine with strand-overline--accent for the blue brand color.
+   The dot uses blue-primary; on dark backgrounds use teal-vital. */
+.strand-overline--pulse {
+  position: relative;
+  padding-left: var(--strand-space-4);
+  display: inline-block;
+}
+
+.strand-overline--pulse::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-blue-primary);
+  animation: strand-overline-pulse 2s var(--strand-ease-in-out-sine) infinite;
+}
+
+@keyframes strand-overline-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-overline--pulse::before {
+    animation: none;
+  }
 }
 
 /* DL Part XVII.2: Contrast-safe pairing on recessed surfaces.
@@ -381,6 +446,59 @@
   margin: 0;
 }
 
+/* ═══ HEADLINE MONO VARIANT (DL Part IV.5) ═══
+   Mono-family headline with medium weight, tight tracking,
+   and sentence case (NOT uppercase). Use for product/lab
+   titles where the brand identity is typed in lowercase or
+   mixed case ("trust" vs "TRUST"). Composes with
+   strand-headline--sm/md/lg for size. */
+.strand-headline--mono {
+  font-family: var(--strand-font-mono);
+  font-weight: var(--strand-weight-medium);
+  text-transform: none;
+  letter-spacing: var(--strand-tracking-tight);
+}
+
+.strand-headline--md {
+  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+  letter-spacing: var(--strand-tracking-tight);
+}
+
+/* ═══ STATUS CHIP (DL Part XVII: small classification label) ═══
+   Inline pill for lab/product status. Mono uppercase, small tint.
+   Pair with strand-card or header rows. */
+.strand-status-chip {
+  display: inline-block;
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-wide);
+  text-transform: uppercase;
+  padding: var(--strand-space-1) var(--strand-space-2);
+  border-radius: var(--strand-radius-sm);
+  line-height: var(--strand-leading-normal);
+}
+
+.strand-status-chip--live {
+  color: var(--strand-on-teal-tint);
+  background: var(--strand-teal-tint);
+}
+
+.strand-status-chip--neutral {
+  color: var(--strand-gray-600);
+  background: var(--strand-gray-tint);
+}
+
+.strand-status-chip--accent {
+  color: var(--strand-blue-deep);
+  background: var(--strand-blue-tint);
+}
+
+.strand-status-chip--caution {
+  color: var(--strand-on-amber-tint);
+  background: var(--strand-amber-tint);
+}
+
 /* ── Viewport flex modifiers (component showcase layout) ── */
 .strand-viewport--flex {
   display: flex;
@@ -509,6 +627,60 @@
   height: 100%;
 }
 
+/* ═══ HERO NODE GRID (DL Part IX.4 + Principle 7: alive signal) ═══
+   Animated SVG background showing a field of pulsing connection
+   points. Use inside strand-hero-bg with an inline <svg>. Nodes and
+   lines inherit color via currentColor; wire animation delays with
+   the .strand-hero-grid__line--N modifiers (1-18). */
+.strand-hero-grid {
+  color: var(--strand-blue-primary);
+}
+
+.strand-hero-grid svg {
+  width: 100%;
+  height: 100%;
+}
+
+.strand-hero-grid__nodes {
+  fill: currentColor;
+  opacity: 0.2;
+}
+
+.strand-hero-grid__lines {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 0.5;
+  opacity: 0.08;
+}
+
+.strand-hero-grid__line {
+  animation: strand-hero-grid-glow 12s ease-in-out infinite;
+}
+
+.strand-hero-grid__line--1 { animation-delay: 0s; }
+.strand-hero-grid__line--2 { animation-delay: 1s; }
+.strand-hero-grid__line--3 { animation-delay: 2s; }
+.strand-hero-grid__line--4 { animation-delay: 0.5s; }
+.strand-hero-grid__line--5 { animation-delay: 3s; }
+.strand-hero-grid__line--6 { animation-delay: 1.5s; }
+.strand-hero-grid__line--7 { animation-delay: 4s; }
+.strand-hero-grid__line--8 { animation-delay: 2.5s; }
+.strand-hero-grid__line--9 { animation-delay: 5s; }
+.strand-hero-grid__line--10 { animation-delay: 3.5s; }
+.strand-hero-grid__line--11 { animation-delay: 6s; }
+.strand-hero-grid__line--12 { animation-delay: 4.5s; }
+.strand-hero-grid__line--13 { animation-delay: 7s; }
+.strand-hero-grid__line--14 { animation-delay: 5.5s; }
+.strand-hero-grid__line--15 { animation-delay: 8s; }
+.strand-hero-grid__line--16 { animation-delay: 6.5s; }
+.strand-hero-grid__line--17 { animation-delay: 9s; }
+.strand-hero-grid__line--18 { animation-delay: 7.5s; }
+
+@keyframes strand-hero-grid-glow {
+  0%, 100% { stroke-opacity: 0.08; }
+  50%      { stroke-opacity: 0.4; }
+}
+
 /* ═══ PULSE INDICATOR (DL Principle 7: alive signal) ═══
    Small pulsing dot. Indicates "this element is live/active."
    Same concept as strand-card--active but as a point indicator.
@@ -559,10 +731,106 @@
   text-decoration: none;
 }
 
+/* ═══ EMPTY STATES (DL Part XXI) ═══
+   When an instrument has no data, it does not disappear.
+   It shows an idle state. The label remains, the value
+   becomes a placeholder. The user understands the
+   instrument exists and will activate when data arrives. */
+
+/* ── Idle Readout (DL Part 21.1) ──
+   A DataReadout with no value. Shows -- in the value
+   position, with the label still visible. Apply alongside
+   .strand-data-readout. */
+.strand-idle-readout .strand-data-readout__value::before {
+  content: "--";
+  color: var(--strand-gray-300);
+  font-variant-numeric: tabular-nums;
+}
+
+.strand-idle-readout .strand-data-readout__value > * {
+  display: none;
+}
+
+/* ── Empty Collection (DL Part 21.2) ──
+   A list or grid with no items. Centered message in
+   instrument voice. No illustration. The absence of data
+   IS the visual. */
+.strand-empty-collection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--strand-space-16) var(--strand-space-6);
+  text-align: center;
+  color: var(--strand-gray-400);
+  font-family: var(--strand-font-sans);
+}
+
+.strand-empty-collection__message {
+  font-size: var(--strand-text-base);
+  color: var(--strand-gray-500);
+  margin: 0;
+}
+
+.strand-empty-collection__action {
+  margin-top: var(--strand-space-4);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-blue-primary);
+  text-decoration: none;
+  background-image: linear-gradient(var(--strand-blue-primary), var(--strand-blue-primary));
+  background-size: 0% 1px;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  transition: background-size var(--strand-duration-normal) var(--strand-ease-out-expo);
+}
+
+.strand-empty-collection__action:hover {
+  background-size: 100% 1px;
+}
+
+/* ── Empty Search (DL Part 21.3) ──
+   "0 matches detected." plus suggestion in secondary text.
+   The search instrument ran and returned nothing. */
+.strand-empty-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--strand-space-12) var(--strand-space-6);
+  text-align: center;
+}
+
+.strand-empty-search__count {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+  margin-bottom: var(--strand-space-2);
+}
+
+.strand-empty-search__suggestion {
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-400);
+  line-height: var(--strand-leading-relaxed);
+  max-width: 50ch;
+}
+
 /* ═══ UTILITY CLASSES ═══ */
 .strand-block { display: block; }
 .strand-flex-1 { flex: 1; }
 .strand-full-width { width: 100%; }
+.strand-mt-4 { margin-top: var(--strand-space-4); }
+.strand-mt-6 { margin-top: var(--strand-space-6); }
+.strand-mt-8 { margin-top: var(--strand-space-8); }
+.strand-mb-4 { margin-bottom: var(--strand-space-4); }
+.strand-mb-6 { margin-bottom: var(--strand-space-6); }
+.strand-mb-8 { margin-bottom: var(--strand-space-8); }
+.strand-mx-auto { margin-inline: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .strand-footer__link {

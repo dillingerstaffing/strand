@@ -1,4 +1,4 @@
-/*! Strand v0.9.0 | MIT License | dillingerstaffing.com */
+/*! Strand v0.5.0 | MIT License | dillingerstaffing.com */
 
 :root {
   /* ═══════════════════════════════════════════
@@ -52,6 +52,8 @@
   --strand-blue-tint: #EFF6FF;
   --strand-amber-tint: #FEF3C7;
   --strand-red-tint: #FEF2F2;
+  --strand-teal-tint: #CCFBF1;
+  --strand-gray-tint: #F1F5F9;
 
   /* ── ON-COLORS (contrast-safe text pairings) ── */
   --strand-on-surface-primary: #475769;
@@ -143,6 +145,15 @@
   --strand-elevation-3: 0 8px 16px rgba(15, 23, 42, 0.06), 0 24px 48px rgba(15, 23, 42, 0.08);
   --strand-elevation-4: 0 16px 32px rgba(15, 23, 42, 0.08), 0 32px 64px rgba(15, 23, 42, 0.12);
 
+  /* ── ELEVATION: WARM VARIANTS (DL Part 7.1b) ──
+     Additive warm-wood shadow tint at 0.025 alpha. Used on showcase
+     contexts (hero cards, gallery cards, intent cards) where the
+     "warm wood under controlled daylight" spatial signature should
+     be felt. Default cool layers preserved alongside the warm layer. */
+  --strand-elevation-1-warm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.02), 0 2px 8px rgba(74, 62, 47, 0.025);
+  --strand-elevation-2-warm: 0 4px 6px rgba(15, 23, 42, 0.04), 0 12px 24px rgba(15, 23, 42, 0.06), 0 6px 16px rgba(74, 62, 47, 0.025);
+  --strand-elevation-3-warm: 0 8px 16px rgba(15, 23, 42, 0.06), 0 24px 48px rgba(15, 23, 42, 0.08), 0 12px 32px rgba(74, 62, 47, 0.025);
+
   /* ── INTERACTION: FOCUS ── */
   --strand-focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.1);
   --strand-focus-ring-error: 0 0 0 3px rgba(239, 68, 68, 0.1);
@@ -190,4 +201,27 @@
   /* ── SURFACE: BORDERS & SHADOWS ── */
   --strand-border-subtle: rgba(148, 163, 184, 0.12);
   --strand-shadow-inset: inset 0 1px 3px rgba(15, 23, 42, 0.06);
+
+  /* ── SURFACE: GLASS (DL Part 9.5) ──
+     Frosted-glass treatment for surfaces above content (nav, modal
+     headers, sticky toolbars, frosted viewports). The "glass walls
+     with controlled daylight" from the spatial signature in Part I. */
+  --strand-glass-bg: rgba(250, 252, 254, 0.72);
+  --strand-glass-border: rgba(148, 163, 184, 0.12);
+  --strand-glass-blur: 12px;
+
+  /* ── SURFACE: WARM RADIAL (DL Part 9.1 warm variant) ──
+     The "warm wood underfoot" radial that anchors the warm lab
+     surface variant. Below 0.02 alpha is non-negotiable. */
+  --strand-warm-radial: rgba(74, 62, 47, 0.015);
+
+  /* ── SURFACE: GRID LINES (DL Part 9.3 instrument viewport) ──
+     The blue grid line color for instrument viewport backgrounds.
+     Replaces the previous raw rgba in component CSS. */
+  --strand-viewport-grid-line: rgba(59, 142, 246, 0.04);
+
+  /* ── NAV: SCROLLED STATE (DL Part XIX.1) ──
+     The scrolled-nav border tint. Replaces the previous raw rgba
+     in strand-ui.css line 1523. */
+  --strand-nav-scrolled-border: rgba(59, 130, 246, 0.12);
 }

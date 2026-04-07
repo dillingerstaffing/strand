@@ -1,6 +1,6 @@
 # Strand Design Language
 
-**Version:** 0.4.0
+**Version:** 0.5.0
 **Status:** Production Specification
 
 ---
@@ -34,7 +34,9 @@ When a user interacts with an interface built on this language, the experience i
 
 But this is not a sterile, cold, joyless laboratory. This is the laboratory from the near future, where biosynthetic materials glow faintly blue, where the technology feels organic yet obviously engineered, where the precision is beautiful, not intimidating. The aesthetic has permission to be exciting. This is not somber technology requiring clinical trust -- it is optimistic technology suggesting a future people want to inhabit. Interfaces should feel forward-looking, not conservative.
 
-**Two environments coexist.** The instruments are synthetic: polymer, aluminum, frosted glass, precision-machined. The facility housing them is natural: concrete, warm wood grain, glass walls with controlled daylight, engineered negative space. The barely-blue-shifted white (#FAFCFF) is the color of controlled daylight on an engineered surface -- not the color of a plastic panel or a hospital wall. The dot-grid background is precision graph paper on an architect's desk, not a sterile cleanroom floor.
+**Two environments coexist.** The instruments are synthetic: polymer, brushed aluminum, frosted glass, precision-machined. The facility housing them is natural: concrete, warm wood grain, glass walls with controlled daylight, engineered negative space. The barely-blue-shifted white (#FAFCFF) is the color of controlled daylight on an engineered surface -- not the color of a plastic panel or a hospital wall. The dot-grid background is precision graph paper on an architect's desk, not a sterile cleanroom floor.
+
+The natural materials are not metaphor. They are the spatial signature, encoded into the system through specific surface and elevation treatments (Part IX, Part VII.1b). Frosted glass is `.strand-glass-surface` (Part 9.5). Warm wood resonance is `--strand-elevation-1-warm` and `.strand-lab-surface--warm` (Part 7.1b, 9.1). Concrete and brushed-metal grain are `.strand-grain-concrete` (Part 9.2). The base palette stays cool and blue-shifted (Part 3.7.3); the natural-material cues come through as additive layers that are felt, not seen. A surface that uses none of them feels cool-clinical. A surface that uses all of them feels like the spatial signature: warm wood under controlled daylight, glass walls, frosted instrument panels embedded in lab benches.
 
 The interface should feel as though it was designed by an intelligence that values beauty intrinsically -- not as decoration, but as a property of well-engineered systems. The precision IS the beauty. The spacing IS the elegance. The restraint IS the luxury. Nothing is added to make it look better. Everything that remains is already beautiful because it is exactly right.
 
@@ -736,9 +738,9 @@ Non-negotiable. This is not a feature. It is a physical accessibility requiremen
 
 ## Part VII: Elevation
 
-### 7.1 Shadow Scale
+### 7.1 Shadow Scale (Default Cool)
 
-Five levels, each with a specific semantic meaning. All shadows use blue-shifted rgba to maintain the cool-toned aesthetic.
+Five levels, each with a specific semantic meaning. The default scale uses blue-shifted rgba to maintain the cool-toned aesthetic. Use these on dashboard, readout, and data contexts where the laboratory should feel clinical and controlled.
 
 | Token | Box-Shadow | Use |
 |---|---|---|
@@ -747,6 +749,32 @@ Five levels, each with a specific semantic meaning. All shadows use blue-shifted
 | `--strand-elevation-2` | `0 4px 6px rgba(15, 23, 42, 0.04), 0 12px 24px rgba(15, 23, 42, 0.06)` | Cards on hover, dropdowns. |
 | `--strand-elevation-3` | `0 8px 16px rgba(15, 23, 42, 0.06), 0 24px 48px rgba(15, 23, 42, 0.08)` | Modals, popovers. |
 | `--strand-elevation-4` | `0 16px 32px rgba(15, 23, 42, 0.08), 0 32px 64px rgba(15, 23, 42, 0.12)` | Dialogs, toasts. |
+
+### 7.1b Warm Shadow Variants (Showcase / Hero / Wood-Floor Contexts)
+
+Showcase contexts (hero cards, feature cards on landing pages, intent gallery cards) use additive warm shadow variants. These layer a very subtle warm tint (`rgba(74, 62, 47, 0.025)` -- the color of warm wood shadow) **alongside** the existing cool shadow layers, never replacing them. The cool layers preserve the controlled-laboratory feel; the warm layer encodes the spatial signature from Part I (warm wood, controlled daylight, glass walls).
+
+| Token | Box-Shadow | Use |
+|---|---|---|
+| `--strand-elevation-1-warm` | `0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.02), 0 2px 8px rgba(74, 62, 47, 0.025)` | Showcase cards at rest. |
+| `--strand-elevation-2-warm` | `0 4px 6px rgba(15, 23, 42, 0.04), 0 12px 24px rgba(15, 23, 42, 0.06), 0 6px 16px rgba(74, 62, 47, 0.025)` | Showcase cards on hover. |
+| `--strand-elevation-3-warm` | `0 8px 16px rgba(15, 23, 42, 0.06), 0 24px 48px rgba(15, 23, 42, 0.08), 0 12px 32px rgba(74, 62, 47, 0.025)` | Hero modals. |
+
+**Constraint:** the warm layer alpha is capped at 0.03. Above that, the warm layer becomes visible as warmth and breaks the cool-controlled aesthetic. The 0.025 value is calibrated to be felt, not seen, in the same spirit as the 0.012 grain.
+
+**Where to use warm vs cool shadows:**
+
+| Context | Variant |
+|---|---|
+| Dashboard cards, readout panels, data viewports | Default cool (`--strand-elevation-1`) |
+| Hero cards on landing pages | Warm (`--strand-elevation-1-warm`) |
+| Feature showcase cards (gallery archetype, Part XVIII.3) | Warm |
+| Intent / process step cards on marketing surfaces | Warm |
+| Form fields, alerts, toasts | Default cool |
+| Modal dialogs | Cool by default, warm if the modal is on a hero/landing context |
+| Mobile (battery-conscious) | Default cool always (the warm layer is an extra paint that costs nothing on desktop and a hair on mobile; default to cool) |
+
+The warm shadow is the elevation system's encoding of "warm wood under controlled daylight." Combined with the warm lab surface variant (Part 9.1), the warm grain variant (Part 9.2), and the frosted glass surfaces (Part 9.5), it produces the full natural-material spatial signature without crossing into warm color in the base palette.
 
 ### 7.2 Container Elevation Contexts
 
@@ -801,10 +829,14 @@ The 4-12px range is the biosynthetic sweet spot: engineered, not organic. Contro
 
 ## Part IX: Surfaces and Backgrounds
 
-### 9.1 The Lab Surface (CSS Only)
+The laboratory's spatial signature is the duality of natural materials (concrete, warm wood, glass walls, controlled daylight) housing synthetic instruments (polymer, brushed aluminum, frosted surfaces). The surface system encodes this duality. The base palette stays cool and blue-shifted (Part III.7 rule 3 is non-negotiable). The material cues come through via additive layers that are felt, not seen: subtle warm shadow tints on showcase elevations, frosted-glass effects on the nav and over-content surfaces, optional grain variants that echo concrete or wood texture without crossing into warm color.
+
+### 9.1 The Lab Surface
+
+The default lab surface is the body background. It is also exposed as the `.strand-lab-surface` utility class so any element can become a lab surface (nested cards-as-stages, hero containers, etc.).
 
 ```css
-.lab-surface {
+.strand-lab-surface {
   background:
     /* Layer 1: Faint dot grid. Graph paper / cleanroom floor */
     radial-gradient(circle,
@@ -817,65 +849,167 @@ The 4-12px range is the biosynthetic sweet spot: engineered, not organic. Contro
     /* Layer 3: Vertical gradient. Lab walls */
     linear-gradient(180deg,
       var(--strand-surface-primary) 0%,
-      #FFFFFF 40%,
+      var(--strand-surface-elevated) 40%,
       var(--strand-surface-recessed) 100%);
   background-size: 24px 24px, 100% 100%, 100% 100%;
+  background-color: var(--strand-surface-primary);
 }
 ```
 
 This three-layer background transforms flat white into a laboratory surface (Principle 7: The Grain of Precision). Each layer is imperceptible in isolation. Together they create "this feels designed."
 
-### 9.2 Film Grain Overlay
+**Warm variant (`.strand-lab-surface--warm`):** for showcase contexts (hero sections, landing pages, gallery views) the warm variant adds a fourth layer: a very subtle warm radial at the bottom edge that echoes "warm wood underfoot, controlled daylight overhead." The added layer carries `rgba(74, 62, 47, 0.015)` -- below the perceptual threshold individually, present in aggregate.
 
 ```css
-.grain::after {
+.strand-lab-surface--warm {
+  background:
+    /* Layer 1: Dot grid */
+    radial-gradient(circle,
+      rgba(148, 163, 184, 0.07) 1px,
+      transparent 1px),
+    /* Layer 2: Overhead LED glow */
+    radial-gradient(ellipse 80% 50% at 50% 0%,
+      rgba(59, 130, 246, 0.03) 0%,
+      transparent 100%),
+    /* Layer 3 (NEW): Warm wood/floor resonance from below */
+    radial-gradient(ellipse 80% 40% at 50% 100%,
+      rgba(74, 62, 47, 0.015) 0%,
+      transparent 100%),
+    /* Layer 4: Vertical gradient */
+    linear-gradient(180deg,
+      var(--strand-surface-primary) 0%,
+      var(--strand-surface-elevated) 40%,
+      var(--strand-surface-recessed) 100%);
+  background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%;
+  background-color: var(--strand-surface-primary);
+}
+```
+
+The warm variant is opt-in. The default surface stays cool. The warm radial alpha is capped at 0.02. Above that, the surface starts reading as "warm/literary" and the cool-controlled aesthetic breaks. Test: with the warm variant applied, the page must still pass the Part I energy test ("forward-looking, not careful") and the Part 3.7.3 base palette rule (no warm colors as palette colors -- the warm radial is texture, not palette).
+
+### 9.2 Film Grain Overlay
+
+The default grain is uniform fractal noise at 0.012 opacity. Two opt-in variants exist for surfaces that benefit from a different material character: concrete (slightly coarser texture, evokes brushed aluminum / poured concrete) and wood (directional texture, evokes brushed wood grain under daylight).
+
+```css
+/* Default: uniform fractal noise (current behavior) */
+body::after {
   content: '';
   position: fixed;
   inset: 0;
   opacity: 0.012;
   pointer-events: none;
   z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256'
-    xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence
-    type='fractalNoise' baseFrequency='0.9' numOctaves='4'
-    stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25'
-    filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,...feTurbulence baseFrequency='0.9'...");
+}
+
+/* Concrete variant: coarser texture, brushed-aluminum / poured-concrete feel */
+.strand-grain-concrete::after {
+  background-image: url("data:image/svg+xml,...feTurbulence baseFrequency='0.65'...");
+  opacity: 0.012;
+}
+
+/* Wood variant: directional texture, brushed wood grain feel */
+.strand-grain-wood::after {
+  background-image: url("data:image/svg+xml,...feTurbulence baseFrequency='0.9 0.3'...");
+  opacity: 0.010;
 }
 ```
 
-**Opacity 0.012**. Felt, not seen. Higher opacity makes the interface look like it has a dirty screen. Lower opacity has no effect. 0.012 is calibrated to add texture on high-quality displays while remaining invisible on lower-density screens.
+**Opacity rules:**
+- Default: 0.012 (felt, not seen on high-density displays)
+- Concrete: 0.012 (same opacity, different baseFrequency)
+- Wood: 0.010 (slightly lower because directional turbulence is more visible)
+
+All variants must pass the Part 7 test: the texture is invisible in isolation, present in aggregate. Higher opacity is "dirty screen." Lower opacity is no effect.
 
 ### 9.3 The Instrument Viewport (Dark Mode Island)
 
 Instruments within the laboratory may use dark backgrounds for data-dense contexts (maps, charts, terminal-style displays) while the surrounding lab frame stays white. This is the dual-surface principle: white frame, dark viewport.
 
 ```css
-.instrument-viewport {
+.strand-instrument-viewport {
   background: var(--strand-blue-abyss);
   color: var(--strand-gray-100);
   border-radius: var(--strand-radius-lg);
   overflow: hidden;
 }
 
-.instrument-viewport .readout-label {
+.strand-instrument-viewport .strand-readout-label {
   color: var(--strand-gray-400);
 }
 
-.instrument-viewport .readout-value {
-  color: #FFFFFF;
+.strand-instrument-viewport .strand-readout-value {
+  color: var(--strand-on-blue-primary);
 }
 ```
 
-### 9.4 Decision Framework
+The dark viewport is dark mode contained inside a white frame. It is the only place dark backgrounds appear. Dashboards, maps, terminal output, FUI overlays, real-time data feeds. The frame around it stays the lab surface.
+
+### 9.4 The Frosted Viewport (Light Frosted Glass)
+
+Light data-dense contexts that want the glass-pane character without going dark use the frosted variant. This is the "frosted glass instrument panel embedded in the lab bench" feel.
+
+```css
+.strand-viewport--frosted {
+  background: var(--strand-glass-bg);
+  backdrop-filter: blur(var(--strand-glass-blur));
+  -webkit-backdrop-filter: blur(var(--strand-glass-blur));
+  border: 1px solid var(--strand-glass-border);
+  border-radius: var(--strand-radius-lg);
+  box-shadow: var(--strand-shadow-inset);
+}
+```
+
+The frosted viewport is the most direct visual encoding of "glass walls with controlled daylight" from Part I. It belongs above content (where the blur reveals the page surface beneath) and inside content sections (where it groups data without going dark).
+
+### 9.5 Glass Surfaces
+
+The frosted-glass treatment is also exposed as a general utility (`.strand-glass-surface`) for any element that wants the glass character. The nav uses it. Modal headers may use it. Sticky toolbars may use it. The DL constraint: glass surfaces must be applied **above** content (not as a base layer), because backdrop-filter only renders meaningfully when there is something behind it.
+
+```css
+.strand-glass-surface {
+  background: var(--strand-glass-bg);
+  backdrop-filter: blur(var(--strand-glass-blur));
+  -webkit-backdrop-filter: blur(var(--strand-glass-blur));
+  border: 1px solid var(--strand-glass-border);
+}
+```
+
+| Token | Value | Purpose |
+|---|---|---|
+| `--strand-glass-bg` | `rgba(250, 252, 254, 0.72)` | Translucent surface-primary at 0.72 alpha (frosted glass body) |
+| `--strand-glass-border` | `rgba(148, 163, 184, 0.12)` | Hairline border that defines the glass edge |
+| `--strand-glass-blur` | `12px` | Backdrop blur amount. Higher = more frosted, less legible. 12px is the calibrated value. |
+
+Glass surfaces are the encoded "glass walls" from the spatial signature in Part I. They are not decoration. They communicate "this surface is above the page content; you can see through it but not clearly."
+
+### 9.6 Decision Framework
 
 | Context | Surface Treatment |
 |---|---|
-| Content pages (forms, text, docs) | Lab surface (9.1) + grain (9.2) |
-| Hero / landing (first visit) | Lab surface + optional WebGL or gradient |
+| Body / page background | `body` default lab surface (9.1) + grain (9.2) |
+| Hero / landing showcase | `.strand-lab-surface--warm` |
+| Card-as-stage / nested showcase | `.strand-lab-surface` utility on the container |
 | Dashboard / repeat-visit data | Clean white, no animation (speed matters) |
-| Data-dense viewport | Instrument viewport (9.3), dark |
+| Data-dense dark viewport | `.strand-instrument-viewport` (9.3) |
+| Data-dense light viewport | `.strand-viewport--frosted` (9.4) |
+| Sticky nav, sticky toolbar, modal header | `.strand-glass-surface` (9.5) |
 | Mobile | Static lab surface (no grain. Battery) |
 | `prefers-reduced-motion` | Static, always |
+| Surface that wants brushed-aluminum/concrete character | `.strand-grain-concrete` modifier on body |
+| Surface that wants brushed-wood character | `.strand-grain-wood` modifier on body |
+
+### 9.7 Material Language Test
+
+The collected surface treatments must produce a felt experience that matches the Part I materials list: concrete, warm wood, glass walls, polymer, brushed aluminum, frosted surfaces, controlled daylight. The test:
+
+1. Open any page with the default lab surface. Describe the materials. The answer should include "frosted glass" (nav), "controlled daylight" (overhead glow), "graph paper / cleanroom floor" (dot grid).
+2. Open a hero with `.strand-lab-surface--warm`. The answer should add "warm wood underfoot."
+3. Open a dashboard with frosted viewports. The answer should add "frosted instrument panels."
+4. Open REDACTED or any FUI surface with `.strand-instrument-viewport`. The answer should include "dark instrument cabinet inside the white lab."
+
+If a tester describes the materials as only "white background, blue accents," the boost has not been applied. If a tester describes them as "warm and cozy" or "literary" or "dark theme," the boost has been over-applied.
 
 ---
 

@@ -20,18 +20,34 @@
   margin: 0 auto;
 }
 
-/* ── Logo ── */
+/* ── Logo ──
+   DL Part IV.5 brand identifier: mono uppercase wide letter-spacing,
+   semibold weight, blue-midnight color. The logo is the only typographic
+   identity on the page, so it carries the brand even at this small size. */
 .strand-nav__logo {
   flex-shrink: 0;
   margin-right: var(--strand-space-8);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-semibold);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-blue-midnight);
+  text-decoration: none;
+  position: relative;
 }
 
-/* ── Desktop items ── */
+/* ── Desktop items ──
+   Pushed to the right edge so logo and primary nav have visual breathing
+   room. The old (pre-v0.5) "flex: 1" caused items to cluster against the
+   logo, leaving the right edge empty. margin-left auto restores the
+   space-between layout most navbars expect. */
 .strand-nav__items {
   display: flex;
   align-items: center;
   gap: var(--strand-space-6);
-  flex: 1;
+  margin-left: auto;
+  list-style: none;
 }
 
 /* ── Links ── */
@@ -178,17 +194,17 @@
   z-index: 100;
   height: auto;
   padding: var(--strand-space-4) 0;
-  background: rgba(250, 252, 254, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  background: var(--strand-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strand-glass-blur));
+  backdrop-filter: blur(var(--strand-glass-blur));
+  border-bottom: 1px solid var(--strand-glass-border);
 }
 
 /* ── Scrolled state (DL Part XIX.1) ──
    Apply via JS scroll listener. Adds shadow + blue-shifted border. */
 .strand-nav--scrolled {
   box-shadow: var(--strand-elevation-1);
-  border-bottom-color: rgba(59, 130, 246, 0.12);
+  border-bottom-color: var(--strand-nav-scrolled-border);
 }
 
 .strand-nav--glass {
