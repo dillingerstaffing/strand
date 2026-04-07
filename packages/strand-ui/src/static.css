@@ -87,7 +87,8 @@
 /* ── Overline accent variant (blue instead of gray) ──
    Uses blue-deep so the small uppercase text meets WCAG AA 4.5:1
    contrast on the default white surface. blue-primary (#3b82f6)
-   only scores 3.28:1 at 10.4px mono. */
+   only scores 3.28:1 at 10.4px mono. blue-deep stays vibrant
+   without violating contrast. */
 .strand-overline--accent {
   color: var(--strand-blue-deep);
 }

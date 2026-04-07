@@ -38,14 +38,61 @@
   border-bottom-color: var(--strand-blue-primary);
 }
 
+/* ── Instrument variant (mono uppercase, control-panel feel) ──
+   Use for state switches like "For Talent / For Employers" where
+   the tab acts like a toggle on a control panel rather than a
+   content navigation. Pairs with strand-tabs__panel--reveal. */
+.strand-tabs--instrument [role="tablist"] {
+  justify-content: center;
+  gap: 0;
+  border-bottom: 1px solid var(--strand-surface-subtle);
+}
+
+.strand-tabs--instrument .strand-tabs__tab {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-gray-600);
+  padding: var(--strand-space-3) var(--strand-space-6);
+}
+
+.strand-tabs--instrument .strand-tabs__tab--active {
+  color: var(--strand-blue-midnight);
+  border-bottom-color: var(--strand-blue-primary);
+}
+
 /* ── Panel ── */
 .strand-tabs [role="tabpanel"] {
   padding: var(--strand-space-4) 0;
+}
+
+/* ── Panel reveal animation (DL Part VI motion: subtle entry) ──
+   Apply to the active tab panel when switching tabs. Fades in
+   with a small upward slide. JS toggles strand-tabs__panel--reveal
+   on the panel that becomes active. */
+@keyframes strand-tabs-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.strand-tabs__panel--reveal {
+  animation: strand-tabs-reveal var(--strand-duration-normal) var(--strand-ease-out-expo) both;
 }
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .strand-tabs__tab {
     transition: none;
+  }
+  .strand-tabs__panel--reveal {
+    animation: none;
   }
 }

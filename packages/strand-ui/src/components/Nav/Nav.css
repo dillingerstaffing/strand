@@ -37,6 +37,33 @@
   position: relative;
 }
 
+/* ── Logo with animated pulse underline (DL Principle 7: alive signal) ──
+   A 2px blue underline that pulses in slow rhythm. Use on the brand
+   identifier for the active site to signal "this is the live system." */
+.strand-nav__logo--pulse::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--strand-blue-primary);
+  border-radius: 1px;
+  animation: strand-nav-logo-pulse 2s var(--strand-ease-in-out-sine) infinite;
+}
+
+@keyframes strand-nav-logo-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-nav__logo--pulse::after {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
 /* ── Desktop items ──
    Pushed to the right edge so logo and primary nav have visual breathing
    room. The old (pre-v0.5) "flex: 1" caused items to cluster against the
@@ -133,14 +160,28 @@
   top: 6px;
 }
 
-/* ── Mobile menu ── */
+/* ── Mobile menu ──
+   Drops down from beneath the nav as an overlay. Hidden by default;
+   show via JS by adding strand-nav__mobile-menu--open. The position:
+   fixed (vs absolute on the parent nav) means the menu floats above
+   page content instead of pushing layout. */
 .strand-nav__mobile-menu {
   display: none;
+  position: fixed;
+  top: var(--strand-nav-height);
+  left: 0;
+  right: 0;
   flex-direction: column;
   width: 100%;
   padding: var(--strand-space-4) var(--strand-space-6);
   background: var(--strand-surface-elevated);
   border-bottom: 1px solid var(--strand-gray-200);
+  box-shadow: var(--strand-elevation-2);
+  z-index: 99;
+}
+
+.strand-nav__mobile-menu--open {
+  display: flex;
 }
 
 .strand-nav__mobile-link {
@@ -159,9 +200,13 @@
 
 .strand-nav__mobile-link--active {
   color: var(--strand-blue-primary);
+  font-weight: var(--strand-weight-semibold);
 }
 
-/* ── Responsive ── */
+/* ── Responsive ──
+   At mobile widths the desktop items + actions hide and the
+   hamburger button shows. The mobile menu stays display:none until
+   JS toggles strand-nav__mobile-menu--open on click. */
 @media (max-width: 767px) {
   .strand-nav__items {
     display: none;
@@ -173,10 +218,6 @@
 
   .strand-nav__hamburger {
     display: inline-flex;
-  }
-
-  .strand-nav__mobile-menu {
-    display: flex;
   }
 
   .strand-nav {
