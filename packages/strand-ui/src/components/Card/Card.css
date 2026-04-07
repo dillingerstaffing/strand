@@ -62,28 +62,36 @@
   box-shadow: var(--strand-elevation-2); /* CF-REF: five-level-shadow.md [1] */
 }
 
-/* CF-REF: energy-test.md [11]
-   The "alive" signal. A slow conic-gradient rotation at low opacity
-   indicates this card represents something live/active. The animation
-   is subtle -- biosynthetic indicator, not UI gimmick.
-   DL Principle 7 (Grain of Precision): below conscious perception.
-   Energy test: does this make the user want to explore? */
+/* The "alive" signal for live/active cards. The earlier
+   implementation used a rotating conic-gradient as a continuous
+   radar sweep; in user testing it read as a "weird spinning blue
+   radar" rather than a subtle live indicator, so it was replaced
+   with a static treatment. The active state is now communicated
+   by a 1px solid blue-indicator border ring sitting just outside
+   the card edge plus a tiny tinted top edge accent, both of which
+   are perceived as "this thing is on" without any motion. */
+.strand-card--active {
+  box-shadow:
+    0 0 0 1px var(--strand-blue-indicator),
+    var(--strand-elevation-1);
+}
+
 .strand-card--active::before {
   content: "";
   position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: conic-gradient(from 0deg, transparent 0%, var(--strand-blue-primary) 10%, transparent 20%);
-  animation: strand-card-scan 8s linear infinite;
-  z-index: -1;
-  opacity: 0.2;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: var(--strand-radius-md) var(--strand-radius-md) 0 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--strand-blue-primary) 50%,
+    transparent 100%
+  );
+  opacity: 0.6;
   pointer-events: none;
-}
-
-@keyframes strand-card-scan {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 /* ── Padding modifiers ── */
@@ -124,7 +132,6 @@
   }
 
   .strand-card--active::before {
-    animation: none;
-    opacity: 0;
+    transition: none;
   }
 }
