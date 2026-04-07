@@ -32,7 +32,7 @@
 /* ── Bar indeterminate ── */
 .strand-progress--bar.strand-progress--indeterminate .strand-progress__fill {
   width: 40%;
-  animation: strand-progress-shimmer 1.5s var(--strand-ease-in-out-sine) infinite;
+  animation: strand-progress-shimmer var(--strand-duration-cinematic) var(--strand-ease-in-out-sine) infinite;
 }
 
 @keyframes strand-progress-shimmer {

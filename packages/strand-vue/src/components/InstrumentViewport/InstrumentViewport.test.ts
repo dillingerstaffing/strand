@@ -37,6 +37,25 @@ describe('InstrumentViewport', () => {
     expect(container.firstElementChild?.className).toContain('strand-instrument-viewport--grid')
   })
 
+  // ── Full bleed modifier ──
+
+  it('does not apply full-bleed modifier by default', () => {
+    const { container } = render(InstrumentViewport, { slots: { default: 'Test' } })
+    expect(container.firstElementChild?.className).not.toContain(
+      'strand-instrument-viewport--full-bleed',
+    )
+  })
+
+  it('applies full-bleed modifier when fullBleed prop is true', () => {
+    const { container } = render(InstrumentViewport, {
+      props: { fullBleed: true },
+      slots: { default: 'Test' },
+    })
+    expect(container.firstElementChild?.className).toContain(
+      'strand-instrument-viewport--full-bleed',
+    )
+  })
+
   // ── Custom className ──
 
   it('merges custom className with component classes', () => {

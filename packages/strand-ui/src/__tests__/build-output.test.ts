@@ -83,8 +83,10 @@ describe("Build output", () => {
     const withoutKeyframes = withoutComments.replace(/@keyframes\s+[\w-]+\s*\{[^}]*(?:\{[^}]*\}[^}]*)*\}/g, "");
     // Strip animation shorthand lines (duration is part of the shorthand spec, not standalone)
     const withoutAnimations = withoutKeyframes.replace(/animation:.*$/gm, "");
+    // Strip animation-delay lines (stagger offsets, not durations)
+    const withoutAnimationDelays = withoutAnimations.replace(/animation-delay:.*$/gm, "");
     // Strip var() references (tokenized durations are fine)
-    const withoutVars = withoutAnimations.replace(/var\([^)]+\)/g, "VAR_REF");
+    const withoutVars = withoutAnimationDelays.replace(/var\([^)]+\)/g, "VAR_REF");
 
     const durationPattern = /(?<!\w)(150ms|250ms|400ms|700ms|1\.8s|1\.5s|1\.2s|0\.8s)\b/g;
     const matches: string[] = [];

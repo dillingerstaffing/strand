@@ -48,7 +48,7 @@
   right: 0;
   height: 2px;
   background: var(--strand-blue-primary);
-  border-radius: 1px;
+  border-radius: var(--strand-radius-sm);
   animation: strand-nav-logo-pulse 2s var(--strand-ease-in-out-sine) infinite;
 }
 

@@ -1,5 +1,22 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* ══════════════════════════════════════════════════
+   INSTRUMENT VIEWPORT (DL Part 9.3: Dark Mode Island)
+   ══════════════════════════════════════════════════
+   The viewport is the only place dark backgrounds appear in the
+   lab. The frame around it stays the white lab surface. Inside
+   the viewport, every primitive (search bar, panel, pin, legend,
+   coordinate readout, scanline, vignette) is built from the
+   instrument tokens defined in tokens.css. None of these
+   primitives leak the dark surface to the rest of the page.
+
+   Three modes:
+   - Default (recessed inside a card)
+   - --grid (with subtle blue grid overlay)
+   - --full-bleed (page-filling instrument cabinet, requires
+     body to be marked .strand-body--instrument so the page
+     surface is dark all the way to the edges) */
+
 .strand-instrument-viewport {
   background: var(--strand-blue-abyss);
   color: var(--strand-gray-100);
@@ -23,7 +40,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Optional grid overlay */
+/* ── Optional grid overlay ── */
 .strand-instrument-viewport--grid::before {
   content: '';
   position: absolute;
@@ -33,4 +50,1297 @@
     linear-gradient(90deg, var(--strand-viewport-grid-line) 1px, transparent 1px);
   background-size: var(--strand-viewport-grid-size) var(--strand-viewport-grid-size);
   pointer-events: none;
+}
+
+/* ── Full-bleed variant (page-filling instrument cabinet) ──
+   The viewport occupies all the space below the nav. The body
+   must be marked .strand-body--instrument so the dark surface
+   reaches the edge of the screen, not just the rounded card. */
+.strand-instrument-viewport--full-bleed {
+  width: 100%;
+  height: calc(100vh - var(--strand-nav-height));
+  height: calc(100dvh - var(--strand-nav-height));
+  border-radius: 0;
+}
+
+/* ── Atmospheric grid overlay (always-on for full-bleed) ── */
+.strand-instrument-viewport--full-bleed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--strand-viewport-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--strand-viewport-grid-line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ── Ambient breathing glow (DL Part 7: alive signal) ── */
+.strand-instrument-viewport--full-bleed::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 40%,
+    var(--strand-instrument-glow-soft) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 2;
+  animation: strand-instrument-breathe 8s var(--strand-ease-in-out-sine) infinite;
+}
+
+@keyframes strand-instrument-breathe {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+/* ──────────────────────────────────────────────
+   BODY MODE: full-bleed dark surface
+   ──────────────────────────────────────────────
+   When a page hosts a full-bleed instrument viewport, the body
+   itself must be dark all the way to the edges. The nav also
+   needs to switch to its instrument variant. Add
+   .strand-body--instrument to <body> to enable this mode. */
+
+.strand-body--instrument {
+  background: var(--strand-instrument-bg);
+  overflow: hidden;
+}
+
+/* ──────────────────────────────────────────────
+   NAV: instrument variant (dark glassmorphic)
+   ──────────────────────────────────────────────
+   When the body is in instrument mode, the nav must also be
+   dark + glassmorphic to match the cabinet aesthetic. Apply
+   .strand-nav--instrument alongside .strand-nav for a dark
+   blurred bar with blue-tinted hairline.
+
+   The selectors compose .strand-nav with .strand-nav--instrument
+   so they outweigh the bare .strand-nav rules even though Nav.css
+   is bundled later than InstrumentViewport.css. Without the
+   compound selector, the white surface from Nav.css would win
+   on source order. */
+
+.strand-nav.strand-nav--instrument {
+  background: var(--strand-instrument-bg-translucent);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--strand-instrument-border);
+}
+
+.strand-nav.strand-nav--instrument .strand-nav__logo {
+  color: var(--strand-blue-primary);
+  text-shadow: 0 0 12px rgba(59, 142, 246, 0.3);
+}
+
+.strand-nav.strand-nav--instrument .strand-nav__link {
+  color: var(--strand-instrument-text-secondary);
+}
+
+.strand-nav.strand-nav--instrument .strand-nav__link:hover {
+  color: var(--strand-instrument-text-primary);
+}
+
+/* ──────────────────────────────────────────────
+   NAV ACCESSORIES (mono titles + ghost CTAs)
+   ──────────────────────────────────────────────
+   Lab pages render a small mono title between the logo and the
+   primary CTA. The accessories live in the nav__inner container,
+   between logo and actions. */
+
+.strand-nav__title {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-semibold);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-instrument-text-primary);
+  text-shadow: 0 0 16px rgba(59, 142, 246, 0.15);
+  margin-right: auto;
+}
+
+.strand-nav__title-tag {
+  font-weight: var(--strand-weight-regular);
+  color: var(--strand-gray-400);
+  margin-left: var(--strand-space-1);
+}
+
+/* ──────────────────────────────────────────────
+   FUI: SCANLINE
+   ──────────────────────────────────────────────
+   A horizontal pulse that sweeps the viewport from top to bottom
+   on every scan trigger. Uses Principle 7 (alive signal) at the
+   highest visibility tier: an event the user can perceive when
+   the system is actively processing. Combine with .scanline-
+   ambient for the slow continuous baseline pulse. */
+
+.strand-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  top: -2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 142, 246, 0.2) 15%,
+    var(--strand-instrument-glow-strong) 50%,
+    rgba(59, 142, 246, 0.2) 85%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 16px rgba(59, 142, 246, 0.3),
+    0 0 48px rgba(59, 142, 246, 0.1),
+    0 1px 0 var(--strand-instrument-border);
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+}
+
+.strand-scanline--active {
+  animation: strand-scan 2s var(--strand-ease-out-quart) forwards;
+}
+
+@keyframes strand-scan {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 0.5; }
+  90%  { opacity: 0.5; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ── Ambient continuous scan (slow breathing baseline) ── */
+.strand-scanline--ambient {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  top: -1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 142, 246, 0.08) 30%,
+    var(--strand-instrument-glow-medium) 50%,
+    rgba(59, 142, 246, 0.08) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+  opacity: 1;
+  animation: strand-scan-slow 6s linear infinite;
+}
+
+@keyframes strand-scan-slow {
+  0%   { top: -1px; }
+  100% { top: 100%; }
+}
+
+/* ──────────────────────────────────────────────
+   FUI: VIEWPORT VIGNETTE (cursor-following spotlight)
+   ──────────────────────────────────────────────
+   A radial gradient that follows the user's cursor (via JS that
+   sets --mouse-x / --mouse-y custom properties on the viewport),
+   darkening the edges so the user's eye is drawn toward whatever
+   they are pointing at. The "instrument focus" effect from
+   cinematic FUI work. */
+
+.strand-viewport-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background: radial-gradient(
+    ellipse 70% 60% at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    transparent 45%,
+    rgba(15, 25, 42, 0.35) 100%
+  );
+  transition: background-position 0.15s ease;
+}
+
+/* ──────────────────────────────────────────────
+   FUI: COORDINATE READOUT
+   ──────────────────────────────────────────────
+   A small mono panel in the bottom-left corner that displays the
+   instrument's current coordinate (latitude/longitude, or any
+   tabular numeric pair). The blinking cursor before the values
+   is the alive signal -- the system is reading position right
+   now. */
+
+.strand-coord-readout {
+  position: absolute;
+  bottom: var(--strand-space-4);
+  left: var(--strand-space-4);
+  z-index: 10;
+  font-family: var(--strand-font-mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strand-tracking-widest);
+  color: rgba(148, 163, 184, 0.65);
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-4);
+  background: var(--strand-instrument-bg-overlay);
+  border: 1px solid var(--strand-instrument-border);
+  border-radius: var(--strand-radius-sm);
+  padding: var(--strand-space-2) var(--strand-space-3);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.strand-coord-readout::before {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 12px;
+  background: var(--strand-instrument-glow-strong);
+  border-radius: var(--strand-radius-sm);
+  animation: strand-coord-blink 1.2s steps(2) infinite;
+}
+
+@keyframes strand-coord-blink {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.strand-coord-readout__lat,
+.strand-coord-readout__lng {
+  display: inline-block;
+}
+
+/* ──────────────────────────────────────────────
+   FUI: MAP LEGEND (sector classification HUD)
+   ──────────────────────────────────────────────
+   A small HUD panel listing the sector classifications used by
+   the instrument. The colored dots are the connector between
+   the legend and the map pins. Hovering an item dims unrelated
+   pins so the user can scan one sector at a time. */
+
+.strand-map-legend {
+  position: absolute;
+  bottom: calc(var(--strand-space-6) + 6rem);
+  right: var(--strand-space-4);
+  z-index: 10;
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  letter-spacing: var(--strand-tracking-wide);
+  color: rgba(148, 163, 184, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strand-space-2);
+  background: rgba(15, 25, 42, 0.7);
+  border: 1px solid var(--strand-instrument-border);
+  border-radius: var(--strand-radius-md);
+  padding: var(--strand-space-3) var(--strand-space-4);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--strand-instrument-shadow-inset), var(--strand-instrument-shadow-soft);
+}
+
+.strand-map-legend__title {
+  font-weight: var(--strand-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--strand-tracking-widest);
+  color: rgba(148, 163, 184, 0.4);
+  margin-bottom: var(--strand-space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-2);
+}
+
+.strand-map-legend__title::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  background: var(--strand-instrument-glow-strong);
+  border-radius: var(--strand-radius-full);
+  animation: strand-instrument-breathe 3s var(--strand-ease-in-out-sine) infinite;
+}
+
+.strand-map-legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-3);
+  padding: 2px 0;
+  cursor: pointer;
+  transition: color var(--strand-duration-fast) ease;
+}
+
+.strand-map-legend__item:hover {
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.strand-map-legend__item:hover .strand-map-legend__dot {
+  transform: scale(1.4);
+  filter: brightness(1.3);
+}
+
+.strand-map-legend__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--strand-radius-full);
+  transition: transform var(--strand-duration-fast) var(--strand-ease-out-expo),
+    filter var(--strand-duration-fast) ease;
+}
+
+.strand-map-legend__dot--tech {
+  background: var(--strand-sector-tech);
+  box-shadow: 0 0 8px rgba(59, 142, 246, 0.5);
+}
+
+.strand-map-legend__dot--health {
+  background: var(--strand-sector-health);
+  box-shadow: 0 0 8px rgba(20, 184, 166, 0.5);
+}
+
+.strand-map-legend__dot--trades {
+  background: var(--strand-sector-trades);
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+}
+
+.strand-map-legend__dot--finance {
+  background: var(--strand-sector-finance);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+}
+
+/* ──────────────────────────────────────────────
+   SEARCH BAR (floating glassmorphic, instrument)
+   ──────────────────────────────────────────────
+   A floating search bar centered above the viewport. Glass-
+   morphic dark surface, biosynthetic blue focus glow. This is
+   the input device the user reaches for first inside an
+   instrument viewport. */
+
+.strand-search-bar {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: min(520px, calc(100% - var(--strand-space-8)));
+  transition:
+    left var(--strand-duration-normal) var(--strand-ease-out-expo),
+    transform var(--strand-duration-normal) var(--strand-ease-out-expo),
+    width var(--strand-duration-normal) var(--strand-ease-out-expo);
+}
+
+.strand-search-bar--shifted {
+  left: calc(340px + var(--strand-space-4) + var(--strand-space-4));
+  transform: none;
+  width: min(480px, calc(100% - 340px - var(--strand-space-4) * 3));
+}
+
+.strand-search-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-2);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 25, 42, 0.88) 0%,
+    rgba(15, 23, 42, 0.85) 100%
+  );
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 142, 246, 0.15);
+  border-radius: var(--strand-radius-lg);
+  padding: var(--strand-space-2) var(--strand-space-4);
+  box-shadow: var(--strand-instrument-shadow-deep);
+  transition:
+    border-color var(--strand-duration-normal) ease,
+    box-shadow var(--strand-duration-normal) ease;
+}
+
+.strand-search-bar__inner:has(.strand-search-bar__input:focus) {
+  border-color: var(--strand-instrument-border-strong);
+  box-shadow:
+    var(--strand-instrument-shadow-deep),
+    inset 0 0 24px rgba(59, 142, 246, 0.06);
+}
+
+.strand-search-bar__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-base);
+  color: var(--strand-instrument-text-primary);
+  padding: var(--strand-space-2) 0;
+}
+
+.strand-search-bar__input::placeholder {
+  color: var(--strand-gray-500);
+}
+
+.strand-search-bar__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(59, 142, 246, 0.2);
+  border-radius: var(--strand-radius-md);
+  background: transparent;
+  color: var(--strand-gray-400);
+  cursor: pointer;
+  transition:
+    color var(--strand-duration-fast) ease,
+    border-color var(--strand-duration-fast) ease,
+    box-shadow var(--strand-duration-fast) ease;
+}
+
+.strand-search-bar__action:hover {
+  color: var(--strand-blue-primary);
+  border-color: var(--strand-blue-primary);
+  box-shadow: 0 0 8px rgba(59, 142, 246, 0.2);
+}
+
+.strand-search-bar__action:hover svg {
+  filter: drop-shadow(0 0 3px rgba(59, 142, 246, 0.5));
+}
+
+.strand-search-bar__action:active {
+  transform: scale(0.95);
+}
+
+.strand-search-bar__action--danger {
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.strand-search-bar__action--danger:hover {
+  color: var(--strand-red-alert);
+  border-color: var(--strand-red-alert);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
+}
+
+.strand-search-bar__action[hidden] {
+  display: none;
+}
+
+.strand-search-bar__action--locating {
+  color: var(--strand-blue-primary);
+  border-color: var(--strand-blue-primary);
+  animation: strand-search-bar-pulse 1s var(--strand-ease-in-out-sine) infinite;
+}
+
+@keyframes strand-search-bar-pulse {
+  0%, 100% { border-color: var(--strand-blue-primary); }
+  50%      { border-color: rgba(59, 142, 246, 0.3); }
+}
+
+/* ──────────────────────────────────────────────
+   RESULTS PANEL (instrument left sidebar)
+   ──────────────────────────────────────────────
+   The list of items returned by an instrument query. Glass-
+   morphic dark surface, fixed left side on desktop, bottom
+   sheet on mobile. Holds count, scrollable items, empty/error
+   states. */
+
+.strand-results-panel {
+  position: absolute;
+  top: 80px;
+  left: var(--strand-space-4);
+  width: 340px;
+  max-height: calc(100% - 100px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background: var(--strand-instrument-bg-glass);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(59, 142, 246, 0.12);
+  border-radius: var(--strand-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--strand-instrument-shadow-medium);
+}
+
+.strand-results-panel[hidden] {
+  display: none;
+}
+
+.strand-results-panel__count {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-instrument-text-tertiary);
+  padding: var(--strand-space-3) var(--strand-space-4);
+  border-bottom: 1px solid rgba(59, 142, 246, 0.08);
+}
+
+.strand-results-panel__items {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: calc(100vh - 240px);
+  overscroll-behavior: contain;
+}
+
+.strand-results-panel__state {
+  padding: var(--strand-space-6) var(--strand-space-4);
+  text-align: center;
+}
+
+.strand-results-panel__state-title {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  letter-spacing: var(--strand-tracking-wide);
+  color: var(--strand-instrument-text-tertiary);
+}
+
+.strand-results-panel__state-hint {
+  font-size: var(--strand-text-xs);
+  color: var(--strand-instrument-text-quiet);
+  margin-top: var(--strand-space-2);
+}
+
+.strand-results-panel__error-link {
+  display: inline-block;
+  margin-top: var(--strand-space-3);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-blue-primary);
+  text-decoration: none;
+  border: 1px solid rgba(59, 142, 246, 0.3);
+  border-radius: var(--strand-radius-sm);
+  padding: var(--strand-space-2) var(--strand-space-3);
+  transition: background var(--strand-duration-fast) ease;
+}
+
+.strand-results-panel__error-link:hover {
+  background: rgba(59, 142, 246, 0.1);
+}
+
+/* ── Result card ── */
+.strand-result-card {
+  display: block;
+  padding: var(--strand-space-3) var(--strand-space-4);
+  border-bottom: 1px solid rgba(59, 142, 246, 0.06);
+  cursor: pointer;
+  transition: background var(--strand-duration-fast) ease;
+}
+
+.strand-result-card:hover {
+  background: rgba(59, 142, 246, 0.08);
+}
+
+.strand-result-card.is-active,
+.strand-result-card--active {
+  background: rgba(59, 142, 246, 0.12);
+  border-left: 2px solid var(--strand-blue-primary);
+  padding-left: calc(var(--strand-space-4) - 2px);
+}
+
+.strand-result-card__title {
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-medium);
+  color: var(--strand-instrument-text-primary);
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.strand-result-card__company {
+  font-size: var(--strand-text-xs);
+  color: rgba(148, 163, 184, 0.7);
+  margin-bottom: 4px;
+}
+
+.strand-result-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-2);
+  flex-wrap: wrap;
+}
+
+.strand-result-card__location {
+  font-family: var(--strand-font-mono);
+  font-size: 10px;
+  letter-spacing: var(--strand-tracking-wide);
+  color: var(--strand-instrument-text-tertiary);
+}
+
+.strand-result-card__salary {
+  font-family: var(--strand-font-mono);
+  font-size: 10px;
+  color: var(--strand-blue-indicator);
+}
+
+.strand-result-card__badge {
+  font-family: var(--strand-font-mono);
+  font-size: 9px;
+  letter-spacing: var(--strand-tracking-wide);
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: var(--strand-radius-sm);
+}
+
+.strand-result-card__badge--remote {
+  color: var(--strand-teal-vital);
+  background: rgba(20, 184, 166, 0.12);
+}
+
+.strand-result-card__badge--source {
+  color: rgba(148, 163, 184, 0.4);
+  background: rgba(148, 163, 184, 0.06);
+}
+
+/* ──────────────────────────────────────────────
+   DETAIL PANEL (instrument right slide-over)
+   ──────────────────────────────────────────────
+   The expanded detail surface that slides in from the right
+   side of the viewport when the user opens an item. Light
+   surface, white frame inside the dark cabinet. Animated
+   reveal with staggered children. */
+
+.strand-detail-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 360px;
+  max-width: 100%;
+  height: 100%;
+  z-index: 20;
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.98) 0%, rgba(241, 245, 249, 0.97) 100%);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-left: 1px solid rgba(59, 142, 246, 0.1);
+  box-shadow:
+    -4px 0 32px rgba(0, 0, 0, 0.25),
+    inset 1px 0 0 rgba(255, 255, 255, 0.4);
+  padding: 120px var(--strand-space-6) var(--strand-space-8);
+  transform: translateX(100%);
+  transition: transform var(--strand-duration-slow) var(--strand-ease-out-expo);
+  overflow-y: auto;
+}
+
+.strand-detail-panel[hidden] {
+  display: none;
+}
+
+.strand-detail-panel.is-open,
+.strand-detail-panel--open,
+.strand-detail-panel.open {
+  transform: translateX(0);
+}
+
+/* ── Staggered content reveal (Principle 7: alive signal) ──
+   The panel and its children share three equivalent state hooks:
+   .is-open (BEM-state), --open (BEM-modifier), and .open (legacy
+   alias kept for downstream consumers that already use it). All
+   three trigger the same reveal sequence. */
+.strand-detail-panel.is-open > .strand-overline,
+.strand-detail-panel--open > .strand-overline,
+.strand-detail-panel.open > .strand-overline {
+  animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.1s both;
+}
+
+.strand-detail-panel.is-open .strand-detail-panel__title,
+.strand-detail-panel--open .strand-detail-panel__title,
+.strand-detail-panel.open .strand-detail-panel__title {
+  animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.18s both;
+}
+
+.strand-detail-panel.is-open .strand-detail-panel__meta,
+.strand-detail-panel--open .strand-detail-panel__meta,
+.strand-detail-panel.open .strand-detail-panel__meta {
+  animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.26s both;
+}
+
+.strand-detail-panel.is-open .strand-detail-panel__salary,
+.strand-detail-panel--open .strand-detail-panel__salary,
+.strand-detail-panel.open .strand-detail-panel__salary {
+  animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.34s both;
+}
+
+.strand-detail-panel.is-open .strand-detail-panel__cta,
+.strand-detail-panel--open .strand-detail-panel__cta,
+.strand-detail-panel.open .strand-detail-panel__cta {
+  animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.42s both;
+}
+
+.strand-detail-panel.is-open .strand-detail-panel__source,
+.strand-detail-panel--open .strand-detail-panel__source,
+.strand-detail-panel.open .strand-detail-panel__source {
+  animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.48s both;
+}
+
+@keyframes strand-detail-fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.strand-detail-panel__close {
+  position: absolute;
+  top: 80px;
+  right: var(--strand-space-4);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-md);
+  font-size: var(--strand-text-lg);
+  color: var(--strand-gray-500);
+  cursor: pointer;
+  transition:
+    color var(--strand-duration-fast) ease,
+    border-color var(--strand-duration-fast) ease,
+    background var(--strand-duration-fast) ease;
+}
+
+.strand-detail-panel__close:hover {
+  color: var(--strand-blue-primary);
+  border-color: rgba(59, 142, 246, 0.3);
+  background: rgba(59, 142, 246, 0.05);
+}
+
+.strand-detail-panel__close-text {
+  display: none;
+}
+
+.strand-detail-panel__close-icon {
+  display: inline;
+}
+
+.strand-detail-panel__title {
+  font-size: 1.375rem;
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-tight);
+  color: var(--strand-gray-900);
+  margin: 0 0 var(--strand-space-4);
+  line-height: 1.3;
+}
+
+.strand-detail-panel__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strand-space-1);
+  padding-bottom: var(--strand-space-4);
+  border-bottom: 1px solid rgba(59, 142, 246, 0.08);
+  margin-bottom: var(--strand-space-5);
+}
+
+.strand-detail-panel__company,
+.strand-detail-panel__location {
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-700);
+  line-height: 1.4;
+}
+
+.strand-detail-panel__salary {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-lg);
+  font-weight: var(--strand-weight-light);
+  letter-spacing: var(--strand-tracking-tight);
+  color: var(--strand-blue-midnight);
+  margin-bottom: var(--strand-space-6);
+}
+
+.strand-detail-panel__cta {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  margin-bottom: var(--strand-space-3);
+  transition:
+    box-shadow var(--strand-duration-fast) ease,
+    transform var(--strand-duration-fast) var(--strand-ease-out-expo);
+}
+
+.strand-detail-panel__cta:hover {
+  box-shadow: 0 8px 24px rgba(29, 90, 216, 0.25);
+}
+
+.strand-detail-panel__cta:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.strand-detail-panel__source {
+  display: block;
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  letter-spacing: var(--strand-tracking-wide);
+  color: var(--strand-gray-400);
+  text-align: center;
+}
+
+/* ──────────────────────────────────────────────
+   MAP LOADING (instrument startup screen)
+   ──────────────────────────────────────────────
+   The full-bleed loading screen that hides the instrument while
+   it boots. Centered spinner, mono caption, sweeping bar.
+   Fades out via opacity transition. */
+
+.strand-map-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strand-space-6);
+  background: var(--strand-instrument-bg);
+  transition: opacity 0.6s ease;
+}
+
+.strand-map-loading.is-hidden,
+.strand-map-loading--hidden,
+.strand-map-loading.hidden {
+  display: none;
+}
+
+.strand-map-loading__spinner {
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(59, 142, 246, 0.15);
+  border-top-color: rgba(59, 142, 246, 0.7);
+  border-radius: var(--strand-radius-full);
+  animation: strand-map-loading-spin 1s linear infinite;
+}
+
+@keyframes strand-map-loading-spin {
+  to { transform: rotate(360deg); }
+}
+
+.strand-map-loading__text {
+  font-family: var(--strand-font-mono);
+  font-size: 11px;
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-instrument-text-tertiary);
+}
+
+.strand-map-loading__bar {
+  width: 160px;
+  height: 1px;
+  background: rgba(59, 142, 246, 0.1);
+  border-radius: var(--strand-radius-sm);
+  overflow: hidden;
+}
+
+.strand-map-loading__bar::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 142, 246, 0.6),
+    transparent
+  );
+  animation: strand-map-loading-sweep 1.4s var(--strand-ease-in-out-sine) infinite;
+}
+
+@keyframes strand-map-loading-sweep {
+  0%   { transform: translateX(-200%); }
+  100% { transform: translateX(500%); }
+}
+
+/* ──────────────────────────────────────────────
+   MAP PINS + CLUSTER MARKERS
+   ──────────────────────────────────────────────
+   Pins are the data points the instrument plots on the map.
+   Each pin gets a sector color (tech/health/trades/finance) and
+   carries a continuous breathing ring + an initial beacon ring
+   on spawn. Cluster markers are the metro-level aggregates
+   shown when no query is active. */
+
+.strand-map-pin {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--strand-radius-full);
+  border: 2.5px solid rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  animation: strand-map-pin-spawn var(--strand-duration-slow) var(--strand-ease-spring) both;
+  transition:
+    scale var(--strand-duration-fast) var(--strand-ease-out-expo),
+    background var(--strand-duration-fast) var(--strand-ease-out-quart);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.15),
+    0 0 12px currentColor,
+    0 0 28px currentColor,
+    0 0 56px currentColor;
+  position: relative;
+}
+
+.strand-map-pin::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: var(--strand-radius-full);
+  border: 1.5px solid currentColor;
+  animation: strand-map-pin-breathe var(--strand-duration-cinematic-slow) var(--strand-ease-in-out-sine) infinite;
+  animation-delay: inherit;
+  pointer-events: none;
+}
+
+.strand-map-pin::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--strand-radius-full);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  animation: strand-map-pin-beacon var(--strand-duration-cinematic) var(--strand-ease-out-quart) forwards;
+  animation-delay: inherit;
+  pointer-events: none;
+}
+
+.strand-map-pin:hover {
+  scale: 1.6;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.3),
+    0 0 16px currentColor,
+    0 0 40px currentColor,
+    0 0 72px currentColor;
+}
+
+.strand-map-pin:hover::before {
+  animation: none;
+  opacity: 0;
+}
+
+.strand-map-pin:hover::after {
+  animation: strand-map-pin-pulse 1s var(--strand-ease-out-expo) infinite;
+}
+
+.strand-map-pin--tech {
+  background: var(--strand-sector-tech);
+  color: var(--strand-sector-tech);
+}
+
+.strand-map-pin--health {
+  background: var(--strand-sector-health);
+  border-color: rgba(20, 184, 166, 0.7);
+  color: var(--strand-sector-health);
+}
+
+.strand-map-pin--trades {
+  background: var(--strand-sector-trades);
+  border-color: rgba(34, 211, 238, 0.7);
+  color: var(--strand-sector-trades);
+}
+
+.strand-map-pin--finance {
+  background: var(--strand-sector-finance);
+  border-color: rgba(139, 92, 246, 0.7);
+  color: var(--strand-sector-finance);
+}
+
+.strand-map-pin.is-highlighted,
+.strand-map-pin--highlighted {
+  scale: 1.6;
+  box-shadow:
+    0 0 16px currentColor,
+    0 0 36px currentColor,
+    0 0 64px rgba(59, 142, 246, 0.4);
+  z-index: 10;
+}
+
+.strand-map-pin.is-dimmed,
+.strand-map-pin--dimmed {
+  opacity: 0.15;
+  transition: opacity var(--strand-duration-fast) ease;
+}
+
+@keyframes strand-map-pin-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(59, 142, 246, 0.6); }
+  100% { box-shadow: 0 0 0 18px rgba(59, 142, 246, 0); }
+}
+
+@keyframes strand-map-pin-spawn {
+  0%   { scale: 0; opacity: 0; }
+  50%  { opacity: 1; }
+  100% { scale: 1; }
+}
+
+@keyframes strand-map-pin-beacon {
+  0%   { scale: 1; opacity: 0.7; }
+  100% { scale: 3; opacity: 0; }
+}
+
+@keyframes strand-map-pin-breathe {
+  0%, 100% { opacity: 0.25; scale: 1; }
+  50%      { opacity: 0.55; scale: 1.5; }
+}
+
+/* ── Cluster marker (metro-level aggregate) ── */
+.strand-cluster-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--strand-radius-full);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-semibold);
+  color: var(--strand-instrument-text-primary);
+  border: 2px solid rgba(59, 142, 246, 0.6);
+  box-shadow:
+    0 0 20px rgba(59, 142, 246, 0.4),
+    0 0 40px rgba(59, 142, 246, 0.15);
+  cursor: pointer;
+  transition:
+    transform var(--strand-duration-fast) var(--strand-ease-out-expo),
+    box-shadow var(--strand-duration-fast) ease;
+}
+
+.strand-cluster-marker:hover {
+  transform: scale(1.15);
+  box-shadow:
+    0 0 28px rgba(59, 142, 246, 0.6),
+    0 0 56px rgba(59, 142, 246, 0.25);
+}
+
+/* ──────────────────────────────────────────────
+   MAPLIBRE COMPATIBILITY OVERRIDES
+   ──────────────────────────────────────────────
+   When MapLibre GL is rendered inside an instrument viewport,
+   its default chrome must be muted and re-themed to fit the
+   dark cabinet. These overrides should ONLY take effect inside
+   .strand-instrument-viewport so they do not pollute lighter
+   maps elsewhere on the site. */
+
+.strand-instrument-viewport .maplibregl-marker {
+  z-index: 6 !important;
+}
+
+.strand-instrument-viewport .maplibregl-ctrl-bottom-left {
+  opacity: 0.25;
+  transition: opacity var(--strand-duration-fast) ease;
+}
+
+.strand-instrument-viewport .maplibregl-ctrl-bottom-left:hover {
+  opacity: 0.7;
+}
+
+.strand-instrument-viewport .maplibregl-ctrl-bottom-right {
+  bottom: 40px;
+  right: 12px;
+}
+
+.strand-instrument-viewport .maplibregl-ctrl-bottom-right .maplibregl-ctrl-group {
+  background: rgba(15, 25, 42, 0.85);
+  border: 1px solid rgba(59, 142, 246, 0.2);
+  border-radius: var(--strand-radius-md);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.strand-instrument-viewport .maplibregl-ctrl-bottom-right .maplibregl-ctrl-group button {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  color: var(--strand-gray-300);
+  cursor: pointer;
+}
+
+.strand-instrument-viewport .maplibregl-ctrl-bottom-right .maplibregl-ctrl-group button:hover {
+  color: var(--strand-blue-primary);
+}
+
+.strand-instrument-viewport .maplibregl-ctrl-bottom-right .maplibregl-ctrl-group button + button {
+  border-top: 1px solid rgba(59, 142, 246, 0.15);
+}
+
+.strand-instrument-viewport .maplibregl-popup-content {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  background: var(--strand-instrument-bg-translucent);
+  color: var(--strand-instrument-text-primary);
+  border: 1px solid rgba(59, 142, 246, 0.2);
+  border-radius: var(--strand-radius-md);
+  padding: var(--strand-space-2) var(--strand-space-3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.strand-instrument-viewport .maplibregl-popup-tip {
+  border-top-color: var(--strand-instrument-bg-translucent);
+}
+
+/* ──────────────────────────────────────────────
+   RESPONSIVE
+   ──────────────────────────────────────────────
+   On mobile, the results panel becomes a bottom sheet, the
+   detail panel slides up from the bottom, the search bar
+   takes the full width, and the FUI overlays (legend, coord
+   readout) hide because they would crowd small screens. */
+
+@media (max-width: 768px) {
+  .strand-results-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-height: 40vh;
+    border-radius: var(--strand-radius-lg) var(--strand-radius-lg) 0 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .strand-results-panel__items {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .strand-search-bar,
+  .strand-search-bar--shifted {
+    left: var(--strand-space-4) !important;
+    width: calc(100% - (var(--strand-space-4) * 2)) !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .strand-search-bar__action {
+    width: 44px;
+    height: 44px;
+  }
+
+  .strand-map-pin {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .strand-detail-panel {
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    top: auto;
+    bottom: 0;
+    border-radius: var(--strand-radius-xl) var(--strand-radius-xl) 0 0;
+    padding: 0 var(--strand-space-4) var(--strand-space-6);
+    transform: translateY(100%);
+    box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .strand-detail-panel.is-open,
+  .strand-detail-panel--open,
+  .strand-detail-panel.open {
+    transform: translateY(0);
+  }
+
+  .strand-detail-panel__close {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 48px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--strand-gray-200);
+    background: transparent;
+    font-family: var(--strand-font-mono);
+    font-size: var(--strand-text-sm);
+    font-weight: var(--strand-weight-medium);
+    letter-spacing: var(--strand-tracking-wider);
+    color: var(--strand-blue-primary);
+    margin-bottom: var(--strand-space-4);
+  }
+
+  .strand-detail-panel__close:hover {
+    background: var(--strand-blue-glow);
+  }
+
+  .strand-detail-panel__close-icon {
+    display: none;
+  }
+
+  .strand-detail-panel__close-text {
+    display: inline;
+  }
+
+  .strand-detail-panel > .strand-overline {
+    margin-bottom: var(--strand-space-2);
+  }
+
+  .strand-map-legend,
+  .strand-coord-readout {
+    display: none;
+  }
+
+  .strand-search-bar__input {
+    font-size: 16px;
+  }
+}
+
+/* ──────────────────────────────────────────────
+   REDUCED MOTION
+   ──────────────────────────────────────────────
+   Strip every animation and transition from the FUI primitives
+   when the user has prefers-reduced-motion. The instrument is
+   still readable, just static. */
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-scanline,
+  .strand-scanline--ambient {
+    display: none;
+  }
+
+  .strand-instrument-viewport--full-bleed::after {
+    animation: none;
+  }
+
+  .strand-map-pin {
+    animation: none;
+  }
+
+  .strand-map-pin::before,
+  .strand-map-pin::after {
+    animation: none;
+  }
+
+  .strand-map-pin:hover {
+    animation: none;
+  }
+
+  .strand-map-pin:hover::before,
+  .strand-map-pin:hover::after {
+    animation: none;
+  }
+
+  .strand-detail-panel {
+    transition: none;
+  }
+
+  .strand-detail-panel.is-open > .strand-overline,
+  .strand-detail-panel--open > .strand-overline,
+  .strand-detail-panel.open > .strand-overline,
+  .strand-detail-panel.is-open .strand-detail-panel__title,
+  .strand-detail-panel--open .strand-detail-panel__title,
+  .strand-detail-panel.open .strand-detail-panel__title,
+  .strand-detail-panel.is-open .strand-detail-panel__meta,
+  .strand-detail-panel--open .strand-detail-panel__meta,
+  .strand-detail-panel.open .strand-detail-panel__meta,
+  .strand-detail-panel.is-open .strand-detail-panel__salary,
+  .strand-detail-panel--open .strand-detail-panel__salary,
+  .strand-detail-panel.open .strand-detail-panel__salary,
+  .strand-detail-panel.is-open .strand-detail-panel__cta,
+  .strand-detail-panel--open .strand-detail-panel__cta,
+  .strand-detail-panel.open .strand-detail-panel__cta,
+  .strand-detail-panel.is-open .strand-detail-panel__source,
+  .strand-detail-panel--open .strand-detail-panel__source,
+  .strand-detail-panel.open .strand-detail-panel__source {
+    animation: none;
+  }
+
+  .strand-map-legend__title::before {
+    animation: none;
+  }
+
+  .strand-coord-readout::before {
+    animation: none;
+  }
+
+  .strand-map-loading__spinner {
+    animation: none;
+    border-color: rgba(59, 142, 246, 0.4);
+  }
+
+  .strand-search-bar__action--locating {
+    animation: none;
+  }
 }

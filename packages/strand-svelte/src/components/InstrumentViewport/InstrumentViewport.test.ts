@@ -22,4 +22,16 @@ describe('InstrumentViewport', () => {
     const el = container.querySelector('.strand-instrument-viewport')
     expect(el).toHaveClass('strand-instrument-viewport--grid')
   })
+
+  it('does not apply full-bleed modifier by default', () => {
+    const { container } = render(InstrumentViewport)
+    const el = container.querySelector('.strand-instrument-viewport')
+    expect(el).not.toHaveClass('strand-instrument-viewport--full-bleed')
+  })
+
+  it('applies full-bleed modifier when fullBleed prop is true', () => {
+    const { container } = render(InstrumentViewport, { props: { fullBleed: true } })
+    const el = container.querySelector('.strand-instrument-viewport')
+    expect(el).toHaveClass('strand-instrument-viewport--full-bleed')
+  })
 })

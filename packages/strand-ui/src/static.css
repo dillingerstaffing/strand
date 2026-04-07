@@ -660,7 +660,7 @@
 }
 
 .strand-hero-grid__line {
-  animation: strand-hero-grid-glow 12s ease-in-out infinite;
+  animation: strand-hero-grid-glow 12s var(--strand-ease-in-out-sine) infinite;
 }
 
 .strand-hero-grid__line--1 { animation-delay: 0s; }

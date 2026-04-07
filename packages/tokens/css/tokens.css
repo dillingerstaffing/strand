@@ -130,6 +130,9 @@
   --strand-ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --strand-ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
   --strand-ease-in-expo: cubic-bezier(0.7, 0, 0.84, 0);
+  /* Spring overshoot (DL Part VI: alive signal). Used by FUI elements
+     that "land" with momentum, e.g. instrument viewport map pins. */
+  --strand-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ── MOTION: DURATION ── */
   --strand-duration-instant: 75ms;
@@ -137,6 +140,10 @@
   --strand-duration-normal: 250ms;
   --strand-duration-slow: 400ms;
   --strand-duration-glacial: 700ms;
+  /* Cinematic durations (DL Part VI.4 alive signal). Used by ambient
+     FUI animations: scanlines, beacon rings, slow breathing pulses. */
+  --strand-duration-cinematic: 1500ms;
+  --strand-duration-cinematic-slow: 2500ms;
 
   /* ── ELEVATION (box-shadow) ── */
   --strand-elevation-0: none;
@@ -224,4 +231,40 @@
      The scrolled-nav border tint. Replaces the previous raw rgba
      in strand-ui.css line 1523. */
   --strand-nav-scrolled-border: rgba(59, 130, 246, 0.12);
+
+  /* ── INSTRUMENT VIEWPORT: FULL-BLEED FUI (DL Part 9.3) ──
+     Tokens for the full-bleed dark instrument viewport surface.
+     The "dark instrument cabinet inside the white lab" from the
+     spatial signature. REDACTED, real-time dashboards, terminal
+     output, FUI overlays. The surface is the only place dark
+     backgrounds appear. */
+  --strand-instrument-bg: #0F192A;
+  --strand-instrument-bg-translucent: rgba(15, 25, 42, 0.94);
+  --strand-instrument-bg-glass: rgba(15, 25, 42, 0.88);
+  --strand-instrument-bg-overlay: rgba(15, 25, 42, 0.6);
+  --strand-instrument-border: rgba(59, 142, 246, 0.12);
+  --strand-instrument-border-strong: rgba(59, 142, 246, 0.4);
+  --strand-instrument-glow-soft: rgba(59, 142, 246, 0.04);
+  --strand-instrument-glow-medium: rgba(59, 142, 246, 0.08);
+  --strand-instrument-glow-strong: rgba(59, 142, 246, 0.5);
+  --strand-instrument-text-primary: #FFFFFF;
+  --strand-instrument-text-secondary: rgba(148, 163, 184, 0.7);
+  --strand-instrument-text-tertiary: rgba(148, 163, 184, 0.5);
+  --strand-instrument-text-quiet: rgba(148, 163, 184, 0.35);
+  --strand-instrument-shadow-deep: 0 4px 32px rgba(0, 0, 0, 0.5);
+  --strand-instrument-shadow-medium: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --strand-instrument-shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.2);
+  --strand-instrument-shadow-inset: inset 0 0 12px rgba(0, 0, 0, 0.2);
+
+  /* ── INSTRUMENT SECTOR PALETTE ──
+     Four colors for category encoding inside an instrument viewport.
+     Blue Discipline (Part III.4) is preserved at the page level;
+     these are the four allowed accents WHEN multi-category encoding
+     is the instrument's purpose (e.g. a job market map). The four
+     are blue (technology), teal (vital/health), cyan (signal/trades),
+     violet (data/finance) -- all from the existing semantic palette. */
+  --strand-sector-tech: var(--strand-blue-primary);
+  --strand-sector-health: var(--strand-teal-vital);
+  --strand-sector-trades: var(--strand-cyan-signal);
+  --strand-sector-finance: var(--strand-violet-data);
 }
