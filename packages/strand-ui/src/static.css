@@ -97,11 +97,16 @@
    Adds an animated dot prefix that pulses in a slow rhythm. Use on
    the primary hero overline to signal "this is a living system."
    Combine with strand-overline--accent for the blue brand color.
-   The dot uses blue-primary; on dark backgrounds use teal-vital. */
+   The dot uses blue-primary; on dark backgrounds use teal-vital.
+
+   The display: inline-block + relative positioning shrinks the
+   overline to its text width so the absolutely-positioned dot
+   sits immediately to the LEFT of the text -- not to the left of
+   a full-width parent container. */
 .strand-overline--pulse {
   position: relative;
   padding-left: var(--strand-space-4);
-  display: inline-block;
+  display: inline-block !important;
 }
 
 .strand-overline--pulse::before {

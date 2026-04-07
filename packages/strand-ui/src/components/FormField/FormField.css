@@ -18,9 +18,12 @@
   line-height: var(--strand-leading-snug);
 }
 
-/* ── Required indicator ── */
+/* ── Required indicator ──
+   Uses blue-primary, not red, because the asterisk is a "this is required"
+   accent (informational), not an error. Red is reserved for actual errors
+   inside .strand-form-field__error. */
 .strand-form-field__required {
-  color: var(--strand-red-alert);
+  color: var(--strand-blue-primary);
   margin-left: var(--strand-space-1);
 }
 

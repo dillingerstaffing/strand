@@ -61,6 +61,24 @@
   flex-wrap: wrap;
 }
 
+/* ── Responsive direction (DL Part XV: small-screen reflow) ──
+   Combine with strand-stack--horizontal: at <=768px the stack
+   collapses to a vertical column, alignment recenters, and
+   children are allowed to grow to a comfortable max-width via
+   strand-stack__item--responsive (sets max-width 280px width 100%). */
+@media (max-width: 768px) {
+  .strand-stack--horizontal.strand-stack--responsive {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .strand-stack--responsive > .strand-stack__item--full-mobile,
+  .strand-stack--responsive > .strand-btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
 /* ── Gap utilities ── */
 .strand-stack--gap-1 { gap: var(--strand-space-1); }
 .strand-stack--gap-2 { gap: var(--strand-space-2); }

@@ -17,9 +17,21 @@
 .strand-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
 .strand-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
 
-/* ── Responsive auto-fit (columns adjust to available width) ── */
+/* ── Responsive auto-fit (columns adjust to available width) ──
+   Use the size that matches your card content width. The breakpoint
+   behavior is determined entirely by the minmax() value:
+   - auto-sm  (200px): 1col <410, 2col 410-640, 3col 640-870, 4col 870+
+   - auto-220 (220px): 1col <450, 2col 450-700, 3col 700-940, 4col 940+
+   - auto-md  (280px): 1col <570, 2col 570-880, 3col 880-1190, 4col 1190+
+   - auto-260 (260px): 1col <530, 2col 530-820, 3col 820-1100, 4col 1100+
+   - auto-lg  (360px): 1col <730, 2col 730-1120, 3col 1120-1500, 4col 1500+
+   The auto-220 + auto-260 sizes match the consumer-project prod
+   process and lab grid breakpoints (4 cols at 1280 desktop, 2 cols at
+   tablet portrait, 1 col at phone). */
 .strand-grid--auto-sm { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.strand-grid--auto-220 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .strand-grid--auto-md { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.strand-grid--auto-260 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .strand-grid--auto-lg { grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
 
 /* ── Gap utilities ── */

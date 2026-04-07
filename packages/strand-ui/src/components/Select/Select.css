@@ -33,7 +33,24 @@
   cursor: pointer;
 }
 
-/* ── Arrow indicator ── */
+/* ── Arrow indicator (auto via ::after, no markup needed) ──
+   Renders a chevron-down on the right edge of every strand-select
+   wrapper, sized to align with the field text. Consumers can also
+   place an explicit <span class="strand-select__arrow"> for control. */
+.strand-select::after {
+  content: "";
+  position: absolute;
+  right: var(--strand-space-3);
+  top: 50%;
+  width: 0;
+  height: 0;
+  margin-top: -2px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--strand-gray-500);
+  pointer-events: none;
+}
+
 .strand-select__arrow {
   position: absolute;
   right: var(--strand-space-3);

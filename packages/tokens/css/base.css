@@ -7,6 +7,20 @@
  * Requires tokens.css to be loaded first.
  */
 
+/* ── Smooth anchor scrolling ──
+   When users click an in-page anchor (e.g. nav link to #section),
+   the browser smoothly scrolls there instead of hopping. Honors
+   prefers-reduced-motion via the rule below. */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* ── Lab Surface (DL Part 9.1) ──
    Default body background: dot grid + overhead LED glow + vertical
    gradient. Three layers, each invisible alone, together producing
