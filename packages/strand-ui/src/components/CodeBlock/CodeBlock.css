@@ -42,6 +42,107 @@
   border: 1px solid var(--strand-gray-200);
 }
 
+/* ── Copy button ──
+   Injected by consumer JS (strand-copy-buttons.js in dillinger) onto any
+   .strand-code-block wrapper. The button sits at the top-right of the
+   wrapper. The host wrapper carries [data-strand-copy] so the inner
+   <pre> can reserve right-side padding for the icon without shifting
+   code blocks that have no copy button.
+   Default state is low-ink so it does not compete with the code. On
+   hover, focus, or parent hover it gains full contrast. Success state
+   swaps the icon to a check and flips the label to "Copied" for 1.5s. */
+.strand-code-block[data-strand-copy] > .strand-code-block__pre {
+  padding-right: var(--strand-space-10);
+}
+
+.strand-code-block__copy {
+  position: absolute;
+  top: var(--strand-space-2);
+  right: var(--strand-space-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--strand-touch-target);
+  min-height: var(--strand-touch-target);
+  padding: 0;
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-md);
+  background-color: var(--strand-surface-elevated);
+  color: var(--strand-gray-500);
+  cursor: pointer;
+  opacity: 0.55;
+  transition:
+    opacity var(--strand-duration-fast) var(--strand-ease-out-expo),
+    color var(--strand-duration-fast) ease,
+    border-color var(--strand-duration-fast) ease,
+    background-color var(--strand-duration-fast) ease,
+    transform var(--strand-duration-fast) var(--strand-ease-out-expo);
+}
+
+.strand-code-block:hover .strand-code-block__copy,
+.strand-code-block__copy:hover,
+.strand-code-block__copy:focus-visible {
+  opacity: 1;
+  color: var(--strand-blue-primary);
+  border-color: var(--strand-blue-primary);
+}
+
+.strand-code-block__copy:hover {
+  transform: translateY(-1px);
+}
+
+.strand-code-block__copy:active {
+  transform: translateY(0);
+  transition-duration: 75ms;
+}
+
+.strand-code-block__copy:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}
+
+/* Success state: check icon, green accent, pinned opacity. */
+.strand-code-block__copy--copied,
+.strand-code-block__copy--copied:hover {
+  opacity: 1;
+  color: var(--strand-green-positive);
+  border-color: var(--strand-green-positive);
+  transform: translateY(0);
+}
+
+/* Icon swap. Both icons stack in the same cell; the active one has
+   display:inline, the inactive one has display:none. No opacity or
+   transform animation on the swap so reduced-motion users get the
+   same instant visual feedback. */
+.strand-code-block__copy-icon {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.strand-code-block__copy-icon--check {
+  display: none;
+}
+
+.strand-code-block__copy--copied .strand-code-block__copy-icon--clipboard {
+  display: none;
+}
+
+.strand-code-block__copy--copied .strand-code-block__copy-icon--check {
+  display: inline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-code-block__copy {
+    transition: none;
+  }
+  .strand-code-block__copy:hover,
+  .strand-code-block__copy:active,
+  .strand-code-block__copy--copied {
+    transform: none;
+  }
+}
+
 /* ── Inline code ── */
 .strand-code-inline {
   font-family: var(--strand-font-mono);

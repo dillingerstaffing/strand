@@ -54,8 +54,21 @@
    map library's markers below the viewport's FUI overlays
    (scanline, vignette). Without a z-index, the markers can be
    promoted into the viewport's own stacking context via the
-   library-specific marker rules below. */
-.strand-instrument-viewport__map {
+   library-specific marker rules below.
+
+   NOTE on specificity: the selector is scoped via the parent
+   .strand-instrument-viewport to outrank .maplibregl-map, which
+   maplibre-gl.css (appended at runtime, after strand-ui.css)
+   sets to position: relative. Without the descendant selector
+   the single-class rules would tie on specificity, and later
+   source order would hand the win to maplibre, leaving the
+   container as a relatively-positioned in-flow element whose
+   height: 100% can collapse to 0 in some mobile browsers when
+   the parent chain's explicit heights are not yet resolved at
+   paint time. Absolute positioning anchored via inset: 0
+   guarantees the container always fills its containing block,
+   regardless of maplibre's cascade. */
+.strand-instrument-viewport .strand-instrument-viewport__map {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -433,7 +446,7 @@
 
 .strand-search-bar {
   position: absolute;
-  top: 80px;
+  top: var(--strand-space-4);
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -558,10 +571,10 @@
 
 .strand-results-panel {
   position: absolute;
-  top: 80px;
+  top: var(--strand-space-4);
   left: var(--strand-space-4);
   width: 340px;
-  max-height: calc(100% - 100px);
+  max-height: calc(100% - var(--strand-space-8));
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -1208,6 +1221,7 @@
 
   .strand-search-bar,
   .strand-search-bar--shifted {
+    top: var(--strand-space-3);
     left: var(--strand-space-4) !important;
     width: calc(100% - (var(--strand-space-4) * 2)) !important;
     transform: none !important;
