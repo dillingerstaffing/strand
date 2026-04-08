@@ -656,11 +656,12 @@
   background: rgba(59, 142, 246, 0.08);
 }
 
+/* Selection state for a master-detail list row. Uses background
+   tint only. No left-edge accent bar (banned pattern, see
+   Card.css comment above .strand-card--active). */
 .strand-result-card.is-active,
 .strand-result-card--active {
   background: rgba(59, 142, 246, 0.12);
-  border-left: 2px solid var(--strand-blue-primary);
-  padding-left: calc(var(--strand-space-4) - 2px);
 }
 
 .strand-result-card__title {

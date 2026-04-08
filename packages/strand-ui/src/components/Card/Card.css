@@ -62,22 +62,22 @@
   box-shadow: var(--strand-elevation-2); /* CF-REF: five-level-shadow.md [1] */
 }
 
-/* The "alive" signal for live/active cards has been through several
-   iterations: a conic-gradient radar sweep (too animated, read as
-   spinning), a 1px blue-indicator halo plus 2px top edge accent
-   (too loud, trended toward the generic AI-workspace edge-stripe
-   aesthetic), and finally the current treatment.
+/* The "alive" signal for live/active cards has been through many
+   iterations and each one was wrong: conic-gradient radar sweep
+   (too animated), blue-indicator halo plus top edge accent (too
+   loud, read as AI-workspace chrome), left-edge accent bar
+   (banned, copied by every agentic coding tool as lowest-effort
+   default), and finally a blue-glow tinted background (still
+   too heavy, reads as "blue borders" on lab/channel grids).
 
-   The active state is now expressed ONLY through a subtle
-   blue-glow tinted background. No border ring, no edge stripe,
-   no halo, no chrome animation. The in-content affordance (a
-   "Joined" pill, a status-chip--live, a StatusIndicator) carries
-   the primary signal. The tint is a quiet reinforcement: cards
-   that are "on" recede into a barely-there blue wash. Every
-   edge-bar treatment, including left, right, top, and bottom
-   stripes, is intentionally absent per the no-edge-bar rule. */
+   The active state has NO card-chrome treatment at all. Inline
+   affordances (a "Joined" pill, a status-chip--live, a lifecycle
+   overline like "Live" or "Early Access", a StatusIndicator) carry
+   the entire signal. The class is kept as a no-op semantic hook
+   so consumers can still mark active cards for data-attr selectors
+   or future treatments, but it paints nothing by default. */
 .strand-card--active {
-  background: var(--strand-blue-glow);
+  /* intentionally empty */
 }
 
 /* ── Padding modifiers ── */
