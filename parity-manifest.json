@@ -1,0 +1,50 @@
+{
+	"$schema": "./parity-manifest.schema.json",
+	"description": "Canonical Strand API surface. Every consumer type must implement this surface. The parity test reads this file and asserts conformance. Adding a primitive is a PR that updates this file AND adds the primitive to every consumer type in the same release. Removing a primitive requires a major version bump.",
+	"version": "0.14.0",
+	"components": [
+		"Alert",
+		"Avatar",
+		"Badge",
+		"Breadcrumb",
+		"Button",
+		"Card",
+		"Checkbox",
+		"CodeBlock",
+		"Container",
+		"DataReadout",
+		"Dialog",
+		"Divider",
+		"FormField",
+		"Grid",
+		"Input",
+		"InstrumentViewport",
+		"Link",
+		"Nav",
+		"Progress",
+		"Radio",
+		"ScrollReveal",
+		"Section",
+		"Select",
+		"Skeleton",
+		"Slider",
+		"Spinner",
+		"Stack",
+		"Switch",
+		"Table",
+		"Tabs",
+		"Tag",
+		"Textarea",
+		"Toast",
+		"Tooltip"
+	],
+	"knownDrift": {
+		"Banner": {
+			"in": ["preact", "react", "vanilla-html"],
+			"missingFrom": ["svelte", "vue"],
+			"note": "Banner component exists in strand-ui but not in strand-svelte or strand-vue. Excluded from the parity manifest until Banner is added to all three framework libraries. Adding it is a parity-raising task in a future session."
+		}
+	},
+	"lockstepVersion": true,
+	"notes": "This manifest is the MVP parity contract. Extension to track prop shapes, CSS class names, and tokens is future work. The current contract asserts: (1) every component name here exists as a directory in every framework package's components folder, (2) every publishable package has the same version number."
+}

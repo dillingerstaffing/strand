@@ -19,3 +19,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
+      - name: Cross-consumer parity check
+        run: pnpm test:parity

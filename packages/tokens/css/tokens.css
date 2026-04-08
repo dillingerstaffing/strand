@@ -235,9 +235,9 @@
   /* ── INSTRUMENT VIEWPORT: FULL-BLEED FUI (DL Part 9.3) ──
      Tokens for the full-bleed dark instrument viewport surface.
      The "dark instrument cabinet inside the white lab" from the
-     spatial signature. REDACTED, real-time dashboards, terminal
-     output, FUI overlays. The surface is the only place dark
-     backgrounds appear. */
+     spatial signature. Map dashboards, real-time dashboards,
+     terminal output, FUI overlays. The surface is the only place
+     dark backgrounds appear. */
   --strand-instrument-bg: #0F192A;
   --strand-instrument-bg-translucent: rgba(15, 25, 42, 0.94);
   --strand-instrument-bg-glass: rgba(15, 25, 42, 0.88);

@@ -25,9 +25,9 @@
    - auto-md  (280px): 1col <570, 2col 570-880, 3col 880-1190, 4col 1190+
    - auto-260 (260px): 1col <530, 2col 530-820, 3col 820-1100, 4col 1100+
    - auto-lg  (360px): 1col <730, 2col 730-1120, 3col 1120-1500, 4col 1500+
-   The auto-220 + auto-260 sizes match the consumer-project prod
-   process and lab grid breakpoints (4 cols at 1280 desktop, 2 cols at
-   tablet portrait, 1 col at phone). */
+   The auto-220 and auto-260 presets exist for card layouts that need
+   4 columns at 1280 desktop, 2 columns at tablet portrait, and 1 column
+   at phone widths. */
 .strand-grid--auto-sm { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .strand-grid--auto-220 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .strand-grid--auto-md { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }

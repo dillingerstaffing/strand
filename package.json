@@ -1,30 +1,38 @@
 {
-  "name": "strand",
-  "version": "0.2.0",
-  "private": true,
-  "description": "Strand Design Language and UI Component Library",
-  "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
-  "license": "MIT",
-  "homepage": "https://dillingerstaffing.com/labs/strand",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dillingerstaffing/strand"
-  },
-  "bugs": {
-    "url": "https://github.com/dillingerstaffing/strand/issues"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "packageManager": "pnpm@9.15.4",
-  "scripts": {
-    "build": "pnpm -r build",
-    "test": "pnpm -r test",
-    "lint": "biome check .",
-    "lint:fix": "biome check --write ."
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.0",
-    "typescript": "^5.7.0"
-  }
+	"name": "strand",
+	"version": "0.14.0",
+	"private": true,
+	"description": "Strand Design Language and UI Component Library",
+	"author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
+	"license": "MIT",
+	"homepage": "https://dillingerstaffing.com/labs/strand",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dillingerstaffing/strand"
+	},
+	"bugs": {
+		"url": "https://github.com/dillingerstaffing/strand/issues"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"packageManager": "pnpm@9.15.4",
+	"scripts": {
+		"build": "pnpm -r build",
+		"test": "pnpm -r test",
+		"test:parity": "node scripts/parity-check.mjs",
+		"test:migration-staleness": "node scripts/migration-staleness.mjs",
+		"test:all": "pnpm test && pnpm test:parity && pnpm test:migration-staleness",
+		"sync-versions": "node scripts/sync-versions.mjs",
+		"sync-versions:check": "node scripts/sync-versions.mjs --check",
+		"dogfood": "node scripts/dogfood-scaffold.mjs",
+		"audit-dogfood": "node scripts/dogfood-audit.mjs",
+		"purity-scan": "node scripts/purity-scan.mjs",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.0",
+		"typescript": "^5.7.0"
+	}
 }

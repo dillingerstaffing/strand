@@ -1,0 +1,131 @@
+{
+	"$schema": "./consumers.schema.json",
+	"description": "Machine-readable registry of every Strand consumer type. The parity test and the atomic release workflow both read this file. See CONSUMERS.md for human-readable documentation. Adding a new consumer type is one entry here plus one block in CONSUMERS.md plus the package built to parity.",
+	"consumers": [
+		{
+			"id": "preact",
+			"name": "Preact",
+			"kind": "package",
+			"packageName": "@dillingerstaffing/strand-ui",
+			"packagePath": "packages/strand-ui",
+			"publishable": true,
+			"install": "npm install preact @dillingerstaffing/strand @dillingerstaffing/strand-ui",
+			"parity": {
+				"type": "framework-components",
+				"manifestSection": "components",
+				"assertion": "every component in parity-manifest.json#/components is exported from src/index.ts with matching prop names"
+			}
+		},
+		{
+			"id": "react",
+			"name": "React",
+			"kind": "sub-export",
+			"packageName": "@dillingerstaffing/strand-ui",
+			"packagePath": "packages/strand-ui",
+			"publishable": false,
+			"sharedWith": "preact",
+			"install": "npm install react react-dom @dillingerstaffing/strand @dillingerstaffing/strand-ui",
+			"parity": {
+				"type": "framework-components",
+				"manifestSection": "components",
+				"assertion": "served by the same package as Preact via preact/compat; parity inherits from the preact entry"
+			}
+		},
+		{
+			"id": "svelte",
+			"name": "Svelte",
+			"kind": "package",
+			"packageName": "@dillingerstaffing/strand-svelte",
+			"packagePath": "packages/strand-svelte",
+			"publishable": true,
+			"install": "npm install svelte @dillingerstaffing/strand @dillingerstaffing/strand-svelte",
+			"parity": {
+				"type": "framework-components",
+				"manifestSection": "components",
+				"assertion": "every component in parity-manifest.json#/components is exported from src/index.ts with matching prop names"
+			}
+		},
+		{
+			"id": "vue",
+			"name": "Vue 3",
+			"kind": "package",
+			"packageName": "@dillingerstaffing/strand-vue",
+			"packagePath": "packages/strand-vue",
+			"publishable": true,
+			"install": "npm install vue @dillingerstaffing/strand @dillingerstaffing/strand-vue",
+			"parity": {
+				"type": "framework-components",
+				"manifestSection": "components",
+				"assertion": "every component in parity-manifest.json#/components is exported from src/index.ts with matching prop names"
+			}
+		},
+		{
+			"id": "vanilla-html",
+			"name": "Vanilla HTML with Strand classes",
+			"kind": "sub-export",
+			"packageName": "@dillingerstaffing/strand-ui",
+			"packagePath": "packages/strand-ui",
+			"publishable": false,
+			"sharedWith": "preact",
+			"artifactPath": "packages/strand-ui/dist/css/strand-ui.css",
+			"install": "load packages/tokens/css/* and packages/strand-ui/dist/css/strand-ui.css via link tags",
+			"parity": {
+				"type": "css-classes",
+				"manifestSection": "cssClasses",
+				"assertion": "every CSS class in parity-manifest.json#/cssClasses is present in the built standalone strand-ui.css bundle"
+			}
+		},
+		{
+			"id": "tokens-only",
+			"name": "Tokens only",
+			"kind": "package",
+			"packageName": "@dillingerstaffing/strand",
+			"packagePath": "packages/tokens",
+			"publishable": true,
+			"artifactPath": "packages/tokens/css/tokens.css",
+			"install": "npm install @dillingerstaffing/strand",
+			"parity": {
+				"type": "tokens",
+				"manifestSection": "tokens",
+				"assertion": "every token in parity-manifest.json#/tokens is defined in packages/tokens/css/tokens.css as a CSS custom property"
+			}
+		},
+		{
+			"id": "bulma",
+			"name": "Bulma coexistence",
+			"kind": "coexistence-layer",
+			"packageName": "@dillingerstaffing/strand",
+			"packagePath": "packages/tokens",
+			"publishable": false,
+			"sharedWith": "tokens-only",
+			"artifactPaths": [
+				"packages/tokens/bulma/strand-bulma-compat.css",
+				"packages/tokens/bulma/_strand-bulma-use.scss",
+				"packages/tokens/bulma/_strand-bulma-vars.scss"
+			],
+			"migrationGuide": "docs/migration/from-bulma.md",
+			"install": "see CONSUMERS.md section 7",
+			"parity": {
+				"type": "coexistence-mapping",
+				"manifestSection": "tokens",
+				"assertion": "strand-bulma-compat.css references every Strand token used by Bulma variables, and docs/migration/from-bulma.md class mappings correspond to real Strand CSS classes"
+			}
+		},
+		{
+			"id": "bootstrap",
+			"name": "Bootstrap coexistence",
+			"kind": "coexistence-guide",
+			"packageName": null,
+			"packagePath": null,
+			"publishable": false,
+			"sharedWith": "vanilla-html",
+			"migrationGuide": "docs/migration/from-bootstrap.md",
+			"install": "see CONSUMERS.md section 8",
+			"parity": {
+				"type": "docs-staleness",
+				"manifestSection": "cssClasses",
+				"assertion": "every Strand class name referenced in docs/migration/from-bootstrap.md exists in the built standalone strand-ui.css bundle"
+			}
+		}
+	]
+}

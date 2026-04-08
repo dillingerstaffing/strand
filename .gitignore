@@ -8,3 +8,7 @@ coverage/
 .env
 .env.*
 .gstack/
+
+# Dogfood chamber: operator-local forbidden term list, never committed.
+# See scripts/dogfood-audit.mjs for the file format.
+.dogfood-forbidden.json

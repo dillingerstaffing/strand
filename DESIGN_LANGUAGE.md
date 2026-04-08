@@ -1007,7 +1007,7 @@ The collected surface treatments must produce a felt experience that matches the
 1. Open any page with the default lab surface. Describe the materials. The answer should include "frosted glass" (nav), "controlled daylight" (overhead glow), "graph paper / cleanroom floor" (dot grid).
 2. Open a hero with `.strand-lab-surface--warm`. The answer should add "warm wood underfoot."
 3. Open a dashboard with frosted viewports. The answer should add "frosted instrument panels."
-4. Open REDACTED or any FUI surface with `.strand-instrument-viewport`. The answer should include "dark instrument cabinet inside the white lab."
+4. Open any FUI surface with `.strand-instrument-viewport`. The answer should include "dark instrument cabinet inside the white lab."
 
 If a tester describes the materials as only "white background, blue accents," the boost has not been applied. If a tester describes them as "warm and cozy" or "literary" or "dark theme," the boost has been over-applied.
 

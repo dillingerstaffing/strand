@@ -107,12 +107,11 @@
   outline-offset: 2px;
 }
 
-/* ── Consumer helpers: REDACTED channel grid ──
-   These classes are used by the REDACTED lab to lay out a
-   channel membership grid with cards that size to content and
-   an inline next-event preview row. They live in Card.css so
-   the cross-repo sync stays coherent; treat them as private
-   consumer helpers, not part of the public Strand API. */
+/* ── Channel grid helpers ──
+   Layout helpers for a content-sized card grid with an inline
+   next-event preview row. Useful for membership grids, channel
+   listings, and similar layouts where cards must size to their
+   content rather than fill a fixed cell. */
 .strand-channel-grid {
   align-items: start;
 }

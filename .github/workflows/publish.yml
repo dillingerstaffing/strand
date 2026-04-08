@@ -25,6 +25,9 @@ jobs:
       - run: pnpm build
       - run: pnpm test
 
+      - name: Cross-consumer parity check
+        run: pnpm test:parity
+
       - name: Publish @dillingerstaffing/strand
         working-directory: packages/tokens
         run: |

@@ -8,9 +8,14 @@
 
 <p align="center">
   <a href="./DESIGN_LANGUAGE.md">Design Language</a> &#183;
+  <a href="./CONSUMERS.md">Consumers</a> &#183;
   <a href="./CONTRIBUTING.md">Contributing</a> &#183;
   <a href="https://github.com/dillingerstaffing/strand/issues">Issues</a> &#183;
   <a href="https://dillingerstaffing.com/labs/strand">Official Website</a>
+</p>
+
+<p align="center">
+  Strand supports Preact, React, Svelte, Vue, vanilla HTML, tokens-only, Bulma, and Bootstrap. See <a href="./CONSUMERS.md">CONSUMERS.md</a> for the full registry and each consumer type's parity obligation.
 </p>
 
 
