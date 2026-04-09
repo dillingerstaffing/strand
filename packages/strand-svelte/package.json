@@ -1,6 +1,6 @@
 {
 	"name": "@dillingerstaffing/strand-svelte",
-	"version": "0.15.0",
+	"version": "0.15.1",
 	"description": "Strand UI - Svelte component library built on the Strand Design Language",
 	"author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
 	"license": "MIT",
