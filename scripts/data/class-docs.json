@@ -1,0 +1,625 @@
+{
+	"components": [
+		{
+			"name": "Button",
+			"description": "Primary action trigger with variants, sizes, and loading state.",
+			"classes": [
+				{ "class": "strand-btn", "description": "Base button element." },
+				{ "class": "strand-btn__content", "description": "Inner content wrapper for label and icon." },
+				{ "class": "strand-btn__spinner", "description": "Loading spinner indicator, positioned absolute within the button." },
+				{ "class": "strand-btn--primary", "description": "Primary variant with blue background." },
+				{ "class": "strand-btn--secondary", "description": "Secondary variant with outlined style." },
+				{ "class": "strand-btn--ghost", "description": "Ghost variant with transparent background." },
+				{ "class": "strand-btn--danger", "description": "Danger variant with red background." },
+				{ "class": "strand-btn--sm", "description": "Small size with consistent touch target." },
+				{ "class": "strand-btn--md", "description": "Medium size (default) with consistent touch target." },
+				{ "class": "strand-btn--lg", "description": "Large size with consistent touch target." },
+				{ "class": "strand-btn--full-width", "description": "Stretches button to fill parent width." },
+				{ "class": "strand-btn--icon-only", "description": "Square button for icon-only use." },
+				{ "class": "strand-btn--circular", "description": "Circular button shape for icon-only buttons." },
+				{ "class": "strand-btn--loading", "description": "Loading state, disables pointer events and shows spinner." }
+			],
+			"example": "<button class=\"strand-btn strand-btn--primary strand-btn--md\" type=\"button\">\n  <span class=\"strand-btn__content\">Label</span>\n</button>"
+		},
+		{
+			"name": "Input",
+			"description": "Single-line text entry field with addon support.",
+			"classes": [
+				{ "class": "strand-input", "description": "Wrapper element for the input field." },
+				{ "class": "strand-input__field", "description": "The native input element." },
+				{ "class": "strand-input__leading", "description": "Leading addon (prefix icon or text)." },
+				{ "class": "strand-input__trailing", "description": "Trailing addon (suffix icon or text)." },
+				{ "class": "strand-input--error", "description": "Error state with red border." },
+				{ "class": "strand-input--disabled", "description": "Disabled state." },
+				{ "class": "strand-input--has-leading", "description": "Wrapper modifier when leading addon is present." },
+				{ "class": "strand-input--has-trailing", "description": "Wrapper modifier when trailing addon is present." }
+			],
+			"example": "<div class=\"strand-input\">\n  <input type=\"text\" class=\"strand-input__field\" placeholder=\"Enter text\">\n</div>"
+		},
+		{
+			"name": "Textarea",
+			"description": "Multi-line text entry with optional character count.",
+			"classes": [
+				{ "class": "strand-textarea", "description": "Wrapper element for the textarea." },
+				{ "class": "strand-textarea__field", "description": "The native textarea element." },
+				{ "class": "strand-textarea__count", "description": "Character count display." },
+				{ "class": "strand-textarea--error", "description": "Error state." },
+				{ "class": "strand-textarea--disabled", "description": "Disabled state." },
+				{ "class": "strand-textarea--auto-resize", "description": "Auto-resize modifier." }
+			],
+			"example": "<div class=\"strand-textarea\">\n  <textarea class=\"strand-textarea__field\" placeholder=\"Enter text\"></textarea>\n</div>"
+		},
+		{
+			"name": "Select",
+			"description": "Option selection dropdown with custom arrow.",
+			"classes": [
+				{ "class": "strand-select", "description": "Wrapper element for the select." },
+				{ "class": "strand-select__field", "description": "The native select element." },
+				{ "class": "strand-select__arrow", "description": "Custom dropdown caret indicator." },
+				{ "class": "strand-select--error", "description": "Error state." },
+				{ "class": "strand-select--disabled", "description": "Disabled state." }
+			],
+			"example": "<div class=\"strand-select\">\n  <select class=\"strand-select__field\">\n    <option value=\"a\">Option A</option>\n  </select>\n  <span class=\"strand-select__arrow\" aria-hidden=\"true\"></span>\n</div>"
+		},
+		{
+			"name": "Checkbox",
+			"description": "Binary toggle for multiple selections with custom visual.",
+			"classes": [
+				{ "class": "strand-checkbox", "description": "Label wrapper element." },
+				{ "class": "strand-checkbox__native", "description": "Hidden native checkbox input." },
+				{ "class": "strand-checkbox__control", "description": "Custom visual control." },
+				{ "class": "strand-checkbox__icon", "description": "SVG check/dash icon inside control." },
+				{ "class": "strand-checkbox__label", "description": "Text label." },
+				{ "class": "strand-checkbox--checked", "description": "Checked state." },
+				{ "class": "strand-checkbox--indeterminate", "description": "Indeterminate state." },
+				{ "class": "strand-checkbox--disabled", "description": "Disabled state." }
+			],
+			"example": "<label class=\"strand-checkbox strand-checkbox--checked\">\n  <input type=\"checkbox\" class=\"strand-checkbox__native\" checked>\n  <span class=\"strand-checkbox__control\" aria-hidden=\"true\">\n    <svg class=\"strand-checkbox__icon\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <path d=\"M3.5 8L6.5 11L12.5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"strand-checkbox__label\">Accept terms</span>\n</label>"
+		},
+		{
+			"name": "Radio",
+			"description": "Single selection from a set with custom dot indicator.",
+			"classes": [
+				{ "class": "strand-radio", "description": "Label wrapper element." },
+				{ "class": "strand-radio__native", "description": "Hidden native radio input." },
+				{ "class": "strand-radio__control", "description": "Custom visual control." },
+				{ "class": "strand-radio__dot", "description": "Inner dot indicator." },
+				{ "class": "strand-radio__label", "description": "Text label." },
+				{ "class": "strand-radio--checked", "description": "Checked state." },
+				{ "class": "strand-radio--disabled", "description": "Disabled state." }
+			],
+			"example": "<label class=\"strand-radio strand-radio--checked\">\n  <input type=\"radio\" class=\"strand-radio__native\" name=\"group\" checked>\n  <span class=\"strand-radio__control\" aria-hidden=\"true\">\n    <span class=\"strand-radio__dot\"></span>\n  </span>\n  <span class=\"strand-radio__label\">Option A</span>\n</label>"
+		},
+		{
+			"name": "Switch",
+			"description": "Binary toggle (single) with track and thumb.",
+			"classes": [
+				{ "class": "strand-switch", "description": "Label wrapper element." },
+				{ "class": "strand-switch__track", "description": "Track button element with role=\"switch\"." },
+				{ "class": "strand-switch__thumb", "description": "Sliding thumb indicator." },
+				{ "class": "strand-switch__label", "description": "Text label." },
+				{ "class": "strand-switch--checked", "description": "Checked (on) state." },
+				{ "class": "strand-switch--disabled", "description": "Disabled state." }
+			],
+			"example": "<label class=\"strand-switch strand-switch--checked\">\n  <button type=\"button\" role=\"switch\" class=\"strand-switch__track\" aria-checked=\"true\">\n    <span class=\"strand-switch__thumb\" aria-hidden=\"true\"></span>\n  </button>\n  <span class=\"strand-switch__label\">Dark mode</span>\n</label>"
+		},
+		{
+			"name": "Slider",
+			"description": "Range value selection.",
+			"classes": [
+				{ "class": "strand-slider", "description": "Wrapper element." },
+				{ "class": "strand-slider__field", "description": "Native range input." },
+				{ "class": "strand-slider--disabled", "description": "Disabled state." }
+			],
+			"example": "<div class=\"strand-slider\">\n  <input type=\"range\" class=\"strand-slider__field\" min=\"0\" max=\"100\" value=\"50\">\n</div>"
+		},
+		{
+			"name": "FormField",
+			"description": "Label + input + hint + error wrapper for form composition.",
+			"classes": [
+				{ "class": "strand-form-field", "description": "Wrapper element." },
+				{ "class": "strand-form-field__label", "description": "Field label with monospace uppercase styling." },
+				{ "class": "strand-form-field__control", "description": "Control wrapper for any input component." },
+				{ "class": "strand-form-field__hint", "description": "Hint text below the control." },
+				{ "class": "strand-form-field__error", "description": "Error message (replaces hint in error state)." },
+				{ "class": "strand-form-field__required", "description": "Required indicator asterisk." },
+				{ "class": "strand-form-field--error", "description": "Error state modifier." }
+			],
+			"example": "<div class=\"strand-form-field\">\n  <label class=\"strand-form-field__label\" for=\"email\">Email</label>\n  <div class=\"strand-form-field__control\">\n    <div class=\"strand-input\">\n      <input type=\"email\" id=\"email\" class=\"strand-input__field\">\n    </div>\n  </div>\n  <p class=\"strand-form-field__hint\">We will never share your email.</p>\n</div>"
+		},
+		{
+			"name": "Card",
+			"description": "Content container with elevation and padding variants.",
+			"classes": [
+				{ "class": "strand-card", "description": "Base card element with default elevation." },
+				{ "class": "strand-card--elevated", "description": "Elevated variant (default shadow, same as base)." },
+				{ "class": "strand-card--outlined", "description": "Outlined variant with visible border, no shadow." },
+				{ "class": "strand-card--flat", "description": "Flat variant with no shadow or border." },
+				{ "class": "strand-card--warm", "description": "Warm shadow variant for showcase contexts." },
+				{ "class": "strand-card--interactive", "description": "Clickable card with hover lift and cursor pointer." },
+				{ "class": "strand-card--active", "description": "Semantic hook for active state. No visual treatment applied." },
+				{ "class": "strand-card--pad-none", "description": "No padding." },
+				{ "class": "strand-card--pad-sm", "description": "Small padding (16px)." },
+				{ "class": "strand-card--pad-md", "description": "Medium padding (24px)." },
+				{ "class": "strand-card--pad-lg", "description": "Large padding (32px)." },
+				{ "class": "strand-card--pad-xl", "description": "Extra-large padding (40px)." }
+			],
+			"example": "<div class=\"strand-card strand-card--elevated strand-card--pad-md\">\n  Card content here.\n</div>"
+		},
+		{
+			"name": "Badge",
+			"description": "Status or count indicator that wraps a child element.",
+			"classes": [
+				{ "class": "strand-badge", "description": "Wrapper element (positions indicator at top-right of child)." },
+				{ "class": "strand-badge--inline", "description": "Standalone inline badge without wrapping a child." },
+				{ "class": "strand-badge__indicator", "description": "The indicator element (dot or count pill)." },
+				{ "class": "strand-badge--dot", "description": "8px circle indicator, no text." },
+				{ "class": "strand-badge--count", "description": "Pill indicator with number text." },
+				{ "class": "strand-badge--default", "description": "Default color." },
+				{ "class": "strand-badge--teal", "description": "Teal color." },
+				{ "class": "strand-badge--blue", "description": "Blue color." },
+				{ "class": "strand-badge--amber", "description": "Amber color." },
+				{ "class": "strand-badge--red", "description": "Red color." }
+			],
+			"example": "<span class=\"strand-badge strand-badge--inline\">\n  <span class=\"strand-badge__indicator strand-badge--count strand-badge--blue\">5</span>\n</span>"
+		},
+		{
+			"name": "Avatar",
+			"description": "User or entity representation with image or initials.",
+			"classes": [
+				{ "class": "strand-avatar", "description": "Base avatar element." },
+				{ "class": "strand-avatar__img", "description": "Image element inside avatar." },
+				{ "class": "strand-avatar__initials", "description": "Initials fallback text." },
+				{ "class": "strand-avatar--sm", "description": "Small size (32px)." },
+				{ "class": "strand-avatar--md", "description": "Medium size (40px)." },
+				{ "class": "strand-avatar--lg", "description": "Large size (48px)." },
+				{ "class": "strand-avatar--xl", "description": "Extra-large size (64px)." }
+			],
+			"example": "<div class=\"strand-avatar strand-avatar--md\" role=\"img\" aria-label=\"JS\">\n  <span class=\"strand-avatar__initials\" aria-hidden=\"true\">JS</span>\n</div>"
+		},
+		{
+			"name": "Tag",
+			"description": "Categorization label with optional remove button.",
+			"classes": [
+				{ "class": "strand-tag", "description": "Base tag element." },
+				{ "class": "strand-tag__text", "description": "Tag text content." },
+				{ "class": "strand-tag__remove", "description": "Remove button." },
+				{ "class": "strand-tag--solid", "description": "Solid filled variant." },
+				{ "class": "strand-tag--outlined", "description": "Outlined variant." },
+				{ "class": "strand-tag--default", "description": "Default color." },
+				{ "class": "strand-tag--teal", "description": "Teal color." },
+				{ "class": "strand-tag--blue", "description": "Blue color." },
+				{ "class": "strand-tag--amber", "description": "Amber color." },
+				{ "class": "strand-tag--red", "description": "Red color." }
+			],
+			"example": "<span class=\"strand-tag strand-tag--solid strand-tag--blue\">\n  <span class=\"strand-tag__text\">Design</span>\n</span>"
+		},
+		{
+			"name": "Table",
+			"description": "Tabular data display with sortable headers.",
+			"classes": [
+				{ "class": "strand-table-wrapper", "description": "Responsive scroll wrapper." },
+				{ "class": "strand-table", "description": "Base table element." },
+				{ "class": "strand-table__head", "description": "Table header group (thead)." },
+				{ "class": "strand-table__body", "description": "Table body group (tbody)." },
+				{ "class": "strand-table__row", "description": "Table row with hover highlight." },
+				{ "class": "strand-table__th", "description": "Table header cell (monospaced, uppercase, tracked)." },
+				{ "class": "strand-table__td", "description": "Table data cell." },
+				{ "class": "strand-table__sort-btn", "description": "Sortable column header button." },
+				{ "class": "strand-table__sort-indicator", "description": "Sort direction indicator." }
+			],
+			"example": "<div class=\"strand-table-wrapper\">\n  <table class=\"strand-table\">\n    <thead class=\"strand-table__head\">\n      <tr><th class=\"strand-table__th\">Name</th></tr>\n    </thead>\n    <tbody class=\"strand-table__body\">\n      <tr class=\"strand-table__row\"><td class=\"strand-table__td\">Alice</td></tr>\n    </tbody>\n  </table>\n</div>"
+		},
+		{
+			"name": "DataReadout",
+			"description": "Monospace metric display with label and value.",
+			"classes": [
+				{ "class": "strand-data-readout", "description": "Base readout element." },
+				{ "class": "strand-data-readout__label", "description": "Monospace uppercase label." },
+				{ "class": "strand-data-readout__value", "description": "Large numeric value." },
+				{ "class": "strand-data-readout--sm", "description": "Small size (text-xl)." },
+				{ "class": "strand-data-readout--lg", "description": "Large size (text-4xl)." },
+				{ "class": "strand-data-readout--xl", "description": "Extra-large size (fluid 72-112px)." }
+			],
+			"example": "<div class=\"strand-data-readout\">\n  <span class=\"strand-data-readout__label\">Revenue</span>\n  <span class=\"strand-data-readout__value\">$142,800</span>\n</div>"
+		},
+		{
+			"name": "CodeBlock",
+			"description": "Code snippet display with optional language label.",
+			"classes": [
+				{ "class": "strand-code-block", "description": "Block-level code container." },
+				{ "class": "strand-code-block__label", "description": "Language label (monospace uppercase overline)." },
+				{ "class": "strand-code-block__pre", "description": "Pre-formatted code wrapper." },
+				{ "class": "strand-code-block__copy", "description": "Copy-to-clipboard button." },
+				{ "class": "strand-code-block__copy--copied", "description": "Copied state for the copy button." },
+				{ "class": "strand-code-block__copy-icon", "description": "Icon container in copy button." },
+				{ "class": "strand-code-block__copy-icon--clipboard", "description": "Clipboard icon variant." },
+				{ "class": "strand-code-block__copy-icon--check", "description": "Check icon variant (shown after copy)." },
+				{ "class": "strand-code-inline", "description": "Inline code element." }
+			],
+			"example": "<div class=\"strand-code-block\">\n  <span class=\"strand-code-block__label\">bash</span>\n  <pre class=\"strand-code-block__pre\"><code>npm install @dillingerstaffing/strand</code></pre>\n</div>"
+		},
+		{
+			"name": "Stack",
+			"description": "Flex layout primitive with direction, gap, and alignment.",
+			"classes": [
+				{ "class": "strand-stack", "description": "Base flex container." },
+				{ "class": "strand-stack--vertical", "description": "Column direction." },
+				{ "class": "strand-stack--horizontal", "description": "Row direction." },
+				{ "class": "strand-stack--align-start", "description": "Align items to start." },
+				{ "class": "strand-stack--align-center", "description": "Align items to center." },
+				{ "class": "strand-stack--align-end", "description": "Align items to end." },
+				{ "class": "strand-stack--justify-start", "description": "Justify content to start." },
+				{ "class": "strand-stack--justify-center", "description": "Justify content to center." },
+				{ "class": "strand-stack--justify-end", "description": "Justify content to end." },
+				{ "class": "strand-stack--justify-between", "description": "Justify content with space-between." },
+				{ "class": "strand-stack--justify-around", "description": "Justify content with space-around." },
+				{ "class": "strand-stack--wrap", "description": "Enable flex wrap." },
+				{ "class": "strand-stack--responsive", "description": "Collapse horizontal to vertical at 768px." },
+				{ "class": "strand-stack__item--full-mobile", "description": "Full-width child on mobile in responsive mode." },
+				{ "class": "strand-stack--gap-1", "description": "Gap: space-1 (4px)." },
+				{ "class": "strand-stack--gap-2", "description": "Gap: space-2 (8px)." },
+				{ "class": "strand-stack--gap-3", "description": "Gap: space-3 (12px)." },
+				{ "class": "strand-stack--gap-4", "description": "Gap: space-4 (16px)." },
+				{ "class": "strand-stack--gap-5", "description": "Gap: space-5 (20px)." },
+				{ "class": "strand-stack--gap-6", "description": "Gap: space-6 (24px)." },
+				{ "class": "strand-stack--gap-8", "description": "Gap: space-8 (32px)." }
+			],
+			"example": "<div class=\"strand-stack strand-stack--vertical strand-stack--gap-4\">\n  <div>Item 1</div>\n  <div>Item 2</div>\n</div>"
+		},
+		{
+			"name": "Grid",
+			"description": "CSS Grid layout primitive with column and gap utilities.",
+			"classes": [
+				{ "class": "strand-grid", "description": "Base grid container." },
+				{ "class": "strand-grid--cols-2", "description": "2-column layout." },
+				{ "class": "strand-grid--cols-3", "description": "3-column layout." },
+				{ "class": "strand-grid--cols-4", "description": "4-column layout." },
+				{ "class": "strand-grid--auto-sm", "description": "Auto-fit columns, 200px minimum." },
+				{ "class": "strand-grid--auto-220", "description": "Auto-fit columns, 220px minimum." },
+				{ "class": "strand-grid--auto-md", "description": "Auto-fit columns, 280px minimum." },
+				{ "class": "strand-grid--auto-260", "description": "Auto-fit columns, 260px minimum." },
+				{ "class": "strand-grid--auto-lg", "description": "Auto-fit columns, 360px minimum." },
+				{ "class": "strand-grid--gap-1", "description": "Gap: space-1 (4px)." },
+				{ "class": "strand-grid--gap-2", "description": "Gap: space-2 (8px)." },
+				{ "class": "strand-grid--gap-3", "description": "Gap: space-3 (12px)." },
+				{ "class": "strand-grid--gap-4", "description": "Gap: space-4 (16px)." },
+				{ "class": "strand-grid--gap-5", "description": "Gap: space-5 (20px)." },
+				{ "class": "strand-grid--gap-6", "description": "Gap: space-6 (24px)." },
+				{ "class": "strand-grid--gap-8", "description": "Gap: space-8 (32px)." }
+			],
+			"example": "<div class=\"strand-grid strand-grid--cols-3 strand-grid--gap-4\">\n  <div>Cell 1</div>\n  <div>Cell 2</div>\n  <div>Cell 3</div>\n</div>"
+		},
+		{
+			"name": "Container",
+			"description": "Width constraint with centered content.",
+			"classes": [
+				{ "class": "strand-container", "description": "Base container with auto margins." },
+				{ "class": "strand-container--narrow", "description": "Max width 640px." },
+				{ "class": "strand-container--default", "description": "Max width 768px." },
+				{ "class": "strand-container--wide", "description": "Max width 1024px." },
+				{ "class": "strand-container--full", "description": "Max width 1280px." }
+			],
+			"example": "<div class=\"strand-container strand-container--default\">\n  Centered content.\n</div>"
+		},
+		{
+			"name": "Divider",
+			"description": "Visual separator (horizontal or vertical).",
+			"classes": [
+				{ "class": "strand-divider", "description": "Base divider element." },
+				{ "class": "strand-divider--horizontal", "description": "Horizontal orientation." },
+				{ "class": "strand-divider--vertical", "description": "Vertical orientation." },
+				{ "class": "strand-divider--gradient", "description": "Gradient fade effect." },
+				{ "class": "strand-divider--labeled", "description": "Divider with centered text label." },
+				{ "class": "strand-divider__line", "description": "Line segment in labeled divider." },
+				{ "class": "strand-divider__label", "description": "Text label in labeled divider." }
+			],
+			"example": "<hr class=\"strand-divider strand-divider--horizontal\" role=\"separator\">"
+		},
+		{
+			"name": "Section",
+			"description": "Page section with padding, background, and scroll-target variants.",
+			"classes": [
+				{ "class": "strand-section", "description": "Base section element." },
+				{ "class": "strand-section--standard", "description": "Standard section padding." },
+				{ "class": "strand-section--hero-compact", "description": "Tighter hero padding for secondary CTA visibility." },
+				{ "class": "strand-section--hero", "description": "Hero section padding." },
+				{ "class": "strand-section--hero-xl", "description": "Extra-generous hero padding for marketing pages." },
+				{ "class": "strand-section--compact", "description": "Compact section padding (space-12)." },
+				{ "class": "strand-section--bg-primary", "description": "Primary surface background." },
+				{ "class": "strand-section--bg-elevated", "description": "Elevated surface background." },
+				{ "class": "strand-section--bg-recessed", "description": "Recessed surface background." },
+				{ "class": "strand-section--border-top", "description": "1px top border for visual separation." },
+				{ "class": "strand-section--scroll-target", "description": "Adds scroll-margin-top for anchor offset." }
+			],
+			"example": "<section class=\"strand-section strand-section--standard strand-section--bg-primary\">\n  <div class=\"strand-container strand-container--default\">Content</div>\n</section>"
+		},
+		{
+			"name": "Link",
+			"description": "Inline navigation link with animated underline.",
+			"classes": [
+				{ "class": "strand-link", "description": "Base link with animated underline on hover." },
+				{ "class": "strand-link--cta", "description": "Call-to-action link with touch-target height." },
+				{ "class": "strand-link--mono", "description": "Monospace overline-style link for footers." }
+			],
+			"example": "<a href=\"/about\" class=\"strand-link\">About us</a>"
+		},
+		{
+			"name": "Tabs",
+			"description": "Content switching with accessible tab pattern.",
+			"classes": [
+				{ "class": "strand-tabs", "description": "Tab container." },
+				{ "class": "strand-tabs__tab", "description": "Individual tab button." },
+				{ "class": "strand-tabs__tab--active", "description": "Active tab state." },
+				{ "class": "strand-tabs__panel--reveal", "description": "Panel entrance animation." },
+				{ "class": "strand-tabs--instrument", "description": "Instrument viewport variant for tabs." }
+			],
+			"example": "<div class=\"strand-tabs\">\n  <div role=\"tablist\">\n    <button role=\"tab\" class=\"strand-tabs__tab strand-tabs__tab--active\" aria-selected=\"true\">Tab 1</button>\n  </div>\n</div>"
+		},
+		{
+			"name": "Breadcrumb",
+			"description": "Hierarchical location indicator.",
+			"classes": [
+				{ "class": "strand-breadcrumb", "description": "Nav wrapper element." },
+				{ "class": "strand-breadcrumb__list", "description": "Ordered list of breadcrumb items." },
+				{ "class": "strand-breadcrumb__item", "description": "Individual breadcrumb item." },
+				{ "class": "strand-breadcrumb__link", "description": "Clickable breadcrumb link." },
+				{ "class": "strand-breadcrumb__separator", "description": "Separator between items (aria-hidden)." },
+				{ "class": "strand-breadcrumb__current", "description": "Current page indicator (aria-current)." }
+			],
+			"example": "<nav aria-label=\"Breadcrumb\" class=\"strand-breadcrumb\">\n  <ol class=\"strand-breadcrumb__list\">\n    <li class=\"strand-breadcrumb__item\">\n      <a href=\"/\" class=\"strand-breadcrumb__link\">Home</a>\n    </li>\n  </ol>\n</nav>"
+		},
+		{
+			"name": "Nav",
+			"description": "Site/app navigation with mobile menu and glass variant.",
+			"classes": [
+				{ "class": "strand-nav", "description": "Base nav element." },
+				{ "class": "strand-nav__inner", "description": "Inner flex layout container." },
+				{ "class": "strand-nav__logo", "description": "Logo/brand area (mono uppercase tracked)." },
+				{ "class": "strand-nav__logo--pulse", "description": "Animated pulse underline on logo." },
+				{ "class": "strand-nav__items", "description": "Navigation links container." },
+				{ "class": "strand-nav__link", "description": "Desktop navigation link." },
+				{ "class": "strand-nav__link--active", "description": "Active desktop link state." },
+				{ "class": "strand-nav__slot", "description": "Right-edge content slot (account, utility)." },
+				{ "class": "strand-nav__actions", "description": "Actions area." },
+				{ "class": "strand-nav__hamburger", "description": "Mobile menu toggle button." },
+				{ "class": "strand-nav__hamburger-icon", "description": "Hamburger icon lines." },
+				{ "class": "strand-nav__mobile-menu", "description": "Mobile navigation panel." },
+				{ "class": "strand-nav__mobile-menu--open", "description": "Open state for mobile menu." },
+				{ "class": "strand-nav__mobile-link", "description": "Mobile navigation link." },
+				{ "class": "strand-nav__mobile-link--active", "description": "Active mobile link state." },
+				{ "class": "strand-nav__title", "description": "Nav title text." },
+				{ "class": "strand-nav__title-tag", "description": "Nav title tag element." },
+				{ "class": "strand-nav--glass", "description": "Fixed glassmorphic nav with frosted backdrop." },
+				{ "class": "strand-nav--scrolled", "description": "Scrolled state with subtle shadow." },
+				{ "class": "strand-nav--instrument", "description": "Instrument viewport nav variant." }
+			],
+			"example": "<nav class=\"strand-nav\" aria-label=\"Main navigation\">\n  <div class=\"strand-nav__inner\">\n    <div class=\"strand-nav__logo\"><strong>Brand</strong></div>\n    <div class=\"strand-nav__items\">\n      <a href=\"/\" class=\"strand-nav__link strand-nav__link--active\">Home</a>\n    </div>\n  </div>\n</nav>"
+		},
+		{
+			"name": "Toast",
+			"description": "Transient notification with status variants.",
+			"classes": [
+				{ "class": "strand-toast", "description": "Base toast element." },
+				{ "class": "strand-toast__container", "description": "Fixed stacking container (bottom-right)." },
+				{ "class": "strand-toast__status", "description": "Status prefix label." },
+				{ "class": "strand-toast__message", "description": "Message text." },
+				{ "class": "strand-toast__dismiss", "description": "Dismiss button." },
+				{ "class": "strand-toast--info", "description": "Info status." },
+				{ "class": "strand-toast--success", "description": "Success status." },
+				{ "class": "strand-toast--warning", "description": "Warning status." },
+				{ "class": "strand-toast--error", "description": "Error status." }
+			],
+			"example": "<div class=\"strand-toast strand-toast--info\" role=\"status\" aria-live=\"polite\">\n  <span class=\"strand-toast__status\">INFO</span>\n  <span class=\"strand-toast__message\">Changes saved.</span>\n  <button class=\"strand-toast__dismiss\" aria-label=\"Dismiss\">&times;</button>\n</div>"
+		},
+		{
+			"name": "Alert",
+			"description": "Persistent notification with status variants.",
+			"classes": [
+				{ "class": "strand-alert", "description": "Base alert element." },
+				{ "class": "strand-alert__status", "description": "Status prefix label." },
+				{ "class": "strand-alert__content", "description": "Alert message content." },
+				{ "class": "strand-alert__dismiss", "description": "Dismiss button." },
+				{ "class": "strand-alert--info", "description": "Info status." },
+				{ "class": "strand-alert--success", "description": "Success status." },
+				{ "class": "strand-alert--warning", "description": "Warning status." },
+				{ "class": "strand-alert--error", "description": "Error status." }
+			],
+			"example": "<div class=\"strand-alert strand-alert--info\" role=\"status\">\n  <span class=\"strand-alert__status\">INFO</span>\n  <div class=\"strand-alert__content\">This is an informational message.</div>\n</div>"
+		},
+		{
+			"name": "Banner",
+			"description": "Top-of-page notification banner.",
+			"classes": [
+				{ "class": "strand-banner", "description": "Base banner element, fixed to top." },
+				{ "class": "strand-banner__text", "description": "Banner message text." },
+				{ "class": "strand-banner__dismiss", "description": "Dismiss button." },
+				{ "class": "strand-banner--info", "description": "Info variant (blue)." },
+				{ "class": "strand-banner--warning", "description": "Warning variant (amber)." },
+				{ "class": "strand-banner--critical", "description": "Critical variant (red)." }
+			],
+			"example": "<div class=\"strand-banner strand-banner--info\">\n  <p class=\"strand-banner__text\">Scheduled maintenance tonight.</p>\n  <button class=\"strand-banner__dismiss\" aria-label=\"Dismiss\">...</button>\n</div>"
+		},
+		{
+			"name": "Dialog",
+			"description": "Modal overlay with backdrop, panel, and focus trap.",
+			"classes": [
+				{ "class": "strand-dialog__backdrop", "description": "Full-viewport overlay backdrop." },
+				{ "class": "strand-dialog__panel", "description": "Centered dialog panel (max-width 560px)." },
+				{ "class": "strand-dialog__header", "description": "Dialog header area." },
+				{ "class": "strand-dialog__title", "description": "Dialog title text." },
+				{ "class": "strand-dialog__close", "description": "Close button." },
+				{ "class": "strand-dialog__body", "description": "Dialog content area." }
+			],
+			"example": "<div class=\"strand-dialog__backdrop\">\n  <div class=\"strand-dialog__panel\" role=\"dialog\" aria-modal=\"true\">\n    <div class=\"strand-dialog__header\">\n      <h2 class=\"strand-dialog__title\">Confirm</h2>\n    </div>\n    <button class=\"strand-dialog__close\" aria-label=\"Close\">&times;</button>\n    <div class=\"strand-dialog__body\">Content</div>\n  </div>\n</div>"
+		},
+		{
+			"name": "Tooltip",
+			"description": "Contextual hint with position variants.",
+			"classes": [
+				{ "class": "strand-tooltip__wrapper", "description": "Wrapper for the trigger element." },
+				{ "class": "strand-tooltip", "description": "Tooltip content element." },
+				{ "class": "strand-tooltip--top", "description": "Position above trigger." },
+				{ "class": "strand-tooltip--right", "description": "Position to the right." },
+				{ "class": "strand-tooltip--bottom", "description": "Position below trigger." },
+				{ "class": "strand-tooltip--left", "description": "Position to the left." },
+				{ "class": "strand-tooltip--visible", "description": "Show the tooltip." }
+			],
+			"example": "<span class=\"strand-tooltip__wrapper\" aria-describedby=\"tip-1\">\n  Hover me\n  <span id=\"tip-1\" class=\"strand-tooltip strand-tooltip--top\" role=\"tooltip\">Helpful tip</span>\n</span>"
+		},
+		{
+			"name": "Progress",
+			"description": "Completion indicator (bar or ring).",
+			"classes": [
+				{ "class": "strand-progress", "description": "Base progress element." },
+				{ "class": "strand-progress--bar", "description": "Bar variant." },
+				{ "class": "strand-progress--ring", "description": "Ring (circular) variant." },
+				{ "class": "strand-progress__fill", "description": "Fill track element." },
+				{ "class": "strand-progress__ring", "description": "SVG ring element." },
+				{ "class": "strand-progress__track", "description": "Ring background track." },
+				{ "class": "strand-progress--indeterminate", "description": "Indeterminate animation state." },
+				{ "class": "strand-progress--sm", "description": "Small size (bar: 4px, ring: 24px)." },
+				{ "class": "strand-progress--md", "description": "Medium size (bar: 8px, ring: 40px)." },
+				{ "class": "strand-progress--lg", "description": "Large size (bar: 12px, ring: 56px)." }
+			],
+			"example": "<div class=\"strand-progress strand-progress--bar strand-progress--md\" role=\"progressbar\"\n  aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"65\">\n  <div class=\"strand-progress__fill\" style=\"width: 65%;\"></div>\n</div>"
+		},
+		{
+			"name": "Spinner",
+			"description": "Loading indicator with accessible text.",
+			"classes": [
+				{ "class": "strand-spinner", "description": "Base spinner element." },
+				{ "class": "strand-spinner__ring", "description": "Spinning ring visual." },
+				{ "class": "strand-spinner__sr-only", "description": "Screen-reader-only loading text." },
+				{ "class": "strand-spinner--sm", "description": "Small size (16px)." },
+				{ "class": "strand-spinner--md", "description": "Medium size (20px)." },
+				{ "class": "strand-spinner--lg", "description": "Large size (32px)." }
+			],
+			"example": "<span class=\"strand-spinner strand-spinner--md\" role=\"status\">\n  <span class=\"strand-spinner__ring\" aria-hidden=\"true\"></span>\n  <span class=\"strand-spinner__sr-only\">Loading</span>\n</span>"
+		},
+		{
+			"name": "Skeleton",
+			"description": "Content placeholder with shimmer animation.",
+			"classes": [
+				{ "class": "strand-skeleton", "description": "Base skeleton element." },
+				{ "class": "strand-skeleton--text", "description": "Text placeholder (small radius)." },
+				{ "class": "strand-skeleton--rectangle", "description": "Rectangle placeholder (medium radius)." },
+				{ "class": "strand-skeleton--circle", "description": "Circle placeholder (full radius)." },
+				{ "class": "strand-skeleton--shimmer", "description": "Shimmer animation effect." }
+			],
+			"example": "<div class=\"strand-skeleton strand-skeleton--text strand-skeleton--shimmer\" aria-hidden=\"true\"\n  style=\"width: 100%; height: 1em;\"></div>"
+		},
+		{
+			"name": "InstrumentViewport",
+			"description": "Dark instrument panel container for data-dense content.",
+			"classes": [
+				{ "class": "strand-instrument-viewport", "description": "Dark viewport surface." },
+				{ "class": "strand-instrument-viewport--grid", "description": "Grid overlay variant." }
+			],
+			"example": "<div class=\"strand-instrument-viewport\">\n  <!-- Dark data-dense content -->\n</div>"
+		},
+		{
+			"name": "ScrollReveal",
+			"description": "Scroll-triggered entrance animation.",
+			"classes": [
+				{ "class": "strand-reveal", "description": "Element with scroll-triggered fade-up." },
+				{ "class": "strand-reveal--visible", "description": "Visible state after scroll trigger." },
+				{ "class": "strand-reveal-group", "description": "Group container for staggered reveals." }
+			],
+			"example": "<div class=\"strand-reveal\">Fades up on scroll</div>\n\n<div class=\"strand-reveal-group\">\n  <div class=\"strand-reveal\">Staggers 0ms</div>\n  <div class=\"strand-reveal\">Staggers 80ms</div>\n</div>"
+		}
+	],
+	"global": {
+		"name": "Global",
+		"description": "Utilities, molecules, typography, and empty states from static.css.",
+		"classes": [
+			{ "class": "strand-static", "description": "Presentation mode: full opacity, no transitions." },
+			{ "class": "strand-viewport", "description": "Recessed viewport for component previews." },
+			{ "class": "strand-viewport--flex", "description": "Flex layout viewport (center-aligned, gap-4, wrap)." },
+			{ "class": "strand-viewport--flex-col", "description": "Flex column layout viewport." },
+			{ "class": "strand-viewport--frosted", "description": "Frosted glass viewport variant." },
+			{ "class": "strand-glass-surface", "description": "Frosted-glass treatment for any surface." },
+			{ "class": "strand-overline", "description": "Monospace uppercase tracked label (specimen label pattern)." },
+			{ "class": "strand-overline--accent", "description": "Accent (blue) overline variant." },
+			{ "class": "strand-overline--pulse", "description": "Overline with animated pulse dot prefix." },
+			{ "class": "strand-headline", "description": "Display heading (mono uppercase, light weight)." },
+			{ "class": "strand-headline--xl", "description": "Hero-size headline (fluid 2.5-5rem)." },
+			{ "class": "strand-headline--lg", "description": "Section-size headline (fluid 1.5-2.5rem)." },
+			{ "class": "strand-headline--md", "description": "Medium headline size." },
+			{ "class": "strand-headline--mono", "description": "Mono-family headline with sentence case." },
+			{ "class": "strand-headline--gradient", "description": "Gradient text fill for hero headlines." },
+			{ "class": "strand-title", "description": "Human voice display heading (sans-serif, light)." },
+			{ "class": "strand-lead", "description": "Intro paragraph (text-lg, gray-500, max 50ch)." },
+			{ "class": "strand-text-secondary", "description": "Caption/description text (text-sm, gray-500)." },
+			{ "class": "strand-text-secondary--xs", "description": "Extra-small secondary text for metadata." },
+			{ "class": "strand-code-name", "description": "Mono identifier heading (component names, API ids)." },
+			{ "class": "strand-heading--sm", "description": "Section heading inside cards (text-lg, medium)." },
+			{ "class": "strand-sr-only", "description": "Visually hidden, accessible to screen readers." },
+			{ "class": "strand-text-center", "description": "Center text alignment." },
+			{ "class": "strand-section-header", "description": "Section heading group with bottom margin." },
+			{ "class": "strand-step-indicator", "description": "Numbered position indicator (32px circle)." },
+			{ "class": "strand-steps-connected", "description": "Visual connectors between step cards." },
+			{ "class": "strand-card-section", "description": "Card sub-section with border and space-between." },
+			{ "class": "strand-kv", "description": "Key-value row (label + value, space-between)." },
+			{ "class": "strand-kv__label", "description": "Key-value label (mono uppercase)." },
+			{ "class": "strand-kv__value", "description": "Key-value data (mono, tabular-nums)." },
+			{ "class": "strand-kv__value--status", "description": "Status-colored key-value data." },
+			{ "class": "strand-log", "description": "Diagnostic log entry row." },
+			{ "class": "strand-log__time", "description": "Log timestamp." },
+			{ "class": "strand-log__status", "description": "Log status label." },
+			{ "class": "strand-log__status--complete", "description": "Complete log status (teal)." },
+			{ "class": "strand-log__status--process", "description": "In-process log status (blue)." },
+			{ "class": "strand-log__status--warning", "description": "Warning log status (amber)." },
+			{ "class": "strand-log__status--error", "description": "Error log status (red)." },
+			{ "class": "strand-metric-row", "description": "Centered metric group with responsive gap." },
+			{ "class": "strand-bar-chart", "description": "Bar chart container." },
+			{ "class": "strand-bar-chart__col", "description": "Bar chart column." },
+			{ "class": "strand-bar-chart__bar", "description": "Bar chart bar element." },
+			{ "class": "strand-bar-chart__amount", "description": "Bar chart amount label." },
+			{ "class": "strand-bar-chart__label", "description": "Bar chart axis label." },
+			{ "class": "strand-footer", "description": "Page footer with border-top." },
+			{ "class": "strand-footer__nav", "description": "Footer navigation links." },
+			{ "class": "strand-footer__link", "description": "Footer link (mono, xs, tracked)." },
+			{ "class": "strand-footer__copy", "description": "Footer copyright text." },
+			{ "class": "strand-form-grid", "description": "Form layout grid with consistent gap." },
+			{ "class": "strand-form-row", "description": "Side-by-side form fields (responsive)." },
+			{ "class": "strand-honeypot", "description": "Hidden honeypot field for bot prevention." },
+			{ "class": "strand-hero-bg", "description": "Full-bleed hero background container." },
+			{ "class": "strand-pulse", "description": "Pulsing alive indicator dot." },
+			{ "class": "strand-auth-indicator", "description": "Signed-in text indicator for nav." },
+			{ "class": "strand-auth-avatar", "description": "Small avatar circle for nav." },
+			{ "class": "strand-status-chip", "description": "Inline status classification pill." },
+			{ "class": "strand-status-chip--live", "description": "Live status chip (teal tint)." },
+			{ "class": "strand-status-chip--neutral", "description": "Neutral status chip (gray tint)." },
+			{ "class": "strand-status-chip--accent", "description": "Accent status chip (blue tint)." },
+			{ "class": "strand-status-chip--caution", "description": "Caution status chip (amber tint)." },
+			{ "class": "strand-idle-readout", "description": "Empty-state data readout showing placeholder." },
+			{ "class": "strand-empty-collection", "description": "Empty list/grid state with centered message." },
+			{ "class": "strand-empty-collection__message", "description": "Empty collection message text." },
+			{ "class": "strand-empty-collection__action", "description": "Empty collection call-to-action link." },
+			{ "class": "strand-empty-search", "description": "Empty search results state." },
+			{ "class": "strand-empty-search__count", "description": "Empty search count (e.g. '0 matches')." },
+			{ "class": "strand-empty-search__suggestion", "description": "Empty search suggestion text." },
+			{ "class": "strand-block", "description": "display: block utility." },
+			{ "class": "strand-flex-1", "description": "flex: 1 utility." },
+			{ "class": "strand-min-w-0", "description": "min-width: 0 utility." },
+			{ "class": "strand-full-width", "description": "width: 100% utility." },
+			{ "class": "strand-w-full", "description": "width: 100% utility (alias)." },
+			{ "class": "strand-mt-1", "description": "Margin-top: space-1." },
+			{ "class": "strand-mt-2", "description": "Margin-top: space-2." },
+			{ "class": "strand-mt-3", "description": "Margin-top: space-3." },
+			{ "class": "strand-mt-4", "description": "Margin-top: space-4." },
+			{ "class": "strand-mt-5", "description": "Margin-top: space-5." },
+			{ "class": "strand-mt-6", "description": "Margin-top: space-6." },
+			{ "class": "strand-mt-8", "description": "Margin-top: space-8." },
+			{ "class": "strand-mb-1", "description": "Margin-bottom: space-1." },
+			{ "class": "strand-mb-2", "description": "Margin-bottom: space-2." },
+			{ "class": "strand-mb-3", "description": "Margin-bottom: space-3." },
+			{ "class": "strand-mb-4", "description": "Margin-bottom: space-4." },
+			{ "class": "strand-mb-5", "description": "Margin-bottom: space-5." },
+			{ "class": "strand-mb-6", "description": "Margin-bottom: space-6." },
+			{ "class": "strand-mb-8", "description": "Margin-bottom: space-8." },
+			{ "class": "strand-mx-auto", "description": "Horizontal auto margins for centering." }
+		]
+	}
+}

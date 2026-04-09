@@ -28,7 +28,7 @@
 		"dogfood": "node scripts/dogfood-scaffold.mjs",
 		"audit-dogfood": "node scripts/dogfood-audit.mjs",
 		"purity-scan": "node scripts/purity-scan.mjs",
-		"build:agent-surfaces": "node scripts/build-agent-surfaces.mjs",
+		"build:docs": "node scripts/build-docs.mjs",
 		"test:scripts": "vitest run --config vitest.config.mjs",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write ."

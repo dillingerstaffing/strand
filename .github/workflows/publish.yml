@@ -102,6 +102,21 @@ jobs:
             echo "Skipped strand-ui@$LOCAL (already published)"
           fi
 
+      - name: Tag release version
+        run: |
+          CHANGED=false
+          for pkg in packages/tokens/package.json packages/strand-ui/package.json packages/strand-vue/package.json packages/strand-svelte/package.json packages/cli/package.json; do
+            if git diff HEAD~1 HEAD -- "$pkg" | grep -q '"version"'; then
+              CHANGED=true
+              break
+            fi
+          done
+          if [ "$CHANGED" = "true" ]; then
+            VERSION=$(node -p "require('./packages/tokens/package.json').version")
+            git tag "v${VERSION}" || echo "Tag v${VERSION} already exists"
+            git push origin "v${VERSION}" || echo "Tag push skipped"
+          fi
+
       - name: Create release if versions changed
         run: |
           CHANGED=false

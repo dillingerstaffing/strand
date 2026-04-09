@@ -1,0 +1,82 @@
+[
+	{
+		"bootstrap": "--bs-primary / $primary",
+		"strand": "--strand-blue-primary"
+	},
+	{
+		"bootstrap": "--bs-secondary / $secondary",
+		"strand": "--strand-gray-500"
+	},
+	{
+		"bootstrap": "--bs-success / $success",
+		"strand": "--strand-teal-vital"
+	},
+	{
+		"bootstrap": "--bs-info / $info",
+		"strand": "--strand-blue-indicator"
+	},
+	{
+		"bootstrap": "--bs-warning / $warning",
+		"strand": "--strand-amber-caution"
+	},
+	{
+		"bootstrap": "--bs-danger / $danger",
+		"strand": "--strand-red-alert"
+	},
+	{
+		"bootstrap": "--bs-light / $light",
+		"strand": "--strand-surface-recessed"
+	},
+	{
+		"bootstrap": "--bs-dark / $dark",
+		"strand": "--strand-blue-midnight"
+	},
+	{
+		"bootstrap": "--bs-body-color",
+		"strand": "--strand-gray-600"
+	},
+	{
+		"bootstrap": "--bs-body-bg",
+		"strand": "--strand-surface-primary"
+	},
+	{
+		"bootstrap": "--bs-body-font-family",
+		"strand": "--strand-font-sans"
+	},
+	{
+		"bootstrap": "--bs-font-monospace",
+		"strand": "--strand-font-mono"
+	},
+	{
+		"bootstrap": "--bs-border-radius",
+		"strand": "--strand-radius-md"
+	},
+	{
+		"bootstrap": "--bs-border-radius-sm",
+		"strand": "--strand-radius-sm"
+	},
+	{
+		"bootstrap": "--bs-border-radius-lg",
+		"strand": "--strand-radius-lg"
+	},
+	{
+		"bootstrap": "--bs-border-color",
+		"strand": "--strand-gray-200"
+	},
+	{
+		"bootstrap": "$spacer",
+		"strand": "--strand-space-4"
+	},
+	{
+		"bootstrap": "$font-size-sm",
+		"strand": "--strand-text-sm"
+	},
+	{
+		"bootstrap": "$font-size-base",
+		"strand": "--strand-text-base"
+	},
+	{
+		"bootstrap": "$font-size-lg",
+		"strand": "--strand-text-lg"
+	}
+]
