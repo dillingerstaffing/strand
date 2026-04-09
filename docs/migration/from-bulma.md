@@ -146,32 +146,95 @@ Strand: BEM `--` modifiers (`strand-btn strand-btn--primary strand-btn--lg`)
 
 **CSS custom properties (runtime):**
 
+<!-- GENERATED:BULMA-CSS-VARS:START -->
 | Bulma Variable | Strand Token |
 |---|---|
-| `--bulma-primary` | Derived from `--strand-blue-primary` |
-| `--bulma-link` | Derived from `--strand-blue-primary` |
-| `--bulma-success` | Derived from `--strand-teal-vital` |
-| `--bulma-info` | Derived from `--strand-blue-indicator` |
-| `--bulma-warning` | Derived from `--strand-amber-caution` |
-| `--bulma-danger` | Derived from `--strand-red-alert` |
-| `--bulma-text` | `var(--strand-gray-600)` |
+| `--bulma-primary-h` | `213deg` |
+| `--bulma-primary-s` | `91%` |
+| `--bulma-primary-l` | `60%` |
+| `--bulma-link-h` | `213deg` |
+| `--bulma-link-s` | `91%` |
+| `--bulma-link-l` | `60%` |
+| `--bulma-info-h` | `207deg` |
+| `--bulma-info-s` | `96%` |
+| `--bulma-info-l` | `78%` |
+| `--bulma-success-h` | `173deg` |
+| `--bulma-success-s` | `80%` |
+| `--bulma-success-l` | `40%` |
+| `--bulma-warning-h` | `38deg` |
+| `--bulma-warning-s` | `92%` |
+| `--bulma-warning-l` | `50%` |
+| `--bulma-danger-h` | `0deg` |
+| `--bulma-danger-s` | `84%` |
+| `--bulma-danger-l` | `60%` |
+| `--bulma-scheme-h` | `220` |
+| `--bulma-scheme-s` | `100%` |
 | `--bulma-scheme-main` | `var(--strand-surface-primary)` |
+| `--bulma-scheme-main-bis` | `var(--strand-surface-recessed)` |
+| `--bulma-scheme-main-ter` | `var(--strand-surface-subtle)` |
+| `--bulma-text` | `var(--strand-gray-600)` |
+| `--bulma-text-strong` | `var(--strand-gray-800)` |
+| `--bulma-text-weak` | `var(--strand-gray-500)` |
 | `--bulma-family-primary` | `var(--strand-font-sans)` |
+| `--bulma-family-secondary` | `var(--strand-font-sans)` |
 | `--bulma-family-code` | `var(--strand-font-mono)` |
+| `--bulma-size-small` | `0.833rem` |
+| `--bulma-size-normal` | `1rem` |
+| `--bulma-size-medium` | `1.25rem` |
+| `--bulma-size-large` | `1.563rem` |
+| `--bulma-weight-light` | `300` |
+| `--bulma-weight-normal` | `400` |
+| `--bulma-weight-medium` | `500` |
+| `--bulma-weight-semibold` | `600` |
+| `--bulma-weight-bold` | `700` |
+| `--bulma-border` | `var(--strand-gray-200)` |
+| `--bulma-border-weak` | `var(--strand-surface-subtle)` |
+| `--bulma-radius-small` | `var(--strand-radius-sm)` |
 | `--bulma-radius` | `var(--strand-radius-md)` |
+| `--bulma-radius-medium` | `var(--strand-radius-lg)` |
+| `--bulma-radius-large` | `var(--strand-radius-xl)` |
+| `--bulma-radius-rounded` | `var(--strand-radius-full)` |
+| `--bulma-block-spacing` | `var(--strand-space-6)` |
+| `--bulma-gap` | `var(--strand-space-8)` |
 | `--bulma-shadow` | `var(--strand-elevation-1)` |
+| `--bulma-focus-h` | `213deg` |
+| `--bulma-focus-s` | `91%` |
+| `--bulma-focus-l` | `60%` |
+| `--bulma-duration` | `250ms` |
+| `--bulma-easing` | `cubic-bezier(0.25, 1, 0.5, 1)` |
+<!-- GENERATED:BULMA-CSS-VARS:END -->
 
 **Sass variables (compile time):**
 
-| Bulma Sass | Strand Sass |
-|---|---|
-| `$primary` | `strand.$strand-primary` (#3B8EF6) |
-| `$link` | `strand.$strand-link` (#3B8EF6) |
-| `$success` | `strand.$strand-success` (#14B8A6) |
-| `$warning` | `strand.$strand-warning` (#F59E0B) |
-| `$danger` | `strand.$strand-danger` (#EF4444) |
-| `$family-primary` | `strand.$strand-family-sans` (Inter) |
-| `$family-code` | `strand.$strand-family-mono` (JetBrains Mono) |
+<!-- GENERATED:BULMA-SASS-VARS:START -->
+| Sass Variable | Value | Maps To |
+|---|---|---|
+| `$primary` | `$strand-primary, ...)` | ── Colors ── |
+| `$strand-primary` | `#3B8EF6` | --strand-blue-primary |
+| `$strand-link` | `#3B8EF6` | --strand-blue-primary |
+| `$strand-info` | `#93CCFD` | --strand-blue-indicator |
+| `$strand-success` | `#14B8A6` | --strand-teal-vital |
+| `$strand-warning` | `#F59E0B` | --strand-amber-caution |
+| `$strand-danger` | `#EF4444` | --strand-red-alert |
+| `$strand-black` | `#0F192A` | --strand-blue-abyss |
+| `$strand-grey-darker` | `#1E2B3B` | --strand-gray-800 |
+| `$strand-grey-dark` | `#334355` | --strand-gray-700 |
+| `$strand-grey` | `#64778B` | --strand-gray-500 |
+| `$strand-grey-light` | `#94A5B8` | --strand-gray-400 |
+| `$strand-grey-lighter` | `#CBD6E1` | --strand-gray-300 |
+| `$strand-grey-lightest` | `#E2E9F0` | --strand-gray-200 |
+| `$strand-white-ter` | `#F0F5F8` | --strand-surface-recessed |
+| `$strand-white-bis` | `#F7FAFD` | --strand-gray-50 |
+| `$strand-white` | `#FAFCFF` | --strand-surface-primary |
+| `$strand-family-sans` | `"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif` |  |
+| `$strand-family-mono` | `"JetBrains Mono", "SF Mono", "Fira Code", "Cascadia Code", monospace` | ── Border Radius ── |
+| `$strand-radius-small` | `4px` | --strand-radius-sm |
+| `$strand-radius` | `6px` | --strand-radius-md |
+| `$strand-radius-medium` | `8px` | --strand-radius-lg |
+| `$strand-radius-large` | `12px` | --strand-radius-xl |
+| `$strand-duration` | `250ms` |  |
+| `$strand-easing` | `cubic-bezier(0.25, 1, 0.5, 1)` |  |
+<!-- GENERATED:BULMA-SASS-VARS:END -->
 
 ---
 

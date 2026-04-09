@@ -8,156 +8,105 @@ This file is the **single source of truth** for which consumer types Strand supp
 
 ## 1. Preact
 
-Import Preact components from `@dillingerstaffing/strand-ui`. Preact is the primary framework target; the package is Preact-first with React compatibility via `preact/compat`.
+Install the `@dillingerstaffing/strand-ui` package to use Preact components.
 
 ```bash
 npm install preact @dillingerstaffing/strand @dillingerstaffing/strand-ui
 ```
 
-```jsx
-import { Button, Card, Stack } from '@dillingerstaffing/strand-ui';
-```
-
 Package: `packages/strand-ui/`
-Parity obligation: exports every component in `parity-manifest.json` under `components`, with matching prop shapes.
+Parity obligation: every component in parity-manifest.json#/components is exported from src/index.ts with matching prop names
 
 ---
 
 ## 2. React
 
-The same package, consumed from a React codebase through `preact/compat` aliasing at the bundler level. Works in Vite, Next.js, webpack, and any bundler that supports path aliases.
+Shares the same package as preact via preact/compat aliasing at the bundler level.
 
 ```bash
 npm install react react-dom @dillingerstaffing/strand @dillingerstaffing/strand-ui
 ```
 
-See the React setup section in the repo README for alias configuration examples.
-
-Package: `packages/strand-ui/` (same package as Preact, different bundler config)
-Parity obligation: same as Preact (one package serves both).
+Package: `packages/strand-ui/`
+Parity obligation: served by the same package as Preact via preact/compat; parity inherits from the preact entry
 
 ---
 
 ## 3. Svelte
 
-Svelte-native component library with the same visual output and the same component inventory.
+Install the `@dillingerstaffing/strand-svelte` package to use Svelte components.
 
 ```bash
 npm install svelte @dillingerstaffing/strand @dillingerstaffing/strand-svelte
 ```
 
-```svelte
-<script>
-  import { Button, Card, Stack } from '@dillingerstaffing/strand-svelte';
-</script>
-```
-
 Package: `packages/strand-svelte/`
-Parity obligation: exports every component in `parity-manifest.json` with the same prop names.
+Parity obligation: every component in parity-manifest.json#/components is exported from src/index.ts with matching prop names
 
 ---
 
 ## 4. Vue 3
 
-Vue 3 component library with matching inventory and prop shapes.
+Install the `@dillingerstaffing/strand-vue` package to use Vue 3 components.
 
 ```bash
 npm install vue @dillingerstaffing/strand @dillingerstaffing/strand-vue
 ```
 
-```vue
-<script setup>
-import { Button, Card, Stack } from '@dillingerstaffing/strand-vue';
-</script>
-```
-
 Package: `packages/strand-vue/`
-Parity obligation: exports every component in `parity-manifest.json` with the same prop names.
+Parity obligation: every component in parity-manifest.json#/components is exported from src/index.ts with matching prop names
 
 ---
 
 ## 5. Vanilla HTML with Strand classes
 
-Zero JavaScript framework. Load the standalone CSS bundles and use Strand's BEM-style class names directly on HTML elements.
+Shares the same package as preact.
 
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand/css/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand/css/reset.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand/css/base.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
-
-<button class="strand-btn strand-btn--primary strand-btn--md">Click me</button>
+```bash
+load packages/tokens/css/* and packages/strand-ui/dist/css/strand-ui.css via link tags
 ```
 
-Package: `packages/strand-ui/` sub-export `./dist/css/strand-ui.css` + `packages/tokens/` css files.
-Parity obligation: every component in `parity-manifest.json` has its `cssClass` (and every variant/size modifier) present in the built standalone CSS bundle.
+Package: `packages/strand-ui/`
+Artifact: `packages/strand-ui/dist/css/strand-ui.css`
+Parity obligation: every CSS class in parity-manifest.json#/cssClasses is present in the built standalone strand-ui.css bundle
 
 ---
 
 ## 6. Tokens only
 
-Use Strand's CSS custom properties with your own hand-written classes. You get the design language's colors, typography, spacing, motion, and elevation without Strand's component CSS.
+Install the `@dillingerstaffing/strand` package to use Tokens only components.
 
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand/css/tokens.css">
-
-<style>
-  .my-button {
-    background: var(--strand-blue-primary);
-    color: var(--strand-on-blue);
-    padding: var(--strand-space-3) var(--strand-space-4);
-    border-radius: var(--strand-radius-md);
-  }
-</style>
+```bash
+npm install @dillingerstaffing/strand
 ```
 
-Package: `packages/tokens/` (`@dillingerstaffing/strand`, css sub-exports only).
-Parity obligation: every token in `parity-manifest.json` is defined in `tokens.css` with the value specified in DESIGN_LANGUAGE.md.
+Package: `packages/tokens/`
+Artifact: `packages/tokens/css/tokens.css`
+Parity obligation: every token in parity-manifest.json#/tokens is defined in packages/tokens/css/tokens.css as a CSS custom property
 
 ---
 
 ## 7. Bulma coexistence
 
-Use Bulma's components with Strand's aesthetic applied. Two paths, pick whichever matches how you already customize Bulma:
+Coexistence layer: use Bulma coexistence alongside your existing CSS framework.
 
-**Path A: CSS variables (no build step).** Load the Strand theme after Bulma; Bulma's `--bulma-*` variables resolve to Strand token values at runtime.
+Install: see CONSUMERS.md section 7
 
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1/css/bulma.min.css">
-<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand/css/tokens.css">
-<link rel="stylesheet" href="node_modules/@dillingerstaffing/strand/bulma/strand-bulma-compat.css">
-```
-
-**Path B: Sass (full-import).** Drop in a single Sass `@use` statement in place of your existing Bulma import.
-
-```scss
-@use "@dillingerstaffing/strand/bulma/strand-bulma-use";
-```
-
-Shipped files: `packages/tokens/bulma/strand-bulma-compat.css`, `packages/tokens/bulma/_strand-bulma-use.scss`, `packages/tokens/bulma/_strand-bulma-vars.scss`.
-Parity obligation: the Bulma compat layer maps every Strand token listed in `parity-manifest.json` under `tokens` to the corresponding Bulma variable, and the `docs/migration/from-bulma.md` guide's class mapping stays consistent with the current Strand class inventory.
+Package: `packages/tokens/`
+Artifacts: `packages/tokens/bulma/strand-bulma-compat.css`, `packages/tokens/bulma/_strand-bulma-use.scss`, `packages/tokens/bulma/_strand-bulma-vars.scss`
+Migration guide: [docs/migration/from-bulma.md](./docs/migration/from-bulma.md)
+Parity obligation: strand-bulma-compat.css references every Strand token used by Bulma variables, and docs/migration/from-bulma.md class mappings correspond to real Strand CSS classes
 
 ---
 
 ## 8. Bootstrap coexistence
 
-Run Strand and Bootstrap side by side without conflicts. Strand prefixes every class with `strand-`, so there are zero collisions with Bootstrap's `btn-`, `col-`, `card`, etc. Add Strand components to an existing Bootstrap project alongside the current layout and utilities, or migrate incrementally.
+Coexistence guide: Bootstrap coexistence coexists via class-prefix naming convention.
 
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand/css/tokens.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
+Install: see CONSUMERS.md section 8
 
-<div class="container">
-  <button class="btn btn-primary">Bootstrap button</button>
-  <button class="strand-btn strand-btn--primary strand-btn--md">Strand button</button>
-</div>
-```
-
-See `docs/migration/from-bootstrap.md` for a full class-mapping reference.
-
-Shipped files: none dedicated (class-prefix coexistence is a naming-convention guarantee). The migration guide is the artifact.
-Parity obligation: `docs/migration/from-bootstrap.md` stays consistent with the current Strand class inventory. An automated staleness check fails CI if any Strand class name referenced in the guide is missing from the built standalone CSS.
+Migration guide: [docs/migration/from-bootstrap.md](./docs/migration/from-bootstrap.md)
+Parity obligation: every Strand class name referenced in docs/migration/from-bootstrap.md exists in the built standalone strand-ui.css bundle
 
 ---
 

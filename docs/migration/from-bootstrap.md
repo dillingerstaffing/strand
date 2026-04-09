@@ -66,16 +66,17 @@ Strand and Bootstrap coexist without conflicts. All Strand classes are prefixed 
 
 Bootstrap 5 uses both Sass variables and CSS custom properties. Strand uses CSS custom properties exclusively.
 
+<!-- GENERATED:BOOTSTRAP-VARS:START -->
 | Bootstrap 5 | Strand |
-|-------------|--------|
-| `--bs-primary` / `$primary` | `--strand-blue-primary` |
-| `--bs-secondary` / `$secondary` | `--strand-gray-500` |
-| `--bs-success` / `$success` | `--strand-teal-vital` |
-| `--bs-info` / `$info` | `--strand-blue-indicator` |
-| `--bs-warning` / `$warning` | `--strand-amber-caution` |
-| `--bs-danger` / `$danger` | `--strand-red-alert` |
-| `--bs-light` / `$light` | `--strand-surface-recessed` |
-| `--bs-dark` / `$dark` | `--strand-blue-midnight` |
+|---|---|
+| `--bs-primary / $primary` | `--strand-blue-primary` |
+| `--bs-secondary / $secondary` | `--strand-gray-500` |
+| `--bs-success / $success` | `--strand-teal-vital` |
+| `--bs-info / $info` | `--strand-blue-indicator` |
+| `--bs-warning / $warning` | `--strand-amber-caution` |
+| `--bs-danger / $danger` | `--strand-red-alert` |
+| `--bs-light / $light` | `--strand-surface-recessed` |
+| `--bs-dark / $dark` | `--strand-blue-midnight` |
 | `--bs-body-color` | `--strand-gray-600` |
 | `--bs-body-bg` | `--strand-surface-primary` |
 | `--bs-body-font-family` | `--strand-font-sans` |
@@ -84,10 +85,11 @@ Bootstrap 5 uses both Sass variables and CSS custom properties. Strand uses CSS 
 | `--bs-border-radius-sm` | `--strand-radius-sm` |
 | `--bs-border-radius-lg` | `--strand-radius-lg` |
 | `--bs-border-color` | `--strand-gray-200` |
-| `$spacer` | `--strand-space-4` (1rem base) |
+| `$spacer` | `--strand-space-4` |
 | `$font-size-sm` | `--strand-text-sm` |
 | `$font-size-base` | `--strand-text-base` |
 | `$font-size-lg` | `--strand-text-lg` |
+<!-- GENERATED:BOOTSTRAP-VARS:END -->
 
 ## Grid Migration
 

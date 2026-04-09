@@ -25,10 +25,36 @@ pnpm lint        # Lint all files
 
 ## Project Structure
 
-- `packages/tokens/` - Design tokens (CSS custom properties + JS constants)
-- `packages/strand-ui/` - Preact/React component library
-- `packages/cli/` - CLI for copy-paste component distribution
-- `docs/` - Documentation site
+<!-- GENERATED:PROJECT-STRUCTURE:START -->
+| Directory | Package | Description |
+|---|---|---|
+| `packages/cli/` | `strand-ui` | CLI for adding Strand UI components to your project |
+| `packages/strand-svelte/` | `@dillingerstaffing/strand-svelte` | Strand UI - Svelte component library built on the Strand Design Language |
+| `packages/strand-ui/` | `@dillingerstaffing/strand-ui` | Strand UI - Preact/React component library built on the Strand Design Language |
+| `packages/strand-vue/` | `@dillingerstaffing/strand-vue` | Strand UI - Vue 3 component library built on the Strand Design Language |
+| `packages/tokens/` | `@dillingerstaffing/strand` | Strand Design Language tokens - CSS custom properties and JS constants |
+<!-- GENERATED:PROJECT-STRUCTURE:END -->
+
+## Available Commands
+
+<!-- GENERATED:COMMANDS:START -->
+| Command | Script |
+|---|---|
+| `pnpm audit-dogfood` | `node scripts/dogfood-audit.mjs` |
+| `pnpm build` | `pnpm -r build` |
+| `pnpm build:docs` | `node scripts/build-docs.mjs` |
+| `pnpm dogfood` | `node scripts/dogfood-scaffold.mjs` |
+| `pnpm lint` | `biome check .` |
+| `pnpm lint:fix` | `biome check --write .` |
+| `pnpm purity-scan` | `node scripts/purity-scan.mjs` |
+| `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
+| `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
+| `pnpm test` | `pnpm -r test` |
+| `pnpm test:all` | `pnpm test && pnpm test:parity && pnpm test:migration-staleness` |
+| `pnpm test:migration-staleness` | `node scripts/migration-staleness.mjs` |
+| `pnpm test:parity` | `node scripts/parity-check.mjs` |
+| `pnpm test:scripts` | `vitest run --config vitest.config.mjs` |
+<!-- GENERATED:COMMANDS:END -->
 
 ## Commit Convention
 
