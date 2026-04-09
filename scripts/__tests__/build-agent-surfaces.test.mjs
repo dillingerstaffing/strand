@@ -51,11 +51,11 @@ describe("build-agent-surfaces script", () => {
 		let content;
 
 		beforeAll(async () => {
-			content = await readFile(join(REPO_ROOT, "llms.txt"), "utf8");
+			content = await readFile(join(REPO_ROOT, "generated/llms.txt"), "utf8");
 		});
 
 		it("exists after script runs", async () => {
-			expect(await fileExists(join(REPO_ROOT, "llms.txt"))).toBe(true);
+			expect(await fileExists(join(REPO_ROOT, "generated/llms.txt"))).toBe(true);
 		});
 
 		it("starts with the Strand header", () => {
@@ -98,11 +98,11 @@ describe("build-agent-surfaces script", () => {
 		let content;
 
 		beforeAll(async () => {
-			content = await readFile(join(REPO_ROOT, "llms-full.txt"), "utf8");
+			content = await readFile(join(REPO_ROOT, "generated/llms-full.txt"), "utf8");
 		});
 
 		it("exists after script runs", async () => {
-			expect(await fileExists(join(REPO_ROOT, "llms-full.txt"))).toBe(true);
+			expect(await fileExists(join(REPO_ROOT, "generated/llms-full.txt"))).toBe(true);
 		});
 
 		it("contains content from README", () => {
@@ -151,12 +151,12 @@ describe("build-agent-surfaces script", () => {
 		let registry;
 
 		beforeAll(async () => {
-			const content = await readFile(join(REPO_ROOT, "registry.json"), "utf8");
+			const content = await readFile(join(REPO_ROOT, "generated/registry.json"), "utf8");
 			registry = JSON.parse(content);
 		});
 
 		it("exists after script runs", async () => {
-			expect(await fileExists(join(REPO_ROOT, "registry.json"))).toBe(true);
+			expect(await fileExists(join(REPO_ROOT, "generated/registry.json"))).toBe(true);
 		});
 
 		it("has the shadcn schema URL", () => {
@@ -268,7 +268,7 @@ describe("build-agent-surfaces script", () => {
 				await readFile(join(REPO_ROOT, "parity-manifest.json"), "utf8"),
 			);
 			const registry = JSON.parse(
-				await readFile(join(REPO_ROOT, "registry.json"), "utf8"),
+				await readFile(join(REPO_ROOT, "generated/registry.json"), "utf8"),
 			);
 			expect(registry.items.length).toBe(manifest.components.length);
 		});
@@ -285,18 +285,18 @@ describe("build-agent-surfaces script", () => {
 
 	describe("idempotency", () => {
 		it("running the script twice produces the same output", async () => {
-			const llms1 = await readFile(join(REPO_ROOT, "llms.txt"), "utf8");
+			const llms1 = await readFile(join(REPO_ROOT, "generated/llms.txt"), "utf8");
 			const registry1 = await readFile(
-				join(REPO_ROOT, "registry.json"),
+				join(REPO_ROOT, "generated/registry.json"),
 				"utf8",
 			);
 			const readme1 = await readFile(join(REPO_ROOT, "README.md"), "utf8");
 
 			await runScript();
 
-			const llms2 = await readFile(join(REPO_ROOT, "llms.txt"), "utf8");
+			const llms2 = await readFile(join(REPO_ROOT, "generated/llms.txt"), "utf8");
 			const registry2 = await readFile(
-				join(REPO_ROOT, "registry.json"),
+				join(REPO_ROOT, "generated/registry.json"),
 				"utf8",
 			);
 			const readme2 = await readFile(join(REPO_ROOT, "README.md"), "utf8");

@@ -260,5 +260,5 @@ This is a manual override, not an official theme. Test contrast ratios before sh
 
 ---
 
-Full class API: [HTML_REFERENCE.md](../../HTML_REFERENCE.md)
-Design principles: [DESIGN_LANGUAGE.md](../../DESIGN_LANGUAGE.md)
+Full class API: [html-reference.md](../../generated/html-reference.md)
+Design principles: [design-language.md](../design-language.md)

@@ -236,6 +236,6 @@ export async function generateChangelogContent(repoRoot) {
  */
 export async function generateChangelog(repoRoot) {
 	const content = await generateChangelogContent(repoRoot);
-	await writeFile(resolve(repoRoot, "CHANGELOG.md"), content, "utf8");
-	return { file: "CHANGELOG.md" };
+	await writeFile(resolve(repoRoot, "generated/changelog.md"), content, "utf8");
+	return { file: "generated/changelog.md" };
 }

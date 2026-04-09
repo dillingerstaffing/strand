@@ -1,6 +1,6 @@
 # @dillingerstaffing/strand-vue
 
-Vue 3 component library built on the [Strand Design Language](https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md). 31 components. Zero-runtime CSS. WCAG 2.2 AA.
+Vue 3 component library built on the [Strand Design Language](https://github.com/dillingerstaffing/strand/blob/main/docs/design-language.md). 31 components. Zero-runtime CSS. WCAG 2.2 AA.
 
 ## Quick Start
 
@@ -53,8 +53,8 @@ This package produces identical visual output to [@dillingerstaffing/strand-ui](
 ## Links
 
 - [GitHub](https://github.com/dillingerstaffing/strand)
-- [Design Language](https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md)
-- [HTML Reference (CSS-only API)](https://github.com/dillingerstaffing/strand/blob/main/HTML_REFERENCE.md)
+- [Design Language](https://github.com/dillingerstaffing/strand/blob/main/docs/design-language.md)
+- [HTML Reference (CSS-only API)](https://github.com/dillingerstaffing/strand/blob/main/generated/html-reference.md)
 - [Documentation](https://dillingerstaffing.com/labs/strand)
 
 Created by [Dillinger Staffing](https://dillingerstaffing.com)

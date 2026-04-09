@@ -1,6 +1,6 @@
 {
 	"$schema": "./consumers.schema.json",
-	"description": "Machine-readable registry of every Strand consumer type. The parity test and the atomic release workflow both read this file. See CONSUMERS.md for human-readable documentation. Adding a new consumer type is one entry here plus one block in CONSUMERS.md plus the package built to parity.",
+	"description": "Machine-readable registry of every Strand consumer type. The parity test and the atomic release workflow both read this file. See generated/consumers.md for human-readable documentation. Adding a new consumer type is one entry here plus one block in generated/consumers.md plus the package built to parity.",
 	"consumers": [
 		{
 			"id": "preact",
@@ -104,7 +104,7 @@
 				"packages/tokens/bulma/_strand-bulma-vars.scss"
 			],
 			"migrationGuide": "docs/migration/from-bulma.md",
-			"install": "see CONSUMERS.md section 7",
+			"install": "see generated/consumers.md section 7",
 			"parity": {
 				"type": "coexistence-mapping",
 				"manifestSection": "tokens",
@@ -120,7 +120,7 @@
 			"publishable": false,
 			"sharedWith": "vanilla-html",
 			"migrationGuide": "docs/migration/from-bootstrap.md",
-			"install": "see CONSUMERS.md section 8",
+			"install": "see generated/consumers.md section 8",
 			"parity": {
 				"type": "docs-staleness",
 				"manifestSection": "cssClasses",

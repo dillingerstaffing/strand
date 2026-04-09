@@ -54,10 +54,10 @@ Missing any of these is the most common integration mistake. Components will ren
 
 ## Where to find what
 
-- **CSS class API for every component**: [HTML_REFERENCE.md](./HTML_REFERENCE.md)
-- **Design specification (tokens, principles, rationale)**: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
+- **CSS class API for every component**: [html-reference.md](./generated/html-reference.md)
+- **Design specification (tokens, principles, rationale)**: [design-language.md](./docs/design-language.md)
 - **Component TypeScript types**: each component directory in `packages/strand-ui/src/components/`
-- **Consumer types and framework parity**: [CONSUMERS.md](./CONSUMERS.md)
+- **Consumer types and framework parity**: [consumers.md](./generated/consumers.md)
 - **Copy-paste CLI**: `npx strand-ui add <component>` copies source into your project
 
 ## Common mistakes

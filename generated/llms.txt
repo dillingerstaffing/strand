@@ -4,13 +4,13 @@
 ## Docs
 - [README](https://github.com/dillingerstaffing/strand/blob/main/README.md): Install, configure, start building
 - [AGENTS.md](https://github.com/dillingerstaffing/strand/blob/main/AGENTS.md): AI coding agent usage instructions
-- [HTML Reference](https://github.com/dillingerstaffing/strand/blob/main/HTML_REFERENCE.md): CSS class API for every component
-- [Design Language](https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md): Complete design specification
-- [Consumers](https://github.com/dillingerstaffing/strand/blob/main/CONSUMERS.md): Consumer types and framework parity
+- [HTML Reference](https://github.com/dillingerstaffing/strand/blob/main/generated/html-reference.md): CSS class API for every component
+- [Design Language](https://github.com/dillingerstaffing/strand/blob/main/docs/design-language.md): Complete design specification
+- [Consumers](https://github.com/dillingerstaffing/strand/blob/main/generated/consumers.md): Consumer types and framework parity
 - [Strand Lab Page](https://dillingerstaffing.com/labs/strand): Live showcase and brand entry point
 
 ## Optional
-- [Changelog](https://github.com/dillingerstaffing/strand/blob/main/CHANGELOG.md): Version history
+- [Changelog](https://github.com/dillingerstaffing/strand/blob/main/generated/changelog.md): Version history
 - [Contributing](https://github.com/dillingerstaffing/strand/blob/main/CONTRIBUTING.md): How to contribute
 - [Bulma Migration](https://github.com/dillingerstaffing/strand/blob/main/docs/migration/from-bulma.md): Use Strand alongside Bulma
 - [Bootstrap Migration](https://github.com/dillingerstaffing/strand/blob/main/docs/migration/from-bootstrap.md): Use Strand alongside Bootstrap

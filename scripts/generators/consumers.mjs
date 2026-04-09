@@ -98,7 +98,7 @@ export function generateConsumersMarkdown(data) {
 		"1. Add an entry to `consumers.json` with a stable `id`, display `name`, `kind` (`package` | `sub-export` | `coexistence-layer`), path, install instructions, and parity obligation.",
 	);
 	lines.push(
-		"2. Add a block to this file (`CONSUMERS.md`) describing the new type for human readers.",
+		"2. Run `pnpm build:docs` to regenerate `generated/consumers.md` with the new consumer type.",
 	);
 	lines.push(
 		"3. Build the package to parity: every primitive listed in `parity-manifest.json` must be reachable through the new consumer type.",
@@ -124,6 +124,6 @@ export function generateConsumersMarkdown(data) {
 export async function generateConsumers(repoRoot) {
 	const data = await readJSON(resolve(repoRoot, "consumers.json"));
 	const content = generateConsumersMarkdown(data);
-	await writeFile(resolve(repoRoot, "CONSUMERS.md"), content, "utf8");
-	return { file: "CONSUMERS.md" };
+	await writeFile(resolve(repoRoot, "generated/consumers.md"), content, "utf8");
+	return { file: "generated/consumers.md" };
 }

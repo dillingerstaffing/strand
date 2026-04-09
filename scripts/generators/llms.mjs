@@ -25,30 +25,30 @@ const PUBLIC_DOCS = [
 	},
 	{
 		name: "HTML Reference",
-		path: "./HTML_REFERENCE.md",
+		path: "./generated/html-reference.md",
 		purpose: "CSS class API for every component",
-		url: "https://github.com/dillingerstaffing/strand/blob/main/HTML_REFERENCE.md",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/generated/html-reference.md",
 		section: "docs",
 	},
 	{
 		name: "Design Language",
-		path: "./DESIGN_LANGUAGE.md",
+		path: "./docs/design-language.md",
 		purpose: "Complete design specification",
-		url: "https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/docs/design-language.md",
 		section: "docs",
 	},
 	{
 		name: "Consumers",
-		path: "./CONSUMERS.md",
+		path: "./generated/consumers.md",
 		purpose: "Consumer types and framework parity",
-		url: "https://github.com/dillingerstaffing/strand/blob/main/CONSUMERS.md",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/generated/consumers.md",
 		section: "docs",
 	},
 	{
 		name: "Changelog",
-		path: "./CHANGELOG.md",
+		path: "./generated/changelog.md",
 		purpose: "Version history",
-		url: "https://github.com/dillingerstaffing/strand/blob/main/CHANGELOG.md",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/generated/changelog.md",
 		section: "optional",
 	},
 	{
@@ -142,11 +142,11 @@ export async function generateLlms(repoRoot) {
 	const llmsTxt = generateLlmsTxt();
 	const llmsFullTxt = await generateLlmsFullTxt(repoRoot);
 
-	await writeFile(resolve(repoRoot, "llms.txt"), llmsTxt, "utf8");
-	await writeFile(resolve(repoRoot, "llms-full.txt"), llmsFullTxt, "utf8");
+	await writeFile(resolve(repoRoot, "generated/llms.txt"), llmsTxt, "utf8");
+	await writeFile(resolve(repoRoot, "generated/llms-full.txt"), llmsFullTxt, "utf8");
 
 	return {
-		files: ["llms.txt", "llms-full.txt"],
+		files: ["generated/llms.txt", "generated/llms-full.txt"],
 		sizes: { llms: llmsTxt.length, llmsFull: llmsFullTxt.length },
 	};
 }

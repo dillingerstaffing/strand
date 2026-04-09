@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- add zero-drift documentation generator system
+- add zero-drift documentation generator system
 - add Vite + Preact starter template
 - add AGENTS.md, llms.txt, and migration guides to scaffold reading list
 - add agent consumption infrastructure (AGENTS.md, llms.txt, registry.json)
@@ -56,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DataReadout size variants (sm/lg) + composability guidance
 
 ### Changed
+- reorganize repo root into docs/ and generated/ directories
 - bump strand packages to 0.15.1
 - generate initial agent surface files
 - bump all packages to v0.14.0

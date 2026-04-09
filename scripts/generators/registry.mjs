@@ -94,6 +94,6 @@ export function generateRegistryContent(manifest) {
 export async function generateRegistry(repoRoot) {
 	const manifest = await readJSON(resolve(repoRoot, "parity-manifest.json"));
 	const content = generateRegistryContent(manifest);
-	await writeFile(resolve(repoRoot, "registry.json"), content, "utf8");
-	return { file: "registry.json", componentCount: manifest.components.length };
+	await writeFile(resolve(repoRoot, "generated/registry.json"), content, "utf8");
+	return { file: "generated/registry.json", componentCount: manifest.components.length };
 }
