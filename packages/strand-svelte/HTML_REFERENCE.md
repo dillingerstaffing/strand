@@ -642,10 +642,11 @@ DL Principle 7 (Grain of Precision): the scanning animation is subtle -- below c
 </section>
 ```
 
-**Variants:** `strand-section--standard` | `strand-section--hero` | `strand-section--hero-xl` | `strand-section--compact` (space-12 padding)
+**Variants:** `strand-section--standard` | `strand-section--hero-compact` | `strand-section--hero` | `strand-section--hero-xl` | `strand-section--compact` (space-12 padding)
 **Backgrounds:** `strand-section--bg-primary` | `strand-section--bg-elevated` | `strand-section--bg-recessed`
 **Modifiers:** `strand-section--border-top` (1px gray-200 top border for visual separation between sections) | `strand-section--scroll-target` (adds scroll-margin-top for anchor scroll offset)
 
+- `strand-section--hero-compact` -- tighter hero padding for pages where a secondary CTA (install tabs, pricing, signup) sits directly below the hero and must be at least partially visible above the fold.
 - `strand-section--hero-xl` -- extra-generous hero padding for marketing landing pages and splash screens.
 - `strand-section--scroll-target` -- adds `scroll-margin-top` so anchor-linked sections clear the fixed nav when scrolled to.
 
@@ -741,7 +742,7 @@ DL Principle 7 (Grain of Precision): the scanning animation is subtle -- below c
       <a href="/about" class="strand-nav__link">About</a>
       <a href="/contact" class="strand-nav__link">Contact</a>
     </div>
-    <div class="strand-nav__actions">
+    <div class="strand-nav__slot">
       <button class="strand-btn strand-btn--primary strand-btn--sm" type="button">
         <span class="strand-btn__content">Sign in</span>
       </button>
@@ -761,6 +762,7 @@ DL Principle 7 (Grain of Precision): the scanning animation is subtle -- below c
 **Active link:** `strand-nav__link--active` (desktop) | `strand-nav__mobile-link--active` (mobile)
 **Variant:** `strand-nav--glass` (fixed, glassmorphic backdrop-filter, semi-transparent background, DL 11.5)
 **Modifier:** `strand-nav--scrolled` -- subtle shadow + border applied on scroll. Apply via JS scroll listener (e.g., toggle class when `window.scrollY > 0`).
+**Slot:** `strand-nav__slot` -- a content slot (account affordance, utility button, search) that sits at the right edge of the nav. Position is context-aware: if the slot follows `strand-nav__items`, it sits 24px to the right of the last nav link. If the slot stands alone (no items list before it), it uses `margin-left: auto` to push itself to the right edge. Use for account/auth areas on both long and short nav bars without modifiers.
 **Note:** Default nav is relative-positioned at 64px tall. `--glass` makes it fixed to viewport top with frosted glass effect. Desktop items hide below 768px; hamburger and mobile menu show instead. Toggle mobile menu visibility with JavaScript.
 
 ---
