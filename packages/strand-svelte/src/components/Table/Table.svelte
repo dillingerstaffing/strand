@@ -1,4 +1,25 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Data table with column definitions, sortable headers, and row rendering.
+
+  @example
+  ```svelte
+  <script>
+    import { Table } from '@dillingerstaffing/strand-svelte';
+
+    const columns = [
+      { key: 'name', header: 'Name', sortable: true },
+      { key: 'role', header: 'Role' },
+    ];
+    const data = [
+      { name: 'Jane', role: 'Engineer' },
+      { name: 'Alex', role: 'Designer' },
+    ];
+  </script>
+
+  <Table {columns} {data} onsort={(key, dir) => console.log(key, dir)} />
+  ```
+-->
 <script lang="ts">
   export interface TableColumn {
     /** Unique key matching the data field */

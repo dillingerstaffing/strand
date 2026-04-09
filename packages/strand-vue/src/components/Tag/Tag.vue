@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Compact label for categorization, filtering, or status display.
+
+  @example
+  ```vue
+  <script setup>
+  import { Tag } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Tag variant="solid" status="teal" removable @remove="handleRemove">
+      Active
+    </Tag>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

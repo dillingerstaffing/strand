@@ -1,4 +1,16 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Visual separator line between content sections, horizontal or vertical.
+
+  @example
+  ```svelte
+  <script>
+    import { Divider } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Divider direction="horizontal" label="OR" />
+  ```
+-->
 <script lang="ts">
   /** Separator direction */
   export let direction: 'horizontal' | 'vertical' = 'horizontal'

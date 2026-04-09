@@ -1,4 +1,27 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Top-level navigation bar with logo slot, link items, actions, and responsive mobile menu.
+
+  @example
+  ```vue
+  <script setup>
+  import { Nav } from '@dillingerstaffing/strand-vue';
+
+  const items = [
+    { label: 'Home', href: '/', active: true },
+    { label: 'About', href: '/about' },
+  ];
+  </script>
+
+  <template>
+    <Nav :items="items" glass>
+      <template #logo>
+        <img src="/logo.svg" alt="Brand" />
+      </template>
+    </Nav>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 

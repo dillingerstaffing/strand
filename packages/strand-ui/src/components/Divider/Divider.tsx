@@ -12,6 +12,16 @@ export interface DividerProps {
   className?: string;
 }
 
+/**
+ * Visual separator line between content sections, horizontal or vertical.
+ *
+ * @example
+ * ```tsx
+ * import { Divider } from '@dillingerstaffing/strand-ui';
+ *
+ * <Divider direction="horizontal" label="OR" />
+ * ```
+ */
 export const Divider = forwardRef<HTMLElement, DividerProps>(
   ({ direction = "horizontal", label, className = "" }, ref) => {
     const isVertical = direction === "vertical";

@@ -1,4 +1,21 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Native select dropdown with styled wrapper, error state, and placeholder support.
+
+  @example
+  ```svelte
+  <script>
+    import { Select } from '@dillingerstaffing/strand-svelte';
+    let role = 'eng';
+    const options = [
+      { value: 'eng', label: 'Engineer' },
+      { value: 'design', label: 'Designer' },
+    ];
+  </script>
+
+  <Select placeholder="Choose a role" {options} bind:value={role} />
+  ```
+-->
 <script lang="ts">
   export interface SelectOption {
     value: string

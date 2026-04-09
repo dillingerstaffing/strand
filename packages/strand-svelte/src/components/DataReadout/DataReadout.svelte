@@ -1,4 +1,16 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Instrument-panel metric display with overline label and prominent value.
+
+  @example
+  ```svelte
+  <script>
+    import { DataReadout } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <DataReadout label="Conversion Rate" value="94%" size="lg" />
+  ```
+-->
 <script lang="ts">
   /** Overline label text */
   export let label: string

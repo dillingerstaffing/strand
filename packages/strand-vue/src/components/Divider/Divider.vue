@@ -1,4 +1,18 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Visual separator line between content sections, horizontal or vertical.
+
+  @example
+  ```vue
+  <script setup>
+  import { Divider } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Divider direction="horizontal" label="OR" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

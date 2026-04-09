@@ -17,6 +17,18 @@ export interface TagProps
   children?: ComponentChildren;
 }
 
+/**
+ * Compact label for categorization, filtering, or status display.
+ *
+ * @example
+ * ```tsx
+ * import { Tag } from '@dillingerstaffing/strand-ui';
+ *
+ * <Tag variant="solid" status="teal" removable onRemove={() => {}}>
+ *   Active
+ * </Tag>
+ * ```
+ */
 export const Tag = forwardRef<HTMLSpanElement, TagProps>(
   (
     {

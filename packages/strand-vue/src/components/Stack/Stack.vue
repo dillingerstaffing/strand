@@ -1,4 +1,21 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Flexbox layout container for arranging children with consistent spacing.
+
+  @example
+  ```vue
+  <script setup>
+  import { Stack, Button } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Stack direction="horizontal" :gap="4" align="center">
+      <Button variant="primary">Save</Button>
+      <Button variant="secondary">Cancel</Button>
+    </Stack>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

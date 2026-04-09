@@ -12,6 +12,18 @@ export interface ScrollRevealProps
   once?: boolean;
 }
 
+/**
+ * Intersection Observer wrapper that reveals children with a transition on scroll.
+ *
+ * @example
+ * ```tsx
+ * import { ScrollReveal } from '@dillingerstaffing/strand-ui';
+ *
+ * <ScrollReveal threshold={0.2} once>
+ *   <p>This content fades in on scroll.</p>
+ * </ScrollReveal>
+ * ```
+ */
 export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
   ({ threshold = 0.1, once = true, className = "", children, ...rest }, ref) => {
     const innerRef = useRef<HTMLDivElement>(null);

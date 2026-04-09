@@ -9,6 +9,16 @@ export interface SpinnerProps
   size?: "sm" | "md" | "lg";
 }
 
+/**
+ * Animated loading indicator with screen-reader-accessible status text.
+ *
+ * @example
+ * ```tsx
+ * import { Spinner } from '@dillingerstaffing/strand-ui';
+ *
+ * <Spinner size="lg" />
+ * ```
+ */
 export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(
   (
     {

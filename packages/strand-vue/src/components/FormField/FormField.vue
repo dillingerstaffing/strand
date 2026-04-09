@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Form control wrapper providing label, hint text, error messaging, and required indicator.
+
+  @example
+  ```vue
+  <script setup>
+  import { FormField, Input } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <FormField label="Email" html-for="email" hint="Work email preferred" required>
+      <Input id="email" type="email" />
+    </FormField>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

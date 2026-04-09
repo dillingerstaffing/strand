@@ -24,6 +24,17 @@ export interface RadioProps
   className?: string;
 }
 
+/**
+ * Single-selection control for use within a radio group.
+ *
+ * @example
+ * ```tsx
+ * import { Radio } from '@dillingerstaffing/strand-ui';
+ *
+ * <Radio name="plan" value="pro" label="Pro" checked={true} onChange={() => {}} />
+ * <Radio name="plan" value="free" label="Free" onChange={() => {}} />
+ * ```
+ */
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
   (
     {

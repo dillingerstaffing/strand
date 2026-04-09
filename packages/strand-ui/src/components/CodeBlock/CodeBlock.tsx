@@ -21,6 +21,20 @@ export interface CodeBlockProps
 
 const COPIED_DURATION_MS = 1500;
 
+/**
+ * Syntax-highlighted code display with optional language label and copy-to-clipboard.
+ *
+ * @example
+ * ```tsx
+ * import { CodeBlock } from '@dillingerstaffing/strand-ui';
+ *
+ * <CodeBlock
+ *   code={`const x = 42;`}
+ *   language="js"
+ *   copyable
+ * />
+ * ```
+ */
 export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
   ({ code, language, copyable = true, className = "", ...rest }, ref) => {
     const classes = ["strand-code-block", className].filter(Boolean).join(" ");

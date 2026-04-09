@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Toggle switch for binary on/off settings with optional inline label.
+
+  @example
+  ```vue
+  <script setup>
+  import { ref } from 'vue';
+  import { Switch } from '@dillingerstaffing/strand-vue';
+  const darkMode = ref(false);
+  </script>
+
+  <template>
+    <Switch v-model:checked="darkMode" label="Dark mode" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

@@ -1,4 +1,27 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Data table with column definitions, sortable headers, and row rendering.
+
+  @example
+  ```vue
+  <script setup>
+  import { Table } from '@dillingerstaffing/strand-vue';
+
+  const columns = [
+    { key: 'name', header: 'Name', sortable: true },
+    { key: 'role', header: 'Role' },
+  ];
+  const data = [
+    { name: 'Jane', role: 'Engineer' },
+    { name: 'Alex', role: 'Designer' },
+  ];
+  </script>
+
+  <template>
+    <Table :columns="columns" :data="data" @sort="(key, dir) => console.log(key, dir)" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 

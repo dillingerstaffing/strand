@@ -25,6 +25,19 @@ const FOCUSABLE_SELECTOR =
 
 let dialogIdCounter = 0;
 
+/**
+ * Modal overlay with focus trapping, scroll lock, and backdrop click dismissal.
+ *
+ * @example
+ * ```tsx
+ * import { Dialog } from '@dillingerstaffing/strand-ui';
+ *
+ * <Dialog open={isOpen} onClose={() => setOpen(false)} title="Confirm">
+ *   <p>Are you sure?</p>
+ *   <Button onClick={() => setOpen(false)}>Close</Button>
+ * </Dialog>
+ * ```
+ */
 export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
   (
     {

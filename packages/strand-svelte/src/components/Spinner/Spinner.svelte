@@ -1,4 +1,16 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Animated loading indicator with screen-reader-accessible status text.
+
+  @example
+  ```svelte
+  <script>
+    import { Spinner } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Spinner size="lg" />
+  ```
+-->
 <script lang="ts">
   /** Size of the spinner */
   export let size: 'sm' | 'md' | 'lg' = 'md'

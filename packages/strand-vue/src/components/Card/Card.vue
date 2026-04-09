@@ -1,4 +1,21 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Contained surface for grouping related content with elevation and padding options.
+
+  @example
+  ```vue
+  <script setup>
+  import { Card } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Card variant="elevated" padding="lg">
+      <h3>Card Title</h3>
+      <p>Card content goes here.</p>
+    </Card>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

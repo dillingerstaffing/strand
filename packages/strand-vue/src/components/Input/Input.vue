@@ -1,4 +1,18 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Text input field with optional leading/trailing addons and error state.
+
+  @example
+  ```vue
+  <script setup>
+  import { Input } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Input type="email" placeholder="you@example.com" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
 

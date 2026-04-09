@@ -1,4 +1,18 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Standalone notification message with status indicator and optional dismiss.
+
+  @example
+  ```vue
+  <script setup>
+  import { Toast } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Toast status="success" message="Changes saved." @dismiss="handleDismiss" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { ToastStatus } from './useToast'

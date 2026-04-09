@@ -1,4 +1,19 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Small status indicator or notification count, displayed inline or overlaid on content.
+
+  @example
+  ```svelte
+  <script>
+    import { Badge } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Badge variant="count" status="red" count={5}>
+    <button>Notifications</button>
+  </Badge>
+  <Badge variant="dot" status="teal" />
+  ```
+-->
 <script lang="ts">
   /** Badge display mode */
   export let variant: 'dot' | 'count' = 'count'

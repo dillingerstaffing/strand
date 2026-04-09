@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Hover/focus-triggered text popup anchored to a trigger element.
+
+  @example
+  ```vue
+  <script setup>
+  import { Tooltip, Button } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Tooltip content="Save your progress" position="top">
+      <Button variant="primary">Save</Button>
+    </Tooltip>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, ref, onUnmounted } from 'vue'
 

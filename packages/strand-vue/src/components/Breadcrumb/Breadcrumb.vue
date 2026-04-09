@@ -1,4 +1,24 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Hierarchical navigation path showing the current page location.
+
+  @example
+  ```vue
+  <script setup>
+  import { Breadcrumb } from '@dillingerstaffing/strand-vue';
+
+  const items = [
+    { label: 'Home', href: '/' },
+    { label: 'Settings', href: '/settings' },
+    { label: 'Profile' },
+  ];
+  </script>
+
+  <template>
+    <Breadcrumb :items="items" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Contextual feedback banner for status messages, warnings, and errors.
+
+  @example
+  ```vue
+  <script setup>
+  import { Alert } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Alert status="success" dismissible @dismiss="handleDismiss">
+      Operation completed successfully.
+    </Alert>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

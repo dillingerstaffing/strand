@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Centered max-width wrapper for constraining page content.
+
+  @example
+  ```vue
+  <script setup>
+  import { Container } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Container size="default">
+      <p>Content constrained to default max width.</p>
+    </Container>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

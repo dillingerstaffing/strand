@@ -1,4 +1,19 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Modal overlay with focus trapping, scroll lock, and backdrop click dismissal.
+
+  @example
+  ```svelte
+  <script>
+    import { Dialog } from '@dillingerstaffing/strand-svelte';
+    let isOpen = false;
+  </script>
+
+  <Dialog open={isOpen} title="Confirm" onclose={() => isOpen = false}>
+    <p>Are you sure?</p>
+  </Dialog>
+  ```
+-->
 <script lang="ts">
   import { onDestroy, tick } from 'svelte'
 

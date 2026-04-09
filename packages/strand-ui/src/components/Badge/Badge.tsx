@@ -17,6 +17,19 @@ export interface BadgeProps
   children?: ComponentChildren;
 }
 
+/**
+ * Small status indicator or notification count, displayed inline or overlaid on content.
+ *
+ * @example
+ * ```tsx
+ * import { Badge } from '@dillingerstaffing/strand-ui';
+ *
+ * <Badge variant="count" status="red" count={5}>
+ *   <button>Notifications</button>
+ * </Badge>
+ * <Badge variant="dot" status="teal" />
+ * ```
+ */
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   (
     {

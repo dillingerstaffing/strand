@@ -1,4 +1,21 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Single-selection control for use within a radio group.
+
+  @example
+  ```vue
+  <script setup>
+  import { ref } from 'vue';
+  import { Radio } from '@dillingerstaffing/strand-vue';
+  const selected = ref('pro');
+  </script>
+
+  <template>
+    <Radio name="plan" value="pro" label="Pro" :checked="selected === 'pro'" @change="selected = 'pro'" />
+    <Radio name="plan" value="free" label="Free" :checked="selected === 'free'" @change="selected = 'free'" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

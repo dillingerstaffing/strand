@@ -1,4 +1,18 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Animated loading indicator with screen-reader-accessible status text.
+
+  @example
+  ```vue
+  <script setup>
+  import { Spinner } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Spinner size="lg" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

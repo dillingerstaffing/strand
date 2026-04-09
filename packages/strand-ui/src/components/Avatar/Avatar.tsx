@@ -16,6 +16,17 @@ export interface AvatarProps
   size?: "sm" | "md" | "lg" | "xl";
 }
 
+/**
+ * Circular user representation with image, initials fallback, and multiple sizes.
+ *
+ * @example
+ * ```tsx
+ * import { Avatar } from '@dillingerstaffing/strand-ui';
+ *
+ * <Avatar src="/photo.jpg" alt="Jane Doe" size="lg" />
+ * <Avatar initials="JD" size="md" />
+ * ```
+ */
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   (
     {

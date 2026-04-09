@@ -1,4 +1,19 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Determinate or indeterminate progress indicator in bar or ring form.
+
+  @example
+  ```vue
+  <script setup>
+  import { Progress } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Progress variant="bar" :value="65" size="md" />
+    <Progress variant="ring" size="lg" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

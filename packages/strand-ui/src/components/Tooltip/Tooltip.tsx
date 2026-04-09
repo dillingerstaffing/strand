@@ -18,6 +18,18 @@ export interface TooltipProps
 
 let tooltipIdCounter = 0;
 
+/**
+ * Hover/focus-triggered text popup anchored to a trigger element.
+ *
+ * @example
+ * ```tsx
+ * import { Tooltip, Button } from '@dillingerstaffing/strand-ui';
+ *
+ * <Tooltip content="Save your progress" position="top">
+ *   <Button variant="primary">Save</Button>
+ * </Tooltip>
+ * ```
+ */
 export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(
   (
     {

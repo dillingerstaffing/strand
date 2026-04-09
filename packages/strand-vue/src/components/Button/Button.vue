@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Primary action trigger with multiple visual variants and sizes.
+
+  @example
+  ```vue
+  <script setup>
+  import { Button } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Button variant="primary" size="md" @click="handleClick">
+      Submit
+    </Button>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

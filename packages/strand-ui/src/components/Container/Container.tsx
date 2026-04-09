@@ -8,6 +8,18 @@ export interface ContainerProps extends JSX.HTMLAttributes<HTMLDivElement> {
   size?: "narrow" | "default" | "wide" | "full";
 }
 
+/**
+ * Centered max-width wrapper for constraining page content.
+ *
+ * @example
+ * ```tsx
+ * import { Container } from '@dillingerstaffing/strand-ui';
+ *
+ * <Container size="default">
+ *   <p>Content constrained to default max width.</p>
+ * </Container>
+ * ```
+ */
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(
   (
     {

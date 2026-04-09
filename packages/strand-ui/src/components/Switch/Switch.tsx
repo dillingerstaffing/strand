@@ -20,6 +20,16 @@ export interface SwitchProps
   className?: string;
 }
 
+/**
+ * Toggle switch for binary on/off settings with optional inline label.
+ *
+ * @example
+ * ```tsx
+ * import { Switch } from '@dillingerstaffing/strand-ui';
+ *
+ * <Switch checked={true} onChange={(val) => console.log(val)} label="Dark mode" />
+ * ```
+ */
 export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
   (
     {

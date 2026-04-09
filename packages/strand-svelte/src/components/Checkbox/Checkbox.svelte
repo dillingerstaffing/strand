@@ -1,4 +1,17 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Toggle control for boolean or indeterminate selections with optional label.
+
+  @example
+  ```svelte
+  <script>
+    import { Checkbox } from '@dillingerstaffing/strand-svelte';
+    let accepted = false;
+  </script>
+
+  <Checkbox bind:checked={accepted} label="Accept terms" />
+  ```
+-->
 <script lang="ts">
   /** Controlled checked state */
   export let checked: boolean = false

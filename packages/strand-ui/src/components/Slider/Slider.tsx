@@ -19,6 +19,16 @@ export interface SliderProps
   disabled?: boolean;
 }
 
+/**
+ * Range input control for selecting a numeric value within a bounded interval.
+ *
+ * @example
+ * ```tsx
+ * import { Slider } from '@dillingerstaffing/strand-ui';
+ *
+ * <Slider min={0} max={100} step={5} value={50} onChange={(e) => {}} />
+ * ```
+ */
 export const Slider = forwardRef<HTMLInputElement, SliderProps>(
   (
     {

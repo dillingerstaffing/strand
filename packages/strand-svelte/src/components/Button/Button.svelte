@@ -1,4 +1,18 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Primary action trigger with multiple visual variants and sizes.
+
+  @example
+  ```svelte
+  <script>
+    import { Button } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Button variant="primary" size="md" onclick={() => {}}>
+    Submit
+  </Button>
+  ```
+-->
 <script lang="ts">
   /** Visual style variant */
   export let variant: 'primary' | 'secondary' | 'ghost' | 'danger' = 'primary'

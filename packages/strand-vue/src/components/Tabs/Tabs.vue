@@ -1,4 +1,27 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Tabbed content switcher with keyboard navigation and ARIA tab pattern.
+
+  @example
+  ```vue
+  <script setup>
+  import { ref } from 'vue';
+  import { Tabs } from '@dillingerstaffing/strand-vue';
+  const activeTab = ref('overview');
+  const tabs = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'details', label: 'Details' },
+  ];
+  </script>
+
+  <template>
+    <Tabs :tabs="tabs" v-model:active-tab="activeTab">
+      <template #overview><p>Overview content</p></template>
+      <template #details><p>Details content</p></template>
+    </Tabs>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 

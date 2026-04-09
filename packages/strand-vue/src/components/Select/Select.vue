@@ -1,4 +1,24 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Native select dropdown with styled wrapper, error state, and placeholder support.
+
+  @example
+  ```vue
+  <script setup>
+  import { ref } from 'vue';
+  import { Select } from '@dillingerstaffing/strand-vue';
+  const role = ref('eng');
+  const options = [
+    { value: 'eng', label: 'Engineer' },
+    { value: 'design', label: 'Designer' },
+  ];
+  </script>
+
+  <template>
+    <Select placeholder="Choose a role" :options="options" v-model:value="role" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

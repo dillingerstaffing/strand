@@ -1,4 +1,17 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Range input control for selecting a numeric value within a bounded interval.
+
+  @example
+  ```svelte
+  <script>
+    import { Slider } from '@dillingerstaffing/strand-svelte';
+    let value = 50;
+  </script>
+
+  <Slider min={0} max={100} step={5} bind:value />
+  ```
+-->
 <script lang="ts">
   /** Minimum value */
   export let min: number = 0

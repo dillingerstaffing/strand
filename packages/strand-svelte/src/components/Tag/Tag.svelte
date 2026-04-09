@@ -1,4 +1,18 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Compact label for categorization, filtering, or status display.
+
+  @example
+  ```svelte
+  <script>
+    import { Tag } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Tag variant="solid" status="teal" removable onremove={() => {}}>
+    Active
+  </Tag>
+  ```
+-->
 <script lang="ts">
   /** Visual style variant */
   export let variant: 'solid' | 'outlined' = 'solid'

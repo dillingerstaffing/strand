@@ -1,4 +1,22 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Page-level content region with padding, background, and optional top border.
+
+  @example
+  ```vue
+  <script setup>
+  import { Section, Container } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Section variant="hero" background="recessed">
+      <Container>
+        <h1>Hero Section</h1>
+      </Container>
+    </Section>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

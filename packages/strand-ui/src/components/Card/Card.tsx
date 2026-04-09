@@ -10,6 +10,19 @@ export interface CardProps extends JSX.HTMLAttributes<HTMLDivElement> {
   padding?: "none" | "sm" | "md" | "lg";
 }
 
+/**
+ * Contained surface for grouping related content with elevation and padding options.
+ *
+ * @example
+ * ```tsx
+ * import { Card } from '@dillingerstaffing/strand-ui';
+ *
+ * <Card variant="elevated" padding="lg">
+ *   <h3>Card Title</h3>
+ *   <p>Card content goes here.</p>
+ * </Card>
+ * ```
+ */
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   (
     {

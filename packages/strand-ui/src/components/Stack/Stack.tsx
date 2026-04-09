@@ -31,6 +31,19 @@ const JUSTIFY_MAP: Record<string, string> = {
   around: "space-around",
 };
 
+/**
+ * Flexbox layout container for arranging children with consistent spacing.
+ *
+ * @example
+ * ```tsx
+ * import { Stack, Button } from '@dillingerstaffing/strand-ui';
+ *
+ * <Stack direction="horizontal" gap={4} align="center">
+ *   <Button variant="primary">Save</Button>
+ *   <Button variant="secondary">Cancel</Button>
+ * </Stack>
+ * ```
+ */
 export const Stack = forwardRef<HTMLDivElement, StackProps>(
   (
     {

@@ -1,4 +1,18 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Context provider that manages toast notifications for its subtree.
+
+  @example
+  ```svelte
+  <script>
+    import { ToastProvider } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <ToastProvider>
+    <App />
+  </ToastProvider>
+  ```
+-->
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { createToastContext } from './useToast'

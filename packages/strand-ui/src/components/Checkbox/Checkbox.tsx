@@ -23,6 +23,20 @@ export interface CheckboxProps
   className?: string;
 }
 
+/**
+ * Toggle control for boolean or indeterminate selections with optional label.
+ *
+ * @example
+ * ```tsx
+ * import { Checkbox } from '@dillingerstaffing/strand-ui';
+ *
+ * <Checkbox
+ *   checked={true}
+ *   onChange={(e) => console.log(e)}
+ *   label="Accept terms"
+ * />
+ * ```
+ */
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (
     {

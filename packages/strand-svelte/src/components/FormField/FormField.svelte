@@ -1,4 +1,18 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Form control wrapper providing label, hint text, error messaging, and required indicator.
+
+  @example
+  ```svelte
+  <script>
+    import { FormField, Input } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <FormField label="Email" htmlFor="email" hint="Work email preferred" required>
+    <Input id="email" type="email" />
+  </FormField>
+  ```
+-->
 <script lang="ts">
   /** Label text */
   export let label: string

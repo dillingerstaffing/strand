@@ -16,6 +16,17 @@ export interface ProgressProps
 const RING_SIZES: Record<string, number> = { sm: 24, md: 40, lg: 56 };
 const RING_STROKE = 3;
 
+/**
+ * Determinate or indeterminate progress indicator in bar or ring form.
+ *
+ * @example
+ * ```tsx
+ * import { Progress } from '@dillingerstaffing/strand-ui';
+ *
+ * <Progress variant="bar" value={65} size="md" />
+ * <Progress variant="ring" size="lg" />
+ * ```
+ */
 export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
   (
     {

@@ -1,4 +1,16 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Standalone notification message with status indicator and optional dismiss.
+
+  @example
+  ```svelte
+  <script>
+    import { Toast } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Toast status="success" message="Changes saved." ondismiss={() => {}} />
+  ```
+-->
 <script lang="ts">
   import type { ToastStatus } from './useToast'
 

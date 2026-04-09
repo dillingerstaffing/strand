@@ -25,6 +25,26 @@ export interface TableProps
   onSort?: (key: string, direction: "asc" | "desc") => void;
 }
 
+/**
+ * Data table with column definitions, sortable headers, and row rendering.
+ *
+ * @example
+ * ```tsx
+ * import { Table } from '@dillingerstaffing/strand-ui';
+ *
+ * <Table
+ *   columns={[
+ *     { key: 'name', header: 'Name', sortable: true },
+ *     { key: 'role', header: 'Role' },
+ *   ]}
+ *   data={[
+ *     { name: 'Jane', role: 'Engineer' },
+ *     { name: 'Alex', role: 'Designer' },
+ *   ]}
+ *   onSort={(key, dir) => console.log(key, dir)}
+ * />
+ * ```
+ */
 export const Table = forwardRef<HTMLDivElement, TableProps>(
   ({ columns, data, onSort, className = "", ...rest }, ref) => {
     const [sortKey, setSortKey] = useState<string | null>(null);

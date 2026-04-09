@@ -1,4 +1,18 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Hover/focus-triggered text popup anchored to a trigger element.
+
+  @example
+  ```svelte
+  <script>
+    import { Tooltip, Button } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Tooltip content="Save your progress" position="top">
+    <Button variant="primary">Save</Button>
+  </Tooltip>
+  ```
+-->
 <script lang="ts">
   /** Tooltip text */
   export let content: string
