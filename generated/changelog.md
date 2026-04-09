@@ -59,6 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - reorganize repo root into docs/ and generated/ directories
+- regenerate docs to include reorganization commit in changelog
+- reorganize repo root into docs/ and generated/ directories
 - bump strand packages to 0.15.1
 - generate initial agent surface files
 - bump all packages to v0.14.0
