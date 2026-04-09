@@ -1,0 +1,551 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "strand",
+  "homepage": "https://github.com/dillingerstaffing/strand",
+  "items": [
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Persistent notification",
+      "files": [
+        {
+          "path": "components/Alert.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "User/entity representation",
+      "files": [
+        {
+          "path": "components/Avatar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Status/count indicator",
+      "files": [
+        {
+          "path": "components/Badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Hierarchical location",
+      "files": [
+        {
+          "path": "components/Breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Primary action trigger",
+      "files": [
+        {
+          "path": "components/Button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Content container",
+      "files": [
+        {
+          "path": "components/Card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Binary toggle (multiple)",
+      "files": [
+        {
+          "path": "components/Checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "Code snippet display",
+      "files": [
+        {
+          "path": "components/CodeBlock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "container",
+      "type": "registry:ui",
+      "title": "Container",
+      "description": "Width constraint",
+      "files": [
+        {
+          "path": "components/Container.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "data-readout",
+      "type": "registry:ui",
+      "title": "Data Readout",
+      "description": "Monospace metric display",
+      "files": [
+        {
+          "path": "components/DataReadout.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Modal overlay",
+      "files": [
+        {
+          "path": "components/Dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "divider",
+      "type": "registry:ui",
+      "title": "Divider",
+      "description": "Visual separator",
+      "files": [
+        {
+          "path": "components/Divider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "form-field",
+      "type": "registry:ui",
+      "title": "Form Field",
+      "description": "Label + input + hint + error wrapper",
+      "files": [
+        {
+          "path": "components/FormField.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "grid",
+      "type": "registry:ui",
+      "title": "Grid",
+      "description": "Grid layout primitive",
+      "files": [
+        {
+          "path": "components/Grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Single-line text entry",
+      "files": [
+        {
+          "path": "components/Input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "instrument-viewport",
+      "type": "registry:ui",
+      "title": "Instrument Viewport",
+      "description": "Dark instrument panel container",
+      "files": [
+        {
+          "path": "components/InstrumentViewport.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "link",
+      "type": "registry:ui",
+      "title": "Link",
+      "description": "Inline navigation",
+      "files": [
+        {
+          "path": "components/Link.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "nav",
+      "type": "registry:ui",
+      "title": "Nav",
+      "description": "Site/app navigation",
+      "files": [
+        {
+          "path": "components/Nav.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Completion indicator",
+      "files": [
+        {
+          "path": "components/Progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "radio",
+      "type": "registry:ui",
+      "title": "Radio",
+      "description": "Single selection from set",
+      "files": [
+        {
+          "path": "components/Radio.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "scroll-reveal",
+      "type": "registry:ui",
+      "title": "Scroll Reveal",
+      "description": "Scroll-triggered entrance animation",
+      "files": [
+        {
+          "path": "components/ScrollReveal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "section",
+      "type": "registry:ui",
+      "title": "Section",
+      "description": "Page section",
+      "files": [
+        {
+          "path": "components/Section.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Option selection",
+      "files": [
+        {
+          "path": "components/Select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Content placeholder",
+      "files": [
+        {
+          "path": "components/Skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Range value selection",
+      "files": [
+        {
+          "path": "components/Slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Loading indicator",
+      "files": [
+        {
+          "path": "components/Spinner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "stack",
+      "type": "registry:ui",
+      "title": "Stack",
+      "description": "Flex layout primitive",
+      "files": [
+        {
+          "path": "components/Stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Binary toggle (single)",
+      "files": [
+        {
+          "path": "components/Switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Tabular data display",
+      "files": [
+        {
+          "path": "components/Table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Content switching",
+      "files": [
+        {
+          "path": "components/Tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "tag",
+      "type": "registry:ui",
+      "title": "Tag",
+      "description": "Categorization label",
+      "files": [
+        {
+          "path": "components/Tag.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multi-line text entry",
+      "files": [
+        {
+          "path": "components/Textarea.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Transient notification",
+      "files": [
+        {
+          "path": "components/Toast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Contextual hint",
+      "files": [
+        {
+          "path": "components/Tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    }
+  ]
+}
