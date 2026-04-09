@@ -94,6 +94,6 @@ All components must support:
 
 ## Links
 
-- [Strand Design Language](./DESIGN_LANGUAGE.md)
+- [Strand Design Language](./docs/design-language.md)
 - [Dillinger Staffing](https://dillingerstaffing.com) - Project home
 - [Issues](https://github.com/dillingerstaffing/strand/issues)

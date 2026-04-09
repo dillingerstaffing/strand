@@ -7,16 +7,16 @@
 </p>
 
 <p align="center">
-  <a href="./DESIGN_LANGUAGE.md">Design Language</a> &#183;
+  <a href="./docs/design-language.md">Design Language</a> &#183;
   <a href="./AGENTS.md">Agents</a> &#183;
-  <a href="./CONSUMERS.md">Consumers</a> &#183;
+  <a href="./generated/consumers.md">Consumers</a> &#183;
   <a href="./CONTRIBUTING.md">Contributing</a> &#183;
   <a href="https://github.com/dillingerstaffing/strand/issues">Issues</a> &#183;
   <a href="https://dillingerstaffing.com/labs/strand">Official Website</a>
 </p>
 
 <p align="center">
-  Strand supports Preact, React, Svelte, Vue, vanilla HTML, tokens-only, Bulma, and Bootstrap. See <a href="./CONSUMERS.md">CONSUMERS.md</a> for the full registry and each consumer type's parity obligation.
+  Strand supports Preact, React, Svelte, Vue, vanilla HTML, tokens-only, Bulma, and Bootstrap. See <a href="./generated/consumers.md">consumers.md</a> for the full registry and each consumer type's parity obligation.
 </p>
 
 ---
@@ -28,10 +28,10 @@
 |---|---|
 | [README](./README.md) | Install, configure, start building |
 | [AGENTS.md](./AGENTS.md) | AI coding agent usage instructions |
-| [HTML Reference](./HTML_REFERENCE.md) | CSS class API for every component |
-| [Design Language](./DESIGN_LANGUAGE.md) | Complete design specification |
-| [Consumers](./CONSUMERS.md) | Consumer types and framework parity |
-| [Changelog](./CHANGELOG.md) | Version history |
+| [HTML Reference](./generated/html-reference.md) | CSS class API for every component |
+| [Design Language](./docs/design-language.md) | Complete design specification |
+| [Consumers](./generated/consumers.md) | Consumer types and framework parity |
+| [Changelog](./generated/changelog.md) | Version history |
 | [Contributing](./CONTRIBUTING.md) | How to contribute |
 | [Bulma Migration](./docs/migration/from-bulma.md) | Use Strand alongside Bulma |
 | [Bootstrap Migration](./docs/migration/from-bootstrap.md) | Use Strand alongside Bootstrap |
@@ -244,7 +244,7 @@ npm install @dillingerstaffing/strand @dillingerstaffing/strand-ui
 </button>
 ```
 
-See [HTML_REFERENCE.md](./HTML_REFERENCE.md) for every component's CSS class API.
+See [html-reference.md](./generated/html-reference.md) for every component's CSS class API.
 
 **Using Bulma?** Strand ships a [Bulma theme](./docs/migration/from-bulma.md) that works with all four of Bulma's customization paths: CSS variables, Sass full import, modular Sass, or scoped `[data-theme="strand"]`. Bulma components adopt the Strand aesthetic through Bulma's own documented mechanisms.
 
@@ -272,7 +272,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-<!-- COMPONENT-COUNT:START -->34<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [HTML_REFERENCE.md](./HTML_REFERENCE.md).
+<!-- COMPONENT-COUNT:START -->34<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
 
 ### Input
 
@@ -360,13 +360,13 @@ color: var(--strand-blue-primary);
 padding: var(--strand-space-6);
 ```
 
-Full token specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
+Full token specification: [design-language.md](./docs/design-language.md)
 
 ---
 
 ## Principles
 
-Strand is governed by 10 named principles (Cognitive Economy, Biosynthetic Restraint, Performance Gravity, The Blue Discipline, Earned Elevation, Compound Silence, The Grain of Precision, Default Philosophy, Typography Carries the Room, The Instrument Principle). Each has a definition, a rationale, and a test. Full specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
+Strand is governed by 10 named principles (Cognitive Economy, Biosynthetic Restraint, Performance Gravity, The Blue Discipline, Earned Elevation, Compound Silence, The Grain of Precision, Default Philosophy, Typography Carries the Room, The Instrument Principle). Each has a definition, a rationale, and a test. Full specification: [design-language.md](./docs/design-language.md)
 
 ---
 

@@ -6,7 +6,7 @@ Strand maintains its quality by running a continuous dogfood loop: an agent arme
 
 Design systems drift. Components accumulate edge cases that only the original team can compose correctly. Documentation falls behind implementation. Adopters end up writing workarounds that should have been primitives.
 
-Strand resists this by forcing a recurring test: can an agent with only the public artifacts (npm packages, AGENTS.md, llms.txt, README, DESIGN_LANGUAGE.md, HTML_REFERENCE.md, migration guides, component source in the repo) build a world-class showcase? Every time the answer is "not quite", Strand learns something about itself and fixes it at the right layer.
+Strand resists this by forcing a recurring test: can an agent with only the public artifacts (npm packages, AGENTS.md, llms.txt, README, docs/design-language.md, generated/html-reference.md, migration guides, component source in the repo) build a world-class showcase? Every time the answer is "not quite", Strand learns something about itself and fixes it at the right layer.
 
 ## The gap hierarchy
 
@@ -18,7 +18,7 @@ When a dogfood iteration produces a result that does not meet the bar, the revie
 
 A world-class designer using the current Strand API could produce the desired result. The gap is that the agent did not know how or did not choose the right composition.
 
-- Fix: improve Strand's public documentation. Add guidance to the component README, update HTML_REFERENCE.md, add an example, clarify the "when to use" language.
+- Fix: improve Strand's public documentation. Add guidance to the component README, update generated/html-reference.md, add an example, clarify the "when to use" language.
 - Scope: documentation only. No library code changes.
 - Propagation: docs only. No version bump required.
 
@@ -36,9 +36,9 @@ A world-class designer using the current Strand API would have to invent new CSS
 
 **The design language specification itself is incomplete.**
 
-The `DESIGN_LANGUAGE.md` spec does not define a required token, principle, spacing rule, shape, or pattern. No library primitive can be correctly built without first updating the spec.
+The `docs/design-language.md` spec does not define a required token, principle, spacing rule, shape, or pattern. No library primitive can be correctly built without first updating the spec.
 
-- Fix: update `DESIGN_LANGUAGE.md` first. Then cascade to every consumer type's implementation. This is the most expensive class of gap.
+- Fix: update `docs/design-language.md` first. Then cascade to every consumer type's implementation. This is the most expensive class of gap.
 - Scope: spec + every consumer type + every downstream consumer (including external projects that pin to Strand tokens).
 - Propagation: major or minor version bump depending on backward compatibility.
 
@@ -47,7 +47,7 @@ The `DESIGN_LANGUAGE.md` spec does not define a required token, principle, spaci
 1. Could a world-class designer using ONLY the current public API build this correctly?
    - YES then **L1** (fix docs)
    - NO then go to 2
-2. Can the required primitive be added without changing DESIGN_LANGUAGE.md?
+2. Can the required primitive be added without changing docs/design-language.md?
    - YES then **L2** (add primitive to every consumer type, atomic release)
    - NO then **L3** (update spec, then cascade)
 
@@ -61,7 +61,7 @@ The `DESIGN_LANGUAGE.md` spec does not define a required token, principle, spaci
 6. Human reviews the result in a browser
 7. Binary verdict:
    - **Pass**: showcase graduates (see criteria below)
-   - **Fail**: human names the flaws, classifies each as L1/L2/L3, logs to `DOGFOOD_GAPS.md`, fixes flow to the correct layer, re-run from step 1
+   - **Fail**: human names the flaws, classifies each as L1/L2/L3, logs to `docs/dogfood-gaps.md`, fixes flow to the correct layer, re-run from step 1
 
 ## Graduation criteria
 
@@ -77,9 +77,9 @@ Showcases that pass graduation join the Strand UI Showcases gallery. Showcases t
 
 ## What the dogfood proves
 
-Every passing showcase is evidence that Strand's public API, as-is, can produce world-class UI. Every failing iteration is evidence that Strand has a specific gap at a specific layer, with a specific fix path. The `DOGFOOD_GAPS.md` log is the living record of both, and it is public.
+Every passing showcase is evidence that Strand's public API, as-is, can produce world-class UI. Every failing iteration is evidence that Strand has a specific gap at a specific layer, with a specific fix path. The `docs/dogfood-gaps.md` log is the living record of both, and it is public.
 
-This is not a test that Strand eventually passes and then stops running. It is a continuous stress test that shapes the library's evolution. External contributors can read `DOGFOOD_GAPS.md` to see what Strand is currently learning.
+This is not a test that Strand eventually passes and then stops running. It is a continuous stress test that shapes the library's evolution. External contributors can read `docs/dogfood-gaps.md` to see what Strand is currently learning.
 
 ## Isolation invariant
 
@@ -87,6 +87,6 @@ The Consumer Agent must run in a fresh Claude Code session whose current working
 
 ## Who this is for
 
-- **External consumers**: you can read this document to understand how Strand maintains quality. The `DOGFOOD_GAPS.md` log shows you what we have learned. The showcases in `packages/strand-examples/` show you what Strand can do.
+- **External consumers**: you can read this document to understand how Strand maintains quality. The `docs/dogfood-gaps.md` log shows you what we have learned. The showcases in `packages/strand-examples/` show you what Strand can do.
 - **Contributors**: when you find a rough edge in Strand, classify it into the gap hierarchy and open a PR that addresses the correct layer. A "fix" that lands at the wrong layer (e.g., patching a showcase to work around a missing primitive) is rejected because it does not improve Strand.
 - **Strand maintainers**: this document is the protocol. Run it. Log every iteration.

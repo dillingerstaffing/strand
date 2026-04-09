@@ -1434,7 +1434,7 @@ Each production has a test. Run these at composition time.
 | column-array | Reorder columns randomly. Is data still readable? (If not, labels are insufficient.) Swap all bar colors to gray. Is information lost? (If yes, Blue Discipline violation.) |
 | containment | Does each nonterminal nest inside a legal parent per 11.11? If a ranked-sequence sits directly inside a page with no surface, the containment is invalid. |
 
-Named molecules in strand-ui (see HTML_REFERENCE.md) are convenience CSS classes for common derivations. An agent that knows this grammar can compose any valid molecule from first principles without needing the named class.
+Named molecules in strand-ui (see generated/html-reference.md) are convenience CSS classes for common derivations. An agent that knows this grammar can compose any valid molecule from first principles without needing the named class.
 
 ---
 

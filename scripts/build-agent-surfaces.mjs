@@ -40,30 +40,30 @@ const PUBLIC_DOCS = [
 	},
 	{
 		name: "HTML Reference",
-		path: "./HTML_REFERENCE.md",
+		path: "./generated/html-reference.md",
 		purpose: "CSS class API for every component",
-		url: "https://github.com/dillingerstaffing/strand/blob/main/HTML_REFERENCE.md",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/generated/html-reference.md",
 		section: "docs",
 	},
 	{
 		name: "Design Language",
-		path: "./DESIGN_LANGUAGE.md",
+		path: "./docs/design-language.md",
 		purpose: "Complete design specification",
-		url: "https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/docs/design-language.md",
 		section: "docs",
 	},
 	{
 		name: "Consumers",
-		path: "./CONSUMERS.md",
+		path: "./generated/consumers.md",
 		purpose: "Consumer types and framework parity",
-		url: "https://github.com/dillingerstaffing/strand/blob/main/CONSUMERS.md",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/generated/consumers.md",
 		section: "docs",
 	},
 	{
 		name: "Changelog",
-		path: "./CHANGELOG.md",
+		path: "./generated/changelog.md",
 		purpose: "Version history",
-		url: "https://github.com/dillingerstaffing/strand/blob/main/CHANGELOG.md",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/generated/changelog.md",
 		section: "optional",
 	},
 	{
@@ -290,9 +290,9 @@ async function main() {
 	const registryJson = await generateRegistryJson();
 
 	// Write generated files
-	await writeFile(join(REPO_ROOT, "llms.txt"), llmsTxt, "utf8");
-	await writeFile(join(REPO_ROOT, "llms-full.txt"), llmsFullTxt, "utf8");
-	await writeFile(join(REPO_ROOT, "registry.json"), registryJson, "utf8");
+	await writeFile(join(REPO_ROOT, "generated/llms.txt"), llmsTxt, "utf8");
+	await writeFile(join(REPO_ROOT, "generated/llms-full.txt"), llmsFullTxt, "utf8");
+	await writeFile(join(REPO_ROOT, "generated/registry.json"), registryJson, "utf8");
 
 	// Update README markers
 	await updateReadme(componentCount);

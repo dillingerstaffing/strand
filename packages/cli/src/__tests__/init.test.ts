@@ -29,7 +29,7 @@ describe("init: STRAND.md generation", () => {
     expect(strandMd).toContain("HTML_REFERENCE.md");
   });
 
-  it("STRAND.md template contains pointer to DESIGN_LANGUAGE.md", async () => {
+  it("STRAND.md template contains pointer to design-language.md", async () => {
     const { init } = await import("../commands/init.js");
     await init();
 
@@ -37,7 +37,7 @@ describe("init: STRAND.md generation", () => {
       path.join(tmpDir, "STRAND.md"),
       "utf-8",
     );
-    expect(strandMd).toContain("DESIGN_LANGUAGE.md");
+    expect(strandMd).toContain("design-language.md");
   });
 
   it("STRAND.md is not overwritten if it already exists", async () => {

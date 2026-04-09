@@ -37,10 +37,10 @@
 		"./css/strand-ui.css": "./dist/css/strand-ui.css"
 	},
 	"style": "./dist/css/strand-ui.css",
-	"files": ["dist/", "src/", "HTML_REFERENCE.md"],
+	"files": ["dist/", "src/", "HTML_REFERENCE.md", "DESIGN_LANGUAGE.md"],
 	"sideEffects": ["dist/css/*.css"],
 	"scripts": {
-		"build": "vite build && tsc --emitDeclarationOnly && cp ../../HTML_REFERENCE.md ./HTML_REFERENCE.md",
+		"build": "vite build && tsc --emitDeclarationOnly && cp ../../generated/html-reference.md ./HTML_REFERENCE.md && cp ../../docs/design-language.md ./DESIGN_LANGUAGE.md",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage"

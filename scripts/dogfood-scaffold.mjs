@@ -229,9 +229,9 @@ Start with AGENTS.md. It is the entry point for usage rules and tells you how St
 - \`AGENTS.md\` at this repository root (agent usage rules; read this first)
 - \`llms.txt\` at this repository root (concise machine-readable project summary)
 - \`README.md\` at this repository root
-- \`DESIGN_LANGUAGE.md\` at this repository root (the design specification)
-- \`CONSUMERS.md\` at this repository root (how consumers use Strand)
-- \`HTML_REFERENCE.md\` at this repository root (CSS class API for vanilla HTML consumers; useful for understanding available primitives)
+- \`docs/design-language.md\` (the design specification)
+- \`generated/consumers.md\` (how consumers use Strand)
+- \`generated/html-reference.md\` (CSS class API for vanilla HTML consumers; useful for understanding available primitives)
 - \`docs/migration/from-bulma.md\` (migration guide for Bulma users)
 - \`docs/migration/from-bootstrap.md\` (migration guide for Bootstrap users)
 - \`packages/strand-ui/README.md\` (Preact/React component library overview)

@@ -90,7 +90,7 @@ Parity obligation: every token in parity-manifest.json#/tokens is defined in pac
 
 Coexistence layer: use Bulma coexistence alongside your existing CSS framework.
 
-Install: see CONSUMERS.md section 7
+Install: see generated/consumers.md section 7
 
 Package: `packages/tokens/`
 Artifacts: `packages/tokens/bulma/strand-bulma-compat.css`, `packages/tokens/bulma/_strand-bulma-use.scss`, `packages/tokens/bulma/_strand-bulma-vars.scss`
@@ -103,7 +103,7 @@ Parity obligation: strand-bulma-compat.css references every Strand token used by
 
 Coexistence guide: Bootstrap coexistence coexists via class-prefix naming convention.
 
-Install: see CONSUMERS.md section 8
+Install: see generated/consumers.md section 8
 
 Migration guide: [docs/migration/from-bootstrap.md](./docs/migration/from-bootstrap.md)
 Parity obligation: every Strand class name referenced in docs/migration/from-bootstrap.md exists in the built standalone strand-ui.css bundle
@@ -113,7 +113,7 @@ Parity obligation: every Strand class name referenced in docs/migration/from-boo
 ## Adding a new consumer type
 
 1. Add an entry to `consumers.json` with a stable `id`, display `name`, `kind` (`package` | `sub-export` | `coexistence-layer`), path, install instructions, and parity obligation.
-2. Add a block to this file (`CONSUMERS.md`) describing the new type for human readers.
+2. Run `pnpm build:docs` to regenerate `generated/consumers.md` with the new consumer type.
 3. Build the package to parity: every primitive listed in `parity-manifest.json` must be reachable through the new consumer type.
 4. The parity test picks up the new consumer type automatically from `consumers.json`. No tooling changes needed.
 5. The release workflow publishes the new package on the next root version bump.

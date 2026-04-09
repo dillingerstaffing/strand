@@ -9,16 +9,16 @@
 </p>
 
 <p align="center">
-  <a href="./DESIGN_LANGUAGE.md">Design Language</a> &#183;
+  <a href="./docs/design-language.md">Design Language</a> &#183;
   <a href="./AGENTS.md">Agents</a> &#183;
-  <a href="./CONSUMERS.md">Consumers</a> &#183;
+  <a href="./generated/consumers.md">Consumers</a> &#183;
   <a href="./CONTRIBUTING.md">Contributing</a> &#183;
   <a href="https://github.com/dillingerstaffing/strand/issues">Issues</a> &#183;
   <a href="https://dillingerstaffing.com/labs/strand">Official Website</a>
 </p>
 
 <p align="center">
-  Strand supports Preact, React, Svelte, Vue, vanilla HTML, tokens-only, Bulma, and Bootstrap. See <a href="./CONSUMERS.md">CONSUMERS.md</a> for the full registry and each consumer type's parity obligation.
+  Strand supports Preact, React, Svelte, Vue, vanilla HTML, tokens-only, Bulma, and Bootstrap. See <a href="./generated/consumers.md">consumers.md</a> for the full registry and each consumer type's parity obligation.
 </p>
 
 ---
@@ -30,10 +30,10 @@
 |---|---|
 | [README](./README.md) | Install, configure, start building |
 | [AGENTS.md](./AGENTS.md) | AI coding agent usage instructions |
-| [HTML Reference](./HTML_REFERENCE.md) | CSS class API for every component |
-| [Design Language](./DESIGN_LANGUAGE.md) | Complete design specification |
-| [Consumers](./CONSUMERS.md) | Consumer types and framework parity |
-| [Changelog](./CHANGELOG.md) | Version history |
+| [HTML Reference](./generated/html-reference.md) | CSS class API for every component |
+| [Design Language](./docs/design-language.md) | Complete design specification |
+| [Consumers](./generated/consumers.md) | Consumer types and framework parity |
+| [Changelog](./generated/changelog.md) | Version history |
 | [Contributing](./CONTRIBUTING.md) | How to contribute |
 | [Bulma Migration](./docs/migration/from-bulma.md) | Use Strand alongside Bulma |
 | [Bootstrap Migration](./docs/migration/from-bootstrap.md) | Use Strand alongside Bootstrap |
@@ -246,7 +246,7 @@ npm install @dillingerstaffing/strand @dillingerstaffing/strand-ui
 </button>
 ```
 
-See [HTML_REFERENCE.md](./HTML_REFERENCE.md) for every component's CSS class API.
+See [html-reference.md](./generated/html-reference.md) for every component's CSS class API.
 
 **Using Bulma?** Strand ships a [Bulma theme](./docs/migration/from-bulma.md) that works with all four of Bulma's customization paths: CSS variables, Sass full import, modular Sass, or scoped `[data-theme="strand"]`. Bulma components adopt the Strand aesthetic through Bulma's own documented mechanisms.
 
@@ -274,7 +274,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-<!-- COMPONENT-COUNT:START -->34<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [HTML_REFERENCE.md](./HTML_REFERENCE.md).
+<!-- COMPONENT-COUNT:START -->34<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
 
 ### Input
 
@@ -362,13 +362,13 @@ color: var(--strand-blue-primary);
 padding: var(--strand-space-6);
 ```
 
-Full token specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
+Full token specification: [design-language.md](./docs/design-language.md)
 
 ---
 
 ## Principles
 
-Strand is governed by 10 named principles (Cognitive Economy, Biosynthetic Restraint, Performance Gravity, The Blue Discipline, Earned Elevation, Compound Silence, The Grain of Precision, Default Philosophy, Typography Carries the Room, The Instrument Principle). Each has a definition, a rationale, and a test. Full specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
+Strand is governed by 10 named principles (Cognitive Economy, Biosynthetic Restraint, Performance Gravity, The Blue Discipline, Earned Elevation, Compound Silence, The Grain of Precision, Default Philosophy, Typography Carries the Room, The Instrument Principle). Each has a definition, a rationale, and a test. Full specification: [design-language.md](./docs/design-language.md)
 
 ---
 
@@ -454,10 +454,10 @@ Missing any of these is the most common integration mistake. Components will ren
 
 ## Where to find what
 
-- **CSS class API for every component**: [HTML_REFERENCE.md](./HTML_REFERENCE.md)
-- **Design specification (tokens, principles, rationale)**: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
+- **CSS class API for every component**: [html-reference.md](./generated/html-reference.md)
+- **Design specification (tokens, principles, rationale)**: [design-language.md](./docs/design-language.md)
 - **Component TypeScript types**: each component directory in `packages/strand-ui/src/components/`
-- **Consumer types and framework parity**: [CONSUMERS.md](./CONSUMERS.md)
+- **Consumer types and framework parity**: [consumers.md](./generated/consumers.md)
 - **Copy-paste CLI**: `npx strand-ui add <component>` copies source into your project
 
 ## Common mistakes
@@ -475,17 +475,17 @@ Missing any of these is the most common integration mistake. Components will ren
 
 # Strand HTML Reference
 
-**This is the CSS-only API for Strand.** Use these classes with any framework (Vue, Svelte, Angular) or plain HTML. No JavaScript required. For design constraints, token roles, interaction patterns, and principles, read [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md).
+**This is the CSS-only API for Strand.** Use these classes with any framework (Vue, Svelte, Angular) or plain HTML. No JavaScript required. For design constraints, token roles, interaction patterns, and principles, read [DESIGN_LANGUAGE.md](../docs/design-language.md).
 
 > **Using Bulma, Bootstrap, or Tailwind?** Strand's CSS classes are prefixed with `strand-` and have zero collisions with other CSS frameworks. Load Strand CSS alongside your existing framework and use these classes directly.
 
-> **Before writing any Strand HTML**, read [DESIGN_LANGUAGE.md Part II: Named Principles (L57-L193)](./DESIGN_LANGUAGE.md#L57). These 10 principles are hard constraints, not guidelines. Violating them produces valid HTML that looks wrong.
+> **Before writing any Strand HTML**, read [DESIGN_LANGUAGE.md Part II: Named Principles (L57-L193)](../docs/design-language.md#L57). These 10 principles are hard constraints, not guidelines. Violating them produces valid HTML that looks wrong.
 
-> **Principle 1 (Cognitive Economy):** Every element must earn its place. Test: remove an element. If the task still works, it was decoration. If you're not adding back 10% of what you delete, you're not deleting enough. See [DL L61-69](./DESIGN_LANGUAGE.md#L61).
+> **Principle 1 (Cognitive Economy):** Every element must earn its place. Test: remove an element. If the task still works, it was decoration. If you're not adding back 10% of what you delete, you're not deleting enough. See [DL L61-69](../docs/design-language.md#L61).
 
-> **Principle 2 (Biosynthetic Restraint):** Max 12 distinct visual elements per screen. Every composition must have exactly one visually dominant primary element. If all elements have equal visual weight, the composition has no focal point. An instrument without a focal point is a parts bin, not an instrument. See [DL L71-84](./DESIGN_LANGUAGE.md#L71).
+> **Principle 2 (Biosynthetic Restraint):** Max 12 distinct visual elements per screen. Every composition must have exactly one visually dominant primary element. If all elements have equal visual weight, the composition has no focal point. An instrument without a focal point is a parts bin, not an instrument. See [DL L71-84](../docs/design-language.md#L71).
 
-> **Principle 9 (Typography Carries the Room):** The largest text and smallest text on the same screen must have at least a 3:1 size ratio. Uniform typography is a spreadsheet. Hierarchical typography is an instrument panel. See [DL L165-178](./DESIGN_LANGUAGE.md#L165).
+> **Principle 9 (Typography Carries the Room):** The largest text and smallest text on the same screen must have at least a 3:1 size ratio. Uniform typography is a spreadsheet. Hierarchical typography is an instrument panel. See [DL L165-178](../docs/design-language.md#L165).
 
 ---
 
@@ -589,9 +589,9 @@ Complete page skeletons demonstrating how Strand components compose into full pa
 <link rel="stylesheet" href="node_modules/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
 ```
 
-> **Principle 7 (Grain of Precision):** Include reset.css and base.css for the laboratory surface texture (dot grid, LED glow, grain). Without these, the page is a blank canvas, not a lab. See [DL L141-147](./DESIGN_LANGUAGE.md#L141).
+> **Principle 7 (Grain of Precision):** Include reset.css and base.css for the laboratory surface texture (dot grid, LED glow, grain). Without these, the page is a blank canvas, not a lab. See [DL L141-147](../docs/design-language.md#L141).
 
-> **Token roles:** Don't guess which token to use. See [DESIGN_LANGUAGE.md 3.8: Color Roles (L290-L311)](./DESIGN_LANGUAGE.md#L290) for which color in which context, and [Appendix B: Token Quick Reference (L1372-L1431)](./DESIGN_LANGUAGE.md#L1372) for the full lookup table.
+> **Token roles:** Don't guess which token to use. See [DESIGN_LANGUAGE.md 3.8: Color Roles (L290-L311)](../docs/design-language.md#L290) for which color in which context, and [Appendix B: Token Quick Reference (L1372-L1431)](../docs/design-language.md#L1372) for the full lookup table.
 
 ## Presentation Mode
 
@@ -630,24 +630,24 @@ Use `.strand-viewport` for component previews and showcase containers:
 
 **Modifiers:** `strand-viewport--flex` (flex, center-aligned, gap-4, wrap) | `strand-viewport--flex-col` (flex-column, gap-4)
 
-> **Why recessed?** See [DESIGN_LANGUAGE.md 7.3: The Recessed Viewport (L710-L725)](./DESIGN_LANGUAGE.md#L710) and [7.2: Container Elevation Contexts (L698-L708)](./DESIGN_LANGUAGE.md#L698).
+> **Why recessed?** See [DESIGN_LANGUAGE.md 7.3: The Recessed Viewport (L710-L725)](../docs/design-language.md#L710) and [7.2: Container Elevation Contexts (L698-L708)](../docs/design-language.md#L698).
 
 ## Padding Tiers
 
-> Tier values, usage guidance, and the 30% validation test: [DESIGN_LANGUAGE.md 5.2: Component Padding Tiers (L434-L444)](./DESIGN_LANGUAGE.md#L434). Spacing hierarchy rule (gap > padding): [5.3: Spacing Hierarchy (L446-L456)](./DESIGN_LANGUAGE.md#L446).
+> Tier values, usage guidance, and the 30% validation test: [DESIGN_LANGUAGE.md 5.2: Component Padding Tiers (L434-L444)](../docs/design-language.md#L434). Spacing hierarchy rule (gap > padding): [5.3: Spacing Hierarchy (L446-L456)](../docs/design-language.md#L446).
 
 Card padding tiers (used via `strand-card--pad-{sm|md|lg}`):
 - `sm`: 16px -- `md`: 24px -- `lg`: 40px
 
 ## Focus States
 
-> Full specification: [DESIGN_LANGUAGE.md 14.3: Focus Indicators (L1145-L1151)](./DESIGN_LANGUAGE.md#L1145). Always `:focus-visible`, never all `:focus`.
+> Full specification: [DESIGN_LANGUAGE.md 14.3: Focus Indicators (L1145-L1151)](../docs/design-language.md#L1145). Always `:focus-visible`, never all `:focus`.
 
 No additional classes needed. Focus rings are built into each component's CSS.
 
 ## Boundary Integrity
 
-> Full specification: [DESIGN_LANGUAGE.md 10.4: Boundary Integrity (L865-L871)](./DESIGN_LANGUAGE.md#L865). Composability depth rule: [10.5: Composability Constraint (L873-L877)](./DESIGN_LANGUAGE.md#L873).
+> Full specification: [DESIGN_LANGUAGE.md 10.4: Boundary Integrity (L865-L871)](../docs/design-language.md#L865). Composability depth rule: [10.5: Composability Constraint (L873-L877)](../docs/design-language.md#L873).
 
 All container components (Grid, Stack, Card, Container) enforce boundary integrity via `overflow: hidden`, `max-width: 100%`, and `min-width: 0` on children. You do not need to add these yourself.
 
@@ -3227,7 +3227,7 @@ Each production has a test. Run these at composition time.
 | column-array | Reorder columns randomly. Is data still readable? (If not, labels are insufficient.) Swap all bar colors to gray. Is information lost? (If yes, Blue Discipline violation.) |
 | containment | Does each nonterminal nest inside a legal parent per 11.11? If a ranked-sequence sits directly inside a page with no surface, the containment is invalid. |
 
-Named molecules in strand-ui (see HTML_REFERENCE.md) are convenience CSS classes for common derivations. An agent that knows this grammar can compose any valid molecule from first principles without needing the named class.
+Named molecules in strand-ui (see generated/html-reference.md) are convenience CSS classes for common derivations. An agent that knows this grammar can compose any valid molecule from first principles without needing the named class.
 
 ---
 
@@ -3962,7 +3962,7 @@ Parity obligation: every token in parity-manifest.json#/tokens is defined in pac
 
 Coexistence layer: use Bulma coexistence alongside your existing CSS framework.
 
-Install: see CONSUMERS.md section 7
+Install: see generated/consumers.md section 7
 
 Package: `packages/tokens/`
 Artifacts: `packages/tokens/bulma/strand-bulma-compat.css`, `packages/tokens/bulma/_strand-bulma-use.scss`, `packages/tokens/bulma/_strand-bulma-vars.scss`
@@ -3975,7 +3975,7 @@ Parity obligation: strand-bulma-compat.css references every Strand token used by
 
 Coexistence guide: Bootstrap coexistence coexists via class-prefix naming convention.
 
-Install: see CONSUMERS.md section 8
+Install: see generated/consumers.md section 8
 
 Migration guide: [docs/migration/from-bootstrap.md](./docs/migration/from-bootstrap.md)
 Parity obligation: every Strand class name referenced in docs/migration/from-bootstrap.md exists in the built standalone strand-ui.css bundle
@@ -3985,7 +3985,7 @@ Parity obligation: every Strand class name referenced in docs/migration/from-boo
 ## Adding a new consumer type
 
 1. Add an entry to `consumers.json` with a stable `id`, display `name`, `kind` (`package` | `sub-export` | `coexistence-layer`), path, install instructions, and parity obligation.
-2. Add a block to this file (`CONSUMERS.md`) describing the new type for human readers.
+2. Run `pnpm build:docs` to regenerate `generated/consumers.md` with the new consumer type.
 3. Build the package to parity: every primitive listed in `parity-manifest.json` must be reachable through the new consumer type.
 4. The parity test picks up the new consumer type automatically from `consumers.json`. No tooling changes needed.
 5. The release workflow publishes the new package on the next root version bump.
@@ -4006,6 +4006,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- add zero-drift documentation generator system
+- add zero-drift documentation generator system
 - add Vite + Preact starter template
 - add AGENTS.md, llms.txt, and migration guides to scaffold reading list
 - add agent consumption infrastructure (AGENTS.md, llms.txt, registry.json)
@@ -4265,7 +4267,7 @@ All components must support:
 
 ## Links
 
-- [Strand Design Language](./DESIGN_LANGUAGE.md)
+- [Strand Design Language](./docs/design-language.md)
 - [Dillinger Staffing](https://dillingerstaffing.com) - Project home
 - [Issues](https://github.com/dillingerstaffing/strand/issues)
 
@@ -4535,8 +4537,8 @@ This is a manual override, not an official theme. Test contrast ratios before sh
 
 ---
 
-Full class API: [HTML_REFERENCE.md](../../HTML_REFERENCE.md)
-Design principles: [DESIGN_LANGUAGE.md](../../DESIGN_LANGUAGE.md)
+Full class API: [html-reference.md](../../generated/html-reference.md)
+Design principles: [design-language.md](../design-language.md)
 
 ---
 
@@ -4739,5 +4741,5 @@ Remove the Bootstrap `<link>` and `<script>` tags from your entry point. Run you
 
 ## Further Reading
 
-- [DESIGN_LANGUAGE.md](../../DESIGN_LANGUAGE.md) for token definitions and design principles
+- [design-language.md](../design-language.md) for token definitions and design principles
 - [CONTRIBUTING.md](../../CONTRIBUTING.md) for component standards

@@ -195,5 +195,5 @@ Remove the Bootstrap `<link>` and `<script>` tags from your entry point. Run you
 
 ## Further Reading
 
-- [DESIGN_LANGUAGE.md](../../DESIGN_LANGUAGE.md) for token definitions and design principles
+- [design-language.md](../design-language.md) for token definitions and design principles
 - [CONTRIBUTING.md](../../CONTRIBUTING.md) for component standards

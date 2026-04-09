@@ -1,6 +1,6 @@
 # Strand Dogfood Gaps Log
 
-This file is an append-only record of every dogfood iteration and every gap discovered. Each gap is classified L1 (usage), L2 (library), or L3 (design language) per `DOGFOOD_PROTOCOL.md`. The record is public because it is evidence of Strand's quality discipline and a learning resource for external consumers.
+This file is an append-only record of every dogfood iteration and every gap discovered. Each gap is classified L1 (usage), L2 (library), or L3 (design language) per `docs/dogfood-protocol.md`. The record is public because it is evidence of Strand's quality discipline and a learning resource for external consumers.
 
 ## Entry format
 

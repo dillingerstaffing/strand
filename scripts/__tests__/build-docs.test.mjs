@@ -514,7 +514,7 @@ describe("integration: build-docs script", () => {
 		let content;
 
 		beforeAll(async () => {
-			content = await readFile(join(REPO_ROOT, "HTML_REFERENCE.md"), "utf8");
+			content = await readFile(join(REPO_ROOT, "generated/html-reference.md"), "utf8");
 		});
 
 		it("contains generated component reference markers", () => {
@@ -534,7 +534,7 @@ describe("integration: build-docs script", () => {
 		let content;
 
 		beforeAll(async () => {
-			content = await readFile(join(REPO_ROOT, "CHANGELOG.md"), "utf8");
+			content = await readFile(join(REPO_ROOT, "generated/changelog.md"), "utf8");
 		});
 
 		it("uses Keep a Changelog format", () => {
@@ -548,7 +548,7 @@ describe("integration: build-docs script", () => {
 		let content;
 
 		beforeAll(async () => {
-			content = await readFile(join(REPO_ROOT, "CONSUMERS.md"), "utf8");
+			content = await readFile(join(REPO_ROOT, "generated/consumers.md"), "utf8");
 		});
 
 		it("contains all consumer types from consumers.json", async () => {
@@ -624,7 +624,7 @@ describe("integration: build-docs script", () => {
 		let content;
 
 		beforeAll(async () => {
-			content = await readFile(join(REPO_ROOT, "llms.txt"), "utf8");
+			content = await readFile(join(REPO_ROOT, "generated/llms.txt"), "utf8");
 		});
 
 		it("exists and starts with Strand header", () => {
@@ -641,7 +641,7 @@ describe("integration: build-docs script", () => {
 		let content;
 
 		beforeAll(async () => {
-			content = await readFile(join(REPO_ROOT, "llms-full.txt"), "utf8");
+			content = await readFile(join(REPO_ROOT, "generated/llms-full.txt"), "utf8");
 		});
 
 		it("contains content from multiple docs", () => {
@@ -654,7 +654,7 @@ describe("integration: build-docs script", () => {
 		let registry;
 
 		beforeAll(async () => {
-			const content = await readFile(join(REPO_ROOT, "registry.json"), "utf8");
+			const content = await readFile(join(REPO_ROOT, "generated/registry.json"), "utf8");
 			registry = JSON.parse(content);
 		});
 
@@ -698,20 +698,20 @@ describe("integration: build-docs script", () => {
 		it("running the script twice produces identical output", async () => {
 			// Read outputs after first run
 			const [llms1, registry1, readme1, htmlRef1] = await Promise.all([
-				readFile(join(REPO_ROOT, "llms.txt"), "utf8"),
-				readFile(join(REPO_ROOT, "registry.json"), "utf8"),
+				readFile(join(REPO_ROOT, "generated/llms.txt"), "utf8"),
+				readFile(join(REPO_ROOT, "generated/registry.json"), "utf8"),
 				readFile(join(REPO_ROOT, "README.md"), "utf8"),
-				readFile(join(REPO_ROOT, "HTML_REFERENCE.md"), "utf8"),
+				readFile(join(REPO_ROOT, "generated/html-reference.md"), "utf8"),
 			]);
 
 			// Run again
 			await exec("node", [SCRIPT_PATH], { cwd: REPO_ROOT, timeout: 30000 });
 
 			const [llms2, registry2, readme2, htmlRef2] = await Promise.all([
-				readFile(join(REPO_ROOT, "llms.txt"), "utf8"),
-				readFile(join(REPO_ROOT, "registry.json"), "utf8"),
+				readFile(join(REPO_ROOT, "generated/llms.txt"), "utf8"),
+				readFile(join(REPO_ROOT, "generated/registry.json"), "utf8"),
 				readFile(join(REPO_ROOT, "README.md"), "utf8"),
-				readFile(join(REPO_ROOT, "HTML_REFERENCE.md"), "utf8"),
+				readFile(join(REPO_ROOT, "generated/html-reference.md"), "utf8"),
 			]);
 
 			expect(llms1).toBe(llms2);

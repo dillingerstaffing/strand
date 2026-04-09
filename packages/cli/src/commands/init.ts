@@ -99,9 +99,9 @@ This project uses the Strand design language.
 
 When building or modifying UI, read these files:
 - node_modules/@dillingerstaffing/strand-ui/HTML_REFERENCE.md (component classes, HTML structure, and composition tripwires)
-- https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md (design constraints, token roles, interaction patterns, principles)
+- https://github.com/dillingerstaffing/strand/blob/main/docs/design-language.md (design constraints, token roles, interaction patterns, principles)
 
-Before composing, and again before shipping, run every test in DESIGN_LANGUAGE.md Part II (Principles 1-10). Each principle has a specific test. If any test fails, the composition is not ready.
+Before composing, and again before shipping, run every test in design-language.md Part II (Principles 1-10). Each principle has a specific test. If any test fails, the composition is not ready.
 `;
 
   const bulmaNote =

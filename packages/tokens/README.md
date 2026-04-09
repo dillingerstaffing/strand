@@ -1,6 +1,6 @@
 # @dillingerstaffing/strand
 
-Design tokens for the [Strand Design Language](https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md). CSS custom properties + typed JavaScript constants. Framework-agnostic. Zero runtime.
+Design tokens for the [Strand Design Language](https://github.com/dillingerstaffing/strand/blob/main/docs/design-language.md). CSS custom properties + typed JavaScript constants. Framework-agnostic. Zero runtime.
 
 ## Install
 
@@ -48,7 +48,7 @@ Or in Sass: `@use "@dillingerstaffing/strand/bulma/strand-bulma-use"`. See [Usin
 ## Links
 
 - [GitHub](https://github.com/dillingerstaffing/strand)
-- [Design Language](https://github.com/dillingerstaffing/strand/blob/main/DESIGN_LANGUAGE.md)
+- [Design Language](https://github.com/dillingerstaffing/strand/blob/main/docs/design-language.md)
 - [Documentation](https://dillingerstaffing.com/labs/strand)
 
 Created by [Dillinger Staffing](https://dillingerstaffing.com)

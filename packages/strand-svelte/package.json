@@ -43,7 +43,7 @@
 	"files": ["dist/", "src/"],
 	"sideEffects": ["dist/css/*.css"],
 	"scripts": {
-		"build": "vite build && cp ../../HTML_REFERENCE.md ./HTML_REFERENCE.md",
+		"build": "vite build && cp ../../generated/html-reference.md ./HTML_REFERENCE.md && cp ../../docs/design-language.md ./DESIGN_LANGUAGE.md",
 		"test": "vitest run"
 	},
 	"peerDependencies": {

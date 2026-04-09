@@ -1,16 +1,16 @@
 # Strand HTML Reference
 
-**This is the CSS-only API for Strand.** Use these classes with any framework (Vue, Svelte, Angular) or plain HTML. No JavaScript required. For design constraints, token roles, interaction patterns, and principles, read [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md).
+**This is the CSS-only API for Strand.** Use these classes with any framework (Vue, Svelte, Angular) or plain HTML. No JavaScript required. For design constraints, token roles, interaction patterns, and principles, read [DESIGN_LANGUAGE.md](../docs/design-language.md).
 
 > **Using Bulma, Bootstrap, or Tailwind?** Strand's CSS classes are prefixed with `strand-` and have zero collisions with other CSS frameworks. Load Strand CSS alongside your existing framework and use these classes directly.
 
-> **Before writing any Strand HTML**, read [DESIGN_LANGUAGE.md Part II: Named Principles (L57-L193)](./DESIGN_LANGUAGE.md#L57). These 10 principles are hard constraints, not guidelines. Violating them produces valid HTML that looks wrong.
+> **Before writing any Strand HTML**, read [DESIGN_LANGUAGE.md Part II: Named Principles (L57-L193)](../docs/design-language.md#L57). These 10 principles are hard constraints, not guidelines. Violating them produces valid HTML that looks wrong.
 
-> **Principle 1 (Cognitive Economy):** Every element must earn its place. Test: remove an element. If the task still works, it was decoration. If you're not adding back 10% of what you delete, you're not deleting enough. See [DL L61-69](./DESIGN_LANGUAGE.md#L61).
+> **Principle 1 (Cognitive Economy):** Every element must earn its place. Test: remove an element. If the task still works, it was decoration. If you're not adding back 10% of what you delete, you're not deleting enough. See [DL L61-69](../docs/design-language.md#L61).
 
-> **Principle 2 (Biosynthetic Restraint):** Max 12 distinct visual elements per screen. Every composition must have exactly one visually dominant primary element. If all elements have equal visual weight, the composition has no focal point. An instrument without a focal point is a parts bin, not an instrument. See [DL L71-84](./DESIGN_LANGUAGE.md#L71).
+> **Principle 2 (Biosynthetic Restraint):** Max 12 distinct visual elements per screen. Every composition must have exactly one visually dominant primary element. If all elements have equal visual weight, the composition has no focal point. An instrument without a focal point is a parts bin, not an instrument. See [DL L71-84](../docs/design-language.md#L71).
 
-> **Principle 9 (Typography Carries the Room):** The largest text and smallest text on the same screen must have at least a 3:1 size ratio. Uniform typography is a spreadsheet. Hierarchical typography is an instrument panel. See [DL L165-178](./DESIGN_LANGUAGE.md#L165).
+> **Principle 9 (Typography Carries the Room):** The largest text and smallest text on the same screen must have at least a 3:1 size ratio. Uniform typography is a spreadsheet. Hierarchical typography is an instrument panel. See [DL L165-178](../docs/design-language.md#L165).
 
 ---
 
@@ -114,9 +114,9 @@ Complete page skeletons demonstrating how Strand components compose into full pa
 <link rel="stylesheet" href="node_modules/@dillingerstaffing/strand-ui/dist/css/strand-ui.css">
 ```
 
-> **Principle 7 (Grain of Precision):** Include reset.css and base.css for the laboratory surface texture (dot grid, LED glow, grain). Without these, the page is a blank canvas, not a lab. See [DL L141-147](./DESIGN_LANGUAGE.md#L141).
+> **Principle 7 (Grain of Precision):** Include reset.css and base.css for the laboratory surface texture (dot grid, LED glow, grain). Without these, the page is a blank canvas, not a lab. See [DL L141-147](../docs/design-language.md#L141).
 
-> **Token roles:** Don't guess which token to use. See [DESIGN_LANGUAGE.md 3.8: Color Roles (L290-L311)](./DESIGN_LANGUAGE.md#L290) for which color in which context, and [Appendix B: Token Quick Reference (L1372-L1431)](./DESIGN_LANGUAGE.md#L1372) for the full lookup table.
+> **Token roles:** Don't guess which token to use. See [DESIGN_LANGUAGE.md 3.8: Color Roles (L290-L311)](../docs/design-language.md#L290) for which color in which context, and [Appendix B: Token Quick Reference (L1372-L1431)](../docs/design-language.md#L1372) for the full lookup table.
 
 ## Presentation Mode
 
@@ -155,24 +155,24 @@ Use `.strand-viewport` for component previews and showcase containers:
 
 **Modifiers:** `strand-viewport--flex` (flex, center-aligned, gap-4, wrap) | `strand-viewport--flex-col` (flex-column, gap-4)
 
-> **Why recessed?** See [DESIGN_LANGUAGE.md 7.3: The Recessed Viewport (L710-L725)](./DESIGN_LANGUAGE.md#L710) and [7.2: Container Elevation Contexts (L698-L708)](./DESIGN_LANGUAGE.md#L698).
+> **Why recessed?** See [DESIGN_LANGUAGE.md 7.3: The Recessed Viewport (L710-L725)](../docs/design-language.md#L710) and [7.2: Container Elevation Contexts (L698-L708)](../docs/design-language.md#L698).
 
 ## Padding Tiers
 
-> Tier values, usage guidance, and the 30% validation test: [DESIGN_LANGUAGE.md 5.2: Component Padding Tiers (L434-L444)](./DESIGN_LANGUAGE.md#L434). Spacing hierarchy rule (gap > padding): [5.3: Spacing Hierarchy (L446-L456)](./DESIGN_LANGUAGE.md#L446).
+> Tier values, usage guidance, and the 30% validation test: [DESIGN_LANGUAGE.md 5.2: Component Padding Tiers (L434-L444)](../docs/design-language.md#L434). Spacing hierarchy rule (gap > padding): [5.3: Spacing Hierarchy (L446-L456)](../docs/design-language.md#L446).
 
 Card padding tiers (used via `strand-card--pad-{sm|md|lg}`):
 - `sm`: 16px -- `md`: 24px -- `lg`: 40px
 
 ## Focus States
 
-> Full specification: [DESIGN_LANGUAGE.md 14.3: Focus Indicators (L1145-L1151)](./DESIGN_LANGUAGE.md#L1145). Always `:focus-visible`, never all `:focus`.
+> Full specification: [DESIGN_LANGUAGE.md 14.3: Focus Indicators (L1145-L1151)](../docs/design-language.md#L1145). Always `:focus-visible`, never all `:focus`.
 
 No additional classes needed. Focus rings are built into each component's CSS.
 
 ## Boundary Integrity
 
-> Full specification: [DESIGN_LANGUAGE.md 10.4: Boundary Integrity (L865-L871)](./DESIGN_LANGUAGE.md#L865). Composability depth rule: [10.5: Composability Constraint (L873-L877)](./DESIGN_LANGUAGE.md#L873).
+> Full specification: [DESIGN_LANGUAGE.md 10.4: Boundary Integrity (L865-L871)](../docs/design-language.md#L865). Composability depth rule: [10.5: Composability Constraint (L873-L877)](../docs/design-language.md#L873).
 
 All container components (Grid, Stack, Card, Container) enforce boundary integrity via `overflow: hidden`, `max-width: 100%`, and `min-width: 0` on children. You do not need to add these yourself.
 

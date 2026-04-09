@@ -151,7 +151,7 @@ export async function generateHtmlReference(repoRoot) {
 	);
 
 	// Read current HTML_REFERENCE.md
-	const refPath = resolve(repoRoot, "HTML_REFERENCE.md");
+	const refPath = resolve(repoRoot, "generated/html-reference.md");
 	let content = await readFile(refPath, "utf8");
 
 	// Replace content between markers
@@ -169,5 +169,5 @@ export async function generateHtmlReference(repoRoot) {
 		process.stderr.write(`WARNING: ${w}\n`);
 	}
 
-	return { file: "HTML_REFERENCE.md", warnings };
+	return { file: "generated/html-reference.md", warnings };
 }
