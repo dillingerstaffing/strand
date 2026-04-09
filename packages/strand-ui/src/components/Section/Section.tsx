@@ -12,6 +12,20 @@ export interface SectionProps extends JSX.HTMLAttributes<HTMLElement> {
   borderTop?: boolean;
 }
 
+/**
+ * Page-level content region with padding, background, and optional top border.
+ *
+ * @example
+ * ```tsx
+ * import { Section, Container } from '@dillingerstaffing/strand-ui';
+ *
+ * <Section variant="hero" background="recessed">
+ *   <Container>
+ *     <h1>Hero Section</h1>
+ *   </Container>
+ * </Section>
+ * ```
+ */
 export const Section = forwardRef<HTMLElement, SectionProps>(
   (
     {

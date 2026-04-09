@@ -20,6 +20,23 @@ export interface TabsProps
   onChange: (id: string) => void;
 }
 
+/**
+ * Tabbed content switcher with keyboard navigation and ARIA tab pattern.
+ *
+ * @example
+ * ```tsx
+ * import { Tabs } from '@dillingerstaffing/strand-ui';
+ *
+ * <Tabs
+ *   tabs={[
+ *     { id: 'overview', label: 'Overview', content: <p>Overview</p> },
+ *     { id: 'details', label: 'Details', content: <p>Details</p> },
+ *   ]}
+ *   activeTab="overview"
+ *   onChange={(id) => console.log(id)}
+ * />
+ * ```
+ */
 export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
   ({ tabs, activeTab, onChange, className = "", ...rest }, ref) => {
     const tablistRef = useRef<HTMLDivElement>(null);

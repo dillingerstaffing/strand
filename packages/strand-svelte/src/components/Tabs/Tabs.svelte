@@ -1,4 +1,24 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Tabbed content switcher with keyboard navigation and ARIA tab pattern.
+
+  @example
+  ```svelte
+  <script>
+    import { Tabs } from '@dillingerstaffing/strand-svelte';
+    let activeTab = 'overview';
+    const tabs = [
+      { id: 'overview', label: 'Overview' },
+      { id: 'details', label: 'Details' },
+    ];
+  </script>
+
+  <Tabs {tabs} bind:activeTab>
+    <div slot="overview"><p>Overview content</p></div>
+    <div slot="details"><p>Details content</p></div>
+  </Tabs>
+  ```
+-->
 <script lang="ts">
   export interface TabItem {
     id: string

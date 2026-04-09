@@ -15,6 +15,18 @@ export interface AlertProps
   children?: ComponentChildren;
 }
 
+/**
+ * Contextual feedback banner for status messages, warnings, and errors.
+ *
+ * @example
+ * ```tsx
+ * import { Alert } from '@dillingerstaffing/strand-ui';
+ *
+ * <Alert status="success" dismissible onDismiss={() => {}}>
+ *   Operation completed successfully.
+ * </Alert>
+ * ```
+ */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   (
     {

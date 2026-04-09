@@ -1,4 +1,23 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Top-level navigation bar with logo slot, link items, actions, and responsive mobile menu.
+
+  @example
+  ```svelte
+  <script>
+    import { Nav } from '@dillingerstaffing/strand-svelte';
+
+    const items = [
+      { label: 'Home', href: '/', active: true },
+      { label: 'About', href: '/about' },
+    ];
+  </script>
+
+  <Nav {items} glass>
+    <img slot="logo" src="/logo.svg" alt="Brand" />
+  </Nav>
+  ```
+-->
 <script lang="ts">
   export interface NavItem {
     label: string

@@ -1,4 +1,18 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Syntax-highlighted code display with optional language label and copy-to-clipboard.
+
+  @example
+  ```vue
+  <script setup>
+  import { CodeBlock } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <CodeBlock code="const x = 42;" language="js" copyable />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from 'vue'
 

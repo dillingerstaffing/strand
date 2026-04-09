@@ -1,4 +1,19 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Flexbox layout container for arranging children with consistent spacing.
+
+  @example
+  ```svelte
+  <script>
+    import { Stack, Button } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Stack direction="horizontal" gap={4} align="center">
+    <Button variant="primary">Save</Button>
+    <Button variant="secondary">Cancel</Button>
+  </Stack>
+  ```
+-->
 <script lang="ts">
   /** Flex direction */
   export let direction: 'vertical' | 'horizontal' = 'vertical'

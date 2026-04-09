@@ -1,4 +1,19 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Circular user representation with image, initials fallback, and multiple sizes.
+
+  @example
+  ```vue
+  <script setup>
+  import { Avatar } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Avatar src="/photo.jpg" alt="Jane Doe" size="lg" />
+    <Avatar initials="JD" size="md" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 

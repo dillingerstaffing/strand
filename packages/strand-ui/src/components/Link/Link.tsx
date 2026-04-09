@@ -12,6 +12,17 @@ export interface LinkProps extends JSX.HTMLAttributes<HTMLAnchorElement> {
   variant?: "default" | "cta" | "mono";
 }
 
+/**
+ * Styled anchor element with external-link handling and visual variants.
+ *
+ * @example
+ * ```tsx
+ * import { Link } from '@dillingerstaffing/strand-ui';
+ *
+ * <Link href="/docs" variant="cta">Read the docs</Link>
+ * <Link href="https://example.com" external>External site</Link>
+ * ```
+ */
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   ({ href, external = false, variant = "default", className = "", children, ...rest }, ref) => {
     const classes = [

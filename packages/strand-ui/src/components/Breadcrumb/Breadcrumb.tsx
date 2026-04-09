@@ -16,6 +16,22 @@ export interface BreadcrumbProps
   separator?: string;
 }
 
+/**
+ * Hierarchical navigation path showing the current page location.
+ *
+ * @example
+ * ```tsx
+ * import { Breadcrumb } from '@dillingerstaffing/strand-ui';
+ *
+ * <Breadcrumb
+ *   items={[
+ *     { label: 'Home', href: '/' },
+ *     { label: 'Settings', href: '/settings' },
+ *     { label: 'Profile' },
+ *   ]}
+ * />
+ * ```
+ */
 export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
   ({ items, separator = "/", className = "", ...rest }, ref) => {
     const classes = ["strand-breadcrumb", className]

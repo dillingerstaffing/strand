@@ -1,4 +1,22 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  CSS Grid layout with configurable column count and gap spacing.
+
+  @example
+  ```vue
+  <script setup>
+  import { Grid, Card } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Grid :columns="3" :gap="6">
+      <Card>Item 1</Card>
+      <Card>Item 2</Card>
+      <Card>Item 3</Card>
+    </Grid>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

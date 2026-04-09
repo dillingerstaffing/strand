@@ -1,4 +1,18 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Contextual feedback banner for status messages, warnings, and errors.
+
+  @example
+  ```svelte
+  <script>
+    import { Alert } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Alert status="success" dismissible ondismiss={() => {}}>
+    Operation completed successfully.
+  </Alert>
+  ```
+-->
 <script lang="ts">
   /** Visual status of the alert */
   export let status: 'info' | 'success' | 'warning' | 'error' = 'info'

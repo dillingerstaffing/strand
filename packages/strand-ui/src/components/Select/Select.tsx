@@ -24,6 +24,24 @@ export interface SelectProps
   placeholder?: string;
 }
 
+/**
+ * Native select dropdown with styled wrapper, error state, and placeholder support.
+ *
+ * @example
+ * ```tsx
+ * import { Select } from '@dillingerstaffing/strand-ui';
+ *
+ * <Select
+ *   placeholder="Choose a role"
+ *   options={[
+ *     { value: 'eng', label: 'Engineer' },
+ *     { value: 'design', label: 'Designer' },
+ *   ]}
+ *   value="eng"
+ *   onChange={(e) => console.log(e.currentTarget.value)}
+ * />
+ * ```
+ */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   (
     {

@@ -10,6 +10,20 @@ export interface GridProps extends JSX.HTMLAttributes<HTMLDivElement> {
   gap?: number;
 }
 
+/**
+ * CSS Grid layout with configurable column count and gap spacing.
+ *
+ * @example
+ * ```tsx
+ * import { Grid, Card } from '@dillingerstaffing/strand-ui';
+ *
+ * <Grid columns={3} gap={6}>
+ *   <Card>Item 1</Card>
+ *   <Card>Item 2</Card>
+ *   <Card>Item 3</Card>
+ * </Grid>
+ * ```
+ */
 export const Grid = forwardRef<HTMLDivElement, GridProps>(
   (
     {

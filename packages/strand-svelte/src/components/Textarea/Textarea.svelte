@@ -1,4 +1,17 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Multi-line text input with auto-resize, character count, and error state.
+
+  @example
+  ```svelte
+  <script>
+    import { Textarea } from '@dillingerstaffing/strand-svelte';
+    let text = '';
+  </script>
+
+  <Textarea bind:value={text} maxLength={500} showCount autoResize />
+  ```
+-->
 <script lang="ts">
   /** Auto-resize to fit content */
   export let autoResize: boolean = false

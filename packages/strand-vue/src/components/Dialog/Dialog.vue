@@ -1,4 +1,22 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Modal overlay with focus trapping, scroll lock, and backdrop click dismissal.
+
+  @example
+  ```vue
+  <script setup>
+  import { ref } from 'vue';
+  import { Dialog } from '@dillingerstaffing/strand-vue';
+  const isOpen = ref(false);
+  </script>
+
+  <template>
+    <Dialog :open="isOpen" title="Confirm" @close="isOpen = false">
+      <p>Are you sure?</p>
+    </Dialog>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, ref, watch, onUnmounted, nextTick } from 'vue'
 

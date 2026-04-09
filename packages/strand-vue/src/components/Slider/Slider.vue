@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Range input control for selecting a numeric value within a bounded interval.
+
+  @example
+  ```vue
+  <script setup>
+  import { ref } from 'vue';
+  import { Slider } from '@dillingerstaffing/strand-vue';
+  const value = ref(50);
+  </script>
+
+  <template>
+    <Slider :min="0" :max="100" :step="5" v-model:value="value" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

@@ -13,6 +13,18 @@ export interface InstrumentViewportProps
   fullBleed?: boolean;
 }
 
+/**
+ * Recessed dark surface for displaying instrument-style UI components.
+ *
+ * @example
+ * ```tsx
+ * import { InstrumentViewport, DataReadout } from '@dillingerstaffing/strand-ui';
+ *
+ * <InstrumentViewport grid>
+ *   <DataReadout label="Uptime" value="99.9%" />
+ * </InstrumentViewport>
+ * ```
+ */
 export const InstrumentViewport = forwardRef<
   HTMLDivElement,
   InstrumentViewportProps

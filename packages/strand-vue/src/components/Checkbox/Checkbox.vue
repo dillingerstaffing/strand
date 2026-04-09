@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Toggle control for boolean or indeterminate selections with optional label.
+
+  @example
+  ```vue
+  <script setup>
+  import { ref } from 'vue';
+  import { Checkbox } from '@dillingerstaffing/strand-vue';
+  const accepted = ref(false);
+  </script>
+
+  <template>
+    <Checkbox v-model:checked="accepted" label="Accept terms" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, ref, watch, onMounted } from 'vue'
 

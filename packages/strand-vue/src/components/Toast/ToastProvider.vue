@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Context provider that manages toast notifications for its subtree.
+
+  @example
+  ```vue
+  <script setup>
+  import { ToastProvider } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <ToastProvider>
+      <App />
+    </ToastProvider>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { ref, provide, onUnmounted } from 'vue'
 import { ToastKey } from './useToast'

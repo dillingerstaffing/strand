@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Intersection Observer wrapper that reveals children with a transition on scroll.
+
+  @example
+  ```vue
+  <script setup>
+  import { ScrollReveal } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <ScrollReveal :threshold="0.2" once>
+      <p>This content fades in on scroll.</p>
+    </ScrollReveal>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 

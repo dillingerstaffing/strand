@@ -1,4 +1,16 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Syntax-highlighted code display with optional language label and copy-to-clipboard.
+
+  @example
+  ```svelte
+  <script>
+    import { CodeBlock } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <CodeBlock code="const x = 42;" language="js" copyable />
+  ```
+-->
 <script lang="ts">
   import { onDestroy } from 'svelte'
 

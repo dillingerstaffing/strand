@@ -1,4 +1,18 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Instrument-panel metric display with overline label and prominent value.
+
+  @example
+  ```vue
+  <script setup>
+  import { DataReadout } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <DataReadout label="Conversion Rate" value="94%" size="lg" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

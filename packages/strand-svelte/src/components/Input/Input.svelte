@@ -1,4 +1,16 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Text input field with optional leading/trailing addons and error state.
+
+  @example
+  ```svelte
+  <script>
+    import { Input } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Input type="email" placeholder="you@example.com" />
+  ```
+-->
 <script lang="ts">
   /** Input type */
   export let type: 'text' | 'email' | 'password' | 'search' | 'number' = 'text'

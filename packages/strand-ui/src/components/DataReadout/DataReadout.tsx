@@ -13,6 +13,16 @@ export interface DataReadoutProps
   size?: "sm" | "md" | "lg" | "xl";
 }
 
+/**
+ * Instrument-panel metric display with overline label and prominent value.
+ *
+ * @example
+ * ```tsx
+ * import { DataReadout } from '@dillingerstaffing/strand-ui';
+ *
+ * <DataReadout label="Conversion Rate" value="94%" size="lg" />
+ * ```
+ */
 export const DataReadout = forwardRef<HTMLDivElement, DataReadoutProps>(
   ({ label, value, size, className = "", ...rest }, ref) => {
     const classes = [

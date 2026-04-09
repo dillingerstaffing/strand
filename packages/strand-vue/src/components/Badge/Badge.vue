@@ -1,4 +1,21 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Small status indicator or notification count, displayed inline or overlaid on content.
+
+  @example
+  ```vue
+  <script setup>
+  import { Badge } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Badge variant="count" status="red" :count="5">
+      <button>Notifications</button>
+    </Badge>
+    <Badge variant="dot" status="teal" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
 

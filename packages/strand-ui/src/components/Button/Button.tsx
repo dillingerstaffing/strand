@@ -21,6 +21,18 @@ export interface ButtonProps
   fullWidth?: boolean;
 }
 
+/**
+ * Primary action trigger with multiple visual variants and sizes.
+ *
+ * @example
+ * ```tsx
+ * import { Button } from '@dillingerstaffing/strand-ui';
+ *
+ * <Button variant="primary" size="md" onClick={() => {}}>
+ *   Submit
+ * </Button>
+ * ```
+ */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {

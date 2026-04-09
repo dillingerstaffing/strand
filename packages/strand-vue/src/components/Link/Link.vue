@@ -1,4 +1,19 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Styled anchor element with external-link handling and visual variants.
+
+  @example
+  ```vue
+  <script setup>
+  import { Link } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Link href="/docs" variant="cta">Read the docs</Link>
+    <Link href="https://example.com" external>External site</Link>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

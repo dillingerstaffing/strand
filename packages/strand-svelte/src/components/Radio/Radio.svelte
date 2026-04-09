@@ -1,4 +1,18 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Single-selection control for use within a radio group.
+
+  @example
+  ```svelte
+  <script>
+    import { Radio } from '@dillingerstaffing/strand-svelte';
+    let selected = 'pro';
+  </script>
+
+  <Radio name="plan" value="pro" label="Pro" checked={selected === 'pro'} />
+  <Radio name="plan" value="free" label="Free" checked={selected === 'free'} />
+  ```
+-->
 <script lang="ts">
   /** Controlled checked state */
   export let checked: boolean = false

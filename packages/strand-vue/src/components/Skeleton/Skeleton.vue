@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Placeholder shimmer shape used while content is loading.
+
+  @example
+  ```vue
+  <script setup>
+  import { Skeleton } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <Skeleton variant="text" width="60%" />
+    <Skeleton variant="circle" width="48px" />
+    <Skeleton variant="rectangle" width="100%" height="200px" />
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 

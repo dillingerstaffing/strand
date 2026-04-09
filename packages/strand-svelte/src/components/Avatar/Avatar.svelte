@@ -1,4 +1,17 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Circular user representation with image, initials fallback, and multiple sizes.
+
+  @example
+  ```svelte
+  <script>
+    import { Avatar } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Avatar src="/photo.jpg" alt="Jane Doe" size="lg" />
+  <Avatar initials="JD" size="md" />
+  ```
+-->
 <script lang="ts">
   /** Image URL */
   export let src: string | undefined = undefined

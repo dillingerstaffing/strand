@@ -39,6 +39,27 @@ export interface ToastProviderProps {
   className?: string;
 }
 
+/**
+ * Context provider that manages toast notifications for its subtree.
+ *
+ * @example
+ * ```tsx
+ * import { ToastProvider, useToast } from '@dillingerstaffing/strand-ui';
+ *
+ * function App() {
+ *   return (
+ *     <ToastProvider>
+ *       <Page />
+ *     </ToastProvider>
+ *   );
+ * }
+ *
+ * function Page() {
+ *   const { toast } = useToast();
+ *   return <Button onClick={() => toast({ message: 'Saved', status: 'success' })}>Save</Button>;
+ * }
+ * ```
+ */
 export const ToastProvider = ({ children, className = "" }: ToastProviderProps) => {
   const [toasts, setToasts] = useState<ToastEntry[]>([]);
 
@@ -142,6 +163,16 @@ export interface ToastProps
   onDismiss?: () => void;
 }
 
+/**
+ * Standalone notification message with status indicator and optional dismiss.
+ *
+ * @example
+ * ```tsx
+ * import { Toast } from '@dillingerstaffing/strand-ui';
+ *
+ * <Toast status="success" message="Changes saved." onDismiss={() => {}} />
+ * ```
+ */
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(
   ({ status = "info", message, onDismiss, className = "", ...rest }, ref) => {
     const isUrgent = status === "error" || status === "warning";

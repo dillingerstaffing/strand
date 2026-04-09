@@ -22,6 +22,23 @@ export interface NavProps
   glass?: boolean;
 }
 
+/**
+ * Top-level navigation bar with logo slot, link items, actions, and responsive mobile menu.
+ *
+ * @example
+ * ```tsx
+ * import { Nav } from '@dillingerstaffing/strand-ui';
+ *
+ * <Nav
+ *   logo={<img src="/logo.svg" alt="Brand" />}
+ *   items={[
+ *     { label: 'Home', href: '/', active: true },
+ *     { label: 'About', href: '/about' },
+ *   ]}
+ *   glass
+ * />
+ * ```
+ */
 export const Nav = forwardRef<HTMLElement, NavProps>(
   ({ logo, items = [], actions, glass = false, className = "", ...rest }, ref) => {
     const [menuOpen, setMenuOpen] = useState(false);

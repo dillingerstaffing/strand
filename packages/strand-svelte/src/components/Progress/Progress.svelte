@@ -1,4 +1,17 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Determinate or indeterminate progress indicator in bar or ring form.
+
+  @example
+  ```svelte
+  <script>
+    import { Progress } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Progress variant="bar" value={65} size="md" />
+  <Progress variant="ring" size="lg" />
+  ```
+-->
 <script lang="ts">
   /** Visual variant */
   export let variant: 'bar' | 'ring' = 'bar'

@@ -1,4 +1,17 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Styled anchor element with external-link handling and visual variants.
+
+  @example
+  ```svelte
+  <script>
+    import { Link } from '@dillingerstaffing/strand-svelte';
+  </script>
+
+  <Link href="/docs" variant="cta">Read the docs</Link>
+  <Link href="https://example.com" external>External site</Link>
+  ```
+-->
 <script lang="ts">
   /** URL destination */
   export let href: string

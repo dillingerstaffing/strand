@@ -1,4 +1,17 @@
 <!--! Strand Svelte | MIT License | dillingerstaffing.com -->
+<!--
+  Toggle switch for binary on/off settings with optional inline label.
+
+  @example
+  ```svelte
+  <script>
+    import { Switch } from '@dillingerstaffing/strand-svelte';
+    let darkMode = false;
+  </script>
+
+  <Switch bind:checked={darkMode} label="Dark mode" />
+  ```
+-->
 <script lang="ts">
   /** Controlled checked state */
   export let checked: boolean = false

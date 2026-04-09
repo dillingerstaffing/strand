@@ -20,6 +20,18 @@ export interface FormFieldProps {
   children: ComponentChildren;
 }
 
+/**
+ * Form control wrapper providing label, hint text, error messaging, and required indicator.
+ *
+ * @example
+ * ```tsx
+ * import { FormField, Input } from '@dillingerstaffing/strand-ui';
+ *
+ * <FormField label="Email" htmlFor="email" hint="Work email preferred" required>
+ *   <Input id="email" type="email" />
+ * </FormField>
+ * ```
+ */
 export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
   (
     {

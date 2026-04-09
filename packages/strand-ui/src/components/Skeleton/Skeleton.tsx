@@ -13,6 +13,18 @@ export interface SkeletonProps
   height?: string;
 }
 
+/**
+ * Placeholder shimmer shape used while content is loading.
+ *
+ * @example
+ * ```tsx
+ * import { Skeleton } from '@dillingerstaffing/strand-ui';
+ *
+ * <Skeleton variant="text" width="60%" />
+ * <Skeleton variant="circle" width="48px" />
+ * <Skeleton variant="rectangle" width="100%" height="200px" />
+ * ```
+ */
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
   (
     {

@@ -17,6 +17,16 @@ export interface InputProps
   disabled?: boolean;
 }
 
+/**
+ * Text input field with optional leading/trailing addons and error state.
+ *
+ * @example
+ * ```tsx
+ * import { Input } from '@dillingerstaffing/strand-ui';
+ *
+ * <Input type="email" placeholder="you@example.com" error={false} />
+ * ```
+ */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {

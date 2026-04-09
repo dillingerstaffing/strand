@@ -22,6 +22,22 @@ export interface TextareaProps
   value?: string;
 }
 
+/**
+ * Multi-line text input with auto-resize, character count, and error state.
+ *
+ * @example
+ * ```tsx
+ * import { Textarea } from '@dillingerstaffing/strand-ui';
+ *
+ * <Textarea
+ *   value={text}
+ *   onInput={(e) => setText(e.currentTarget.value)}
+ *   maxLength={500}
+ *   showCount
+ *   autoResize
+ * />
+ * ```
+ */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {

@@ -1,4 +1,20 @@
 <!--! Strand Vue | MIT License | dillingerstaffing.com -->
+<!--
+  Recessed dark surface for displaying instrument-style UI components.
+
+  @example
+  ```vue
+  <script setup>
+  import { InstrumentViewport, DataReadout } from '@dillingerstaffing/strand-vue';
+  </script>
+
+  <template>
+    <InstrumentViewport grid>
+      <DataReadout label="Uptime" value="99.9%" />
+    </InstrumentViewport>
+  </template>
+  ```
+-->
 <script setup lang="ts">
 import { computed } from 'vue'
 
