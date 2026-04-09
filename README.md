@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="./DESIGN_LANGUAGE.md">Design Language</a> &#183;
+  <a href="./AGENTS.md">Agents</a> &#183;
   <a href="./CONSUMERS.md">Consumers</a> &#183;
   <a href="./CONTRIBUTING.md">Contributing</a> &#183;
   <a href="https://github.com/dillingerstaffing/strand/issues">Issues</a> &#183;
@@ -18,6 +19,24 @@
   Strand supports Preact, React, Svelte, Vue, vanilla HTML, tokens-only, Bulma, and Bootstrap. See <a href="./CONSUMERS.md">CONSUMERS.md</a> for the full registry and each consumer type's parity obligation.
 </p>
 
+---
+
+## Documentation
+
+<!-- DOCMAP:START -->
+| Doc | Purpose |
+|---|---|
+| [README](./README.md) | Install, configure, start building |
+| [AGENTS.md](./AGENTS.md) | AI coding agent usage instructions |
+| [HTML Reference](./HTML_REFERENCE.md) | CSS class API for every component |
+| [Design Language](./DESIGN_LANGUAGE.md) | Complete design specification |
+| [Consumers](./CONSUMERS.md) | Consumer types and framework parity |
+| [Changelog](./CHANGELOG.md) | Version history |
+| [Contributing](./CONTRIBUTING.md) | How to contribute |
+| [Bulma Migration](./docs/migration/from-bulma.md) | Use Strand alongside Bulma |
+| [Bootstrap Migration](./docs/migration/from-bootstrap.md) | Use Strand alongside Bootstrap |
+| [Strand Lab Page](https://dillingerstaffing.com/labs/strand) | Live showcase and brand entry point |
+<!-- DOCMAP:END -->
 
 ---
 
@@ -241,7 +260,7 @@ Own the source. No dependency lock-in.
 npx strand-ui init          # Set up tokens in your project
 npx strand-ui add button    # Copy Button source to your codebase
 npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list          # See all 34 components
+npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->34<!-- COMPONENT-COUNT:END --> components
 ```
 
 After install, the CLI is available as `strand` (e.g., `strand add button`).
@@ -253,127 +272,101 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-34 components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior.
+<!-- COMPONENT-COUNT:START -->34<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [HTML_REFERENCE.md](./HTML_REFERENCE.md).
 
 ### Input
 
-| Component | Description | Key Props |
-|---|---|---|
-| `Button` | Primary action trigger | `variant`: primary, secondary, ghost, danger. `size`: sm, md, lg. `loading`, `iconOnly`, `fullWidth` |
-| `Input` | Single-line text entry | `type`: text, email, password, search, number. `error`, `leadingAddon`, `trailingAddon` |
-| `Textarea` | Multi-line text entry | `autoResize`, `maxLength` (with character count) |
-| `Select` | Option selection | `options`: SelectOption[]. `searchable`, `onChange` |
-| `Checkbox` | Binary toggle (multiple) | `checked`, `indeterminate`, `onChange` |
-| `Radio` | Single selection from set | `checked`, `name`, `value`, `onChange` |
-| `Switch` | Binary toggle (single) | `checked`, `onChange`, inline label |
-| `Slider` | Range value selection | `min`, `max`, `step`, `value`, `onChange` |
-| `FormField` | Label + input + hint + error wrapper | `label`, `hint`, `error`, `required`. Wraps any input component |
+| Component | Description |
+|---|---|
+| `Button` | Primary action trigger |
+| `Input` | Single-line text entry |
+| `Textarea` | Multi-line text entry |
+| `Select` | Option selection |
+| `Checkbox` | Binary toggle (multiple) |
+| `Radio` | Single selection from set |
+| `Switch` | Binary toggle (single) |
+| `Slider` | Range value selection |
+| `FormField` | Label + input + hint + error wrapper |
 
 ### Display
 
-| Component | Description | Key Props |
-|---|---|---|
-| `Card` | Content container | `variant`: elevated, outlined, interactive. `padding`: sm, md, lg |
-| `Badge` | Status/count indicator | `variant`: dot, count. `status`: teal, blue, amber, red, default |
-| `Avatar` | User/entity representation | `src`, `initials`, `size`: sm, md, lg, xl. Image/initials/icon fallback |
-| `Tag` | Categorization label | `variant`: solid, outlined. `removable`, `onRemove`. Status colors |
-| `Table` | Tabular data display | `columns`: TableColumn[]. `data`: T[]. Sortable headers, responsive scroll |
-| `DataReadout` | Monospace metric display | `label` (overline), `value` (large display). The instrument readout pattern |
-| `CodeBlock` | Code snippet display | `code` (string), `language` (optional label). Terminal readout for code. |
+| Component | Description |
+|---|---|
+| `Card` | Content container |
+| `Badge` | Status/count indicator |
+| `Avatar` | User/entity representation |
+| `Tag` | Categorization label |
+| `Table` | Tabular data display |
+| `DataReadout` | Monospace metric display |
+| `CodeBlock` | Code snippet display |
 
 ### Layout
 
-| Component | Description | Key Props |
-|---|---|---|
-| `Stack` | Flex layout primitive | `direction`: vertical, horizontal. `gap`, `align`, `justify`, `wrap` |
-| `Grid` | Grid layout primitive | `columns`, `gap`. Responsive column counts |
-| `Container` | Width constraint | `width`: narrow (640px), default (768px), wide (1024px), full (1280px) |
-| `Divider` | Visual separator | `direction`: horizontal, vertical. `label` (optional text in middle) |
-| `Section` | Page section | `variant`: default, hero. Standard padding rhythm, background variants |
+| Component | Description |
+|---|---|
+| `Stack` | Flex layout primitive |
+| `Grid` | Grid layout primitive |
+| `Container` | Width constraint |
+| `Divider` | Visual separator |
+| `Section` | Page section |
 
 ### Navigation
 
-| Component | Description | Key Props |
-|---|---|---|
-| `Link` | Inline navigation | Standard anchor props. Underline-grow-from-left hover animation |
-| `Tabs` | Content switching | `items`: TabItem[]. `activeIndex`, `onChange`. Full WAI-ARIA tabs pattern |
-| `Breadcrumb` | Hierarchical location | `items`: BreadcrumbItem[]. `separator`. aria-current on last item |
-| `Nav` | Site/app navigation | `children`, `logo`. Responsive hamburger collapse, focus trap on mobile |
+| Component | Description |
+|---|---|
+| `Link` | Inline navigation |
+| `Tabs` | Content switching |
+| `Breadcrumb` | Hierarchical location |
+| `Nav` | Site/app navigation |
 
 ### Feedback
 
-| Component | Description | Key Props |
-|---|---|---|
-| `Toast` | Transient notification | `status`: info, success, warning, error. Use with `ToastProvider` + `useToast()` hook |
-| `Alert` | Persistent notification | `status`: info, success, warning, error. `dismissible`, `onDismiss` |
-| `Dialog` | Modal overlay | `open`, `onClose`, `title`. Focus trap, escape-to-close, portal rendering |
-| `Tooltip` | Contextual hint | `content`, `position`: top, right, bottom, left. `delay` |
-| `Progress` | Completion indicator | `variant`: bar, ring. `value` (0-100), `indeterminate` |
-| `Spinner` | Loading indicator | `size`: sm, md, lg. Screen reader text included |
-| `Skeleton` | Content placeholder | `variant`: text, rectangle, circle. `width`, `height`. Shimmer animation |
+| Component | Description |
+|---|---|
+| `Toast` | Transient notification |
+| `Alert` | Persistent notification |
+| `Dialog` | Modal overlay |
+| `Tooltip` | Contextual hint |
+| `Progress` | Completion indicator |
+| `Spinner` | Loading indicator |
+| `Skeleton` | Content placeholder |
 
 ### Surface
 
-| Component | Description | Key Props |
-|---|---|---|
-| `InstrumentViewport` | Dark instrument panel container | `grid` (optional grid overlay). Abyss-background viewport for data displays |
+| Component | Description |
+|---|---|
+| `InstrumentViewport` | Dark instrument panel container |
 
 ### Animation
 
-| Component | Description | Key Props |
-|---|---|---|
-| `ScrollReveal` | Scroll-triggered entrance animation | `threshold` (0-1), `once`. IntersectionObserver-powered fade+slide reveal |
+| Component | Description |
+|---|---|
+| `ScrollReveal` | Scroll-triggered entrance animation |
 
 ---
 
-## Design Tokens Reference
+## Design Tokens
 
-### Surfaces
-`--strand-surface-primary` (page bg) | `--strand-surface-elevated` (cards) | `--strand-surface-recessed` (inputs) | `--strand-surface-subtle` (borders)
+Strand ships CSS custom properties for every visual value. Three examples of the pattern:
 
-### Blue Spectrum
-`--strand-blue-glow` | `--strand-blue-wash` | `--strand-blue-indicator` | `--strand-blue-primary` | `--strand-blue-vivid` | `--strand-blue-deep` | `--strand-blue-midnight` | `--strand-blue-abyss`
+```css
+/* Surface tokens */
+background: var(--strand-surface-elevated);
 
-### Typography
-Fonts: `--strand-font-sans` (Inter) | `--strand-font-mono` (JetBrains Mono)
-Scale: `--strand-text-xs` through `--strand-text-7xl` (Major Third 1.250 ratio)
-Tracking: `--strand-tracking-tightest` through `--strand-tracking-ultra`
+/* Blue spectrum (interactive elements only) */
+color: var(--strand-blue-primary);
 
-### Spacing
-`--strand-space-1` (4px) through `--strand-space-48` (192px). Base unit: 4px.
-
-### Motion
-Easings: `--strand-ease-out-expo` | `--strand-ease-out-quart` | `--strand-ease-in-out-sine` | `--strand-ease-in-expo`
-Durations: `--strand-duration-instant` (75ms) | `--strand-duration-fast` (150ms) | `--strand-duration-normal` (250ms) | `--strand-duration-slow` (400ms)
-
-### Elevation
-`--strand-elevation-0` through `--strand-elevation-4`. Cards at rest: level 1. Hover: level 2. Modals: level 3.
-
-### Shape
-`--strand-radius-sm` (4px) | `--strand-radius-md` (6px) | `--strand-radius-lg` (8px) | `--strand-radius-xl` (12px) | `--strand-radius-full` (9999px)
+/* Spacing scale (4px base unit) */
+padding: var(--strand-space-6);
+```
 
 Full token specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
 
 ---
 
-## 10 Named Principles
+## Principles
 
-Every design decision in Strand traces to one of 10 named principles. Each has a definition, a rationale, and a test.
-
-| # | Principle | Core Idea |
-|---|---|---|
-| 1 | **Cognitive Economy** | Every element reduces the cognitive operations needed to understand the interface. If removing it doesn't break the task, it was decoration. |
-| 2 | **Biosynthetic Restraint** | Clutter signals primitive. Space signals advanced. Max 12 visual elements per screen. |
-| 3 | **Performance Gravity** | FCP < 1.2s. INP < 50ms. 60fps. No exceptions. Speed is the first and last design decision. |
-| 4 | **The Blue Discipline** | Blue is earned by interactive, data, or status elements. Everything else is white and gray. |
-| 5 | **Earned Elevation** | Shadow communicates z-layer and purpose. "It just looks nicer" means remove the shadow. |
-| 6 | **Compound Silence** | Negative space communicates structure. Gap > padding, always. |
-| 7 | **The Grain of Precision** | Subliminal texture (dot-grid, glow, grain) transforms blank white into a laboratory surface. |
-| 8 | **Default Philosophy** | Defaults ARE the philosophy. Zero-config output must look like a precision laboratory, not a generic app. |
-| 9 | **Typography Carries the Room** | If the interface works in grayscale with no images, the typography is correct. |
-| 10 | **The Instrument Principle** | Every interface is an instrument in a laboratory. Forms are specimen instruments. Dashboards are analytical readouts. |
-
-Full specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
+Strand is governed by 10 named principles (Cognitive Economy, Biosynthetic Restraint, Performance Gravity, The Blue Discipline, Earned Elevation, Compound Silence, The Grain of Precision, Default Philosophy, Typography Carries the Room, The Instrument Principle). Each has a definition, a rationale, and a test. Full specification: [DESIGN_LANGUAGE.md](./DESIGN_LANGUAGE.md)
 
 ---
 
