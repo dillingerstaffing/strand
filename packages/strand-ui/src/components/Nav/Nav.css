@@ -101,7 +101,7 @@
 }
 
 .strand-nav__items + .strand-nav__slot {
-	margin-left: var(--strand-space-6);
+	margin-left: var(--strand-space-8);
 }
 
 /* ── Links ── */
