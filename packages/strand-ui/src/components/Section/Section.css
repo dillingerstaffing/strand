@@ -2,52 +2,65 @@
 
 /* ── Base ── */
 .strand-section {
-  width: 100%;
+	width: 100%;
 }
 
 /* ── Variants ── */
 .strand-section--standard {
-  padding-block: clamp(4rem, 8vw, 8rem);
+	padding-block: clamp(4rem, 8vw, 8rem);
 }
 
 .strand-section--hero {
-  padding-block: clamp(6rem, 12vw, 12rem);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+	padding-block: clamp(6rem, 12vw, 12rem);
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+}
+
+/* ── Compact hero ──
+   A tighter hero variant for pages where a secondary CTA (install tabs,
+   pricing, signup) sits directly below the hero and must be at least
+   partially visible in the default viewport on desktop. Keeps the hero
+   treatment (center text, positioning, overflow handling) but trims the
+   vertical padding so the fold sits later in the page. */
+.strand-section--hero-compact {
+	padding-block: clamp(3.5rem, 6vw, 6rem);
+	text-align: center;
+	position: relative;
+	overflow: hidden;
 }
 
 .strand-section--hero-xl {
-  padding-block: clamp(8rem, 15vw, 14rem);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+	padding-block: clamp(8rem, 15vw, 14rem);
+	text-align: center;
+	position: relative;
+	overflow: hidden;
 }
 
 /* ── Backgrounds ── */
 .strand-section--bg-primary {
-  background-color: var(--strand-surface-primary);
+	background-color: var(--strand-surface-primary);
 }
 
 .strand-section--bg-elevated {
-  background-color: var(--strand-surface-elevated);
+	background-color: var(--strand-surface-elevated);
 }
 
 .strand-section--bg-recessed {
-  background-color: var(--strand-surface-recessed);
+	background-color: var(--strand-surface-recessed);
 }
 
 /* ── Compact variant ── */
 .strand-section--compact {
-  padding-block: var(--strand-space-12);
+	padding-block: var(--strand-space-12);
 }
 
 /* ── Border variant ── */
 .strand-section--border-top {
-  border-top: 1px solid var(--strand-gray-200);
+	border-top: 1px solid var(--strand-gray-200);
 }
 
 /* ── Scroll target (anchored section with nav offset) ── */
 .strand-section--scroll-target {
-  scroll-margin-top: 5rem;
+	scroll-margin-top: 5rem;
 }
