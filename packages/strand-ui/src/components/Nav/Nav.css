@@ -2,22 +2,22 @@
 
 /* ── Nav bar ── */
 .strand-nav {
-  position: relative;
-  width: 100%;
-  height: var(--strand-nav-height);
-  background: var(--strand-surface-elevated);
-  border-bottom: 1px solid var(--strand-gray-200);
-  font-family: var(--strand-font-sans);
+	position: relative;
+	width: 100%;
+	height: var(--strand-nav-height);
+	background: var(--strand-surface-elevated);
+	border-bottom: 1px solid var(--strand-gray-200);
+	font-family: var(--strand-font-sans);
 }
 
 /* ── Inner layout ── */
 .strand-nav__inner {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding: 0 var(--strand-space-6);
-  max-width: 1280px;
-  margin: 0 auto;
+	display: flex;
+	align-items: center;
+	height: 100%;
+	padding: 0 var(--strand-space-6);
+	max-width: 1280px;
+	margin: 0 auto;
 }
 
 /* ── Logo ──
@@ -25,43 +25,48 @@
    semibold weight, blue-midnight color. The logo is the only typographic
    identity on the page, so it carries the brand even at this small size. */
 .strand-nav__logo {
-  flex-shrink: 0;
-  margin-right: var(--strand-space-8);
-  font-family: var(--strand-font-mono);
-  font-size: var(--strand-text-sm);
-  font-weight: var(--strand-weight-semibold);
-  letter-spacing: var(--strand-tracking-widest);
-  text-transform: uppercase;
-  color: var(--strand-blue-midnight);
-  text-decoration: none;
-  position: relative;
+	flex-shrink: 0;
+	margin-right: var(--strand-space-8);
+	font-family: var(--strand-font-mono);
+	font-size: var(--strand-text-sm);
+	font-weight: var(--strand-weight-semibold);
+	letter-spacing: var(--strand-tracking-widest);
+	text-transform: uppercase;
+	color: var(--strand-blue-midnight);
+	text-decoration: none;
+	position: relative;
 }
 
 /* ── Logo with animated pulse underline (DL Principle 7: alive signal) ──
    A 2px blue underline that pulses in slow rhythm. Use on the brand
    identifier for the active site to signal "this is the live system." */
 .strand-nav__logo--pulse::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--strand-blue-primary);
-  border-radius: var(--strand-radius-sm);
-  animation: strand-nav-logo-pulse 2s var(--strand-ease-in-out-sine) infinite;
+	content: "";
+	position: absolute;
+	bottom: -4px;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: var(--strand-blue-primary);
+	border-radius: var(--strand-radius-sm);
+	animation: strand-nav-logo-pulse 2s var(--strand-ease-in-out-sine) infinite;
 }
 
 @keyframes strand-nav-logo-pulse {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.4; }
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.4;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .strand-nav__logo--pulse::after {
-    animation: none;
-    opacity: 0.6;
-  }
+	.strand-nav__logo--pulse::after {
+		animation: none;
+		opacity: 0.6;
+	}
 }
 
 /* ── Desktop items ──
@@ -70,94 +75,117 @@
    logo, leaving the right edge empty. margin-left auto restores the
    space-between layout most navbars expect. */
 .strand-nav__items {
-  display: flex;
-  align-items: center;
-  gap: var(--strand-space-6);
-  margin-left: auto;
-  list-style: none;
+	display: flex;
+	align-items: center;
+	gap: var(--strand-space-6);
+	margin-left: auto;
+	list-style: none;
+}
+
+/* ── Nav slot ──
+   A content slot that lives in the nav. Typical uses: an account/auth
+   affordance, a utility button, a search field. Position behavior is
+   context-aware:
+   - If the slot follows .strand-nav__items (which already absorbs free
+     space via margin-left: auto), the slot sits 24px to its right so
+     it does not visually crash into the last nav link.
+   - If the slot stands alone (no items list before it, as on simpler
+     nav bars), the slot pushes itself to the right edge with
+     margin-left: auto.
+   This keeps a single class usable across both long and short navs
+   without modifiers. */
+.strand-nav__slot {
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+}
+
+.strand-nav__items + .strand-nav__slot {
+	margin-left: var(--strand-space-6);
 }
 
 /* ── Links ── */
 .strand-nav__link {
-  color: var(--strand-gray-600);
-  text-decoration: none;
-  font-size: var(--strand-text-sm);
-  font-weight: var(--strand-weight-medium);
-  transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
+	color: var(--strand-gray-600);
+	text-decoration: none;
+	font-size: var(--strand-text-sm);
+	font-weight: var(--strand-weight-medium);
+	transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-nav__link:hover {
-  color: var(--strand-gray-900);
+	color: var(--strand-gray-900);
 }
 
 .strand-nav__link:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
+	outline: 2px solid var(--strand-blue-primary);
+	outline-offset: 2px;
 }
 
 .strand-nav__link--active {
-  color: var(--strand-blue-primary);
-  font-weight: var(--strand-weight-medium);
+	color: var(--strand-blue-primary);
+	font-weight: var(--strand-weight-medium);
 }
 
 /* ── Actions ── */
 .strand-nav__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--strand-space-3);
-  margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: var(--strand-space-3);
+	margin-left: auto;
 }
 
 /* ── Hamburger ── */
 .strand-nav__hamburger {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin-left: auto;
-  padding: 0;
-  border: none;
-  border-radius: var(--strand-radius-md);
-  background: transparent;
-  color: var(--strand-gray-600);
-  cursor: pointer;
-  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart);
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	margin-left: auto;
+	padding: 0;
+	border: none;
+	border-radius: var(--strand-radius-md);
+	background: transparent;
+	color: var(--strand-gray-600);
+	cursor: pointer;
+	transition: background var(--strand-duration-fast)
+		var(--strand-ease-out-quart);
 }
 
 .strand-nav__hamburger:hover {
-  background: var(--strand-gray-200);
+	background: var(--strand-gray-200);
 }
 
 .strand-nav__hamburger:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
+	outline: 2px solid var(--strand-blue-primary);
+	outline-offset: 2px;
 }
 
 .strand-nav__hamburger-icon {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background: currentColor;
-  position: relative;
+	display: block;
+	width: 20px;
+	height: 2px;
+	background: currentColor;
+	position: relative;
 }
 
 .strand-nav__hamburger-icon::before,
 .strand-nav__hamburger-icon::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: currentColor;
+	content: "";
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: currentColor;
 }
 
 .strand-nav__hamburger-icon::before {
-  top: -6px;
+	top: -6px;
 }
 
 .strand-nav__hamburger-icon::after {
-  top: 6px;
+	top: 6px;
 }
 
 /* ── Mobile menu ──
@@ -166,41 +194,41 @@
    fixed (vs absolute on the parent nav) means the menu floats above
    page content instead of pushing layout. */
 .strand-nav__mobile-menu {
-  display: none;
-  position: fixed;
-  top: var(--strand-nav-height);
-  left: 0;
-  right: 0;
-  flex-direction: column;
-  width: 100%;
-  padding: var(--strand-space-4) var(--strand-space-6);
-  background: var(--strand-surface-elevated);
-  border-bottom: 1px solid var(--strand-gray-200);
-  box-shadow: var(--strand-elevation-2);
-  z-index: 99;
+	display: none;
+	position: fixed;
+	top: var(--strand-nav-height);
+	left: 0;
+	right: 0;
+	flex-direction: column;
+	width: 100%;
+	padding: var(--strand-space-4) var(--strand-space-6);
+	background: var(--strand-surface-elevated);
+	border-bottom: 1px solid var(--strand-gray-200);
+	box-shadow: var(--strand-elevation-2);
+	z-index: 99;
 }
 
 .strand-nav__mobile-menu--open {
-  display: flex;
+	display: flex;
 }
 
 .strand-nav__mobile-link {
-  display: block;
-  padding: var(--strand-space-3) 0;
-  color: var(--strand-gray-600);
-  text-decoration: none;
-  font-size: var(--strand-text-sm);
-  font-weight: var(--strand-weight-medium);
-  transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
+	display: block;
+	padding: var(--strand-space-3) 0;
+	color: var(--strand-gray-600);
+	text-decoration: none;
+	font-size: var(--strand-text-sm);
+	font-weight: var(--strand-weight-medium);
+	transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-nav__mobile-link:hover {
-  color: var(--strand-gray-900);
+	color: var(--strand-gray-900);
 }
 
 .strand-nav__mobile-link--active {
-  color: var(--strand-blue-primary);
-  font-weight: var(--strand-weight-semibold);
+	color: var(--strand-blue-primary);
+	font-weight: var(--strand-weight-semibold);
 }
 
 /* ── Responsive ──
@@ -208,58 +236,66 @@
    hamburger button shows. The mobile menu stays display:none until
    JS toggles strand-nav__mobile-menu--open on click. */
 @media (max-width: 767px) {
-  .strand-nav__items {
-    display: none;
-  }
+	.strand-nav__items {
+		display: none;
+	}
 
-  .strand-nav__actions {
-    display: none;
-  }
+	.strand-nav__actions {
+		display: none;
+	}
 
-  .strand-nav__hamburger {
-    display: inline-flex;
-  }
+	/* The slot remains visible on mobile because it typically carries the
+     account affordance (avatar + sign-in/out) which should stay reachable
+     from every viewport. Its margin-left collapses on mobile because
+     the only remaining siblings are the logo (left) and the hamburger
+     (right), and margin-left:auto on one of them handles the layout. */
+	.strand-nav__slot {
+		margin-left: auto;
+	}
 
-  .strand-nav {
-    height: auto;
-    min-height: var(--strand-nav-height);
-  }
+	.strand-nav__hamburger {
+		display: inline-flex;
+	}
+
+	.strand-nav {
+		height: auto;
+		min-height: var(--strand-nav-height);
+	}
 }
 
 /* ── Glassmorphic variant (DL 11.5: "white or glassmorphic") ── */
 .strand-nav--glass {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  height: auto;
-  padding: var(--strand-space-4) 0;
-  background: var(--strand-glass-bg);
-  -webkit-backdrop-filter: blur(var(--strand-glass-blur));
-  backdrop-filter: blur(var(--strand-glass-blur));
-  border-bottom: 1px solid var(--strand-glass-border);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: auto;
+	padding: var(--strand-space-4) 0;
+	background: var(--strand-glass-bg);
+	-webkit-backdrop-filter: blur(var(--strand-glass-blur));
+	backdrop-filter: blur(var(--strand-glass-blur));
+	border-bottom: 1px solid var(--strand-glass-border);
 }
 
 /* ── Scrolled state (DL Part XIX.1) ──
    Apply via JS scroll listener. Adds shadow + blue-shifted border. */
 .strand-nav--scrolled {
-  box-shadow: var(--strand-elevation-1);
-  border-bottom-color: var(--strand-nav-scrolled-border);
+	box-shadow: var(--strand-elevation-1);
+	border-bottom-color: var(--strand-nav-scrolled-border);
 }
 
 .strand-nav--glass {
-  transition:
-    box-shadow var(--strand-duration-normal) ease,
-    border-color var(--strand-duration-normal) ease;
+	transition: box-shadow var(--strand-duration-normal) ease, border-color
+		var(--strand-duration-normal) ease;
 }
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .strand-nav__link,
-  .strand-nav__mobile-link,
-  .strand-nav__hamburger,
-  .strand-nav--glass {
-    transition: none;
-  }
+	.strand-nav__link,
+	.strand-nav__mobile-link,
+	.strand-nav__hamburger,
+	.strand-nav--glass {
+		transition: none;
+	}
 }

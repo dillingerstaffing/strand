@@ -42,6 +42,29 @@ body {
   background-color: var(--strand-surface-primary);
 }
 
+/* ── Body offset for fixed nav + optional banner ──
+   When a page uses .strand-nav--glass, the nav is position: fixed and
+   removed from document flow, so the first content element would
+   otherwise render behind the nav. When a banner is also present, the
+   banner pushes the nav down and both cover even more of the first
+   content element.
+
+   These rules reserve body padding-top equal to the stack height (nav
+   plus optional banner) so the first content element clears the stack
+   on every viewport. Pages with in-flow navs (not position: fixed) are
+   unaffected because the selector only matches when the document has
+   a .strand-nav--glass element.
+
+   The --strand-banner-height custom property is set by the Banner
+   component when mounted; defaults to 0px when no banner is present. */
+body:has(.strand-nav--glass) {
+  padding-top: var(--strand-nav-height);
+}
+
+body:has(.strand-nav--glass):has(.strand-banner) {
+  padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
+}
+
 /* ── Lab Surface as opt-in utility (DL Part 9.1) ──
    Same treatment as body, applied to any element. Use on nested
    showcase containers, hero containers, etc. */
