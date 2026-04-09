@@ -6,7 +6,7 @@ Strand maintains its quality by running a continuous dogfood loop: an agent arme
 
 Design systems drift. Components accumulate edge cases that only the original team can compose correctly. Documentation falls behind implementation. Adopters end up writing workarounds that should have been primitives.
 
-Strand resists this by forcing a recurring test: can an agent with only the public artifacts (npm packages, README, DESIGN_LANGUAGE.md, HTML_REFERENCE.md, component source in the repo) build a world-class showcase? Every time the answer is "not quite", Strand learns something about itself and fixes it at the right layer.
+Strand resists this by forcing a recurring test: can an agent with only the public artifacts (npm packages, AGENTS.md, llms.txt, README, DESIGN_LANGUAGE.md, HTML_REFERENCE.md, migration guides, component source in the repo) build a world-class showcase? Every time the answer is "not quite", Strand learns something about itself and fixes it at the right layer.
 
 ## The gap hierarchy
 

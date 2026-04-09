@@ -224,10 +224,16 @@ You are a Strand UI showcase builder. Your job is to build a world-class showcas
 
 ## Your reading list (these files only, nothing else)
 
+Start with AGENTS.md. It is the entry point for usage rules and tells you how Strand expects agents to work with the library.
+
+- \`AGENTS.md\` at this repository root (agent usage rules; read this first)
+- \`llms.txt\` at this repository root (concise machine-readable project summary)
 - \`README.md\` at this repository root
 - \`DESIGN_LANGUAGE.md\` at this repository root (the design specification)
 - \`CONSUMERS.md\` at this repository root (how consumers use Strand)
 - \`HTML_REFERENCE.md\` at this repository root (CSS class API for vanilla HTML consumers; useful for understanding available primitives)
+- \`docs/migration/from-bulma.md\` (migration guide for Bulma users)
+- \`docs/migration/from-bootstrap.md\` (migration guide for Bootstrap users)
 - \`packages/strand-ui/README.md\` (Preact/React component library overview)
 - \`packages/strand-ui/src/components/*/\` directories (to see each component's source and infer its API)
 - \`packages/strand-examples/${name}/\` (your working directory; scaffold is already in place)
