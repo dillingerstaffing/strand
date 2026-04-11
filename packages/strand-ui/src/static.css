@@ -266,7 +266,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-block: var(--strand-space-2);
+  padding: var(--strand-space-2) var(--strand-space-4);
 }
 
 .strand-kv + .strand-kv {
@@ -299,7 +299,7 @@
 .strand-log {
   display: flex;
   gap: var(--strand-space-3);
-  padding-block: var(--strand-space-2);
+  padding: var(--strand-space-2) var(--strand-space-4);
 }
 
 .strand-log + .strand-log {
@@ -349,8 +349,8 @@
   display: flex;
   gap: var(--strand-space-2);
   align-items: flex-end;
-  height: var(--strand-space-24);
-  padding: var(--strand-space-5);
+  height: var(--strand-space-40);
+  padding: var(--strand-space-4);
 }
 
 .strand-bar-chart__col {
@@ -391,7 +391,6 @@
 
 /* ── Bar chart size modifiers ── */
 .strand-bar-chart--sm { height: var(--strand-space-24); }
-.strand-bar-chart--md { height: var(--strand-space-40); }
 .strand-bar-chart--lg { height: var(--strand-space-48); }
 
 /* ── Nav offset for glass (fixed) nav ── */

@@ -23,6 +23,7 @@
   border-radius: var(--strand-radius-lg);
   overflow: hidden;
   position: relative;
+  padding: var(--strand-space-6);
 }
 
 .strand-instrument-viewport__label {

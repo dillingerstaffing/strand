@@ -113,7 +113,34 @@ Verdict: FAIL
 
 ### Gap #13
 - Type: L2
-- Symptom: Bar chart bars all appear the same height despite values ranging from 280 to 720. The visual difference between bars is imperceptible. The chart fails to communicate data magnitude.
-- Root cause: The `strand-bar-chart` default height is `var(--strand-space-24)` (96px). After subtracting the amount label and axis label, the actual bar area is approximately 20-30px. At that scale, the difference between 100% and 39% of 20px is ~12px — below the threshold of useful visual differentiation. The `--md` modifier (160px) was added to the source in iteration 2 but the published 0.15.1 npm package did not include rebuilt dist artifacts. The publish pipeline shipped pre-existing build output.
-- Fix: Rebuilt all consumer packages (`pnpm build`) to include the L2 CSS changes in dist output. Push triggers republish with correct artifacts. Showcase consumes `strand-bar-chart--md` for 160px chart height.
-- Commit: iteration-3
+- Symptom: Bar chart bars all appear the same height despite values ranging from 280 to 720 (3rd+ report of this issue). The visual difference between bars is imperceptible. The chart fails to communicate data magnitude.
+- Root cause: Deep audit of the CSS pixel budget: container height 96px - 40px padding - 17px amount label - 17px axis label - 8px gaps = **14px** maximum bar height, with only **10px dynamic range** (14px minus 4px min-height). At that scale, a 2.5:1 data ratio (720 vs 280) produces a bar height difference of ~6px — below the threshold of useful visual differentiation. Adding a `--md` modifier was insufficient because Principle 8 (Default Philosophy) requires that zero-customization output be premium. The DEFAULT height must produce readable bars.
+- Fix: Changed default `strand-bar-chart` height from `var(--strand-space-24)` (96px) to `var(--strand-space-40)` (160px). Reduced padding from `space-5` (20px) to `space-4` (16px) for more bar area. At 160px: 128px content area, ~86px for bars, ~82px dynamic range — bars now clearly differentiate. Removed `--md` modifier (now the default). Retained `--sm` (96px) for compact contexts and `--lg` (192px) for large displays.
+- Commit: iteration-4
+
+### Gap #14
+- Type: L2
+- Symptom: `InstrumentViewport` has zero default padding. Text and child content sit directly against the dark (#0F192A) edge. The extreme contrast ratio (22.4:1) makes the tight spacing psychologically worse — text appears to press against the rounded border. Visible in both the agent-dashboard showcase and the JOBINT Lab production application.
+- Root cause: The `.strand-instrument-viewport` CSS class has no `padding` property. Light-surface components (Card, Viewport) have 24px default padding and pass Principle 8. The dark instrument surface was shipped without it. This violates Principle 8: a developer using InstrumentViewport at default settings gets text touching edges.
+- Fix: Added `padding: var(--strand-space-6)` (24px) to `.strand-instrument-viewport` in `InstrumentViewport.css`. Matches the Card component's default padding tier (md = 24px). Future agents composing content inside InstrumentViewport will get adequate spacing at zero customization.
+- Commit: iteration-4
+
+### Gap #15
+- Type: L2
+- Symptom: `strand-log` entries have only 8px vertical padding and zero horizontal padding. When rendered inside InstrumentViewport or any container, log text is flush with the left and right edges. Timestamps and status labels press against container borders.
+- Root cause: `.strand-log` used `padding-block: var(--strand-space-2)` with no `padding-inline`. The 8px block padding is also less than the text line height (17px), creating visual compression.
+- Fix: Changed to `padding: var(--strand-space-2) var(--strand-space-4)` — 8px vertical, 16px horizontal. Provides adequate breathing room within any parent container.
+- Commit: iteration-4
+
+### Gap #16
+- Type: L2
+- Symptom: `strand-kv` rows have only 8px vertical padding and zero horizontal padding. Labels and values sit flush against container edges, especially visible on dark surfaces where high contrast amplifies the cramped feeling.
+- Root cause: `.strand-kv` used `padding-block: var(--strand-space-2)` with no `padding-inline`. Same structural deficiency as strand-log.
+- Fix: Changed to `padding: var(--strand-space-2) var(--strand-space-4)` — 8px vertical, 16px horizontal.
+- Commit: iteration-4
+
+### Gap #17
+- Type: L1
+- Symptom: Showcase metrics (P95 latency, throughput, cost) are disconnected from any legitimate end-user value stream. The data is plausible-looking but doesn't map to real decisions an agent fleet operator would make. The dashboard should demonstrate a value stream synthesized from first-principles analysis of what operators of autonomous agent systems actually need.
+- Fix: Dashboard recipe in `generated/html-reference.md` should mandate that showcase data model be grounded in a real value stream — every visible metric must trace to an operator decision or action. Showcase data redesigned around operator decision model: "Is the system healthy? → What broke? → What do I do?"
+- Commit: iteration-4

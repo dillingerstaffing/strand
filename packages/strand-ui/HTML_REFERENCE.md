@@ -1276,9 +1276,8 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-log__status--error` | Error log status (red). |
 | `strand-metric-row` | Centered metric group with responsive gap. |
 | `strand-nav-offset` | Padding-top offset for pages using `strand-nav--glass` (fixed nav). Apply to the first section or a wrapper. |
-| `strand-bar-chart` | Bar chart container. Default height 96px. |
-| `strand-bar-chart--sm` | Small bar chart height (96px). |
-| `strand-bar-chart--md` | Medium bar chart height (160px). |
+| `strand-bar-chart` | Bar chart container. Default height 160px (adequate for bar differentiation at zero customization). |
+| `strand-bar-chart--sm` | Compact bar chart height (96px). Use only in dense dashboard widgets where space is constrained. |
 | `strand-bar-chart--lg` | Large bar chart height (192px). |
 | `strand-bar-chart__col` | Bar chart column. |
 | `strand-bar-chart__bar` | Bar chart bar element. |

@@ -289,7 +289,7 @@ function TaskVolumeChart() {
   ];
   const max = Math.max(...data.map((d) => d.amount));
   return (
-    <div class="strand-bar-chart strand-bar-chart--md">
+    <div class="strand-bar-chart">
       {data.map((d) => (
         <div class="strand-bar-chart__col" key={d.label}>
           <span class="strand-bar-chart__amount">{d.amount}</span>
