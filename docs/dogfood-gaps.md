@@ -144,3 +144,35 @@ Verdict: FAIL
 - Symptom: Showcase metrics (P95 latency, throughput, cost) are disconnected from any legitimate end-user value stream. The data is plausible-looking but doesn't map to real decisions an agent fleet operator would make. The dashboard should demonstrate a value stream synthesized from first-principles analysis of what operators of autonomous agent systems actually need.
 - Fix: Dashboard recipe in `generated/html-reference.md` should mandate that showcase data model be grounded in a real value stream — every visible metric must trace to an operator decision or action. Showcase data redesigned around operator decision model: "Is the system healthy? → What broke? → What do I do?"
 - Commit: iteration-4
+
+## Showcase: agent-dashboard — iteration 6
+Date: 2026-04-11
+Verdict: FAIL
+
+### Gap #18
+- Type: L1
+- Symptom: InstrumentViewport KPI panel clips DataReadout values on mobile (375px). "720/hr" truncated at right edge. Four `size="lg"` readouts (48px text) cannot fit in a horizontal row at mobile widths. No content wraps; the layout assumes desktop-width viewports throughout.
+- Root cause: Showcase used fixed `Stack direction="horizontal"` without the `strand-stack--responsive` modifier that collapses to vertical at 768px. Used `DataReadout size="lg"` which produces 48px text regardless of viewport width. No responsive considerations in any layout across any tab.
+- Fix: (1) KPI readouts use `strand-stack--responsive` CSS classes so they wrap to vertical on mobile. Switched DataReadout to `size="sm"` which fits at all widths. (2) Agent card grid uses `strand-grid--auto-md` (auto-fit, 280px min) instead of fixed `columns={3}`. (3) System/chart grid also uses auto-fit. (4) All horizontal Stacks with content use `wrap` prop. These are Strand-native responsive primitives that existed but were not used.
+- Commit: iteration-6
+
+### Gap #19
+- Type: L1
+- Symptom: No layout in the showcase is mobile-friendly. Grids use fixed column counts that break on narrow viewports. Tables have no responsive wrapper. The design was built desktop-out instead of mobile-first.
+- Root cause: The scaffold launch prompt had no responsive design mandate. Agents build for the viewport they happen to be thinking about (typically desktop). Without an explicit mobile-first requirement, responsive behavior is always an afterthought that gets missed.
+- Fix: Added "Responsive design (non-negotiable)" section to `scripts/dogfood-scaffold.mjs`. Mandates: (1) design for 375px first, (2) use auto-fit grids not fixed columns, (3) use responsive stacks, (4) test at 375/768/1280 before submitting. Also added "Pre-submission audit (mandatory)" section requiring visual audit at all three breakpoints before writing SHOWCASE.md. This ensures ALL future agents for ANY showcase topic build mobile-first.
+- Commit: iteration-6
+
+### Gap #20
+- Type: L1
+- Symptom: Activity log tab renders as a plain white card with text rows. Does not meet the cinematic design standard specified in the design language. Looks generic and low-effort compared to the InstrumentViewport-based KPI panel.
+- Root cause: Iteration 5 moved the activity log from InstrumentViewport back to a glass-surface card based on a two-environment audit recommendation. However, the design language Part I describes a live diagnostic feed as an instrument: it belongs on the dark synthetic surface. The user's aesthetic standard requires the cinematic terminal feel that only InstrumentViewport provides.
+- Fix: Activity log restored to InstrumentViewport with `strand-scanline--ambient` overlay. Log entries render on the dark surface with tight spacing (gap={1}). The dark terminal aesthetic matches the cinematic standard.
+- Commit: iteration-6
+
+### Gap #21
+- Type: L1
+- Symptom: Gap analysis iterations repeatedly miss issues that should have been caught proactively. The pattern: fix specific reported problems → miss related problems in other views/viewports/states → user reports again → repeat. This "outcome theater" pattern wastes reviewer time and signals shallow quality discipline.
+- Root cause: No pre-submission self-audit step existed in the dogfood protocol. The agent builds, sees that it compiles, and ships. There is no checkpoint that forces the agent to systematically verify every view at every viewport width before declaring done.
+- Fix: Added "Pre-submission audit (mandatory)" section to the scaffold template. Requires visual audit at 375px, 768px, and 1280px across every tab and every state before writing SHOWCASE.md. This converts the self-audit from optional to structurally required.
+- Commit: iteration-6

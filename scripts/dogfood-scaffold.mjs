@@ -261,6 +261,16 @@ Before composing any UI, act as an expert Product Designer:
 
 The showcase should be so useful that a real end user would want it as a default template out of the box.
 
+### Responsive design (non-negotiable)
+
+Every layout must be mobile-first. Design for 375px, then enhance for wider viewports. This is not optional. Every tab, every view, every state must work on mobile.
+
+- Use \`strand-stack--responsive\` (collapses horizontal→vertical at 768px) for any horizontal layout that contains text or data.
+- Use \`strand-grid--auto-md\` or \`strand-grid--auto-sm\` (auto-fit) instead of fixed column counts (\`columns={3}\`). Fixed columns break on narrow viewports.
+- DataReadout \`size="lg"\` values are 48px+ text. On mobile, use \`size="sm"\` or wrap readouts vertically so they don't clip.
+- Tables must be inside \`strand-table-wrapper\` for horizontal scroll on narrow viewports.
+- Test the showcase at 375px, 768px, and 1280px before submitting. If any content clips, overflows, or becomes unreadable at any width, fix it.
+
 ### Visual focus areas
 
 1. Visual hierarchy using Strand's typography scale
@@ -268,6 +278,14 @@ The showcase should be so useful that a real end user would want it as a default
 3. Interactive elements using Strand's form and feedback components where relevant
 4. Accessibility: correct heading hierarchy, ARIA where needed, keyboard navigable, WCAG 2.2 AA contrast
 5. Performance: the built page should have minimal CSS/JS beyond what Strand provides
+
+### Pre-submission audit (mandatory)
+
+Before writing SHOWCASE.md, visually audit every view at 375px, 768px, and 1280px. Check:
+- No text clipping or horizontal overflow
+- No content hidden behind fixed elements (glass nav)
+- Every tab and every state looks world-class at every width
+- The design language aesthetic applies universally — not just the first view you built
 
 Build the page in \`src/App.tsx\`. If you need multiple components or helper files, add them under \`src/\`. The build output lands in \`dist/\`.
 

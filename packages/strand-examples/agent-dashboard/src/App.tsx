@@ -23,12 +23,11 @@ import {
 
 // ---------------------------------------------------------------------------
 // Value stream: five operator decisions
-//
-// 1. "Is the fleet healthy?" → KPI strip (fleet count, error rate, throughput, cost)
-// 2. "What broke and why?" → Error panel (message, trace context, failure count)
-// 3. "Is this worth the money?" → Per-agent cost, total cost, cost per outcome
-// 4. "Is quality holding?" → Success rates, throughput trends
-// 5. "What happened recently?" → Activity log with status-coded entries
+// 1. "Is the fleet healthy?" → KPI readouts
+// 2. "What broke and why?" → Error panel with diagnostics
+// 3. "Is this worth the money?" → Per-agent cost, total cost
+// 4. "Is quality holding?" → Success rates, throughput
+// 5. "What happened recently?" → Activity log
 // ---------------------------------------------------------------------------
 
 interface AgentError {
@@ -177,7 +176,7 @@ function ErrorPanel({ agent }: { agent: Agent }) {
   return (
     <Card variant="outlined" padding="sm">
       <Stack direction="vertical" gap={2}>
-        <Stack direction="horizontal" justify="between" align="center">
+        <Stack direction="horizontal" justify="between" align="center" wrap>
           <Stack direction="horizontal" gap={2} align="center">
             <span class="strand-overline">{agent.id}</span>
             <span class="strand-heading--sm">{agent.name}</span>
@@ -201,7 +200,7 @@ function ErrorPanel({ agent }: { agent: Agent }) {
           <span class="strand-kv__label">Last Success</span>
           <span class="strand-kv__value">{err.lastSuccess}</span>
         </div>
-        <Stack direction="horizontal" gap={2}>
+        <Stack direction="horizontal" gap={2} wrap>
           <Button variant="secondary" size="sm">View Trace</Button>
           <Button variant="ghost" size="sm">Restart Agent</Button>
         </Stack>
@@ -232,7 +231,7 @@ function TaskVolumeChart() {
 }
 
 // ---------------------------------------------------------------------------
-// Table
+// Table — rich cells
 // ---------------------------------------------------------------------------
 
 const tableColumns = [
@@ -242,7 +241,6 @@ const tableColumns = [
   { key: "status", header: "Status" },
   { key: "throughput", header: "Tasks/hr", sortable: true },
   { key: "success", header: "Success", sortable: true },
-  { key: "p95", header: "P95", sortable: true },
   { key: "cost", header: "Cost", sortable: true },
 ];
 
@@ -250,7 +248,7 @@ const tableData = agents.map((a) => ({
   id: a.id, name: a.name, role: a.role,
   status: <StatusChip status={a.status} />,
   throughput: a.status === "error" ? "—" : `${a.tasksPerHour}`,
-  success: `${a.successRate}%`, p95: a.p95, cost: a.cost,
+  success: `${a.successRate}%`, cost: a.cost,
 }));
 
 // ---------------------------------------------------------------------------
@@ -275,15 +273,15 @@ export function App() {
       content: (
         <Stack direction="vertical" gap={6}>
           {errorAgents.map((a) => <ErrorPanel key={a.id} agent={a} />)}
-
           <div>
             <span class="strand-overline strand-mb-3 strand-block">Fleet — {healthyAgents.length} agents</span>
-            <Grid columns={3} gap={6}>
+            {/* auto-fit: 280px min per card, responsive by default */}
+            <div class="strand-grid strand-grid--auto-md strand-grid--gap-4">
               {healthyAgents.map((a) => <AgentPanel key={a.id} agent={a} />)}
-            </Grid>
+            </div>
           </div>
-
-          <Grid columns={2} gap={6}>
+          {/* auto-fit for chart + system panel */}
+          <div class="strand-grid strand-grid--auto-md strand-grid--gap-4">
             <div class="strand-card strand-card--elevated strand-card--pad-sm strand-glass-surface">
               <Stack direction="vertical" gap={3}>
                 <span class="strand-overline">Task Volume — 7 Day</span>
@@ -301,7 +299,7 @@ export function App() {
                 <div class="strand-kv"><span class="strand-kv__label">Error Rate</span><span class="strand-kv__value strand-kv__value--status">0.03%</span></div>
               </Stack>
             </div>
-          </Grid>
+          </div>
         </Stack>
       ),
     },
@@ -310,7 +308,7 @@ export function App() {
       label: "Agents",
       content: (
         <Stack direction="vertical" gap={4}>
-          <Stack direction="horizontal" align="center" justify="between">
+          <Stack direction="horizontal" align="center" justify="between" wrap>
             <span class="strand-overline">All Registered Agents</span>
             <Tooltip content="Deploy a new autonomous agent to the cluster">
               <Button variant="secondary" size="sm">Deploy Agent</Button>
@@ -327,15 +325,16 @@ export function App() {
       label: "Activity Log",
       content: (
         <Stack direction="vertical" gap={4}>
-          <Stack direction="horizontal" align="center" justify="between">
+          <Stack direction="horizontal" align="center" justify="between" wrap>
             <span class="strand-overline strand-overline--pulse">Live Feed</span>
             <Switch checked={autoRefresh} onChange={setAutoRefresh} label="Auto-refresh" />
           </Stack>
-          <div class="strand-card strand-card--elevated strand-card--pad-sm strand-glass-surface">
+          <InstrumentViewport>
+            <div class="strand-scanline strand-scanline--ambient" />
             <Stack direction="vertical" gap={1}>
               {activityLog.map((entry, i) => <LogEntry key={i} {...entry} />)}
             </Stack>
-          </div>
+          </InstrumentViewport>
         </Stack>
       ),
     },
@@ -359,20 +358,20 @@ export function App() {
         }
       />
 
-      {/* Single section — zero dead space between elements */}
       <Section variant="compact" background="primary" class="strand-nav-offset">
         <Container size="full">
           <Stack direction="vertical" gap={4}>
-            {/* Dark instrument panel — KPI readouts (Decision 1: fleet health) */}
+            {/* Dark instrument panel — KPIs. Responsive: wraps on mobile */}
             <InstrumentViewport grid>
               <Stack direction="vertical" gap={3}>
                 <span class="strand-overline strand-overline--pulse">Agent Operations</span>
-                <Stack direction="horizontal" justify="between" align="start" wrap>
-                  <DataReadout label="Fleet Status" value={`${onlineCount} / ${agents.length}`} size="lg" />
-                  <DataReadout label="Error Rate" value={`${errorRate}%`} size="lg" />
-                  <DataReadout label="Throughput" value={`${totalThroughput}/hr`} size="lg" />
-                  <DataReadout label="Cost Today" value={`$${totalCost}`} size="lg" />
-                </Stack>
+                {/* responsive stack: horizontal on desktop, vertical on mobile */}
+                <div class="strand-stack strand-stack--horizontal strand-stack--responsive strand-stack--gap-6 strand-stack--justify-between strand-stack--align-start">
+                  <DataReadout label="Fleet Status" value={`${onlineCount} / ${agents.length}`} size="sm" />
+                  <DataReadout label="Error Rate" value={`${errorRate}%`} size="sm" />
+                  <DataReadout label="Throughput" value={`${totalThroughput}/hr`} size="sm" />
+                  <DataReadout label="Cost Today" value={`$${totalCost}`} size="sm" />
+                </div>
               </Stack>
             </InstrumentViewport>
 
