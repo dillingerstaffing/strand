@@ -389,6 +389,11 @@
   color: var(--strand-gray-400);
 }
 
+/* ── Bar chart size modifiers ── */
+.strand-bar-chart--sm { height: var(--strand-space-24); }
+.strand-bar-chart--md { height: var(--strand-space-40); }
+.strand-bar-chart--lg { height: var(--strand-space-48); }
+
 /* ══════════════════════════════════════════════════
    UTILITIES
    ══════════════════════════════════════════════════ */

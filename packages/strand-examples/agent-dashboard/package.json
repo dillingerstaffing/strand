@@ -1,0 +1,23 @@
+{
+  "name": "@dillingerstaffing/strand-example-agent-dashboard",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Strand UI Showcase: Agent Dashboard. Built with only Strand's public artifacts as a dogfood stress test.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "preact": "^10.22.0",
+    "@dillingerstaffing/strand": "0.15.0",
+    "@dillingerstaffing/strand-ui": "0.15.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.9.0",
+    "typescript": "^5.7.0",
+    "vite": "^5.4.0"
+  }
+}

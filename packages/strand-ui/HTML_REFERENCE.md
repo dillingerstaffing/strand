@@ -52,18 +52,55 @@ Complete page skeletons demonstrating how Strand components compose into full pa
 
 ### Dashboard
 
+A dashboard is an **analytical readout panel** (Principle 10). Use `strand-section--compact`, never `--hero` or `--standard`. Get the user to data immediately.
+
+**Section headers:** Wrap overline + heading + lead in `strand-section-header strand-text-center` so all three share the same alignment.
+
+**Card hierarchy (Principle 2):** Every grid must have one visually dominant element. Use card variants, padding tiers, or spatial separation to create a focal point. A grid where every card is identical is a parts bin, not an instrument.
+
+**Table cells:** The Table component renders any value type, including JSX. Pass `<StatusChip>`, `<Tag>`, `<Badge>`, or `<Progress>` as cell values for visual differentiation.
+
+**Button variant selection:** One primary button per page. Supporting actions (deploy, export, filter) use `--secondary` or `--ghost`. If the primary content is a table or data grid, the table is the focal point — buttons subordinate to it.
+
 ```html
 <nav class="strand-nav strand-nav--glass">...</nav>
+<!-- compact section: dashboard data above the fold -->
 <section class="strand-section strand-section--compact">
-  <div class="strand-container strand-container--wide">
-    <div class="strand-grid strand-grid--cols-3 strand-grid--gap-6">
-      <div class="strand-card">
+  <div class="strand-container strand-container--full">
+    <div class="strand-section-header strand-text-center">
+      <span class="strand-overline strand-overline--accent">Operations</span>
+      <h1 class="strand-headline strand-headline--lg">Dashboard</h1>
+      <p class="strand-lead">System status and agent telemetry.</p>
+    </div>
+    <!-- metric cards -->
+    <div class="strand-grid strand-grid--cols-4 strand-grid--gap-6">
+      <div class="strand-card strand-card--elevated strand-card--pad-md">
         <div class="strand-data-readout strand-data-readout--lg">
-          <span class="strand-data-readout__label">Metric</span>
-          <span class="strand-data-readout__value">94%</span>
+          <span class="strand-data-readout__label">Active</span>
+          <span class="strand-data-readout__value">4</span>
         </div>
       </div>
     </div>
+  </div>
+</section>
+<!-- recessed section: tabs with detail views -->
+<section class="strand-section strand-section--standard strand-section--bg-recessed">
+  <div class="strand-container strand-container--full">
+    <!-- focal hierarchy: alert card at top for attention, then grid -->
+    <div class="strand-card strand-card--outlined strand-card--pad-md">
+      <!-- featured / error agent gets its own card, above the grid -->
+    </div>
+    <div class="strand-grid strand-grid--cols-3 strand-grid--gap-6">
+      <!-- remaining agents in equal grid below -->
+    </div>
+    <!-- table with rich cells -->
+    <div class="strand-card strand-card--elevated strand-card--pad-none">
+      <!-- pass JSX into Table data for status column:
+           { status: <span class="strand-status-chip strand-status-chip--live">Active</span> }
+      -->
+    </div>
+    <!-- bar chart with size modifier -->
+    <div class="strand-bar-chart strand-bar-chart--md">...</div>
   </div>
 </section>
 ```
@@ -1238,7 +1275,10 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-log__status--warning` | Warning log status (amber). |
 | `strand-log__status--error` | Error log status (red). |
 | `strand-metric-row` | Centered metric group with responsive gap. |
-| `strand-bar-chart` | Bar chart container. |
+| `strand-bar-chart` | Bar chart container. Default height 96px. |
+| `strand-bar-chart--sm` | Small bar chart height (96px). |
+| `strand-bar-chart--md` | Medium bar chart height (160px). |
+| `strand-bar-chart--lg` | Large bar chart height (192px). |
 | `strand-bar-chart__col` | Bar chart column. |
 | `strand-bar-chart__bar` | Bar chart bar element. |
 | `strand-bar-chart__amount` | Bar chart amount label. |
