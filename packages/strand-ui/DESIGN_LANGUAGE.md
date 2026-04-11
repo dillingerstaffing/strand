@@ -978,7 +978,7 @@ The frosted-glass treatment is also exposed as a general utility (`.strand-glass
 
 | Token | Value | Purpose |
 |---|---|---|
-| `--strand-glass-bg` | `rgba(250, 252, 254, 0.72)` | Translucent surface-primary at 0.72 alpha (frosted glass body) |
+| `--strand-glass-bg` | `rgba(250, 252, 254, 0.85)` | Translucent surface-primary at 0.85 alpha (frosted glass body) |
 | `--strand-glass-border` | `rgba(148, 163, 184, 0.12)` | Hairline border that defines the glass edge |
 | `--strand-glass-blur` | `12px` | Backdrop blur amount. Higher = more frosted, less legible. 12px is the calibrated value. |
 

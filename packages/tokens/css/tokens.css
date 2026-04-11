@@ -213,7 +213,7 @@
      Frosted-glass treatment for surfaces above content (nav, modal
      headers, sticky toolbars, frosted viewports). The "glass walls
      with controlled daylight" from the spatial signature in Part I. */
-  --strand-glass-bg: rgba(250, 252, 254, 0.72);
+  --strand-glass-bg: rgba(250, 252, 254, 0.85);
   --strand-glass-border: rgba(148, 163, 184, 0.12);
   --strand-glass-blur: 12px;
 
