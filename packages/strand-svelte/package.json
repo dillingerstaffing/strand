@@ -1,67 +1,72 @@
 {
-	"name": "@dillingerstaffing/strand-svelte",
-	"version": "0.15.1",
-	"description": "Strand UI - Svelte component library built on the Strand Design Language",
-	"author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
-	"license": "MIT",
-	"keywords": [
-		"design-system",
-		"ui-components",
-		"svelte",
-		"svelte4",
-		"svelte5",
-		"css-custom-properties",
-		"design-tokens",
-		"accessibility",
-		"wcag",
-		"aria",
-		"component-library"
-	],
-	"homepage": "https://dillingerstaffing.com/labs/strand",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/dillingerstaffing/strand",
-		"directory": "packages/strand-svelte"
-	},
-	"bugs": {
-		"url": "https://github.com/dillingerstaffing/strand/issues"
-	},
-	"type": "module",
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"svelte": "./dist/index.js",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js",
-			"import": "./dist/index.js"
-		},
-		"./css/strand-ui.css": "./dist/css/strand-ui.css"
-	},
-	"style": "./dist/css/strand-ui.css",
-	"files": ["dist/", "src/"],
-	"sideEffects": ["dist/css/*.css"],
-	"scripts": {
-		"prepack": "pnpm run build",
-		"build": "vite build && cp ../../generated/html-reference.md ./HTML_REFERENCE.md && cp ../../docs/design-language.md ./DESIGN_LANGUAGE.md",
-		"test": "vitest run"
-	},
-	"peerDependencies": {
-		"svelte": "^4.0.0 || ^5.0.0"
-	},
-	"dependencies": {
-		"@dillingerstaffing/strand": "workspace:^"
-	},
-	"devDependencies": {
-		"@sveltejs/vite-plugin-svelte": "^5.0.0",
-		"@testing-library/jest-dom": "^6.6.0",
-		"@testing-library/svelte": "^5.2.0",
-		"jsdom": "^26.0.0",
-		"svelte": "^5.0.0",
-		"svelte-check": "^4.0.0",
-		"vite": "^6.0.0",
-		"vite-plugin-dts": "^4.0.0",
-		"vitest": "^3.0.0"
-	}
+  "name": "@dillingerstaffing/strand-svelte",
+  "version": "0.15.2",
+  "description": "Strand UI - Svelte component library built on the Strand Design Language",
+  "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
+  "license": "MIT",
+  "keywords": [
+    "design-system",
+    "ui-components",
+    "svelte",
+    "svelte4",
+    "svelte5",
+    "css-custom-properties",
+    "design-tokens",
+    "accessibility",
+    "wcag",
+    "aria",
+    "component-library"
+  ],
+  "homepage": "https://dillingerstaffing.com/labs/strand",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dillingerstaffing/strand",
+    "directory": "packages/strand-svelte"
+  },
+  "bugs": {
+    "url": "https://github.com/dillingerstaffing/strand/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "svelte": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "import": "./dist/index.js"
+    },
+    "./css/strand-ui.css": "./dist/css/strand-ui.css"
+  },
+  "style": "./dist/css/strand-ui.css",
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "sideEffects": [
+    "dist/css/*.css"
+  ],
+  "scripts": {
+    "prepack": "pnpm run build",
+    "build": "vite build && cp ../../generated/html-reference.md ./HTML_REFERENCE.md && cp ../../docs/design-language.md ./DESIGN_LANGUAGE.md",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "svelte": "^4.0.0 || ^5.0.0"
+  },
+  "dependencies": {
+    "@dillingerstaffing/strand": "workspace:^"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/svelte": "^5.2.0",
+    "jsdom": "^26.0.0",
+    "svelte": "^5.0.0",
+    "svelte-check": "^4.0.0",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.0.0",
+    "vitest": "^3.0.0"
+  }
 }
