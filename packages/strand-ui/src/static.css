@@ -285,8 +285,9 @@
 .strand-kv__value {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
-  color: var(--strand-gray-600);
+  color: var(--strand-gray-700);
   font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 .strand-kv__value--status {
@@ -298,6 +299,7 @@
    time(OVERLINE) + status(OVERLINE+COLOR_SEMANTIC) + text(SECONDARY) + RANK_BORDER */
 .strand-log {
   display: flex;
+  align-items: baseline;
   gap: var(--strand-space-3);
   padding: var(--strand-space-2) var(--strand-space-4);
 }
@@ -330,6 +332,18 @@
 .strand-log__status--process { color: var(--strand-blue-primary); }
 .strand-log__status--warning { color: var(--strand-amber-caution); }
 .strand-log__status--error { color: var(--strand-red-alert); }
+
+.strand-log__text {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-300);
+  line-height: var(--strand-leading-normal);
+}
+
+.strand-log__text strong {
+  font-weight: var(--strand-weight-semibold);
+  color: var(--strand-gray-100);
+}
 
 /* ── Metric Row ──
    Derivation: centered-group (DL 11.10).

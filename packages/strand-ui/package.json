@@ -40,6 +40,7 @@
 	"files": ["dist/", "src/", "HTML_REFERENCE.md", "DESIGN_LANGUAGE.md"],
 	"sideEffects": ["dist/css/*.css"],
 	"scripts": {
+		"prepack": "pnpm run build",
 		"build": "vite build && tsc --emitDeclarationOnly && cp ../../generated/html-reference.md ./HTML_REFERENCE.md && cp ../../docs/design-language.md ./DESIGN_LANGUAGE.md",
 		"test": "vitest run",
 		"test:watch": "vitest",

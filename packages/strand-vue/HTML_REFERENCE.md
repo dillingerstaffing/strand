@@ -1274,6 +1274,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-log__status--process` | In-process log status (blue). |
 | `strand-log__status--warning` | Warning log status (amber). |
 | `strand-log__status--error` | Error log status (red). |
+| `strand-log__text` | Log description text (mono, xs, gray-300). Use on the description span. Agent names use `<strong>` inside for gray-100 semibold. |
 | `strand-metric-row` | Centered metric group with responsive gap. |
 | `strand-nav-offset` | Padding-top offset for pages using `strand-nav--glass` (fixed nav). Apply to the first section or a wrapper. |
 | `strand-bar-chart` | Bar chart container. Default height 160px (adequate for bar differentiation at zero customization). |

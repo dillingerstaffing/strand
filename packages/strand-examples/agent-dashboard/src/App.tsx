@@ -130,7 +130,7 @@ function LogEntry({ time, agent, action, status }: {
       <span class={`strand-log__status strand-log__status--${status}`}>
         {status === "complete" ? "OK" : status === "process" ? "RUN" : status === "warning" ? "WARN" : "ERR"}
       </span>
-      <span><strong>{agent}</strong> — {action}</span>
+      <span class="strand-log__text"><strong>{agent}</strong> — {action}</span>
     </div>
   );
 }

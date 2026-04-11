@@ -176,3 +176,35 @@ Verdict: FAIL
 - Root cause: No pre-submission self-audit step existed in the dogfood protocol. The agent builds, sees that it compiles, and ships. There is no checkpoint that forces the agent to systematically verify every view at every viewport width before declaring done.
 - Fix: Added "Pre-submission audit (mandatory)" section to the scaffold template. Requires visual audit at 375px, 768px, and 1280px across every tab and every state before writing SHOWCASE.md. This converts the self-audit from optional to structurally required.
 - Commit: iteration-6
+
+## Showcase: agent-dashboard — iteration 7
+Date: 2026-04-11
+Verdict: FAIL
+
+### Gap #22
+- Type: L2
+- Symptom: Bar chart bars are visually identical height despite having values from 280 to 720. This is the 5th+ report of this issue. Source CSS has been fixed (`height: var(--strand-space-40)`) but the published npm package `@dillingerstaffing/strand-ui@0.15.1` still ships with `height: var(--strand-space-24)` (96px). The `--sm` and `--lg` modifiers are also missing from the published dist.
+- Root cause: The publish pipeline ships pre-existing `dist/` artifacts without rebuilding from source. The `dist/` directory is gitignored so commits to `src/static.css` never reach the published CSS bundle. No `prepack` script exists to ensure `npm publish` builds from source first.
+- Fix: Added `"prepack": "pnpm run build"` to `package.json` for strand-ui, strand-vue, and strand-svelte. This ensures `npm publish` (triggered by the push-to-publish pipeline) always rebuilds dist from current source before packaging. The bar chart default height (160px), size modifiers, nav-offset, and all other L2 CSS fixes will now propagate to published packages.
+- Commit: iteration-7
+
+### Gap #23
+- Type: L2
+- Symptom: `InstrumentViewport` padding is 24px (space-6) — the same as light-surface cards. On the dark #0F192A surface, this creates a "card with empty space" feel rather than a "dense instrument panel" feel. The padding-to-text ratio (2.16x) is higher than any reference dark-mode instrument UI. Text labels like "AGENT OPERATIONS" appear to float in dead space rather than being precisely placed.
+- Root cause: The viewport was given the default card padding tier (md=24px) without accounting for the perceptual difference between dark and light surfaces. Dark backgrounds amplify perceived tightness (Weber's Law), so the same padding that feels correct on white feels excessive on dark. Instrument UIs (terminals, IDE panels, mission control) use padding-to-text ratios of 1.2-1.8x, not 2.16x.
+- Fix: Changed InstrumentViewport default padding from `var(--strand-space-6)` (24px) to `var(--strand-space-5)` (20px). Ratio drops to 1.80x — still generous by instrument standards but tighter than card default. Added dark-surface descendant overrides for `strand-kv__label` (gray-400) and `strand-kv__value` (gray-200) to ensure readability on #0F192A.
+- Commit: iteration-7
+
+### Gap #24
+- Type: L2
+- Symptom: Activity log entries look like "a child bolded some words in a word document." The description text (agent name + action) has no CSS class — it renders as an unstyled browser-default `<span>` inheriting Inter at ~16px, while the timestamp and status label use JetBrains Mono at 11.1px. This creates a jarring font mismatch, size mismatch, and baseline misalignment within the same row.
+- Root cause: The `strand-log` CSS defines `__time` and `__status` children but has no class for the description text. The HTML reference documents the time and status classes but provides no guidance for the description element. Future agents writing log entries will always produce the same unstyled mismatch.
+- Fix: Added `.strand-log__text` class to `static.css` (mono, text-xs, gray-300, normal leading). Added `.strand-log__text strong` (semibold, gray-100) for agent name emphasis. Added `align-items: baseline` to `.strand-log` for correct text alignment. Documented in `generated/html-reference.md`. Showcase updated to use the new class.
+- Commit: iteration-7
+
+### Gap #25
+- Type: L2
+- Symptom: `strand-kv__value` uses `gray-600` — nearly identical luminance to `strand-kv__label` at `gray-500`. The label-value hierarchy is visually flat: both look the same weight and brightness. On dark surfaces inside InstrumentViewport, both grays become unreadably dim.
+- Root cause: The color differential between label (gray-500) and value (gray-600) is only ~0.5 contrast ratio stops. Insufficient to create the "question → answer" visual hierarchy that instrument panels require.
+- Fix: Changed `strand-kv__value` color from `gray-600` to `gray-700` for wider luminance differential on light surfaces. Added `text-align: right` for explicit alignment (not just flex-inferred). Added dark-surface overrides via `.strand-instrument-viewport .strand-kv__label` (gray-400) and `.strand-instrument-viewport .strand-kv__value` (gray-200).
+- Commit: iteration-7

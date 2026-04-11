@@ -23,8 +23,12 @@
   border-radius: var(--strand-radius-lg);
   overflow: hidden;
   position: relative;
-  padding: var(--strand-space-6);
+  padding: var(--strand-space-5);
 }
+
+/* Dark-surface overrides: KV and log text needs higher contrast on #0F192A */
+.strand-instrument-viewport .strand-kv__label { color: var(--strand-gray-400); }
+.strand-instrument-viewport .strand-kv__value { color: var(--strand-gray-200); }
 
 .strand-instrument-viewport__label {
   color: var(--strand-gray-400);
