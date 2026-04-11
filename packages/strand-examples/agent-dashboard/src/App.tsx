@@ -453,13 +453,15 @@ export function App() {
               label="Auto-refresh"
             />
           </Stack>
-          <Card variant="elevated" padding="sm">
+          {/* Gap #11 fix: diagnostic feed on dark instrument surface */}
+          <InstrumentViewport>
+            <div class="strand-scanline strand-scanline--ambient" />
             <Stack direction="vertical" gap={1}>
               {activityLog.map((entry, i) => (
                 <LogEntry key={i} {...entry} />
               ))}
             </Stack>
-          </Card>
+          </InstrumentViewport>
         </Stack>
       ),
     },
@@ -519,22 +521,18 @@ export function App() {
         </div>
       </InstrumentViewport>
 
-      {/* Alert below instrument panel */}
-      {errorAgents.length > 0 && (
-        <Section variant="compact" background="primary">
-          <Container size="full">
-            <Alert status="warning" dismissible>
-              {errorAgents.length} agent reporting errors —{" "}
-              {errorAgents.map((a) => `${a.id} ${a.name}`).join(", ")}
-            </Alert>
-          </Container>
-        </Section>
-      )}
-
-      {/* Main content — light facility surface */}
-      <Section variant="standard" background="recessed">
+      {/* Main content — single section, no dead space */}
+      <Section variant="compact" background="recessed">
         <Container size="full">
-          <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
+          <Stack direction="vertical" gap={4}>
+            {errorAgents.length > 0 && (
+              <Alert status="warning" dismissible>
+                {errorAgents.length} agent reporting errors —{" "}
+                {errorAgents.map((a) => `${a.id} ${a.name}`).join(", ")}
+              </Alert>
+            )}
+            <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
+          </Stack>
         </Container>
       </Section>
 

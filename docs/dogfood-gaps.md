@@ -103,3 +103,17 @@ Verdict: FAIL
 - Root cause: The showcase composed the log inside an elevated card on the light surface. Per the two-environment principle (design-language.md Part I), a live diagnostic feed is an instrument — it belongs on a dark synthetic surface (`InstrumentViewport`), not a light facility surface. The primitives exist (`InstrumentViewport`, `strand-scanline--ambient`, `strand-log`) but were composed in the wrong environment.
 - Fix: Activity feed composed inside `InstrumentViewport` with `strand-scanline--ambient` overlay. Log entries render on the dark surface, placing the feed in the correct environment per the design specification.
 - Commit: iteration-3
+
+### Gap #12
+- Type: L1
+- Symptom: Massive dead space between the warning alert and the tab content. The area between the alert and the "Overview / Agents / Activity Log" tabs is an empty canyon of unused viewport. A dashboard should have zero wasted pixels — every vertical inch should be data or purposeful structural whitespace (Principle 6: Compound Silence). This gap is neither.
+- Root cause: The showcase used two separate `Section` components stacked vertically — one `variant="compact"` for the alert, one `variant="standard"` for the tabs. Each Section applies its own padding (`clamp(4rem, 8vw, 8rem)` for standard), so the transition between them doubles the vertical space. A world-class dashboard consolidates content into a single section.
+- Fix: Merged alert and tabs into a single `Section variant="compact"` with a `Stack gap={4}` containing both. Eliminates the double-padding gap entirely.
+- Commit: iteration-3
+
+### Gap #13
+- Type: L2
+- Symptom: Bar chart bars all appear the same height despite values ranging from 280 to 720. The visual difference between bars is imperceptible. The chart fails to communicate data magnitude.
+- Root cause: The `strand-bar-chart` default height is `var(--strand-space-24)` (96px). After subtracting the amount label and axis label, the actual bar area is approximately 20-30px. At that scale, the difference between 100% and 39% of 20px is ~12px — below the threshold of useful visual differentiation. The `--md` modifier (160px) was added to the source in iteration 2 but the published 0.15.1 npm package did not include rebuilt dist artifacts. The publish pipeline shipped pre-existing build output.
+- Fix: Rebuilt all consumer packages (`pnpm build`) to include the L2 CSS changes in dist output. Push triggers republish with correct artifacts. Showcase consumes `strand-bar-chart--md` for 160px chart height.
+- Commit: iteration-3
