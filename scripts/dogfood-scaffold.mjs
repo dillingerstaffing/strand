@@ -250,7 +250,19 @@ Start with AGENTS.md. It is the entry point for usage rules and tells you how St
 
 Build a **${displayName}** page using only Strand UI primitives. The page should look magnitudes better than any award-winning UI gallery's version of this page type.
 
-Focus areas:
+### Product design (mandatory before writing code)
+
+Before composing any UI, act as an expert Product Designer:
+
+1. **Research the page type.** Identify the best existing implementations of a ${displayName}. Decompose them into first principles: what decisions does the end user make? What data drives those decisions? What actions follow?
+2. **Map the value stream.** Every visible element — every metric, label, button, card, table column — must trace to a real end-user decision or action. If a metric doesn't help the user decide or act, remove it. If a critical decision point is missing data, add it.
+3. **Design the data model first.** Before layout, define realistic mock data with diagnostic depth: error messages, timestamps, context, costs, throughput, utilization. Generic placeholder data ("Task 1", "Agent A", "99%") fails the visual quality gate because it cannot demonstrate genuine utility.
+4. **Compose both environments.** The design language specifies two coexisting environments (Part I): dark synthetic instruments (\`InstrumentViewport\`) for live data and readouts, and light natural surfaces (cards, sections) for the facility. A showcase that uses only light surfaces misses half the aesthetic.
+
+The showcase should be so useful that a real end user would want it as a default template out of the box.
+
+### Visual focus areas
+
 1. Visual hierarchy using Strand's typography scale
 2. Composition using Strand's layout primitives (Stack, Grid, Container, Section)
 3. Interactive elements using Strand's form and feedback components where relevant
