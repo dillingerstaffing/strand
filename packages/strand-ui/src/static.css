@@ -394,6 +394,9 @@
 .strand-bar-chart--md { height: var(--strand-space-40); }
 .strand-bar-chart--lg { height: var(--strand-space-48); }
 
+/* ── Nav offset for glass (fixed) nav ── */
+.strand-nav-offset { padding-top: var(--strand-space-16); }
+
 /* ══════════════════════════════════════════════════
    UTILITIES
    ══════════════════════════════════════════════════ */

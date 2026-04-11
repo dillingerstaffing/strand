@@ -64,3 +64,42 @@ Verdict: FAIL
 - Root cause: Agent used `variant="primary"` for a supporting action. Per Principle 2 hierarchy test, each composition has exactly one primary element. In this tab, the table is primary. The deploy button should use `variant="secondary"` or `variant="ghost"` to subordinate itself.
 - Fix: Added button variant selection guidance to Dashboard recipe in `generated/html-reference.md`: one primary per page, supporting actions use `--secondary` or `--ghost`. Showcase updated to `variant="secondary"`.
 - Commit: iteration-2
+
+## Showcase: agent-dashboard — iteration 2
+Date: 2026-04-11
+Verdict: FAIL
+
+### Gap #7
+- Type: L2
+- Symptom: Glass nav (`strand-nav--glass`, position: fixed) overlaps the first section content. The overline text "AGENT OPERATIONS" is visually cut off behind the nav bar. Any page using glass nav has this problem.
+- Root cause: No utility class exists to offset content below a fixed glass nav. The Section component's padding variants do not account for fixed nav height. Consumers cannot solve this without inline styles (which violate Strand's rules) or guessing pixel offsets.
+- Fix: Added `strand-nav-offset` utility class to `static.css` (`padding-top: var(--strand-space-16)`). Documented in `generated/html-reference.md` global utilities table. Verified in all three consumer CSS bundles (strand-ui, strand-vue, strand-svelte). Showcase applies it to the first content section below the glass nav.
+- Commit: iteration-3
+
+### Gap #8
+- Type: L1
+- Symptom: Agent cards look generic and flat — described as "toy-ish" and resembling "index flash cards" rather than precision instrument panels. Avatars with two-letter initials add no value to an operational dashboard. The Tag component ("QA") is ambiguous without context. The "ERROR" status chip has no diagnostic detail. Cards have too much whitespace and too little information.
+- Root cause: Showcase used avatars (a contacts-app pattern, not an instrument-panel pattern), generous padding, and thin mock data with no operational context. A dashboard is an analytical readout panel per Principle 10 — every element must carry operational information. The primitives for density exist (`padding="sm"`, `strand-kv`, `strand-text-secondary--xs`, `strand-glass-surface`) but were not composed for instrument-grade output.
+- Fix: Removed avatars from agent cards. Switched to `padding="sm"` with `gap={2}` for tighter density. Added `strand-glass-surface` to agent cards for the frosted-glass instrument feel. Replaced generic Tag labels with descriptive role text (`strand-text-secondary`). Added current task, cost, and tokens to every agent card via `strand-kv` rows. Error card now shows the actual error message, failure timestamp, processing context, and consecutive failure count.
+- Commit: iteration-3
+
+### Gap #9
+- Type: L1
+- Symptom: Bar chart rendered at default 96px height despite the `strand-bar-chart--md` modifier being applied in code. Bars appeared flat and squat, identical to iteration 1.
+- Root cause: The showcase loaded CSS from the published CDN (`@0.15.0`) which does not contain the `--md` modifier added in the L2 fix. The modifier exists in the source but was not yet published to npm. The showcase's `index.html` used CDN `<link>` tags instead of JS imports from `node_modules`.
+- Fix: Switched showcase CSS loading from CDN `<link>` tags to JS imports in `main.tsx` (standard Vite/bundler pattern). The showcase now imports `@dillingerstaffing/strand/css/tokens.css`, `reset.css`, `base.css`, and `@dillingerstaffing/strand-ui/css/strand-ui.css` via the documented import paths. This is the pattern documented in AGENTS.md and README.md. The bar chart modifier takes effect after 0.15.1 is published and consumed.
+- Commit: iteration-3
+
+### Gap #10
+- Type: L1
+- Symptom: Showcase lacked product design depth. The dashboard displayed generic mock data (agent names, task counts, percentages) without modeling a realistic end-user value stream. A real operator viewing this dashboard could not make a decision or take an action based on the information shown. The visual design did not leverage the two-environment principle (dark synthetic instruments + light natural facility) described in the design language specification.
+- Root cause: The showcase was composed as a layout exercise (arrange components on screen) rather than a product design exercise (what does a fleet operator need to see, know, and do?). Strand's surface treatment primitives (`InstrumentViewport`, `strand-glass-surface`, `strand-card--warm`) that create the specified aesthetic were not used.
+- Fix: Redesigned showcase as a realistic agent fleet operations dashboard. Data model includes: agent roles, current task descriptions, per-agent cost/tokens, P95 latency, throughput. Error agents show schema-level diagnostic messages, failure timestamps, processing context, consecutive failure counts, and recovery actions. KPI strip uses `InstrumentViewport` with grid overlay (dark synthetic instrument surface) for the four fleet-level readouts. Agent cards use `strand-glass-surface` (frosted glass). System diagnostics card uses `strand-card--warm` (warm wood resonance). This composes both environments specified in the design language: synthetic instruments on dark surfaces and frosted panels in the light facility.
+- Commit: iteration-3
+
+### Gap #11
+- Type: L1
+- Symptom: Activity log feed renders as a plain list of text rows inside a standard light-surface card. It does not achieve the real-time instrument-panel feel specified in the design language. The log looks like a generic admin panel, not a live diagnostic terminal in a precision facility.
+- Root cause: The showcase composed the log inside an elevated card on the light surface. Per the two-environment principle (design-language.md Part I), a live diagnostic feed is an instrument — it belongs on a dark synthetic surface (`InstrumentViewport`), not a light facility surface. The primitives exist (`InstrumentViewport`, `strand-scanline--ambient`, `strand-log`) but were composed in the wrong environment.
+- Fix: Activity feed composed inside `InstrumentViewport` with `strand-scanline--ambient` overlay. Log entries render on the dark surface, placing the feed in the correct environment per the design specification.
+- Commit: iteration-3
