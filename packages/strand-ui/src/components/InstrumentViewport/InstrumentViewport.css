@@ -488,7 +488,7 @@
     box-shadow var(--strand-duration-normal) ease;
 }
 
-.strand-search-bar__inner:has(.strand-search-bar__input:focus) {
+.strand-search-bar__inner:focus-within {
   border-color: var(--strand-instrument-border-strong);
   box-shadow:
     var(--strand-instrument-shadow-deep),

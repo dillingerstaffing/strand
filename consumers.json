@@ -68,7 +68,8 @@
 			"publishable": false,
 			"sharedWith": "preact",
 			"artifactPath": "packages/strand-ui/dist/css/strand-ui.css",
-			"install": "load packages/tokens/css/* and packages/strand-ui/dist/css/strand-ui.css via link tags",
+			"vanillaRuntimePath": "packages/strand-ui/dist/vanilla/strand-ui.js",
+			"install": "load packages/tokens/css/* and packages/strand-ui/dist/css/strand-ui.css via link tags, plus dist/vanilla/strand-ui.js as a script tag for interactive behavior and cross-browser :has() fallbacks",
 			"parity": {
 				"type": "css-classes",
 				"manifestSection": "cssClasses",

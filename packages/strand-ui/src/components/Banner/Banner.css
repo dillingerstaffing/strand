@@ -42,6 +42,12 @@ body:has(.strand-banner) .strand-instrument-viewport--full-bleed {
   height: calc(100dvh - var(--strand-nav-height) - var(--strand-banner-height, 0px));
 }
 
+/* JS-managed fallback for browsers without :has() */
+body.strand-banner-active .strand-instrument-viewport--full-bleed {
+  height: calc(100vh - var(--strand-nav-height) - var(--strand-banner-height, 0px));
+  height: calc(100dvh - var(--strand-nav-height) - var(--strand-banner-height, 0px));
+}
+
 /* ── Variants ── */
 .strand-banner--info {
   background: var(--strand-blue-glow);

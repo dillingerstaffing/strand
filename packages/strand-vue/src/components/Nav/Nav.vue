@@ -23,7 +23,7 @@
   ```
 -->
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 
 export interface NavItem {
   label: string
@@ -48,6 +48,18 @@ const menuOpen = ref(false)
 function toggleMenu() {
   menuOpen.value = !menuOpen.value
 }
+
+function syncGlassClass(isGlass: boolean) {
+  if (isGlass) {
+    document.body.classList.add('strand-glass-nav-active')
+  } else {
+    document.body.classList.remove('strand-glass-nav-active')
+  }
+}
+
+onMounted(() => syncGlassClass(props.glass))
+onUnmounted(() => document.body.classList.remove('strand-glass-nav-active'))
+watch(() => props.glass, syncGlassClass)
 
 const classes = computed(() => ['strand-nav', props.glass && 'strand-nav--glass'].filter(Boolean).join(' '))
 </script>

@@ -65,6 +65,20 @@ body:has(.strand-nav--glass):has(.strand-banner) {
   padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
 }
 
+/* ── JS-managed body class fallback for browsers without :has() ──
+   Framework Nav components (Preact/Vue/Svelte) and the vanilla runtime
+   add strand-glass-nav-active to body when a glass nav is present.
+   These rules mirror the :has() rules above so both mechanisms coexist.
+   On modern browsers both match and produce the same result. On older
+   browsers (Firefox <121) only the class-based rules fire. */
+body.strand-glass-nav-active {
+  padding-top: var(--strand-nav-height);
+}
+
+body.strand-glass-nav-active.strand-banner-active {
+  padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
+}
+
 /* ── Lab Surface as opt-in utility (DL Part 9.1) ──
    Same treatment as body, applied to any element. Use on nested
    showcase containers, hero containers, etc. */
