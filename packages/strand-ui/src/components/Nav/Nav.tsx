@@ -2,7 +2,7 @@
 
 import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
-import { useState, useCallback } from "preact/hooks";
+import { useState, useCallback, useEffect } from "preact/hooks";
 
 export interface NavItem {
   label: string;
@@ -46,6 +46,13 @@ export const Nav = forwardRef<HTMLElement, NavProps>(
     const toggleMenu = useCallback(() => {
       setMenuOpen((prev) => !prev);
     }, []);
+
+    useEffect(() => {
+      if (glass) {
+        document.body.classList.add("strand-glass-nav-active");
+        return () => document.body.classList.remove("strand-glass-nav-active");
+      }
+    }, [glass]);
 
     const classes = ["strand-nav", glass && "strand-nav--glass", className].filter(Boolean).join(" ");
 

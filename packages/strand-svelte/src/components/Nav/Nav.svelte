@@ -19,6 +19,8 @@
   ```
 -->
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte'
+
   export interface NavItem {
     label: string
     href: string
@@ -35,6 +37,24 @@
   function toggleMenu() {
     menuOpen = !menuOpen
   }
+
+  function syncGlassClass(isGlass: boolean) {
+    if (typeof document !== 'undefined') {
+      if (isGlass) {
+        document.body.classList.add('strand-glass-nav-active')
+      } else {
+        document.body.classList.remove('strand-glass-nav-active')
+      }
+    }
+  }
+
+  onMount(() => syncGlassClass(glass))
+  onDestroy(() => {
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('strand-glass-nav-active')
+    }
+  })
+  $: syncGlassClass(glass)
 
   $: navClasses = ['strand-nav', glass && 'strand-nav--glass'].filter(Boolean).join(' ')
 </script>

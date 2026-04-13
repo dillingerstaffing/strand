@@ -45,6 +45,18 @@ Every project using Strand components must import these four CSS files in order:
 
 Missing any of these is the most common integration mistake. Components will render without styles if the imports are incomplete.
 
+## Required JS (vanilla HTML consumers only)
+
+Vanilla HTML consumers (no Preact/Vue/Svelte) must also load the vanilla runtime for interactive behavior (copy buttons, mobile nav, tab switching, cross-browser `:has()` fallbacks):
+
+```html
+<script src="path/to/strand-ui.js"></script>
+```
+
+The file is at `@dillingerstaffing/strand-ui/vanilla` (or `dist/vanilla/strand-ui.js` in the package). It is a standalone IIFE with no dependencies. Load it after the CSS. Framework consumers (Preact/Vue/Svelte) do NOT need this file because their components handle these behaviors internally.
+
+CSS-only consumers who do not load the vanilla runtime require a browser that supports the CSS `:has()` selector (Firefox 121+, Chrome 105+, Safari 15.4+) for glass nav body padding to work correctly. For cross-browser support, load the vanilla runtime.
+
 ## Rules
 
 1. Always use `strand-` prefixed CSS classes. Never write raw hex color values when a Strand token exists.
@@ -68,3 +80,4 @@ Missing any of these is the most common integration mistake. Components will ren
 4. **Wrong class prefix.** Strand classes use `strand-` prefix with BEM modifiers (`strand-btn--primary`), not utility classes.
 5. **Skipping size modifiers.** Strand buttons need explicit size: `strand-btn--sm`, `strand-btn--md`, or `strand-btn--lg`.
 6. **Using Bootstrap/Bulma class patterns.** Strand uses its own BEM conventions. See the class mapping guides in `docs/migration/`.
+7. **Missing vanilla runtime for vanilla HTML consumers.** Without the runtime script, copy buttons, mobile nav hamburger, tab switching, and `:has()` fallbacks are missing. Framework consumers get these for free from their components.

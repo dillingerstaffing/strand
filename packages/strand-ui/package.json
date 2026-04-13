@@ -34,7 +34,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./css/strand-ui.css": "./dist/css/strand-ui.css"
+    "./css/strand-ui.css": "./dist/css/strand-ui.css",
+    "./vanilla": "./dist/vanilla/strand-ui.js"
   },
   "style": "./dist/css/strand-ui.css",
   "files": [
@@ -48,7 +49,7 @@
   ],
   "scripts": {
     "prepack": "pnpm run build",
-    "build": "vite build && tsc --emitDeclarationOnly && cp ../../generated/html-reference.md ./HTML_REFERENCE.md && cp ../../docs/design-language.md ./DESIGN_LANGUAGE.md",
+    "build": "vite build && node scripts/build-vanilla.mjs && tsc --emitDeclarationOnly && cp ../../generated/html-reference.md ./HTML_REFERENCE.md && cp ../../docs/design-language.md ./DESIGN_LANGUAGE.md",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
