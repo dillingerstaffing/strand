@@ -7,12 +7,28 @@
  * Requires tokens.css to be loaded first.
  */
 
-/* ── Smooth anchor scrolling ──
+/* ── Smooth anchor scrolling + nav offset ──
    When users click an in-page anchor (e.g. nav link to #section),
    the browser smoothly scrolls there instead of hopping. Honors
-   prefers-reduced-motion via the rule below. */
+   prefers-reduced-motion via the rule below.
+
+   scroll-padding-top reserves space at the top of the scroll
+   container equal to the fixed-nav stack (glass nav + optional
+   banner). Every anchor scroll (nav click, direct URL fragment,
+   focus-scroll from keyboard navigation) auto-offsets by this
+   value, so the target element's top sits strictly below the nav
+   after the scroll settles.
+
+   The value tracks --strand-nav-height + --strand-banner-height so
+   it stays correct as the stack height changes at runtime (the
+   Banner component sets --strand-banner-height on mount; default
+   0px when no banner). A page without a fixed nav still honors
+   this value, which just produces an invisible offset equal to
+   the nav height. That never causes harm because the anchor
+   target would already be visible without any offset. */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
 }
 
 @media (prefers-reduced-motion: reduce) {

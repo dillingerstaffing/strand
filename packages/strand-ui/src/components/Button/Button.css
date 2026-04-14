@@ -117,10 +117,18 @@
   background: var(--strand-blue-wash);
 }
 
-/* ── Ghost variant ── */
+/* ── Ghost variant ──
+   Uses blue-midnight rather than blue-primary because the ghost
+   variant has no solid surface underneath, so its text must
+   contrast against whatever page surface the button sits on.
+   blue-primary (#3b8ef6) only reaches ~2.8:1 against surface-primary
+   and blue-deep (#1d5ad8) still borderlines on glass-nav backdrops
+   (~4.27:1 when composited over section content). blue-midnight
+   (#1e3e5f) reaches ~7.5:1 against those same surfaces, clears
+   WCAG 2.2 AA 4.5:1 comfortably, and preserves the blue identity. */
 .strand-btn--ghost {
   background: transparent;
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-midnight);
 }
 
 .strand-btn--ghost:hover:not(:disabled) {

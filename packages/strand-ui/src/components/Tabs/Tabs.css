@@ -1,15 +1,38 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Tab list ── */
+/* ── Tab list ──
+   Horizontally scroll the tablist when the combined tab widths exceed
+   the container. Without this, a tablist wider than the viewport
+   pushes the document horizontally and every other section inherits
+   the scrollbar. The tablist keeps its own overflow so the overflow
+   stays local, keyboard users still focus every tab in order, and
+   scroll-snap preserves the tactile feel of a control panel. */
 .strand-tabs [role="tablist"] {
   display: flex;
   gap: var(--strand-space-1);
   border-bottom: 1px solid var(--strand-gray-200);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x proximity;
+  /* Let flex children keep their intrinsic width so they don't shrink
+     past their text before we allow scrolling. */
+  flex-wrap: nowrap;
 }
 
-/* ── Tab button ── */
+.strand-tabs [role="tablist"]::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Tab button ──
+   flex-shrink: 0 keeps tabs at their intrinsic text width so the
+   tablist scrolls instead of squeezing tab labels. scroll-snap-align
+   pins each tab's start edge when the user flicks, preserving the
+   control-panel tactile feel. */
 .strand-tabs__tab {
   position: relative;
+  flex-shrink: 0;
+  scroll-snap-align: start;
   padding: var(--strand-space-2) var(--strand-space-4);
   border: none;
   border-bottom: 2px solid transparent;
@@ -43,7 +66,12 @@
    the tab acts like a toggle on a control panel rather than a
    content navigation. Pairs with strand-tabs__panel--reveal. */
 .strand-tabs--instrument [role="tablist"] {
-  justify-content: center;
+  /* Use `safe center` so centering only applies when the content fits.
+     When the tablist overflows, flex will clip the near edge, hiding
+     the first tab from users who scrolled to the start. `safe center`
+     degrades to `start` on overflow, which keeps every tab reachable
+     via scroll. */
+  justify-content: safe center;
   gap: 0;
   border-bottom: 1px solid var(--strand-surface-subtle);
 }

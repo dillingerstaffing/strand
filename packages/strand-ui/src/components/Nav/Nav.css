@@ -263,15 +263,20 @@
 	}
 }
 
-/* ── Glassmorphic variant (DL 11.5: "white or glassmorphic") ── */
+/* ── Glassmorphic variant (DL 11.5: "white or glassmorphic") ──
+   The glass nav's rendered height is the token. Previous versions set
+   `height: auto; padding: var(--strand-space-4) 0` which produced a
+   ~77px render (token is 64px), so `body:has(.strand-nav--glass) {
+   padding-top: var(--strand-nav-height) }` left content behind the nav.
+   Pinning height to the token keeps the body offset rule honest across
+   every consumer. */
 .strand-nav--glass {
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
 	z-index: 100;
-	height: auto;
-	padding: var(--strand-space-4) 0;
+	height: var(--strand-nav-height);
 	background: var(--strand-glass-bg);
 	-webkit-backdrop-filter: blur(var(--strand-glass-blur));
 	backdrop-filter: blur(var(--strand-glass-blur));

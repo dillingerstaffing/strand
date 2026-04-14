@@ -711,3 +711,53 @@ describe("Token values contain only design data", () => {
     }
   });
 });
+
+// ── Base CSS anchor scroll offset ──
+//
+// The browser does not move the scroll viewport when a nav is fixed
+// at the top of the page — it scrolls the raw target to y=0 and the
+// nav covers the top of the section. scroll-padding-top on the
+// scroll container (html) reserves that space for every anchor
+// scroll (nav click, URL fragment, focus-scroll). This test locks
+// the rule in at the design-language layer so every consumer of
+// base.css inherits the behavior.
+
+describe("base.css anchors scroll offset by the nav stack", () => {
+  it("sets scroll-padding-top on html equal to nav + banner height", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const baseCss = readFileSync(
+      fileURLToPath(new URL("../css/base.css", import.meta.url)),
+      "utf8"
+    );
+    // The html block must contain a scroll-padding-top rule that
+    // references both tokens. Banner height falls back to 0px when
+    // no banner is present, so the rule is always well-defined.
+    expect(baseCss).toMatch(/html\s*\{[\s\S]*scroll-padding-top[\s\S]*\}/);
+    expect(baseCss).toContain(
+      "scroll-padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px))"
+    );
+  });
+
+  it("keeps smooth scroll-behavior on html for the anchor scroll animation", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const baseCss = readFileSync(
+      fileURLToPath(new URL("../css/base.css", import.meta.url)),
+      "utf8"
+    );
+    expect(baseCss).toMatch(/html\s*\{[\s\S]*scroll-behavior:\s*smooth[\s\S]*\}/);
+  });
+
+  it("honors prefers-reduced-motion by switching scroll-behavior to auto", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const baseCss = readFileSync(
+      fileURLToPath(new URL("../css/base.css", import.meta.url)),
+      "utf8"
+    );
+    expect(baseCss).toMatch(
+      /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*html\s*\{[\s\S]*scroll-behavior:\s*auto[\s\S]*\}[\s\S]*\}/
+    );
+  });
+});

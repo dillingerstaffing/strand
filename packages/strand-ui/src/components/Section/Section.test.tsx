@@ -118,4 +118,25 @@ describe("Section", () => {
       "heading-1",
     );
   });
+
+  // ── Scroll offset contract ──
+  //
+  // The scroll-target modifier is the per-section opt-in that
+  // reinforces the global scroll-padding-top rule from base.css.
+  // Its value must track the nav-height + banner-height tokens so
+  // a nav-height change propagates everywhere without hunting
+  // through CSS files.
+
+  it("scroll-target modifier offsets by the nav + banner tokens (not a hardcoded rem)", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    const sectionCss = readFileSync(
+      resolve(__dirname, "Section.css"),
+      "utf8",
+    );
+    expect(sectionCss).toContain(".strand-section--scroll-target");
+    expect(sectionCss).toMatch(
+      /\.strand-section--scroll-target\s*\{[\s\S]*scroll-margin-top:\s*calc\(var\(--strand-nav-height\)\s*\+\s*var\(--strand-banner-height,\s*0px\)\)[\s\S]*\}/,
+    );
+  });
 });

@@ -60,7 +60,13 @@
 	border-top: 1px solid var(--strand-gray-200);
 }
 
-/* ── Scroll target (anchored section with nav offset) ── */
+/* ── Scroll target (anchored section with nav offset) ──
+   Global scroll-padding-top on html already offsets anchor scrolls
+   by the nav+banner stack height (see packages/tokens/css/base.css).
+   This modifier is retained as an explicit per-section opt-in for
+   consumers who want to reinforce the contract locally, and it
+   tracks the same tokens so a nav-height change propagates without
+   hunting. */
 .strand-section--scroll-target {
-	scroll-margin-top: 5rem;
+	scroll-margin-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
 }
