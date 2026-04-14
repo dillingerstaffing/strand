@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
 
+# Opt every javascript action into Node 24 ahead of the June 2 2026
+# forced migration. Removes the deprecation banner from every run.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -134,8 +139,16 @@ jobs:
               versions.sort((a,b) => b.localeCompare(a, undefined, {numeric:true}));
               versions[0];
             ")
-            gh release create "v${VERSION}" --title "v${VERSION}" --generate-notes --target main
-            echo "Created release v${VERSION}"
+            # Idempotent: if the release already exists (prior failed run,
+            # manual tag, race with a rerun) skip re-creation instead of
+            # returning HTTP 422 and failing the whole job. The actual
+            # npm publish above is already idempotent per-package.
+            if gh release view "v${VERSION}" --json tagName >/dev/null 2>&1; then
+              echo "Release v${VERSION} already exists; skipping create"
+            else
+              gh release create "v${VERSION}" --title "v${VERSION}" --generate-notes --target main
+              echo "Created release v${VERSION}"
+            fi
           else
             echo "No version changes, skipping release"
           fi

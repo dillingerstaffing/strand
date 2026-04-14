@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [main]
 
+# Opt every javascript action into Node 24 ahead of the June 2 2026
+# forced migration. Without this, GitHub decorates every run with a
+# yellow deprecation banner that reads like a failure even when the
+# job is green.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
