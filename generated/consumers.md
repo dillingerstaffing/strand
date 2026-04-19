@@ -63,7 +63,7 @@ Parity obligation: every component in parity-manifest.json#/components is export
 Shares the same package as preact.
 
 ```bash
-load packages/tokens/css/* and packages/strand-ui/dist/css/strand-ui.css via link tags
+load packages/tokens/css/* and packages/strand-ui/dist/css/strand-ui.css via link tags, plus dist/vanilla/strand-ui.js as a script tag for interactive behavior and cross-browser :has() fallbacks
 ```
 
 Package: `packages/strand-ui/`

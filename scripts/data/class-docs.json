@@ -552,6 +552,7 @@
 			{ "class": "strand-lead", "description": "Intro paragraph (text-lg, gray-500, max 50ch)." },
 			{ "class": "strand-text-secondary", "description": "Caption/description text (text-sm, gray-500)." },
 			{ "class": "strand-text-secondary--xs", "description": "Extra-small secondary text for metadata." },
+			{ "class": "strand-font-mono", "description": "Monospace font-family utility for inline meta rows and cadence lines." },
 			{ "class": "strand-code-name", "description": "Mono identifier heading (component names, API ids)." },
 			{ "class": "strand-heading--sm", "description": "Section heading inside cards (text-lg, medium)." },
 			{ "class": "strand-sr-only", "description": "Visually hidden, accessible to screen readers." },
