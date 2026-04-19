@@ -1255,6 +1255,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-lead` | Intro paragraph (text-lg, gray-500, max 50ch). |
 | `strand-text-secondary` | Caption/description text (text-sm, gray-500). |
 | `strand-text-secondary--xs` | Extra-small secondary text for metadata. |
+| `strand-font-mono` | Monospace font-family utility for inline meta rows and cadence lines. |
 | `strand-code-name` | Mono identifier heading (component names, API ids). |
 | `strand-heading--sm` | Section heading inside cards (text-lg, medium). |
 | `strand-sr-only` | Visually hidden, accessible to screen readers. |

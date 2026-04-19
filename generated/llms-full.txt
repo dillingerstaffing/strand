@@ -445,6 +445,18 @@ Every project using Strand components must import these four CSS files in order:
 
 Missing any of these is the most common integration mistake. Components will render without styles if the imports are incomplete.
 
+## Required JS (vanilla HTML consumers only)
+
+Vanilla HTML consumers (no Preact/Vue/Svelte) must also load the vanilla runtime for interactive behavior (copy buttons, mobile nav, tab switching, cross-browser `:has()` fallbacks):
+
+```html
+<script src="path/to/strand-ui.js"></script>
+```
+
+The file is at `@dillingerstaffing/strand-ui/vanilla` (or `dist/vanilla/strand-ui.js` in the package). It is a standalone IIFE with no dependencies. Load it after the CSS. Framework consumers (Preact/Vue/Svelte) do NOT need this file because their components handle these behaviors internally.
+
+CSS-only consumers who do not load the vanilla runtime require a browser that supports the CSS `:has()` selector (Firefox 121+, Chrome 105+, Safari 15.4+) for glass nav body padding to work correctly. For cross-browser support, load the vanilla runtime.
+
 ## Rules
 
 1. Always use `strand-` prefixed CSS classes. Never write raw hex color values when a Strand token exists.
@@ -468,6 +480,7 @@ Missing any of these is the most common integration mistake. Components will ren
 4. **Wrong class prefix.** Strand classes use `strand-` prefix with BEM modifiers (`strand-btn--primary`), not utility classes.
 5. **Skipping size modifiers.** Strand buttons need explicit size: `strand-btn--sm`, `strand-btn--md`, or `strand-btn--lg`.
 6. **Using Bootstrap/Bulma class patterns.** Strand uses its own BEM conventions. See the class mapping guides in `docs/migration/`.
+7. **Missing vanilla runtime for vanilla HTML consumers.** Without the runtime script, copy buttons, mobile nav hamburger, tab switching, and `:has()` fallbacks are missing. Framework consumers get these for free from their components.
 
 ---
 
@@ -527,18 +540,55 @@ Complete page skeletons demonstrating how Strand components compose into full pa
 
 ### Dashboard
 
+A dashboard is an **analytical readout panel** (Principle 10). Use `strand-section--compact`, never `--hero` or `--standard`. Get the user to data immediately.
+
+**Section headers:** Wrap overline + heading + lead in `strand-section-header strand-text-center` so all three share the same alignment.
+
+**Card hierarchy (Principle 2):** Every grid must have one visually dominant element. Use card variants, padding tiers, or spatial separation to create a focal point. A grid where every card is identical is a parts bin, not an instrument.
+
+**Table cells:** The Table component renders any value type, including JSX. Pass `<StatusChip>`, `<Tag>`, `<Badge>`, or `<Progress>` as cell values for visual differentiation.
+
+**Button variant selection:** One primary button per page. Supporting actions (deploy, export, filter) use `--secondary` or `--ghost`. If the primary content is a table or data grid, the table is the focal point — buttons subordinate to it.
+
 ```html
 <nav class="strand-nav strand-nav--glass">...</nav>
+<!-- compact section: dashboard data above the fold -->
 <section class="strand-section strand-section--compact">
-  <div class="strand-container strand-container--wide">
-    <div class="strand-grid strand-grid--cols-3 strand-grid--gap-6">
-      <div class="strand-card">
+  <div class="strand-container strand-container--full">
+    <div class="strand-section-header strand-text-center">
+      <span class="strand-overline strand-overline--accent">Operations</span>
+      <h1 class="strand-headline strand-headline--lg">Dashboard</h1>
+      <p class="strand-lead">System status and agent telemetry.</p>
+    </div>
+    <!-- metric cards -->
+    <div class="strand-grid strand-grid--cols-4 strand-grid--gap-6">
+      <div class="strand-card strand-card--elevated strand-card--pad-md">
         <div class="strand-data-readout strand-data-readout--lg">
-          <span class="strand-data-readout__label">Metric</span>
-          <span class="strand-data-readout__value">94%</span>
+          <span class="strand-data-readout__label">Active</span>
+          <span class="strand-data-readout__value">4</span>
         </div>
       </div>
     </div>
+  </div>
+</section>
+<!-- recessed section: tabs with detail views -->
+<section class="strand-section strand-section--standard strand-section--bg-recessed">
+  <div class="strand-container strand-container--full">
+    <!-- focal hierarchy: alert card at top for attention, then grid -->
+    <div class="strand-card strand-card--outlined strand-card--pad-md">
+      <!-- featured / error agent gets its own card, above the grid -->
+    </div>
+    <div class="strand-grid strand-grid--cols-3 strand-grid--gap-6">
+      <!-- remaining agents in equal grid below -->
+    </div>
+    <!-- table with rich cells -->
+    <div class="strand-card strand-card--elevated strand-card--pad-none">
+      <!-- pass JSX into Table data for status column:
+           { status: <span class="strand-status-chip strand-status-chip--live">Active</span> }
+      -->
+    </div>
+    <!-- bar chart with size modifier -->
+    <div class="strand-bar-chart strand-bar-chart--md">...</div>
   </div>
 </section>
 ```
@@ -1693,6 +1743,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-lead` | Intro paragraph (text-lg, gray-500, max 50ch). |
 | `strand-text-secondary` | Caption/description text (text-sm, gray-500). |
 | `strand-text-secondary--xs` | Extra-small secondary text for metadata. |
+| `strand-font-mono` | Monospace font-family utility for inline meta rows and cadence lines. |
 | `strand-code-name` | Mono identifier heading (component names, API ids). |
 | `strand-heading--sm` | Section heading inside cards (text-lg, medium). |
 | `strand-sr-only` | Visually hidden, accessible to screen readers. |
@@ -1712,8 +1763,12 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-log__status--process` | In-process log status (blue). |
 | `strand-log__status--warning` | Warning log status (amber). |
 | `strand-log__status--error` | Error log status (red). |
+| `strand-log__text` | Log description text (mono, xs, gray-300). Use on the description span. Agent names use `<strong>` inside for gray-100 semibold. |
 | `strand-metric-row` | Centered metric group with responsive gap. |
-| `strand-bar-chart` | Bar chart container. |
+| `strand-nav-offset` | Padding-top offset for pages using `strand-nav--glass` (fixed nav). Apply to the first section or a wrapper. |
+| `strand-bar-chart` | Bar chart container. Default height 160px (adequate for bar differentiation at zero customization). |
+| `strand-bar-chart--sm` | Compact bar chart height (96px). Use only in dense dashboard widgets where space is constrained. |
+| `strand-bar-chart--lg` | Large bar chart height (192px). |
 | `strand-bar-chart__col` | Bar chart column. |
 | `strand-bar-chart__bar` | Bar chart bar element. |
 | `strand-bar-chart__amount` | Bar chart amount label. |
@@ -2771,7 +2826,7 @@ The frosted-glass treatment is also exposed as a general utility (`.strand-glass
 
 | Token | Value | Purpose |
 |---|---|---|
-| `--strand-glass-bg` | `rgba(250, 252, 254, 0.72)` | Translucent surface-primary at 0.72 alpha (frosted glass body) |
+| `--strand-glass-bg` | `rgba(250, 252, 254, 0.85)` | Translucent surface-primary at 0.85 alpha (frosted glass body) |
 | `--strand-glass-border` | `rgba(148, 163, 184, 0.12)` | Hairline border that defines the glass edge |
 | `--strand-glass-blur` | `12px` | Backdrop blur amount. Higher = more frosted, less legible. 12px is the calibrated value. |
 
@@ -3935,7 +3990,7 @@ Parity obligation: every component in parity-manifest.json#/components is export
 Shares the same package as preact.
 
 ```bash
-load packages/tokens/css/* and packages/strand-ui/dist/css/strand-ui.css via link tags
+load packages/tokens/css/* and packages/strand-ui/dist/css/strand-ui.css via link tags, plus dist/vanilla/strand-ui.js as a script tag for interactive behavior and cross-browser :has() fallbacks
 ```
 
 Package: `packages/strand-ui/`
@@ -4205,6 +4260,7 @@ pnpm lint        # Lint all files
 | Directory | Package | Description |
 |---|---|---|
 | `packages/cli/` | `strand-ui` | CLI for adding Strand UI components to your project |
+| `packages/strand-examples/` | | |
 | `packages/strand-svelte/` | `@dillingerstaffing/strand-svelte` | Strand UI - Svelte component library built on the Strand Design Language |
 | `packages/strand-ui/` | `@dillingerstaffing/strand-ui` | Strand UI - Preact/React component library built on the Strand Design Language |
 | `packages/strand-vue/` | `@dillingerstaffing/strand-vue` | Strand UI - Vue 3 component library built on the Strand Design Language |

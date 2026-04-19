@@ -8,14 +8,63 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- add vanilla runtime, :has() cross-browser fallbacks, dvh fallback
+- world-class Agents tab with rich composite table cells
 - add zero-drift documentation generator system
 - add zero-drift documentation generator system
+
+### Changed
+- opt workflows into Node 24 + idempotent release step
+- vanilla runtime and :has() cross-browser fallbacks
+- rebuild showcase with published 0.15.2 (all L2 fixes live)
+- bump to 0.15.2 — triggers fresh publish with prepack build
+- commit generated docs from prior session
+- reorganize repo root into docs/ and generated/ directories
+- regenerate docs to include reorganization commit in changelog
+- reorganize repo root into docs/ and generated/ directories
+
+### Fixed
+- glass nav height, ghost button contrast, tab overflow, scroll-padding
+- restore DOGFOOD_GAPS.md template and append :has() gap entries
+- use relative base path for showcase builds
+- increase glass-bg opacity from 0.72 to 0.85 for WCAG 2.2 AA contrast over dark backgrounds
+- iteration 7 — publish pipeline, spacing first principles, log typography
+- iteration 6 — mobile-first responsive, scaffold mandates, pre-submission audit
+- iteration 5 — single-section layout, value stream data, full composition fix
+- add product design mandate to scaffold template
+- iteration 4 — L2 default padding and bar chart fixes
+- iteration 3 gaps #11-13 — layout, activity feed, dist build
+- iteration 3 — L2 library fixes + version sync to 0.15.1
+- resolve 6 gaps from agent-dashboard iteration 1
+
+## [0.15.1] - 2026-04-09
+
+### Added
 - add Vite + Preact starter template
 - add AGENTS.md, llms.txt, and migration guides to scaffold reading list
 - add agent consumption infrastructure (AGENTS.md, llms.txt, registry.json)
 - add build-agent-surfaces script with tests
 - add Vite + Preact starter template
 - add AGENTS.md, llms.txt, and migration guides to scaffold reading list
+- strand-nav__slot + strand-section--hero-compact primitives (v0.15.0)
+
+### Changed
+- bump strand packages to 0.15.1
+- generate initial agent surface files
+
+### Fixed
+- bump nav slot margin from space-6 to space-8 for visual breathing room
+
+### Documentation
+- add JSDoc summaries and @example blocks to all components
+- add JSDoc summaries and @example blocks to all components
+- restructure for MECE with generated sections
+- add AGENTS.md for AI coding agent consumption
+- propagate strand-nav__slot + strand-section--hero-compact to package HTML_REFERENCE
+
+## [0.15.0] - 2026-04-08
+
+### Added
 - strand-nav__slot + strand-section--hero-compact primitives (v0.15.0)
 - cross-consumer parity + dogfood chamber + migration staleness gate
 - mobile nav primitive + viewport tweaks for a consumer round2
@@ -58,11 +107,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DataReadout size variants (sm/lg) + composability guidance
 
 ### Changed
-- reorganize repo root into docs/ and generated/ directories
-- regenerate docs to include reorganization commit in changelog
-- reorganize repo root into docs/ and generated/ directories
-- bump strand packages to 0.15.1
-- generate initial agent surface files
 - bump all packages to v0.14.0
 - bump all packages to v0.13.0
 - bump all packages to v0.12.0
@@ -90,7 +134,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add official website link to README
 
 ### Fixed
-- bump nav slot margin from space-6 to space-8 for visual breathing room
 - contain code-block copy button inside the pre border box
 - replace Card --active rotating radar with static treatment
 - align copy button icon with first line of code
@@ -111,11 +154,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - resolve workspace:* dependency for npm consumers
 
 ### Documentation
-- add JSDoc summaries and @example blocks to all components
-- add JSDoc summaries and @example blocks to all components
-- restructure for MECE with generated sections
-- add AGENTS.md for AI coding agent consumption
-- propagate strand-nav__slot + strand-section--hero-compact to package HTML_REFERENCE
 - HTML_REFERENCE page recipes, new class docs, recessed surface contrast fixes
 - document all 13 new classes in HTML_REFERENCE.md
 - Bulma theme aligned to official Bulma customization paths

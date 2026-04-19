@@ -239,6 +239,17 @@
   font-size: var(--strand-text-xs);
 }
 
+/* ── Font family utilities ──
+   Pure typographic utilities for composing text styles when
+   the full .strand-overline / .strand-kv / .strand-data-readout
+   component semantics are too heavy. Use on inline meta rows,
+   cadence lines, and data-adjacent body copy that should read
+   as instrument output without inheriting the overline's letter
+   spacing and weight. */
+.strand-font-mono {
+  font-family: var(--strand-font-mono);
+}
+
 /* ══════════════════════════════════════════════════
    COMPOSITION MOLECULES (DL Part XI-B Grammar)
    Named derivations of DL composition primitives.

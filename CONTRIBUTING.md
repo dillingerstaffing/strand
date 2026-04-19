@@ -29,6 +29,7 @@ pnpm lint        # Lint all files
 | Directory | Package | Description |
 |---|---|---|
 | `packages/cli/` | `strand-ui` | CLI for adding Strand UI components to your project |
+| `packages/strand-examples/` | | |
 | `packages/strand-svelte/` | `@dillingerstaffing/strand-svelte` | Strand UI - Svelte component library built on the Strand Design Language |
 | `packages/strand-ui/` | `@dillingerstaffing/strand-ui` | Strand UI - Preact/React component library built on the Strand Design Language |
 | `packages/strand-vue/` | `@dillingerstaffing/strand-vue` | Strand UI - Vue 3 component library built on the Strand Design Language |
