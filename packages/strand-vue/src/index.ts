@@ -45,3 +45,4 @@ export { default as Tooltip } from "./components/Tooltip/Tooltip.vue";
 export { default as Progress } from "./components/Progress/Progress.vue";
 export { default as Spinner } from "./components/Spinner/Spinner.vue";
 export { default as Skeleton } from "./components/Skeleton/Skeleton.vue";
+export { default as StarRating } from "./components/StarRating/StarRating.vue";

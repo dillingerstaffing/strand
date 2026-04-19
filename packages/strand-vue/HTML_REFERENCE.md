@@ -1118,6 +1118,43 @@ Content placeholder with shimmer animation.
 
 ---
 
+### StarRating
+
+Interactive 1-to-5 star rating control. Radio-group semantics, keyboard navigation (Space / Enter to select, Tab through stars), hover preview, and three sizes. Vanilla runtime hydrates any `[data-strand-component="star-rating"]` block; controlled state is reflected on `data-value`.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-star-rating` | base | Inline-flex container for the 5 stars. |
+| `strand-star-rating--sm` | modifier | Small size (1rem icons, 32px tap targets). |
+| `strand-star-rating--md` | modifier | Medium size (1.5rem icons, 44px tap targets). Default. |
+| `strand-star-rating--lg` | modifier | Large size (2.25rem icons, 56px tap targets). |
+| `strand-star-rating--readonly` | modifier | Non-interactive display mode. |
+| `strand-star-rating__star` | child | Individual star button element. |
+| `strand-star-rating__star--active` | modifier | Filled / active star (amber). |
+| `strand-star-rating__glyph` | child | Star glyph span inside the button. |
+
+**Usage:**
+
+```html
+<div
+  class="strand-star-rating strand-star-rating--md"
+  role="radiogroup"
+  aria-label="Rate this event"
+  data-strand-component="star-rating"
+  data-value="3"
+>
+  <button type="button" class="strand-star-rating__star strand-star-rating__star--active" role="radio" aria-checked="false" aria-label="1 star" data-star-value="1"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
+  <button type="button" class="strand-star-rating__star strand-star-rating__star--active" role="radio" aria-checked="false" aria-label="2 stars" data-star-value="2"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
+  <button type="button" class="strand-star-rating__star strand-star-rating__star--active" role="radio" aria-checked="true" aria-label="3 stars" data-star-value="3"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
+  <button type="button" class="strand-star-rating__star" role="radio" aria-checked="false" aria-label="4 stars" data-star-value="4"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
+  <button type="button" class="strand-star-rating__star" role="radio" aria-checked="false" aria-label="5 stars" data-star-value="5"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
+</div>
+```
+
+The vanilla runtime dispatches a `strand:star-rating-change` CustomEvent on the container whenever the user picks a value, with `detail.value` as the selected 1-5 integer. Framework consumers use the component `onChange` callback instead.
+
+---
+
 ### InstrumentViewport
 
 Dark instrument panel container for data-dense content.

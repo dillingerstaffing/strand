@@ -64,3 +64,13 @@ Verdict: FAIL (6 L2 gaps discovered)
 - Root cause: Inconsistency with strand-ui.css which correctly provides vh before dvh.
 - Fix: Added `min-height: 100vh` before the `dvh` line in reset.css.
 - Commit: 18eb4fa
+
+## Production consumer: dillingerstaffing.com — Weekly Ship email lifecycle
+Date: 2026-04-19
+Verdict: PASS (after L2 primitive addition)
+
+### Gap #1
+- Type: L2
+- Symptom: Weekly Ship page-local custom StarRating in ShipInteractive.js and a new server-rendered rate-via-token page both needed a star rating control. No Strand primitive existed, so consumers were rolling their own markup + CSS.
+- Root cause: Library gap. StarRating is a common form pattern; absence of a primitive forced each consumer to re-implement the interaction, accessibility, and size tokens.
+- Fix: Added L2 StarRating primitive across every framework (Preact/React, Svelte, Vue) + vanilla runtime hydration for `[data-strand-component="star-rating"]`. Added to parity-manifest.json so every consumer type must ship it in lockstep. Three sizes (sm/md/lg), readOnly prop, aria-label required, keyboard + click + hover parity with the old JSX version. Version bumped 0.15.2 to 0.16.0.
