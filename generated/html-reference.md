@@ -1337,6 +1337,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-status-chip--neutral` | Neutral status chip (gray tint). |
 | `strand-status-chip--accent` | Accent status chip (blue tint). |
 | `strand-status-chip--caution` | Caution status chip (amber tint). |
+| `strand-status-chip--committed` | Committed status chip (teal-vital, translucent fill + border). Signals a post-RSVP commitment. |
 | `strand-idle-readout` | Empty-state data readout showing placeholder. |
 | `strand-empty-collection` | Empty list/grid state with centered message. |
 | `strand-empty-collection__message` | Empty collection message text. |

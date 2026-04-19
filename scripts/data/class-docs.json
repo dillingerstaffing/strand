@@ -594,6 +594,7 @@
 			{ "class": "strand-status-chip--neutral", "description": "Neutral status chip (gray tint)." },
 			{ "class": "strand-status-chip--accent", "description": "Accent status chip (blue tint)." },
 			{ "class": "strand-status-chip--caution", "description": "Caution status chip (amber tint)." },
+			{ "class": "strand-status-chip--committed", "description": "Committed status chip (teal-vital, translucent fill + border). Signals a post-RSVP commitment." },
 			{ "class": "strand-idle-readout", "description": "Empty-state data readout showing placeholder." },
 			{ "class": "strand-empty-collection", "description": "Empty list/grid state with centered message." },
 			{ "class": "strand-empty-collection__message", "description": "Empty collection message text." },

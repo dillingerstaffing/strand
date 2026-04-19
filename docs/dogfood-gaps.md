@@ -209,12 +209,24 @@ Verdict: FAIL
 - Fix: Changed `strand-kv__value` color from `gray-600` to `gray-700` for wider luminance differential on light surfaces. Added `text-align: right` for explicit alignment (not just flex-inferred). Added dark-surface overrides via `.strand-instrument-viewport .strand-kv__label` (gray-400) and `.strand-instrument-viewport .strand-kv__value` (gray-200).
 - Commit: iteration-7
 
-## Production consumer: dillingerstaffing.com — Weekly Ship email lifecycle
+## Production consumer: dillingerstaffing.com - Weekly Ship email lifecycle
 Date: 2026-04-19
 Verdict: PASS (after L2 primitive addition)
 
-### Gap #1
+### Gap #26
 - Type: L2
 - Symptom: Weekly Ship page-local custom StarRating in ShipInteractive.js and a new server-rendered rate-via-token page both needed a star rating control. No Strand primitive existed, so consumers were rolling their own markup + CSS.
 - Root cause: Library gap. StarRating is a common form pattern; absence of a primitive forced each consumer to re-implement the interaction, accessibility, and size tokens.
 - Fix: Added L2 StarRating primitive across every framework (Preact/React, Svelte, Vue) + vanilla runtime hydration for `[data-strand-component="star-rating"]`. Added to parity-manifest.json so every consumer type must ship it in lockstep. Three sizes (sm/md/lg), readOnly prop, aria-label required, keyboard + click + hover parity with the old JSX version. Version bumped 0.15.2 to 0.16.0.
+- Commit: feat/strand-star-rating
+
+## Production consumer: dillingerstaffing.com - Weekly Ship post-RSVP commitment chip
+Date: 2026-04-19
+Verdict: PASS (after L2 variant addition)
+
+### Gap #27
+- Type: L2
+- Symptom: Weekly Ship's featured event card has no visual confirmation that a signed-in user has already RSVP'd. The card always shows the "Next Ship" overline whether the user is committed or not. A post-RSVP affirmation block renders elsewhere on the page, but the focal card itself never reflects the commitment. Reason: Weekly Ship post-RSVP commitment chip. The existing `strand-status-chip` variants (`--live`, `--neutral`, `--accent`, `--caution`) do not express an earned-state commitment inside a dark instrument viewport.
+- Root cause: StatusChip lacked a "committed" variant tuned for the dark instrument viewport. Teal-tint (the existing `--live` fill) is designed for light surfaces: on a near-black background it loses contrast ratio because both fill and text tokens assume a light card. A post-RSVP chip needs saturated teal text on a translucent teal fill so it reads clearly on dark without overpowering the event title (Principle 2, Biosynthetic Restraint). No primitive existed for this role.
+- Fix: Added `.strand-status-chip--committed` variant to `static.css`. Uses `--strand-teal-vital` for text, `color-mix(in srgb, var(--strand-teal-vital) 16%, transparent)` for fill, and `color-mix(in srgb, var(--strand-teal-vital) 30%, transparent)` for border. Translucent composition keeps the chip readable on both dark instrument viewports and light surfaces. Documented in `generated/html-reference.md` and `scripts/data/class-docs.json`. All 8 consumer types inherit via the existing utility-class pipeline (same static.css bundle, same tokens package).
+- Commit: feat/strand-status-chip-committed

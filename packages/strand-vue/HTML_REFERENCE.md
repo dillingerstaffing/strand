@@ -979,6 +979,7 @@ Top-of-page notification banner.
 | `strand-banner--info` | modifier | Info variant (blue). |
 | `strand-banner--warning` | modifier | Warning variant (amber). |
 | `strand-banner--critical` | modifier | Critical variant (red). |
+| `strand-banner-active` | base | |
 
 **Usage:**
 
@@ -1165,6 +1166,8 @@ Dark instrument panel container for data-dense content.
 | `strand-instrument-viewport--grid` | modifier | Grid overlay variant. |
 | `strand-instrument-viewport--full-bleed` | modifier | |
 | `strand-body--instrument` | modifier | |
+| `strand-kv__label` | child | |
+| `strand-kv__value` | child | |
 | `strand-instrument-viewport__label` | child | |
 | `strand-instrument-viewport__value` | child | |
 | `strand-instrument-viewport__map` | child | |
@@ -1312,12 +1315,8 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-log__status--process` | In-process log status (blue). |
 | `strand-log__status--warning` | Warning log status (amber). |
 | `strand-log__status--error` | Error log status (red). |
-| `strand-log__text` | Log description text (mono, xs, gray-300). Use on the description span. Agent names use `<strong>` inside for gray-100 semibold. |
 | `strand-metric-row` | Centered metric group with responsive gap. |
-| `strand-nav-offset` | Padding-top offset for pages using `strand-nav--glass` (fixed nav). Apply to the first section or a wrapper. |
-| `strand-bar-chart` | Bar chart container. Default height 160px (adequate for bar differentiation at zero customization). |
-| `strand-bar-chart--sm` | Compact bar chart height (96px). Use only in dense dashboard widgets where space is constrained. |
-| `strand-bar-chart--lg` | Large bar chart height (192px). |
+| `strand-bar-chart` | Bar chart container. |
 | `strand-bar-chart__col` | Bar chart column. |
 | `strand-bar-chart__bar` | Bar chart bar element. |
 | `strand-bar-chart__amount` | Bar chart amount label. |
@@ -1338,6 +1337,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-status-chip--neutral` | Neutral status chip (gray tint). |
 | `strand-status-chip--accent` | Accent status chip (blue tint). |
 | `strand-status-chip--caution` | Caution status chip (amber tint). |
+| `strand-status-chip--committed` | Committed status chip (teal-vital, translucent fill + border). Signals a post-RSVP commitment. |
 | `strand-idle-readout` | Empty-state data readout showing placeholder. |
 | `strand-empty-collection` | Empty list/grid state with centered message. |
 | `strand-empty-collection__message` | Empty collection message text. |
@@ -1365,6 +1365,10 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-mb-6` | Margin-bottom: space-6. |
 | `strand-mb-8` | Margin-bottom: space-8. |
 | `strand-mx-auto` | Horizontal auto margins for centering. |
+| `strand-log__text` | |
+| `strand-bar-chart--sm` | |
+| `strand-bar-chart--lg` | |
+| `strand-nav-offset` | |
 | `strand-hero-grid__line--N` | |
 | `strand-hero-grid` | |
 | `strand-hero-grid__nodes` | |
