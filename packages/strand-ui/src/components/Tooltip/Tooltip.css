@@ -4,6 +4,16 @@
 .strand-tooltip__wrapper {
   position: relative;
   display: inline-flex;
+  /* Scope tooltip popup layout to this wrapper so an absolutely
+     positioned, nowrap tooltip cannot bloat an ancestor's scrollWidth
+     on narrow viewports. Without this, a long tooltip next to a
+     viewport-edge trigger overflows the trigger's containing card and
+     fails overflow-budget tests like "card does not overflow 375px".
+     See packages/strand-ui/src/components/Tooltip/Tooltip.tsx for the
+     rendered DOM; the popup uses `position: absolute` + nowrap, which
+     is enough to stop layout-flow contribution but NOT scroll-extent
+     contribution without `contain: layout`. */
+  contain: layout;
 }
 
 /* ── Tooltip ── */
