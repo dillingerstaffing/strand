@@ -101,6 +101,9 @@ export type { SpinnerProps } from "./components/Spinner/index.js";
 export { Skeleton } from "./components/Skeleton/index.js";
 export type { SkeletonProps } from "./components/Skeleton/index.js";
 
+export { StarRating } from "./components/StarRating/index.js";
+export type { StarRatingProps, StarRatingSize } from "./components/StarRating/index.js";
+
 // Surfaces
 export { InstrumentViewport } from "./components/InstrumentViewport/index.js";
 export type { InstrumentViewportProps } from "./components/InstrumentViewport/index.js";

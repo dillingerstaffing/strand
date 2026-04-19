@@ -11,6 +11,7 @@
 //   - Nav: glass nav :has() fallback (body.strand-glass-nav-active)
 //   - Banner: :has() fallback (body.strand-banner-active)
 //   - Tabs: click-to-switch + keyboard nav on [role="tablist"]
+//   - StarRating: click / keyboard / hover on [data-strand-component="star-rating"]
 //
 // CSP: no inline code, no eval, no external imports.
 
@@ -259,6 +260,79 @@
 	}
 
 	// ════════════════════════════════════════════════════════════════════
+	// StarRating: click / keyboard / hover
+	// ════════════════════════════════════════════════════════════════════
+
+	const STAR_RATING_SELECTOR = "[data-strand-component=\"star-rating\"]";
+	const STAR_SELECTOR = ".strand-star-rating__star";
+	const STAR_ACTIVE_CLASS = "strand-star-rating__star--active";
+	const STAR_RATING_WIRED_ATTR = "data-strand-star-wired";
+
+	function paintStars(group: HTMLElement, display: number): void {
+		const stars = group.querySelectorAll<HTMLElement>(STAR_SELECTOR);
+		for (const star of stars) {
+			const v = Number(star.getAttribute("data-star-value") || "0");
+			if (v <= display && v > 0) {
+				star.classList.add(STAR_ACTIVE_CLASS);
+			} else {
+				star.classList.remove(STAR_ACTIVE_CLASS);
+			}
+		}
+	}
+
+	function syncAriaChecked(group: HTMLElement, value: number): void {
+		const stars = group.querySelectorAll<HTMLElement>(STAR_SELECTOR);
+		for (const star of stars) {
+			const v = Number(star.getAttribute("data-star-value") || "0");
+			star.setAttribute("aria-checked", v === value ? "true" : "false");
+		}
+	}
+
+	function attachStarRating(group: Element): void {
+		if (!group || group.nodeType !== 1) return;
+		const groupEl = group as HTMLElement;
+		if (groupEl.getAttribute(STAR_RATING_WIRED_ATTR) === "true") return;
+		groupEl.setAttribute(STAR_RATING_WIRED_ATTR, "true");
+
+		const readOnly = groupEl.classList.contains("strand-star-rating--readonly");
+		if (readOnly) return;
+
+		const getValue = (): number => Number(groupEl.getAttribute("data-value") || "0");
+
+		const stars = groupEl.querySelectorAll<HTMLElement>(STAR_SELECTOR);
+		for (const star of stars) {
+			const v = Number(star.getAttribute("data-star-value") || "0");
+			star.addEventListener("click", (e) => {
+				e.preventDefault();
+				groupEl.setAttribute("data-value", String(v));
+				paintStars(groupEl, v);
+				syncAriaChecked(groupEl, v);
+				groupEl.dispatchEvent(
+					new CustomEvent("strand:star-rating-change", {
+						bubbles: true,
+						detail: { value: v },
+					}),
+				);
+			});
+			star.addEventListener("keydown", (e: Event) => {
+				const key = (e as KeyboardEvent).key;
+				if (key === " " || key === "Enter") {
+					e.preventDefault();
+					(star as HTMLButtonElement).click();
+				}
+			});
+			star.addEventListener("mouseenter", () => paintStars(groupEl, v));
+			star.addEventListener("mouseleave", () => paintStars(groupEl, getValue()));
+			star.addEventListener("focus", () => paintStars(groupEl, v));
+			star.addEventListener("blur", () => paintStars(groupEl, getValue()));
+		}
+
+		// Initial paint reflects the authored data-value
+		paintStars(groupEl, getValue());
+		syncAriaChecked(groupEl, getValue());
+	}
+
+	// ════════════════════════════════════════════════════════════════════
 	// Public entry point
 	// ════════════════════════════════════════════════════════════════════
 
@@ -286,6 +360,12 @@
 		const tabContainers = scope.querySelectorAll(".strand-tabs");
 		for (const tc of tabContainers) {
 			attachTabs(tc);
+		}
+
+		// StarRating vanilla enhancement
+		const starGroups = scope.querySelectorAll(STAR_RATING_SELECTOR);
+		for (const g of starGroups) {
+			attachStarRating(g);
 		}
 	}
 

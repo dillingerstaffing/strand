@@ -1,0 +1,99 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Base ── */
+.strand-star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-1);
+  color: var(--strand-gray-900);
+  line-height: 1;
+}
+
+/* ── Star button ── */
+.strand-star-rating__star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: var(--strand-gray-200);
+  border-radius: var(--strand-radius-sm);
+  transition:
+    color var(--strand-duration-fast) var(--strand-ease-out-quart),
+    transform var(--strand-duration-fast) var(--strand-ease-out-quart);
+  min-width: var(--strand-touch-target);
+  min-height: var(--strand-touch-target);
+  font-family: inherit;
+}
+
+.strand-star-rating__star:focus-visible {
+  outline: none;
+  box-shadow: var(--strand-focus-ring);
+}
+
+.strand-star-rating__star--active {
+  color: var(--strand-amber-caution);
+}
+
+.strand-star-rating__star:not(:disabled):hover .strand-star-rating__glyph,
+.strand-star-rating__star:not(:disabled):focus-visible .strand-star-rating__glyph {
+  transform: scale(1.08);
+}
+
+/* ── Glyph ── */
+.strand-star-rating__glyph {
+  display: inline-block;
+  font-size: inherit;
+  line-height: 1;
+  transition: transform var(--strand-duration-fast) var(--strand-ease-out-quart);
+}
+
+/* ── Sizes ── */
+.strand-star-rating--sm {
+  font-size: 1rem;
+}
+
+.strand-star-rating--sm .strand-star-rating__star {
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.strand-star-rating--md {
+  font-size: 1.5rem;
+}
+
+.strand-star-rating--md .strand-star-rating__star {
+  min-width: var(--strand-touch-target);
+  min-height: var(--strand-touch-target);
+}
+
+.strand-star-rating--lg {
+  font-size: 2.25rem;
+}
+
+.strand-star-rating--lg .strand-star-rating__star {
+  min-width: 56px;
+  min-height: 56px;
+}
+
+/* ── Read-only ── */
+.strand-star-rating--readonly .strand-star-rating__star {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .strand-star-rating__star,
+  .strand-star-rating__glyph {
+    transition: none;
+  }
+
+  .strand-star-rating__star:not(:disabled):hover .strand-star-rating__glyph,
+  .strand-star-rating__star:not(:disabled):focus-visible .strand-star-rating__glyph {
+    transform: none;
+  }
+}
