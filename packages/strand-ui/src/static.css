@@ -526,6 +526,17 @@
   background: var(--strand-amber-tint);
 }
 
+/* COMMITTED variant: post-RSVP confirmation on dark instrument
+   viewports. Vital teal on translucent fill and 30% alpha border
+   signals earned state (DL Principle 5: Earned Elevation) without
+   stealing focus from the event title. The translucent composition
+   lets the chip sit cleanly on both dark and light surfaces. */
+.strand-status-chip--committed {
+  color: var(--strand-teal-vital);
+  background: color-mix(in srgb, var(--strand-teal-vital) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--strand-teal-vital) 30%, transparent);
+}
+
 /* ── Viewport flex modifiers (component showcase layout) ── */
 .strand-viewport--flex {
   display: flex;
