@@ -108,12 +108,27 @@
 }
 
 /* ── Channel grid helpers ──
-   Layout helpers for a content-sized card grid with an inline
-   next-event preview row. Useful for membership grids, channel
-   listings, and similar layouts where cards must size to their
-   content rather than fill a fixed cell. */
+   Equal-height card row with a natural top-to-bottom stack inside each
+   card and the final horizontal row (the CTA) anchored to the card's
+   bottom edge. Cards in the same row align to the tallest card's
+   height; an uneven content mix never produces the ragged-bottom look
+   where some cards end tall and others stop short. Useful for channel
+   listings, membership grids, and any layout where cards carry a
+   primary CTA that must read as the shared affordance across the row. */
 .strand-channel-grid {
-  align-items: start;
+  align-items: stretch;
+}
+.strand-channel-grid > .strand-card {
+  display: flex;
+  flex-direction: column;
+}
+.strand-channel-grid > .strand-card > .strand-stack--vertical {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.strand-channel-grid > .strand-card > .strand-stack--vertical > .strand-stack--horizontal:last-child {
+  margin-top: auto;
 }
 
 .strand-channel-title {
