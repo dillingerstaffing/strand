@@ -577,7 +577,10 @@
 				{ "class": "strand-ref-example__demo", "description": "Example demo panel (white card, 24px 28px padding, subtle shadow)." },
 				{ "class": "strand-ref-example__demo--pad-none", "description": "Modifier: remove internal padding + hide overflow." },
 				{ "class": "strand-ref-example__demo--recessed", "description": "Modifier: use recessed surface background instead of white." },
-				{ "class": "strand-ref-example__caption", "description": "Example caption paragraph below the demo." }
+				{ "class": "strand-ref-example__caption", "description": "Example caption paragraph below the demo." },
+				{ "class": "strand-ref-shell__nav-scrim", "description": "Mobile drawer scrim (covers main, dismisses drawer on tap). Hidden until parent has .is-nav-open at <=1040px." },
+				{ "class": "strand-ref-mobile-trigger", "description": "Mobile FAB toggle for the sidebar drawer. Use on a strand-btn (icon-only + circular). Hidden by default; shown only at <=1040px breakpoint." },
+				{ "class": "is-nav-open", "description": "State class on the .strand-ref-shell mount; consumer toggles to open the mobile drawer." }
 			],
 			"example": "<div class=\"strand-ref-shell\" style=\"--strand-ref-sticky-top: 64px;\">\n  <aside class=\"strand-ref-shell__sidebar\">...</aside>\n  <main class=\"strand-ref-shell__main\">\n    <header class=\"strand-ref-header\">\n      <h1 class=\"strand-ref-header__title\">Every component, rendered.</h1>\n      <p class=\"strand-ref-header__lead\">Reference layout for component docs.</p>\n    </header>\n    <section class=\"strand-ref-section\" id=\"typography\">\n      <div class=\"strand-ref-section__head\"><h2>Typography</h2></div>\n      <div class=\"strand-ref-section__body\">\n        <div class=\"strand-ref-example\">\n          <div class=\"strand-ref-example__meta\">\n            <div class=\"strand-ref-example__label\">Headline</div>\n            <code class=\"strand-ref-example__code\">strand-headline--xl</code>\n          </div>\n          <div class=\"strand-ref-example__demo\">...</div>\n        </div>\n      </div>\n    </section>\n  </main>\n</div>"
 		},
