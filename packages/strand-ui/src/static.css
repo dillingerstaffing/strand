@@ -305,6 +305,37 @@
   color: var(--strand-teal-vital);
 }
 
+/* ── Key-Value Row: editorial modifier ──
+   Additive modifier on .strand-kv for card-metadata contexts
+   (composed cards, editorial specimens) where values should
+   read as soft sans-serif Blue-midnight rather than the default
+   mono-gray instrument readout. Dashed divider between rows.
+   Use inside .strand-card__section content blocks. The base
+   .strand-kv default stays mono-tabular for instrument surfaces. */
+.strand-kv--editorial {
+  padding: 6px 0;
+  font-size: var(--strand-text-sm);
+  line-height: 1.4;
+}
+
+.strand-kv--editorial + .strand-kv--editorial {
+  border-top: 1px dashed var(--strand-gray-200);
+}
+
+.strand-kv--editorial .strand-kv__label {
+  letter-spacing: var(--strand-tracking-ultra);
+  flex: none;
+  white-space: nowrap;
+}
+
+.strand-kv--editorial .strand-kv__value {
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  color: var(--strand-blue-midnight);
+  font-weight: var(--strand-weight-medium);
+  font-variant-numeric: normal;
+}
+
 /* ── Diagnostic Log Entry ──
    Derivation: inline-sequence + ranked-sequence (DL 11.10).
    time(OVERLINE) + status(OVERLINE+COLOR_SEMANTIC) + text(SECONDARY) + RANK_BORDER */

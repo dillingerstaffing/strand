@@ -8,12 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- add strand-status-chip--committed variant
+- add strand-font-mono utility class
+- add StarRating primitive across all consumer types
 - add vanilla runtime, :has() cross-browser fallbacks, dvh fallback
 - world-class Agents tab with rich composite table cells
 - add zero-drift documentation generator system
 - add zero-drift documentation generator system
 
 ### Changed
+- fix/tooltip-layout-containment (DS calendar subscribe consumer)
+- feat/strand-status-chip-committed (DS WS committed chip consumer)
+- feat/strand-star-rating (DS WS email lifecycle + rate-via-token consumer)
+- feat/strand-font-mono-utility (DS WS hero cadence consumer)
 - opt workflows into Node 24 + idempotent release step
 - vanilla runtime and :has() cross-browser fallbacks
 - rebuild showcase with published 0.15.2 (all L2 fixes live)
@@ -24,6 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - reorganize repo root into docs/ and generated/ directories
 
 ### Fixed
+- strand-channel-grid stretches cards equal height and anchors last horizontal row (CTA) to bottom
+- contain tooltip layout to wrapper so popup does not bloat ancestor scrollWidth
 - glass nav height, ghost button contrast, tab overflow, scroll-padding
 - restore DOGFOOD_GAPS.md template and append :has() gap entries
 - use relative base path for showcase builds

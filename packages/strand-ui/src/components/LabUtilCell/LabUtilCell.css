@@ -1,0 +1,64 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ══════════════════════════════════════════════════
+   LAB UTIL CELL (utility-class demo tile)
+   ══════════════════════════════════════════════════
+   Demo tile that shows a single utility class in action
+   (e.g. .strand-mt-4, .strand-mx-auto). The row container
+   arranges cells horizontally; each cell has a code label
+   + demo area + optional caption. */
+
+.strand-ref-util-row {
+  display: flex;
+  align-items: stretch;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.strand-ref-util-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* 14px 16px: specimen chrome literal, no token match for 14px */
+  padding: 14px var(--strand-space-4);
+  background: var(--strand-surface-recessed);
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-md);
+  min-width: 180px;
+  flex: 1;
+}
+
+.strand-ref-util-cell__code {
+  font-family: var(--strand-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--strand-blue-primary);
+  font-weight: var(--strand-weight-medium);
+}
+
+.strand-ref-util-cell__caption {
+  font-family: var(--strand-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--strand-gray-500);
+}
+
+.strand-ref-util-cell__demo {
+  background: var(--strand-surface-elevated);
+  border: 1px dashed var(--strand-gray-300);
+  border-radius: var(--strand-radius-sm);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.strand-ref-util-cell__block {
+  background: var(--strand-blue-midnight);
+  color: var(--strand-on-blue-primary);
+  padding: 6px 10px;
+  font-family: var(--strand-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  display: inline-block;
+  align-self: flex-start;
+}

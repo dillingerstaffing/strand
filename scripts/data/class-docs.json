@@ -142,9 +142,11 @@
 				{ "class": "strand-card--pad-sm", "description": "Small padding (16px)." },
 				{ "class": "strand-card--pad-md", "description": "Medium padding (24px)." },
 				{ "class": "strand-card--pad-lg", "description": "Large padding (32px)." },
-				{ "class": "strand-card--pad-xl", "description": "Extra-large padding (40px)." }
+				{ "class": "strand-card--pad-xl", "description": "Extra-large padding (40px)." },
+				{ "class": "strand-card__section", "description": "BEM element: card-internal row with a top hairline. First child suppresses the top border. Stack inside strand-card--pad-none to compose rows." },
+				{ "class": "strand-card__section--header", "description": "BEM modifier: header row layout (baseline, space-between, gap)." }
 			],
-			"example": "<div class=\"strand-card strand-card--elevated strand-card--pad-md\">\n  Card content here.\n</div>"
+			"example": "<div class=\"strand-card strand-card--elevated strand-card--pad-md\">\n  Card content here.\n</div>\n\n<div class=\"strand-card strand-card--pad-none\">\n  <div class=\"strand-card__section strand-card__section--header\">Title</div>\n  <div class=\"strand-card__section\">Body</div>\n</div>"
 		},
 		{
 			"name": "Badge",
@@ -527,6 +529,170 @@
 				{ "class": "strand-reveal-group", "description": "Group container for staggered reveals." }
 			],
 			"example": "<div class=\"strand-reveal\">Fades up on scroll</div>\n\n<div class=\"strand-reveal-group\">\n  <div class=\"strand-reveal\">Staggers 0ms</div>\n  <div class=\"strand-reveal\">Staggers 80ms</div>\n</div>"
+		},
+		{
+			"name": "KvEditorial",
+			"description": "Editorial modifier on the strand-kv molecule. Use inside card-metadata contexts for soft sans-serif Blue-midnight values separated by a dashed divider. The default strand-kv stays mono-tabular for instrument readouts.",
+			"classes": [
+				{ "class": "strand-kv--editorial", "description": "Editorial modifier on a strand-kv row (card-metadata rendering)." }
+			],
+			"example": "<div class=\"strand-kv strand-kv--editorial\">\n  <span class=\"strand-kv__label\">Owner</span>\n  <span class=\"strand-kv__value\">Dillinger Staffing</span>\n</div>"
+		},
+		{
+			"name": "LabShell",
+			"description": "Component-reference page chrome. Named primitive family for a docs-site layout: sticky sidebar + scrollable main + header + section + example blocks. Forty-plus classes map 1:1 to the classic component-lab pattern.",
+			"classes": [
+				{ "class": "strand-ref-shell", "description": "Grid root with sidebar (256px) and main (1fr)." },
+				{ "class": "strand-ref-shell__sidebar", "description": "Sticky left column with brand + nav groups." },
+				{ "class": "strand-ref-shell__sidebar-head", "description": "Fixed top block inside the sidebar (brand + lead)." },
+				{ "class": "strand-ref-shell__sidebar-scroll", "description": "Scrollable region containing nav groups." },
+				{ "class": "strand-ref-shell__brand", "description": "Horizontal brand row (mark + title + sub)." },
+				{ "class": "strand-ref-shell__brand-mark", "description": "Square brand glyph (36x36 on blue-midnight)." },
+				{ "class": "strand-ref-shell__brand-title", "description": "Brand title (mono 15px blue-midnight)." },
+				{ "class": "strand-ref-shell__brand-sub", "description": "Brand subtitle overline (mono 10px uppercase)." },
+				{ "class": "strand-ref-shell__group", "description": "Sidebar nav group with top hairline separator." },
+				{ "class": "strand-ref-shell__group-label", "description": "Nav group label (mono 10px uppercase blue-midnight)." },
+				{ "class": "strand-ref-shell__group-list", "description": "Nav link list container (flex column, 1px gap)." },
+				{ "class": "strand-ref-shell__group-link", "description": "Nav link row (dot + label)." },
+				{ "class": "strand-ref-shell__group-dot", "description": "4x4 dot indicator inside nav links." },
+				{ "class": "strand-ref-shell__main", "description": "Main content column (56px 64px 96px padding, 1120px max)." },
+				{ "class": "strand-ref-header", "description": "Page header block (title + lead + metrics)." },
+				{ "class": "strand-ref-header__title", "description": "H1 title (light 40px blue-midnight)." },
+				{ "class": "strand-ref-header__lead", "description": "Header lead paragraph (20px gray-500)." },
+				{ "class": "strand-ref-header__meta", "description": "Metrics row (grid, 4 columns auto)." },
+				{ "class": "strand-ref-header__meta-item", "description": "Metric column (label + value)." },
+				{ "class": "strand-ref-header__meta-label", "description": "Metric label (mono 10px uppercase)." },
+				{ "class": "strand-ref-header__meta-value", "description": "Metric value (sans 22px light blue-midnight)." },
+				{ "class": "strand-ref-taxonomy", "description": "Taxonomy explainer block (recessed card with definition list)." },
+				{ "class": "strand-ref-taxonomy__title", "description": "Taxonomy overline title." },
+				{ "class": "strand-ref-taxonomy__list", "description": "Taxonomy definition list (dl)." },
+				{ "class": "strand-ref-section", "description": "Section block with bottom hairline + scroll-margin." },
+				{ "class": "strand-ref-section__head", "description": "Section head (h2 + note, flex baseline space-between)." },
+				{ "class": "strand-ref-section__head-note", "description": "Section head note (mono 10px uppercase)." },
+				{ "class": "strand-ref-section__body", "description": "Section body (vertical stack with 32px gaps)." },
+				{ "class": "strand-ref-example", "description": "Example row (200px meta + 1fr demo grid)." },
+				{ "class": "strand-ref-example__meta", "description": "Example meta column." },
+				{ "class": "strand-ref-example__label", "description": "Example label (sans 13px blue-midnight)." },
+				{ "class": "strand-ref-example__code", "description": "Example code snippet (mono 10px gray)." },
+				{ "class": "strand-ref-example__demo", "description": "Example demo panel (white card, 24px 28px padding, subtle shadow)." },
+				{ "class": "strand-ref-example__demo--pad-none", "description": "Modifier: remove internal padding + hide overflow." },
+				{ "class": "strand-ref-example__demo--recessed", "description": "Modifier: use recessed surface background instead of white." },
+				{ "class": "strand-ref-example__caption", "description": "Example caption paragraph below the demo." }
+			],
+			"example": "<div class=\"strand-ref-shell\" style=\"--strand-ref-sticky-top: 64px;\">\n  <aside class=\"strand-ref-shell__sidebar\">...</aside>\n  <main class=\"strand-ref-shell__main\">\n    <header class=\"strand-ref-header\">\n      <h1 class=\"strand-ref-header__title\">Every component, rendered.</h1>\n      <p class=\"strand-ref-header__lead\">Reference layout for component docs.</p>\n    </header>\n    <section class=\"strand-ref-section\" id=\"typography\">\n      <div class=\"strand-ref-section__head\"><h2>Typography</h2></div>\n      <div class=\"strand-ref-section__body\">\n        <div class=\"strand-ref-example\">\n          <div class=\"strand-ref-example__meta\">\n            <div class=\"strand-ref-example__label\">Headline</div>\n            <code class=\"strand-ref-example__code\">strand-headline--xl</code>\n          </div>\n          <div class=\"strand-ref-example__demo\">...</div>\n        </div>\n      </div>\n    </section>\n  </main>\n</div>"
+		},
+		{
+			"name": "LabFrame",
+			"description": "Fake in-page window chrome that hosts a modal demo inline. Use on docs pages to show how a dialog appears without taking over the viewport.",
+			"classes": [
+				{ "class": "strand-ref-frame", "description": "Frame container (recessed background, rounded)." },
+				{ "class": "strand-ref-frame__chrome", "description": "Top chrome bar (traffic-light dots + title)." },
+				{ "class": "strand-ref-frame__dot", "description": "Traffic-light dot (color set inline per dot)." },
+				{ "class": "strand-ref-frame__title", "description": "Chrome title (mono 11px gray)." },
+				{ "class": "strand-ref-frame__body", "description": "Frame body (white surface, relative positioning)." },
+				{ "class": "strand-ref-frame__content", "description": "Primary content area; [aria-hidden=true] blurs and fades." },
+				{ "class": "strand-ref-frame__content-head", "description": "Header container for overline + heading inside content." },
+				{ "class": "strand-ref-frame__actions", "description": "Action row inside content (flex, 10px gap)." },
+				{ "class": "strand-ref-frame__overlay", "description": "Modal backdrop (absolute inset 0, translucent)." },
+				{ "class": "strand-ref-frame__panel", "description": "Modal panel (white card centered in overlay)." },
+				{ "class": "strand-ref-frame__panel-header", "description": "Panel header row (title + close button)." },
+				{ "class": "strand-ref-frame__panel-title", "description": "Panel title (h2 sans 18px medium)." },
+				{ "class": "strand-ref-frame__panel-close", "description": "Panel close button (28x28, ghost)." },
+				{ "class": "strand-ref-frame__panel-body", "description": "Panel body paragraph (14px gray-700)." },
+				{ "class": "strand-ref-frame__panel-footer", "description": "Panel footer row (flex end, recessed bg)." }
+			],
+			"example": "<div class=\"strand-ref-frame\">\n  <div class=\"strand-ref-frame__chrome\">\n    <span class=\"strand-ref-frame__dot\" style=\"background: #ff5f57\"></span>\n    <span class=\"strand-ref-frame__dot\" style=\"background: #febc2e\"></span>\n    <span class=\"strand-ref-frame__dot\" style=\"background: #28c840\"></span>\n    <span class=\"strand-ref-frame__title\">Demo</span>\n  </div>\n  <div class=\"strand-ref-frame__body\">\n    <div class=\"strand-ref-frame__content\" aria-hidden=\"true\">Background content</div>\n    <div class=\"strand-ref-frame__overlay\">\n      <div class=\"strand-ref-frame__panel\" role=\"dialog\" aria-modal=\"true\">\n        <div class=\"strand-ref-frame__panel-header\">\n          <h2 class=\"strand-ref-frame__panel-title\">Confirm</h2>\n          <button type=\"button\" class=\"strand-ref-frame__panel-close\" aria-label=\"Close\">&times;</button>\n        </div>\n        <div class=\"strand-ref-frame__panel-body\">Are you sure?</div>\n        <div class=\"strand-ref-frame__panel-footer\">...</div>\n      </div>\n    </div>\n  </div>\n</div>"
+		},
+		{
+			"name": "LabGlassStage",
+			"description": "Cinematic glass-surface specimen container. Renders a layered blue/teal gradient backdrop with an embedded frosted-glass panel.",
+			"classes": [
+				{ "class": "strand-ref-glass-stage", "description": "Gradient backdrop (radial + diagonal linear, overflow hidden)." },
+				{ "class": "strand-ref-glass-panel", "description": "Frosted panel with backdrop-filter, translucent dark bg, hairline border." }
+			],
+			"example": "<div class=\"strand-ref-glass-stage\">\n  <div class=\"strand-ref-glass-panel\">Glass content</div>\n</div>"
+		},
+		{
+			"name": "LabRevealStage",
+			"description": "Staggered entry animation specimen. Four lines animate in at 0 / 180 / 360 / 540 ms. Remount the stage (new key/ref) to replay.",
+			"classes": [
+				{ "class": "strand-ref-reveal-stage", "description": "Stage container (vertical stack, 10px gap)." },
+				{ "class": "strand-ref-reveal-line", "description": "Animated line (nth-child controls delay 0/180/360/540)." }
+			],
+			"example": "<div class=\"strand-ref-reveal-stage\">\n  <div class=\"strand-ref-reveal-line\">First</div>\n  <div class=\"strand-ref-reveal-line\">Second</div>\n  <div class=\"strand-ref-reveal-line\">Third</div>\n  <div class=\"strand-ref-reveal-line\">Fourth</div>\n</div>"
+		},
+		{
+			"name": "LabTip",
+			"description": "Pure-CSS tooltip specimen (not the production Tooltip). Use on docs pages to show the four fixed bubble placements. Supports --pinned for screenshots.",
+			"classes": [
+				{ "class": "strand-ref-tip", "description": "Inline-flex trigger wrapper (hover/focus reveals the bubble)." },
+				{ "class": "strand-ref-tip--pinned", "description": "Pinned modifier: force the bubble to show without hover." },
+				{ "class": "strand-ref-tip__bubble", "description": "Tooltip bubble (absolute, mono 11px, blue-midnight surface)." },
+				{ "class": "strand-ref-tip__bubble--top", "description": "Placement modifier: bubble above the trigger." },
+				{ "class": "strand-ref-tip__bubble--bottom", "description": "Placement modifier: bubble below the trigger." },
+				{ "class": "strand-ref-tip__bubble--left", "description": "Placement modifier: bubble left of the trigger." },
+				{ "class": "strand-ref-tip__bubble--right", "description": "Placement modifier: bubble right of the trigger." }
+			],
+			"example": "<span class=\"strand-ref-tip\">\n  <button class=\"strand-btn strand-btn--secondary strand-btn--sm\">Hover me</button>\n  <span class=\"strand-ref-tip__bubble strand-ref-tip__bubble--top\" role=\"tooltip\">Above</span>\n</span>"
+		},
+		{
+			"name": "LabUtilCell",
+			"description": "Utility-class demo tiles. A row of cells each pairing a class name + demo + caption on a recessed surface with a dashed demo inset.",
+			"classes": [
+				{ "class": "strand-ref-util-row", "description": "Horizontal row of util cells with wrap." },
+				{ "class": "strand-ref-util-cell", "description": "Single util cell (code + demo + caption)." },
+				{ "class": "strand-ref-util-cell__code", "description": "Class-name code label (mono 10px blue-primary)." },
+				{ "class": "strand-ref-util-cell__caption", "description": "Caption under the demo (mono 10px gray)." },
+				{ "class": "strand-ref-util-cell__demo", "description": "Dashed demo area that hosts the content being measured." },
+				{ "class": "strand-ref-util-cell__block", "description": "Blue-midnight pill block used inside the demo (shows the effect of the utility)." }
+			],
+			"example": "<div class=\"strand-ref-util-row\">\n  <div class=\"strand-ref-util-cell\">\n    <span class=\"strand-ref-util-cell__code\">.strand-mt-4</span>\n    <div class=\"strand-ref-util-cell__demo\">\n      <span class=\"strand-ref-util-cell__block strand-mt-4\">space-4</span>\n    </div>\n    <span class=\"strand-ref-util-cell__caption\">16px margin-top</span>\n  </div>\n</div>"
+		},
+		{
+			"name": "Swatch",
+			"description": "Color swatch specimen for design-token documentation. The swatch grid auto-fills with 160px tiles; each tile sets its own background/color inline (tone-dependent).",
+			"classes": [
+				{ "class": "strand-swatch-grid", "description": "Swatch grid (auto-fill, 160px minimum tiles)." },
+				{ "class": "strand-swatch", "description": "Single color tile with border + min-height; background/color set inline." },
+				{ "class": "strand-swatch__name", "description": "Token name (mono 10px uppercase)." },
+				{ "class": "strand-swatch__hex", "description": "Hex value (mono 11px, opacity 0.75)." }
+			],
+			"example": "<div class=\"strand-swatch-grid\">\n  <div class=\"strand-swatch\" style=\"background: #3B8EF6; color: #fff;\">\n    <span class=\"strand-swatch__name\">blue-primary</span>\n    <span class=\"strand-swatch__hex\">#3B8EF6</span>\n  </div>\n</div>"
+		},
+		{
+			"name": "TypeSpecimen",
+			"description": "Typography specimen. Stacks a display line on top of a mono meta row; siblings are separated by dashed dividers.",
+			"classes": [
+				{ "class": "strand-type-specimen", "description": "Specimen container (vertical stack with dashed top border)." },
+				{ "class": "strand-type-specimen__meta", "description": "Mono meta row; inline <b> children highlight in blue-primary." }
+			],
+			"example": "<div class=\"strand-type-specimen\">\n  <h2 class=\"strand-headline strand-headline--xl\">The quick brown fox</h2>\n  <span class=\"strand-type-specimen__meta\">Inter <b>48px</b> <b>weight-300</b> <b>tracking-tight</b></span>\n</div>"
+		},
+		{
+			"name": "TokenSpecimen",
+			"description": "Spacing/radius/shadow token specimen tiles. Each tile pairs a visual (spacer bar, rounded box, or shadow tile) with mono labels. Visual dimensions are set inline per token.",
+			"classes": [
+				{ "class": "strand-token-specimen-grid", "description": "Specimen grid (auto-fill, 132px minimum tiles)." },
+				{ "class": "strand-token-specimen", "description": "Single token specimen (vertical stack + mono labels)." },
+				{ "class": "strand-token-specimen__spacer", "description": "Horizontal spacer bar (blue-primary); width set inline." },
+				{ "class": "strand-token-specimen__box", "description": "64x64 box; radius and box-shadow set inline per specimen." }
+			],
+			"example": "<div class=\"strand-token-specimen-grid\">\n  <div class=\"strand-token-specimen\">\n    <b>space-4</b>\n    <span class=\"strand-token-specimen__spacer\" style=\"width: 16px;\"></span>\n    <span>16px</span>\n  </div>\n</div>"
+		},
+		{
+			"name": "ContainerScale",
+			"description": "Container-width visualizer. Renders proportional horizontal bars (narrow / default / wide / full) against a 0-to-max axis.",
+			"classes": [
+				{ "class": "strand-container-scale", "description": "Vertical stack of scale rows." },
+				{ "class": "strand-container-scale__row", "description": "Single row (label + track + caption)." },
+				{ "class": "strand-container-scale__label", "description": "Row label row (flex baseline space-between)." },
+				{ "class": "strand-container-scale__caption", "description": "Subtle gray caption text." },
+				{ "class": "strand-container-scale__track", "description": "Track surface (22px tall, recessed, hairline border)." },
+				{ "class": "strand-container-scale__bar", "description": "Proportional bar; width set inline per row." },
+				{ "class": "strand-container-scale__px", "description": "Bar pixel label (mono 10px blue-primary)." },
+				{ "class": "strand-container-scale__axis", "description": "Axis row (flex justify-between, mono 9px)." }
+			],
+			"example": "<div class=\"strand-container-scale\">\n  <div class=\"strand-container-scale__row\">\n    <div class=\"strand-container-scale__label\">\n      <code>--strand-container-narrow</code>\n      <span class=\"strand-container-scale__caption\">640px</span>\n    </div>\n    <div class=\"strand-container-scale__track\">\n      <div class=\"strand-container-scale__bar\" style=\"width: 50%;\">\n        <span class=\"strand-container-scale__px\">640</span>\n      </div>\n    </div>\n  </div>\n  <div class=\"strand-container-scale__axis\"><span>0</span><span>1280</span></div>\n</div>"
 		}
 	],
 	"global": {
@@ -565,6 +731,7 @@
 			{ "class": "strand-kv__label", "description": "Key-value label (mono uppercase)." },
 			{ "class": "strand-kv__value", "description": "Key-value data (mono, tabular-nums)." },
 			{ "class": "strand-kv__value--status", "description": "Status-colored key-value data." },
+			{ "class": "strand-kv--editorial", "description": "Editorial modifier: card-metadata rendering with sans Blue-midnight values and dashed divider. Default strand-kv stays mono-tabular for instrument readouts." },
 			{ "class": "strand-log", "description": "Diagnostic log entry row." },
 			{ "class": "strand-log__time", "description": "Log timestamp." },
 			{ "class": "strand-log__status", "description": "Log status label." },

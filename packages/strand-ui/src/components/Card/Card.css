@@ -107,6 +107,34 @@
   outline-offset: 2px;
 }
 
+/* ── Card section (BEM element, stacked rows inside a card) ──
+   A horizontal row inside a composed card. Use multiple
+   .strand-card__section children inside a .strand-card--pad-none
+   to stack header / body / cta rows separated by horizontal rules.
+   First child renders without the top border so the top edge of
+   the card is clean. The --header modifier turns a section into a
+   top-row header with baseline space-between layout for title
+   plus trailing chrome (e.g., overline + chip). This is distinct
+   from the standalone .strand-card-section molecule (DL 11.10
+   section-boundary production), which is a same-named BEM block
+   used outside cards. */
+.strand-card__section {
+  display: block;
+  padding: var(--strand-space-5) var(--strand-space-6);
+  border-top: 1px solid var(--strand-gray-200);
+}
+
+.strand-card__section:first-child {
+  border-top: 0;
+}
+
+.strand-card__section--header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strand-space-4);
+}
+
 /* ── Channel grid helpers ──
    Equal-height card row with a natural top-to-bottom stack inside each
    card and the final horizontal row (the CTA) anchored to the card's

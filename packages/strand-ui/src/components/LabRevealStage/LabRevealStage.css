@@ -1,0 +1,48 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ══════════════════════════════════════════════════
+   LAB REVEAL STAGE (staggered entry animation specimen)
+   ══════════════════════════════════════════════════
+   Demonstrates the Principle 7 alive-signal staggered reveal
+   pattern. Four lines animate in at 0 / 180 / 360 / 540 ms.
+   Consumers remount the stage (via a key/ref) to replay. */
+
+.strand-ref-reveal-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: var(--strand-space-5) 0;
+}
+
+.strand-ref-reveal-line {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: strand-ref-reveal-in 2400ms var(--strand-ease-out-quart) forwards;
+  font-family: var(--strand-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--strand-blue-midnight);
+  padding: 10px 14px;
+  background: var(--strand-surface-elevated);
+  border-left: 2px solid var(--strand-blue-primary);
+}
+
+.strand-ref-reveal-line:nth-child(1) { animation-delay: 0ms; }
+.strand-ref-reveal-line:nth-child(2) { animation-delay: 180ms; }
+.strand-ref-reveal-line:nth-child(3) { animation-delay: 360ms; }
+.strand-ref-reveal-line:nth-child(4) { animation-delay: 540ms; }
+
+@keyframes strand-ref-reveal-in {
+  0%   { opacity: 0; transform: translateY(8px); }
+  25%  { opacity: 1; transform: translateY(0); }
+  85%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-ref-reveal-line {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
