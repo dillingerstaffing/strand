@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Strand is a design token system and UI component library. Zero-runtime CSS. 34 components across 7 categories. Ships to Preact, React, Vue, Svelte, vanilla HTML, tokens-only, Bulma, and Bootstrap consumers.
+Strand is a design token system and UI component library. Zero-runtime CSS. 47 components across 8 categories. Ships to Preact, React, Vue, Svelte, vanilla HTML, tokens-only, Bulma, and Bootstrap consumers.
 
 ## Install
 
@@ -71,6 +71,64 @@ CSS-only consumers who do not load the vanilla runtime require a browser that su
 - **Component TypeScript types**: each component directory in `packages/strand-ui/src/components/`
 - **Consumer types and framework parity**: [consumers.md](./generated/consumers.md)
 - **Copy-paste CLI**: `npx strand-ui add <component>` copies source into your project
+
+## Layout primitives quick reference
+
+When a handoff uses a custom wrapper for a layout pattern, reach for the
+existing Strand layout primitive instead of inventing a new one. Common
+translations:
+
+| Pattern (px) | Strand classes |
+|---|---|
+| vertical stack, 12px gap | `strand-stack strand-stack--vertical strand-stack--gap-3` |
+| horizontal row, 12px gap, wrap, center | `strand-stack strand-stack--horizontal strand-stack--gap-3 strand-stack--align-center strand-stack--wrap` |
+| horizontal row, 24px gap | `strand-stack--gap-6` (on the same stack) |
+| 2-column grid, 16px gap | `strand-grid strand-grid--cols-2 strand-grid--gap-4` |
+| 3-column grid, 16px gap | `strand-grid strand-grid--cols-3 strand-grid--gap-4` |
+| 4-column grid, 12px gap | `strand-grid strand-grid--cols-4 strand-grid--gap-3` |
+
+Crosswalk: `--strand-space-N` = `4 * N` px (so `--strand-space-3` = 12px,
+`--strand-space-4` = 16px, `--strand-space-6` = 24px). See
+[design-language.md](./docs/design-language.md) for the full spacing scale.
+
+## Component-reference page chrome (strand-ref-*)
+
+Use the `strand-ref-*` primitive family when building a component-reference
+page on a docs site or inside a consumer's lab. The family includes a
+shell/sidebar/main grid, a header with metrics, a taxonomy explainer, and
+section/example blocks that pair a component name with a demo panel.
+
+Override the sticky-top offset for a consumer's fixed nav:
+
+```html
+<div class="strand-ref-shell" style="--strand-ref-sticky-top: var(--strand-nav-height);">
+  <aside class="strand-ref-shell__sidebar">...</aside>
+  <main class="strand-ref-shell__main">...</main>
+</div>
+```
+
+Related specimen primitives (same docs-site use case):
+`strand-swatch*`, `strand-type-specimen*`, `strand-token-specimen*`,
+`strand-container-scale*`, `strand-ref-frame*` (in-page modal stage),
+`strand-ref-glass-stage`/`__panel`, `strand-ref-reveal-stage`/`-line`,
+`strand-ref-tip*`, `strand-ref-util-*`. See
+[html-reference.md](./generated/html-reference.md).
+
+## Dark-viewport cascades
+
+Two Strand primitives have on-dark overrides that trigger when the primitive
+is inside a dark instrument surface. Consumers do not need inline style
+overrides to re-theme these for dark cabinets:
+
+- `.strand-status-chip--neutral` becomes a translucent gray chip with a
+  hairline border when inside `.strand-instrument-viewport` or
+  `.strand-body--instrument`.
+- `.strand-btn--ghost` flips to white text with a hairline translucent
+  border under the same selectors.
+
+The cascade mirrors the existing `.strand-kv__label` / `.strand-kv__value`
+dark-mode handling. No new class required; the override fires on the
+existing neutral chip and ghost-button classes.
 
 ## Common mistakes
 

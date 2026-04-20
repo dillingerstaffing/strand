@@ -47,3 +47,21 @@ export { default as Progress } from './components/Progress/Progress.svelte'
 export { default as Spinner } from './components/Spinner/Spinner.svelte'
 export { default as Skeleton } from './components/Skeleton/Skeleton.svelte'
 export { default as StarRating } from './components/StarRating/StarRating.svelte'
+
+// Composition helpers
+export { default as CardSection } from './components/CardSection/CardSection.svelte'
+export { default as KvEditorial } from './components/KvEditorial/KvEditorial.svelte'
+
+// Component-reference page chrome (strand-ref-* family)
+export * from './components/LabShell/index'
+export * from './components/LabFrame/index'
+export * from './components/LabGlassStage/index'
+export * from './components/LabRevealStage/index'
+export * from './components/LabTip/index'
+export * from './components/LabUtilCell/index'
+
+// Spec-visualizer primitives
+export * from './components/Swatch/index'
+export * from './components/TypeSpecimen/index'
+export * from './components/TokenSpecimen/index'
+export * from './components/ContainerScale/index'

@@ -100,6 +100,22 @@
       "registryDependencies": []
     },
     {
+      "name": "card-section",
+      "type": "registry:ui",
+      "title": "Card Section",
+      "description": "Card Section",
+      "files": [
+        {
+          "path": "components/CardSection.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
@@ -139,6 +155,22 @@
       "files": [
         {
           "path": "components/Container.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "container-scale",
+      "type": "registry:ui",
+      "title": "Container Scale",
+      "description": "Container Scale",
+      "files": [
+        {
+          "path": "components/ContainerScale.tsx",
           "type": "registry:ui"
         }
       ],
@@ -251,6 +283,118 @@
       "files": [
         {
           "path": "components/InstrumentViewport.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "kv-editorial",
+      "type": "registry:ui",
+      "title": "Kv Editorial",
+      "description": "Kv Editorial",
+      "files": [
+        {
+          "path": "components/KvEditorial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "lab-frame",
+      "type": "registry:ui",
+      "title": "Lab Frame",
+      "description": "Lab Frame",
+      "files": [
+        {
+          "path": "components/LabFrame.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "lab-glass-stage",
+      "type": "registry:ui",
+      "title": "Lab Glass Stage",
+      "description": "Lab Glass Stage",
+      "files": [
+        {
+          "path": "components/LabGlassStage.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "lab-reveal-stage",
+      "type": "registry:ui",
+      "title": "Lab Reveal Stage",
+      "description": "Lab Reveal Stage",
+      "files": [
+        {
+          "path": "components/LabRevealStage.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "lab-shell",
+      "type": "registry:ui",
+      "title": "Lab Shell",
+      "description": "Lab Shell",
+      "files": [
+        {
+          "path": "components/LabShell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "lab-tip",
+      "type": "registry:ui",
+      "title": "Lab Tip",
+      "description": "Lab Tip",
+      "files": [
+        {
+          "path": "components/LabTip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "lab-util-cell",
+      "type": "registry:ui",
+      "title": "Lab Util Cell",
+      "description": "Lab Util Cell",
+      "files": [
+        {
+          "path": "components/LabUtilCell.tsx",
           "type": "registry:ui"
         }
       ],
@@ -436,6 +580,38 @@
       "registryDependencies": []
     },
     {
+      "name": "star-rating",
+      "type": "registry:ui",
+      "title": "Star Rating",
+      "description": "Star Rating",
+      "files": [
+        {
+          "path": "components/StarRating.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "swatch",
+      "type": "registry:ui",
+      "title": "Swatch",
+      "description": "Swatch",
+      "files": [
+        {
+          "path": "components/Swatch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",
@@ -532,6 +708,22 @@
       "registryDependencies": []
     },
     {
+      "name": "token-specimen",
+      "type": "registry:ui",
+      "title": "Token Specimen",
+      "description": "Token Specimen",
+      "files": [
+        {
+          "path": "components/TokenSpecimen.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "tooltip",
       "type": "registry:ui",
       "title": "Tooltip",
@@ -539,6 +731,22 @@
       "files": [
         {
           "path": "components/Tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "type-specimen",
+      "type": "registry:ui",
+      "title": "Type Specimen",
+      "description": "Type Specimen",
+      "files": [
+        {
+          "path": "components/TypeSpecimen.tsx",
           "type": "registry:ui"
         }
       ],

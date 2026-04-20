@@ -1,0 +1,176 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ══════════════════════════════════════════════════
+   LAB FRAME (fake in-page window hosting a modal demo)
+   ══════════════════════════════════════════════════
+   Doc-specific framing primitive. Real Strand Dialog steals
+   the whole viewport; this frame hosts a dialog-style demo
+   inline so docs can show the open state without replacing
+   the page. Uses macOS-style traffic-light chrome with dot
+   colors set inline per dot. */
+
+.strand-ref-frame {
+  background: var(--strand-surface-recessed);
+  border-radius: var(--strand-radius-lg);
+  overflow: hidden;
+}
+
+.strand-ref-frame__chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: var(--strand-surface-subtle);
+  border-bottom: 1px solid var(--strand-gray-200);
+}
+
+.strand-ref-frame__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex: none;
+}
+
+.strand-ref-frame__title {
+  margin-left: var(--strand-space-3);
+  font-family: var(--strand-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--strand-gray-600);
+}
+
+.strand-ref-frame__body {
+  position: relative;
+  min-height: 280px;
+  background: var(--strand-surface-elevated);
+}
+
+.strand-ref-frame__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strand-space-5);
+  padding: var(--strand-space-8) 36px;
+  transition: filter 180ms var(--strand-ease-out-quart),
+    opacity 180ms var(--strand-ease-out-quart);
+}
+
+.strand-ref-frame__content[aria-hidden="true"] {
+  filter: blur(2px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.strand-ref-frame__content-head {
+  /* container for overline + heading; no explicit styles */
+}
+
+.strand-ref-frame__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.strand-ref-frame__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 25, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: strand-ref-frame-overlay-in 160ms var(--strand-ease-out-quart) forwards;
+  padding: var(--strand-space-6);
+}
+
+@keyframes strand-ref-frame-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.strand-ref-frame__panel {
+  background: var(--strand-surface-elevated);
+  border-radius: var(--strand-radius-lg);
+  box-shadow: 0 20px 50px rgba(15, 25, 42, 0.25),
+    0 2px 6px rgba(15, 25, 42, 0.12);
+  width: min(440px, 100%);
+  overflow: hidden;
+  animation: strand-ref-frame-panel-in 180ms var(--strand-ease-out-expo) forwards;
+  transform-origin: center;
+}
+
+@keyframes strand-ref-frame-panel-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.strand-ref-frame__panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--strand-space-5) 22px 14px;
+  gap: var(--strand-space-4);
+}
+
+.strand-ref-frame__panel-title {
+  margin: 4px 0 0;
+  font-family: var(--strand-font-sans);
+  font-size: 18px;
+  font-weight: var(--strand-weight-medium);
+  line-height: 1.3;
+  color: var(--strand-blue-midnight);
+  letter-spacing: -0.01em;
+}
+
+.strand-ref-frame__panel-close {
+  background: transparent;
+  border: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--strand-radius-md);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--strand-gray-500);
+  cursor: pointer;
+  flex: none;
+  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart),
+    color var(--strand-duration-fast) var(--strand-ease-out-quart);
+}
+
+.strand-ref-frame__panel-close:hover {
+  background: var(--strand-surface-recessed);
+  color: var(--strand-blue-midnight);
+}
+
+.strand-ref-frame__panel-close:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}
+
+.strand-ref-frame__panel-body {
+  padding: 0 22px var(--strand-space-5);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--strand-gray-700);
+}
+
+.strand-ref-frame__panel-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: var(--strand-space-4) 22px var(--strand-space-5);
+  border-top: 1px solid var(--strand-gray-100);
+  background: var(--strand-surface-recessed);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-ref-frame__overlay,
+  .strand-ref-frame__panel {
+    animation: none;
+  }
+
+  .strand-ref-frame__content {
+    transition: none;
+  }
+}

@@ -260,5 +260,122 @@ This is a manual override, not an official theme. Test contrast ratios before sh
 
 ---
 
+## Component-reference page chrome (strand-ref-*)
+
+Strand ships a `strand-ref-*` primitive family for rendering a component-reference
+page layout (sticky sidebar + header + sections + example blocks). Bulma-based
+docs sites can use this family alongside Bulma navbars, heroes, and grids --
+it lives in a separate class namespace and won't collide.
+
+```html
+<!-- Bulma navbar stays Bulma-styled via the compat theme -->
+<nav class="navbar is-primary"><!-- ... --></nav>
+
+<!-- Strand reference layout below -->
+<div class="strand-ref-shell" style="--strand-ref-sticky-top: 3.25rem;">
+  <aside class="strand-ref-shell__sidebar">
+    <!-- Nav groups with strand-ref-shell__group* -->
+  </aside>
+  <main class="strand-ref-shell__main">
+    <header class="strand-ref-header">
+      <h1 class="strand-ref-header__title">Components</h1>
+      <p class="strand-ref-header__lead">Reference layout.</p>
+    </header>
+    <section class="strand-ref-section" id="buttons">
+      <div class="strand-ref-section__head"><h2>Buttons</h2></div>
+      <div class="strand-ref-section__body">
+        <div class="strand-ref-example">
+          <div class="strand-ref-example__meta">
+            <div class="strand-ref-example__label">Primary</div>
+            <code class="strand-ref-example__code">button is-primary</code>
+          </div>
+          <div class="strand-ref-example__demo">
+            <button class="button is-primary">Bulma button</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+```
+
+The `--strand-ref-sticky-top` custom property is the handoff point: set it to
+your Bulma navbar height so the sidebar clears the fixed navbar. The sidebar
+switches to a static (non-sticky) layout at the 1040px breakpoint
+automatically.
+
+Related specimen primitives you can drop inside any section's body:
+
+- **Swatches**: `strand-swatch-grid` + `strand-swatch` render color tokens
+  with mono labels and hex values. Tile background + text color are set
+  inline per swatch.
+- **Typography**: `strand-type-specimen` stacks a display line on top of a
+  mono meta row (`strand-type-specimen__meta`).
+- **Tokens**: `strand-token-specimen-grid` hosts spacing/radius/shadow
+  specimens. Spacer widths and box radii/shadows are set inline.
+- **Container widths**: `strand-container-scale` visualizes container
+  breakpoints as proportional bars.
+- **Modal stage**: `strand-ref-frame*` renders a fake window frame that
+  hosts a modal demo inline (so a real modal doesn't take over the viewport).
+- **Glass surface**: `strand-ref-glass-stage` + `strand-ref-glass-panel`
+  demonstrate a frosted-glass panel over a cinematic backdrop.
+- **Staggered reveal**: `strand-ref-reveal-stage` + four
+  `strand-ref-reveal-line` children animate in at 0/180/360/540 ms.
+- **Tooltips**: `strand-ref-tip` + `strand-ref-tip__bubble--top/bottom/left/right`
+  render four fixed-position tooltip specimens (pure CSS; not the production
+  Strand Tooltip).
+- **Utility demos**: `strand-ref-util-row` + `strand-ref-util-cell`
+  demonstrate individual utility classes with a class label + demo area +
+  caption.
+
+## Card composition (strand-card__section)
+
+When composing a Bulma `card` alongside a Strand `strand-card--pad-none`,
+you can stack internal rows with `strand-card__section` children. The first
+child's top border is auto-suppressed; each subsequent section gets a
+hairline top rule. Pair with `strand-card__section--header` for a
+baseline-aligned header row.
+
+```html
+<div class="strand-card strand-card--pad-none">
+  <div class="strand-card__section strand-card__section--header">
+    <h3 class="strand-title">Launch Plan</h3>
+    <span class="strand-overline">Draft</span>
+  </div>
+  <div class="strand-card__section">
+    <div class="strand-kv strand-kv--editorial">
+      <span class="strand-kv__label">Owner</span>
+      <span class="strand-kv__value">Alice Chen</span>
+    </div>
+    <div class="strand-kv strand-kv--editorial">
+      <span class="strand-kv__label">State</span>
+      <span class="strand-kv__value strand-kv__value--status">Live</span>
+    </div>
+  </div>
+  <div class="strand-card__section">
+    <button class="button is-primary">Publish</button>
+  </div>
+</div>
+```
+
+Note: `strand-kv--editorial` renders as soft sans-serif Blue-midnight
+values with a dashed divider -- use it inside card-metadata contexts.
+The default `strand-kv` (without the modifier) stays mono-tabular for
+instrument readouts, and will not visually fit Bulma cards. If you are
+using `strand-kv` inside a `strand-instrument-viewport`, the default is
+the right choice.
+
+## Dark-viewport cascades
+
+If you place a `strand-status-chip--neutral` or a `strand-btn--ghost`
+inside a `strand-instrument-viewport` (or a page marked
+`strand-body--instrument`), they automatically re-theme for the dark
+surface without any inline style overrides. The neutral chip becomes a
+translucent gray on dark; the ghost button flips to white with a
+hairline translucent border. This mirrors the existing `strand-kv__label`
+/ `strand-kv__value` dark-mode handling.
+
+---
+
 Full class API: [html-reference.md](../../generated/html-reference.md)
 Design principles: [design-language.md](../design-language.md)

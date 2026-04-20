@@ -1,0 +1,35 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ══════════════════════════════════════════════════
+   TYPE SPECIMEN (docs-site typography tile)
+   ══════════════════════════════════════════════════
+   A stacked specimen: large display text on top, mono meta
+   line below. Use inside a section body on a typography
+   documentation page. Dashed divider between siblings. */
+
+.strand-type-specimen {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--strand-space-3);
+  padding: var(--strand-space-5) 0;
+  border-top: 1px dashed var(--strand-gray-200);
+}
+
+.strand-type-specimen:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.strand-type-specimen__meta {
+  display: block;
+  font-family: var(--strand-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--strand-gray-500);
+  line-height: 1.5;
+}
+
+.strand-type-specimen__meta b {
+  color: var(--strand-blue-primary);
+  font-weight: var(--strand-weight-medium);
+}

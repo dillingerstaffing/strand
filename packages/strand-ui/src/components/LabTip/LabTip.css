@@ -1,0 +1,94 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ══════════════════════════════════════════════════
+   LAB TIP (pure-CSS tooltip specimen)
+   ══════════════════════════════════════════════════
+   A hover/focus-driven tooltip for QA specimens on docs
+   pages. This is NOT the production Strand Tooltip (which is
+   JS-driven with collision detection); it is a static
+   specimen showing four fixed positions simultaneously.
+
+   Use the --pinned modifier to show the bubble without
+   hover/focus (useful for before/after screenshots). */
+
+.strand-ref-tip {
+  position: relative;
+  display: inline-flex;
+}
+
+.strand-ref-tip__bubble {
+  position: absolute;
+  z-index: 2;
+  padding: 6px 10px;
+  border-radius: var(--strand-radius-sm);
+  background: var(--strand-blue-midnight);
+  color: var(--strand-on-blue-primary);
+  font-family: var(--strand-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--strand-duration-fast) var(--strand-ease-out-quart),
+    transform var(--strand-duration-fast) var(--strand-ease-out-quart);
+}
+
+.strand-ref-tip:hover .strand-ref-tip__bubble,
+.strand-ref-tip:focus-within .strand-ref-tip__bubble,
+.strand-ref-tip--pinned .strand-ref-tip__bubble {
+  opacity: 1;
+}
+
+.strand-ref-tip__bubble--top {
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%) translateY(4px);
+}
+
+.strand-ref-tip__bubble--bottom {
+  left: 50%;
+  top: calc(100% + 8px);
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.strand-ref-tip__bubble--left {
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateX(4px) translateY(-50%);
+}
+
+.strand-ref-tip__bubble--right {
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateX(-4px) translateY(-50%);
+}
+
+.strand-ref-tip:hover .strand-ref-tip__bubble--top,
+.strand-ref-tip--pinned .strand-ref-tip__bubble--top,
+.strand-ref-tip:focus-within .strand-ref-tip__bubble--top {
+  transform: translateX(-50%) translateY(0);
+}
+
+.strand-ref-tip:hover .strand-ref-tip__bubble--bottom,
+.strand-ref-tip--pinned .strand-ref-tip__bubble--bottom,
+.strand-ref-tip:focus-within .strand-ref-tip__bubble--bottom {
+  transform: translateX(-50%) translateY(0);
+}
+
+.strand-ref-tip:hover .strand-ref-tip__bubble--left,
+.strand-ref-tip--pinned .strand-ref-tip__bubble--left,
+.strand-ref-tip:focus-within .strand-ref-tip__bubble--left {
+  transform: translateX(0) translateY(-50%);
+}
+
+.strand-ref-tip:hover .strand-ref-tip__bubble--right,
+.strand-ref-tip--pinned .strand-ref-tip__bubble--right,
+.strand-ref-tip:focus-within .strand-ref-tip__bubble--right {
+  transform: translateX(0) translateY(-50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-ref-tip__bubble {
+    transition: none;
+  }
+}

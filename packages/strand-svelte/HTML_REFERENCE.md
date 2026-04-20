@@ -473,6 +473,9 @@ Content container with elevation and padding variants.
 | `strand-card--pad-md` | modifier | Medium padding (24px). |
 | `strand-card--pad-lg` | modifier | Large padding (32px). |
 | `strand-card--pad-xl` | modifier | Extra-large padding (40px). |
+| `strand-card__section` | child | BEM element: card-internal row with a top hairline. First child suppresses the top border. Stack inside strand-card--pad-none to compose rows. |
+| `strand-card__section--header` | child | BEM modifier: header row layout (baseline, space-between, gap). |
+| `strand-card-section` | base | |
 | `strand-channel-grid` | base | |
 | `strand-channel-title` | base | |
 | `strand-channel-description` | base | |
@@ -487,6 +490,11 @@ Content container with elevation and padding variants.
 ```html
 <div class="strand-card strand-card--elevated strand-card--pad-md">
   Card content here.
+</div>
+
+<div class="strand-card strand-card--pad-none">
+  <div class="strand-card__section strand-card__section--header">Title</div>
+  <div class="strand-card__section">Body</div>
 </div>
 ```
 
@@ -1119,43 +1127,6 @@ Content placeholder with shimmer animation.
 
 ---
 
-### StarRating
-
-Interactive 1-to-5 star rating control. Radio-group semantics, keyboard navigation (Space / Enter to select, Tab through stars), hover preview, and three sizes. Vanilla runtime hydrates any `[data-strand-component="star-rating"]` block; controlled state is reflected on `data-value`.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-star-rating` | base | Inline-flex container for the 5 stars. |
-| `strand-star-rating--sm` | modifier | Small size (1rem icons, 32px tap targets). |
-| `strand-star-rating--md` | modifier | Medium size (1.5rem icons, 44px tap targets). Default. |
-| `strand-star-rating--lg` | modifier | Large size (2.25rem icons, 56px tap targets). |
-| `strand-star-rating--readonly` | modifier | Non-interactive display mode. |
-| `strand-star-rating__star` | child | Individual star button element. |
-| `strand-star-rating__star--active` | modifier | Filled / active star (amber). |
-| `strand-star-rating__glyph` | child | Star glyph span inside the button. |
-
-**Usage:**
-
-```html
-<div
-  class="strand-star-rating strand-star-rating--md"
-  role="radiogroup"
-  aria-label="Rate this event"
-  data-strand-component="star-rating"
-  data-value="3"
->
-  <button type="button" class="strand-star-rating__star strand-star-rating__star--active" role="radio" aria-checked="false" aria-label="1 star" data-star-value="1"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
-  <button type="button" class="strand-star-rating__star strand-star-rating__star--active" role="radio" aria-checked="false" aria-label="2 stars" data-star-value="2"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
-  <button type="button" class="strand-star-rating__star strand-star-rating__star--active" role="radio" aria-checked="true" aria-label="3 stars" data-star-value="3"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
-  <button type="button" class="strand-star-rating__star" role="radio" aria-checked="false" aria-label="4 stars" data-star-value="4"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
-  <button type="button" class="strand-star-rating__star" role="radio" aria-checked="false" aria-label="5 stars" data-star-value="5"><span class="strand-star-rating__glyph" aria-hidden="true">&#9733;</span></button>
-</div>
-```
-
-The vanilla runtime dispatches a `strand:star-rating-change` CustomEvent on the container whenever the user picks a value, with `detail.value` as the selected 1-5 integer. Framework consumers use the component `onChange` callback instead.
-
----
-
 ### InstrumentViewport
 
 Dark instrument panel container for data-dense content.
@@ -1168,6 +1139,7 @@ Dark instrument panel container for data-dense content.
 | `strand-body--instrument` | modifier | |
 | `strand-kv__label` | child | |
 | `strand-kv__value` | child | |
+| `strand-status-chip--neutral` | modifier | |
 | `strand-instrument-viewport__label` | child | |
 | `strand-instrument-viewport__value` | child | |
 | `strand-instrument-viewport__map` | child | |
@@ -1270,6 +1242,349 @@ Scroll-triggered entrance animation.
 
 ---
 
+### KvEditorial
+
+Editorial modifier on the strand-kv molecule. Use inside card-metadata contexts for soft sans-serif Blue-midnight values separated by a dashed divider. The default strand-kv stays mono-tabular for instrument readouts.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-kv--editorial` | modifier | Editorial modifier on a strand-kv row (card-metadata rendering). |
+
+**Usage:**
+
+```html
+<div class="strand-kv strand-kv--editorial">
+  <span class="strand-kv__label">Owner</span>
+  <span class="strand-kv__value">Dillinger Staffing</span>
+</div>
+```
+
+---
+
+### LabShell
+
+Component-reference page chrome. Named primitive family for a docs-site layout: sticky sidebar + scrollable main + header + section + example blocks. Forty-plus classes map 1:1 to the classic component-lab pattern.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-ref-shell` | base | Grid root with sidebar (256px) and main (1fr). |
+| `strand-ref-shell__sidebar` | child | Sticky left column with brand + nav groups. |
+| `strand-ref-shell__sidebar-head` | child | Fixed top block inside the sidebar (brand + lead). |
+| `strand-ref-shell__sidebar-scroll` | child | Scrollable region containing nav groups. |
+| `strand-ref-shell__brand` | child | Horizontal brand row (mark + title + sub). |
+| `strand-ref-shell__brand-mark` | child | Square brand glyph (36x36 on blue-midnight). |
+| `strand-ref-shell__brand-title` | child | Brand title (mono 15px blue-midnight). |
+| `strand-ref-shell__brand-sub` | child | Brand subtitle overline (mono 10px uppercase). |
+| `strand-ref-shell__group` | child | Sidebar nav group with top hairline separator. |
+| `strand-ref-shell__group-label` | child | Nav group label (mono 10px uppercase blue-midnight). |
+| `strand-ref-shell__group-list` | child | Nav link list container (flex column, 1px gap). |
+| `strand-ref-shell__group-link` | child | Nav link row (dot + label). |
+| `strand-ref-shell__group-dot` | child | 4x4 dot indicator inside nav links. |
+| `strand-ref-shell__main` | child | Main content column (56px 64px 96px padding, 1120px max). |
+| `strand-ref-header` | base | Page header block (title + lead + metrics). |
+| `strand-ref-header__title` | child | H1 title (light 40px blue-midnight). |
+| `strand-ref-header__lead` | child | Header lead paragraph (20px gray-500). |
+| `strand-ref-header__meta` | child | Metrics row (grid, 4 columns auto). |
+| `strand-ref-header__meta-item` | child | Metric column (label + value). |
+| `strand-ref-header__meta-label` | child | Metric label (mono 10px uppercase). |
+| `strand-ref-header__meta-value` | child | Metric value (sans 22px light blue-midnight). |
+| `strand-ref-taxonomy` | base | Taxonomy explainer block (recessed card with definition list). |
+| `strand-ref-taxonomy__title` | child | Taxonomy overline title. |
+| `strand-ref-taxonomy__list` | child | Taxonomy definition list (dl). |
+| `strand-ref-section` | base | Section block with bottom hairline + scroll-margin. |
+| `strand-ref-section__head` | child | Section head (h2 + note, flex baseline space-between). |
+| `strand-ref-section__head-note` | child | Section head note (mono 10px uppercase). |
+| `strand-ref-section__body` | child | Section body (vertical stack with 32px gaps). |
+| `strand-ref-example` | base | Example row (200px meta + 1fr demo grid). |
+| `strand-ref-example__meta` | child | Example meta column. |
+| `strand-ref-example__label` | child | Example label (sans 13px blue-midnight). |
+| `strand-ref-example__code` | child | Example code snippet (mono 10px gray). |
+| `strand-ref-example__demo` | child | Example demo panel (white card, 24px 28px padding, subtle shadow). |
+| `strand-ref-example__demo--pad-none` | child | Modifier: remove internal padding + hide overflow. |
+| `strand-ref-example__demo--recessed` | child | Modifier: use recessed surface background instead of white. |
+| `strand-ref-example__caption` | child | Example caption paragraph below the demo. |
+| `strand-handoff-render` | base | |
+
+**Usage:**
+
+```html
+<div class="strand-ref-shell" style="--strand-ref-sticky-top: 64px;">
+  <aside class="strand-ref-shell__sidebar">...</aside>
+  <main class="strand-ref-shell__main">
+    <header class="strand-ref-header">
+      <h1 class="strand-ref-header__title">Every component, rendered.</h1>
+      <p class="strand-ref-header__lead">Reference layout for component docs.</p>
+    </header>
+    <section class="strand-ref-section" id="typography">
+      <div class="strand-ref-section__head"><h2>Typography</h2></div>
+      <div class="strand-ref-section__body">
+        <div class="strand-ref-example">
+          <div class="strand-ref-example__meta">
+            <div class="strand-ref-example__label">Headline</div>
+            <code class="strand-ref-example__code">strand-headline--xl</code>
+          </div>
+          <div class="strand-ref-example__demo">...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+```
+
+---
+
+### LabFrame
+
+Fake in-page window chrome that hosts a modal demo inline. Use on docs pages to show how a dialog appears without taking over the viewport.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-ref-frame` | base | Frame container (recessed background, rounded). |
+| `strand-ref-frame__chrome` | child | Top chrome bar (traffic-light dots + title). |
+| `strand-ref-frame__dot` | child | Traffic-light dot (color set inline per dot). |
+| `strand-ref-frame__title` | child | Chrome title (mono 11px gray). |
+| `strand-ref-frame__body` | child | Frame body (white surface, relative positioning). |
+| `strand-ref-frame__content` | child | Primary content area; [aria-hidden=true] blurs and fades. |
+| `strand-ref-frame__content-head` | child | Header container for overline + heading inside content. |
+| `strand-ref-frame__actions` | child | Action row inside content (flex, 10px gap). |
+| `strand-ref-frame__overlay` | child | Modal backdrop (absolute inset 0, translucent). |
+| `strand-ref-frame__panel` | child | Modal panel (white card centered in overlay). |
+| `strand-ref-frame__panel-header` | child | Panel header row (title + close button). |
+| `strand-ref-frame__panel-title` | child | Panel title (h2 sans 18px medium). |
+| `strand-ref-frame__panel-close` | child | Panel close button (28x28, ghost). |
+| `strand-ref-frame__panel-body` | child | Panel body paragraph (14px gray-700). |
+| `strand-ref-frame__panel-footer` | child | Panel footer row (flex end, recessed bg). |
+
+**Usage:**
+
+```html
+<div class="strand-ref-frame">
+  <div class="strand-ref-frame__chrome">
+    <span class="strand-ref-frame__dot" style="background: #ff5f57"></span>
+    <span class="strand-ref-frame__dot" style="background: #febc2e"></span>
+    <span class="strand-ref-frame__dot" style="background: #28c840"></span>
+    <span class="strand-ref-frame__title">Demo</span>
+  </div>
+  <div class="strand-ref-frame__body">
+    <div class="strand-ref-frame__content" aria-hidden="true">Background content</div>
+    <div class="strand-ref-frame__overlay">
+      <div class="strand-ref-frame__panel" role="dialog" aria-modal="true">
+        <div class="strand-ref-frame__panel-header">
+          <h2 class="strand-ref-frame__panel-title">Confirm</h2>
+          <button type="button" class="strand-ref-frame__panel-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="strand-ref-frame__panel-body">Are you sure?</div>
+        <div class="strand-ref-frame__panel-footer">...</div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+### LabGlassStage
+
+Cinematic glass-surface specimen container. Renders a layered blue/teal gradient backdrop with an embedded frosted-glass panel.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-ref-glass-stage` | base | Gradient backdrop (radial + diagonal linear, overflow hidden). |
+| `strand-ref-glass-panel` | base | Frosted panel with backdrop-filter, translucent dark bg, hairline border. |
+
+**Usage:**
+
+```html
+<div class="strand-ref-glass-stage">
+  <div class="strand-ref-glass-panel">Glass content</div>
+</div>
+```
+
+---
+
+### LabRevealStage
+
+Staggered entry animation specimen. Four lines animate in at 0 / 180 / 360 / 540 ms. Remount the stage (new key/ref) to replay.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-ref-reveal-stage` | base | Stage container (vertical stack, 10px gap). |
+| `strand-ref-reveal-line` | base | Animated line (nth-child controls delay 0/180/360/540). |
+
+**Usage:**
+
+```html
+<div class="strand-ref-reveal-stage">
+  <div class="strand-ref-reveal-line">First</div>
+  <div class="strand-ref-reveal-line">Second</div>
+  <div class="strand-ref-reveal-line">Third</div>
+  <div class="strand-ref-reveal-line">Fourth</div>
+</div>
+```
+
+---
+
+### LabTip
+
+Pure-CSS tooltip specimen (not the production Tooltip). Use on docs pages to show the four fixed bubble placements. Supports --pinned for screenshots.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-ref-tip` | base | Inline-flex trigger wrapper (hover/focus reveals the bubble). |
+| `strand-ref-tip--pinned` | modifier | Pinned modifier: force the bubble to show without hover. |
+| `strand-ref-tip__bubble` | child | Tooltip bubble (absolute, mono 11px, blue-midnight surface). |
+| `strand-ref-tip__bubble--top` | child | Placement modifier: bubble above the trigger. |
+| `strand-ref-tip__bubble--bottom` | child | Placement modifier: bubble below the trigger. |
+| `strand-ref-tip__bubble--left` | child | Placement modifier: bubble left of the trigger. |
+| `strand-ref-tip__bubble--right` | child | Placement modifier: bubble right of the trigger. |
+
+**Usage:**
+
+```html
+<span class="strand-ref-tip">
+  <button class="strand-btn strand-btn--secondary strand-btn--sm">Hover me</button>
+  <span class="strand-ref-tip__bubble strand-ref-tip__bubble--top" role="tooltip">Above</span>
+</span>
+```
+
+---
+
+### LabUtilCell
+
+Utility-class demo tiles. A row of cells each pairing a class name + demo + caption on a recessed surface with a dashed demo inset.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-ref-util-row` | base | Horizontal row of util cells with wrap. |
+| `strand-ref-util-cell` | base | Single util cell (code + demo + caption). |
+| `strand-ref-util-cell__code` | child | Class-name code label (mono 10px blue-primary). |
+| `strand-ref-util-cell__caption` | child | Caption under the demo (mono 10px gray). |
+| `strand-ref-util-cell__demo` | child | Dashed demo area that hosts the content being measured. |
+| `strand-ref-util-cell__block` | child | Blue-midnight pill block used inside the demo (shows the effect of the utility). |
+| `strand-mt-4` | base | |
+| `strand-mx-auto` | base | |
+
+**Usage:**
+
+```html
+<div class="strand-ref-util-row">
+  <div class="strand-ref-util-cell">
+    <span class="strand-ref-util-cell__code">.strand-mt-4</span>
+    <div class="strand-ref-util-cell__demo">
+      <span class="strand-ref-util-cell__block strand-mt-4">space-4</span>
+    </div>
+    <span class="strand-ref-util-cell__caption">16px margin-top</span>
+  </div>
+</div>
+```
+
+---
+
+### Swatch
+
+Color swatch specimen for design-token documentation. The swatch grid auto-fills with 160px tiles; each tile sets its own background/color inline (tone-dependent).
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-swatch-grid` | base | Swatch grid (auto-fill, 160px minimum tiles). |
+| `strand-swatch` | base | Single color tile with border + min-height; background/color set inline. |
+| `strand-swatch__name` | child | Token name (mono 10px uppercase). |
+| `strand-swatch__hex` | child | Hex value (mono 11px, opacity 0.75). |
+
+**Usage:**
+
+```html
+<div class="strand-swatch-grid">
+  <div class="strand-swatch" style="background: #3B8EF6; color: #fff;">
+    <span class="strand-swatch__name">blue-primary</span>
+    <span class="strand-swatch__hex">#3B8EF6</span>
+  </div>
+</div>
+```
+
+---
+
+### TypeSpecimen
+
+Typography specimen. Stacks a display line on top of a mono meta row; siblings are separated by dashed dividers.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-type-specimen` | base | Specimen container (vertical stack with dashed top border). |
+| `strand-type-specimen__meta` | child | Mono meta row; inline <b> children highlight in blue-primary. |
+
+**Usage:**
+
+```html
+<div class="strand-type-specimen">
+  <h2 class="strand-headline strand-headline--xl">The quick brown fox</h2>
+  <span class="strand-type-specimen__meta">Inter <b>48px</b> <b>weight-300</b> <b>tracking-tight</b></span>
+</div>
+```
+
+---
+
+### TokenSpecimen
+
+Spacing/radius/shadow token specimen tiles. Each tile pairs a visual (spacer bar, rounded box, or shadow tile) with mono labels. Visual dimensions are set inline per token.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-token-specimen-grid` | base | Specimen grid (auto-fill, 132px minimum tiles). |
+| `strand-token-specimen` | base | Single token specimen (vertical stack + mono labels). |
+| `strand-token-specimen__spacer` | child | Horizontal spacer bar (blue-primary); width set inline. |
+| `strand-token-specimen__box` | child | 64x64 box; radius and box-shadow set inline per specimen. |
+
+**Usage:**
+
+```html
+<div class="strand-token-specimen-grid">
+  <div class="strand-token-specimen">
+    <b>space-4</b>
+    <span class="strand-token-specimen__spacer" style="width: 16px;"></span>
+    <span>16px</span>
+  </div>
+</div>
+```
+
+---
+
+### ContainerScale
+
+Container-width visualizer. Renders proportional horizontal bars (narrow / default / wide / full) against a 0-to-max axis.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-container-scale` | base | Vertical stack of scale rows. |
+| `strand-container-scale__row` | child | Single row (label + track + caption). |
+| `strand-container-scale__label` | child | Row label row (flex baseline space-between). |
+| `strand-container-scale__caption` | child | Subtle gray caption text. |
+| `strand-container-scale__track` | child | Track surface (22px tall, recessed, hairline border). |
+| `strand-container-scale__bar` | child | Proportional bar; width set inline per row. |
+| `strand-container-scale__px` | child | Bar pixel label (mono 10px blue-primary). |
+| `strand-container-scale__axis` | child | Axis row (flex justify-between, mono 9px). |
+
+**Usage:**
+
+```html
+<div class="strand-container-scale">
+  <div class="strand-container-scale__row">
+    <div class="strand-container-scale__label">
+      <code>--strand-container-narrow</code>
+      <span class="strand-container-scale__caption">640px</span>
+    </div>
+    <div class="strand-container-scale__track">
+      <div class="strand-container-scale__bar" style="width: 50%;">
+        <span class="strand-container-scale__px">640</span>
+      </div>
+    </div>
+  </div>
+  <div class="strand-container-scale__axis"><span>0</span><span>1280</span></div>
+</div>
+```
+
+---
+
 ### Global (Utilities, Molecules, Typography)
 
 Utilities, molecules, typography, and empty states from static.css.
@@ -1308,6 +1623,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-kv__label` | Key-value label (mono uppercase). |
 | `strand-kv__value` | Key-value data (mono, tabular-nums). |
 | `strand-kv__value--status` | Status-colored key-value data. |
+| `strand-kv--editorial` | Editorial modifier: card-metadata rendering with sans Blue-midnight values and dashed divider. Default strand-kv stays mono-tabular for instrument readouts. |
 | `strand-log` | Diagnostic log entry row. |
 | `strand-log__time` | Log timestamp. |
 | `strand-log__status` | Log status label. |

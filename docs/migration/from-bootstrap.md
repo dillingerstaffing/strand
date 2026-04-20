@@ -193,6 +193,117 @@ npm uninstall bootstrap @popperjs/core
 
 Remove the Bootstrap `<link>` and `<script>` tags from your entry point. Run your full test suite. Ship.
 
+## Coexisting with Strand's component-reference primitives
+
+Strand ships a `strand-ref-*` primitive family for rendering a
+component-reference page on a docs site (sticky sidebar + header +
+sections + example blocks). These classes have no collision with
+Bootstrap's namespace and can be used directly alongside Bootstrap
+components.
+
+```html
+<!-- Bootstrap navbar stays Bootstrap-styled -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary"><!-- ... --></nav>
+
+<!-- Strand reference layout below -->
+<div class="strand-ref-shell" style="--strand-ref-sticky-top: 56px;">
+  <aside class="strand-ref-shell__sidebar">
+    <!-- Nav groups with strand-ref-shell__group* -->
+  </aside>
+  <main class="strand-ref-shell__main">
+    <header class="strand-ref-header">
+      <h1 class="strand-ref-header__title">Components</h1>
+      <p class="strand-ref-header__lead">Reference layout.</p>
+    </header>
+    <section class="strand-ref-section" id="buttons">
+      <div class="strand-ref-section__head"><h2>Buttons</h2></div>
+      <div class="strand-ref-section__body">
+        <div class="strand-ref-example">
+          <div class="strand-ref-example__meta">
+            <div class="strand-ref-example__label">Primary</div>
+            <code class="strand-ref-example__code">.btn .btn-primary</code>
+          </div>
+          <div class="strand-ref-example__demo">
+            <button class="btn btn-primary">Bootstrap button</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+```
+
+Set `--strand-ref-sticky-top` to your navbar height so the sidebar clears
+the fixed chrome. The sidebar collapses to a static layout at the 1040px
+breakpoint automatically.
+
+Related primitives available inside any section body:
+
+- **Color swatches**: `strand-swatch-grid` + `strand-swatch` render a grid
+  of 160px minimum color tiles with mono labels and hex values.
+- **Typography specimens**: `strand-type-specimen` stacks a display line
+  over a mono meta row (`strand-type-specimen__meta`).
+- **Token specimens**: `strand-token-specimen-grid` hosts spacing / radius
+  / shadow specimens, with spacer widths and box radii / shadows set
+  inline per token.
+- **Container-width visualizer**: `strand-container-scale*` renders
+  horizontal bars proportional to container breakpoints.
+- **Modal stage**: `strand-ref-frame*` renders a fake window frame that
+  hosts a modal-style demo without replacing the real page viewport.
+- **Glass surface demo**: `strand-ref-glass-stage` + `strand-ref-glass-panel`
+  show a frosted-glass panel over a cinematic backdrop.
+- **Staggered reveal**: `strand-ref-reveal-stage` + four
+  `strand-ref-reveal-line` children animate in at 0/180/360/540 ms.
+- **Tooltips**: `strand-ref-tip` + `strand-ref-tip__bubble--top/bottom/left/right`
+  render four fixed positions simultaneously (pure CSS -- not the
+  production Strand Tooltip).
+- **Utility class demos**: `strand-ref-util-row` + `strand-ref-util-cell`
+  demonstrate individual utility classes with a class label + demo + caption.
+
+## Card composition (strand-card__section)
+
+`strand-card__section` is a BEM element of `strand-card` for stacking
+internal rows inside a `strand-card--pad-none`. The first child suppresses
+the top hairline; subsequent sections get a hairline top border. Combine
+with `strand-card__section--header` for a baseline-aligned title row.
+This composes cleanly alongside Bootstrap's `card` (different namespace,
+no collision).
+
+```html
+<div class="strand-card strand-card--pad-none">
+  <div class="strand-card__section strand-card__section--header">
+    <h3 class="strand-title">Launch Plan</h3>
+    <span class="strand-overline">Draft</span>
+  </div>
+  <div class="strand-card__section">
+    <div class="strand-kv strand-kv--editorial">
+      <span class="strand-kv__label">Owner</span>
+      <span class="strand-kv__value">Alice Chen</span>
+    </div>
+  </div>
+  <div class="strand-card__section">
+    <button class="btn btn-primary">Publish</button>
+  </div>
+</div>
+```
+
+`strand-kv--editorial` renders as sans-serif Blue-midnight values with a
+dashed divider (card-metadata rendering). The default `strand-kv` stays
+mono-tabular for instrument-style readouts; use that inside
+`strand-instrument-viewport`.
+
+## Dark-viewport cascades
+
+Place `strand-status-chip--neutral` or `strand-btn--ghost` inside a
+`strand-instrument-viewport` (or a page marked `strand-body--instrument`)
+and they automatically re-theme for the dark surface:
+
+- Neutral chip: translucent gray background with a hairline border.
+- Ghost button: white text with a hairline translucent border.
+
+No inline style overrides required. This mirrors the existing
+`strand-kv__label` / `strand-kv__value` dark-mode handling.
+
 ## Further Reading
 
 - [design-language.md](../design-language.md) for token definitions and design principles

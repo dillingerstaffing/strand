@@ -1,0 +1,80 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ══════════════════════════════════════════════════
+   CONTAINER SCALE (width visualizer)
+   ══════════════════════════════════════════════════
+   A stacked set of horizontal bars demonstrating container
+   widths (narrow / default / wide / full). Each bar's width
+   is set inline per row via its consumer. */
+
+.strand-container-scale {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strand-space-4);
+}
+
+.strand-container-scale__row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.strand-container-scale__label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+}
+
+.strand-container-scale__label code {
+  font-family: var(--strand-font-mono);
+  font-size: 11px;
+  color: var(--strand-blue-primary);
+  font-weight: var(--strand-weight-medium);
+  background: transparent;
+  padding: 0;
+}
+
+.strand-container-scale__caption {
+  color: var(--strand-gray-500);
+}
+
+.strand-container-scale__track {
+  height: 22px;
+  background: var(--strand-surface-recessed);
+  border-radius: var(--strand-radius-sm);
+  position: relative;
+  border: 1px solid var(--strand-gray-200);
+}
+
+.strand-container-scale__bar {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(37, 99, 235, 0.14),
+    rgba(37, 99, 235, 0.22)
+  );
+  border-right: 2px solid var(--strand-blue-primary);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--strand-space-2);
+  transition: width 300ms var(--strand-ease-out-expo);
+}
+
+.strand-container-scale__px {
+  font-family: var(--strand-font-mono);
+  font-size: 10px;
+  font-weight: var(--strand-weight-medium);
+  color: var(--strand-blue-primary);
+}
+
+.strand-container-scale__axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--strand-space-1);
+  font-family: var(--strand-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--strand-gray-400);
+}

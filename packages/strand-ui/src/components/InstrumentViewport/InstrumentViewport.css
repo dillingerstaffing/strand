@@ -30,6 +30,26 @@
 .strand-instrument-viewport .strand-kv__label { color: var(--strand-gray-400); }
 .strand-instrument-viewport .strand-kv__value { color: var(--strand-gray-200); }
 
+/* Dark-surface cascades for status chips and ghost buttons.
+   The light-surface defaults of .strand-status-chip--neutral and
+   .strand-btn--ghost lose contrast when placed on the dark
+   instrument viewport (full-bleed body or recessed panel). Apply
+   matching on-dark treatments so consumers never need inline
+   style overrides. Scoped to both .strand-body--instrument (full
+   page mode) and .strand-instrument-viewport (recessed panel). */
+.strand-body--instrument .strand-status-chip--neutral,
+.strand-instrument-viewport .strand-status-chip--neutral {
+  background: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);
+  color: var(--strand-gray-300);
+  border: 1px solid color-mix(in srgb, var(--strand-gray-400) 20%, transparent);
+}
+
+.strand-body--instrument .strand-btn--ghost,
+.strand-instrument-viewport .strand-btn--ghost {
+  color: var(--strand-on-blue-primary);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
 .strand-instrument-viewport__label {
   color: var(--strand-gray-400);
   font-family: var(--strand-font-mono);
