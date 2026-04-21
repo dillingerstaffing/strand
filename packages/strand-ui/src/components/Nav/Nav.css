@@ -26,6 +26,8 @@
    identity on the page, so it carries the brand even at this small size. */
 .strand-nav__logo {
 	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
 	margin-right: var(--strand-space-8);
 	font-family: var(--strand-font-mono);
 	font-size: var(--strand-text-sm);
@@ -189,14 +191,17 @@
 }
 
 /* ── Mobile menu ──
-   Drops down from beneath the nav as an overlay. Hidden by default;
-   show via JS by adding strand-nav__mobile-menu--open. The position:
-   fixed (vs absolute on the parent nav) means the menu floats above
-   page content instead of pushing layout. */
+   Docks immediately below its parent .strand-nav as an overlay (the
+   parent has position: relative, so absolute positions against it).
+   For .strand-nav--glass the parent is position: fixed, so the menu
+   still anchors right under the fixed bar at viewport top. For inline
+   specimens or any non-glass placement the menu drops below the nav
+   in flow rather than jumping to viewport top. Hidden by default;
+   show via JS by adding strand-nav__mobile-menu--open. */
 .strand-nav__mobile-menu {
 	display: none;
-	position: fixed;
-	top: var(--strand-nav-height);
+	position: absolute;
+	top: 100%;
 	left: 0;
 	right: 0;
 	flex-direction: column;
