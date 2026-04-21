@@ -10,11 +10,20 @@
 	font-family: var(--strand-font-sans);
 }
 
-/* ── Inner layout ── */
+/* ── Inner layout ──
+   min-height: inherit picks up the nav's own min-height (the
+   --strand-nav-height token). On mobile the nav switches to
+   height: auto + min-height: var(--strand-nav-height); without this
+   inherit the inner only takes its content height (~40px from the
+   hamburger), and the nav's extra ~24px appears as empty space below,
+   which reads as "logo squished upward". With min-height: inherit the
+   inner is always at least token-tall and align-items: center
+   distributes content vertically through that full height. */
 .strand-nav__inner {
 	display: flex;
 	align-items: center;
 	height: 100%;
+	min-height: inherit;
 	padding: 0 var(--strand-space-6);
 	max-width: 1280px;
 	margin: 0 auto;
