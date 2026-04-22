@@ -1,70 +1,97 @@
 {
-  "$schema": "./parity-manifest.schema.json",
-  "description": "Canonical Strand API surface. Every consumer type must implement this surface. The parity test reads this file and asserts conformance. Adding a primitive is a PR that updates this file AND adds the primitive to every consumer type in the same release. Removing a primitive requires a major version bump.",
-  "version": "0.17.3",
-  "components": [
-    "Alert",
-    "Avatar",
-    "Badge",
-    "Breadcrumb",
-    "Button",
-    "Card",
-    "CardSection",
-    "Checkbox",
-    "CodeBlock",
-    "Container",
-    "ContainerScale",
-    "DataReadout",
-    "Dialog",
-    "Divider",
-    "FormField",
-    "Grid",
-    "Input",
-    "InstrumentViewport",
-    "KvEditorial",
-    "LabFrame",
-    "LabGlassStage",
-    "LabRevealStage",
-    "LabShell",
-    "LabTip",
-    "LabUtilCell",
-    "Link",
-    "Nav",
-    "Progress",
-    "Radio",
-    "ScrollReveal",
-    "Section",
-    "Select",
-    "Skeleton",
-    "Slider",
-    "Spinner",
-    "Stack",
-    "StarRating",
-    "Swatch",
-    "Switch",
-    "Table",
-    "Tabs",
-    "Tag",
-    "Textarea",
-    "Toast",
-    "TokenSpecimen",
-    "Tooltip",
-    "TypeSpecimen"
-  ],
-  "knownDrift": {
-    "Banner": {
-      "in": [
-        "preact",
-        "react",
-        "vanilla-html"
-      ],
-      "missingFrom": [
-        "svelte",
-        "vue"
-      ],
-      "note": "Banner component exists in strand-ui but not in strand-svelte or strand-vue. Excluded from the parity manifest until Banner is added to all three framework libraries. Adding it is a parity-raising task in a future session."
-    }
-  },
-  "lockstepVersion": true,
-  "notes": "This manifest is the MVP parity contract. Extension to track prop shapes, CSS class names, and tokens is future work. The current contract asserts: (1) every component name here exists as a directory in every framework package's components folder, (2) every publishable package has the same version number."
+	"$schema": "./parity-manifest.schema.json",
+	"description": "Canonical Strand API surface. Every consumer type must implement this surface. The parity test reads this file and asserts conformance. Adding a primitive is a PR that updates this file AND adds the primitive to every consumer type in the same release. Removing a primitive requires a major version bump.",
+	"version": "0.17.4",
+	"components": [
+		"Alert",
+		"Avatar",
+		"Badge",
+		"Breadcrumb",
+		"Button",
+		"Card",
+		"CardSection",
+		"Checkbox",
+		"CodeBlock",
+		"Container",
+		"ContainerScale",
+		"DataReadout",
+		"Dialog",
+		"Divider",
+		"FormField",
+		"Grid",
+		"Input",
+		"InstrumentViewport",
+		"KvEditorial",
+		"LabFrame",
+		"LabGlassStage",
+		"LabRevealStage",
+		"LabShell",
+		"LabTip",
+		"LabUtilCell",
+		"Link",
+		"Nav",
+		"Progress",
+		"Radio",
+		"ScrollReveal",
+		"Section",
+		"Select",
+		"Skeleton",
+		"Slider",
+		"Spinner",
+		"Stack",
+		"StarRating",
+		"Swatch",
+		"Switch",
+		"Table",
+		"Tabs",
+		"Tag",
+		"Textarea",
+		"Toast",
+		"TokenSpecimen",
+		"Tooltip",
+		"TypeSpecimen"
+	],
+	"knownDrift": {
+		"Banner": {
+			"in": [
+				"preact",
+				"react",
+				"vanilla-html"
+			],
+			"missingFrom": [
+				"svelte",
+				"vue"
+			],
+			"note": "Banner component exists in strand-ui but not in strand-svelte or strand-vue. Excluded from the parity manifest until Banner is added to all three framework libraries. Adding it is a parity-raising task in a future session."
+		}
+	},
+	"lockstepVersion": true,
+	"notes": "This manifest is the MVP parity contract. Extension to track prop shapes, CSS class names, and tokens is future work. The current contract asserts: (1) every component name here exists as a directory in every framework package's components folder, (2) every publishable package has the same version number.",
+	"bundle": {
+		"files": {
+			"tokens.css": {
+				"raw_bytes": 10950,
+				"gzipped_bytes": 3489
+			},
+			"reset.css": {
+				"raw_bytes": 1856,
+				"gzipped_bytes": 875
+			},
+			"base.css": {
+				"raw_bytes": 9765,
+				"gzipped_bytes": 3041
+			},
+			"strand-ui.css": {
+				"raw_bytes": 198270,
+				"gzipped_bytes": 38005
+			},
+			"strand-ui.js": {
+				"raw_bytes": 10741,
+				"gzipped_bytes": 2905
+			}
+		},
+		"total_raw_bytes": 231582,
+		"total_gz_bytes": 48315,
+		"total_gz_kb": 47
+	}
 }

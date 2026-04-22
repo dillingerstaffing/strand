@@ -1,6 +1,6 @@
 {
 	"name": "strand",
-	"version": "0.17.3",
+	"version": "0.17.4",
 	"private": true,
 	"description": "Strand Design Language and UI Component Library",
 	"author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
@@ -18,7 +18,8 @@
 	},
 	"packageManager": "pnpm@9.15.4",
 	"scripts": {
-		"build": "pnpm -r build",
+		"build": "pnpm -r build && node scripts/measure-bundle.mjs",
+		"measure-bundle": "node scripts/measure-bundle.mjs",
 		"test": "pnpm -r test",
 		"test:parity": "node scripts/parity-check.mjs",
 		"test:migration-staleness": "node scripts/migration-staleness.mjs",
