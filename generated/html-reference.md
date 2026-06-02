@@ -155,6 +155,16 @@ A dashboard is an **analytical readout panel** (Principle 10). Use `strand-secti
 
 > **Token roles:** Don't guess which token to use. See [DESIGN_LANGUAGE.md 3.8: Color Roles (L290-L311)](../docs/design-language.md#L290) for which color in which context, and [Appendix B: Token Quick Reference (L1372-L1431)](../docs/design-language.md#L1372) for the full lookup table.
 
+## Vanilla Runtime (optional)
+
+Load `vanilla/strand-ui.js` as `async` to keep it off the DOMContentLoaded critical path:
+
+```html
+<script src="node_modules/@dillingerstaffing/strand-ui/dist/vanilla/strand-ui.js" async></script>
+```
+
+The runtime hydrates copy buttons, reveal-on-scroll, and progressive scroll behaviors. Nothing in it is required for first paint, so blocking page load to fetch and parse it costs DCL/TBT for zero visible benefit. Use `async` (not `defer`, not sync) so the browser can render and fire DOMContentLoaded before the script lands.
+
 ## Presentation Mode
 
 Wrap static previews in `.strand-static` to render at full visual fidelity without interaction:
