@@ -13,7 +13,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-widest);
   text-transform: uppercase;
-  color: var(--strand-gray-500);
+  color: var(--strand-gray-600);
   margin-bottom: var(--strand-space-2);
 }
 
