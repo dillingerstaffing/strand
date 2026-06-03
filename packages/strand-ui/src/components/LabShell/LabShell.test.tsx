@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/preact";
 import {
@@ -282,5 +284,31 @@ describe("LabShell family", () => {
     const el = container.firstElementChild;
     expect(el?.className).toContain("strand-ref-section");
     expect(el?.className).toContain("custom-section");
+  });
+});
+
+describe("LabShell boundary integrity (CSS source guard)", () => {
+  // Behavioral layout is verified in the consumer's browser e2e suite; jsdom
+  // cannot compute grid track sizing. This guard locks the source rule so the
+  // mobile right-edge clipping regression cannot silently return: the main
+  // grid track must be allowed to shrink below its content's min-content width
+  // (minmax(0, ...) on the track + min-width: 0 on the column). A bare `1fr`
+  // main track keeps a min-content floor and clips wide content on the right.
+  const css = readFileSync(resolve(__dirname, "./LabShell.css"), "utf8").replace(
+    /\s+/g,
+    " ",
+  );
+
+  it("main grid track uses minmax(0, 1fr) so it can shrink below min-content", () => {
+    // Base two-column layout: sidebar + shrinkable main.
+    expect(css).toContain("grid-template-columns: 256px minmax(0, 1fr)");
+    // Mobile single-column layout: still shrinkable.
+    expect(css).toContain("grid-template-columns: minmax(0, 1fr)");
+    // The bare main track must never come back.
+    expect(css).not.toContain("grid-template-columns: 256px 1fr");
+  });
+
+  it("the main column sets min-width: 0 so content reflows instead of clipping", () => {
+    expect(css).toMatch(/\.strand-ref-shell__main\s*\{[^}]*min-width:\s*0/);
   });
 });

@@ -23,7 +23,14 @@
 /* Shell root: two-column grid, sidebar left, main right. */
 .strand-ref-shell {
   display: grid;
-  grid-template-columns: 256px 1fr;
+  /* minmax(0, 1fr) on the main track, not a bare 1fr. A bare 1fr keeps an
+     implicit min-content floor, so a wide child (a long heading, the metrics
+     row) forces the track wider than the viewport. Paired with the shell's
+     overflow-x clip below, that surplus is cut off on the right while the
+     left gutter renders correctly: asymmetric clipping on narrow viewports.
+     minmax(0, ...) lets the track shrink to the available width so content
+     reflows instead. Boundary Integrity: the container owns its width. */
+  grid-template-columns: 256px minmax(0, 1fr);
   min-height: 100vh;
 }
 
@@ -166,6 +173,10 @@
 .strand-ref-shell__main {
   padding: 56px var(--strand-space-16) 96px;
   max-width: 1120px;
+  /* min-width: 0 lets this grid item shrink below its content's min-content
+     width so content reflows within the track rather than overflowing the
+     viewport and being clipped on the right (Boundary Integrity). */
+  min-width: 0;
 }
 
 /* Header: h1 + lead + metrics row, bottom hairline. */
@@ -400,7 +411,9 @@
    on tap. */
 @media (max-width: 1040px) {
   .strand-ref-shell {
-    grid-template-columns: 1fr;
+    /* Single column at mobile, but still minmax(0, ...) so the lone track can
+       shrink below its content's min-content width (see the base rule). */
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .strand-ref-shell__sidebar {
