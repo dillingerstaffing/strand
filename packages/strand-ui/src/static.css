@@ -411,12 +411,12 @@
 
 .strand-bar-chart__col {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: end;
+  justify-items: center;
   gap: var(--strand-space-1);
   height: 100%;
-  justify-content: flex-end;
 }
 
 .strand-bar-chart__bar {
