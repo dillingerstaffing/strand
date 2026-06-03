@@ -86,3 +86,14 @@ Verdict: PASS (after L2 variant addition)
 - Root cause: StatusChip lacked a "committed" variant tuned for the dark instrument viewport. Teal-tint (the existing `--live` fill) is designed for light surfaces: on a near-black background it loses contrast ratio because both fill and text tokens assume a light card. A post-RSVP chip needs saturated teal text on a translucent teal fill so it reads clearly on dark without overpowering the event title (Principle 2, Biosynthetic Restraint). No primitive existed for this role.
 - Fix: Added `.strand-status-chip--committed` variant to `static.css`. Uses `--strand-teal-vital` for text, `color-mix(in srgb, var(--strand-teal-vital) 16%, transparent)` for fill, and `color-mix(in srgb, var(--strand-teal-vital) 30%, transparent)` for border. Translucent composition keeps the chip readable on both dark instrument viewports and light surfaces. Documented in `generated/html-reference.md` and `scripts/data/class-docs.json`. All 8 consumer types inherit via the existing utility-class pipeline (same static.css bundle, same tokens package).
 - Commit: feat/strand-status-chip-committed
+
+## Production consumer: dillingerstaffing.com - Strand lab reference shell (mobile)
+Date: 2026-06-03
+Verdict: PASS (after L2 grid-track fix)
+
+### Gap #9
+- Type: L2
+- Symptom: On narrow viewports the LabShell (`.strand-ref-shell`) reference/docs layout clipped its main content on the right. The left gutter rendered correctly while the heading, lead, and metrics row were cut off past the right edge, asymmetric. Reproduced at 320 / 360 / 375 / 390 / 414px.
+- Root cause: `.strand-ref-shell` is a CSS grid (`256px 1fr`; a single column on mobile) with `overflow-x: clip`. A bare `1fr` track keeps an implicit min-content floor, so the main column refused to shrink below its widest child (a roughly 471px min-content) even at a 320px viewport. The shell's `overflow-x: clip` then hid the surplus as a hard right-edge cut instead of letting it scroll. This violated Strand's own Boundary Integrity principle, which the rev-14 grid track never applied to itself.
+- Fix: The track is now `256px minmax(0, 1fr)` (and `minmax(0, 1fr)` on the mobile single column) plus `min-width: 0` on `.strand-ref-shell__main`, so the column shrinks to the viewport and content reflows within symmetric left/right gutters. Pure CSS in `packages/strand-ui/src/components/LabShell/LabShell.css`; all 8 consumer types inherit it through the shared CSS bundle (parity check green at 156 assertions). A CSS source guard was added to `LabShell.test.tsx`. Version bumped 0.17.4 to 0.17.5.
+- Commit: fix/strand-lab-shell-mobile-gutters
