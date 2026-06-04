@@ -56,6 +56,18 @@
               transform var(--strand-duration-glacial) var(--strand-ease-out-expo);
 }
 
+/* A manual reveal toggled visible must win over the @supports view-timeline
+   base rule above, which re-declares opacity:0 / transform on .strand-reveal at
+   equal specificity but later in source order. With the animation removed (above)
+   nothing else drives opacity, so without this compound (higher-specificity)
+   rule the element stays at opacity 0 and toggling --visible has no effect:
+   the reveal never appears and replay does nothing. */
+.strand-reveal--manual.strand-reveal--visible,
+.strand-reveal-group--manual > .strand-reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .strand-reveal {
     opacity: 1;

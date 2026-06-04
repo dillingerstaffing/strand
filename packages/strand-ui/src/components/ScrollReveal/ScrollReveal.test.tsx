@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/preact";
 import { ScrollReveal } from "./ScrollReveal.js";
@@ -64,5 +66,26 @@ describe("ScrollReveal", () => {
       <ScrollReveal once={false}>Content</ScrollReveal>,
     );
     expect(container.firstElementChild).toBeTruthy();
+  });
+});
+
+describe("ScrollReveal manual reveal (CSS source guard)", () => {
+  // Behavioral coverage lives in the consumer browser e2e (jsdom cannot compute
+  // the @supports view-timeline cascade). This guard locks the source rule: a
+  // manual reveal toggled --visible must set opacity:1 via a compound selector
+  // that outranks the @supports base rule (which re-declares opacity:0 at equal
+  // specificity, later in source order). Without it the reveal never appears and
+  // replay does nothing.
+  const css = readFileSync(resolve(__dirname, "./ScrollReveal.css"), "utf8").replace(
+    /\s+/g,
+    " ",
+  );
+
+  it("manual + visible sets opacity:1 with a compound selector that outranks the base rule", () => {
+    expect(css).toContain(".strand-reveal--manual.strand-reveal--visible");
+    expect(css).toContain(".strand-reveal-group--manual > .strand-reveal--visible");
+    expect(css).toMatch(
+      /\.strand-reveal-group--manual\s*>\s*\.strand-reveal--visible\s*\{[^}]*opacity:\s*1/,
+    );
   });
 });

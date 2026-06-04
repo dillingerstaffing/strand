@@ -97,3 +97,14 @@ Verdict: PASS (after L2 grid-track fix)
 - Root cause: `.strand-ref-shell` is a CSS grid (`256px 1fr`; a single column on mobile) with `overflow-x: clip`. A bare `1fr` track keeps an implicit min-content floor, so the main column refused to shrink below its widest child (a roughly 471px min-content) even at a 320px viewport. The shell's `overflow-x: clip` then hid the surplus as a hard right-edge cut instead of letting it scroll. This violated Strand's own Boundary Integrity principle, which the rev-14 grid track never applied to itself.
 - Fix: The track is now `256px minmax(0, 1fr)` (and `minmax(0, 1fr)` on the mobile single column) plus `min-width: 0` on `.strand-ref-shell__main`, so the column shrinks to the viewport and content reflows within symmetric left/right gutters. Pure CSS in `packages/strand-ui/src/components/LabShell/LabShell.css`; all 8 consumer types inherit it through the shared CSS bundle (parity check green at 156 assertions). A CSS source guard was added to `LabShell.test.tsx`. Version bumped 0.17.4 to 0.17.5.
 - Commit: fix/strand-lab-shell-mobile-gutters
+
+## Production consumer: dillingerstaffing.com - Strand lab reveal specimen (manual replay)
+Date: 2026-06-03
+Verdict: PASS (after L2 cascade fix)
+
+### Gap #10
+- Type: L2
+- Symptom: The `.strand-reveal-group--manual` staggered-entry specimen never appeared (lines stuck invisible) and the "Replay reveal" button did nothing. Confirmed in any browser supporting `animation-timeline: view()`: a manual reveal element carrying `.strand-reveal--visible` still computed `opacity: 0`.
+- Root cause: In `ScrollReveal.css` the `@supports (animation-timeline: view())` block re-declares `.strand-reveal { opacity: 0 }` after `.strand-reveal--visible { opacity: 1 }`, at equal specificity (0,1,0). For the default scroll reveal that is harmless because `animation: strand-reveal-up both` drives opacity. But `--manual` sets `animation: none` to opt out of the view-timeline and never restored opacity control to `--visible`, so the later-source-order base rule pinned the element at opacity 0. Toggling `--visible` (what Replay does) had no visual effect.
+- Fix: Added a compound, higher-specificity (0,2,0) rule so a manual reveal toggled visible wins: `.strand-reveal--manual.strand-reveal--visible, .strand-reveal-group--manual > .strand-reveal--visible { opacity: 1; transform: translateY(0); }`. Pure CSS in `packages/strand-ui/src/components/ScrollReveal/ScrollReveal.css`; all 8 consumer types inherit it. CSS source guard added to `ScrollReveal.test.tsx`. Version bumped 0.17.5 to 0.17.6.
+- Commit: fix/strand-reveal-manual-visible
