@@ -201,9 +201,78 @@ code, pre {
   color: var(--strand-blue-abyss);
 }
 
-/* ── Prose Width ── */
+/* ── Prose ── */
+/* Formatted long-form / user-generated content (comments, descriptions,
+   editorial copy). The global reset strips list markers and element
+   margins, so prose restores readable block + inline rhythm using design
+   tokens. Apply to a container whose children are p / ul / ol / li /
+   strong / em / a / code / pre / headings. */
 .strand-prose {
   max-width: 65ch;
+}
+.strand-prose > :first-child {
+  margin-top: 0;
+}
+.strand-prose > :last-child {
+  margin-bottom: 0;
+}
+.strand-prose p {
+  margin: 0 0 var(--strand-space-3);
+  line-height: 1.6;
+}
+.strand-prose ul,
+.strand-prose ol {
+  margin: 0 0 var(--strand-space-3);
+  padding-left: 1.5rem;
+}
+.strand-prose ul {
+  list-style: disc;
+}
+.strand-prose ol {
+  list-style: decimal;
+}
+.strand-prose li {
+  margin: var(--strand-space-1) 0;
+}
+.strand-prose li::marker {
+  color: var(--strand-gray-400);
+}
+.strand-prose strong {
+  font-weight: 600;
+}
+.strand-prose em {
+  font-style: italic;
+}
+.strand-prose a {
+  color: var(--strand-blue-primary);
+  text-decoration: underline;
+}
+.strand-prose code {
+  font-family: var(--strand-font-mono);
+  font-size: 0.9em;
+  background: var(--strand-surface-recessed);
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+}
+.strand-prose pre {
+  background: var(--strand-surface-recessed);
+  padding: var(--strand-space-3);
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+.strand-prose pre code {
+  background: none;
+  padding: 0;
+}
+.strand-prose h1,
+.strand-prose h2,
+.strand-prose h3,
+.strand-prose h4,
+.strand-prose h5,
+.strand-prose h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  margin: var(--strand-space-3) 0 var(--strand-space-2);
 }
 
 /* ── Container ── */
