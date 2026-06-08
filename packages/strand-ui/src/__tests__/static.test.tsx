@@ -94,3 +94,16 @@ describe("typography size utilities", () => {
     expect(xsRule).not.toContain("color");
   });
 });
+
+describe("text-flow utilities", () => {
+  // Wrap a long unbreakable string (a URL, hash, or token) so it breaks
+  // inside a constrained box instead of overflowing.
+  it("strand-break-anywhere sets overflow-wrap to anywhere", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    expect(content).toContain(".strand-break-anywhere");
+    expect(content).toMatch(/\.strand-break-anywhere\s*{\s*overflow-wrap:\s*anywhere/);
+  });
+});

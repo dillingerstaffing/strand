@@ -263,6 +263,14 @@
   font-size: var(--strand-text-xs);
 }
 
+/* Break a long unbreakable string (URL, hash, id, token) so it wraps
+   inside a constrained box instead of overflowing. overflow-wrap:
+   anywhere also lets a flex item shrink below the string's intrinsic
+   width, which is what a readonly URL field needs in order to wrap. */
+.strand-break-anywhere {
+  overflow-wrap: anywhere;
+}
+
 /* ══════════════════════════════════════════════════
    COMPOSITION MOLECULES (DL Part XI-B Grammar)
    Named derivations of DL composition primitives.
