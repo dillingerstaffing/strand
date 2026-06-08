@@ -239,15 +239,28 @@
   font-size: var(--strand-text-xs);
 }
 
-/* ── Font family utilities ──
-   Pure typographic utilities for composing text styles when
+/* ── Typographic utilities ──
+   Pure single-property utilities for composing text styles when
    the full .strand-overline / .strand-kv / .strand-data-readout
    component semantics are too heavy. Use on inline meta rows,
    cadence lines, and data-adjacent body copy that should read
    as instrument output without inheriting the overline's letter
-   spacing and weight. */
+   spacing and weight.
+   The size utilities map 1:1 onto the type scale tokens and carry
+   no color. That is the difference from .strand-text-secondary,
+   which also recolors to gray-500: use a size utility to shrink a
+   value (a long URL, code, or id) in place while it stays primary
+   colored; use .strand-text-secondary to demote text to metadata. */
 .strand-font-mono {
   font-family: var(--strand-font-mono);
+}
+
+.strand-text-sm {
+  font-size: var(--strand-text-sm);
+}
+
+.strand-text-xs {
+  font-size: var(--strand-text-xs);
 }
 
 /* ══════════════════════════════════════════════════

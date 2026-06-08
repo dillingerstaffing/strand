@@ -722,6 +722,8 @@
 			{ "class": "strand-text-secondary", "description": "Caption/description text (text-sm, gray-500)." },
 			{ "class": "strand-text-secondary--xs", "description": "Extra-small secondary text for metadata." },
 			{ "class": "strand-font-mono", "description": "Monospace font-family utility for inline meta rows and cadence lines." },
+			{ "class": "strand-text-sm", "description": "Font-size utility: small step (text-sm). Pure size lever with no color change, for shrinking a value such as a URL, code, or id to fit a constrained space. Use instead of strand-text-secondary when the text must keep its primary color." },
+			{ "class": "strand-text-xs", "description": "Font-size utility: extra-small step (text-xs). Pure size lever with no color change." },
 			{ "class": "strand-code-name", "description": "Mono identifier heading (component names, API ids)." },
 			{ "class": "strand-heading--sm", "description": "Section heading inside cards (text-lg, medium)." },
 			{ "class": "strand-sr-only", "description": "Visually hidden, accessible to screen readers." },

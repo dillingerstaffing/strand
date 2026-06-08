@@ -58,3 +58,39 @@ describe("layout utility classes", () => {
     expect(content).toContain(".strand-grid--gap-4");
   });
 });
+
+describe("typography size utilities", () => {
+  // Pure, color-agnostic size levers that map 1:1 onto the type scale
+  // tokens. Unlike .strand-text-secondary (which also recolors to gray-500),
+  // these shrink a value in place without changing its color, so a long URL,
+  // code, or id fits inside a component while staying primary-colored.
+  it("strand-text-sm sets font-size to the sm scale token", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    expect(content).toContain(".strand-text-sm");
+    expect(content).toMatch(/\.strand-text-sm\s*{\s*font-size:\s*var\(--strand-text-sm\)/);
+  });
+
+  it("strand-text-xs sets font-size to the xs scale token", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    expect(content).toContain(".strand-text-xs");
+    expect(content).toMatch(/\.strand-text-xs\s*{\s*font-size:\s*var\(--strand-text-xs\)/);
+  });
+
+  it("size utilities carry no color so they do not recolor the host element", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    // Isolate each rule body and assert it sets only font-size (no color).
+    const smRule = content.match(/\.strand-text-sm\s*{[^}]*}/)?.[0] ?? "";
+    const xsRule = content.match(/\.strand-text-xs\s*{[^}]*}/)?.[0] ?? "";
+    expect(smRule).not.toContain("color");
+    expect(xsRule).not.toContain("color");
+  });
+});
