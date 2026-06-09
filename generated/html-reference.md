@@ -709,6 +709,17 @@ Flex layout primitive with direction, gap, and alignment.
   <div>Item 1</div>
   <div>Item 2</div>
 </div>
+
+<!-- Header row: title left, actions right. Inside a flex or grid parent,
+     a stack shrink-wraps to its content; add strand-full-width so
+     justify-between has room to distribute. -->
+<div class="strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--align-center strand-stack--justify-between strand-full-width">
+  <span class="strand-overline strand-overline--accent">Section title</span>
+  <div class="strand-stack strand-stack--horizontal strand-stack--gap-2">
+    <button class="strand-btn strand-btn--ghost strand-btn--sm"><span class="strand-btn__content">Cancel</span></button>
+    <button class="strand-btn strand-btn--primary strand-btn--sm"><span class="strand-btn__content">Save</span></button>
+  </div>
+</div>
 ```
 
 ---
@@ -1238,6 +1249,8 @@ Scroll-triggered entrance animation.
 | `strand-reveal` | base | Element with scroll-triggered fade-up. |
 | `strand-reveal--visible` | modifier | Visible state after scroll trigger. |
 | `strand-reveal-group` | base | Group container for staggered reveals. |
+| `strand-reveal--manual` | modifier | |
+| `strand-reveal-group--manual` | modifier | |
 
 **Usage:**
 
@@ -1313,6 +1326,9 @@ Component-reference page chrome. Named primitive family for a docs-site layout: 
 | `strand-ref-example__demo--pad-none` | child | Modifier: remove internal padding + hide overflow. |
 | `strand-ref-example__demo--recessed` | child | Modifier: use recessed surface background instead of white. |
 | `strand-ref-example__caption` | child | Example caption paragraph below the demo. |
+| `strand-ref-shell__nav-scrim` | child | Mobile drawer scrim (covers main, dismisses drawer on tap). Hidden until parent has .is-nav-open at <=1040px. |
+| `strand-ref-mobile-trigger` | base | Mobile FAB toggle for the sidebar drawer. Use on a strand-btn (icon-only + circular). Hidden by default; shown only at <=1040px breakpoint. |
+| `is-nav-open` | base | State class on the .strand-ref-shell mount; consumer toggles to open the mobile drawer. |
 | `strand-handoff-render` | base | |
 
 **Usage:**
@@ -1621,6 +1637,9 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-text-secondary` | Caption/description text (text-sm, gray-500). |
 | `strand-text-secondary--xs` | Extra-small secondary text for metadata. |
 | `strand-font-mono` | Monospace font-family utility for inline meta rows and cadence lines. |
+| `strand-text-sm` | Font-size utility: small step (text-sm). Pure size lever with no color change, for shrinking a value such as a URL, code, or id to fit a constrained space. Use instead of strand-text-secondary when the text must keep its primary color. |
+| `strand-text-xs` | Font-size utility: extra-small step (text-xs). Pure size lever with no color change. |
+| `strand-break-anywhere` | Text-flow utility: overflow-wrap: anywhere. Wraps a long unbreakable string (URL, hash, id, token) inside a constrained box instead of overflowing. |
 | `strand-code-name` | Mono identifier heading (component names, API ids). |
 | `strand-heading--sm` | Section heading inside cards (text-lg, medium). |
 | `strand-sr-only` | Visually hidden, accessible to screen readers. |
@@ -1675,7 +1694,6 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-flex-1` | flex: 1 utility. |
 | `strand-min-w-0` | min-width: 0 utility. |
 | `strand-full-width` | width: 100% utility. |
-| `strand-w-full` | width: 100% utility (alias). |
 | `strand-mt-1` | Margin-top: space-1. |
 | `strand-mt-2` | Margin-top: space-2. |
 | `strand-mt-3` | Margin-top: space-3. |

@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- add strand-break-anywhere wrap utility
+- add strand-text-sm and strand-text-xs size utilities
+- strand-prose styles formatted descendants (lists, inline code, links); v0.17.7
+- publish gzipped bundle size in parity-manifest + async-load guidance
+- add component-reference primitive family + dark-surface cascades + card/kv additions
 - add strand-status-chip--committed variant
 - add strand-font-mono utility class
 - add StarRating primitive across all consumer types
@@ -17,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add zero-drift documentation generator system
 
 ### Changed
+- remove duplicate strand-w-full width utility, use strand-full-width
+- Merge fix/strand-reveal-manual-visible into main
+- Merge fix/strand-lab-shell-mobile-gutters into main
+- Merge branch 'feat/strand-ref-primitives'
 - fix/tooltip-layout-containment (DS calendar subscribe consumer)
 - feat/strand-status-chip-committed (DS WS committed chip consumer)
 - feat/strand-star-rating (DS WS email lifecycle + rate-via-token consumer)
@@ -31,6 +40,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - reorganize repo root into docs/ and generated/ directories
 
 ### Fixed
+- manual reveal toggled visible must beat the view-timeline base rule
+- shrink main grid track so mobile gutters stay symmetric
+- replayable reveal, centered alert, proportional bar-chart track
+- label color gray-500 to gray-600 for WCAG 2.2 AA contrast
+- author async-load guidance in source, sync all consumers
+- inner inherits min-height so children center vertically on mobile
+- mobile menu docks below nav (was viewport top) + logo flex-aligns center
+- height tracks viewport minus sticky-top + mobile drawer pattern
 - strand-channel-grid stretches cards equal height and anchors last horizontal row (CTA) to bottom
 - contain tooltip layout to wrapper so popup does not bloat ancestor scrollWidth
 - glass nav height, ghost button contrast, tab overflow, scroll-padding
@@ -45,6 +62,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - iteration 3 gaps #11-13 — layout, activity feed, dist build
 - iteration 3 — L2 library fixes + version sync to 0.15.1
 - resolve 6 gaps from agent-dashboard iteration 1
+
+### Documentation
+- document the header-row fill recipe with strand-full-width
 
 ## [0.15.1] - 2026-04-09
 
