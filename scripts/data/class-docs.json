@@ -267,7 +267,7 @@
 				{ "class": "strand-stack--gap-6", "description": "Gap: space-6 (24px)." },
 				{ "class": "strand-stack--gap-8", "description": "Gap: space-8 (32px)." }
 			],
-			"example": "<div class=\"strand-stack strand-stack--vertical strand-stack--gap-4\">\n  <div>Item 1</div>\n  <div>Item 2</div>\n</div>"
+			"example": "<div class=\"strand-stack strand-stack--vertical strand-stack--gap-4\">\n  <div>Item 1</div>\n  <div>Item 2</div>\n</div>\n\n<!-- Header row: title left, actions right. Inside a flex or grid parent,\n     a stack shrink-wraps to its content; add strand-full-width so\n     justify-between has room to distribute. -->\n<div class=\"strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--align-center strand-stack--justify-between strand-full-width\">\n  <span class=\"strand-overline strand-overline--accent\">Section title</span>\n  <div class=\"strand-stack strand-stack--horizontal strand-stack--gap-2\">\n    <button class=\"strand-btn strand-btn--ghost strand-btn--sm\"><span class=\"strand-btn__content\">Cancel</span></button>\n    <button class=\"strand-btn strand-btn--primary strand-btn--sm\"><span class=\"strand-btn__content\">Save</span></button>\n  </div>\n</div>"
 		},
 		{
 			"name": "Grid",
@@ -779,7 +779,6 @@
 			{ "class": "strand-flex-1", "description": "flex: 1 utility." },
 			{ "class": "strand-min-w-0", "description": "min-width: 0 utility." },
 			{ "class": "strand-full-width", "description": "width: 100% utility." },
-			{ "class": "strand-w-full", "description": "width: 100% utility (alias)." },
 			{ "class": "strand-mt-1", "description": "Margin-top: space-1." },
 			{ "class": "strand-mt-2", "description": "Margin-top: space-2." },
 			{ "class": "strand-mt-3", "description": "Margin-top: space-3." },

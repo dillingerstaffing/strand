@@ -248,3 +248,21 @@ Verdict: PASS (after L2 primitive addition)
 - Root cause: Library gap. To show the full URL the field must wrap onto multiple lines, which requires breaking a long unbreakable string (a URL has no spaces and does not break at `/` or `.`). No Strand utility exposed `overflow-wrap: anywhere`; the only instance lived as page-local glue in the DS lab CSS for code blocks (acknowledged there as pending upstream). A consumer could not wrap a URL / token / hash field with a Strand primitive.
 - Fix: Added `.strand-break-anywhere` (`overflow-wrap: anywhere`) to `packages/strand-ui/src/static.css`. Reusable for any long unbreakable string in a constrained box; also lets a flex item shrink below the string's intrinsic width so it wraps instead of overflowing. All 8 consumer types inherit via the shared static.css bundle; parity passes with no manifest change. Unit coverage in `static.test.tsx`; description in `class-docs.json`. DS `ShareButton` now renders the URL in a full-width readonly block using `strand-input__field strand-font-mono strand-text-sm strand-break-anywhere`, so the whole link wraps and reads with the copy button beside it.
 - Commit: feat/strand-break-anywhere
+
+## API audit: width utilities and the Stack header-row fill recipe
+Date: 2026-06-09
+Verdict: PASS (after L1 docs recipe + L2 utility dedupe)
+
+### Gap #30
+- Type: L1
+- Symptom: The Stack docs show only a vertical usage example. The most common composition, a horizontal stack used as a header row with `strand-stack--justify-between`, silently shrink-wraps when placed inside a flex or grid parent: the title and actions huddle together instead of distributing across the row. Consumers reach for inline `style="width:100%"` even though `.strand-full-width` exists.
+- Root cause: Usage gap. A stack is a flex container, but as a flex or grid child it sizes to its content, so `justify-between` has no free space to distribute. The fix (`strand-full-width` on the stack) was never documented in the Stack section where the pattern lives, so consumers could not discover it at the point of need.
+- Fix: Added a second usage snippet to the Stack section showing the header-row recipe: a horizontal stack with `strand-stack--justify-between` plus `strand-full-width`, with a comment explaining why the width utility is required inside flex or grid parents. Source of truth updated in `scripts/data/class-docs.json` and regenerated into `generated/html-reference.md` and the package HTML_REFERENCE.md mirrors.
+- Commit: feat/stack-fill-devex
+
+### Gap #31
+- Type: L2
+- Symptom: The global utilities table documented two identical width utilities: `strand-full-width` and `strand-w-full` marked "(alias)". Two names for one property creates doubt for new users about which is canonical, and doubles the surface to search when reading unfamiliar markup.
+- Root cause: Library duplication. `.strand-w-full` shipped as an alias of `.strand-full-width` and never picked up any usage: zero references in packages/, docs/, examples/, generated/, or any known consumer.
+- Fix: Removed `.strand-w-full` from `packages/strand-ui/src/static.css` and from `scripts/data/class-docs.json`; `.strand-full-width` is now the single width utility and is taught in the Stack header-row recipe (Gap #30). Breaking under 0.x semver: any consumer using `strand-w-full` renames it to `strand-full-width`. Version bumped 0.17.7 to 0.18.0 across all publishable packages. Guard added in `static.test.tsx` asserting the build output contains `.strand-full-width` and not `.strand-w-full`.
+- Commit: feat/stack-fill-devex
