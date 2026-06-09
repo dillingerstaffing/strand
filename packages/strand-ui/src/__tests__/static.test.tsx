@@ -95,6 +95,28 @@ describe("typography size utilities", () => {
   });
 });
 
+describe("width utility", () => {
+  // Exactly one width: 100% utility exists. A stack (or any flex container)
+  // used as a flex or grid CHILD shrink-wraps to its content, so a header
+  // row composed with strand-stack--justify-between needs strand-full-width
+  // to give justify-between room to distribute.
+  it("strand-full-width sets width to 100%", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    expect(content).toMatch(/\.strand-full-width\s*{\s*width:\s*100%/);
+  });
+
+  it("the removed strand-w-full duplicate stays out of the build output", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    expect(content).not.toContain(".strand-w-full");
+  });
+});
+
 describe("text-flow utilities", () => {
   // Wrap a long unbreakable string (a URL, hash, or token) so it breaks
   // inside a constrained box instead of overflowing.
