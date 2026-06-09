@@ -701,6 +701,16 @@ A dashboard is an **analytical readout panel** (Principle 10). Use `strand-secti
 
 > **Token roles:** Don't guess which token to use. See [DESIGN_LANGUAGE.md 3.8: Color Roles (L290-L311)](../docs/design-language.md#L290) for which color in which context, and [Appendix B: Token Quick Reference (L1372-L1431)](../docs/design-language.md#L1372) for the full lookup table.
 
+## Vanilla Runtime (optional)
+
+Load `vanilla/strand-ui.js` as `async` to keep it off the DOMContentLoaded critical path:
+
+```html
+<script src="node_modules/@dillingerstaffing/strand-ui/dist/vanilla/strand-ui.js" async></script>
+```
+
+The runtime hydrates copy buttons, reveal-on-scroll, and progressive scroll behaviors. Nothing in it is required for first paint, so blocking page load to fetch and parse it costs DCL/TBT for zero visible benefit. Use `async` (not `defer`, not sync) so the browser can render and fire DOMContentLoaded before the script lands.
+
 ## Presentation Mode
 
 Wrap static previews in `.strand-static` to render at full visual fidelity without interaction:
@@ -1245,6 +1255,17 @@ Flex layout primitive with direction, gap, and alignment.
   <div>Item 1</div>
   <div>Item 2</div>
 </div>
+
+<!-- Header row: title left, actions right. Inside a flex or grid parent,
+     a stack shrink-wraps to its content; add strand-full-width so
+     justify-between has room to distribute. -->
+<div class="strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--align-center strand-stack--justify-between strand-full-width">
+  <span class="strand-overline strand-overline--accent">Section title</span>
+  <div class="strand-stack strand-stack--horizontal strand-stack--gap-2">
+    <button class="strand-btn strand-btn--ghost strand-btn--sm"><span class="strand-btn__content">Cancel</span></button>
+    <button class="strand-btn strand-btn--primary strand-btn--sm"><span class="strand-btn__content">Save</span></button>
+  </div>
+</div>
 ```
 
 ---
@@ -1774,6 +1795,8 @@ Scroll-triggered entrance animation.
 | `strand-reveal` | base | Element with scroll-triggered fade-up. |
 | `strand-reveal--visible` | modifier | Visible state after scroll trigger. |
 | `strand-reveal-group` | base | Group container for staggered reveals. |
+| `strand-reveal--manual` | modifier | |
+| `strand-reveal-group--manual` | modifier | |
 
 **Usage:**
 
@@ -1849,6 +1872,9 @@ Component-reference page chrome. Named primitive family for a docs-site layout: 
 | `strand-ref-example__demo--pad-none` | child | Modifier: remove internal padding + hide overflow. |
 | `strand-ref-example__demo--recessed` | child | Modifier: use recessed surface background instead of white. |
 | `strand-ref-example__caption` | child | Example caption paragraph below the demo. |
+| `strand-ref-shell__nav-scrim` | child | Mobile drawer scrim (covers main, dismisses drawer on tap). Hidden until parent has .is-nav-open at <=1040px. |
+| `strand-ref-mobile-trigger` | base | Mobile FAB toggle for the sidebar drawer. Use on a strand-btn (icon-only + circular). Hidden by default; shown only at <=1040px breakpoint. |
+| `is-nav-open` | base | State class on the .strand-ref-shell mount; consumer toggles to open the mobile drawer. |
 | `strand-handoff-render` | base | |
 
 **Usage:**
@@ -2157,6 +2183,9 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-text-secondary` | Caption/description text (text-sm, gray-500). |
 | `strand-text-secondary--xs` | Extra-small secondary text for metadata. |
 | `strand-font-mono` | Monospace font-family utility for inline meta rows and cadence lines. |
+| `strand-text-sm` | Font-size utility: small step (text-sm). Pure size lever with no color change, for shrinking a value such as a URL, code, or id to fit a constrained space. Use instead of strand-text-secondary when the text must keep its primary color. |
+| `strand-text-xs` | Font-size utility: extra-small step (text-xs). Pure size lever with no color change. |
+| `strand-break-anywhere` | Text-flow utility: overflow-wrap: anywhere. Wraps a long unbreakable string (URL, hash, id, token) inside a constrained box instead of overflowing. |
 | `strand-code-name` | Mono identifier heading (component names, API ids). |
 | `strand-heading--sm` | Section heading inside cards (text-lg, medium). |
 | `strand-sr-only` | Visually hidden, accessible to screen readers. |
@@ -2211,7 +2240,6 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-flex-1` | flex: 1 utility. |
 | `strand-min-w-0` | min-width: 0 utility. |
 | `strand-full-width` | width: 100% utility. |
-| `strand-w-full` | width: 100% utility (alias). |
 | `strand-mt-1` | Margin-top: space-1. |
 | `strand-mt-2` | Margin-top: space-2. |
 | `strand-mt-3` | Margin-top: space-3. |
@@ -4476,6 +4504,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- add strand-break-anywhere wrap utility
+- add strand-text-sm and strand-text-xs size utilities
+- strand-prose styles formatted descendants (lists, inline code, links); v0.17.7
+- publish gzipped bundle size in parity-manifest + async-load guidance
+- add component-reference primitive family + dark-surface cascades + card/kv additions
 - add strand-status-chip--committed variant
 - add strand-font-mono utility class
 - add StarRating primitive across all consumer types
@@ -4485,6 +4518,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add zero-drift documentation generator system
 
 ### Changed
+- remove duplicate strand-w-full width utility, use strand-full-width
+- Merge fix/strand-reveal-manual-visible into main
+- Merge fix/strand-lab-shell-mobile-gutters into main
+- Merge branch 'feat/strand-ref-primitives'
 - fix/tooltip-layout-containment (DS calendar subscribe consumer)
 - feat/strand-status-chip-committed (DS WS committed chip consumer)
 - feat/strand-star-rating (DS WS email lifecycle + rate-via-token consumer)
@@ -4499,6 +4536,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - reorganize repo root into docs/ and generated/ directories
 
 ### Fixed
+- manual reveal toggled visible must beat the view-timeline base rule
+- shrink main grid track so mobile gutters stay symmetric
+- replayable reveal, centered alert, proportional bar-chart track
+- label color gray-500 to gray-600 for WCAG 2.2 AA contrast
+- author async-load guidance in source, sync all consumers
+- inner inherits min-height so children center vertically on mobile
+- mobile menu docks below nav (was viewport top) + logo flex-aligns center
+- height tracks viewport minus sticky-top + mobile drawer pattern
 - strand-channel-grid stretches cards equal height and anchors last horizontal row (CTA) to bottom
 - contain tooltip layout to wrapper so popup does not bloat ancestor scrollWidth
 - glass nav height, ghost button contrast, tab overflow, scroll-padding
@@ -4513,6 +4558,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - iteration 3 gaps #11-13 — layout, activity feed, dist build
 - iteration 3 — L2 library fixes + version sync to 0.15.1
 - resolve 6 gaps from agent-dashboard iteration 1
+
+### Documentation
+- document the header-row fill recipe with strand-full-width
 
 ## [0.15.1] - 2026-04-09
 
@@ -4735,11 +4783,12 @@ pnpm lint        # Lint all files
 | Command | Script |
 |---|---|
 | `pnpm audit-dogfood` | `node scripts/dogfood-audit.mjs` |
-| `pnpm build` | `pnpm -r build` |
+| `pnpm build` | `pnpm -r build && node scripts/measure-bundle.mjs` |
 | `pnpm build:docs` | `node scripts/build-docs.mjs` |
 | `pnpm dogfood` | `node scripts/dogfood-scaffold.mjs` |
 | `pnpm lint` | `biome check .` |
 | `pnpm lint:fix` | `biome check --write .` |
+| `pnpm measure-bundle` | `node scripts/measure-bundle.mjs` |
 | `pnpm purity-scan` | `node scripts/purity-scan.mjs` |
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
