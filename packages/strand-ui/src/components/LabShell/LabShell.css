@@ -336,12 +336,20 @@
   gap: var(--strand-space-8);
 }
 
-/* Example: a single component specimen with meta column + demo panel. */
+/* Example: a single component specimen with meta column + demo panel.
+   minmax(0, 1fr) + min-width: 0 on children: a code block or table inside
+   the demo (or a consumer-composed wrapper) must not set a min-content
+   floor wider than the viewport (Boundary Integrity; same regression
+   class as the shell main track). */
 .strand-ref-example {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 200px minmax(0, 1fr);
   gap: 28px;
   align-items: start;
+}
+
+.strand-ref-example > * {
+  min-width: 0;
 }
 
 .strand-ref-example__meta {
@@ -470,7 +478,7 @@
   }
 
   .strand-ref-example {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .strand-ref-header__meta {

@@ -311,4 +311,20 @@ describe("LabShell boundary integrity (CSS source guard)", () => {
   it("the main column sets min-width: 0 so content reflows instead of clipping", () => {
     expect(css).toMatch(/\.strand-ref-shell__main\s*\{[^}]*min-width:\s*0/);
   });
+
+  it("example grid tracks use minmax(0, 1fr) so wide demo content cannot blow out the column", () => {
+    // Same regression class one level deeper: a code block or table inside
+    // an example demo sets a min-content floor wider than a mobile viewport.
+    // Base meta + demo layout:
+    expect(css).toContain("grid-template-columns: 200px minmax(0, 1fr)");
+    // The bare demo track must never come back.
+    expect(css).not.toContain("grid-template-columns: 200px 1fr");
+  });
+
+  it("example grid children set min-width: 0 so any composed child reflows instead of clipping", () => {
+    // Grid items keep a min-width: auto floor even inside a minmax(0, 1fr)
+    // track; the universal child rule releases it for meta, demo, and any
+    // consumer-composed wrapper (e.g. demo + source panel).
+    expect(css).toMatch(/\.strand-ref-example\s*>\s*\*\s*\{[^}]*min-width:\s*0/);
+  });
 });

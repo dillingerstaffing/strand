@@ -360,3 +360,14 @@ Verdict: PASS (after L2 cascade fix)
 - Root cause: In `ScrollReveal.css` the `@supports (animation-timeline: view())` block re-declares `.strand-reveal { opacity: 0 }` after `.strand-reveal--visible { opacity: 1 }`, at equal specificity (0,1,0). For the default scroll reveal that is harmless because `animation: strand-reveal-up both` drives opacity. But `--manual` sets `animation: none` to opt out of the view-timeline and never restored opacity control to `--visible`, so the later-source-order base rule pinned the element at opacity 0. Toggling `--visible` (what Replay does) had no visual effect.
 - Fix: Added a compound, higher-specificity (0,2,0) rule so a manual reveal toggled visible wins: `.strand-reveal--manual.strand-reveal--visible, .strand-reveal-group--manual > .strand-reveal--visible { opacity: 1; transform: translateY(0); }`. Pure CSS in `packages/strand-ui/src/components/ScrollReveal/ScrollReveal.css`; all 8 consumer types inherit it. CSS source guard added to `ScrollReveal.test.tsx`. Version bumped 0.17.5 to 0.17.6.
 - Commit: fix/strand-reveal-manual-visible
+
+## Production consumer: dillingerstaffing.com - Strand lab reference example (source panel on mobile)
+Date: 2026-06-10
+Verdict: PASS (after L2 grid fix)
+
+### Gap #42
+- Type: L2
+- Symptom: Composing a code block inside a `.strand-ref-example` (a per-specimen source panel under the demo) blew the example column out to ~421px at a 375px viewport. The shell's `overflow-x: clip` hid the surplus as a hard right cut, leaving the code block's copy button entirely outside the viewport and unreachable by scrolling.
+- Root cause: `.strand-ref-example` used bare `1fr` tracks (`200px 1fr` base, `1fr` at the responsive breakpoint). A bare track keeps an implicit min-content floor, so the demo column refused to shrink below the widest unwrappable line of the composed code block. Same Boundary Integrity regression class as Gap #40 (`.strand-ref-shell` main track), one level deeper.
+- Fix: Tracks are now `200px minmax(0, 1fr)` (and `minmax(0, 1fr)` at the breakpoint) plus a universal `min-width: 0` on direct children, which releases the grid items' own `min-width: auto` floor for meta, demo, and any consumer-composed wrapper. Wide content inside an example now scrolls within its own box (`overflow-x: auto` on code block pre) instead of escaping the viewport. Pure CSS in `packages/strand-ui/src/components/LabShell/LabShell.css`; all 8 consumer types inherit it through the shared bundle. CSS source guards added to `LabShell.test.tsx`. Version bumped 0.18.0 to 0.18.1.
+- Commit: fix/strand-ref-example-minmax
