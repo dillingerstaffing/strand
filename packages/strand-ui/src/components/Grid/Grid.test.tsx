@@ -50,6 +50,41 @@ describe("Grid", () => {
     expect(el.style.gridTemplateColumns).toBe("repeat(4, 1fr)");
   });
 
+  // ── Auto-fit (minColWidth) ──
+
+  it("renders a responsive auto-fit track when minColWidth is set", () => {
+    const { container } = render(<Grid minColWidth={220}>content</Grid>);
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.style.gridTemplateColumns).toBe(
+      "repeat(auto-fit, minmax(220px, 1fr))",
+    );
+  });
+
+  it("lets minColWidth win over columns (auto-fit, not fixed count)", () => {
+    const { container } = render(
+      <Grid columns={3} minColWidth={220}>
+        content
+      </Grid>,
+    );
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.style.gridTemplateColumns).toBe(
+      "repeat(auto-fit, minmax(220px, 1fr))",
+    );
+  });
+
+  it("keeps the gap alongside an auto-fit track", () => {
+    const { container } = render(
+      <Grid minColWidth={220} gap={3}>
+        content
+      </Grid>,
+    );
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.style.gridTemplateColumns).toBe(
+      "repeat(auto-fit, minmax(220px, 1fr))",
+    );
+    expect(el.style.gap).toBe("var(--strand-space-3)");
+  });
+
   // ── Gap ──
 
   it("applies default gap as inline style", () => {

@@ -32,6 +32,26 @@ describe('Grid', () => {
     expect(el.style.gridTemplateColumns).toBe('repeat(3, 1fr)')
   })
 
+  // ── Auto-fit (minColWidth) ──
+
+  it('renders a responsive auto-fit track when minColWidth is set', () => {
+    const { container } = render(Grid, {
+      props: { minColWidth: 220 },
+      slots: { default: '<div>Item</div>' },
+    })
+    const el = container.firstElementChild as HTMLElement
+    expect(el.style.gridTemplateColumns).toBe('repeat(auto-fit, minmax(220px, 1fr))')
+  })
+
+  it('lets minColWidth win over columns (auto-fit, not fixed count)', () => {
+    const { container } = render(Grid, {
+      props: { columns: 3, minColWidth: 220 },
+      slots: { default: '<div>Item</div>' },
+    })
+    const el = container.firstElementChild as HTMLElement
+    expect(el.style.gridTemplateColumns).toBe('repeat(auto-fit, minmax(220px, 1fr))')
+  })
+
   // ── Gap ──
 
   it('sets gap with default space-4', () => {

@@ -16,12 +16,18 @@
   ```
 -->
 <script lang="ts">
-  /** Number of equal-width columns */
+  /** Number of equal-width columns. Ignored when minColWidth is set. */
   export let columns: number = 1
   /** Gap between items, maps to --strand-space-{n} */
   export let gap: number = 4
+  /** Minimum column width (px) for a responsive auto-fit track. When set, columns is ignored. */
+  export let minColWidth: number | undefined = undefined
 
-  $: inlineStyle = `grid-template-columns: repeat(${columns}, 1fr); gap: var(--strand-space-${gap});`
+  $: gridTemplateColumns =
+    minColWidth != null
+      ? `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`
+      : `repeat(${columns}, 1fr)`
+  $: inlineStyle = `grid-template-columns: ${gridTemplateColumns}; gap: var(--strand-space-${gap});`
 </script>
 
 <div class="strand-grid" style={inlineStyle} {...$$restProps}>

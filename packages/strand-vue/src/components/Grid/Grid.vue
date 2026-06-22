@@ -21,12 +21,18 @@
 import { computed } from 'vue'
 
 interface Props {
-  /** Number of equal-width columns */
+  /** Number of equal-width columns. Ignored when minColWidth is set. */
   columns?: number
   /** Gap between items, maps to --strand-space-{n} */
   gap?: number
   /** Additional CSS class */
   className?: string
+  /**
+   * Minimum column width (px) for a responsive auto-fit track. When set, the
+   * grid renders repeat(auto-fit, minmax(${minColWidth}px, 1fr)) and columns
+   * is ignored.
+   */
+  minColWidth?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -40,7 +46,10 @@ const classes = computed(() =>
 )
 
 const inlineStyle = computed(() => ({
-  gridTemplateColumns: `repeat(${props.columns}, 1fr)`,
+  gridTemplateColumns:
+    props.minColWidth != null
+      ? `repeat(auto-fit, minmax(${props.minColWidth}px, 1fr))`
+      : `repeat(${props.columns}, 1fr)`,
   gap: `var(--strand-space-${props.gap})`,
 }))
 </script>
