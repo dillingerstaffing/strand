@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- add minColWidth for responsive auto-fit tracks
 - add strand-break-anywhere wrap utility
 - add strand-text-sm and strand-text-xs size utilities
 - strand-prose styles formatted descendants (lists, inline code, links); v0.17.7
@@ -22,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add zero-drift documentation generator system
 
 ### Changed
+- remove strand-w-full duplicate, document Stack header-row fill recipe (v0.18.0)
+- v0.18.0
 - remove duplicate strand-w-full width utility, use strand-full-width
 - Merge fix/strand-reveal-manual-visible into main
 - Merge fix/strand-lab-shell-mobile-gutters into main
@@ -40,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - reorganize repo root into docs/ and generated/ directories
 
 ### Fixed
+- ref example grid tracks use minmax(0, 1fr) so composed wide content cannot escape the viewport
 - manual reveal toggled visible must beat the view-timeline base rule
 - shrink main grid track so mobile gutters stay symmetric
 - replayable reveal, centered alert, proportional bar-chart track
@@ -64,6 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - resolve 6 gaps from agent-dashboard iteration 1
 
 ### Documentation
+- consolidate dogfood gap logs into docs/dogfood-gaps.md
 - document the header-row fill recipe with strand-full-width
 
 ## [0.15.1] - 2026-04-09
