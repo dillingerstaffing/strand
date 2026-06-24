@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState, useEffect, useRef } from "preact/hooks";
 import {
   Nav,
   Section,
@@ -61,7 +61,7 @@ interface Agent {
   error?: AgentError;
 }
 
-const agents: Agent[] = [
+const initialAgents: Agent[] = [
   {
     id: "AGT-001", name: "Archivist", value: "Keeps every document instantly searchable",
     status: "online", task: "Indexing batch B-4920 (208 records)",
@@ -119,7 +119,14 @@ const agents: Agent[] = [
   },
 ];
 
-const activityLog = [
+interface LogItem {
+  time: string;
+  agent: string;
+  action: string;
+  status: "complete" | "process" | "warning" | "error";
+}
+
+const initialActivity: LogItem[] = [
   { time: "14:32:08", agent: "AGT-003", action: "Routed 12 tasks to Archivist queue", status: "complete" as const },
   { time: "14:31:55", agent: "AGT-002", action: "Classified batch #4891 — 34 documents", status: "complete" as const },
   { time: "14:31:42", agent: "AGT-005", action: "Generating summary for report R-2291", status: "process" as const },
@@ -129,6 +136,64 @@ const activityLog = [
   { time: "14:30:41", agent: "AGT-003", action: "Rebalanced load across 3 active agents", status: "process" as const },
   { time: "14:30:22", agent: "AGT-002", action: "Confidence threshold warning on doc D-7712", status: "warning" as const },
 ];
+
+// ---------------------------------------------------------------------------
+// Live simulation: drives real-time fleet updates while auto-refresh is on.
+// Pure functions over the data so the App stays a thin state container.
+// ---------------------------------------------------------------------------
+
+const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
+const randInt = (lo: number, hi: number) => lo + Math.floor(Math.random() * (hi - lo + 1));
+const parseCost = (s: string) => parseFloat(s.replace("$", "")) || 0;
+const formatCost = (n: number) => `$${n.toFixed(2)}`;
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+// Advance the fictional clock a few seconds past the most recent entry.
+function nextTime(prev: string | undefined): string {
+  const base = prev && /^\d\d:\d\d:\d\d$/.test(prev) ? prev : "14:32:10";
+  const [h, m, s] = base.split(":").map(Number);
+  const total = (h * 3600 + m * 60 + s + randInt(2, 9)) % 86400;
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${pad(Math.floor(total / 3600))}:${pad(Math.floor((total % 3600) / 60))}:${pad(total % 60)}`;
+}
+
+const ACTIONS: Record<string, string[]> = {
+  Archivist: ["Indexed {n} records into the vector store", "Embedded batch B-{n}"],
+  Classifier: ["Classified batch #{n}", "Routed {n} documents by intent"],
+  Dispatcher: ["Rebalanced load across the fleet", "Dispatched {n} tasks to the queue"],
+  Sentinel: ["Health check passed, all endpoints nominal"],
+  Synthesizer: ["Generated a section of report R-{n}", "Summarized {n} source documents"],
+  Validator: ["Validated output V-{n}", "Cleared {n} records through schema checks"],
+};
+
+function makeEntry(agent: Agent, prevTime: string | undefined): LogItem {
+  const pool = ACTIONS[agent.name] ?? ["Completed a task"];
+  const action = pool[randInt(0, pool.length - 1)].replace("{n}", String(randInt(100, 9999)));
+  const status: "complete" | "process" = Math.random() < 0.25 ? "process" : "complete";
+  return { time: nextTime(prevTime), agent: agent.id, action, status };
+}
+
+// One simulation step for a single agent. Idle and errored agents hold steady:
+// recovery from an error is a deliberate operator action, never automatic.
+function tickAgent(a: Agent): Agent {
+  if (a.status !== "online") return a;
+  return {
+    ...a,
+    tasksPerHour: clamp(a.tasksPerHour + randInt(-3, 3), 4, 420),
+    tasksCompleted: a.tasksCompleted + Math.max(1, Math.round(a.tasksPerHour / 30)),
+    successRate: clamp(Math.round((a.successRate + (Math.random() - 0.5) * 0.4) * 10) / 10, 88, 99.9),
+    healthScore: clamp(a.healthScore + randInt(-1, 1), 70, 100),
+    throughputDelta: clamp(a.throughputDelta + randInt(-2, 2), -18, 18),
+    cost: formatCost(parseCost(a.cost) + parseCost(a.costPerHour) / 20),
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Components
@@ -178,7 +243,7 @@ function AgentPanel({ agent }: { agent: Agent }) {
   );
 }
 
-function ErrorPanel({ agent }: { agent: Agent }) {
+function ErrorPanel({ agent, onRestart }: { agent: Agent; onRestart: (id: string) => void }) {
   const err = agent.error!;
   return (
     <Card variant="outlined" padding="sm">
@@ -197,7 +262,7 @@ function ErrorPanel({ agent }: { agent: Agent }) {
         <div class="strand-kv"><span class="strand-kv__label">Last Success</span><span class="strand-kv__value">{err.lastSuccess}</span></div>
         <Stack direction="horizontal" gap={2} wrap>
           <Button variant="secondary" size="sm">View Trace</Button>
-          <Button variant="ghost" size="sm">Restart Agent</Button>
+          <Button variant="ghost" size="sm" onClick={() => onRestart(agent.id)}>Restart Agent</Button>
         </Stack>
       </Stack>
     </Card>
@@ -312,7 +377,7 @@ const agentTableColumns = [
   { key: "uptime", header: "Uptime", sortable: true },
 ];
 
-const agentTableData = agents.map((a) => ({
+const buildTableData = (list: Agent[]) => list.map((a) => ({
   agent: <AgentIdentityCell agent={a} />,
   health: <HealthCell score={a.healthScore} />,
   activity: <span class="strand-text-secondary--xs">{a.task}</span>,
@@ -329,7 +394,54 @@ const agentTableData = agents.map((a) => ({
 
 export function App() {
   const [activeTab, setActiveTab] = useState("overview");
-  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [agents, setAgents] = useState<Agent[]>(initialAgents);
+  const [activity, setActivity] = useState<LogItem[]>(initialActivity);
+  const [autoRefresh, setAutoRefresh] = useState(() => !prefersReducedMotion());
+
+  // Always-current snapshot for the interval closure (avoids stale captures).
+  const agentsRef = useRef(agents);
+  agentsRef.current = agents;
+
+  useEffect(() => {
+    if (!autoRefresh) return;
+    const interval = setInterval(() => {
+      setAgents((prev) => prev.map(tickAgent));
+      setActivity((prev) => {
+        const online = agentsRef.current.filter((a) => a.status === "online");
+        if (online.length === 0) return prev;
+        const a = online[randInt(0, online.length - 1)];
+        return [makeEntry(a, prev[0]?.time), ...prev].slice(0, 8);
+      });
+    }, 2200);
+    return () => clearInterval(interval);
+  }, [autoRefresh]);
+
+  // Restore an errored agent: clears the fault and brings it back online to
+  // recover. A deliberate operator action, surfaced on the error panel.
+  const restartAgent = (id: string) => {
+    setAgents((prev) =>
+      prev.map((a): Agent =>
+        a.id === id
+          ? {
+              ...a,
+              status: "online",
+              error: undefined,
+              healthScore: 72,
+              tasksPerHour: 96,
+              throughputDelta: 6,
+              successRate: 95.0,
+              task: "Resuming validation queue",
+            }
+          : a,
+      ),
+    );
+    setActivity((prev) =>
+      [
+        { time: nextTime(prev[0]?.time), agent: id, action: "Agent restarted, resuming operations", status: "complete" as const },
+        ...prev,
+      ].slice(0, 8),
+    );
+  };
 
   const onlineCount = agents.filter((a) => a.status === "online").length;
   const errorRate = ((agents.filter((a) => a.status === "error").length / agents.length) * 100).toFixed(1);
@@ -337,6 +449,7 @@ export function App() {
   const totalCost = agents.reduce((s, a) => s + parseFloat(a.cost.replace("$", "")), 0).toFixed(2);
   const errorAgents = agents.filter((a) => a.status === "error");
   const healthyAgents = agents.filter((a) => a.status !== "error");
+  const agentTableData = buildTableData(agents);
 
   const tabs = [
     {
@@ -344,7 +457,7 @@ export function App() {
       label: "Overview",
       content: (
         <Stack direction="vertical" gap={6}>
-          {errorAgents.map((a) => <ErrorPanel key={a.id} agent={a} />)}
+          {errorAgents.map((a) => <ErrorPanel key={a.id} agent={a} onRestart={restartAgent} />)}
           <div>
             <span class="strand-overline strand-mb-3 strand-block">Fleet — {healthyAgents.length} agents</span>
             <div class="strand-grid strand-grid--auto-md strand-grid--gap-4">
@@ -402,7 +515,7 @@ export function App() {
           <InstrumentViewport>
             <div class="strand-scanline strand-scanline--ambient" />
             <Stack direction="vertical" gap={1}>
-              {activityLog.map((entry, i) => <LogEntry key={i} {...entry} />)}
+              {activity.map((entry, i) => <LogEntry key={i} {...entry} />)}
             </Stack>
           </InstrumentViewport>
         </Stack>
