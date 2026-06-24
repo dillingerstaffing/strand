@@ -41,7 +41,7 @@ interface AgentError {
 interface Agent {
   id: string;
   name: string;
-  role: string;
+  value: string;
   status: "online" | "idle" | "error";
   task: string;
   model: string;
@@ -63,7 +63,7 @@ interface Agent {
 
 const agents: Agent[] = [
   {
-    id: "AGT-001", name: "Archivist", role: "Document Retrieval & Indexing",
+    id: "AGT-001", name: "Archivist", value: "Keeps every document instantly searchable",
     status: "online", task: "Indexing batch B-4920 (208 records)",
     model: "gpt-4o", version: "v2.4.1", healthScore: 98,
     tasksCompleted: 1284, tasksPerHour: 214, throughputDelta: 12,
@@ -71,7 +71,7 @@ const agents: Agent[] = [
     cost: "$4.80", costPerHour: "$0.32", uptime: "14d 7h",
   },
   {
-    id: "AGT-002", name: "Classifier", role: "Intent Classification & Routing",
+    id: "AGT-002", name: "Classifier", value: "Sends each request to the right handler",
     status: "online", task: "Processing inference queue (34 pending)",
     model: "gpt-4o-mini", version: "v3.1.0", healthScore: 94,
     tasksCompleted: 876, tasksPerHour: 146, throughputDelta: -3,
@@ -79,7 +79,7 @@ const agents: Agent[] = [
     cost: "$3.56", costPerHour: "$0.24", uptime: "14d 7h",
   },
   {
-    id: "AGT-003", name: "Dispatcher", role: "Task Orchestration & Load Balancing",
+    id: "AGT-003", name: "Dispatcher", value: "Balances work so nothing stalls",
     status: "online", task: "Routing 12 tasks to Archivist queue",
     model: "gpt-4o-mini", version: "v2.4.1", healthScore: 99,
     tasksCompleted: 2041, tasksPerHour: 340, throughputDelta: 8,
@@ -87,7 +87,7 @@ const agents: Agent[] = [
     cost: "$0.82", costPerHour: "$0.05", uptime: "14d 7h",
   },
   {
-    id: "AGT-004", name: "Sentinel", role: "System Health Monitoring",
+    id: "AGT-004", name: "Sentinel", value: "Catches failures before they spread",
     status: "idle", task: "Next check in 28s",
     model: "gpt-4o-mini", version: "v1.8.0", healthScore: 100,
     tasksCompleted: 540, tasksPerHour: 12, throughputDelta: 0,
@@ -95,7 +95,7 @@ const agents: Agent[] = [
     cost: "$0.07", costPerHour: "$0.01", uptime: "14d 7h",
   },
   {
-    id: "AGT-005", name: "Synthesizer", role: "Report Generation & Summarization",
+    id: "AGT-005", name: "Synthesizer", value: "Turns raw results into finished reports",
     status: "online", task: "Generating quarterly summary R-2291",
     model: "gpt-4o", version: "v2.4.1", healthScore: 82,
     tasksCompleted: 312, tasksPerHour: 8, throughputDelta: -1,
@@ -103,7 +103,7 @@ const agents: Agent[] = [
     cost: "$14.15", costPerHour: "$0.94", uptime: "14d 7h",
   },
   {
-    id: "AGT-006", name: "Validator", role: "Output Quality Assurance",
+    id: "AGT-006", name: "Validator", value: "Stops bad output before it ships",
     status: "error", task: "Halted — awaiting manual review",
     model: "gpt-4o", version: "v2.4.1", healthScore: 31,
     tasksCompleted: 1102, tasksPerHour: 0, throughputDelta: -100,
@@ -164,9 +164,9 @@ function AgentPanel({ agent }: { agent: Agent }) {
         </Stack>
         <div>
           <div class="strand-heading--sm">{agent.name}</div>
-          <span class="strand-text-secondary--xs">{agent.role}</span>
+          <span class="strand-text-secondary">{agent.value}</span>
         </div>
-        <span class="strand-text-secondary--xs">{agent.task}</span>
+        <span class="strand-text-secondary--xs"><strong>Now</strong> · {agent.task}</span>
         <Divider />
         <div class="strand-kv"><span class="strand-kv__label">Throughput</span><span class="strand-kv__value">{agent.tasksPerHour}/hr</span></div>
         <div class="strand-kv"><span class="strand-kv__label">P95 Response</span><span class="strand-kv__value">{agent.p95}</span></div>
@@ -237,7 +237,7 @@ function AgentIdentityCell({ agent }: { agent: Agent }) {
           <span class="strand-heading--sm">{agent.name}</span>
           <StatusChip status={agent.status} />
         </Stack>
-        <span class="strand-text-secondary--xs">{agent.role}</span>
+        <span class="strand-text-secondary--xs">{agent.value}</span>
         <span class="strand-text-secondary--xs" style={{ fontFamily: "var(--strand-font-mono)", letterSpacing: "var(--strand-tracking-wider)" }}>
           {agent.id} · {agent.version} · {agent.model}
         </span>
