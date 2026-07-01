@@ -271,6 +271,28 @@
   overflow-wrap: anywhere;
 }
 
+/* ── Value tone (financial sign) ──
+   Color a numeric readout by its financial meaning: money coming in
+   (a credit, a surplus, money kept back) reads positive/green; money
+   going out (a debit, an overage, a shortfall) reads negative/red.
+   The deep shades are chosen for WCAG AA contrast as text on light
+   surfaces (the pure accents are too light to read as small figures).
+   font-variant-numeric keeps figures aligned in tables and readouts.
+   Compose onto any text node - a table cell, a data-readout value, a
+   kv value: the utility sets only color + numeric alignment, so it
+   layers on top of the host component's own typography. */
+.strand-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.strand-value--positive {
+  color: var(--strand-green-positive-deep);
+}
+
+.strand-value--negative {
+  color: var(--strand-red-alert-deep);
+}
+
 /* ══════════════════════════════════════════════════
    COMPOSITION MOLECULES (DL Part XI-B Grammar)
    Named derivations of DL composition primitives.

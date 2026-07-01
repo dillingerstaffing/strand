@@ -70,8 +70,8 @@
 	"bundle": {
 		"files": {
 			"tokens.css": {
-				"raw_bytes": 10950,
-				"gzipped_bytes": 3489
+				"raw_bytes": 10991,
+				"gzipped_bytes": 3501
 			},
 			"reset.css": {
 				"raw_bytes": 1856,
@@ -82,16 +82,16 @@
 				"gzipped_bytes": 3466
 			},
 			"strand-ui.css": {
-				"raw_bytes": 201601,
-				"gzipped_bytes": 39188
+				"raw_bytes": 202458,
+				"gzipped_bytes": 39517
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 236493,
-		"total_gz_bytes": 49923,
+		"total_raw_bytes": 237391,
+		"total_gz_bytes": 50264,
 		"total_gz_kb": 49
 	}
 }
