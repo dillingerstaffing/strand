@@ -128,4 +128,15 @@ describe("text-flow utilities", () => {
     expect(content).toContain(".strand-break-anywhere");
     expect(content).toMatch(/\.strand-break-anywhere\s*{\s*overflow-wrap:\s*anywhere/);
   });
+
+  // Pin a data atom (a date, an amount, an id) to one line so a squeezed
+  // table column wraps its prose neighbors instead of breaking a figure.
+  it("strand-nowrap keeps a data atom on one line", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    expect(content).toContain(".strand-nowrap");
+    expect(content).toMatch(/\.strand-nowrap\s*{\s*white-space:\s*nowrap/);
+  });
 });

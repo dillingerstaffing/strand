@@ -725,6 +725,7 @@
 			{ "class": "strand-text-sm", "description": "Font-size utility: small step (text-sm). Pure size lever with no color change, for shrinking a value such as a URL, code, or id to fit a constrained space. Use instead of strand-text-secondary when the text must keep its primary color." },
 			{ "class": "strand-text-xs", "description": "Font-size utility: extra-small step (text-xs). Pure size lever with no color change." },
 			{ "class": "strand-break-anywhere", "description": "Text-flow utility: overflow-wrap: anywhere. Wraps a long unbreakable string (URL, hash, id, token) inside a constrained box instead of overflowing." },
+			{ "class": "strand-nowrap", "description": "Text-flow utility: white-space: nowrap. Keeps a short data atom (date, amount, id) on one line so a squeezed table or flex row wraps its prose neighbors instead. The inverse of strand-break-anywhere." },
 			{ "class": "strand-code-name", "description": "Mono identifier heading (component names, API ids)." },
 			{ "class": "strand-heading--sm", "description": "Section heading inside cards (text-lg, medium)." },
 			{ "class": "strand-sr-only", "description": "Visually hidden, accessible to screen readers." },

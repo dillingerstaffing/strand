@@ -371,3 +371,14 @@ Verdict: PASS (after L2 grid fix)
 - Root cause: `.strand-ref-example` used bare `1fr` tracks (`200px 1fr` base, `1fr` at the responsive breakpoint). A bare track keeps an implicit min-content floor, so the demo column refused to shrink below the widest unwrappable line of the composed code block. Same Boundary Integrity regression class as Gap #40 (`.strand-ref-shell` main track), one level deeper.
 - Fix: Tracks are now `200px minmax(0, 1fr)` (and `minmax(0, 1fr)` at the breakpoint) plus a universal `min-width: 0` on direct children, which releases the grid items' own `min-width: auto` floor for meta, demo, and any consumer-composed wrapper. Wide content inside an example now scrolls within its own box (`overflow-x: auto` on code block pre) instead of escaping the viewport. Pure CSS in `packages/strand-ui/src/components/LabShell/LabShell.css`; all 8 consumer types inherit it through the shared bundle. CSS source guards added to `LabShell.test.tsx`. Version bumped 0.18.0 to 0.18.1.
 - Commit: fix/strand-ref-example-minmax
+
+## Production consumer: dillingerstaffing.com - MONEY lab (transactions and accounts tables)
+Date: 2026-07-01
+Verdict: PASS (after L2 utility fix)
+
+### Gap #43
+- Type: L2
+- Symptom: In a squeezed `strand-table`, the Date ("2026-06-27") and Amount ("- $1,234.56") cells wrapped mid-figure while the prose Description column stayed wide. A date or money figure broken across lines is illegible; the wrapping belongs in the prose column.
+- Root cause: No Strand utility pins a cell to one line, so the browser's table layout distributes wrapping by content width and the consumer has no primitive to steer it. An inline style or page-local CSS would violate the consumer's strand-first rule.
+- Fix: Added `.strand-nowrap` (`white-space: nowrap`) beside `.strand-break-anywhere` in `packages/strand-ui/src/static.css` as its inverse: nowrap pins the data atoms, break-anywhere marks the column that absorbs the wrapping. Table overflow stays safe because `.strand-table-wrapper` scrolls on overflow-x. All 8 consumer types inherit via the shared static.css bundle; parity passes with no manifest change. Unit coverage in `static.test.tsx`; description in `class-docs.json`. The MONEY dashboard now composes `strand-nowrap` onto Date/Amount/Balance cells.
+- Commit: feat/strand-nowrap

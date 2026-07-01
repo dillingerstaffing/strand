@@ -271,6 +271,15 @@
   overflow-wrap: anywhere;
 }
 
+/* Keep a short data atom (a date, an amount, an id) on one line so a
+   squeezed table column or flex row wraps its prose neighbors
+   instead. The inverse of .strand-break-anywhere: compose nowrap onto
+   the cells that must never break mid-figure and break-anywhere onto
+   the column that should absorb the wrapping. */
+.strand-nowrap {
+  white-space: nowrap;
+}
+
 /* ── Value tone (financial sign) ──
    Color a numeric readout by its financial meaning: money coming in
    (a credit, a surplus, money kept back) reads positive/green; money
