@@ -289,17 +289,22 @@
    font-variant-numeric keeps figures aligned in tables and readouts.
    Compose onto any text node - a table cell, a data-readout value, a
    kv value: the utility sets only color + numeric alignment, so it
-   layers on top of the host component's own typography. */
+   layers on top of the host component's own typography. The color
+   carries !important because the contract is that the tone wins
+   wherever it is composed: component rules such as
+   .strand-kv--editorial .strand-kv__value set color at higher
+   specificity and later source order, and without the marker the
+   composed tone silently loses the cascade (Gap #44). */
 .strand-value {
   font-variant-numeric: tabular-nums;
 }
 
 .strand-value--positive {
-  color: var(--strand-green-positive-deep);
+  color: var(--strand-green-positive-deep) !important;
 }
 
 .strand-value--negative {
-  color: var(--strand-red-alert-deep);
+  color: var(--strand-red-alert-deep) !important;
 }
 
 /* ══════════════════════════════════════════════════

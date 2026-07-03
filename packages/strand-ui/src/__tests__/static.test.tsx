@@ -140,3 +140,38 @@ describe("text-flow utilities", () => {
     expect(content).toMatch(/\.strand-nowrap\s*{\s*white-space:\s*nowrap/);
   });
 });
+
+describe("value tone utilities", () => {
+  // The utility's contract is "compose onto any text node and the tone
+  // color wins". Component rules like .strand-kv--editorial .strand-kv__value
+  // set color at higher specificity and later source order, so the tone
+  // colors must carry !important or the composition silently loses the
+  // cascade (Gap #44: MONEY plan rows rendered midnight blue, not red).
+  it("strand-value--positive wins any component color rule", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    expect(content).toMatch(
+      /\.strand-value--positive\s*{\s*color:\s*var\(--strand-green-positive-deep\)\s*!important/,
+    );
+  });
+
+  it("strand-value--negative wins any component color rule", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    expect(content).toMatch(
+      /\.strand-value--negative\s*{\s*color:\s*var\(--strand-red-alert-deep\)\s*!important/,
+    );
+  });
+
+  it("strand-value aligns figures with tabular numerals", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+    expect(content).toMatch(/\.strand-value\s*{\s*font-variant-numeric:\s*tabular-nums/);
+  });
+});

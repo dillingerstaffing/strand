@@ -382,3 +382,14 @@ Verdict: PASS (after L2 utility fix)
 - Root cause: No Strand utility pins a cell to one line, so the browser's table layout distributes wrapping by content width and the consumer has no primitive to steer it. An inline style or page-local CSS would violate the consumer's strand-first rule.
 - Fix: Added `.strand-nowrap` (`white-space: nowrap`) beside `.strand-break-anywhere` in `packages/strand-ui/src/static.css` as its inverse: nowrap pins the data atoms, break-anywhere marks the column that absorbs the wrapping. Table overflow stays safe because `.strand-table-wrapper` scrolls on overflow-x. All 8 consumer types inherit via the shared static.css bundle; parity passes with no manifest change. Unit coverage in `static.test.tsx`; description in `class-docs.json`. The MONEY dashboard now composes `strand-nowrap` onto Date/Amount/Balance cells.
 - Commit: feat/strand-nowrap
+
+## Production consumer: dillingerstaffing.com - MONEY lab (Plan vs reality rows)
+Date: 2026-07-02
+Verdict: PASS (after L2 cascade fix)
+
+### Gap #44
+- Type: L2
+- Symptom: kv rows composing the value tone utility (`strand-kv__value strand-value strand-value--negative`) rendered in the component's midnight blue, not red. The MONEY "Plan vs reality" card emitted the tone classes on "Actually spent" and the under/over delta, yet no color appeared; DataReadout values on the same page colored correctly.
+- Root cause: The tone utility's contract ("compose onto any text node and the tone color wins") was implemented as a bare single-class rule (0,1,0) early in static.css. `.strand-kv__value` (0,1,0, later source order) and `.strand-kv--editorial .strand-kv__value` (0,2,0) both re-declare color and beat it in the cascade. The set of competing component color rules is open-ended, so per-component compound overrides (the Gap #41 approach) cannot close it.
+- Fix: The two tone color declarations now carry `!important`, the standard pattern for a single-purpose utility whose whole job is one declaration that must win wherever composed. `.strand-value` itself (tabular numerals) stays unmarked. Pure CSS in `packages/strand-ui/src/static.css`; all 8 consumer types inherit via the shared bundle. Source guards added to `static.test.tsx`; `strand-value` / `--positive` / `--negative` were also missing from `class-docs.json` and are now documented.
+- Commit: fix/strand-value-tone-cascade
