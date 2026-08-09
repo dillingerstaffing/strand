@@ -760,4 +760,54 @@ describe("base.css anchors scroll offset by the nav stack", () => {
       /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*html\s*\{[\s\S]*scroll-behavior:\s*auto[\s\S]*\}[\s\S]*\}/
     );
   });
+
+  // ── Metric-matched fallback faces (layout stability) ──
+  //
+  // Strand ships no font binaries and names Inter / JetBrains Mono first in
+  // its stacks, so consumers load them themselves, in practice with
+  // font-display: swap. Without a metric-matched fallback behind each face
+  // the swap resizes every glyph run and reflows the whole page late in
+  // load. Two things have to hold for the fix to work, and both are easy to
+  // break by accident: the faces must carry all four metric descriptors
+  // (dropping one silently reintroduces the reflow on that axis), and each
+  // must sit DIRECTLY behind its real face in the stack, because a fallback
+  // listed after the system fonts is never the one that gets used.
+
+  it("defines metric-matched fallback faces carrying all four metric descriptors", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const baseCss = readFileSync(
+      fileURLToPath(new URL("../css/base.css", import.meta.url)),
+      "utf8"
+    );
+    for (const family of ["Inter Fallback", "JetBrains Mono Fallback"]) {
+      const face = baseCss.match(
+        new RegExp(`@font-face\\s*\\{[^}]*font-family:\\s*'${family}'[^}]*\\}`)
+      );
+      expect(face, `missing @font-face for ${family}`).toBeTruthy();
+      const body = (face as RegExpMatchArray)[0];
+      // local() only: the fallback must never cost a network request.
+      expect(body).toMatch(/src:\s*local\(/);
+      expect(body).not.toMatch(/url\(/);
+      expect(body).toMatch(/size-adjust:\s*[\d.]+%/);
+      expect(body).toMatch(/ascent-override:\s*[\d.]+%/);
+      expect(body).toMatch(/descent-override:\s*[\d.]+%/);
+      expect(body).toMatch(/line-gap-override:\s*[\d.]+%/);
+    }
+  });
+
+  it("names each fallback face directly behind its real face in the stack", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const tokensCss = readFileSync(
+      fileURLToPath(new URL("../css/tokens.css", import.meta.url)),
+      "utf8"
+    );
+    expect(tokensCss).toMatch(
+      /--strand-font-sans:\s*'Inter',\s*'Inter Fallback'/
+    );
+    expect(tokensCss).toMatch(
+      /--strand-font-mono:\s*'JetBrains Mono',\s*'JetBrains Mono Fallback'/
+    );
+  });
 });

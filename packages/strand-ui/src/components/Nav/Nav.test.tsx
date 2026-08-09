@@ -207,4 +207,40 @@ describe("Nav", () => {
     const { container } = render(<Nav items={sampleItems} />);
     expect(container.querySelector(".strand-nav__logo")).toBeNull();
   });
+
+  // ── Reserved slot (layout stability) ──
+  //
+  // The slot is documented as the home for an account affordance, which is
+  // exactly the content whose identity changes at runtime: one short button
+  // signed out, an avatar plus a sign-out button signed in. Those are not the
+  // same width, and in a flex row the resize moves the slot's own box AND
+  // redistributes the free space every auto-margined sibling is sharing, so
+  // the header visibly jumps on load, sign-in, and sign-out. --reserve pins
+  // the inline size so the swap cannot move anything. The guards below pin
+  // the mechanism rather than the number: a hardcoded width would defeat the
+  // token, and dropping justify-content would unpin the affordance from the
+  // right edge.
+
+  it("reserve modifier pins the slot inline size via a token with a default", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    const navCss = readFileSync(resolve(__dirname, "Nav.css"), "utf8");
+    expect(navCss).toContain(".strand-nav__slot--reserve");
+    expect(navCss).toMatch(
+      /\.strand-nav__slot--reserve\s*\{[^}]*min-width:\s*var\(--strand-nav-slot-reserve,\s*[\d.]+rem\)/,
+    );
+    expect(navCss).toMatch(
+      /\.strand-nav__slot--reserve\s*\{[^}]*justify-content:\s*flex-end/,
+    );
+  });
+
+  it("reserve modifier drops to a tighter default at the mobile breakpoint", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    const navCss = readFileSync(resolve(__dirname, "Nav.css"), "utf8");
+    const mobile = navCss.slice(navCss.indexOf("@media (max-width: 767px)"));
+    expect(mobile).toMatch(
+      /\.strand-nav__slot--reserve\s*\{[^}]*min-width:\s*var\(--strand-nav-slot-reserve-sm,\s*[\d.]+rem\)/,
+    );
+  });
 });
