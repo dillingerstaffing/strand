@@ -8,8 +8,11 @@ export interface LinkProps extends JSX.HTMLAttributes<HTMLAnchorElement> {
   href: string;
   /** Opens in new tab with rel="noopener noreferrer" */
   external?: boolean;
-  /** Style variant */
-  variant?: "default" | "cta" | "mono";
+  /**
+   * Style variant. `inherit` drops the link's own color and underline so it
+   * takes the surrounding text color (e.g. a title that is itself a link).
+   */
+  variant?: "default" | "cta" | "mono" | "inherit";
 }
 
 /**

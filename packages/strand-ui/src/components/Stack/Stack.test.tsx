@@ -129,4 +129,18 @@ describe("Stack", () => {
     );
     expect(container.firstElementChild).toHaveAttribute("id", "s1");
   });
+
+  // ── Polymorphic element ──
+
+  it("renders a div by default", () => {
+    const { container } = render(<Stack>content</Stack>);
+    expect(container.firstElementChild?.tagName).toBe("DIV");
+  });
+
+  it("renders the semantic element given by the as prop", () => {
+    const { container } = render(<Stack as="ul">content</Stack>);
+    const el = container.firstElementChild;
+    expect(el?.tagName).toBe("UL");
+    expect(el?.className).toContain("strand-stack");
+  });
 });

@@ -14,6 +14,8 @@ export interface StackProps extends JSX.HTMLAttributes<HTMLDivElement> {
   justify?: "start" | "center" | "end" | "between" | "around";
   /** Enable flex-wrap */
   wrap?: boolean;
+  /** Semantic element to render (e.g. "ul", "header"). Defaults to "div". */
+  as?: keyof JSX.IntrinsicElements;
 }
 
 const ALIGN_MAP: Record<string, string> = {
@@ -52,6 +54,7 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(
       align = "stretch",
       wrap = false,
       justify,
+      as = "div",
       className = "",
       style,
       children,
@@ -59,6 +62,8 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(
     },
     ref,
   ) => {
+    // biome-ignore lint/suspicious/noExplicitAny: polymorphic tag boundary
+    const Tag = as as any;
     const classes = [
       "strand-stack",
       `strand-stack--${direction}`,
@@ -77,9 +82,9 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(
     // that consumers work hard to eliminate. The gap scale (1-6, 8) is
     // defined in Stack.css.
     return (
-      <div ref={ref} className={classes} style={style} {...rest}>
+      <Tag ref={ref} className={classes} style={style} {...rest}>
         {children}
-      </div>
+      </Tag>
     );
   },
 );

@@ -64,6 +64,15 @@ describe("Link", () => {
     expect(getByRole("link").className).toContain("strand-link--mono");
   });
 
+  it("applies inherit variant class", () => {
+    const { getByRole } = render(
+      <Link href="/event/x" variant="inherit">
+        Ship title
+      </Link>,
+    );
+    expect(getByRole("link").className).toContain("strand-link--inherit");
+  });
+
   it("does not apply variant class for default", () => {
     const { getByRole } = render(<Link href="/about">About</Link>);
     expect(getByRole("link").className).not.toContain("strand-link--");

@@ -10,6 +10,13 @@ describe("Section", () => {
     expect(container.firstElementChild?.tagName).toBe("SECTION");
   });
 
+  it("renders the semantic element given by the as prop", () => {
+    const { container } = render(<Section as="header">content</Section>);
+    const el = container.firstElementChild;
+    expect(el?.tagName).toBe("HEADER");
+    expect(el?.className).toContain("strand-section");
+  });
+
   it("renders children", () => {
     const { getByText } = render(
       <Section>

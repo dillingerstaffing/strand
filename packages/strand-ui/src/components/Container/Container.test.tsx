@@ -79,4 +79,18 @@ describe("Container", () => {
     );
     expect(container.firstElementChild).toHaveAttribute("id", "c1");
   });
+
+  // ── Polymorphic element ──
+
+  it("renders a div by default", () => {
+    const { container } = render(<Container>content</Container>);
+    expect(container.firstElementChild?.tagName).toBe("DIV");
+  });
+
+  it("renders the semantic element given by the as prop", () => {
+    const { container } = render(<Container as="main">content</Container>);
+    const el = container.firstElementChild;
+    expect(el?.tagName).toBe("MAIN");
+    expect(el?.className).toContain("strand-container");
+  });
 });

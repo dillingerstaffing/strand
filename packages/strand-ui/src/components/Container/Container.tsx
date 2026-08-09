@@ -6,6 +6,8 @@ import { forwardRef } from "preact/compat";
 export interface ContainerProps extends JSX.HTMLAttributes<HTMLDivElement> {
   /** Max-width constraint */
   size?: "narrow" | "default" | "wide" | "full";
+  /** Semantic element to render (e.g. "main", "section"). Defaults to "div". */
+  as?: keyof JSX.IntrinsicElements;
 }
 
 /**
@@ -24,12 +26,15 @@ export const Container = forwardRef<HTMLDivElement, ContainerProps>(
   (
     {
       size = "default",
+      as = "div",
       className = "",
       children,
       ...rest
     },
     ref,
   ) => {
+    // biome-ignore lint/suspicious/noExplicitAny: polymorphic tag boundary
+    const Tag = as as any;
     const classes = [
       "strand-container",
       `strand-container--${size}`,
@@ -39,9 +44,9 @@ export const Container = forwardRef<HTMLDivElement, ContainerProps>(
       .join(" ");
 
     return (
-      <div ref={ref} className={classes} {...rest}>
+      <Tag ref={ref} className={classes} {...rest}>
         {children}
-      </div>
+      </Tag>
     );
   },
 );
