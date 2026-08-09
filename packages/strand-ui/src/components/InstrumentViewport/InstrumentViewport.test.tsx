@@ -146,6 +146,32 @@ describe("InstrumentViewport", () => {
     expect(css).toContain(".strand-body--instrument .strand-alert");
   });
 
+  it("carries form-control labels on dark, the last primitives the cascade missed", () => {
+    const css = readFileSync(
+      resolve(__dirname, "./InstrumentViewport.css"),
+      "utf-8",
+    );
+    // switch / checkbox / radio labels are gray-900 on the light surface, so
+    // a labelled toggle on the viewport rendered near-black on dark (~1.2:1)
+    // and the label was invisible rather than merely low-contrast.
+    expect(css).toMatch(
+      /\.strand-instrument-viewport \.strand-switch__label[\s\S]{0,400}?color:\s*var\(--strand-on-blue-primary\)/,
+    );
+    expect(css).toContain(".strand-instrument-viewport .strand-checkbox__label");
+    expect(css).toContain(".strand-instrument-viewport .strand-radio__label");
+    expect(css).toContain(".strand-instrument-viewport .strand-form-field__label");
+    expect(css).toContain(".strand-instrument-viewport .strand-form-field__hint");
+  });
+
+  it("gives those same labels back to a light island nested in the viewport", () => {
+    const css = readFileSync(
+      resolve(__dirname, "./InstrumentViewport.css"),
+      "utf-8",
+    );
+    expect(css).toContain(".strand-surface-light .strand-switch__label");
+    expect(css).toContain(".strand-surface-light .strand-form-field__label");
+  });
+
   it("restores the light-surface alert inside the nested light detail panel", () => {
     const css = readFileSync(
       resolve(__dirname, "./InstrumentViewport.css"),
