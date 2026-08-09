@@ -840,6 +840,7 @@ Inline navigation link with animated underline.
 | `strand-link` | base | Base link with animated underline on hover. |
 | `strand-link--cta` | modifier | Call-to-action link with touch-target height. |
 | `strand-link--mono` | modifier | Monospace overline-style link for footers. |
+| `strand-link--inherit` | modifier | |
 
 **Usage:**
 
@@ -1640,6 +1641,38 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-text-sm` | Font-size utility: small step (text-sm). Pure size lever with no color change, for shrinking a value such as a URL, code, or id to fit a constrained space. Use instead of strand-text-secondary when the text must keep its primary color. |
 | `strand-text-xs` | Font-size utility: extra-small step (text-xs). Pure size lever with no color change. |
 | `strand-break-anywhere` | Text-flow utility: overflow-wrap: anywhere. Wraps a long unbreakable string (URL, hash, id, token) inside a constrained box instead of overflowing. |
+| `strand-nowrap` | Text-flow utility: white-space: nowrap. Keeps a short data atom (date, amount, id) on one line so a squeezed table or flex row wraps its prose neighbors instead. The inverse of strand-break-anywhere. |
+| `strand-pt-1` | Padding-top: space-1. |
+| `strand-pt-2` | Padding-top: space-2. |
+| `strand-pt-3` | Padding-top: space-3. |
+| `strand-pt-4` | Padding-top: space-4. |
+| `strand-pt-5` | Padding-top: space-5. |
+| `strand-pt-6` | Padding-top: space-6. |
+| `strand-pt-8` | Padding-top: space-8. |
+| `strand-pb-1` | Padding-bottom: space-1. |
+| `strand-pb-2` | Padding-bottom: space-2. |
+| `strand-pb-3` | Padding-bottom: space-3. |
+| `strand-pb-4` | Padding-bottom: space-4. |
+| `strand-pb-5` | Padding-bottom: space-5. |
+| `strand-pb-6` | Padding-bottom: space-6. |
+| `strand-pb-8` | Padding-bottom: space-8. |
+| `strand-py-1` | Padding block (top+bottom): space-1. |
+| `strand-py-2` | Padding block (top+bottom): space-2. |
+| `strand-py-3` | Padding block (top+bottom): space-3. |
+| `strand-py-4` | Padding block (top+bottom): space-4. |
+| `strand-py-5` | Padding block (top+bottom): space-5. |
+| `strand-py-6` | Padding block (top+bottom): space-6. |
+| `strand-py-8` | Padding block (top+bottom): space-8. |
+| `strand-inline-flex` | Inline flex row for a small content-sized cluster (icon + label, nav slot); centers items with a space-2 gap. Unlike strand-stack it shrink-wraps rather than filling. |
+| `strand-italic` | font-style: italic utility for a single emphasized run (e.g. an edited marker). |
+| `strand-list-reset` | Strips default list chrome (list-style/margin/padding) so a semantic ul/ol can carry strand-stack layout without browser bullets or indent. |
+| `strand-is-disabled` | Non-interactive visual state (opacity + pointer-events:none) for a control whose action is unavailable; pair with aria-disabled/disabled. |
+| `strand-link--inherit` | Link modifier: inherit the surrounding text color and drop the underline gradient, for a link that should read as body/heading text (e.g. a whole card title wrapped in an anchor). |
+| `strand-embed-16x9` | Responsive 16:9 media box; the child iframe fills it absolutely so no intrinsic-size inline styles are needed for a video or map embed. |
+| `strand-page--centered` | Full-viewport single-card layout (min-height:100vh, flex-centered) for token/confirmation pages (rate-via-email, unsubscribe) with no bespoke page CSS. |
+| `strand-value` | Value tone base: tabular numerals for aligned figures. Compose with a tone modifier onto any text node holding a money or signed figure (table cell, data-readout value, kv value). |
+| `strand-value--positive` | Value tone: money in (credit, surplus, money kept) in green-positive-deep. The tone color wins over the host component's own color wherever it is composed. |
+| `strand-value--negative` | Value tone: money out (debit, overage, shortfall) in red-alert-deep. The tone color wins over the host component's own color wherever it is composed. |
 | `strand-code-name` | Mono identifier heading (component names, API ids). |
 | `strand-heading--sm` | Section heading inside cards (text-lg, medium). |
 | `strand-sr-only` | Visually hidden, accessible to screen readers. |

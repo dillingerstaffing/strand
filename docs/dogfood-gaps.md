@@ -393,3 +393,14 @@ Verdict: PASS (after L2 cascade fix)
 - Root cause: The tone utility's contract ("compose onto any text node and the tone color wins") was implemented as a bare single-class rule (0,1,0) early in static.css. `.strand-kv__value` (0,1,0, later source order) and `.strand-kv--editorial .strand-kv__value` (0,2,0) both re-declare color and beat it in the cascade. The set of competing component color rules is open-ended, so per-component compound overrides (the Gap #41 approach) cannot close it.
 - Fix: The two tone color declarations now carry `!important`, the standard pattern for a single-purpose utility whose whole job is one declaration that must win wherever composed. `.strand-value` itself (tabular numerals) stays unmarked. Pure CSS in `packages/strand-ui/src/static.css`; all 8 consumer types inherit via the shared bundle. Source guards added to `static.test.tsx`; `strand-value` / `--positive` / `--negative` were also missing from `class-docs.json` and are now documented.
 - Commit: fix/strand-value-tone-cascade
+
+## Production consumer: shipthisgroup.com - Weekly Ship frontend (Path-A purity migration)
+Date: 2026-08-09
+Verdict: PASS (after L2 utility pack)
+
+### Gap #45
+- Type: L2
+- Symptom: The graduated Weekly Ship frontend (now shipthisgroup.com) carried ~97 inline `style=""` tweaks across its components and server-rendered pages to apply Strand tokens the library had no utility for: repeated `list-style:none;margin:0;padding:0` list resets, one-off `padding: var(--strand-space-N)` bands (no padding scale existed, only margins), `color:inherit;background-image:none` on card-title links, `display:inline-flex` clusters, `opacity;pointer-events:none` disabled states, `font-style:italic` runs, a `position:relative;aspect-ratio:16/9` + absolute-fill iframe wrapper, and a full-viewport flex-centered layout on the rate-via-email/unsubscribe token pages. Converting to Path A (real Strand Preact components with zero page-local CSS) is impossible until these have primitives.
+- Root cause: Strand shipped margin utilities (`strand-mt/mb-*`) but no padding scale; and no primitives for list-reset, inline-flex, italic, disabled-state, inherit-color links, responsive 16:9 media, or a centered token-page layout. Each gap forced an inline style, which the consumer's strand-first rule forbids.
+- Fix: Added a utility pack to `packages/strand-ui/src/static.css`: `strand-pt/pb/py-{1..8}` (padding scale mirroring margins), `strand-inline-flex`, `strand-italic`, `strand-list-reset`, `strand-is-disabled`, `strand-link--inherit`, `strand-embed-16x9` (+ absolute-fill child), and `strand-page--centered`. Pure CSS; all 8 consumer types inherit via the shared static.css bundle, so parity passes with no manifest change. Source guards in `static.test.tsx`; all classes documented in `scripts/data/class-docs.json`.
+- Commit: feat/strand-ws-utility-pack

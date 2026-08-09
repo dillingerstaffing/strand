@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- add strand-nowrap one-line data-atom utility
+- add green-positive-deep token + strand-value financial tone utility
+- make the fleet dashboard live
+- lead each agent with its value proposition
 - add minColWidth for responsive auto-fit tracks
 - add strand-break-anywhere wrap utility
 - add strand-text-sm and strand-text-xs size utilities
@@ -23,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add zero-drift documentation generator system
 
 ### Changed
+- v0.19.0
 - remove strand-w-full duplicate, document Stack header-row fill recipe (v0.18.0)
 - v0.18.0
 - remove duplicate strand-w-full width utility, use strand-full-width
@@ -43,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - reorganize repo root into docs/ and generated/ directories
 
 ### Fixed
+- value tone color wins the cascade wherever composed
 - ref example grid tracks use minmax(0, 1fr) so composed wide content cannot escape the viewport
 - manual reveal toggled visible must beat the view-timeline base rule
 - shrink main grid track so mobile gutters stay symmetric

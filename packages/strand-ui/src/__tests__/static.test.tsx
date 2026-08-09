@@ -175,3 +175,45 @@ describe("value tone utilities", () => {
     expect(content).toMatch(/\.strand-value\s*{\s*font-variant-numeric:\s*tabular-nums/);
   });
 });
+
+describe("WS purity utility pack (dogfood gap #45)", () => {
+  async function bundle() {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    return fs.readFileSync(path.resolve(__dirname, "../../dist/css/strand-ui.css"), "utf-8");
+  }
+
+  it("padding utilities mirror the margin scale", async () => {
+    const content = await bundle();
+    expect(content).toContain(".strand-pt-4");
+    expect(content).toContain(".strand-pb-4");
+    expect(content).toContain(".strand-py-4");
+    expect(content).toContain("padding-block: var(--strand-space-4)");
+  });
+
+  it("inline-flex, italic, list-reset, disabled-state utilities exist", async () => {
+    const content = await bundle();
+    expect(content).toContain(".strand-inline-flex");
+    expect(content).toContain(".strand-italic");
+    expect(content).toContain(".strand-list-reset");
+    expect(content).toContain(".strand-is-disabled");
+    expect(content).toContain("pointer-events: none");
+  });
+
+  it("link--inherit modifier drops the accent color", async () => {
+    const content = await bundle();
+    expect(content).toContain(".strand-link--inherit");
+    expect(content).toMatch(/\.strand-link--inherit\s*{[^}]*color:\s*inherit/);
+  });
+
+  it("responsive 16:9 embed box exists with aspect-ratio", async () => {
+    const content = await bundle();
+    expect(content).toContain(".strand-embed-16x9");
+    expect(content).toContain("aspect-ratio: 16 / 9");
+  });
+
+  it("centered-page layout exists for token/confirmation pages", async () => {
+    const content = await bundle();
+    expect(content).toContain(".strand-page--centered");
+  });
+});
