@@ -18,11 +18,13 @@ describe("Card", () => {
 
   // ── Variants ──
 
-  it("applies elevated variant class by default", () => {
+  it("uses the base card (no variant modifier) for the default elevated surface", () => {
     const { container } = render(<Card>Test</Card>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-card--elevated",
-    );
+    const cls = container.firstElementChild?.className ?? "";
+    expect(cls).toContain("strand-card");
+    // The base .strand-card is already elevated; no redundant/undefined
+    // strand-card--elevated modifier is emitted.
+    expect(cls).not.toContain("strand-card--elevated");
   });
 
   it("applies outlined variant class", () => {

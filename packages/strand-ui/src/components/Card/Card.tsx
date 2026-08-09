@@ -53,7 +53,10 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     const Tag = as as any;
     const classes = [
       "strand-card",
-      `strand-card--${variant}`,
+      // The base .strand-card is already the elevated surface (it carries the
+      // elevation-1 shadow), so "elevated" emits no modifier class; only the
+      // other surfaces add one.
+      variant !== "elevated" && `strand-card--${variant}`,
       `strand-card--pad-${padding}`,
       // State modifiers are orthogonal to the surface variant. Skip the
       // interactive modifier when the variant already is interactive so the
