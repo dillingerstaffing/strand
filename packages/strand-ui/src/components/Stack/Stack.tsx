@@ -62,6 +62,7 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(
     const classes = [
       "strand-stack",
       `strand-stack--${direction}`,
+      `strand-stack--gap-${gap}`,
       align !== "stretch" && `strand-stack--align-${align}`,
       justify && `strand-stack--justify-${justify}`,
       wrap && "strand-stack--wrap",
@@ -70,17 +71,13 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(
       .filter(Boolean)
       .join(" ");
 
-    const inlineStyle: Record<string, string> = {
-      gap: `var(--strand-space-${gap})`,
-    };
-
+    // Gap is emitted as the canonical `strand-stack--gap-{n}` primitive
+    // class, never an inline style: an inline gap defeats the design
+    // system's spacing scale and reintroduces per-element style attributes
+    // that consumers work hard to eliminate. The gap scale (1-6, 8) is
+    // defined in Stack.css.
     return (
-      <div
-        ref={ref}
-        className={classes}
-        style={{ ...inlineStyle, ...(style as Record<string, string>) }}
-        {...rest}
-      >
+      <div ref={ref} className={classes} style={style} {...rest}>
         {children}
       </div>
     );

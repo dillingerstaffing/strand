@@ -41,16 +41,18 @@ describe("Stack", () => {
 
   // ── Gap ──
 
-  it("applies default gap as inline style", () => {
+  it("applies default gap as the strand-stack--gap-4 primitive class", () => {
     const { container } = render(<Stack>content</Stack>);
     const el = container.firstElementChild as HTMLElement;
-    expect(el.style.gap).toBe("var(--strand-space-4)");
+    expect(el.className).toContain("strand-stack--gap-4");
+    expect(el.style.gap).toBe("");
   });
 
-  it("applies custom gap as inline style", () => {
+  it("applies custom gap as the strand-stack--gap-{n} primitive class", () => {
     const { container } = render(<Stack gap={8}>content</Stack>);
     const el = container.firstElementChild as HTMLElement;
-    expect(el.style.gap).toBe("var(--strand-space-8)");
+    expect(el.className).toContain("strand-stack--gap-8");
+    expect(el.style.gap).toBe("");
   });
 
   // ── Alignment ──
