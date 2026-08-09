@@ -789,6 +789,14 @@ describe("base.css anchors scroll offset by the nav stack", () => {
       // local() only: the fallback must never cost a network request.
       expect(body).toMatch(/src:\s*local\(/);
       expect(body).not.toMatch(/url\(/);
+      // font-display is load-bearing here, not cosmetic. The default (auto)
+      // is treated as block by Chrome, so if the named system font is absent
+      // the face fails and text stays invisible for up to 3s before the
+      // stack falls through. That regressed a consumer's first contentful
+      // paint from ~0.4s to 2.9s on every page loading these tokens.
+      expect(body, `${family} must not be able to block first paint`).toMatch(
+        /font-display:\s*(swap|optional)/
+      );
       expect(body).toMatch(/size-adjust:\s*[\d.]+%/);
       expect(body).toMatch(/ascent-override:\s*[\d.]+%/);
       expect(body).toMatch(/descent-override:\s*[\d.]+%/);

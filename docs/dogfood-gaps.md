@@ -460,3 +460,16 @@ Context: the consumer reported visible content shifting on first load, on sign-i
 - Fix (net-new upstream): `.strand-nav__slot--reserve` in `Nav.css` pins the slot's inline size via `min-width: var(--strand-nav-slot-reserve, 14rem)` and sets `justify-content: flex-end` so the affordance stays pinned to the nav's right edge in every state. A tighter default (`--strand-nav-slot-reserve-sm`, 11.75rem) applies at the existing mobile breakpoint, where the nav hides `.strand-nav__actions` and has far less room. Opt-in modifier, so no existing consumer's nav changes.
 - Propagation: pure CSS in `strand-ui/src` (Nav.css only); all 8 consumer types inherit via the shared component-CSS bundle. One new class name, registered in `scripts/data/class-docs.json`.
 - Commit: fix/strand-layout-stability
+
+## Production consumer: dillingerstaffing.com - every page loading the tokens (first contentful paint)
+Date: 2026-08-09
+Verdict: FAIL (regression introduced by Gap #48; closed)
+
+### Gap #50
+- Type: L2
+- Symptom: After Gap #48 shipped, first contentful paint on the JOBINT lab went from roughly 0.4s to 2.9s against a 1.2s budget, and the same class of failure appeared intermittently on the Readback and Strand lab surfaces. The regression was invisible in review because nothing about the markup or the JS changed; only two `@font-face` rules had been added.
+- Root cause: Gap #48's fallback faces set no `font-display`. The property defaults to `auto`, which Chrome treats as `block`: text using the face is held INVISIBLE for up to 3s while the face resolves. A `local()` source normally resolves instantly, so this is silent wherever the named system font exists, but when it is absent the face FAILS and the full block period elapses before the stack falls through. The measured 2.9s is that block period. Every page loading the tokens was affected, which is every consumer.
+- Fix: `font-display: swap` on both fallback faces. That makes the fallback purely additive: text paints immediately in whatever the system offers, and the metric-matched face takes over the instant it resolves, which is what Gap #48 intended in the first place. A source guard in `tokens.test.ts` now fails if either face can block paint again, with the measured numbers in the assertion message so the next reader knows why the property is load-bearing rather than cosmetic.
+- Lesson: a metric-matched fallback is a performance optimization that silently becomes a performance regression without `font-display`. The two belong together and should never be reviewed separately.
+- Propagation: pure CSS in `tokens/css`, inherited by all 8 consumer types; parity unchanged, no new class names. Version 0.25.0 to 0.26.0.
+- Commit: fix/strand-font-display-swap
