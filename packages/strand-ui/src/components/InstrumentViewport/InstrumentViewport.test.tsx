@@ -121,4 +121,42 @@ describe("InstrumentViewport", () => {
     // the FUI overlays (scanlines, vignette).
     expect(slotBody).not.toMatch(/z-index/);
   });
+
+  // Alert.css gives the alert an opaque light-surface background and no
+  // color of its own. On the dark viewport its text therefore inherited
+  // the near-white viewport color while the panel stayed near-white:
+  // the message was invisible. The dark-context cascade must state BOTH
+  // the panel background and the content color.
+
+  it("gives an alert on the dark viewport its own background and text color", () => {
+    const css = readFileSync(
+      resolve(__dirname, "./InstrumentViewport.css"),
+      "utf-8",
+    );
+    const match = css.match(
+      /\.strand-instrument-viewport \.strand-alert\s*\{([^}]*)\}/,
+    );
+    expect(match).not.toBeNull();
+    const body = match?.[1] ?? "";
+    expect(body).toContain("background");
+    // Without an explicit color the content inherits the viewport's
+    // near-white and disappears against the panel.
+    expect(body).toContain("color");
+    // The full-page instrument mode must be scoped identically.
+    expect(css).toContain(".strand-body--instrument .strand-alert");
+  });
+
+  it("restores the light-surface alert inside the nested light detail panel", () => {
+    const css = readFileSync(
+      resolve(__dirname, "./InstrumentViewport.css"),
+      "utf-8",
+    );
+    // DL 9.6: the detail panel is a light island inside the dark cabinet,
+    // so the on-dark alert wash must not leak into it.
+    const match = css.match(/\.strand-detail-panel \.strand-alert\s*\{([^}]*)\}/);
+    expect(match).not.toBeNull();
+    const body = match?.[1] ?? "";
+    expect(body).toContain("background");
+    expect(body).toContain("color");
+  });
 });

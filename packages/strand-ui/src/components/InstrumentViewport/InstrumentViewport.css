@@ -113,6 +113,39 @@
   background-image: none;
 }
 
+/* An alert placed on the dark viewport. Alert.css sets an opaque
+   light-surface background (--strand-surface-recessed) and sets no color of
+   its own, so on the abyss the panel stayed near-white while its text
+   inherited the viewport's near-white --strand-gray-100: white on white,
+   with the message effectively invisible. Give the panel the same
+   translucent wash the neutral status chip uses on dark, and state the
+   content color explicitly rather than leaving it to inherit. The status
+   prefix keeps its semantic color (DL 11.6). */
+.strand-body--instrument .strand-alert,
+.strand-instrument-viewport .strand-alert {
+  background: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);
+  color: var(--strand-on-blue-primary);
+}
+
+/* blue-primary is tuned for the white surface and goes muddy on the abyss,
+   exactly as blue-deep does for the accent overline above. The lighter
+   blue-indicator carries the info prefix on dark. */
+.strand-body--instrument .strand-alert--info .strand-alert__status,
+.strand-instrument-viewport .strand-alert--info .strand-alert__status {
+  color: var(--strand-blue-indicator);
+}
+
+.strand-body--instrument .strand-alert__dismiss,
+.strand-instrument-viewport .strand-alert__dismiss {
+  color: var(--strand-gray-300);
+}
+
+.strand-body--instrument .strand-alert__dismiss:hover,
+.strand-instrument-viewport .strand-alert__dismiss:hover {
+  background: color-mix(in srgb, var(--strand-gray-400) 20%, transparent);
+  color: var(--strand-on-blue-primary);
+}
+
 /* ── Light island restore (DL Part 9.6) ──
    The detail panel is a LIGHT surface nested inside the dark cabinet, so the
    dark-context cascade above must not tint the text it hosts (e.g. a
@@ -148,6 +181,17 @@
 .strand-detail-panel .strand-link {
   color: var(--strand-blue-primary);
   background-image: linear-gradient(currentColor, currentColor);
+}
+
+/* An alert inside the light island keeps its light-surface panel and text
+   rather than the on-dark wash applied by the cascade above. */
+.strand-detail-panel .strand-alert {
+  background: var(--strand-surface-recessed);
+  color: var(--strand-gray-700);
+}
+
+.strand-detail-panel .strand-alert--info .strand-alert__status {
+  color: var(--strand-blue-primary);
 }
 
 .strand-instrument-viewport__label {
