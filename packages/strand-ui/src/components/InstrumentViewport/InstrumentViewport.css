@@ -146,6 +146,28 @@
   color: var(--strand-on-blue-primary);
 }
 
+/* Form-control labels. These assume the white lab surface and are the last
+   text primitives the cascade did not reach, which made them the worst
+   offenders rather than merely low-contrast ones: switch / checkbox / radio
+   labels are gray-900, i.e. near-black, so a labelled toggle placed on the
+   viewport rendered dark-on-dark at about 1.2:1 and the label was invisible.
+   Field labels and hints are gray-500 and landed near 2.8:1. */
+.strand-body--instrument .strand-switch__label,
+.strand-instrument-viewport .strand-switch__label,
+.strand-body--instrument .strand-checkbox__label,
+.strand-instrument-viewport .strand-checkbox__label,
+.strand-body--instrument .strand-radio__label,
+.strand-instrument-viewport .strand-radio__label {
+  color: var(--strand-on-blue-primary);
+}
+
+.strand-body--instrument .strand-form-field__label,
+.strand-instrument-viewport .strand-form-field__label,
+.strand-body--instrument .strand-form-field__hint,
+.strand-instrument-viewport .strand-form-field__hint {
+  color: var(--strand-gray-300);
+}
+
 /* ── Light island restore (DL Part 9.6) ──
    A LIGHT surface nested inside the dark cabinet must not have its text
    tinted by the dark-context cascade above (e.g. a consumer's "Position
@@ -245,6 +267,22 @@
 
 .strand-detail-panel .strand-alert__dismiss,
 .strand-surface-light .strand-alert__dismiss {
+  color: var(--strand-gray-500);
+}
+
+.strand-detail-panel .strand-switch__label,
+.strand-surface-light .strand-switch__label,
+.strand-detail-panel .strand-checkbox__label,
+.strand-surface-light .strand-checkbox__label,
+.strand-detail-panel .strand-radio__label,
+.strand-surface-light .strand-radio__label {
+  color: var(--strand-gray-900);
+}
+
+.strand-detail-panel .strand-form-field__label,
+.strand-surface-light .strand-form-field__label,
+.strand-detail-panel .strand-form-field__hint,
+.strand-surface-light .strand-form-field__hint {
   color: var(--strand-gray-500);
 }
 
