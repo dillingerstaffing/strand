@@ -168,4 +168,44 @@ describe("Button", () => {
     const { getByRole } = render(<Button fullWidth>Test</Button>);
     expect(getByRole("button").className).toContain("strand-btn--full-width");
   });
+
+  // ── Anchor (link styled as a button) ──
+
+  it("renders an anchor with the button classes when href is given", () => {
+    const { getByRole } = render(<Button href="/go">Go</Button>);
+    const link = getByRole("link");
+    expect(link.tagName).toBe("A");
+    expect(link).toHaveAttribute("href", "/go");
+    expect(link.className).toContain("strand-btn");
+    expect(link.className).toContain("strand-btn--primary");
+  });
+
+  it("wraps anchor children in the strand-btn__content span", () => {
+    const { getByRole } = render(<Button href="/go">Go</Button>);
+    expect(
+      getByRole("link").querySelector(".strand-btn__content"),
+    ).toBeTruthy();
+  });
+
+  it("forwards anchor attributes (target, rel, download)", () => {
+    const { getByRole } = render(
+      <Button href="/f.ics" download="f.ics" target="_blank" rel="noopener">
+        Download
+      </Button>,
+    );
+    const link = getByRole("link");
+    expect(link).toHaveAttribute("download", "f.ics");
+    expect(link).toHaveAttribute("target", "_blank");
+  });
+
+  it("drops href and marks aria-disabled when a disabled anchor", () => {
+    const { getByText } = render(
+      <Button href="/go" disabled>
+        Go
+      </Button>,
+    );
+    const link = getByText("Go").closest("a");
+    expect(link).not.toHaveAttribute("href");
+    expect(link).toHaveAttribute("aria-disabled", "true");
+  });
 });

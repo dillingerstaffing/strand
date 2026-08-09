@@ -4,7 +4,10 @@ import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
 
 export interface ButtonProps
-  extends Omit<JSX.HTMLAttributes<HTMLButtonElement>, "size" | "loading" | "type"> {
+  extends Omit<
+    JSX.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>,
+    "size" | "loading" | "type" | "ref"
+  > {
   /** Visual style variant */
   variant?: "primary" | "secondary" | "ghost" | "danger";
   /** Button size */
@@ -19,6 +22,13 @@ export interface ButtonProps
   disabled?: boolean;
   /** Stretch to full container width */
   fullWidth?: boolean;
+  /**
+   * Render as an anchor styled as a button (for links / CTAs). Inferred when
+   * `href` is set; a disabled anchor drops its href and is aria-disabled.
+   */
+  as?: "button" | "a";
+  /** Link destination when rendering as an anchor. */
+  href?: string;
 }
 
 /**
@@ -46,6 +56,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       onClick,
       type = "button",
+      as,
+      href,
       ...rest
     },
     ref,
@@ -64,6 +76,37 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       .filter(Boolean)
       .join(" ");
 
+    const inner = (
+      <>
+        {loading && <span className="strand-btn__spinner" aria-hidden="true" />}
+        <span
+          className="strand-btn__content"
+          style={loading ? { visibility: "hidden" } : undefined}
+        >
+          {children}
+        </span>
+      </>
+    );
+
+    // Anchor mode: a link styled as a button (CTAs, calendar links, downloads).
+    // A disabled link is not navigable, so drop href and mark aria-disabled.
+    if (as === "a" || href != null) {
+      return (
+        <a
+          // biome-ignore lint/suspicious/noExplicitAny: anchor/button polymorphic ref boundary
+          ref={ref as any}
+          className={classes}
+          href={isDisabled ? undefined : href}
+          aria-disabled={isDisabled ? "true" : undefined}
+          aria-busy={loading ? "true" : undefined}
+          onClick={isDisabled ? undefined : onClick}
+          {...rest}
+        >
+          {inner}
+        </a>
+      );
+    }
+
     return (
       <button
         ref={ref}
@@ -75,13 +118,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         onClick={isDisabled ? undefined : onClick}
         {...rest}
       >
-        {loading && <span className="strand-btn__spinner" aria-hidden="true" />}
-        <span
-          className="strand-btn__content"
-          style={loading ? { visibility: "hidden" } : undefined}
-        >
-          {children}
-        </span>
+        {inner}
       </button>
     );
   },
