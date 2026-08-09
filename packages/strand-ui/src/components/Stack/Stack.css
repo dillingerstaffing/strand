@@ -80,6 +80,7 @@
 }
 
 /* ── Gap utilities ── */
+.strand-stack--gap-0 { gap: 0; }
 .strand-stack--gap-1 { gap: var(--strand-space-1); }
 .strand-stack--gap-2 { gap: var(--strand-space-2); }
 .strand-stack--gap-3 { gap: var(--strand-space-3); }

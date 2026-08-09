@@ -55,6 +55,13 @@ describe("Stack", () => {
     expect(el.style.gap).toBe("");
   });
 
+  it("supports a zero gap via strand-stack--gap-0", () => {
+    const { container } = render(<Stack gap={0}>content</Stack>);
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.className).toContain("strand-stack--gap-0");
+    expect(el.style.gap).toBe("");
+  });
+
   // ── Alignment ──
 
   it("applies align-center class", () => {
