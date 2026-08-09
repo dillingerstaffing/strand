@@ -153,7 +153,9 @@ describe("InstrumentViewport", () => {
     );
     // DL 9.6: the detail panel is a light island inside the dark cabinet,
     // so the on-dark alert wash must not leak into it.
-    const match = css.match(/\.strand-detail-panel \.strand-alert\s*\{([^}]*)\}/);
+    const match = css.match(
+      /\.strand-detail-panel \.strand-alert,\s*\.strand-surface-light \.strand-alert\s*\{([^}]*)\}/,
+    );
     expect(match).not.toBeNull();
     const body = match?.[1] ?? "";
     expect(body).toContain("background");

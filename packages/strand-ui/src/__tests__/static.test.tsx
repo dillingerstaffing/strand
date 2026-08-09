@@ -279,10 +279,45 @@ describe("instrument dark-context text cascade (dogfood gap #46)", () => {
   it("the light detail panel restores light-surface text colors (no cascade leak)", async () => {
     const content = await bundle();
     expect(content).toMatch(
-      /\.strand-detail-panel \.strand-overline\s*{\s*color:\s*var\(--strand-gray-500\)/,
+      /\.strand-detail-panel \.strand-overline,[\s\S]{0,80}?{\s*color:\s*var\(--strand-gray-500\)/,
     );
     expect(content).toMatch(
-      /\.strand-detail-panel \.strand-overline--accent\s*{\s*color:\s*var\(--strand-blue-deep\)/,
+      /\.strand-detail-panel \.strand-overline--accent,[\s\S]{0,80}?{\s*color:\s*var\(--strand-blue-deep\)/,
+    );
+  });
+
+  // The same restore is available as a positioning-free UTILITY, because
+  // consumers nesting a plain light panel (a white card, an alert) inside a
+  // viewport were reaching for .strand-detail-panel to get these colors and
+  // inheriting a positioned slide-in drawer with them, which pulls the panel
+  // out of flow and off-screen.
+  it("exposes the light island as a colors-only utility, not just the drawer", async () => {
+    const content = await bundle();
+    for (const primitive of [
+      "strand-headline",
+      "strand-text-secondary",
+      "strand-overline",
+      "strand-data-readout__value",
+      "strand-kv__value",
+      "strand-btn--ghost",
+    ]) {
+      expect(content).toContain(`.strand-surface-light .${primitive}`);
+    }
+  });
+
+  it("the utility sets no geometry, so it composes onto a surface that has its own", async () => {
+    const content = await bundle();
+    // A bare `.strand-surface-light { ... }` rule would mean the utility
+    // carries its own box; it must only ever appear as an ancestor selector.
+    expect(content).not.toMatch(/(^|[^-\w])\.strand-surface-light\s*{/m);
+  });
+
+  it("restores the ghost button, which the cascade renders near-white", async () => {
+    const content = await bundle();
+    // The worst instance of the leak: a ghost-weight action on a light panel
+    // inside a viewport rendered white-on-light and was invisible.
+    expect(content).toMatch(
+      /\.strand-surface-light \.strand-btn--ghost\s*{\s*color:\s*var\(--strand-blue-midnight\)/,
     );
   });
 });
