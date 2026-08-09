@@ -383,6 +383,7 @@
 				{ "class": "strand-nav__link", "description": "Desktop navigation link." },
 				{ "class": "strand-nav__link--active", "description": "Active desktop link state." },
 				{ "class": "strand-nav__slot", "description": "Right-edge content slot (account, utility)." },
+				{ "class": "strand-nav__slot--reserve", "description": "Slot with a pinned inline size, so swapping its contents cannot shift the nav." },
 				{ "class": "strand-nav__actions", "description": "Actions area." },
 				{ "class": "strand-nav__hamburger", "description": "Mobile menu toggle button." },
 				{ "class": "strand-nav__hamburger-icon", "description": "Hamburger icon lines." },

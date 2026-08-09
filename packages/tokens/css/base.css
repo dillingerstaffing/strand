@@ -7,6 +7,50 @@
  * Requires tokens.css to be loaded first.
  */
 
+/* ── Metric-matched fallback faces ──
+   Strand ships no font binaries; consumers load Inter and JetBrains Mono
+   themselves, typically from a font CDN with font-display: swap. Between
+   first paint and the webfont arriving, text renders in a system fallback
+   whose advances and vertical metrics differ from the real face, so the
+   swap reflows every line on the page. It lands late enough to be plainly
+   visible and, on a text-heavy surface, it is the single largest source of
+   layout shift.
+
+   These faces override the fallback's metrics to match the real face, so
+   the swap changes glyph shapes without changing glyph size. Text lands in
+   its final position on first paint and never moves.
+
+   The values are measured, not copied. size-adjust is the advance-width
+   ratio of a representative sample string rendered in both faces. The
+   vertical overrides are the real face's ascent and descent as a fraction
+   of em, each divided by size-adjust, because size-adjust also scales the
+   fallback's metrics and the authored value has to compensate. The mono
+   pair resolves to JetBrains Mono's true published metrics (1020/1000
+   ascender, 300/1000 descender), which is exactly the expected result for
+   two monospace faces with identical 0.6em advances, and is a good check
+   that the derivation is right.
+
+   src is local() only: nothing is downloaded. Where the named system font
+   is absent the face fails to load and the next family in the stack
+   applies unadjusted, which is the behavior consumers had before. */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 105.59%;
+  ascent-override: 91.86%;
+  descent-override: 22.73%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  src: local('Courier New');
+  size-adjust: 99.98%;
+  ascent-override: 102.02%;
+  descent-override: 30%;
+  line-gap-override: 0%;
+}
+
 /* ── Smooth anchor scrolling + nav offset ──
    When users click an in-page anchor (e.g. nav link to #section),
    the browser smoothly scrolls there instead of hopping. Honors

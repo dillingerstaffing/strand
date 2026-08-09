@@ -7,8 +7,14 @@
      ═══════════════════════════════════════════ */
 
   /* ── FONTS ── */
-  --strand-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --strand-font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  /* The *-Fallback families are metric-matched stand-ins defined in
+     base.css. They sit directly behind the real face so the swap from
+     fallback to webfont changes glyph shapes without changing glyph
+     metrics, which keeps the swap from reflowing the page. A consumer
+     loading tokens.css alone simply skips them (the family will not
+     resolve) and falls through to the system stack as before. */
+  --strand-font-sans: 'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --strand-font-mono: 'JetBrains Mono', 'JetBrains Mono Fallback', 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
 
   /* ── SURFACE PALETTE ── */
   --strand-surface-primary: #FAFCFF;

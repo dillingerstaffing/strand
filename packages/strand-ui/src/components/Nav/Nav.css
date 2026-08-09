@@ -115,6 +115,31 @@
 	margin-left: var(--strand-space-8);
 }
 
+/* ── Reserved slot ──
+   A slot whose contents swap identity at runtime carries a hidden cost.
+   An auth affordance is the common case: signed out it is one short
+   button, signed in it is an avatar plus a sign-out button and often a
+   profile link, and the two states are nowhere near the same width. When
+   the swap happens the slot resizes, which moves the slot's own box and
+   redistributes the free space every auto-margined sibling in the nav is
+   sharing. The result is a header that visibly jumps on load, on sign-in,
+   and on sign-out, on a surface that is otherwise completely static.
+
+   --reserve pins the slot's inline size so the swap cannot change it.
+   Neither the slot nor its siblings move. Contents align to the end so
+   the affordance stays pinned to the nav's right edge at every width and
+   in every state.
+
+   Set --strand-nav-slot-reserve to the widest state you actually render.
+   The defaults fit an avatar plus two short controls, and drop at the
+   mobile breakpoint where the nav has far less room to give. Reserving
+   less than the widest state reintroduces the shift; reserving more only
+   costs empty space. */
+.strand-nav__slot--reserve {
+	min-width: var(--strand-nav-slot-reserve, 14rem);
+	justify-content: flex-end;
+}
+
 /* ── Links ── */
 .strand-nav__link {
 	color: var(--strand-gray-600);
@@ -265,6 +290,14 @@
      (right), and margin-left:auto on one of them handles the layout. */
 	.strand-nav__slot {
 		margin-left: auto;
+	}
+
+	/* A reserved slot drops to a tighter default here. The desktop
+	   reservation would crowd the logo and any back affordance at phone
+	   widths, and the mobile nav hides .strand-nav__actions anyway, so the
+	   slot's widest state is correspondingly smaller. */
+	.strand-nav__slot--reserve {
+		min-width: var(--strand-nav-slot-reserve-sm, 11.75rem);
 	}
 
 	.strand-nav__hamburger {
