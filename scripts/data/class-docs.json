@@ -425,7 +425,8 @@
 				{ "class": "strand-alert--info", "description": "Info status." },
 				{ "class": "strand-alert--success", "description": "Success status." },
 				{ "class": "strand-alert--warning", "description": "Warning status." },
-				{ "class": "strand-alert--error", "description": "Error status." }
+				{ "class": "strand-alert--error", "description": "Error status." },
+				{ "class": "strand-alert--stack", "description": "Stacked layout variant: lays the alert body out in a column (flex-direction:column, align-items:stretch, space-3 gap) for a multi-line confirmation with its own action. Background and prefix-only status color are unchanged." }
 			],
 			"example": "<div class=\"strand-alert strand-alert--info\" role=\"status\">\n  <span class=\"strand-alert__status\">INFO</span>\n  <div class=\"strand-alert__content\">This is an informational message.</div>\n</div>"
 		},
@@ -825,7 +826,8 @@
 			{ "class": "strand-mb-5", "description": "Margin-bottom: space-5." },
 			{ "class": "strand-mb-6", "description": "Margin-bottom: space-6." },
 			{ "class": "strand-mb-8", "description": "Margin-bottom: space-8." },
-			{ "class": "strand-mx-auto", "description": "Horizontal auto margins for centering." }
+			{ "class": "strand-mx-auto", "description": "Horizontal auto margins for centering." },
+			{ "class": "strand-m-0", "description": "Margin: 0. Strips a browser default margin (e.g. a paragraph inside a stack that already owns the gap) so the element sits flush without an inline style." }
 		]
 	}
 }

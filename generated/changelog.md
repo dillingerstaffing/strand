@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- utility pack for Weekly Ship Path-A purity (v0.20.0, dogfood gap #45)
 - add strand-nowrap one-line data-atom utility
 - add green-positive-deep token + strand-value financial tone utility
 - make the fleet dashboard live
@@ -74,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - resolve 6 gaps from agent-dashboard iteration 1
 
 ### Documentation
+- regenerate HTML_REFERENCE for utility pack + value/nowrap utilities
 - consolidate dogfood gap logs into docs/dogfood-gaps.md
 - document the header-row fill recipe with strand-full-width
 

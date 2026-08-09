@@ -217,3 +217,92 @@ describe("WS purity utility pack (dogfood gap #45)", () => {
     expect(content).toContain(".strand-page--centered");
   });
 });
+
+describe("instrument dark-context text cascade (dogfood gap #46)", () => {
+  async function bundle() {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    return fs.readFileSync(path.resolve(__dirname, "../../dist/css/strand-ui.css"), "utf-8");
+  }
+
+  // DL 9.3: the dark viewport is a self-contained dark island. Generic text
+  // primitives placed on it switch to on-dark colors so a consumer never
+  // hand-tints text inside a viewport. Each rule is dual-scoped to the
+  // full-page body mode and the recessed panel.
+  it("headline switches to the on-dark heading color inside the viewport", async () => {
+    const content = await bundle();
+    expect(content).toMatch(
+      /\.strand-instrument-viewport \.strand-headline\s*{\s*color:\s*var\(--strand-on-blue-primary\)/,
+    );
+  });
+
+  it("secondary text drops to gray-200, and the --xs caption tier to gray-300", async () => {
+    const content = await bundle();
+    expect(content).toMatch(
+      /\.strand-instrument-viewport \.strand-text-secondary\s*{\s*color:\s*var\(--strand-gray-200\)/,
+    );
+    expect(content).toMatch(
+      /\.strand-instrument-viewport \.strand-text-secondary--xs\s*{\s*color:\s*var\(--strand-gray-300\)/,
+    );
+  });
+
+  it("overline base drops to gray-400 and the accent variant to blue-indicator on dark", async () => {
+    const content = await bundle();
+    expect(content).toMatch(
+      /\.strand-instrument-viewport \.strand-overline\s*{\s*color:\s*var\(--strand-gray-400\)/,
+    );
+    expect(content).toMatch(
+      /\.strand-instrument-viewport \.strand-overline--accent\s*{\s*color:\s*var\(--strand-blue-indicator\)/,
+    );
+  });
+
+  it("data-readout label drops to gray-400 and its value goes on-blue-primary on dark", async () => {
+    const content = await bundle();
+    expect(content).toMatch(
+      /\.strand-instrument-viewport \.strand-data-readout__label\s*{\s*color:\s*var\(--strand-gray-400\)/,
+    );
+    expect(content).toMatch(
+      /\.strand-instrument-viewport \.strand-data-readout__value\s*{\s*color:\s*var\(--strand-on-blue-primary\)/,
+    );
+  });
+
+  it("a link inside the viewport inherits color and drops the gradient underline", async () => {
+    const content = await bundle();
+    expect(content).toMatch(
+      /\.strand-instrument-viewport \.strand-link\s*{\s*color:\s*inherit;\s*background-image:\s*none/,
+    );
+  });
+
+  // DL 9.6: the detail panel is a LIGHT island inside the dark cabinet, so
+  // the cascade must not tint its text. The restore re-asserts the
+  // light-surface base color for a text primitive composed inside it.
+  it("the light detail panel restores light-surface text colors (no cascade leak)", async () => {
+    const content = await bundle();
+    expect(content).toMatch(
+      /\.strand-detail-panel \.strand-overline\s*{\s*color:\s*var\(--strand-gray-500\)/,
+    );
+    expect(content).toMatch(
+      /\.strand-detail-panel \.strand-overline--accent\s*{\s*color:\s*var\(--strand-blue-deep\)/,
+    );
+  });
+});
+
+describe("margin-zero + stacked-alert utilities (dogfood gap #46)", () => {
+  async function bundle() {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    return fs.readFileSync(path.resolve(__dirname, "../../dist/css/strand-ui.css"), "utf-8");
+  }
+
+  it("strand-m-0 zeroes the margin", async () => {
+    const content = await bundle();
+    expect(content).toMatch(/\.strand-m-0\s*{\s*margin:\s*0/);
+  });
+
+  it("strand-alert--stack lays the alert out in a column", async () => {
+    const content = await bundle();
+    expect(content).toContain(".strand-alert--stack");
+    expect(content).toMatch(/\.strand-alert--stack\s*{[^}]*flex-direction:\s*column/);
+    expect(content).toMatch(/\.strand-alert--stack\s*{[^}]*align-items:\s*stretch/);
+  });
+});

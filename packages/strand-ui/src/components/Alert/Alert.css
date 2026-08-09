@@ -31,6 +31,19 @@
   background: var(--strand-surface-recessed);
 }
 
+/* ── Stacked layout ──
+   Column layout for a multi-line alert body (e.g. a confirmation that pairs
+   a status line with a peer-count line and an action) that should read
+   top-to-bottom rather than the default single row. Only the axis and
+   cross-alignment change; the neutral background and prefix-only status
+   color (DL 11.6) are untouched. Replaces a consumer's inline
+   flex-direction:column;align-items:stretch override. */
+.strand-alert--stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--strand-space-3);
+}
+
 /* ── Status prefix ── */
 .strand-alert__status {
   font-family: var(--strand-font-mono);

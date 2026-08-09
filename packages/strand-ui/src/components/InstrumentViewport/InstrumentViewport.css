@@ -50,6 +50,106 @@
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+/* ── Dark-context text cascade (DL Part 9.3) ──
+   The generic text primitives assume the white lab surface: their default
+   colors (blue-midnight headlines, gray-500 secondary/overline text) lose
+   contrast on the dark viewport. DL 9.3 defines the viewport as a
+   self-contained dark island where all text switches to on-dark colors, so
+   a consumer places any of these primitives directly on the viewport and
+   never hand-tints them. Scoped to both the full-page body mode and the
+   recessed panel, matching the kv / status-chip / ghost cascades above. */
+.strand-body--instrument .strand-headline,
+.strand-instrument-viewport .strand-headline {
+  color: var(--strand-on-blue-primary);
+}
+
+.strand-body--instrument .strand-text-secondary,
+.strand-instrument-viewport .strand-text-secondary {
+  color: var(--strand-gray-200);
+}
+
+/* The --xs caption tier drops one gray step so it reads as a quieter
+   subordinate line. Declared after the base rule so it wins for an element
+   carrying both classes (equal specificity, later source order). */
+.strand-body--instrument .strand-text-secondary--xs,
+.strand-instrument-viewport .strand-text-secondary--xs {
+  color: var(--strand-gray-300);
+}
+
+.strand-body--instrument .strand-overline,
+.strand-instrument-viewport .strand-overline {
+  color: var(--strand-gray-400);
+}
+
+/* Accent overline: blue-deep is tuned for AA contrast on the white surface
+   but goes muddy on the abyss. On dark, the light blue-indicator carries
+   the accent. Scoped to the viewport only so the static.css light-surface
+   rule keeps blue-deep everywhere else. */
+.strand-body--instrument .strand-overline--accent,
+.strand-instrument-viewport .strand-overline--accent {
+  color: var(--strand-blue-indicator);
+}
+
+.strand-body--instrument .strand-data-readout__label,
+.strand-instrument-viewport .strand-data-readout__label {
+  color: var(--strand-gray-400);
+}
+
+/* The readout value's default blue-midnight is near-invisible on the abyss.
+   DL 9.3 pairs the on-dark label with an on-dark value, so the full readout
+   stays legible on the viewport, not just its label. */
+.strand-body--instrument .strand-data-readout__value,
+.strand-instrument-viewport .strand-data-readout__value {
+  color: var(--strand-on-blue-primary);
+}
+
+/* A link placed directly on the dark viewport reads as instrument text:
+   inherit the surrounding color and drop the light-surface gradient
+   underline. The higher specificity (0,2,0) wins over the base
+   .strand-link rule in Link.css regardless of bundle order. */
+.strand-body--instrument .strand-link,
+.strand-instrument-viewport .strand-link {
+  color: inherit;
+  background-image: none;
+}
+
+/* ── Light island restore (DL Part 9.6) ──
+   The detail panel is a LIGHT surface nested inside the dark cabinet, so the
+   dark-context cascade above must not tint the text it hosts (e.g. a
+   consumer's "Position Analysis" overline). Re-assert the light-surface base
+   colors for any generic text primitive composed inside it. Equal
+   specificity to the cascade (0,2,0); declared afterwards so it wins for a
+   node that matches both selectors. */
+.strand-detail-panel .strand-headline {
+  color: var(--strand-blue-midnight);
+}
+
+.strand-detail-panel .strand-text-secondary,
+.strand-detail-panel .strand-text-secondary--xs {
+  color: var(--strand-gray-500);
+}
+
+.strand-detail-panel .strand-overline {
+  color: var(--strand-gray-500);
+}
+
+.strand-detail-panel .strand-overline--accent {
+  color: var(--strand-blue-deep);
+}
+
+.strand-detail-panel .strand-data-readout__label {
+  color: var(--strand-gray-500);
+}
+
+.strand-detail-panel .strand-data-readout__value {
+  color: var(--strand-blue-midnight);
+}
+
+.strand-detail-panel .strand-link {
+  color: var(--strand-blue-primary);
+  background-image: linear-gradient(currentColor, currentColor);
+}
+
 .strand-instrument-viewport__label {
   color: var(--strand-gray-400);
   font-family: var(--strand-font-mono);

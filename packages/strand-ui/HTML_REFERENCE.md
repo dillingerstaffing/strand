@@ -985,6 +985,7 @@ Persistent notification with status variants.
 | `strand-alert--success` | modifier | Success status. |
 | `strand-alert--warning` | modifier | Warning status. |
 | `strand-alert--error` | modifier | Error status. |
+| `strand-alert--stack` | modifier | Stacked layout variant: lays the alert body out in a column (flex-direction:column, align-items:stretch, space-3 gap) for a multi-line confirmation with its own action. Background and prefix-only status color are unchanged. |
 
 **Usage:**
 
@@ -1162,6 +1163,12 @@ Dark instrument panel container for data-dense content.
 | `strand-kv__label` | child | |
 | `strand-kv__value` | child | |
 | `strand-status-chip--neutral` | modifier | |
+| `strand-headline` | base | |
+| `strand-text-secondary` | base | |
+| `strand-text-secondary--xs` | modifier | |
+| `strand-overline` | base | |
+| `strand-overline--accent` | modifier | |
+| `strand-detail-panel` | base | |
 | `strand-instrument-viewport__label` | child | |
 | `strand-instrument-viewport__value` | child | |
 | `strand-instrument-viewport__map` | child | |
@@ -1204,9 +1211,7 @@ Dark instrument panel container for data-dense content.
 | `strand-result-card__badge` | child | |
 | `strand-result-card__badge--remote` | child | |
 | `strand-result-card__badge--source` | child | |
-| `strand-detail-panel` | base | |
 | `strand-detail-panel--open` | modifier | |
-| `strand-overline` | base | |
 | `strand-detail-panel__title` | child | |
 | `strand-detail-panel__meta` | child | |
 | `strand-detail-panel__salary` | child | |
@@ -1742,6 +1747,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-mb-6` | Margin-bottom: space-6. |
 | `strand-mb-8` | Margin-bottom: space-8. |
 | `strand-mx-auto` | Horizontal auto margins for centering. |
+| `strand-m-0` | Margin: 0. Strips a browser default margin (e.g. a paragraph inside a stack that already owns the gap) so the element sits flush without an inline style. |
 | `strand-log__text` | |
 | `strand-bar-chart--sm` | |
 | `strand-bar-chart--lg` | |

@@ -1,7 +1,7 @@
 {
 	"$schema": "./parity-manifest.schema.json",
 	"description": "Canonical Strand API surface. Every consumer type must implement this surface. The parity test reads this file and asserts conformance. Adding a primitive is a PR that updates this file AND adds the primitive to every consumer type in the same release. Removing a primitive requires a major version bump.",
-	"version": "0.19.0",
+	"version": "0.21.0",
 	"components": [
 		"Alert",
 		"Avatar",
@@ -82,16 +82,16 @@
 				"gzipped_bytes": 3466
 			},
 			"strand-ui.css": {
-				"raw_bytes": 206377,
-				"gzipped_bytes": 40638
+				"raw_bytes": 210997,
+				"gzipped_bytes": 41841
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 241310,
-		"total_gz_bytes": 51385,
-		"total_gz_kb": 50
+		"total_raw_bytes": 245930,
+		"total_gz_bytes": 52588,
+		"total_gz_kb": 51
 	}
 }

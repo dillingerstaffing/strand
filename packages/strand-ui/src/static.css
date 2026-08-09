@@ -994,6 +994,12 @@
 /* ── Margin auto (centering) ── */
 .strand-mx-auto { margin-inline: auto; }
 
+/* ── Margin zero ──
+   Strip a browser default margin (e.g. a <p> whose parent stack already owns
+   the gap) so a semantic element can sit flush without an inline style. The
+   zero endpoint of the margin scale. */
+.strand-m-0 { margin: 0; }
+
 /* ── Padding (token scale 1-8) ──
    Mirror of the margin utilities. Added so consumers never inline
    `padding: var(--strand-space-N)` for list rows, section bands, or
