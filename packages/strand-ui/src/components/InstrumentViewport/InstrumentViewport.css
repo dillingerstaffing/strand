@@ -147,47 +147,105 @@
 }
 
 /* ── Light island restore (DL Part 9.6) ──
-   The detail panel is a LIGHT surface nested inside the dark cabinet, so the
-   dark-context cascade above must not tint the text it hosts (e.g. a
-   consumer's "Position Analysis" overline). Re-assert the light-surface base
-   colors for any generic text primitive composed inside it. Equal
-   specificity to the cascade (0,2,0); declared afterwards so it wins for a
-   node that matches both selectors. */
-.strand-detail-panel .strand-headline {
+   A LIGHT surface nested inside the dark cabinet must not have its text
+   tinted by the dark-context cascade above (e.g. a consumer's "Position
+   Analysis" overline). Re-assert the light-surface base colors for any
+   generic text primitive composed inside it. Equal specificity to the
+   cascade (0,2,0); declared afterwards so it wins for a node that matches
+   both selectors.
+
+   Two selectors share these rules:
+
+     .strand-detail-panel   the slide-in drawer component. Carries its own
+                            positioning, sizing and transform.
+     .strand-surface-light  a COLORS-ONLY utility for any other light panel a
+                            consumer nests in a viewport: a white card, an
+                            alert, a callout. It sets no background, no
+                            geometry and no position, so it composes onto a
+                            surface that already has its own.
+
+   The utility exists because consumers kept reaching for .strand-detail-panel
+   to get these colors and inheriting a positioned drawer with it, which
+   yanks the panel out of flow and off-screen. If you want the colors, use
+   .strand-surface-light; if you want the drawer, use .strand-detail-panel. */
+.strand-detail-panel .strand-headline,
+.strand-surface-light .strand-headline {
   color: var(--strand-blue-midnight);
 }
 
 .strand-detail-panel .strand-text-secondary,
-.strand-detail-panel .strand-text-secondary--xs {
+.strand-detail-panel .strand-text-secondary--xs,
+.strand-surface-light .strand-text-secondary,
+.strand-surface-light .strand-text-secondary--xs {
   color: var(--strand-gray-500);
 }
 
-.strand-detail-panel .strand-overline {
+.strand-detail-panel .strand-overline,
+.strand-surface-light .strand-overline {
   color: var(--strand-gray-500);
 }
 
-.strand-detail-panel .strand-overline--accent {
+.strand-detail-panel .strand-overline--accent,
+.strand-surface-light .strand-overline--accent {
   color: var(--strand-blue-deep);
 }
 
-.strand-detail-panel .strand-data-readout__label {
+.strand-detail-panel .strand-data-readout__label,
+.strand-surface-light .strand-data-readout__label {
   color: var(--strand-gray-500);
 }
 
-.strand-detail-panel .strand-data-readout__value {
+.strand-detail-panel .strand-data-readout__value,
+.strand-surface-light .strand-data-readout__value {
   color: var(--strand-blue-midnight);
 }
 
-.strand-detail-panel .strand-link {
+.strand-detail-panel .strand-link,
+.strand-surface-light .strand-link {
   color: var(--strand-blue-primary);
   background-image: linear-gradient(currentColor, currentColor);
 }
 
 /* An alert inside the light island keeps its light-surface panel and text
    rather than the on-dark wash applied by the cascade above. */
-.strand-detail-panel .strand-alert {
+.strand-detail-panel .strand-alert,
+.strand-surface-light .strand-alert {
   background: var(--strand-surface-recessed);
   color: var(--strand-gray-700);
+}
+
+/* The three cascades declared ABOVE the text block (kv, neutral status chip,
+   ghost button) need restoring too, or a light island silently inherits
+   on-dark treatments for them. The ghost button was the worst of these: the
+   cascade gives it near-white text and a translucent white border, so a
+   ghost-weight action placed on a light panel inside a viewport rendered
+   white-on-light and was effectively invisible. */
+.strand-detail-panel .strand-kv__label,
+.strand-surface-light .strand-kv__label {
+  color: var(--strand-gray-500);
+}
+
+.strand-detail-panel .strand-kv__value,
+.strand-surface-light .strand-kv__value {
+  color: var(--strand-gray-700);
+}
+
+.strand-detail-panel .strand-status-chip--neutral,
+.strand-surface-light .strand-status-chip--neutral {
+  background: var(--strand-gray-tint);
+  color: var(--strand-gray-600);
+  border: none;
+}
+
+.strand-detail-panel .strand-btn--ghost,
+.strand-surface-light .strand-btn--ghost {
+  color: var(--strand-blue-midnight);
+  border-color: transparent;
+}
+
+.strand-detail-panel .strand-alert__dismiss,
+.strand-surface-light .strand-alert__dismiss {
+  color: var(--strand-gray-500);
 }
 
 .strand-detail-panel .strand-alert--info .strand-alert__status {
