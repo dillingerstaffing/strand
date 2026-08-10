@@ -599,3 +599,28 @@ Measured on production: body text renders at ~10.09px per character, so the 55ch
 
 - Propagation: one CSS declaration plus documentation; no new classes, no new tokens, parity unchanged. All 8 consumer types inherit it.
 - Version: 0.29.0
+
+---
+
+## Production consumer: Weekly Ship - no bypass for keyboard users, and a focus indicator that isn't one
+Date: 2026-08-10
+Verdict: FAIL (two L2 gaps; both closed)
+
+### Gap #59
+- Type: L2
+- Symptom: **no skip-link primitive existed.** `.strand-sr-only` is the only visually-hidden utility in the library and it has no focus reveal, so a skip link composed from it stays invisible when focused -- defeating it for precisely the sighted keyboard-only users it exists for. A consumer could not build one correctly, which makes it a library gap rather than a misuse.
+- Measured need: on the Weekly Ship list at 250 events (about five years at a weekly cadence) the page carries **1,260 tab stops and 46 phone screens** between the top and the footer, with no bypass. Landmarks are present and are a sufficient technique for SC 2.4.1, so this was never a Level A failure -- but landmarks only serve assistive tech. Rendering holds up fine at that volume (TBT 0ms at 250 events), so the fix is a bypass, not virtualisation. One primitive collapses 1,260 tab stops to 2.
+- Fix: `.strand-skip-link`, self-contained so a consumer writes one class rather than composing two and getting the reveal wrong. Parked off-screen with a transform rather than clipped, so the control keeps its real size and stays in both the tab order and the accessibility tree throughout. `position: fixed` rather than `absolute`, so it lands in the VIEWPORT wherever the reader has scrolled to -- absolute would scroll away and focus a control the reader cannot see. `z-index: 200` clears the banner (101) and both nav layers (99/100).
+- **Deliberately not animated.** A transition would need a matching reduced-motion reset at matching specificity, which Gap #56 documents as a live way to get subtly wrong. No animation, nothing to suppress, no second rule to keep in sync.
+- Verified in a real browser with a genuine Tab press, not a programmatic `.focus()`: before, `top: -54` and outside the viewport; after, `top: 16`, inside the viewport, `:focus-visible` matching, 2px outline present.
+
+### Gap #60
+- Type: L2 (WCAG 2.2 AA)
+- Symptom: `.strand-star-rating__star:focus-visible` set `outline: none` and substituted `--strand-focus-ring`, which is `rgba(59,130,246,0.1)` and paints `rgb(235,243,254)` over white. Measured **1.12:1** between focused and unfocused pixels against SC 2.4.11's **3:1**. The same shape on `.strand-slider__field`'s `::-webkit-slider-thumb` and `::-moz-range-thumb`. This ships in the product: `ShipInteractive` composes the star-rating primitives for the rating flow, so a keyboard user could not see which star they were on.
+- **No axe rule covers 2.4.11.** Focus appearance is not automatable that way, so all eight consumer suites were blind to it, including the contrast passes re-enabled the same day. Worth knowing as the boundary of what those suites prove.
+- Fix, deliberately surgical: **the shared token is not the bug and was not touched.** Classified all nine usages by reading each rule body -- six pair the ring with `border-color: var(--strand-blue-primary)`, where the border is the real indicator and the ring is supplementary glow, correctly subtle. Raising the token to fix three cases would make six correct components look heavy. Only the three that used it as the SOLE indicator changed: the star takes the `outline: 2px solid var(--strand-blue-primary)` treatment the rest of the library already uses (Button.css:211), and the two slider thumbs take a solid two-stop ring, since outline support on those pseudo-elements is uneven. blue-primary on white is 3.28:1, which clears 2.4.11's 3:1 -- it is NOT held to 4.5:1, which is the small-text threshold and a different criterion.
+- Verified in a real browser: the focused star reports `outline: 2px solid rgb(59,142,246)` and `box-shadow: none`, with `:focus-visible` genuinely matching.
+
+- Both guards were mutation-checked rather than trusted for being green: making the skip link never reveal, switching it to `absolute`, and reverting the star to the weak ring all fail their suites.
+- Propagation: one new class (registered in `class-docs.json`, docs regenerated) and three changed rules. All 8 consumer types inherit them.
+- Version: 0.30.0

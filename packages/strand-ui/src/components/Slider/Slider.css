@@ -105,12 +105,17 @@
 }
 
 /* ── Focus ── */
+/* Same 2.4.11 defect as StarRating: the 10%-alpha ring was the only focus
+   indicator on the thumb. A solid two-stop ring is used here rather than an
+   outline because outline support on the thumb pseudo-elements is uneven.
+   The inner stop is the surface colour so the ring reads as separated from
+   the thumb on any background. */
 .strand-slider__field:focus-visible::-webkit-slider-thumb {
-  box-shadow: var(--strand-focus-ring);
+  box-shadow: 0 0 0 2px var(--strand-surface-elevated), 0 0 0 4px var(--strand-blue-primary);
 }
 
 .strand-slider__field:focus-visible::-moz-range-thumb {
-  box-shadow: var(--strand-focus-ring);
+  box-shadow: 0 0 0 2px var(--strand-surface-elevated), 0 0 0 4px var(--strand-blue-primary);
 }
 
 /* ── Disabled ── */

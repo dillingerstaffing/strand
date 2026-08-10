@@ -1013,6 +1013,7 @@ Top-of-page notification banner.
 | `strand-banner--warning` | modifier | Warning variant (amber). |
 | `strand-banner--critical` | modifier | Critical variant (red). |
 | `strand-banner-active` | base | |
+| `strand-prose` | base | |
 
 **Usage:**
 
@@ -1690,6 +1691,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-code-name` | Mono identifier heading (component names, API ids). |
 | `strand-heading--sm` | Section heading inside cards (text-lg, medium). |
 | `strand-sr-only` | Visually hidden, accessible to screen readers. |
+| `strand-skip-link` | Bypass-blocks link: visually hidden until focused, then a visible control at the top of the viewport. Give it an href to your main landmark. |
 | `strand-text-center` | Center text alignment. |
 | `strand-section-header` | Section heading group with bottom margin. |
 | `strand-step-indicator` | Numbered position indicator (32px circle). |

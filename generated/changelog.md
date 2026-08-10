@@ -5,22 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.29.0] - 2026-08-10
 
-### Added
-- self-hosted variable faces + a text tier for the palette (v0.27.0)
+### Fixed
+- resolve the 4px-grid contradiction, and cap the one uncapped text in the language (v0.29.0)
+
+## [0.28.2] - 2026-08-10
+
+### Documentation
+- the reduced-motion emulation a test author reaches for does nothing (v0.28.2)
+
+## [0.28.1] - 2026-08-10
+
+### Fixed
+- grouped reveals ignored prefers-reduced-motion entirely (v0.28.1)
+
+## [0.28.0] - 2026-08-10
+
+### Fixed
+- an on-color is a guarantee at a text size, not an unconditional one (v0.28.0)
+
+## [0.27.2] - 2026-08-10
+
+### Fixed
+- give the log and bar-chart readouts an on-dark rule (v0.27.2)
+
+## [0.27.1] - 2026-08-10
 
 ### Changed
 - run the whole gate in CI and before publish
 
 ### Fixed
-- grouped reveals ignored prefers-reduced-motion entirely (v0.28.1)
-- an on-color is a guarantee at a text size, not an unconditional one (v0.28.0)
-- give the log and bar-chart readouts an on-dark rule (v0.27.2)
 - stamp the real version into every shipped banner (v0.27.1)
 
 ### Documentation
 - regenerate after documenting strand-stack--gap-0
+
+## [0.27.0] - 2026-08-10
+
+### Added
+- self-hosted variable faces + a text tier for the palette (v0.27.0)
 
 ## [0.26.0] - 2026-08-09
 

@@ -763,6 +763,7 @@
 			{ "class": "strand-code-name", "description": "Mono identifier heading (component names, API ids)." },
 			{ "class": "strand-heading--sm", "description": "Section heading inside cards (text-lg, medium)." },
 			{ "class": "strand-sr-only", "description": "Visually hidden, accessible to screen readers." },
+			{ "class": "strand-skip-link", "description": "Bypass-blocks link: visually hidden until focused, then a visible control at the top of the viewport. Give it an href to your main landmark." },
 			{ "class": "strand-text-center", "description": "Center text alignment." },
 			{ "class": "strand-section-header", "description": "Section heading group with bottom margin." },
 			{ "class": "strand-step-indicator", "description": "Numbered position indicator (32px circle)." },

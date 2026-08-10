@@ -29,9 +29,23 @@
   font-family: inherit;
 }
 
+/* SC 2.4.11 Focus Appearance wants 3:1 between the focused and unfocused
+   states. --strand-focus-ring is rgba(59,130,246,0.1), which over white
+   paints as rgb(235,243,254): measured 1.12:1 against the unfocused star, so
+   a keyboard user could not see which star they were on. No axe rule covers
+   2.4.11, so every contrast suite in the project was blind to it.
+
+   The token is NOT the bug and must not be raised. Six of its nine usages
+   pair it with `border-color: var(--strand-blue-primary)`, where the border
+   is the real indicator and the ring is supplementary glow -- correctly
+   subtle. Only this rule and the two slider thumbs used it as the SOLE
+   indicator. They get the outline treatment the rest of the library already
+   uses (Button.css:211), which measures 3.28:1 on white. That clears
+   2.4.11's 3:1; it is not held to 4.5:1, which is the small-TEXT threshold
+   and a different criterion. */
 .strand-star-rating__star:focus-visible {
-  outline: none;
-  box-shadow: var(--strand-focus-ring);
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
 }
 
 .strand-star-rating__star--active {
