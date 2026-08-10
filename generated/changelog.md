@@ -5,36 +5,164 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.26.0] - 2026-08-09
+
+### Changed
+- font-display swap on the metric-matched fallbacks (v0.26.0)
+
+### Fixed
+- font-display swap on the metric-matched fallbacks so they cannot block first paint (v0.26.0)
+
+## [0.25.0] - 2026-08-09
 
 ### Added
+- carry form-control labels on the dark viewport (v0.25.0)
+
+### Changed
+- carry form-control labels on the dark viewport (v0.25.0)
+
+## [0.24.0] - 2026-08-09
+
+### Added
+- light-island colors as a utility, and complete the restore (v0.24.0)
+
+### Changed
+- light-island colors utility + complete the restore (v0.24.0)
+
+## [0.23.0] - 2026-08-09
+
+### Added
+- metric-matched font fallbacks + reserved nav slot for layout stability (v0.23.0)
+
+### Changed
+- strand layout stability (metric-matched font fallbacks + reserved nav slot, v0.23.0)
+
+## [0.22.1] - 2026-08-09
+
+### Fixed
+- give the alert an on-dark treatment on the instrument viewport (dogfood gap #47)
+
+## [0.22.0] - 2026-08-09
+
+### Added
+- Button renders as an anchor (href/as) for links and CTAs styled as buttons
+- Stack supports a zero gap (strand-stack--gap-0)
+- orthogonal Card interactive/active state props, Link inherit variant, and polymorphic as prop on Card/Stack/Container/Section
+
+### Changed
+- v0.22.0 (Stack gap-{n}/gap-0/as, Card interactive/active/flat/warm/pad-xl/as/elevated-base, Link inherit, Button anchor, Container/Section as)
+- refresh parity-manifest byte sizes (strand-stack--gap-0 CSS)
+
+### Fixed
+- Card elevated is the base surface (no redundant strand-card--elevated modifier emitted)
+- Stack emits the strand-stack--gap-{n} primitive class, never an inline gap style
+
+## [0.21.0] - 2026-08-09
+
+### Added
+- instrument dark-context cascade + margin-zero and stacked-alert utilities (v0.21.0, dogfood gap #46)
 - utility pack for Weekly Ship Path-A purity (v0.20.0, dogfood gap #45)
 - add strand-nowrap one-line data-atom utility
 - add green-positive-deep token + strand-value financial tone utility
 - make the fleet dashboard live
 - lead each agent with its value proposition
+
+### Fixed
+- value tone color wins the cascade wherever composed
+
+### Documentation
+- regenerate HTML_REFERENCE for utility pack + value/nowrap utilities
+
+## [0.19.0] - 2026-06-22
+
+### Added
 - add minColWidth for responsive auto-fit tracks
+
+### Changed
+- v0.19.0
+
+## [0.18.1] - 2026-06-10
+
+### Fixed
+- ref example grid tracks use minmax(0, 1fr) so composed wide content cannot escape the viewport
+
+## [0.18.0] - 2026-06-09
+
+### Added
 - add strand-break-anywhere wrap utility
 - add strand-text-sm and strand-text-xs size utilities
+
+### Changed
+- remove strand-w-full duplicate, document Stack header-row fill recipe (v0.18.0)
+- v0.18.0
+- remove duplicate strand-w-full width utility, use strand-full-width
+
+### Documentation
+- consolidate dogfood gap logs into docs/dogfood-gaps.md
+- document the header-row fill recipe with strand-full-width
+
+## [0.17.7] - 2026-06-06
+
+### Added
 - strand-prose styles formatted descendants (lists, inline code, links); v0.17.7
+
+## [0.17.6] - 2026-06-03
+
+### Changed
+- Merge fix/strand-reveal-manual-visible into main
+
+### Fixed
+- manual reveal toggled visible must beat the view-timeline base rule
+
+## [0.17.5] - 2026-06-03
+
+### Changed
+- Merge fix/strand-lab-shell-mobile-gutters into main
+
+### Fixed
+- shrink main grid track so mobile gutters stay symmetric
+- replayable reveal, centered alert, proportional bar-chart track
+- label color gray-500 to gray-600 for WCAG 2.2 AA contrast
+- author async-load guidance in source, sync all consumers
+
+## [0.17.4] - 2026-04-21
+
+### Added
 - publish gzipped bundle size in parity-manifest + async-load guidance
+
+## [0.17.3] - 2026-04-20
+
+### Fixed
+- inner inherits min-height so children center vertically on mobile
+
+## [0.17.2] - 2026-04-20
+
+### Fixed
+- mobile menu docks below nav (was viewport top) + logo flex-aligns center
+
+## [0.17.1] - 2026-04-20
+
+### Fixed
+- height tracks viewport minus sticky-top + mobile drawer pattern
+
+## [0.17.0] - 2026-04-20
+
+### Added
 - add component-reference primitive family + dark-surface cascades + card/kv additions
+
+### Changed
+- Merge branch 'feat/strand-ref-primitives'
+
+## [0.16.1] - 2026-04-19
+
+### Added
 - add strand-status-chip--committed variant
 - add strand-font-mono utility class
 - add StarRating primitive across all consumer types
 - add vanilla runtime, :has() cross-browser fallbacks, dvh fallback
 - world-class Agents tab with rich composite table cells
-- add zero-drift documentation generator system
-- add zero-drift documentation generator system
 
 ### Changed
-- v0.19.0
-- remove strand-w-full duplicate, document Stack header-row fill recipe (v0.18.0)
-- v0.18.0
-- remove duplicate strand-w-full width utility, use strand-full-width
-- Merge fix/strand-reveal-manual-visible into main
-- Merge fix/strand-lab-shell-mobile-gutters into main
-- Merge branch 'feat/strand-ref-primitives'
 - fix/tooltip-layout-containment (DS calendar subscribe consumer)
 - feat/strand-status-chip-committed (DS WS committed chip consumer)
 - feat/strand-star-rating (DS WS email lifecycle + rate-via-token consumer)
@@ -42,6 +170,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - opt workflows into Node 24 + idempotent release step
 - vanilla runtime and :has() cross-browser fallbacks
 - rebuild showcase with published 0.15.2 (all L2 fixes live)
+
+### Fixed
+- strand-channel-grid stretches cards equal height and anchors last horizontal row (CTA) to bottom
+- contain tooltip layout to wrapper so popup does not bloat ancestor scrollWidth
+- glass nav height, ghost button contrast, tab overflow, scroll-padding
+- restore DOGFOOD_GAPS.md template and append :has() gap entries
+- use relative base path for showcase builds
+- increase glass-bg opacity from 0.72 to 0.85 for WCAG 2.2 AA contrast over dark backgrounds
+
+## [0.15.2] - 2026-04-11
+
+### Added
+- add zero-drift documentation generator system
+- add zero-drift documentation generator system
+
+### Changed
 - bump to 0.15.2 — triggers fresh publish with prepack build
 - commit generated docs from prior session
 - reorganize repo root into docs/ and generated/ directories
@@ -49,22 +193,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - reorganize repo root into docs/ and generated/ directories
 
 ### Fixed
-- value tone color wins the cascade wherever composed
-- ref example grid tracks use minmax(0, 1fr) so composed wide content cannot escape the viewport
-- manual reveal toggled visible must beat the view-timeline base rule
-- shrink main grid track so mobile gutters stay symmetric
-- replayable reveal, centered alert, proportional bar-chart track
-- label color gray-500 to gray-600 for WCAG 2.2 AA contrast
-- author async-load guidance in source, sync all consumers
-- inner inherits min-height so children center vertically on mobile
-- mobile menu docks below nav (was viewport top) + logo flex-aligns center
-- height tracks viewport minus sticky-top + mobile drawer pattern
-- strand-channel-grid stretches cards equal height and anchors last horizontal row (CTA) to bottom
-- contain tooltip layout to wrapper so popup does not bloat ancestor scrollWidth
-- glass nav height, ghost button contrast, tab overflow, scroll-padding
-- restore DOGFOOD_GAPS.md template and append :has() gap entries
-- use relative base path for showcase builds
-- increase glass-bg opacity from 0.72 to 0.85 for WCAG 2.2 AA contrast over dark backgrounds
 - iteration 7 — publish pipeline, spacing first principles, log typography
 - iteration 6 — mobile-first responsive, scaffold mandates, pre-submission audit
 - iteration 5 — single-section layout, value stream data, full composition fix
@@ -73,11 +201,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - iteration 3 gaps #11-13 — layout, activity feed, dist build
 - iteration 3 — L2 library fixes + version sync to 0.15.1
 - resolve 6 gaps from agent-dashboard iteration 1
-
-### Documentation
-- regenerate HTML_REFERENCE for utility pack + value/nowrap utilities
-- consolidate dogfood gap logs into docs/dogfood-gaps.md
-- document the header-row fill recipe with strand-full-width
 
 ## [0.15.1] - 2026-04-09
 

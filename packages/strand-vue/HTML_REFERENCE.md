@@ -701,6 +701,7 @@ Flex layout primitive with direction, gap, and alignment.
 | `strand-stack--gap-5` | modifier | Gap: space-5 (20px). |
 | `strand-stack--gap-6` | modifier | Gap: space-6 (24px). |
 | `strand-stack--gap-8` | modifier | Gap: space-8 (32px). |
+| `strand-stack--gap-0` | modifier | |
 
 **Usage:**
 
@@ -915,6 +916,7 @@ Site/app navigation with mobile menu and glass variant.
 | `strand-nav__link` | child | Desktop navigation link. |
 | `strand-nav__link--active` | child | Active desktop link state. |
 | `strand-nav__slot` | child | Right-edge content slot (account, utility). |
+| `strand-nav__slot--reserve` | child | Slot with a pinned inline size, so swapping its contents cannot shift the nav. |
 | `strand-nav__actions` | child | Actions area. |
 | `strand-nav__hamburger` | child | Mobile menu toggle button. |
 | `strand-nav__hamburger-icon` | child | Hamburger icon lines. |
@@ -1169,6 +1171,7 @@ Dark instrument panel container for data-dense content.
 | `strand-overline` | base | |
 | `strand-overline--accent` | modifier | |
 | `strand-detail-panel` | base | |
+| `strand-surface-light` | base | |
 | `strand-instrument-viewport__label` | child | |
 | `strand-instrument-viewport__value` | child | |
 | `strand-instrument-viewport__map` | child | |

@@ -34,7 +34,7 @@
 }
 
 .strand-textarea__field::placeholder {
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
 }
 
 /* ── Auto-resize ── */

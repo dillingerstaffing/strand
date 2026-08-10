@@ -23,7 +23,7 @@
    accent (informational), not an error. Red is reserved for actual errors
    inside .strand-form-field__error. */
 .strand-form-field__required {
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   margin-left: var(--strand-space-1);
 }
 
@@ -43,10 +43,13 @@
 }
 
 /* ── Error message ── */
+/* Validation copy is the one message a user cannot afford to miss, and at
+   text-xs red-alert reads 3.76:1. red-alert-deep is the same signal at the
+   text tier. The fill tier stays on the alert panel and the status glyph. */
 .strand-form-field__error {
   margin: 0;
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-xs);
-  color: var(--strand-red-alert);
+  color: var(--strand-red-alert-deep);
   line-height: var(--strand-leading-normal);
 }

@@ -259,6 +259,7 @@
 				{ "class": "strand-stack--wrap", "description": "Enable flex wrap." },
 				{ "class": "strand-stack--responsive", "description": "Collapse horizontal to vertical at 768px." },
 				{ "class": "strand-stack__item--full-mobile", "description": "Full-width child on mobile in responsive mode." },
+				{ "class": "strand-stack--gap-0", "description": "Gap: none. Collapse the stack's spacing where an adjacent element already owns it." },
 				{ "class": "strand-stack--gap-1", "description": "Gap: space-1 (4px)." },
 				{ "class": "strand-stack--gap-2", "description": "Gap: space-2 (8px)." },
 				{ "class": "strand-stack--gap-3", "description": "Gap: space-3 (12px)." },

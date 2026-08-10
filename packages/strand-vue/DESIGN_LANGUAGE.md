@@ -264,7 +264,7 @@ The spectrum runs from near-white (#E8F5FD) to near-black (#0F192A), all blue-sh
 | `--strand-gray-200` | `#E2E9F0` | Borders, dividers. |
 | `--strand-gray-300` | `#CBD6E1` | Disabled states. |
 | `--strand-gray-400` | `#94A5B8` | Placeholder text. |
-| `--strand-gray-500` | `#64778B` | Secondary text, annotation labels. |
+| `--strand-gray-500` | `#5D6E81` | Secondary text, annotation labels. |
 | `--strand-gray-600` | `#475769` | Primary body text. |
 | `--strand-gray-700` | `#334355` | Headings. |
 | `--strand-gray-800` | `#1E2B3B` | Strong headings. |
@@ -350,7 +350,15 @@ Beyond the raw palette, colors have functional roles. This is where the system g
 - The "laboratory instrument readout" font
 - Fallback: `'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', monospace`
 
-**Why these and not custom fonts:** Performance (custom fonts add 50-200KB of blocking requests), cost (both are free and CDN-hosted), and quality (both are better-engineered than most paid alternatives). Performance Gravity (Principle 3) rejects custom fonts that don't clear this bar.
+**Why these and not custom fonts:** Performance (custom fonts add 50-200KB of blocking requests), cost (both are free and openly licensed under OFL-1.1), and quality (both are better-engineered than most paid alternatives). Performance Gravity (Principle 3) rejects custom fonts that don't clear this bar.
+
+**Both faces are served first-party, never from a font CDN.** Strand vendors them as variable woff2 in `@dillingerstaffing/strand/fonts/` and declares them in `css/fonts.css`, which is an optional import beside `tokens.css`. A font CDN is a third-party dependency on the critical rendering path of every page: it costs a DNS lookup, a TLS handshake and a connection to an origin the consumer does not control, it leaks a request to every visitor, and it fails independently of the site. Naming a font in a stack does not make it available, so a design language that names one owes its consumers the file.
+
+The faces are **variable**, spanning the full weight range in a single file per subset (Inter 300-600, JetBrains Mono 400-600). This matters beyond byte count: with static per-weight faces, using a weight nobody vendored fails silently -- the browser synthesises or falls back, and nothing in the build complains. A variable face makes the whole range available at once, so the weight hierarchy in 4.5 cannot drift out of what is actually shipped.
+
+Subsetting is by `unicode-range`, so a page rendering only Latin text fetches only the Latin subsets and the extended ones are never requested.
+
+**Path convention:** `src` values in `fonts.css` are relative (`../fonts/<file>.woff2`), resolving to a `fonts/` directory that is a sibling of the `css/` directory containing the stylesheet. One convention serves both consumption models: a bundler rewrites and fingerprints the asset automatically, and a consumer copying files into a web root gets a working path as long as the two directories stay siblings.
 
 ### 4.2 Type Scale (Major Third Ratio: 1.250)
 
@@ -722,6 +730,22 @@ What signals "precision" in motion:
 ```
 
 Non-negotiable. This is not a feature. It is a physical accessibility requirement. Every animation in the system degrades gracefully to instant state change when this media query is active.
+
+**Audit accessibility with reduced motion emulated.** This is the settled state of the page, and it is the only state in which a contrast checker reports the truth. The reveal in 6.4 is scroll-driven (`animation-timeline: view()`), so an element parked partway through its entry range holds a partial opacity indefinitely, and an element below the fold holds opacity 0. A checker sampling either one reads composited colors that belong to no token in the palette: `--strand-gray-500` measured through a 0.91 ancestor reports as `#728395` at 3.89:1, and the teal status chip reports as `#227f83` on `#d0fbf2` at 4.23:1. Both are artifacts of the reveal, not of the palette, and darkening the tokens would not fix them -- at opacity 0 no color passes.
+
+Emulate the preference in the audit harness rather than disabling the contrast rule:
+
+```js
+// Playwright
+const page = await browser.newPage({ reducedMotion: "reduce" });
+
+// Puppeteer
+await page.emulateMediaFeatures([
+  { name: "prefers-reduced-motion", value: "reduce" },
+]);
+```
+
+Disabling `color-contrast` to silence these findings is the wrong fix at the wrong layer: it suppresses genuine contrast regressions along with the artifacts.
 
 ### 6.8 Motion Anti-Patterns (Never Do These)
 
@@ -1569,9 +1593,46 @@ All text meets minimum contrast ratios against its background:
 
 The color palette was designed to satisfy these ratios:
 - `--strand-gray-600` (#475769) on `--strand-surface-primary` (#FAFCFF) = **7.21:1** (passes AA and AAA)
-- `--strand-gray-500` (#64778B) on `--strand-surface-primary` = **4.49:1** (passes AA)
+- `--strand-gray-500` (#5D6E81) on `--strand-surface-primary` = **5.09:1** (passes AA)
 - `--strand-blue-primary` (#3B8EF6) on white = **3.29:1** (passes AA for large text; for small text, use `--strand-blue-deep`)
 - `--strand-blue-midnight` (#1E3E5F) on `--strand-surface-primary` = **10.70:1** (passes AAA)
+
+**A ratio is quoted against the worst surface the text can land on, never the friendliest one.** A text color is not paired with a single background. It is paired with every surface the language permits underneath it, and the pairing that governs is the darkest of them. `--strand-gray-500` is the secondary-text role (Part III.8), so it must hold on `--strand-surface-recessed` (#F0F5F8) and on `--strand-gray-100` (#F1F6F9), not only on the elevated white where it looks best:
+
+| `--strand-gray-500` (#5D6E81) on | Ratio |
+|---|---|
+| `--strand-surface-elevated` (#FFFFFF) | 5.23:1 |
+| `--strand-surface-primary` (#FAFCFF) | 5.09:1 |
+| `--strand-gray-50` (#F7FAFD) | 5.00:1 |
+| `--strand-gray-100` (#F1F6F9) | 4.81:1 |
+| `--strand-surface-recessed` (#F0F5F8) | 4.77:1 |
+
+**Clearing the threshold is not the same as meeting it.** A pairing that computes to 4.49:1, or to 4.51:1, was derived by eye rather than by calculation, and rounding anywhere in a consumer's rendering pipeline decides which side of the line it lands on. Every text pairing in this language carries at least 0.25 of margin above its threshold, and the margin is verified by the token test suite rather than asserted here.
+
+### 14.2b The Fill Tier and the Text Tier
+
+**A hue needs two values, because WCAG sets two different thresholds for the same colour depending on what you paint with it.** Backgrounds, borders, focus rings, icons and large display type answer to 3:1. Small text answers to 4.5:1. One value cannot serve both without either failing the text or dulling the fill, so the palette carries both, and choosing between them is not a matter of taste.
+
+| Hue | Fill tier (3:1 — fills, borders, focus rings, large text) | Text tier (4.5:1 — small text on light surfaces) |
+|---|---|---|
+| Blue | `--strand-blue-primary` (3.29:1) | `--strand-blue-deep` (5.99:1) |
+| Neutral | `--strand-gray-400` (2.52:1) | `--strand-gray-500` (5.23:1) |
+| Success | `--strand-teal-vital` (2.49:1) | `--strand-on-teal-tint` (5.62:1) |
+| Growth | `--strand-green-positive` (2.54:1) | `--strand-green-positive-deep` (5.48:1) |
+| Error | `--strand-red-alert` (3.76:1) | `--strand-red-alert-deep` (6.47:1) |
+| Warning | `--strand-amber-caution` (2.15:1) | `--strand-on-amber-tint` (7.09:1) |
+
+The fill-tier values are not deficient and must not be "fixed" by darkening them. `--strand-blue-primary` is the brand blue, and 3.1 rejects a darker one in as many words: "Not corporate blue (too dark, too safe)." It is exactly right beneath a white label, around a focused input, and under an active tab. It is simply not a text colour on a light ground, and neither is any other fill-tier value.
+
+**Three consequences worth stating, because each one has been got wrong:**
+
+1. **A hover state carries the same obligation as a resting state.** A link that brightens on hover into a failing ratio has a failing hover state. Where a hue has nowhere accessible to brighten to, change something other than colour: the growing underline on `.strand-link` is the affordance, and the colour shift on top of it was redundant as well as unsafe.
+2. **A light island inside the dark instrument cabinet (9.6) uses the text tier, not the surrounding dark context's values.** The cabinet's on-dark colours are correct against the abyss and wrong against the panel nested in it.
+3. **A glyph is not text, but a word is.** A status tick beside a label that says "Complete" is a graphical object at 3:1; a status *value* rendered as the word itself is text at 4.5:1. 11.6's prefix-only status colour survives; a coloured word does not.
+
+This is enforced, not documented and hoped for. `pnpm test:contrast` reads the built CSS, resolves the background each rule's text will sit on, and fails on any pairing below its applicable threshold. It runs inside `pnpm test:all`.
+
+**Opacity multiplies against every ratio on this page.** The ratios above describe declared colors. An ancestor at partial opacity composites foreground and background alike toward the surface behind it and destroys the ratio, and no palette value can defend against it: at opacity 0.5 nothing passes, however dark the token. This matters because `.strand-reveal` (Part VI.4) is scroll-driven, so an element parked partway through its entry range sits at partial opacity as a stable state, not a transient one. Audit contrast with reveals settled -- see Part VI.7.
 
 ### 14.3 Focus Indicators
 

@@ -37,7 +37,7 @@
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
   font-weight: var(--strand-weight-medium);
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
   letter-spacing: var(--strand-tracking-widest);
   text-transform: uppercase;
   white-space: nowrap;

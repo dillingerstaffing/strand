@@ -13,7 +13,7 @@ Strand and Bootstrap coexist without conflicts. All Strand classes are prefixed 
 | `btn btn-link` | `strand-btn strand-btn--ghost strand-btn--md` | |
 | `btn btn-sm` | `strand-btn strand-btn--primary strand-btn--sm` | Size is a separate modifier, not a size class |
 | `btn btn-lg` | `strand-btn strand-btn--primary strand-btn--lg` | |
-| `card` | `strand-card strand-card--elevated strand-card--pad-md` | Strand requires variant (`--elevated`, `--outlined`, `--interactive`) and padding (`--pad-none`, `--pad-sm`, `--pad-md`, `--pad-lg`) |
+| `card` | `strand-card strand-card--pad-md` | A bare `strand-card` is already elevated, so there is no `--elevated`. Reach for a variant only to remove or change that: `--outlined` (border, no shadow), `--flat` (neither), `--interactive` (hover lift), `--warm`. Padding is a separate modifier: `--pad-none`, `--pad-sm`, `--pad-md`, `--pad-lg`, `--pad-xl` |
 | `card-body` | (use padding modifier on card) | Strand manages card padding at the card level |
 | `card-title` / `card-text` | (use semantic HTML) | No special card content classes |
 | `form-control` | `strand-input` wrapper + `strand-input__field` | Strand wraps `<input>` in a `<div class="strand-input">` |

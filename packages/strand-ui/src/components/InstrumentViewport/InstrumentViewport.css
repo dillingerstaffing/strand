@@ -222,9 +222,13 @@
   color: var(--strand-blue-midnight);
 }
 
+/* Light-island restore (DL 9.6). These two selectors reach INTO a light panel
+   nested in the dark cabinet, so their text pairs against a light surface and
+   takes the text tier, not the fill tier that the surrounding dark context
+   uses. blue-primary reads 3.29:1 here. */
 .strand-detail-panel .strand-link,
 .strand-surface-light .strand-link {
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   background-image: linear-gradient(currentColor, currentColor);
 }
 
@@ -286,8 +290,11 @@
   color: var(--strand-gray-500);
 }
 
+/* Light-island restore (DL 9.6). The status label is an uppercase mono WORD,
+   so it is text at 4.5:1, and on the light panel blue-primary reads 3.29:1.
+   Matches the light-surface default in Alert.css. */
 .strand-detail-panel .strand-alert--info .strand-alert__status {
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
 }
 
 .strand-instrument-viewport__label {
@@ -1154,12 +1161,15 @@
   transform: translateY(0) scale(0.98);
 }
 
+/* Light island (DL 9.6): the panel is a light surface, so gray-400 reads
+   2.52:1 here rather than functioning as the on-dark value it is elsewhere
+   in this file. Secondary text tier. */
 .strand-detail-panel__source {
   display: block;
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
   letter-spacing: var(--strand-tracking-wide);
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
   text-align: center;
 }
 

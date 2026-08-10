@@ -57,7 +57,7 @@
 }
 
 .strand-tabs__tab--active {
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   border-bottom-color: var(--strand-blue-primary);
 }
 

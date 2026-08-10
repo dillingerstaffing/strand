@@ -134,8 +134,10 @@
 }
 
 /* DL Part XVII.2: Contrast-safe pairing on recessed surfaces.
-   gray-500 on surface-recessed fails 4.5:1 for small text.
-   Auto-darken to gray-600 when inside a recessed context. */
+   gray-500 now clears AA on surface-recessed on its own (4.77:1), so this
+   is no longer a correctness patch. It stays because recessed sections are
+   the busiest surface in the language, and the extra step to gray-600
+   (6.74:1 there) buys back the margin that a darker ground spends. */
 .strand-section--bg-recessed .strand-overline {
   color: var(--strand-gray-600);
 }
@@ -227,12 +229,15 @@
 }
 
 .strand-text-secondary a {
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   text-decoration: none;
 }
 
+/* Underline on hover rather than a color shift. The previous brighten to
+   blue-vivid does not meet 4.5:1 on the page background, and a hover state
+   carries the same contrast obligation as the resting one. */
 .strand-text-secondary a:hover {
-  color: var(--strand-blue-vivid);
+  text-decoration: underline;
 }
 
 .strand-text-secondary--xs {
@@ -358,8 +363,11 @@
   text-align: right;
 }
 
+/* teal-vital is the fill tier (2.49:1 as text on white). on-teal-tint is the
+   same hue at the text tier, which is what a status VALUE needs since the
+   word itself carries the meaning here rather than a glyph beside it. */
 .strand-kv__value--status {
-  color: var(--strand-teal-vital);
+  color: var(--strand-on-teal-tint);
 }
 
 /* ── Key-Value Row: editorial modifier ──
@@ -413,7 +421,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-wider);
   text-transform: uppercase;
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -427,21 +435,26 @@
   white-space: nowrap;
 }
 
-.strand-log__status--complete { color: var(--strand-teal-vital); }
-.strand-log__status--process { color: var(--strand-blue-primary); }
-.strand-log__status--warning { color: var(--strand-amber-caution); }
-.strand-log__status--error { color: var(--strand-red-alert); }
+.strand-log__status--complete { color: var(--strand-on-teal-tint); }
+.strand-log__status--process { color: var(--strand-blue-deep); }
+.strand-log__status--warning { color: var(--strand-on-amber-tint); }
+.strand-log__status--error { color: var(--strand-red-alert-deep); }
 
+/* DL 11.10 calls this text SECONDARY, so it takes the secondary-text color.
+   It previously used gray-300, and its strong runs gray-100, which are
+   on-dark values: on a light surface they measured 1.47:1 and 1.09:1, the
+   latter being effectively invisible. The dark cabinet recolors both through
+   the InstrumentViewport cascade, so the on-dark reading is unaffected. */
 .strand-log__text {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
-  color: var(--strand-gray-300);
+  color: var(--strand-gray-500);
   line-height: var(--strand-leading-normal);
 }
 
 .strand-log__text strong {
   font-weight: var(--strand-weight-semibold);
-  color: var(--strand-gray-100);
+  color: var(--strand-gray-700);
 }
 
 /* ── Metric Row ──
@@ -483,13 +496,16 @@
   min-height: var(--strand-space-1);
 }
 
+/* gray-300 is the disabled-state tier and reads at 1.47:1 as text on a light
+   surface. The amount is the datum the chart exists to communicate, so it
+   takes the secondary-text color. */
 .strand-bar-chart__amount {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-wider);
   text-transform: uppercase;
-  color: var(--strand-gray-300);
+  color: var(--strand-gray-500);
   font-variant-numeric: tabular-nums;
 }
 
@@ -499,7 +515,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-wider);
   text-transform: uppercase;
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
 }
 
 /* ── Bar chart size modifiers ── */
@@ -543,7 +559,7 @@
   height: var(--strand-space-8);
   border-radius: var(--strand-radius-full);
   background: var(--strand-blue-glow);
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-sm);
   font-weight: var(--strand-weight-semibold);
@@ -701,18 +717,18 @@
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
   letter-spacing: var(--strand-tracking-wider);
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
   text-decoration: none;
   transition: color var(--strand-duration-fast) ease;
 }
 
 .strand-footer__link:hover {
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
 }
 
 .strand-footer__copy {
   font-size: var(--strand-text-xs);
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
 }
 
 /* ═══ FORM LAYOUT (DL Part XVIII.1: Specimen Collection Room) ═══ */
@@ -770,7 +786,7 @@
    lines inherit color via currentColor; wire animation delays with
    the .strand-hero-grid__line--N modifiers (1-18). */
 .strand-hero-grid {
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
 }
 
 .strand-hero-grid svg {
@@ -848,7 +864,7 @@
 .strand-auth-indicator {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
   letter-spacing: var(--strand-tracking-wide);
   white-space: nowrap;
 }
@@ -858,7 +874,7 @@
   height: 28px;
   border-radius: var(--strand-radius-full);
   background: var(--strand-blue-glow);
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
   font-weight: var(--strand-weight-semibold);
@@ -899,7 +915,7 @@
   justify-content: center;
   padding: var(--strand-space-16) var(--strand-space-6);
   text-align: center;
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
   font-family: var(--strand-font-sans);
 }
 
@@ -916,7 +932,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-widest);
   text-transform: uppercase;
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   text-decoration: none;
   background-image: linear-gradient(var(--strand-blue-primary), var(--strand-blue-primary));
   background-size: 0% 1px;
@@ -952,7 +968,7 @@
 
 .strand-empty-search__suggestion {
   font-size: var(--strand-text-sm);
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
   line-height: var(--strand-leading-relaxed);
   max-width: 50ch;
 }

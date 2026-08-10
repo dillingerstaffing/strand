@@ -219,7 +219,7 @@ Strand: BEM `--` modifiers (`strand-btn strand-btn--primary strand-btn--lg`)
 | `$strand-black` | `#0F192A` | --strand-blue-abyss |
 | `$strand-grey-darker` | `#1E2B3B` | --strand-gray-800 |
 | `$strand-grey-dark` | `#334355` | --strand-gray-700 |
-| `$strand-grey` | `#64778B` | --strand-gray-500 |
+| `$strand-grey` | `#5D6E81` | --strand-gray-500 |
 | `$strand-grey-light` | `#94A5B8` | --strand-gray-400 |
 | `$strand-grey-lighter` | `#CBD6E1` | --strand-gray-300 |
 | `$strand-grey-lightest` | `#E2E9F0` | --strand-gray-200 |

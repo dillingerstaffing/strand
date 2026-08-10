@@ -278,6 +278,59 @@ describe("WCAG 2.2 AA contrast ratios", () => {
   });
 });
 
+// ── Secondary text across every light surface it can land on ──
+//
+// DL Part XIV.1 states accessibility is a constraint of the medium, and Part
+// III.7 rule 6 promises every pairing clears 4.5:1 "enforced by automated test,
+// not by manual review". That test did not exist for gray-500, and the spec
+// itself recorded the surface-primary pairing at 4.49:1 while labelling it a
+// pass -- a value derived by eye, below the threshold it claimed to meet.
+//
+// gray-500 is the secondary-text role (DL Part III.8): captions, timestamps,
+// helper text, and the overline, which renders at text-xs (11.1px) and so is
+// unambiguously "normal text" needing the full 4.5:1. A consumer is free to put
+// that text on any of the light surfaces the language sanctions, not just the
+// pure-white elevated one, so every one of them is a real pairing and each must
+// hold on its own. The margin requirement is deliberate: a ratio that clears the
+// threshold by 0.01 is indistinguishable from one that fails it, and rounding in
+// any consumer's rendering pipeline decides which side it lands on.
+
+describe("secondary text holds AA on every sanctioned light surface", () => {
+  const LIGHT_SURFACES: ReadonlyArray<readonly [string, string]> = [
+    ["surface-primary", tokens.surfacePrimary],
+    ["surface-elevated", tokens.surfaceElevated],
+    ["surface-recessed", tokens.surfaceRecessed],
+    ["gray-50", tokens.gray50],
+    ["gray-100", tokens.gray100],
+  ];
+
+  it.each(LIGHT_SURFACES)(
+    "gray-500 secondary text on %s clears 4.5:1 with margin",
+    (name, surface) => {
+      const ratio = contrastRatio(tokens.gray500, surface);
+      expect(
+        ratio,
+        `gray-500 (${tokens.gray500}) on ${name} (${surface}) is ${ratio.toFixed(3)}:1`
+      ).toBeGreaterThanOrEqual(4.75);
+    }
+  );
+
+  it("keeps gray-500 blue-shifted, so the fix does not warm the cool ladder", () => {
+    const { r, g, b } = hexToRgb(tokens.gray500);
+    // DL Part III.4: every gray is blue-shifted. Blue must lead, red must trail.
+    expect(b, `${tokens.gray500} blue channel must exceed red`).toBeGreaterThan(r);
+    expect(g, `${tokens.gray500} green channel must exceed red`).toBeGreaterThan(r);
+  });
+
+  it("keeps gray-500 visually between its neighbours on the ladder", () => {
+    const l400 = relativeLuminance(tokens.gray400);
+    const l500 = relativeLuminance(tokens.gray500);
+    const l600 = relativeLuminance(tokens.gray600);
+    expect(l500).toBeLessThan(l400);
+    expect(l500).toBeGreaterThan(l600);
+  });
+});
+
 // ── Type Scale (Major Third Ratio) ──
 
 describe("Type scale", () => {
@@ -763,15 +816,16 @@ describe("base.css anchors scroll offset by the nav stack", () => {
 
   // ── Metric-matched fallback faces (layout stability) ──
   //
-  // Strand ships no font binaries and names Inter / JetBrains Mono first in
-  // its stacks, so consumers load them themselves, in practice with
-  // font-display: swap. Without a metric-matched fallback behind each face
-  // the swap resizes every glyph run and reflows the whole page late in
-  // load. Two things have to hold for the fix to work, and both are easy to
-  // break by accident: the faces must carry all four metric descriptors
-  // (dropping one silently reintroduces the reflow on that axis), and each
-  // must sit DIRECTLY behind its real face in the stack, because a fallback
-  // listed after the system fonts is never the one that gets used.
+  // Strand names Inter / JetBrains Mono first in its stacks and ships the real
+  // faces in css/fonts.css, which is optional: a consumer may load them some
+  // other way, or not at all. Whichever way the real face arrives it arrives
+  // late, with font-display: swap. Without a metric-matched fallback behind it
+  // the swap resizes every glyph run and reflows the whole page. Two things
+  // have to hold for the fix to work, and both are easy to break by accident:
+  // the faces must carry all four metric descriptors (dropping one silently
+  // reintroduces the reflow on that axis), and each must sit DIRECTLY behind
+  // its real face in the stack, because a fallback listed after the system
+  // fonts is never the one that gets used.
 
   it("defines metric-matched fallback faces carrying all four metric descriptors", async () => {
     const { readFileSync } = await import("node:fs");
@@ -816,6 +870,97 @@ describe("base.css anchors scroll offset by the nav stack", () => {
     );
     expect(tokensCss).toMatch(
       /--strand-font-mono:\s*'JetBrains Mono',\s*'JetBrains Mono Fallback'/
+    );
+  });
+});
+
+// ── Self-hosted real faces (css/fonts.css) ──
+//
+// Naming a font in a stack does not make it available. Strand names Inter and
+// JetBrains Mono first, so before this file existed every consumer had to load
+// them somehow, and in practice that meant a runtime request to a font CDN --
+// a third-party dependency on the critical rendering path of every page.
+//
+// The two ways this file can silently rot are a CDN url creeping back into a
+// src (which quietly restores the third-party request the file exists to
+// remove) and a face losing its explicit font-display (which is treated as
+// block by Chrome and holds the page blank for up to 3s while the font loads).
+// Neither shows up in a visual review on a warm cache.
+
+describe("css/fonts.css serves the real faces first-party", () => {
+  async function fontsCss(): Promise<string> {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    return readFileSync(
+      fileURLToPath(new URL("../css/fonts.css", import.meta.url)),
+      "utf8"
+    );
+  }
+
+  it("declares both families the token stacks name first", async () => {
+    const css = await fontsCss();
+    expect(css).toContain("font-family: 'Inter';");
+    expect(css).toContain("font-family: 'JetBrains Mono';");
+  });
+
+  it("makes no request to any third-party origin", async () => {
+    const css = await fontsCss();
+    for (const host of ["gstatic", "googleapis", "http://", "https://", "//cdn"]) {
+      // The license header names a homepage, so check the src lines only.
+      const srcs = css.match(/src:[^;]+;/g) ?? [];
+      expect(srcs.length).toBeGreaterThan(0);
+      for (const src of srcs) {
+        expect(src, `src must stay first-party, found ${host}`).not.toContain(host);
+      }
+    }
+  });
+
+  it("resolves every src to the fonts directory beside this stylesheet", async () => {
+    const css = await fontsCss();
+    const srcs = css.match(/src:[^;]+;/g) ?? [];
+    for (const src of srcs) {
+      expect(src).toMatch(/url\('\.\.\/fonts\/[a-z0-9-]+\.woff2'\) format\('woff2'\)/);
+    }
+  });
+
+  it("gives every face an explicit font-display so none can block first paint", async () => {
+    const css = await fontsCss();
+    const blocks = css.match(/@font-face\s*\{[^}]*\}/g) ?? [];
+    expect(blocks.length).toBeGreaterThanOrEqual(2);
+    for (const block of blocks) {
+      expect(block, `a face is missing font-display: ${block}`).toMatch(
+        /font-display:\s*(swap|optional)/
+      );
+    }
+  });
+
+  it("ships every binary its stylesheet references, with its license", async () => {
+    const { readdirSync, existsSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const dir = fileURLToPath(new URL("../fonts", import.meta.url));
+    const css = await fontsCss();
+
+    for (const match of css.matchAll(/url\('\.\.\/fonts\/([^']+)'\)/g)) {
+      expect(
+        existsSync(`${dir}/${match[1]}`),
+        `fonts.css references ${match[1]}, which is not shipped`
+      ).toBe(true);
+    }
+
+    // Both families are OFL-1.1, which permits redistribution only with the
+    // license alongside the binary.
+    const files = readdirSync(dir);
+    expect(files).toContain("INTER-OFL.txt");
+    expect(files).toContain("JETBRAINS-MONO-OFL.txt");
+  });
+
+  it("covers the weight range the design language uses, via variable faces", async () => {
+    const css = await fontsCss();
+    // A single variable face per subset spans the range, so a newly-used weight
+    // needs no new file. Static per-weight faces would silently fall back.
+    expect(css).toMatch(/font-family: 'Inter';[\s\S]{0,120}font-weight: 300 600;/);
+    expect(css).toMatch(
+      /font-family: 'JetBrains Mono';[\s\S]{0,120}font-weight: 400 600;/
     );
   });
 });

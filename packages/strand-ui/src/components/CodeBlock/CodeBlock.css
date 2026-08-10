@@ -115,7 +115,7 @@
 .strand-code-block__copy:hover,
 .strand-code-block__copy:focus-visible {
   opacity: 1;
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   border-color: var(--strand-blue-primary);
 }
 
@@ -134,10 +134,13 @@
 }
 
 /* Success state: check icon, green accent, pinned opacity. */
+/* green-positive is the fill tier (2.54:1 as text). The label reads "Copied",
+   so the confirmation is carried by words and needs the text tier; the border
+   keeps the brighter value, which is correct at the 3:1 non-text threshold. */
 .strand-code-block__copy--copied,
 .strand-code-block__copy--copied:hover {
   opacity: 1;
-  color: var(--strand-green-positive);
+  color: var(--strand-green-positive-deep);
   border-color: var(--strand-green-positive);
   transform: translateY(0);
 }

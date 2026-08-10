@@ -159,7 +159,7 @@
 }
 
 .strand-nav__link--active {
-	color: var(--strand-blue-primary);
+	color: var(--strand-blue-deep);
 	font-weight: var(--strand-weight-medium);
 }
 
@@ -266,7 +266,7 @@
 }
 
 .strand-nav__mobile-link--active {
-	color: var(--strand-blue-primary);
+	color: var(--strand-blue-deep);
 	font-weight: var(--strand-weight-semibold);
 }
 

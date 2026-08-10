@@ -55,10 +55,10 @@
   flex-shrink: 0;
 }
 
-.strand-alert--info .strand-alert__status { color: var(--strand-blue-primary); }
-.strand-alert--success .strand-alert__status { color: var(--strand-teal-vital); }
-.strand-alert--warning .strand-alert__status { color: var(--strand-amber-caution); }
-.strand-alert--error .strand-alert__status { color: var(--strand-red-alert); }
+.strand-alert--info .strand-alert__status { color: var(--strand-blue-deep); }
+.strand-alert--success .strand-alert__status { color: var(--strand-on-teal-tint); }
+.strand-alert--warning .strand-alert__status { color: var(--strand-on-amber-tint); }
+.strand-alert--error .strand-alert__status { color: var(--strand-red-alert-deep); }
 
 /* ── Content ── */
 .strand-alert__content {

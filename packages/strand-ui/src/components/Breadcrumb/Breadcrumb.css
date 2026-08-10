@@ -18,7 +18,7 @@
 }
 
 .strand-breadcrumb__separator {
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
   user-select: none;
 }
 

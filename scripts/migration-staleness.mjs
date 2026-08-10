@@ -42,12 +42,29 @@ const CODE_SPAN_PATTERN = /`([^`\n]+)`/g;
 // CSS class names inside code spans: strand-<identifier> with optional
 // BEM modifiers. Must not contain dots (file ref), slashes (path), or
 // uppercase letters (TypeScript type / placeholder). The negative lookbehind
-// prevents matching inside a CSS custom property like --strand-...
+// rejects the two prefixes that mean this is NOT a class: `--` (a CSS custom
+// property) and `$` (a Sass variable in the Bulma coexistence layer). Both
+// have their own pattern below and their own source of truth; classifying
+// either as a class sends it to be looked up in the built CSS, where it can
+// never appear, and reports healthy code as stale.
 const CLASS_NAME_PATTERN =
-	/(?<!-)\bstrand-[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:--[a-z0-9]+(?:-[a-z0-9]+)*)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?\b/g;
+	/(?<![-$])\bstrand-[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:--[a-z0-9]+(?:-[a-z0-9]+)*)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?\b/g;
 
 // CSS custom properties inside code spans: --strand-<identifier>
 const CUSTOM_PROPERTY_PATTERN = /--strand-[a-z][a-z0-9]*(?:-[a-z0-9]+)*\b/g;
+
+// Sass variables from the Bulma coexistence layer: $strand-<identifier>.
+// These live in packages/tokens/bulma/_strand-bulma-vars.scss and are compiled
+// away, so they are verified against that file rather than the CSS bundle.
+const SASS_VARIABLE_PATTERN = /\$strand-[a-z][a-z0-9]*(?:-[a-z0-9]+)*\b/g;
+
+// A guide naming a whole primitive family writes it as a glob: `strand-ref-*`.
+// The trailing marker is kept so the token is checked as a family prefix. A
+// family member is `strand-ref-shell`, where the segment after the prefix is
+// part of the NAME, not a BEM separator, so the BEM heuristic below cannot
+// resolve it and the truncated `strand-ref` reads as stale.
+const CLASS_FAMILY_PATTERN =
+	/(?<![-$])\bstrand-[a-z][a-z0-9]*(?:-[a-z0-9]+)*-\*/g;
 
 // Tokens commonly used as documentation placeholders. Even inside backticks,
 // these should not be treated as real class names.
@@ -61,29 +78,24 @@ function isPlaceholder(token) {
 	return PLACEHOLDER_PATTERNS.some((p) => p.test(token));
 }
 
-// Pre-existing migration guide drift baseline. These tokens are KNOWN to be
-// stale right now (the migration guides were written against an older Strand
-// API and have not been updated to match the current API). The check detects
-// and reports them but does not fail CI on them. Future drift (new entries
-// outside this baseline) DOES fail the check.
+// Pre-existing migration guide drift baseline: tokens known to be stale that
+// the check reports without failing on. Future drift outside this set DOES
+// fail the check.
 //
-// This baseline is technical debt. When a stale token is corrected in
-// the guide, remove its entry here.
-const BASELINE_STALE = new Set([
-	"strand-bulma-compat",
-	"strand-bulma-use",
-	"strand-bulma-vars",
-	"strand-primary",
-	"strand-family-sans",
-	"strand-family-mono",
-	"strand-grey-dark",
-	"strand-grey-light",
-	"strand-radius",
-	"strand-card--elevated",
-	"strand-success",
-	"strand-warning",
-	"strand-danger",
-]);
+// The baseline is now EMPTY, and keeping it that way is the point. Almost
+// everything it once held was never drift at all: Sass variables (`$strand-*`)
+// and stylesheet filenames were being classified as CSS classes and looked up
+// in the built bundle, where by construction they can never appear. Thirteen
+// grandfathered entries plus sixteen hard failures were, with one exception,
+// all the same classifier bug wearing different hats.
+//
+// The exception is what makes this worth saying: `strand-card--elevated` was
+// genuine drift. The Bootstrap guide told migrants to reach for a variant that
+// does not exist, and that real defect sat undetected inside the noise for as
+// long as the noise did. A check that cries wolf does not merely annoy people,
+// it hides the one true finding among the false ones. Fix the classifier
+// rather than growing this set.
+const BASELINE_STALE = new Set([]);
 
 async function exists(path) {
 	try {
@@ -116,44 +128,75 @@ async function readMigrationGuides() {
 	return guides;
 }
 
-function extractStrandTokens(content) {
+export function extractStrandTokens(content) {
 	const tokens = new Set();
 	CODE_SPAN_PATTERN.lastIndex = 0;
 	let spanMatch = CODE_SPAN_PATTERN.exec(content);
 	while (spanMatch !== null) {
 		const span = spanMatch[1];
-		if (span.includes("/")) {
+		// A path or a bare filename is a file reference, not an API token.
+		// `strand-bulma-compat.css` is a stylesheet consumers link; extracting
+		// `strand-bulma-compat` from it and looking for a class by that name
+		// reports a healthy file as a missing class.
+		if (span.includes("/") || /\.(css|scss|sass|js|mjs|cjs|ts|tsx|json)\b/.test(span)) {
 			spanMatch = CODE_SPAN_PATTERN.exec(content);
 			continue;
 		}
-		// Extract CSS custom properties first (more specific pattern)
-		CUSTOM_PROPERTY_PATTERN.lastIndex = 0;
-		let propMatch = CUSTOM_PROPERTY_PATTERN.exec(span);
-		while (propMatch !== null) {
-			if (!isPlaceholder(propMatch[0])) tokens.add(propMatch[0]);
-			propMatch = CUSTOM_PROPERTY_PATTERN.exec(span);
+		// Order matters: each pattern below is a prefix or suffix of the plain
+		// class pattern, so the more specific ones run first and their matches
+		// are masked out of the span before class extraction sees it.
+		let remaining = span;
+
+		for (const pattern of [
+			CUSTOM_PROPERTY_PATTERN,
+			SASS_VARIABLE_PATTERN,
+			CLASS_FAMILY_PATTERN,
+		]) {
+			pattern.lastIndex = 0;
+			for (const match of span.matchAll(pattern)) {
+				if (!isPlaceholder(match[0])) tokens.add(match[0]);
+				remaining = remaining.replace(match[0], " ");
+			}
 		}
-		// Then extract class names
+
 		CLASS_NAME_PATTERN.lastIndex = 0;
-		let classMatch = CLASS_NAME_PATTERN.exec(span);
-		while (classMatch !== null) {
-			const token = classMatch[0];
+		for (const match of remaining.matchAll(CLASS_NAME_PATTERN)) {
+			const token = match[0];
 			if (token !== "strand-ui" && !isPlaceholder(token)) {
 				tokens.add(token);
 			}
-			classMatch = CLASS_NAME_PATTERN.exec(span);
 		}
 		spanMatch = CODE_SPAN_PATTERN.exec(content);
 	}
 	return tokens;
 }
 
-function tokenExistsInCss(token, cssContent) {
+/**
+ * Resolves a token against whichever source of truth actually defines its kind.
+ *
+ * @param {string} token
+ * @param {{css: string, scss: string}} sources
+ */
+export function tokenExistsIn(token, sources) {
+	const { css: cssContent, scss: scssContent } = sources;
+
+	// Sass variables are compiled away and never reach the built CSS. Their
+	// source of truth is the Bulma variables partial.
+	if (token.startsWith("$")) {
+		return new RegExp(`\\${token}\\s*:`).test(scssContent);
+	}
 	// For CSS variables: check for `--strand-...:` or the var() usage.
 	if (token.startsWith("--")) {
 		return (
 			cssContent.includes(`${token}:`) || cssContent.includes(`var(${token})`)
 		);
+	}
+	// A family glob is satisfied by any member: `strand-ref-*` by
+	// `.strand-ref-shell`. The prefix must be followed by a name segment, so a
+	// family whose members have all been removed still reports stale.
+	if (token.endsWith("-*")) {
+		const prefix = token.slice(0, -1);
+		return new RegExp(`\\.${prefix}[a-z0-9]`).test(cssContent);
 	}
 	// For class names: check for `.strand-...` with a clean word boundary.
 	const exact = new RegExp(`\\.${token}(?![a-zA-Z0-9_-])`);
@@ -172,8 +215,21 @@ function tokenExistsInCss(token, cssContent) {
 	return numericVariant.test(cssContent);
 }
 
+async function readScss() {
+	const path = join(
+		REPO_ROOT,
+		"packages",
+		"tokens",
+		"bulma",
+		"_strand-bulma-vars.scss",
+	);
+	return (await exists(path)) ? readFile(path, "utf8") : "";
+}
+
 async function main() {
 	const css = await readCss();
+	const scss = await readScss();
+	const sources = { css, scss };
 	const guides = await readMigrationGuides();
 
 	if (guides.length === 0) {
@@ -191,10 +247,10 @@ async function main() {
 		const tokens = extractStrandTokens(guide.content);
 		for (const token of tokens) {
 			totalChecked += 1;
-			if (tokenExistsInCss(token, css)) continue;
+			if (tokenExistsIn(token, sources)) continue;
 			if (
 				BASELINE_STALE.has(token) ||
-				BASELINE_STALE.has(token.replace(/^--/, ""))
+				BASELINE_STALE.has(token.replace(/^[-$]+/, ""))
 			) {
 				baselineHits.push({ guide: guide.relPath, token });
 				continue;
@@ -246,7 +302,14 @@ async function main() {
 	console.log("");
 }
 
-main().catch((err) => {
-	console.error("\n  STALENESS CHECK ERROR:", err.message);
-	process.exit(2);
-});
+// Only run when invoked directly, so the classifier stays importable from tests
+// without the check executing as an import side effect.
+if (
+	process.argv[1] &&
+	resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))
+) {
+	main().catch((err) => {
+		console.error("\n  STALENESS CHECK ERROR:", err.message);
+		process.exit(2);
+	});
+}

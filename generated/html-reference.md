@@ -694,6 +694,7 @@ Flex layout primitive with direction, gap, and alignment.
 | `strand-stack--wrap` | modifier | Enable flex wrap. |
 | `strand-stack--responsive` | modifier | Collapse horizontal to vertical at 768px. |
 | `strand-stack__item--full-mobile` | child | Full-width child on mobile in responsive mode. |
+| `strand-stack--gap-0` | modifier | Gap: none. Collapse the stack's spacing where an adjacent element already owns it. |
 | `strand-stack--gap-1` | modifier | Gap: space-1 (4px). |
 | `strand-stack--gap-2` | modifier | Gap: space-2 (8px). |
 | `strand-stack--gap-3` | modifier | Gap: space-3 (12px). |
@@ -915,6 +916,7 @@ Site/app navigation with mobile menu and glass variant.
 | `strand-nav__link` | child | Desktop navigation link. |
 | `strand-nav__link--active` | child | Active desktop link state. |
 | `strand-nav__slot` | child | Right-edge content slot (account, utility). |
+| `strand-nav__slot--reserve` | child | Slot with a pinned inline size, so swapping its contents cannot shift the nav. |
 | `strand-nav__actions` | child | Actions area. |
 | `strand-nav__hamburger` | child | Mobile menu toggle button. |
 | `strand-nav__hamburger-icon` | child | Hamburger icon lines. |
@@ -1169,6 +1171,7 @@ Dark instrument panel container for data-dense content.
 | `strand-overline` | base | |
 | `strand-overline--accent` | modifier | |
 | `strand-detail-panel` | base | |
+| `strand-surface-light` | base | |
 | `strand-instrument-viewport__label` | child | |
 | `strand-instrument-viewport__value` | child | |
 | `strand-instrument-viewport__map` | child | |

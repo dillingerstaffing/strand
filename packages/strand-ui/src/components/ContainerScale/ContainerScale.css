@@ -29,7 +29,7 @@
 .strand-container-scale__label code {
   font-family: var(--strand-font-mono);
   font-size: 11px;
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   font-weight: var(--strand-weight-medium);
   background: transparent;
   padding: 0;
@@ -66,7 +66,7 @@
   font-family: var(--strand-font-mono);
   font-size: 10px;
   font-weight: var(--strand-weight-medium);
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
 }
 
 .strand-container-scale__axis {
@@ -76,5 +76,5 @@
   font-family: var(--strand-font-mono);
   font-size: 9px;
   letter-spacing: 0.06em;
-  color: var(--strand-gray-400);
+  color: var(--strand-gray-500);
 }

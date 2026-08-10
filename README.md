@@ -71,8 +71,21 @@ npm install @dillingerstaffing/strand @dillingerstaffing/strand-ui
 @import '@dillingerstaffing/strand/css/reset.css';
 @import '@dillingerstaffing/strand/css/tokens.css';
 @import '@dillingerstaffing/strand/css/base.css';
+@import '@dillingerstaffing/strand/css/fonts.css';   /* optional, see Fonts */
 @import '@dillingerstaffing/strand-ui/css/strand-ui.css';
 ```
+
+**Fonts.** Strand names Inter and JetBrains Mono first in its font stacks and ships both, so you never need a font CDN. Import `css/fonts.css` and you are done: both faces are variable woff2 subset to Latin and Latin Extended, every face carries `font-display: swap`, a Latin page transfers about 78 KB, and nothing leaves your origin, so `font-src` and `style-src` can stay at `'self'`.
+
+Bundlers rewrite and copy the font files automatically. If you copy the CSS into a web root by hand, copy `fonts/` too and keep it a sibling of `css/`, because the stylesheet refers to it relatively as `../fonts/`:
+
+```
+public/
+  css/    <- tokens.css, reset.css, base.css, fonts.css
+  fonts/  <- copied from @dillingerstaffing/strand/fonts/
+```
+
+The import is optional. Skip it and the stacks fall through to the metric-matched fallback faces in `base.css`, which are sized to match Inter and JetBrains Mono so the page does not reflow either way. Both families are SIL Open Font License 1.1, and the licenses ship with the binaries.
 
 **Use components:**
 

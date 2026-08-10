@@ -277,7 +277,7 @@
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   font-weight: var(--strand-weight-semibold);
   margin: 0;
 }

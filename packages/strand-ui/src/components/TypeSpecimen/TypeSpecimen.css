@@ -30,6 +30,6 @@
 }
 
 .strand-type-specimen__meta b {
-  color: var(--strand-blue-primary);
+  color: var(--strand-blue-deep);
   font-weight: var(--strand-weight-medium);
 }

@@ -89,6 +89,23 @@
 @import '@strand-ui/tokens/css/base.css';</code></pre>
       </div>
 
+      <h2>Serve the Fonts</h2>
+      <p>Strand names Inter and JetBrains Mono first in its font stacks and ships both, so you never need a font CDN. Add a fourth import:</p>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>@import '@strand-ui/tokens/css/fonts.css';</code></pre>
+      </div>
+      <p>Both faces are variable woff2, subset to Latin and Latin Extended, and every face carries <code>font-display: swap</code>. A Latin page transfers about 78&nbsp;KB of font data and makes no third-party request, so you can keep <code>font-src</code> and <code>style-src</code> at <code>'self'</code>.</p>
+      <p><strong>If you use a bundler</strong>, that import is all there is to it. Vite, webpack and Rollup rewrite the font URLs and copy the files into your build automatically.</p>
+      <p><strong>If you copy the CSS into a web root</strong> instead, copy the fonts too and keep the two directories siblings, because the stylesheet refers to them relatively as <code>../fonts/</code>:</p>
+      <div class="docs-code-block">
+        <button class="docs-copy-btn" type="button">Copy</button>
+        <pre><code>public/
+  css/    &lt;- tokens.css, reset.css, base.css, fonts.css
+  fonts/  &lt;- copied from @strand-ui/tokens/fonts/</code></pre>
+      </div>
+      <p>This import is optional. Skip it and the stacks fall through to the metric-matched fallback faces in <code>base.css</code>, which are sized to match Inter and JetBrains Mono so the page does not reflow either way. Both families are licensed under the SIL Open Font License 1.1; the license files ship alongside the binaries.</p>
+
       <h2>Use the Tokens</h2>
       <p>All tokens are available as CSS custom properties prefixed with <code>--strand-</code>. Use them in your own CSS:</p>
       <div class="docs-code-block">
