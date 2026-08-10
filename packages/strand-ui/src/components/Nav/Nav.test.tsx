@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it, vi, afterEach } from "vitest";
 import { render, fireEvent, cleanup } from "@testing-library/preact";
 import { Nav } from "./Nav.js";
@@ -242,5 +244,52 @@ describe("Nav", () => {
     expect(mobile).toMatch(
       /\.strand-nav__slot--reserve\s*\{[^}]*min-width:\s*var\(--strand-nav-slot-reserve-sm,\s*[\d.]+rem\)/,
     );
+  });
+});
+
+// ── Wordmark states ──
+//
+// On a graduated domain the wordmark is the ONLY way home, and it had no
+// hover and no pressed state. Measured on production with :hover asserted as
+// actually matching, not one computed property changed. A primary navigation
+// affordance that gives no feedback reads as decoration.
+//
+// Guarded as source because jsdom has no hover. The behaviour was verified in
+// a real browser, which a source guard cannot do; what this pins is that the
+// rules exist, that they are colour-only, and that the transition they add has
+// a reduced-motion reset at matching specificity.
+describe("the nav wordmark answers hover and press", () => {
+  const css = readFileSync(resolve(__dirname, "Nav.css"), "utf8");
+  const ruleFor = (sel: string) =>
+    css.match(new RegExp(sel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*\\{([^}]*)\\}"))?.[1];
+
+  it("has a hover and a pressed rule", () => {
+    expect(ruleFor(".strand-nav__logo:hover"), "no hover rule").toBeTruthy();
+    expect(ruleFor(".strand-nav__logo:active"), "no pressed rule").toBeTruthy();
+  });
+
+  it("changes colour only, leaving the wordmark's metrics alone", () => {
+    // Size, weight and tracking are specified by the design language, and a
+    // metric change here would reflow the nav on hover.
+    for (const sel of [".strand-nav__logo:hover", ".strand-nav__logo:active"]) {
+      const body = ruleFor(sel) || "";
+      expect(body).toMatch(/color:/);
+      expect(body, `${sel} must not alter metrics`).not.toMatch(
+        /font-size|font-weight|letter-spacing|padding|margin|transform/,
+      );
+    }
+  });
+
+  it("presses darker than it rests, not lighter", () => {
+    // Every other pressed state in the library descends. blue-abyss is the
+    // darkest blue, so the press is also the highest-contrast state.
+    expect(ruleFor(".strand-nav__logo:active")).toContain("--strand-blue-abyss");
+  });
+
+  it("resets its transition under reduced motion at matching specificity", () => {
+    // Gap #56: a reset that under-specifies the rule it undoes does nothing
+    // silently. Both are (0,1,0).
+    const reduced = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"));
+    expect(reduced).toMatch(/\.strand-nav__logo\s*\{[^}]*transition:\s*none/);
   });
 });

@@ -51,6 +51,16 @@
   color: var(--strand-gray-600);
 }
 
+/* Pressed. The tab had hover and focus but no active state, so a click
+   registered only after the filter had already changed -- the interface
+   answered the result rather than the press. Darker than hover, which is the
+   same direction every other pressed state in the library takes, and 9.85:1
+   on the page background against hover's 7.21:1, so the press is the most
+   legible state rather than the least. */
+.strand-tabs__tab:active {
+  color: var(--strand-gray-700);
+}
+
 .strand-tabs__tab:focus-visible {
   outline: 2px solid var(--strand-blue-primary);
   outline-offset: 2px;

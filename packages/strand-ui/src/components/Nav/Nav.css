@@ -46,6 +46,29 @@
 	color: var(--strand-blue-midnight);
 	text-decoration: none;
 	position: relative;
+	transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
+}
+
+/* ── Wordmark states ──
+   The wordmark is a link, and on a graduated domain it is the ONLY way home,
+   yet it had no hover and no pressed state: measured on production with
+   :hover asserted as matching, not one computed property changed. A control
+   that is the primary navigation affordance and gives no feedback reads as
+   decoration rather than as something you can click.
+
+   Colour only, deliberately. The wordmark's size, weight and tracking are
+   specified by the design language, so a hover must not touch its metrics --
+   and a shift in metrics would reflow the nav besides. Contrast is measured
+   at every state on the page background: midnight 10.70:1 at rest, deep
+   5.83:1 on hover, abyss 17.13:1 pressed, so no state trades legibility for
+   feedback. Pressed goes DARKER than rest rather than lighter, which is the
+   same direction .strand-btn--primary takes into blue-abyss. */
+.strand-nav__logo:hover {
+	color: var(--strand-blue-deep);
+}
+
+.strand-nav__logo:active {
+	color: var(--strand-blue-abyss);
 }
 
 /* ── Logo with animated pulse underline (DL Principle 7: alive signal) ──
@@ -74,6 +97,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+	/* Matching specificity, per Gap #56: a reset that under-specifies the rule
+	   it undoes silently does nothing. .strand-nav__logo is (0,1,0) and so is
+	   this, so the colour transition above is genuinely removed. */
+	.strand-nav__logo {
+		transition: none;
+	}
+
 	.strand-nav__logo--pulse::after {
 		animation: none;
 		opacity: 0.6;

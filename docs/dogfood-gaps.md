@@ -624,3 +624,24 @@ Verdict: FAIL (two L2 gaps; both closed)
 - Both guards were mutation-checked rather than trusted for being green: making the skip link never reveal, switching it to `absolute`, and reverting the star to the weak ring all fail their suites.
 - Propagation: one new class (registered in `class-docs.json`, docs regenerated) and three changed rules. All 8 consumer types inherit them.
 - Version: 0.30.0
+
+---
+
+## Production consumer: shipthisgroup.com - interactive primitives that do not answer the pointer
+Date: 2026-08-10
+Verdict: FAIL (one L2 gap; closed)
+
+### Gap #61
+- Type: L2
+- Scope note: audited only the interactive primitives shipthisgroup.com actually renders, enumerated from the live DOM across the home, event and channel pages rather than from the library index: `strand-btn` (+ primary/secondary/ghost/icon-only), `strand-link` (+ inherit/mono), `strand-nav__logo`, `strand-skip-link`, `strand-tabs__tab`.
+- Symptom: **the nav wordmark had no hover and no pressed state.** Measured on production with `:hover` asserted as actually matching, and not one computed property changed -- not colour, opacity, transform, decoration, background or background-size, on either the home page or an event page. On the graduated domain the wordmark is the ONLY way home, so the primary navigation affordance gave no feedback at all and read as decoration. Separately, `.strand-tabs__tab` had hover and focus but no `:active`, so a click on the channel filter registered only once the filter had already changed: the interface answered the result rather than the press.
+- Fix: colour-only states on both. The wordmark rests at blue-midnight, hovers to blue-deep and presses to blue-abyss; the tab presses to gray-700 against its gray-600 hover. Contrast measured at every state on the page background -- 10.70:1, 5.83:1, 17.13:1 for the wordmark and 7.21:1 to 9.85:1 for the tab -- so no state trades legibility for feedback, and both press DARKER than they rest, which is the direction `.strand-btn--primary` already takes into blue-abyss.
+- Colour only, deliberately: the wordmark's size, weight and tracking are specified by the design language, and a metric change on hover would also reflow the nav.
+- The transition added to the wordmark carries a reduced-motion reset **at matching specificity**, both `(0,1,0)`, per Gap #56. `.strand-tabs__tab` already had one.
+- Checked and NOT changed: `.strand-link` has no `:active` and should not get one. Link.css records a deliberate decision that hover must not shift colour, because a hover state has to meet contrast too and blue-vivid reaches only 4.45:1; the growing underline already carries the affordance. Adding a pressed colour would reopen a question that was closed on evidence.
+- Two audit-method notes, both cases where the first measurement was wrong:
+  - The source scan initially reported `strand-btn` as having no loading state. It has one; the regex isolating the base class excluded modifiers, so `.strand-btn--loading` never matched.
+  - The browser scan initially reported `.strand-link--mono` as having no hover. It has one, and works. The probe had hovered an element that never received hover. Asserting the precondition (`el.matches(":hover")`) is what distinguished a real gap from a failed probe, and it is the same discipline as asserting `matchMedia("(prefers-reduced-motion: reduce)").matches` before trusting a reduced-motion measurement.
+- Propagation: two CSS rules plus a transition and its reset. No new classes, no new tokens, parity unchanged. All 8 consumer types inherit them.
+- Guards mutation-checked: removing the hover rule, making the press lighter than rest, and dropping the reduced-motion reset each fail.
+- Version: 0.31.0
