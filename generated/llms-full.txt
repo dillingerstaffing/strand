@@ -1253,6 +1253,7 @@ Flex layout primitive with direction, gap, and alignment.
 | `strand-stack--wrap` | modifier | Enable flex wrap. |
 | `strand-stack--responsive` | modifier | Collapse horizontal to vertical at 768px. |
 | `strand-stack__item--full-mobile` | child | Full-width child on mobile in responsive mode. |
+| `strand-stack--gap-0` | modifier | Gap: none. Collapse the stack's spacing where an adjacent element already owns it. |
 | `strand-stack--gap-1` | modifier | Gap: space-1 (4px). |
 | `strand-stack--gap-2` | modifier | Gap: space-2 (8px). |
 | `strand-stack--gap-3` | modifier | Gap: space-3 (12px). |
@@ -1260,7 +1261,6 @@ Flex layout primitive with direction, gap, and alignment.
 | `strand-stack--gap-5` | modifier | Gap: space-5 (20px). |
 | `strand-stack--gap-6` | modifier | Gap: space-6 (24px). |
 | `strand-stack--gap-8` | modifier | Gap: space-8 (32px). |
-| `strand-stack--gap-0` | modifier | |
 
 **Usage:**
 
@@ -4616,6 +4616,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- self-hosted variable faces + a text tier for the palette (v0.27.0)
 
 ## [0.26.0] - 2026-08-09
 
