@@ -1,4 +1,4 @@
-/*! Strand v0.27.2 | MIT License | dillingerstaffing.com */
+/*! Strand v0.28.0 | MIT License | dillingerstaffing.com */
 
 :root {
   /* ═══════════════════════════════════════════
@@ -47,12 +47,14 @@
   /* ── SEMANTIC ACCENTS ── */
   --strand-cyan-signal: #22D3EE;
   --strand-teal-vital: #14B8A6;
+  --strand-teal-deep: #0F766E;
   --strand-green-positive: #10B981;
   --strand-green-positive-deep: #047857;
   --strand-violet-data: #8B5CF6;
   --strand-red-alert: #EF4444;
   --strand-red-alert-vivid: #DC2626;
   --strand-red-alert-deep: #B91C1C;
+  --strand-red-alert-abyss: #7F1D1D;
   --strand-amber-caution: #F59E0B;
 
   /* ── TINT BACKGROUNDS (light status backgrounds for banners/alerts) ── */
@@ -62,7 +64,16 @@
   --strand-teal-tint: #CCFBF1;
   --strand-gray-tint: #F1F5F9;
 
-  /* ── ON-COLORS (contrast-safe text pairings) ── */
+  /* ── ON-COLORS (contrast-safe text pairings) ──
+     An on-color is a guarantee AT A TEXT SIZE, not an unconditional one.
+     WCAG asks 4.5:1 of small text and 3:1 of large, so the same pairing can
+     be correct on a 24px heading and a failure on an 11px label. White on
+     blue-primary is 3.29:1 and white on red-alert is 3.76:1: both are right
+     for large text on a fill, and both are below AA for anything small.
+     The deep rungs (blue-deep, red-alert-deep, red-alert-abyss, teal-deep,
+     green-positive-deep) are the values a component must reach for when it
+     paints SMALL white text on an accent. tokens.test.ts pins which pairings
+     are small-text-safe, and which are deliberately fill-only. */
   --strand-on-surface-primary: #475769;
   --strand-on-surface-elevated: #475769;
   --strand-on-surface-recessed: #475769;
@@ -72,7 +83,9 @@
   --strand-on-red-alert: #FFFFFF;
   --strand-on-red-alert-vivid: #FFFFFF;
   --strand-on-red-alert-deep: #FFFFFF;
+  --strand-on-red-alert-abyss: #FFFFFF;
   --strand-on-teal-vital: #0F192A;
+  --strand-on-teal-deep: #FFFFFF;
   --strand-on-teal-tint: #0D7377;
   --strand-on-amber-caution: #0F192A;
   --strand-on-amber-tint: #92400E;

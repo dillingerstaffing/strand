@@ -747,6 +747,14 @@ await page.emulateMediaFeatures([
 
 Disabling `color-contrast` to silence these findings is the wrong fix at the wrong layer: it suppresses genuine contrast regressions along with the artifacts.
 
+**Reduced motion attributes a defect. It does not certify a colour.** The paragraph above is about deciding whether a finding belongs to the palette or to the reveal, and for that question the settled state is the right one to read. It is the wrong state to sign off on, because it is not the state a user sees. A scroll-driven reveal means the composited value is what a reader encounters every time a card enters the viewport at ordinary scrolling speed; the settled value is what they get afterwards.
+
+So **certify against the worst state a user can encounter, not the settled one.** Settled is the state a checker finds most easily and the state a user sees least. Worked example, from the alert status prefix on the dark viewport: the panel's declared background is `color-mix(in srgb, var(--strand-gray-400) 12%, transparent)` over the abyss, which resolves to `#1F2A3B` settled and composites to `#343E4E` mid-reveal (a single ancestor at ~0.904, recovered by solving for the alpha and confirmed by walking the chain). Against those two backgrounds `--strand-teal-vital` measures 5.81:1 and 4.34:1. A fix using it would have passed every check in the repo and been inaccessible to anyone who scrolled the card into view. The `*-tint` values were chosen instead because they clear 4.5:1 in both states, at 12.8:1 and 9.6:1.
+
+The general rule: **a colour with two backgrounds needs two numbers.** One number standing for both is how a fill-tier value gets adopted as a text value, and a transient composite is exactly where that goes unnoticed.
+
+A corollary for the tooling, learned by watching three separate checkers report clean while being wrong on the same day: **fail loudly on anything unrecognised.** A contrast script that cannot parse a `color(srgb ... / 0.12)` layer must throw, never skip it and composite what remains -- skipping produced a confident `#0F192A` and a plausible 3.13:1 that were simply not the page. Silent non-handling presented as success is worse than no check, because it also spends the reviewer's trust.
+
 ### 6.8 Motion Anti-Patterns (Never Do These)
 
 - Re-animating elements on every viewport entry/exit

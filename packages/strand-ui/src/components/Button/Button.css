@@ -140,20 +140,29 @@
   background: var(--strand-blue-wash);
 }
 
-/* ── Danger variant ── */
+/* ── Danger variant ──
+   The whole ladder moved one rung deeper. White on red-alert is 3.76:1, which
+   is a fill-tier pairing: fine behind large text, below AA for a button label.
+   This is the confirm button on destructive actions, so its label is the last
+   thing a reader checks before deleting something, and it was the least
+   legible text in the set.
+
+   Base is now red-alert-vivid (4.83:1), hover red-alert-deep (6.47:1) and
+   active red-alert-abyss (10.02:1), which mirrors how primary descends
+   blue-deep -> midnight -> abyss rather than starting at the base rung. */
 .strand-btn--danger {
-  background: var(--strand-red-alert);
-  color: var(--strand-on-red-alert);
+  background: var(--strand-red-alert-vivid);
+  color: var(--strand-on-red-alert-vivid);
 }
 
 .strand-btn--danger:hover:not(:disabled) {
-  background: var(--strand-red-alert-vivid);
+  background: var(--strand-red-alert-deep);
   transform: translateY(-1px);
   box-shadow: var(--strand-hover-shadow-danger);
 }
 
 .strand-btn--danger:active:not(:disabled) {
-  background: var(--strand-red-alert-deep);
+  background: var(--strand-red-alert-abyss);
 }
 
 /* ── Loading state ── */

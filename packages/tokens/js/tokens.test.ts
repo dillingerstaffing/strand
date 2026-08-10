@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import * as tokens from "./tokens.js";
 
@@ -962,5 +963,119 @@ describe("css/fonts.css serves the real faces first-party", () => {
     expect(css).toMatch(
       /font-family: 'JetBrains Mono';[\s\S]{0,120}font-weight: 400 600;/
     );
+  });
+});
+
+// ── Fill rungs that carry small white text ──
+//
+// WCAG applies two thresholds to the same colour depending on the job it is
+// doing. The tests above already record that: white on blue-primary is
+// asserted at 3:1 "(large text / interactive elements)", not 4.5:1, because
+// blue-primary is a FILL value and white on it is only safe at large sizes.
+//
+// That knowledge existed and nothing enforced it one layer down. Badge
+// indicators paint white at --strand-text-xs (11px, small text, 4.5:1) and
+// were reaching for the base accent rungs anyway, so teal, blue and red count
+// badges all shipped below AA. The deep rungs exist precisely for this, and
+// .strand-btn--primary already used blue-deep for exactly this reason.
+//
+// These pin the rungs a component may use UNDER small white text.
+describe("accent deep rungs can carry small white text at AA", () => {
+  const WHITE = "#FFFFFF";
+  const deepRungs: Array<[string, string]> = [
+    ["blue-deep", tokens.blueDeep],
+    ["red-alert-deep", tokens.redAlertDeep],
+    ["red-alert-abyss", tokens.redAlertAbyss],
+    ["teal-deep", tokens.tealDeep],
+    ["green-positive-deep", tokens.greenPositiveDeep],
+  ];
+
+  for (const [name, value] of deepRungs) {
+    it(`white on ${name} >= 4.5:1`, () => {
+      expect(contrastRatio(WHITE, value)).toBeGreaterThanOrEqual(4.5);
+    });
+  }
+
+  // The complement, and the reason the deep rungs are needed: the base rungs
+  // must NOT be used under small white text. If one of these ever rises above
+  // 4.5 the palette moved, and the deep-rung indirection should be revisited
+  // rather than left as dead ceremony.
+  it("base accent rungs remain fill-only for white text (below 4.5:1)", () => {
+    for (const [name, value] of [
+      ["teal-vital", tokens.tealVital],
+      ["blue-primary", tokens.bluePrimary],
+      ["red-alert", tokens.redAlert],
+    ] as Array<[string, string]>) {
+      expect(contrastRatio(WHITE, value), `${name} vs white`).toBeLessThan(4.5);
+    }
+  });
+
+  // The committed status chip composites its own background from teal at 16%
+  // over whatever surface it sits on, so its text colour cannot be one value:
+  // teal-vital reads on the dark cabinet and drowns on a light surface, and
+  // on-teal-tint does the reverse.
+  it("the committed chip's two surfaces need two different text values", () => {
+    const over = (fg: string, alpha: number, bg: string) => {
+      const f = hexToRgb(fg);
+      const b = hexToRgb(bg);
+      const mix = (x: number, y: number) => Math.round(x * alpha + y * (1 - alpha));
+      const h = (n: number) => n.toString(16).padStart(2, "0");
+      return `#${h(mix(f.r, b.r))}${h(mix(f.g, b.g))}${h(mix(f.b, b.b))}`;
+    };
+    const onLight = over(tokens.tealVital, 0.16, tokens.surfacePrimary);
+    const onDark = over(tokens.tealVital, 0.16, tokens.blueAbyss);
+
+    expect(contrastRatio(tokens.onTealTint, onLight)).toBeGreaterThanOrEqual(4.5);
+    expect(contrastRatio(tokens.tealVital, onDark)).toBeGreaterThanOrEqual(4.5);
+    // And each is wrong on the other surface, which is why the split exists.
+    expect(contrastRatio(tokens.tealVital, onLight)).toBeLessThan(4.5);
+    expect(contrastRatio(tokens.onTealTint, onDark)).toBeLessThan(4.5);
+  });
+});
+
+// ── CSS / JS token parity ──
+//
+// tokens.css and tokens.ts are two hand-maintained copies of one palette, and
+// they had drifted: 17 colour tokens existed in the CSS with no JS export,
+// including every tint background and most on-colors. "Tokens Only" is one of
+// the eight supported consumer types, so those consumers simply could not
+// reach a third of the palette, and nothing failed to say so.
+//
+// This pins them together by value, in both directions.
+describe("every colour token exists in both CSS and JS with the same value", () => {
+  const cssSource = readFileSync(new URL("../css/tokens.css", import.meta.url), "utf8");
+
+  const cssColors = new Map<string, string>();
+  const declaration = /--strand-([a-z0-9-]+):\s*(#[0-9A-Fa-f]{6})\s*;/g;
+  let match = declaration.exec(cssSource);
+  while (match !== null) {
+    cssColors.set(match[1], match[2].toUpperCase());
+    match = declaration.exec(cssSource);
+  }
+
+  const toCamel = (name: string) =>
+    name.split("-").reduce((acc, part, i) => (i === 0 ? part : acc + part[0].toUpperCase() + part.slice(1)), "");
+
+  it("finds the palette in the CSS at all (guards the regex itself)", () => {
+    // Without this, a change to the CSS format would empty the map and every
+    // assertion below would vacuously pass.
+    expect(cssColors.size).toBeGreaterThan(40);
+    expect(cssColors.get("blue-primary")).toBe("#3B8EF6");
+  });
+
+  it("exports every CSS colour token from tokens.ts at the same value", () => {
+    const exported = tokens as unknown as Record<string, string>;
+    const missing: string[] = [];
+    const mismatched: string[] = [];
+    for (const [name, value] of cssColors) {
+      const key = toCamel(name);
+      if (typeof exported[key] !== "string") {
+        missing.push(`--strand-${name}`);
+      } else if (exported[key].toUpperCase() !== value) {
+        mismatched.push(`--strand-${name}: css ${value} vs js ${exported[key]}`);
+      }
+    }
+    expect(missing, "colour tokens in tokens.css with no tokens.ts export").toEqual([]);
+    expect(mismatched, "colour tokens whose CSS and JS values disagree").toEqual([]);
   });
 });

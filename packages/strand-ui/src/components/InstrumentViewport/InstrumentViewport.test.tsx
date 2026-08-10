@@ -188,3 +188,57 @@ describe("InstrumentViewport", () => {
     expect(body).toContain("color");
   });
 });
+
+// ── On-dark completeness for per-variant colours ──
+//
+// The viewport dark-washes .strand-alert, which invalidates every colour
+// Alert.css chose against that variant's LIGHT tint background. The on-dark
+// block covered --info and left --success, --warning and --error reading
+// their light-surface colours on a dark panel: 1.92, 1.52 and 1.67 against a
+// 4.5 threshold.
+//
+// The defect is not three missing colours, it is that a rule was written for
+// the variant in front of the author rather than for the family -- the same
+// shape as the log and bar-chart readouts missed in 0.27.2. A contrast pass
+// cannot catch it either: scripts/contrast-check.mjs only sees rules that
+// name the viewport, so a variant with NO rule there is invisible to it.
+//
+// So this guards the set, not the values: whatever variants Alert.css colours
+// individually, InstrumentViewport.css must answer for all of them.
+describe("every dark-washed component answers for its whole variant family", () => {
+  const read = async (rel: string) => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    return readFileSync(resolve(__dirname, rel), "utf8");
+  };
+
+  it("every alert variant with a light-surface status colour has an on-dark rule", async () => {
+    const alertCss = await read("../Alert/Alert.css");
+    const viewportCss = await read("./InstrumentViewport.css");
+
+    const lightVariants = [
+      ...alertCss.matchAll(/\.strand-alert--([a-z]+)\s+\.strand-alert__status\s*\{/g),
+    ].map((m) => m[1]);
+    const darkVariants = [
+      ...viewportCss.matchAll(
+        /\.strand-instrument-viewport\s+\.strand-alert--([a-z]+)\s+\.strand-alert__status\s*[,{]/g,
+      ),
+    ].map((m) => m[1]);
+
+    // Guards the parse: if either regex stops matching, the comparison below
+    // would trivially succeed on two empty lists.
+    expect(lightVariants.length).toBeGreaterThanOrEqual(4);
+    expect([...new Set(darkVariants)].sort()).toEqual([...new Set(lightVariants)].sort());
+  });
+
+  it("the dark-washed alert is the only component needing this, and toast is not", async () => {
+    // Toast declares an opaque surface-elevated background and the viewport
+    // never washes it, so it stays a light island and its light-surface status
+    // colours remain correct. Pinned because it looks like the same bug and
+    // is not: a fix here would break it.
+    const toastCss = await read("../Toast/Toast.css");
+    const viewportCss = await read("./InstrumentViewport.css");
+    expect(toastCss).toMatch(/\.strand-toast\s*\{[^}]*background:\s*var\(--strand-surface-elevated\)/);
+    expect(viewportCss).not.toContain("strand-toast");
+  });
+});

@@ -641,13 +641,21 @@
   background: var(--strand-amber-tint);
 }
 
-/* COMMITTED variant: post-RSVP confirmation on dark instrument
-   viewports. Vital teal on translucent fill and 30% alpha border
-   signals earned state (DL Principle 5: Earned Elevation) without
-   stealing focus from the event title. The translucent composition
-   lets the chip sit cleanly on both dark and light surfaces. */
+/* COMMITTED variant: post-RSVP confirmation. Vital teal on translucent fill
+   and 30% alpha border signals earned state (DL Principle 5: Earned
+   Elevation) without stealing focus from the event title.
+
+   The translucent composition does let the chip sit on both dark and light
+   surfaces -- but its TEXT cannot be one value, and the single definition
+   here claimed otherwise. Teal at 16% over white composites to #D9F4F1, and
+   teal-vital on that is 2.15:1, the worst pairing in the library. Over the
+   abyss the same fill composites dark and teal-vital is 5.45:1, which is
+   correct. So the light default takes the text tier (on-teal-tint, 4.86:1)
+   and the cabinet keeps teal-vital, unchanged, below.
+
+   Same split as the kv status value in InstrumentViewport.css. */
 .strand-status-chip--committed {
-  color: var(--strand-teal-vital);
+  color: var(--strand-on-teal-tint);
   background: color-mix(in srgb, var(--strand-teal-vital) 16%, transparent);
   border: 1px solid color-mix(in srgb, var(--strand-teal-vital) 30%, transparent);
 }

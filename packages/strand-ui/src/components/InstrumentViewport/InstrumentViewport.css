@@ -166,12 +166,43 @@
   color: var(--strand-on-blue-primary);
 }
 
-/* blue-primary is tuned for the white surface and goes muddy on the abyss,
-   exactly as blue-deep does for the accent overline above. The lighter
-   blue-indicator carries the info prefix on dark. */
+/* The status prefix, on the washed panel. Alert.css gives each variant a
+   colour chosen against that variant's LIGHT tint background; the rule above
+   replaces that background with a dark wash, so all four need a value for the
+   new surface, not just one.
+
+   This block covered --info only. --success, --warning and --error kept their
+   light-surface colours on a dark panel and measured 1.92, 1.52 and 1.67
+   against 4.5. --success is the RSVP affirmation, the panel a member sees the
+   moment they commit, so it was the most-seen failure of the set.
+
+   Each variant inverts to a light value of its OWN hue, so the pairing turns
+   over rather than picking up a new colour: the tints these variants already
+   use as their light backgrounds become their dark-surface text. They clear
+   4.5:1 with room on any plausible composite of the wash (9.6:1 or better).
+   --info keeps blue-indicator, which was already correct and reads as blue
+   more clearly than the near-white blue-tint would.
+
+   Completeness is guarded in InstrumentViewport.test.tsx: every variant with
+   a per-variant colour in Alert.css must have a rule here. */
 .strand-body--instrument .strand-alert--info .strand-alert__status,
 .strand-instrument-viewport .strand-alert--info .strand-alert__status {
   color: var(--strand-blue-indicator);
+}
+
+.strand-body--instrument .strand-alert--success .strand-alert__status,
+.strand-instrument-viewport .strand-alert--success .strand-alert__status {
+  color: var(--strand-teal-tint);
+}
+
+.strand-body--instrument .strand-alert--warning .strand-alert__status,
+.strand-instrument-viewport .strand-alert--warning .strand-alert__status {
+  color: var(--strand-amber-tint);
+}
+
+.strand-body--instrument .strand-alert--error .strand-alert__status,
+.strand-instrument-viewport .strand-alert--error .strand-alert__status {
+  color: var(--strand-red-tint);
 }
 
 .strand-body--instrument .strand-alert__dismiss,
@@ -1694,4 +1725,16 @@
   .strand-search-bar__action--locating {
     animation: none;
   }
+}
+
+/* The committed status chip, on dark (DL 9.3).
+   Its background is a translucent teal that composites against whatever it
+   sits on, so the chip works on both surfaces but its text does not: the
+   light default is on-teal-tint (4.86:1 over #D9F4F1) and that value is
+   1.93:1 on the cabinet. teal-vital is the correct value here, and it is
+   exactly what the single definition in static.css used to carry, so dark
+   rendering is unchanged and only the light surface moved. */
+.strand-body--instrument .strand-status-chip--committed,
+.strand-instrument-viewport .strand-status-chip--committed {
+  color: var(--strand-teal-vital);
 }

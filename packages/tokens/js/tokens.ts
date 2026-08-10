@@ -48,12 +48,37 @@ export const gray900 = "#0F192A" as const;
 
 export const cyanSignal = "#22D3EE" as const;
 export const tealVital = "#14B8A6" as const;
+export const tealDeep = "#0F766E" as const;
 export const greenPositive = "#10B981" as const;
+export const greenPositiveDeep = "#047857" as const;
 export const violetData = "#8B5CF6" as const;
 export const redAlert = "#EF4444" as const;
+export const redAlertVivid = "#DC2626" as const;
+export const redAlertDeep = "#B91C1C" as const;
+export const redAlertAbyss = "#7F1D1D" as const;
 export const amberCaution = "#F59E0B" as const;
 
+// ── Tint Backgrounds (light status backgrounds for banners/alerts) ──
+
+export const blueTint = "#EFF6FF" as const;
+export const amberTint = "#FEF3C7" as const;
+export const redTint = "#FEF2F2" as const;
+export const tealTint = "#CCFBF1" as const;
+export const grayTint = "#F1F5F9" as const;
+
+// ── Instrument surface (the dark cabinet, DL 9.3) ──
+
+export const instrumentBg = "#0F192A" as const;
+export const instrumentTextPrimary = "#FFFFFF" as const;
+
 // ── On-Colors (contrast-safe text pairings) ──
+//
+// An on-color is a guarantee AT A TEXT SIZE, not an unconditional one. WCAG
+// asks 4.5:1 of small text and 3:1 of large, so onBluePrimary (3.29:1) and
+// onRedAlert (3.76:1) are correct for large text on a fill and BELOW AA for
+// anything small. A component painting small white text on an accent reaches
+// for a deep rung -- blueDeep, redAlertDeep, redAlertAbyss, tealDeep,
+// greenPositiveDeep -- not the base one. tokens.test.ts pins both sides.
 
 export const onSurfacePrimary = "#475769" as const;
 export const onSurfaceElevated = "#475769" as const;
@@ -62,8 +87,15 @@ export const onBluePrimary = "#FFFFFF" as const;
 export const onBlueVivid = "#FFFFFF" as const;
 export const onBlueDeep = "#FFFFFF" as const;
 export const onRedAlert = "#FFFFFF" as const;
+export const onRedAlertVivid = "#FFFFFF" as const;
+export const onRedAlertDeep = "#FFFFFF" as const;
+export const onRedAlertAbyss = "#FFFFFF" as const;
 export const onTealVital = "#0F192A" as const;
+export const onTealDeep = "#FFFFFF" as const;
+export const onTealTint = "#0D7377" as const;
 export const onAmberCaution = "#0F192A" as const;
+export const onAmberTint = "#92400E" as const;
+export const onRedTint = "#991B1B" as const;
 
 // ── Type Scale (Major Third, 1.250 ratio) ──
 
@@ -179,8 +211,10 @@ export const colors = {
   surface: { primary: surfacePrimary, elevated: surfaceElevated, recessed: surfaceRecessed, subtle: surfaceSubtle },
   blue: { glow: blueGlow, wash: blueWash, indicator: blueIndicator, primary: bluePrimary, vivid: blueVivid, deep: blueDeep, midnight: blueMidnight, abyss: blueAbyss },
   gray: { 50: gray50, 100: gray100, 200: gray200, 300: gray300, 400: gray400, 500: gray500, 600: gray600, 700: gray700, 800: gray800, 900: gray900 },
-  semantic: { cyanSignal, tealVital, greenPositive, violetData, redAlert, amberCaution },
-  on: { surfacePrimary: onSurfacePrimary, surfaceElevated: onSurfaceElevated, surfaceRecessed: onSurfaceRecessed, bluePrimary: onBluePrimary, blueVivid: onBlueVivid, blueDeep: onBlueDeep, redAlert: onRedAlert, tealVital: onTealVital, amberCaution: onAmberCaution },
+  semantic: { cyanSignal, tealVital, tealDeep, greenPositive, greenPositiveDeep, violetData, redAlert, redAlertVivid, redAlertDeep, redAlertAbyss, amberCaution },
+  tint: { blue: blueTint, amber: amberTint, red: redTint, teal: tealTint, gray: grayTint },
+  instrument: { bg: instrumentBg, textPrimary: instrumentTextPrimary },
+  on: { surfacePrimary: onSurfacePrimary, surfaceElevated: onSurfaceElevated, surfaceRecessed: onSurfaceRecessed, bluePrimary: onBluePrimary, blueVivid: onBlueVivid, blueDeep: onBlueDeep, redAlert: onRedAlert, redAlertVivid: onRedAlertVivid, redAlertDeep: onRedAlertDeep, redAlertAbyss: onRedAlertAbyss, tealVital: onTealVital, tealDeep: onTealDeep, tealTint: onTealTint, amberCaution: onAmberCaution, amberTint: onAmberTint, redTint: onRedTint },
 } as const;
 
 export const typography = {

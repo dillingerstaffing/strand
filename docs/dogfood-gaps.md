@@ -521,3 +521,43 @@ Verdict: FAIL (one L2 gap; closed)
 - Propagation: new files in `tokens/` only, added to the package `exports` and `files`. All 8 consumer types depend on the tokens package, so one addition reaches every one of them. Parity unchanged, no new class names, no new tokens (the stacks already named both families).
 - Consumer follow-up: consumers must drop their `fonts.googleapis.com` / `fonts.gstatic.com` link tags, copy `fonts/` next to their Strand `css/`, import `css/fonts.css`, and tighten CSP `style-src`/`font-src` back to `'self'`.
 - Commit: feat/strand-self-hosted-faces
+
+---
+
+## Production consumer: Weekly Ship + admin + the reference showcase - three shipping components below WCAG AA
+Date: 2026-08-10
+Verdict: FAIL (one L3 gap, two L2 gaps; all closed)
+
+### Gap #53
+- Type: L3 (design language), with L2 consequences in Badge, Button, Alert and the committed status chip
+- Symptom: `.strand-status-chip--committed` measured **2.15:1**, `.strand-badge--blue.strand-badge--count` **3.29:1**, and `.strand-badge--red.strand-badge--count` / `.strand-btn--danger` **3.76:1**. All ship. The chip renders on the Weekly Ship featured card after a member RSVPs; the danger button is the confirm control in the admin "Delete channel" dialog, so the least legible text in the library was the label on a destructive action.
+- Root cause: **an on-color is a guarantee at a text size, not an unconditional one.** WCAG asks 4.5:1 of small text and 3:1 of large, so one colour can be correct as a fill behind a heading and a failure under an 11px label. The palette carried one `--strand-on-*` value per hue and components consumed them as if size-independent. `tokens.test.ts` had actually recorded the truth for years -- `it("white on blue-primary >= 3:1 (large text / interactive elements)")` -- and nothing one layer down honoured it. `.strand-badge__indicator` paints white at `--strand-text-xs` (11px) over whatever fill the variant sets.
+- Fix (upstream):
+  - Badge variants moved to the **deep rung** of their accent (`teal-deep`, `blue-deep`, `red-alert-deep`). This is not a new idea in the system: `.strand-btn--primary` already used `blue-deep` rather than `blue-primary` for exactly this reason, so the change brings badges in line with an existing precedent rather than inventing one.
+  - `.strand-btn--danger` moved its whole ladder one rung deeper (base `red-alert-vivid` 4.83:1, hover `red-alert-deep` 6.47:1, active `red-alert-abyss` 10.02:1), mirroring how primary descends `blue-deep -> midnight -> abyss` instead of starting at the base rung.
+  - Two tokens added to complete scales that were already asymmetric: `--strand-teal-deep` (green and blue had a `-deep`; teal did not) and `--strand-red-alert-abyss` (blue had an `-abyss` to support a three-state ladder; red did not).
+  - The ON-COLORS block in `tokens.css` and `tokens.ts` now states the size threshold explicitly, so the next component picking one is told which sizes it is safe for.
+- Scope correction: the audit reported **two** failing badge variants because those were the two the showcase happened to render. `.strand-badge--teal` fails harder (2.49:1) and was invisible for want of a specimen. Fixing only what was measured would have left the same defect shipping. Every variant is now guarded, including `--default` and `--amber`, which pass.
+
+### Gap #54
+- Type: L2
+- Symptom: the committed status chip's own comment claimed "the translucent composition lets the chip sit cleanly on both dark and light surfaces". Its background does; its **text** cannot. Teal at 16% over white composites to `#D9F4F1`, where `teal-vital` is 2.15:1; over the abyss the same fill composites dark, where `teal-vital` is 5.45:1 and correct.
+- Fix: the light default takes `--strand-on-teal-tint` (4.86:1) and an on-dark rule in `InstrumentViewport.css` restores `teal-vital` — exactly the value the single definition used to carry, so **dark rendering is byte-identical and only the light surface moved**. Same split, and same reasoning, as the kv status value fixed in 0.27.2.
+
+### Gap #55
+- Type: L2
+- Symptom: `.strand-alert__status` had an on-dark rule for `--info` only. `--success`, `--warning` and `--error` kept colours chosen against their light tint backgrounds while the viewport washed the panel dark, measuring 1.92, 1.52 and 1.67. `--success` is the RSVP affirmation, the panel a member sees the moment they commit.
+- Root cause: a rule written for the variant in front of the author rather than for the family — the same shape as the log and bar-chart readouts missed in 0.27.2. `scripts/contrast-check.mjs` cannot catch it: it only sees rules that NAME the viewport, so a variant with no rule there is invisible to it.
+- Fix: all four variants now have on-dark rules, each inverting to a light value of its own hue (the tints they already use as light backgrounds), so the pairing turns over rather than picking up a new colour. Guarded by a **set** comparison rather than by values: whatever variants `Alert.css` colours individually, `InstrumentViewport.css` must answer for all of them.
+- Checked and NOT changed: `.strand-toast--*` mirrors alert's per-variant colours and looks like the same bug. It is not. Toast declares an opaque `surface-elevated` background and the viewport never washes it, so it stays a light island and its light colours remain correct. Pinned by test, because a well-meaning fix here would break it.
+
+### The decision worth carrying: certify against the worst state, not the settled one
+`docs/design-language.md` Part VI.7 said to emulate `prefers-reduced-motion: reduce` when auditing contrast. That is right for **attributing** a finding to the palette rather than to the reveal, and it is wrong if read as sign-off. The alert panel resolves to `#1F2A3B` settled and composites to `#343E4E` mid-reveal, under a single `.strand-reveal` ancestor at ~0.904 (recovered by solving for the alpha per channel: 0.9041 / 0.9048 / 0.9031, spread 0.0017, so one layer and not a stack). Against those two backgrounds `--strand-teal-vital` measures 5.81:1 and **4.34:1**. Adopting it would have passed every check in this repo and been inaccessible to anyone scrolling a card into view at normal speed. The `*-tint` values were chosen because they clear both states (12.8:1 and 9.6:1). Part VI.7 now says so: **a colour with two backgrounds needs two numbers**, and settled is the state a checker finds most easily and a user sees least.
+- Tooling corollary, added to VI.7 after three separate checkers reported clean while being wrong on the same day: **fail loudly on anything unrecognised.** A prototype compositing script silently skipped a `color(srgb ... / 0.12)` layer it could not parse and produced a confident, wrong `#0F192A` at 3.13:1. Not adopted here — it hardcodes one fragment and has no tests, which `scripts/` requires — but the reusable idea (walk the ancestor chain, composite in paint order, report against every state) is worth building properly, with an unparsed colour throwing rather than being skipped.
+
+### Also closed: CSS/JS token parity
+`tokens.css` and `tokens.ts` are two hand-maintained copies of one palette and had drifted — **17 colour tokens existed in the CSS with no JS export**, including every tint background and most on-colors. "Tokens Only" is one of the eight supported consumer types, so those consumers could not reach a third of the palette and nothing said so. All 19 (17 pre-existing plus the 2 added here) are now exported, and a test pins the two files together by value in both directions.
+
+- Propagation: token additions and CSS-only changes, so all 8 consumer types inherit them with no API change. No new class names, no removed class names, parity manifest unchanged at 47 components.
+- Every guard added here was mutation-checked rather than trusted for being green: reverting each badge fill, dropping an alert variant's on-dark rule, and both drifting and deleting a token export all fail their suites.
+- Version: 0.28.0 (minor, not patch: two new tokens are additive API).

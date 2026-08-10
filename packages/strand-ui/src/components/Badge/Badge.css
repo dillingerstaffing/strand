@@ -49,17 +49,23 @@
   line-height: 20px;
 }
 
-/* ── Status colors ── */
+/* ── Status colors ──
+   The indicator paints white at --strand-text-xs (11px), which is SMALL text
+   and answers to 4.5:1, not the 3:1 that fill-tier accents are tuned for.
+   Reaching for the base rungs put teal (2.49:1), blue (3.29:1) and red
+   (3.76:1) count badges below AA. Each variant therefore uses the DEEP rung
+   of its accent, which is the same move .strand-btn--primary already makes by
+   using blue-deep rather than blue-primary. Guarded in Badge.test.tsx. */
 .strand-badge--default {
   background: var(--strand-gray-500);
 }
 
 .strand-badge--teal {
-  background: var(--strand-teal-vital);
+  background: var(--strand-teal-deep);
 }
 
 .strand-badge--blue {
-  background: var(--strand-blue-primary);
+  background: var(--strand-blue-deep);
 }
 
 .strand-badge--amber {
@@ -68,5 +74,5 @@
 }
 
 .strand-badge--red {
-  background: var(--strand-red-alert);
+  background: var(--strand-red-alert-deep);
 }
