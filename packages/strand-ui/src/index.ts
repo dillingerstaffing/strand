@@ -98,6 +98,8 @@ export type { ProgressProps } from "./components/Progress/index.js";
 export { Spinner } from "./components/Spinner/index.js";
 export type { SpinnerProps } from "./components/Spinner/index.js";
 
+export { Reserve } from "./components/Reserve/index.js";
+export type { ReserveProps } from "./components/Reserve/index.js";
 export { Skeleton } from "./components/Skeleton/index.js";
 export type { SkeletonProps } from "./components/Skeleton/index.js";
 

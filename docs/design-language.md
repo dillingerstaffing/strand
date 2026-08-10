@@ -732,6 +732,61 @@ What signals "precision" in motion:
 - Stepped: `Step 2 of 4: Validating credentials`
 - Terminal-style log: monospace lines appearing sequentially
 
+#### 6.6.1 The space contract
+
+The rules above describe what a placeholder *looks like*. They say nothing
+about the space it occupies, and that omission is where loading states
+actually fail. A shimmer bar is not a loading state; it is a texture. The
+loading state is the **region**, and a region awaiting data has one
+obligation:
+
+> **A region that is waiting for data reserves the box that data will need,
+> before the data arrives.**
+
+The test is mechanical and does not require judgement: delay the response
+arbitrarily and measure layout shift. If the reserved space is honest,
+delaying the data changes nothing and the score stays at zero however slow
+the response is. If the score moves with response time, the region is
+reserving a lie. Measure at every breakpoint, because reservation is a
+function of layout: a box sized for a one-line title under-reserves when
+that title wraps to three lines on a phone.
+
+A region that reserves nothing (`<div id="slot"></div>`, filled later) is
+the worst case and the most common. It reads as correct in source and
+moves the entire page below it on every load.
+
+Reserved heights are set per breakpoint from custom properties so the
+reservation tracks the layout rather than a single width. Consumers supply
+the values; the language supplies the breakpoints (Part V) and the
+cascade (base, then `md`, then `lg`, each falling back to the last).
+
+#### 6.6.2 Placeholder to content
+
+The swap from placeholder to content is a **cross-fade**, never a replace.
+A replace is a discontinuity: the eye registers it as the page breaking
+and re-forming. A cross-fade reads as the same region resolving, which is
+what actually happened.
+
+```css
+/* Both layers occupy ONE grid cell, so the swap cannot move layout.
+   The region's height is the taller of the two, floored by the reserve. */
+.reserve            { display: grid; }
+.reserve > *        { grid-area: 1 / 1; }
+.reserve__placeholder,
+.reserve__content   { transition: opacity var(--strand-duration-normal) var(--strand-ease-out-quart); }
+```
+
+Opacity only. Never animate height, and never animate the region's
+geometry to "reveal" content: a height animation is a layout shift with
+an easing curve on it, and it is scored as one.
+
+**Under reduced motion the cross-fade is removed and the swap is
+immediate. The space contract is not motion and is never removed.** This
+distinction matters: a reduced-motion user has asked for less animation,
+not for the page to jump. Honouring the preference by dropping the
+reservation along with the fade makes their experience worse than the
+default.
+
 ### 6.7 Reduced Motion
 
 ```css

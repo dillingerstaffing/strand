@@ -1,0 +1,112 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Reserve ──
+   A region that holds its box while data loads, then cross-fades the
+   placeholder to the content. Implements design-language.md 6.6.1 (the
+   space contract) and 6.6.2 (placeholder to content).
+
+   The class layer is the real primitive. The framework components are
+   thin wrappers over exactly these classes, so a vanilla-HTML consumer
+   and a Preact consumer get identical behaviour and identical bytes.
+
+   Markup contract:
+
+     <div class="strand-reserve" data-strand-reserve="pending">
+       <div class="strand-reserve__placeholder">...</div>
+       <div class="strand-reserve__content">...</div>
+     </div>
+
+   Flip data-strand-reserve to "ready" when the data lands. That single
+   attribute is the whole runtime; there is no JS in this primitive. */
+
+.strand-reserve {
+  /* Grid, with both layers in one cell (6.6.2). This is what makes the
+     swap incapable of moving layout: the placeholder and the content are
+     never in the flow at the same position at different times, they are
+     always in the SAME position and only their opacity differs. It also
+     makes the region self-sizing to the taller layer, so a consumer who
+     sizes the placeholder correctly gets the reservation for free and
+     never has to supply a height at all. */
+  display: grid;
+
+  /* The reserved floor, per breakpoint (6.6.1). Consumers set these from
+     their own tokens. Unset means "no floor", which is correct: a region
+     whose placeholder already matches the content needs no floor, and
+     defaulting to a number here would invent a reservation nobody asked
+     for. Each step falls back to the one below it so a consumer can set
+     only the base value and have it hold at every width. */
+  min-block-size: var(--strand-reserve-h, auto);
+}
+
+.strand-reserve > * {
+  grid-area: 1 / 1;
+}
+
+/* Breakpoints are the Part V scale. They are literal here because a custom
+   property cannot be used in a media condition; the VALUES remain tokens. */
+@media (min-width: 768px) {
+  .strand-reserve {
+    min-block-size: var(--strand-reserve-h-md, var(--strand-reserve-h, auto));
+  }
+}
+
+@media (min-width: 1024px) {
+  .strand-reserve {
+    min-block-size: var(
+      --strand-reserve-h-lg,
+      var(--strand-reserve-h-md, var(--strand-reserve-h, auto))
+    );
+  }
+}
+
+/* ── The cross-fade ──
+   Opacity only, per 6.6.2. visibility rides the same transition so the
+   hidden layer leaves the accessibility tree and stops taking pointer
+   events once it has faded, rather than sitting invisible on top of the
+   layer the user is trying to read or click. */
+.strand-reserve__placeholder,
+.strand-reserve__content {
+  transition:
+    opacity var(--strand-duration-normal) var(--strand-ease-out-quart),
+    visibility var(--strand-duration-normal) var(--strand-ease-out-quart);
+}
+
+/* Pending: the placeholder is the visible layer. */
+.strand-reserve[data-strand-reserve="pending"] > .strand-reserve__content {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.strand-reserve[data-strand-reserve="pending"] > .strand-reserve__placeholder {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ready: the content is the visible layer. */
+.strand-reserve[data-strand-reserve="ready"] > .strand-reserve__placeholder {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.strand-reserve[data-strand-reserve="ready"] > .strand-reserve__content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* No state attribute at all resolves to ready. A consumer that server-renders
+   real content and never flips an attribute gets the content, not a blank
+   region: the primitive degrades to a plain wrapper. */
+.strand-reserve:not([data-strand-reserve]) > .strand-reserve__placeholder {
+  display: none;
+}
+
+/* ── Reduced motion ──
+   The cross-fade goes; the reservation stays (6.6.2). Removing the space
+   contract along with the animation would make the reduced-motion
+   experience jumpier than the default, which inverts the preference. */
+@media (prefers-reduced-motion: reduce) {
+  .strand-reserve__placeholder,
+  .strand-reserve__content {
+    transition: none;
+  }
+}
