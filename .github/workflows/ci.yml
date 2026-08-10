@@ -25,6 +25,13 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: pnpm test
-      - name: Cross-consumer parity check
-        run: pnpm test:parity
+      # test:all is the whole gate: package tests, cross-consumer parity,
+      # migration-guide staleness, and the contrast check. CI used to run only
+      # `test` and `test:parity`, which is how the staleness check was able to
+      # rot to sixteen failures without anyone finding out -- a check that
+      # nothing runs is not a check.
+      - run: pnpm test:all
+      # The scripts under scripts/ are build and release tooling, and their
+      # tests live outside the per-package suites that `pnpm -r test` reaches.
+      - name: Repository tooling tests
+        run: pnpm test:scripts

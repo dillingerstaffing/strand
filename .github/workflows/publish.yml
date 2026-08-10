@@ -28,10 +28,16 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: pnpm test
 
-      - name: Cross-consumer parity check
-        run: pnpm test:parity
+      # Everything below this line publishes to npm, which cannot be undone.
+      # test:all covers package tests, cross-consumer parity (the lockstep
+      # gate), migration-guide staleness, and the contrast check, so a release
+      # cannot ship text below its WCAG threshold or a guide that names a class
+      # the build no longer produces.
+      - run: pnpm test:all
+
+      - name: Repository tooling tests
+        run: pnpm test:scripts
 
       - name: Publish @dillingerstaffing/strand
         working-directory: packages/tokens
