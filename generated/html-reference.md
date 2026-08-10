@@ -1153,6 +1153,38 @@ Content placeholder with shimmer animation.
 
 ---
 
+### Reserve
+
+A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to "ready" when the data lands; that attribute is the whole runtime, and there is no JavaScript in this primitive.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-reserve` | base | Region root. Places both layers in one grid cell, so the region self-sizes to the taller and the swap cannot move layout. |
+| `strand-reserve__placeholder` | child | The waiting layer, usually skeletons. Mark it aria-hidden so assistive tech does not read filler. |
+| `strand-reserve__content` | child | The real content. Present and sized from first paint, hidden by opacity rather than absent from the DOM. |
+
+**Usage:**
+
+```html
+<!-- Optional per-breakpoint floors, needed only when the placeholder is
+     genuinely smaller than what replaces it. Each falls back to the one below. -->
+<div class="strand-reserve" data-strand-reserve="pending"
+  style="--strand-reserve-h: 42px; --strand-reserve-h-md: 56px;">
+  <div class="strand-reserve__placeholder" aria-hidden="true">
+    <div class="strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer"
+      style="width: 100%; height: 42px;"></div>
+  </div>
+  <div class="strand-reserve__content">
+    <!-- real content, rendered from the start -->
+  </div>
+</div>
+
+<!-- Omitting data-strand-reserve entirely shows the content and hides the
+     placeholder, so a server-rendered page needs no attribute at all. -->
+```
+
+---
+
 ### InstrumentViewport
 
 Dark instrument panel container for data-dense content.

@@ -468,6 +468,22 @@
       "registryDependencies": []
     },
     {
+      "name": "reserve",
+      "type": "registry:ui",
+      "title": "Reserve",
+      "description": "Reserve",
+      "files": [
+        {
+          "path": "components/Reserve.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "scroll-reveal",
       "type": "registry:ui",
       "title": "Scroll Reveal",

@@ -275,7 +275,7 @@ Own the source. No dependency lock-in.
 npx strand-ui init          # Set up tokens in your project
 npx strand-ui add button    # Copy Button source to your codebase
 npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->47<!-- COMPONENT-COUNT:END --> components
+npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->48<!-- COMPONENT-COUNT:END --> components
 ```
 
 After install, the CLI is available as `strand` (e.g., `strand add button`).
@@ -287,7 +287,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-<!-- COMPONENT-COUNT:START -->47<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
+<!-- COMPONENT-COUNT:START -->48<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
 
 ### Input
 
@@ -1712,6 +1712,38 @@ Content placeholder with shimmer animation.
 
 ---
 
+### Reserve
+
+A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to "ready" when the data lands; that attribute is the whole runtime, and there is no JavaScript in this primitive.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-reserve` | base | Region root. Places both layers in one grid cell, so the region self-sizes to the taller and the swap cannot move layout. |
+| `strand-reserve__placeholder` | child | The waiting layer, usually skeletons. Mark it aria-hidden so assistive tech does not read filler. |
+| `strand-reserve__content` | child | The real content. Present and sized from first paint, hidden by opacity rather than absent from the DOM. |
+
+**Usage:**
+
+```html
+<!-- Optional per-breakpoint floors, needed only when the placeholder is
+     genuinely smaller than what replaces it. Each falls back to the one below. -->
+<div class="strand-reserve" data-strand-reserve="pending"
+  style="--strand-reserve-h: 42px; --strand-reserve-h-md: 56px;">
+  <div class="strand-reserve__placeholder" aria-hidden="true">
+    <div class="strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer"
+      style="width: 100%; height: 42px;"></div>
+  </div>
+  <div class="strand-reserve__content">
+    <!-- real content, rendered from the start -->
+  </div>
+</div>
+
+<!-- Omitting data-strand-reserve entirely shows the content and hides the
+     placeholder, so a server-rendered page needs no attribute at all. -->
+```
+
+---
+
 ### InstrumentViewport
 
 Dark instrument panel container for data-dense content.
@@ -3085,6 +3117,61 @@ What signals "precision" in motion:
 - Progress bar + monospace counter: `PROCESSING... 47%`
 - Stepped: `Step 2 of 4: Validating credentials`
 - Terminal-style log: monospace lines appearing sequentially
+
+#### 6.6.1 The space contract
+
+The rules above describe what a placeholder *looks like*. They say nothing
+about the space it occupies, and that omission is where loading states
+actually fail. A shimmer bar is not a loading state; it is a texture. The
+loading state is the **region**, and a region awaiting data has one
+obligation:
+
+> **A region that is waiting for data reserves the box that data will need,
+> before the data arrives.**
+
+The test is mechanical and does not require judgement: delay the response
+arbitrarily and measure layout shift. If the reserved space is honest,
+delaying the data changes nothing and the score stays at zero however slow
+the response is. If the score moves with response time, the region is
+reserving a lie. Measure at every breakpoint, because reservation is a
+function of layout: a box sized for a one-line title under-reserves when
+that title wraps to three lines on a phone.
+
+A region that reserves nothing (`<div id="slot"></div>`, filled later) is
+the worst case and the most common. It reads as correct in source and
+moves the entire page below it on every load.
+
+Reserved heights are set per breakpoint from custom properties so the
+reservation tracks the layout rather than a single width. Consumers supply
+the values; the language supplies the breakpoints (Part V) and the
+cascade (base, then `md`, then `lg`, each falling back to the last).
+
+#### 6.6.2 Placeholder to content
+
+The swap from placeholder to content is a **cross-fade**, never a replace.
+A replace is a discontinuity: the eye registers it as the page breaking
+and re-forming. A cross-fade reads as the same region resolving, which is
+what actually happened.
+
+```css
+/* Both layers occupy ONE grid cell, so the swap cannot move layout.
+   The region's height is the taller of the two, floored by the reserve. */
+.reserve            { display: grid; }
+.reserve > *        { grid-area: 1 / 1; }
+.reserve__placeholder,
+.reserve__content   { transition: opacity var(--strand-duration-normal) var(--strand-ease-out-quart); }
+```
+
+Opacity only. Never animate height, and never animate the region's
+geometry to "reveal" content: a height animation is a layout shift with
+an easing curve on it, and it is scored as one.
+
+**Under reduced motion the cross-fade is removed and the swap is
+immediate. The space contract is not motion and is never removed.** This
+distinction matters: a reduced-motion user has asked for less animation,
+not for the page to jump. Honouring the preference by dropping the
+reservation along with the fade makes their experience worse than the
+default.
 
 ### 6.7 Reduced Motion
 
@@ -4674,6 +4761,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- Reserve, a region that holds its box while data loads (v0.32.0, gap #62)
+- the wordmark and the tabs answer the pointer (v0.31.0)
+
+## [0.30.0] - 2026-08-10
+
+### Added
+- a skip link that actually reveals, and focus indicators you can see (v0.30.0)
 
 ## [0.29.0] - 2026-08-10
 
