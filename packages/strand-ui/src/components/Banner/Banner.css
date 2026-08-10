@@ -67,9 +67,21 @@ body.strand-banner-active .strand-instrument-viewport--full-bleed {
   border-bottom-color: var(--strand-red-alert);
 }
 
-/* ── Content ── */
+/* ── Content ──
+   The banner is the only full-bleed text in the language: it spans the
+   viewport by design, so without a cap its line length is whatever the
+   viewport happens to be. Measured at 1440 it ran ~1408px / ~211 characters,
+   against DL 4.6's "60-75 characters per line. Non-negotiable." -- and it is
+   the first text above the fold on every page carrying one.
+   A consumer cannot fix that without a page-local override, which makes the
+   missing cap a library gap rather than a misuse.
+   65ch matches DL 4.6's own worked example and the cap .strand-prose already
+   uses, so the number has one owner rather than two. The auto side margins
+   keep it centred under the existing text-align, and the cap is inert on the
+   short strings a banner usually carries. */
 .strand-banner__text {
-  margin: 0;
+  margin: 0 auto;
+  max-width: 65ch;
   font-weight: var(--strand-weight-medium);
 }
 

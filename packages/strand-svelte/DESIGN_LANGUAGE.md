@@ -440,6 +440,10 @@ The Major Third (1.250) produces a tighter ratio than the default Major Second (
 
 Lines wider than 75ch cause the eye to lose track of the next line start. Lines shorter than 55ch create too many line breaks, disrupting reading flow.
 
+**Below roughly a 600px viewport the floor is unreachable, not unmet.** Measured on production: body text renders at ~10.09px per character, so 55ch needs ~555px of text width, and with the language's own side padding that needs a viewport near 600px. At 390px the full bleed is 39ch and at 320px it is 32ch -- before any container, so no tier choice and no override can reach the floor. The constraint is the viewport.
+
+The 55ch floor therefore applies where the viewport affords it, and an audit finding 34ch at 390px has found a phone, not a defect. **The ceiling is different and always applies**: 75ch is reachable at every width, so exceeding it is always a real finding. Audits should report the ceiling unconditionally and the floor only above ~600px.
+
 ### 4.7 Named Text Patterns
 
 Five text patterns appear throughout the design language:
@@ -461,6 +465,18 @@ Five text patterns appear throughout the design language:
 ### 5.1 Base Unit: 4px
 
 Every spacing value is a multiple of 4px (0.25rem). This creates mathematical rhythm that the eye perceives as "designed" rather than "random." The human visual system detects mathematical regularity unconsciously. The layout feels "right" without the viewer knowing why.
+
+**The grid governs values perceived by comparison. Fluid macro-spacing is exempt.** This rule and 5.4 could not both hold as written: 5.4 mandates `clamp(4rem, 8vw, 8rem)` for section padding, and at a 1440px viewport `8vw` is **115.2px**, which is not a multiple of 4. Measured on production at both the standard and compact section tiers. No consumer could satisfy both, because no primitive can.
+
+The exemption is principled rather than a carve-out, and the distinction is what the rhythm claim above actually rests on. The eye detects regularity by **comparing adjacent values**: the gaps in a stack, the padding inside a card, the step between one component's spacing and the next. Those are the values the grid exists to align, and they stay on it without exception.
+
+A fluid section pad has no adjacent comparator. It is one large interval between major regions, and it is perceived as **proportion to the viewport**, not as a rhythm unit. Snapping it to 4px changes nothing a reader can see and costs the proportional scaling that fluid spacing exists to provide.
+
+Note also that the clamp's declared bounds are already on the grid: `4rem` is 64px and `8rem` is 128px. The rule holds at every value an author writes; only the continuous interpolation between two on-grid endpoints leaves the grid, and it does so by definition of being continuous.
+
+**Exempt, exhaustively:** the fluid section and hero padding in 5.4, the fluid section-header margin in 5.4, and fluid type sizes. Every other spacing value in the system is a multiple of 4px.
+
+**Rejected: snapping the clamp to the grid** with `clamp(4rem, round(8vw, 4px), 8rem)`. It resolves the contradiction and is well supported now, but it buys a property no one can perceive at the cost of making every fluid value in the language harder to read, and it would have to be applied consistently to fluid type as well. Purity of the rule statement is not worth that; the better fix was to state the rule accurately, since it was already the rule everyone was following.
 
 | Token | Value | Pixels |
 |---|---|---|

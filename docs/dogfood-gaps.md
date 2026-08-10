@@ -573,3 +573,29 @@ Verdict: FAIL (one L3 gap, two L2 gaps; all closed)
 - **The guard needed a second pass, and mutation testing is the only reason that was caught.** The first version asserted the group selector appeared somewhere in the reduced-motion block. A mutation that removed it from the rule killing the animation, while leaving it on the rule setting opacity, reintroduced the bug and the test still passed. The invariant is not "the selector is present", it is "the selector is attached to the declaration that undoes the motion", so the test now parses the block into rules and checks declaration coverage. Three mutations fail it: dropping the group selector from the animation rule, dropping the `animation-timeline` reset, and forcing manual reveals visible.
 - Propagation: CSS-only, no new classes or tokens; all 8 consumer types inherit it. Part XIII of the design language now records that reduced-motion support is a CSS opt-in rather than a browser behaviour, and that the reset must out-specify what it undoes.
 - Version: 0.28.1
+
+---
+
+## Production consumer: shipthisgroup.com + the reference showcase - a spec that contradicted itself, and the only uncapped text in the language
+Date: 2026-08-10
+Verdict: FAIL (one L3, one L2; both closed)
+
+### Gap #57
+- Type: L3 (design language)
+- Symptom: **DL 5.1 and DL 5.4 could not both hold.** 5.1 mandates that every spacing value be a multiple of 4px; 5.4 mandates `clamp(4rem, 8vw, 8rem)` for section padding, and `8vw` at a 1440px viewport is **115.2px**. Measured on production at both the standard and compact tiers. No consumer error and no primitive could satisfy both.
+- Decision: **5.1 now exempts fluid macro-spacing, explicitly and exhaustively.** The exemption is principled rather than a carve-out. 5.1's own justification is that the eye detects regularity by comparing ADJACENT values -- stack gaps, card padding, the step between one component and the next -- and those stay on the grid without exception. A fluid section pad has no adjacent comparator; it is one interval between major regions and is read as proportion to the viewport, not as a rhythm unit. Snapping it changes nothing perceivable and costs the proportional scaling it exists to provide. Note also that the clamp's declared bounds are already on-grid (64px and 128px), so the rule holds at every value an author writes and only the continuous interpolation between two on-grid endpoints leaves it.
+- Rejected: **snapping the clamp** with `clamp(4rem, round(8vw, 4px), 8rem)`. It resolves the contradiction and `round()` is adequately supported now, but it buys a property nobody can perceive at the cost of making every fluid value harder to read, and consistency would force the same treatment on fluid type. Stating the rule accurately was the better fix, because the exemption was already what everyone was doing.
+- Exempt list is closed: fluid section and hero padding, the fluid section-header margin, and fluid type sizes. Everything else stays on 4px.
+
+### Gap #58
+- Type: L2
+- Symptom: `.strand-banner__text` had no measure constraint. The banner is the only full-bleed text in the language, so its line length was whatever the viewport happened to be -- measured at ~1408px / ~211 characters at 1440, against DL 4.6's "60-75 characters per line. Non-negotiable." It is also the first text above the fold on any page carrying one.
+- Root cause: a consumer cannot cap it without a page-local override, so the missing constraint was a library gap rather than a misuse.
+- Fix: `max-width: 65ch` with auto side margins, which keeps it centred under the banner's existing `text-align: center` and stays inert on the short strings a banner usually carries. 65ch is DL 4.6's own worked example and the value `.strand-prose` already uses, so the number keeps one owner instead of two.
+- Guarded in `Banner.test.tsx`, which is a new file: Banner ships as CSS only, so the guard reads the stylesheet. Mutation-checked -- removing the cap, moving it outside the 60-75 band, and dropping the centering all fail it.
+
+### Also recorded: DL 4.6's floor is unreachable on phones
+Measured on production: body text renders at ~10.09px per character, so the 55ch floor needs ~555px of text width and, with the language's own side padding, a viewport near 600px. At 390px the full bleed is 39ch; at 320px it is 32ch -- before any container, so no tier choice and no override reaches it. 4.6 now says the floor applies where the viewport affords it and the **ceiling always does**, since 75ch is reachable at every width. An audit finding 34ch at 390px has found a phone, not a defect, and this is written down so it stops being re-reported.
+
+- Propagation: one CSS declaration plus documentation; no new classes, no new tokens, parity unchanged. All 8 consumer types inherit it.
+- Version: 0.29.0

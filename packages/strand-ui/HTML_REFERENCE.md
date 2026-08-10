@@ -1243,6 +1243,7 @@ Dark instrument panel container for data-dense content.
 | `strand-map-pin--highlighted` | modifier | |
 | `strand-map-pin--dimmed` | modifier | |
 | `strand-cluster-marker` | base | |
+| `strand-status-chip--committed` | modifier | |
 
 **Usage:**
 
