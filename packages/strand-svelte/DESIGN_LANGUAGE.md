@@ -736,14 +736,34 @@ Non-negotiable. This is not a feature. It is a physical accessibility requiremen
 Emulate the preference in the audit harness rather than disabling the contrast rule:
 
 ```js
-// Playwright
+// Playwright: either of these works.
 const page = await browser.newPage({ reducedMotion: "reduce" });
+await page.emulateMedia({ reducedMotion: "reduce" });
 
 // Puppeteer
 await page.emulateMediaFeatures([
   { name: "prefers-reduced-motion", value: "reduce" },
 ]);
 ```
+
+**Verify the emulation took effect before trusting anything measured under it.** `test.use({ reducedMotion: "reduce" })`, which is the form a Playwright test author reaches for first, silently does nothing. Reproduced under a minimal standalone config, so this is not a project misconfiguration:
+
+| form | `matchMedia(...).matches` | reveal opacity |
+|---|---|---|
+| `test.use({ reducedMotion: "reduce" })` | **false** | **0** |
+| no emulation at all (control) | false | 0 |
+| `page.emulateMedia({ reducedMotion: "reduce" })` | true | 1 |
+| `browser.newPage({ reducedMotion: "reduce" })` | true | 1 |
+
+The media query itself never matches, so the preference is not applied at all rather than applied and overridden. The failure is silent in the worst way: the suite goes green, the numbers look plausible, and every colour is measured through whatever opacity the reveal happened to be holding. One assertion is enough to close it:
+
+```js
+expect(await page.evaluate(
+  () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+)).toBe(true);
+```
+
+This cost real time. A contrast finding was reported as surviving reduced motion, which reopened a closed investigation and sent two sessions looking for a second compositing mechanism that did not exist. The measurement had been taken with the instrument switched off.
 
 Disabling `color-contrast` to silence these findings is the wrong fix at the wrong layer: it suppresses genuine contrast regressions along with the artifacts.
 

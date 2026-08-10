@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - run the whole gate in CI and before publish
 
 ### Fixed
+- grouped reveals ignored prefers-reduced-motion entirely (v0.28.1)
+- an on-color is a guarantee at a text size, not an unconditional one (v0.28.0)
+- give the log and bar-chart readouts an on-dark rule (v0.27.2)
 - stamp the real version into every shipped banner (v0.27.1)
 
 ### Documentation

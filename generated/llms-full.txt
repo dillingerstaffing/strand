@@ -1802,6 +1802,7 @@ Dark instrument panel container for data-dense content.
 | `strand-map-pin--highlighted` | modifier | |
 | `strand-map-pin--dimmed` | modifier | |
 | `strand-cluster-marker` | base | |
+| `strand-status-chip--committed` | modifier | |
 
 **Usage:**
 
@@ -3087,8 +3088,9 @@ Non-negotiable. This is not a feature. It is a physical accessibility requiremen
 Emulate the preference in the audit harness rather than disabling the contrast rule:
 
 ```js
-// Playwright
+// Playwright: either of these works.
 const page = await browser.newPage({ reducedMotion: "reduce" });
+await page.emulateMedia({ reducedMotion: "reduce" });
 
 // Puppeteer
 await page.emulateMediaFeatures([
@@ -3096,7 +3098,34 @@ await page.emulateMediaFeatures([
 ]);
 ```
 
+**Verify the emulation took effect before trusting anything measured under it.** `test.use({ reducedMotion: "reduce" })`, which is the form a Playwright test author reaches for first, silently does nothing. Reproduced under a minimal standalone config, so this is not a project misconfiguration:
+
+| form | `matchMedia(...).matches` | reveal opacity |
+|---|---|---|
+| `test.use({ reducedMotion: "reduce" })` | **false** | **0** |
+| no emulation at all (control) | false | 0 |
+| `page.emulateMedia({ reducedMotion: "reduce" })` | true | 1 |
+| `browser.newPage({ reducedMotion: "reduce" })` | true | 1 |
+
+The media query itself never matches, so the preference is not applied at all rather than applied and overridden. The failure is silent in the worst way: the suite goes green, the numbers look plausible, and every colour is measured through whatever opacity the reveal happened to be holding. One assertion is enough to close it:
+
+```js
+expect(await page.evaluate(
+  () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+)).toBe(true);
+```
+
+This cost real time. A contrast finding was reported as surviving reduced motion, which reopened a closed investigation and sent two sessions looking for a second compositing mechanism that did not exist. The measurement had been taken with the instrument switched off.
+
 Disabling `color-contrast` to silence these findings is the wrong fix at the wrong layer: it suppresses genuine contrast regressions along with the artifacts.
+
+**Reduced motion attributes a defect. It does not certify a colour.** The paragraph above is about deciding whether a finding belongs to the palette or to the reveal, and for that question the settled state is the right one to read. It is the wrong state to sign off on, because it is not the state a user sees. A scroll-driven reveal means the composited value is what a reader encounters every time a card enters the viewport at ordinary scrolling speed; the settled value is what they get afterwards.
+
+So **certify against the worst state a user can encounter, not the settled one.** Settled is the state a checker finds most easily and the state a user sees least. Worked example, from the alert status prefix on the dark viewport: the panel's declared background is `color-mix(in srgb, var(--strand-gray-400) 12%, transparent)` over the abyss, which resolves to `#1F2A3B` settled and composites to `#343E4E` mid-reveal (a single ancestor at ~0.904, recovered by solving for the alpha and confirmed by walking the chain). Against those two backgrounds `--strand-teal-vital` measures 5.81:1 and 4.34:1. A fix using it would have passed every check in the repo and been inaccessible to anyone who scrolled the card into view. The `*-tint` values were chosen instead because they clear 4.5:1 in both states, at 12.8:1 and 9.6:1.
+
+The general rule: **a colour with two backgrounds needs two numbers.** One number standing for both is how a fill-tier value gets adopted as a text value, and a transient composite is exactly where that goes unnoticed.
+
+A corollary for the tooling, learned by watching three separate checkers report clean while being wrong on the same day: **fail loudly on anything unrecognised.** A contrast script that cannot parse a `color(srgb ... / 0.12)` layer must throw, never skip it and composite what remains -- skipping produced a confident `#0F192A` and a plausible 3.13:1 that were simply not the page. Silent non-handling presented as success is worse than no check, because it also spends the reviewer's trust.
 
 ### 6.8 Motion Anti-Patterns (Never Do These)
 
@@ -3997,6 +4026,12 @@ This is enforced, not documented and hoped for. `pnpm test:contrast` reads the b
 
 Full `prefers-reduced-motion` support. Every animation in the system reduces to instant state change. No exceptions. No "gentle" fallbacks. If the user says "reduce motion," motion is eliminated.
 
+**That support is a CSS opt-in, not a browser behaviour, and it is load-bearing twice over.** `prefers-reduced-motion` is a media query. No user agent suppresses an animation on its own, so the `@media (prefers-reduced-motion: reduce)` block in `ScrollReveal.css` IS the mechanism -- if a consumer drops or overrides it, every reveal animates for a user who asked it not to.
+
+The second cost is less obvious and worse. A scroll-driven reveal (`animation-timeline: view()`) parks an element at a partial opacity as a STABLE state, not a transient one, so a contrast audit run on a page whose reveals are not actually suppressed measures composited colours belonging to no token in the palette. It does not error; it returns plausible numbers. Every contrast measurement in this system implicitly depends on a CSS opt-in three layers away, and a reader of that measurement has no way to see the dependency.
+
+**The reset must also out-specify every rule it undoes.** This failed in exactly that way: the block listed `.strand-reveal` at (0,1,0) while the group rule sets `animation` at `.strand-reveal-group > .strand-reveal` (0,2,0). Plain reveals were correctly suppressed and grouped ones kept `animation-timeline: view()` at opacity 0 under reduced motion -- so the emulation looked like it worked, on the elements anyone thought to check. Any selector that drives reveal motion needs a matching entry in the reduced-motion block, at matching specificity; `ScrollReveal.test.tsx` asserts the coverage by parsing which DECLARATION each selector is attached to, because "the selector appears somewhere in the block" is not the invariant and a mutation proved it.
+
 ### 14.5 Keyboard Navigation
 
 - Every interactive element is reachable via Tab/Shift+Tab
@@ -4631,6 +4666,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - run the whole gate in CI and before publish
 
 ### Fixed
+- grouped reveals ignored prefers-reduced-motion entirely (v0.28.1)
+- an on-color is a guarantee at a text size, not an unconditional one (v0.28.0)
+- give the log and bar-chart readouts an on-dark rule (v0.27.2)
 - stamp the real version into every shipped banner (v0.27.1)
 
 ### Documentation
