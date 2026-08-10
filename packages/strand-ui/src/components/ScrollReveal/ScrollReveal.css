@@ -68,11 +68,45 @@
   transform: translateY(0);
 }
 
+/* ── Reduced motion ──
+   This block is the ONLY reason reduced motion does anything to a reveal.
+   `prefers-reduced-motion` is a media query, not a browser behaviour: no UA
+   suppresses an animation on its own, so if a consumer drops or overrides
+   these rules every reveal animates for a user who asked it not to -- and,
+   because `animation-timeline: view()` parks an element at a partial opacity
+   as a STABLE state, every contrast measurement taken on that page silently
+   composites colours that belong to no token. It fails by reporting plausible
+   numbers, not by erroring, which is the worst way for it to fail.
+
+   The selectors must also out-specify the rules they are undoing.
+   `.strand-reveal` alone is (0,1,0) and lost to
+   `.strand-reveal-group > .strand-reveal` at (0,2,0), so grouped reveals kept
+   `animation-timeline: view()` and sat at opacity 0 under reduced motion
+   while plain ones were correctly suppressed. Any selector added above needs
+   a matching entry here. Guarded in ScrollReveal.test.tsx. */
 @media (prefers-reduced-motion: reduce) {
-  .strand-reveal {
-    opacity: 1;
+  .strand-reveal,
+  .strand-reveal-group > .strand-reveal,
+  .strand-reveal--manual,
+  .strand-reveal-group--manual > .strand-reveal {
     transform: none;
     transition: none;
     animation: none;
+    animation-timeline: auto;
+  }
+
+  /* Scroll-driven reveals have no trigger left once the animation is gone, so
+     they show immediately. */
+  .strand-reveal,
+  .strand-reveal-group > .strand-reveal {
+    opacity: 1;
+  }
+
+  /* Manual reveals stay consumer-driven: the motion goes, the state does not.
+     Forcing opacity here would make an un-toggled reveal visible and break the
+     toggle API that .strand-reveal--manual exists to provide. */
+  .strand-reveal--manual:not(.strand-reveal--visible),
+  .strand-reveal-group--manual > .strand-reveal:not(.strand-reveal--visible) {
+    opacity: 0;
   }
 }

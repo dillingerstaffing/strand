@@ -1654,6 +1654,12 @@ This is enforced, not documented and hoped for. `pnpm test:contrast` reads the b
 
 Full `prefers-reduced-motion` support. Every animation in the system reduces to instant state change. No exceptions. No "gentle" fallbacks. If the user says "reduce motion," motion is eliminated.
 
+**That support is a CSS opt-in, not a browser behaviour, and it is load-bearing twice over.** `prefers-reduced-motion` is a media query. No user agent suppresses an animation on its own, so the `@media (prefers-reduced-motion: reduce)` block in `ScrollReveal.css` IS the mechanism -- if a consumer drops or overrides it, every reveal animates for a user who asked it not to.
+
+The second cost is less obvious and worse. A scroll-driven reveal (`animation-timeline: view()`) parks an element at a partial opacity as a STABLE state, not a transient one, so a contrast audit run on a page whose reveals are not actually suppressed measures composited colours belonging to no token in the palette. It does not error; it returns plausible numbers. Every contrast measurement in this system implicitly depends on a CSS opt-in three layers away, and a reader of that measurement has no way to see the dependency.
+
+**The reset must also out-specify every rule it undoes.** This failed in exactly that way: the block listed `.strand-reveal` at (0,1,0) while the group rule sets `animation` at `.strand-reveal-group > .strand-reveal` (0,2,0). Plain reveals were correctly suppressed and grouped ones kept `animation-timeline: view()` at opacity 0 under reduced motion -- so the emulation looked like it worked, on the elements anyone thought to check. Any selector that drives reveal motion needs a matching entry in the reduced-motion block, at matching specificity; `ScrollReveal.test.tsx` asserts the coverage by parsing which DECLARATION each selector is attached to, because "the selector appears somewhere in the block" is not the invariant and a mutation proved it.
+
 ### 14.5 Keyboard Navigation
 
 - Every interactive element is reachable via Tab/Shift+Tab
