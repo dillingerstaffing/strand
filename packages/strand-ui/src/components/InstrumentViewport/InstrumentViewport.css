@@ -95,6 +95,45 @@
   color: var(--strand-gray-400);
 }
 
+/* ── Diagnostic log and bar chart, on dark (DL 9.3) ──
+   These are FUI readouts and the viewport is where they normally live, but
+   they are declared in static.css and had never been given an on-dark rule.
+   Their light-surface defaults WERE on-dark values (gray-100 to gray-400),
+   which is why the omission stayed invisible: the single definition worked
+   on the cabinet and failed on the lab surface, where the log text measured
+   1.47:1 and its strong runs 1.09:1.
+
+   The contrast pass gave them proper light-surface colors, which moved the
+   failure to the dark side instead of removing it. Both sides need a rule.
+   The values below are exactly what the defaults used to be, so the dark
+   rendering is unchanged and only the light one is fixed. */
+.strand-body--instrument .strand-log__time,
+.strand-instrument-viewport .strand-log__time,
+.strand-body--instrument .strand-bar-chart__label,
+.strand-instrument-viewport .strand-bar-chart__label {
+  color: var(--strand-gray-400);
+}
+
+.strand-body--instrument .strand-log__text,
+.strand-instrument-viewport .strand-log__text,
+.strand-body--instrument .strand-bar-chart__amount,
+.strand-instrument-viewport .strand-bar-chart__amount {
+  color: var(--strand-gray-300);
+}
+
+.strand-body--instrument .strand-log__text strong,
+.strand-instrument-viewport .strand-log__text strong {
+  color: var(--strand-gray-100);
+}
+
+/* teal-vital is the fill tier and fails as text on a light surface, but on
+   the abyss it is the correct high-contrast value and on-teal-tint is far
+   too dark. Same split as the accent overline above. */
+.strand-body--instrument .strand-kv__value--status,
+.strand-instrument-viewport .strand-kv__value--status {
+  color: var(--strand-teal-vital);
+}
+
 /* The readout value's default blue-midnight is near-invisible on the abyss.
    DL 9.3 pairs the on-dark label with an on-dark value, so the full readout
    stays legible on the viewport, not just its label. */

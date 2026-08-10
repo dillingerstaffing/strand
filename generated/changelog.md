@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - run the whole gate in CI and before publish
 
+### Fixed
+- stamp the real version into every shipped banner (v0.27.1)
+
 ### Documentation
 - regenerate after documenting strand-stack--gap-0
 

@@ -153,6 +153,22 @@ describe("darkContextClasses", () => {
 		const classes = darkContextClasses(".strand-detail-panel__source { color: red }");
 		expect(classes.has("strand-detail-panel__source")).toBe(false);
 	});
+
+	it("does not treat a viewport-scoped OVERRIDE as a dark-only component", () => {
+		// `.strand-instrument-viewport .strand-log__text` gives an on-dark colour
+		// to a class whose real definition lives in static.css. Marking the class
+		// dark-only would skip that light rule -- which is how the log and
+		// bar-chart readouts shipped dark-on-dark once already.
+		const classes = darkContextClasses(`
+      .strand-instrument-viewport .strand-log__text { color: red }
+      .strand-body--instrument .strand-bar-chart__amount { color: red }
+      .strand-cluster-marker { color: red }
+    `);
+		expect(classes.has("strand-log__text")).toBe(false);
+		expect(classes.has("strand-bar-chart__amount")).toBe(false);
+		// A genuinely dark-only component, declared unscoped in that file, still counts.
+		expect(classes.has("strand-cluster-marker")).toBe(true);
+	});
 });
 
 describe("parseRules", () => {

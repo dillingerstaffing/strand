@@ -1170,6 +1170,11 @@ Dark instrument panel container for data-dense content.
 | `strand-text-secondary--xs` | modifier | |
 | `strand-overline` | base | |
 | `strand-overline--accent` | modifier | |
+| `strand-log__time` | child | |
+| `strand-bar-chart__label` | child | |
+| `strand-log__text` | child | |
+| `strand-bar-chart__amount` | child | |
+| `strand-kv__value--status` | child | |
 | `strand-detail-panel` | base | |
 | `strand-surface-light` | base | |
 | `strand-instrument-viewport__label` | child | |

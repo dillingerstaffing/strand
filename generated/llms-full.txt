@@ -1729,6 +1729,11 @@ Dark instrument panel container for data-dense content.
 | `strand-text-secondary--xs` | modifier | |
 | `strand-overline` | base | |
 | `strand-overline--accent` | modifier | |
+| `strand-log__time` | child | |
+| `strand-bar-chart__label` | child | |
+| `strand-log__text` | child | |
+| `strand-bar-chart__amount` | child | |
+| `strand-kv__value--status` | child | |
 | `strand-detail-panel` | base | |
 | `strand-surface-light` | base | |
 | `strand-instrument-viewport__label` | child | |
@@ -4624,6 +4629,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - run the whole gate in CI and before publish
+
+### Fixed
+- stamp the real version into every shipped banner (v0.27.1)
 
 ### Documentation
 - regenerate after documenting strand-stack--gap-0

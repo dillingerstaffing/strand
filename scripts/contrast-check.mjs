@@ -38,6 +38,13 @@ export const LIGHT_SURFACES = {
 	"surface-recessed": "#F0F5F8",
 };
 
+// The dark instrument cabinet (DL 9.3). --strand-instrument-bg is the only
+// dark surface the language sanctions, and text placed on it answers to the
+// same WCAG thresholds as text on white.
+export const DARK_SURFACES = {
+	"instrument-bg": "#0F192A",
+};
+
 const TEXT_PX = {
 	"--strand-text-xs": 11.1,
 	"--strand-text-sm": 13.3,
@@ -77,9 +84,21 @@ export const LIGHT_ISLANDS = /detail-panel|surface-light/;
  */
 export function darkContextClasses(instrumentCss) {
 	const classes = new Set();
-	for (const m of instrumentCss.matchAll(/\.(strand-[a-z0-9_-]+)/g)) {
-		if (LIGHT_ISLANDS.test(m[1])) continue;
-		classes.add(m[1]);
+	for (const rule of instrumentCss.matchAll(/([^{}]+)\{[^{}]*\}/g)) {
+		const selector = rule[1];
+		// A selector that NAMES the viewport is a cascade override, not the
+		// definition of a dark-only component: `.strand-instrument-viewport
+		// .strand-log__text` gives an on-dark colour to a class whose real
+		// definition, and light-surface colour, lives in static.css. Treating
+		// the class as dark-only would skip that light rule and hide exactly
+		// the defect this check exists to catch -- which it did once, when the
+		// log and bar-chart readouts were given light colours and their dark
+		// rendering silently broke.
+		if (/body--instrument|instrument-viewport/.test(selector)) continue;
+		for (const m of selector.matchAll(/\.(strand-[a-z0-9_-]+)/g)) {
+			if (LIGHT_ISLANDS.test(m[1])) continue;
+			classes.add(m[1]);
+		}
 	}
 	return classes;
 }
@@ -182,6 +201,16 @@ export function auditRule(rule, palette, darkClasses = new Set()) {
 		if (exclusion.pattern.test(rule.selector)) return [];
 	}
 
+	// A rule that paints ON the dark cabinet is judged against the cabinet.
+	// The light-surface list would be meaningless for it, and skipping it
+	// entirely is how gray-500 shipped at 3.36:1 across 30 nodes on the abyss:
+	// the text tier was derived against white and nothing ever checked the
+	// other side. A hue needs two values; so does a check.
+	const onDark =
+		/body--instrument|instrument-viewport/.test(rule.selector) &&
+		!LIGHT_ISLANDS.test(rule.selector);
+	const surfaces = onDark ? DARK_SURFACES : LIGHT_SURFACES;
+
 	const sizeToken = rule.body.match(/font-size:\s*var\((--strand-text-[a-z0-9]+)\)/)?.[1];
 	const clamped = /font-size:\s*clamp\(/.test(rule.body);
 	// A clamp() headline is display-sized at every step of its range.
@@ -190,7 +219,7 @@ export function auditRule(rule, palette, darkClasses = new Set()) {
 	const threshold = thresholdFor({ px, bold });
 
 	const findings = [];
-	for (const [name, bg] of Object.entries(LIGHT_SURFACES)) {
+	for (const [name, bg] of Object.entries(surfaces)) {
 		const ratio = contrastRatio(fg, bg);
 		if (ratio >= threshold) continue;
 		findings.push({
