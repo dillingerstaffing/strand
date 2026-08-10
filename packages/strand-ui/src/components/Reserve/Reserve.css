@@ -93,6 +93,36 @@
   visibility: visible;
 }
 
+/* Empty: the answer arrived and there is nothing to show.
+   This state exists because `visibility: hidden` preserves layout. In the
+   ready state the placeholder is invisible but still occupies its grid cell,
+   so a region whose content resolves to nothing stays at the placeholder's
+   height forever. Measured against the built CSS at 896px: pending 42px,
+   ready-with-content 42px, ready-with-empty-content 42px, and only taking
+   the placeholder out of flow gives 0px.
+
+   That is a worse defect than the shift the primitive prevents, and it is
+   invisible to a layout-shift score because nothing moves. It was found by
+   the first consumer, who worked around it by setting display:none from
+   JavaScript on the page. The workaround was right and its location was
+   wrong, so it lives here now.
+
+   Deliberately a state the CONSUMER declares, rather than collapsing
+   automatically once the fade ends. Automatic collapse would also fire
+   whenever the content is merely shorter than the placeholder, silently
+   converting a mis-sized reservation into a late shift. That is the exact
+   bug this primitive exists to surface, so it must stay visible. "Nothing
+   arrived" is a different fact from "less arrived than I reserved", and
+   only the consumer knows which happened. */
+.strand-reserve[data-strand-reserve="empty"] > .strand-reserve__placeholder {
+  display: none;
+}
+
+.strand-reserve[data-strand-reserve="empty"] > .strand-reserve__content {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* No state attribute at all resolves to ready. A consumer that server-renders
    real content and never flips an attribute gets the content, not a blank
    region: the primitive degrades to a plain wrapper. */

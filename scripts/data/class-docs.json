@@ -1365,7 +1365,7 @@
 		},
 		{
 			"name": "Reserve",
-			"description": "A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to \"ready\" when the data lands; that attribute is the whole runtime, and there is no JavaScript in this primitive.",
+			"description": "A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to \"ready\" when the data lands, or to \"empty\" when the answer arrived and there is nothing to show; that attribute is the whole runtime, and there is no JavaScript in this primitive.",
 			"classes": [
 				{
 					"class": "strand-reserve",
@@ -1380,7 +1380,7 @@
 					"description": "The real content. Present and sized from first paint, hidden by opacity rather than absent from the DOM."
 				}
 			],
-			"example": "<!-- Optional per-breakpoint floors, needed only when the placeholder is\n     genuinely smaller than what replaces it. Each falls back to the one below. -->\n<div class=\"strand-reserve\" data-strand-reserve=\"pending\"\n  style=\"--strand-reserve-h: 42px; --strand-reserve-h-md: 56px;\">\n  <div class=\"strand-reserve__placeholder\" aria-hidden=\"true\">\n    <div class=\"strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer\"\n      style=\"width: 100%; height: 42px;\"></div>\n  </div>\n  <div class=\"strand-reserve__content\">\n    <!-- real content, rendered from the start -->\n  </div>\n</div>\n\n<!-- Omitting data-strand-reserve entirely shows the content and hides the\n     placeholder, so a server-rendered page needs no attribute at all. -->"
+			"example": "<!-- Optional per-breakpoint floors, needed only when the placeholder is\n     genuinely smaller than what replaces it. Each falls back to the one below. -->\n<div class=\"strand-reserve\" data-strand-reserve=\"pending\"\n  style=\"--strand-reserve-h: 42px; --strand-reserve-h-md: 56px;\">\n  <div class=\"strand-reserve__placeholder\" aria-hidden=\"true\">\n    <div class=\"strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer\"\n      style=\"width: 100%; height: 42px;\"></div>\n  </div>\n  <div class=\"strand-reserve__content\">\n    <!-- real content, rendered from the start -->\n  </div>\n</div>\n\n<!-- Omitting data-strand-reserve entirely shows the content and hides the\n     placeholder, so a server-rendered page needs no attribute at all. -->\n\n<!-- Resolve on EVERY path, including failure. data-strand-reserve=\"empty\"\n     takes the placeholder OUT OF FLOW and collapses the region; \"ready\" alone\n     cannot, because a hidden placeholder still occupies its grid cell and the\n     region would hold its height forever. -->"
 		},
 		{
 			"name": "InstrumentViewport",

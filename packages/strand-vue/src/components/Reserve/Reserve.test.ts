@@ -49,6 +49,13 @@ describe('Reserve', () => {
     ).toBe('ready')
   })
 
+  it('collapses when the answer arrived and there is nothing to show', () => {
+    const { container } = render(Reserve, { props: { ready: true, empty: true } })
+    expect(
+      container.querySelector('.strand-reserve')?.getAttribute('data-strand-reserve'),
+    ).toBe('empty')
+  })
+
   // ── Accessibility ──
 
   it('hides the placeholder from assistive tech', () => {

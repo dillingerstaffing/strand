@@ -1155,7 +1155,7 @@ Content placeholder with shimmer animation.
 
 ### Reserve
 
-A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to "ready" when the data lands; that attribute is the whole runtime, and there is no JavaScript in this primitive.
+A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to "ready" when the data lands, or to "empty" when the answer arrived and there is nothing to show; that attribute is the whole runtime, and there is no JavaScript in this primitive.
 
 | Class | Type | Description |
 |---|---|---|
@@ -1181,6 +1181,11 @@ A region that holds its box while data loads, then cross-fades the placeholder t
 
 <!-- Omitting data-strand-reserve entirely shows the content and hides the
      placeholder, so a server-rendered page needs no attribute at all. -->
+
+<!-- Resolve on EVERY path, including failure. data-strand-reserve="empty"
+     takes the placeholder OUT OF FLOW and collapses the region; "ready" alone
+     cannot, because a hidden placeholder still occupies its grid cell and the
+     region would hold its height forever. -->
 ```
 
 ---

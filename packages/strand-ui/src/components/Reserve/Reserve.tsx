@@ -7,6 +7,14 @@ export interface ReserveProps
   extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "placeholder"> {
   /** Whether the real content has arrived. Drives the cross-fade. */
   ready?: boolean;
+  /**
+   * The answer arrived and there is nothing to show. Collapses the region
+   * by taking the placeholder out of flow, which `ready` alone cannot do:
+   * a hidden placeholder still occupies its grid cell, so a region whose
+   * content resolves to nothing would otherwise hold the placeholder's
+   * height forever. Wins over `ready`.
+   */
+  empty?: boolean;
   /** What to show while waiting. Usually one or more `Skeleton`s. */
   placeholder?: ComponentChildren;
   /** Reserved minimum height, base breakpoint. Any CSS length. */
@@ -38,6 +46,12 @@ export interface ReserveProps
  *   {event ? <JoinLive event={event} /> : null}
  * </Reserve>
  *
+ * // Resolve on EVERY path, including failure, or the region shimmers forever
+ * // for content that is never coming.
+ * <Reserve ready={settled} empty={settled && !rows?.length} placeholder={<Rows.Skeleton />}>
+ *   <Rows data={rows} />
+ * </Reserve>
+ *
  * // Taller reservation on wider screens
  * <Reserve ready={!!rows} height="180px" heightMd="120px" placeholder={<Rows.Skeleton />}>
  *   <Rows data={rows} />
@@ -48,6 +62,7 @@ export const Reserve = forwardRef<HTMLDivElement, ReserveProps>(
   (
     {
       ready = false,
+      empty = false,
       placeholder,
       height,
       heightMd,
@@ -73,7 +88,7 @@ export const Reserve = forwardRef<HTMLDivElement, ReserveProps>(
       <div
         ref={ref}
         className={classes}
-        data-strand-reserve={ready ? "ready" : "pending"}
+        data-strand-reserve={empty ? "empty" : ready ? "ready" : "pending"}
         style={{ ...vars, ...(style as object) }}
         {...rest}
       >

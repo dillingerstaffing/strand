@@ -30,6 +30,10 @@ import { computed } from 'vue'
 interface Props {
   /** Whether the real content has arrived. Drives the cross-fade. */
   ready?: boolean
+  /** The answer arrived and there is nothing to show. Collapses the region
+      by taking the placeholder out of flow, which `ready` alone cannot do.
+      Wins over `ready`. */
+  empty?: boolean
   /** Reserved minimum height, base breakpoint. Any CSS length. */
   height?: string
   /** Reserved minimum height from 768px up. Falls back to `height`. */
@@ -42,6 +46,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   ready: false,
+  empty: false,
   className: '',
 })
 
@@ -61,7 +66,7 @@ const inlineStyle = computed(() => {
 <template>
   <div
     :class="classes"
-    :data-strand-reserve="ready ? 'ready' : 'pending'"
+    :data-strand-reserve="empty ? 'empty' : ready ? 'ready' : 'pending'"
     :style="inlineStyle"
     v-bind="$attrs"
   >

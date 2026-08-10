@@ -27,6 +27,10 @@
 <script lang="ts">
   /** Whether the real content has arrived. Drives the cross-fade. */
   export let ready: boolean = false
+  /** The answer arrived and there is nothing to show. Collapses the region
+      by taking the placeholder out of flow, which `ready` alone cannot do.
+      Wins over `ready`. */
+  export let empty: boolean = false
   /** Reserved minimum height, base breakpoint. Any CSS length. */
   export let height: string | undefined = undefined
   /** Reserved minimum height from 768px up. Falls back to `height`. */
@@ -43,7 +47,7 @@
 
 <div
   class="strand-reserve"
-  data-strand-reserve={ready ? 'ready' : 'pending'}
+  data-strand-reserve={empty ? 'empty' : ready ? 'ready' : 'pending'}
   style={inlineStyle || undefined}
   {...$$restProps}
 >

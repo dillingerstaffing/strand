@@ -75,6 +75,20 @@ describe("Reserve", () => {
     ).toBe("pending");
   });
 
+  it("collapses when the answer arrived and there is nothing to show", () => {
+    const { container } = render(<Reserve ready empty />);
+    expect(
+      container.firstElementChild?.getAttribute("data-strand-reserve"),
+    ).toBe("empty");
+  });
+
+  it("empty wins over ready, since 'nothing arrived' is the more specific fact", () => {
+    const { container } = render(<Reserve ready={false} empty />);
+    expect(
+      container.firstElementChild?.getAttribute("data-strand-reserve"),
+    ).toBe("empty");
+  });
+
   // ── Accessibility ──
 
   it("hides the placeholder from assistive tech, which would otherwise read filler", () => {

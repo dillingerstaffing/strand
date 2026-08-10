@@ -3166,6 +3166,21 @@ Opacity only. Never animate height, and never animate the region's
 geometry to "reveal" content: a height animation is a layout shift with
 an easing curve on it, and it is scored as one.
 
+A region must be **resolved on every path, including failure**. A fetch that
+errors or returns nothing still ends the wait, and a region left in its
+waiting state shimmers forever for content that is never coming. That is a
+worse failure than the shift it replaced, and no layout-shift score will
+ever show it, because nothing moves.
+
+Resolving to *nothing* is a distinct state from resolving to *content*, and
+it has to take the placeholder out of flow rather than merely hide it: a
+hidden placeholder still occupies its cell and holds the region open.
+Collapsing is the consumer's declaration, not an automatic consequence of
+the fade ending, because an automatic collapse would also fire when content
+is merely shorter than its placeholder, quietly converting a mis-sized
+reservation into a late shift. Keep that visible; it is the bug this
+section exists to catch.
+
 **Under reduced motion the cross-fade is removed and the swap is
 immediate. The space contract is not motion and is never removed.** This
 distinction matters: a reduced-motion user has asked for less animation,
