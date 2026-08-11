@@ -67,3 +67,4 @@ export * from "./components/Swatch/index";
 export * from "./components/TypeSpecimen/index";
 export * from "./components/TokenSpecimen/index";
 export * from "./components/ContainerScale/index";
+export * from './components/CommandPalette/index'

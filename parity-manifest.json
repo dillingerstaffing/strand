@@ -1,7 +1,7 @@
 {
 	"$schema": "./parity-manifest.schema.json",
 	"description": "Canonical Strand API surface. Every consumer type must implement this surface. The parity test reads this file and asserts conformance. Adding a primitive is a PR that updates this file AND adds the primitive to every consumer type in the same release. Removing a primitive requires a major version bump.",
-	"version": "0.35.0",
+	"version": "0.36.0",
 	"components": [
 		"ActionDock",
 		"Alert",
@@ -13,6 +13,7 @@
 		"CardSection",
 		"Checkbox",
 		"CodeBlock",
+		"CommandPalette",
 		"Container",
 		"ContainerScale",
 		"DataReadout",
@@ -54,6 +55,12 @@
 		"Tooltip",
 		"TypeSpecimen"
 	],
+	"cssOnlyComponents": [
+		{
+			"name": "Banner",
+			"reason": "Deliberately class-only. Its consumer injects the markup server-side (an HTMLRewriter writing .strand-banner before first paint) and never mounts a component, so the classes are the whole API. For the CSS-only and Bulma/Bootstrap consumer types that is the normal case rather than an exception."
+		}
+	],
 	"knownDrift": {
 		"Banner": {
 			"in": [
@@ -74,7 +81,7 @@
 		"files": {
 			"tokens.css": {
 				"raw_bytes": 12264,
-				"gzipped_bytes": 4075
+				"gzipped_bytes": 4074
 			},
 			"reset.css": {
 				"raw_bytes": 1857,
@@ -94,7 +101,7 @@
 			}
 		},
 		"total_raw_bytes": 290739,
-		"total_gz_bytes": 67644,
+		"total_gz_bytes": 67643,
 		"total_gz_kb": 66
 	}
 }

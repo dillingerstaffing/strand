@@ -120,7 +120,13 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       const list = listRef.current;
       if (!list) return;
       const el = list.querySelector<HTMLElement>(`#${CSS.escape(optionId(active))}`);
-      el?.scrollIntoView({ block: "nearest" });
+      // Guarded rather than called bare: scrollIntoView is absent in jsdom and
+      // in any non-browser renderer, and an unguarded call there throws on
+      // every selection change. The scroll is a courtesy; losing it must not
+      // break the component.
+      if (typeof el?.scrollIntoView === "function") {
+        el.scrollIntoView({ block: "nearest" });
+      }
     }, [active]);
 
     const handleKeyDown = useCallback(
@@ -216,6 +222,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
               key={item.id}
               id={optionId(index)}
               role="option"
+              tabIndex={-1}
               aria-selected={index === active}
               className={
                 index === active

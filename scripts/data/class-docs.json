@@ -1874,6 +1874,56 @@
 				}
 			],
 			"example": "<div class=\"strand-container-scale\">\n  <div class=\"strand-container-scale__row\">\n    <div class=\"strand-container-scale__label\">\n      <code>--strand-container-narrow</code>\n      <span class=\"strand-container-scale__caption\">640px</span>\n    </div>\n    <div class=\"strand-container-scale__track\">\n      <div class=\"strand-container-scale__bar\" style=\"width: 50%;\">\n        <span class=\"strand-container-scale__px\">640</span>\n      </div>\n    </div>\n  </div>\n  <div class=\"strand-container-scale__axis\"><span>0</span><span>1280</span></div>\n</div>"
+		},
+		{
+			"name": "CommandPalette",
+			"description": "Search-and-jump overlay. Composes Dialog, so focus trapping, focus restoration, scroll lock and Escape dismissal are inherited. Filtering and ranking belong to the caller.",
+			"classes": [
+				{
+					"class": "strand-command-palette",
+					"description": "Palette root, applied to the composed Dialog."
+				},
+				{
+					"class": "strand-command-palette__search",
+					"description": "Search row holding the icon and the input."
+				},
+				{
+					"class": "strand-command-palette__icon",
+					"description": "Decorative magnifier, aria-hidden."
+				},
+				{
+					"class": "strand-command-palette__input",
+					"description": "The combobox input. Focus stays here while the highlight moves, via aria-activedescendant."
+				},
+				{
+					"class": "strand-command-palette__list",
+					"description": "Scrollable listbox of results."
+				},
+				{
+					"class": "strand-command-palette__option",
+					"description": "One result row (role=option, tabindex -1)."
+				},
+				{
+					"class": "strand-command-palette__option--active",
+					"description": "The highlighted row, the one Enter acts on. Pointer hover and arrow keys drive the same state."
+				},
+				{
+					"class": "strand-command-palette__label",
+					"description": "Primary text of a result."
+				},
+				{
+					"class": "strand-command-palette__sublabel",
+					"description": "Secondary text of a result."
+				},
+				{
+					"class": "strand-command-palette__badge",
+					"description": "Short trailing token, such as a category."
+				},
+				{
+					"class": "strand-command-palette__empty",
+					"description": "Shown instead of a bare box when nothing matches."
+				}
+			]
 		}
 	],
 	"global": {

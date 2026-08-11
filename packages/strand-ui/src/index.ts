@@ -286,3 +286,8 @@ export type {
   ContainerScalePxProps,
   ContainerScaleAxisProps,
 } from "./components/ContainerScale/index.js";
+export { CommandPalette } from "./components/CommandPalette/index.js";
+export type {
+  CommandPaletteItem,
+  CommandPaletteProps,
+} from "./components/CommandPalette/index.js";
