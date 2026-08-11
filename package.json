@@ -24,7 +24,8 @@
 		"test:parity": "node scripts/parity-check.mjs",
 		"test:migration-staleness": "node scripts/migration-staleness.mjs",
 		"test:contrast": "node scripts/contrast-check.mjs",
-		"test:all": "pnpm test && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast",
+		"test:layout": "node scripts/layout-check.mjs",
+		"test:all": "pnpm test && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:layout",
 		"vendor-fonts": "node scripts/vendor-fonts.mjs",
 		"vendor-fonts:check": "node scripts/vendor-fonts.mjs --check",
 		"sync-versions": "node scripts/sync-versions.mjs",
@@ -39,6 +40,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.0",
+		"playwright": "^1.62.1",
 		"typescript": "^5.7.0",
 		"vitest": "^3.0.0"
 	}
