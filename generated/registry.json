@@ -4,6 +4,22 @@
   "homepage": "https://github.com/dillingerstaffing/strand",
   "items": [
     {
+      "name": "action-dock",
+      "type": "registry:ui",
+      "title": "Action Dock",
+      "description": "Action Dock",
+      "files": [
+        {
+          "path": "components/ActionDock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",
@@ -139,6 +155,22 @@
       "files": [
         {
           "path": "components/CodeBlock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "command-palette",
+      "type": "registry:ui",
+      "title": "Command Palette",
+      "description": "Command Palette",
+      "files": [
+        {
+          "path": "components/CommandPalette.tsx",
           "type": "registry:ui"
         }
       ],
@@ -500,22 +532,6 @@
       "registryDependencies": []
     },
     {
-      "name": "settle",
-      "type": "registry:ui",
-      "title": "Settle",
-      "description": "Settle",
-      "files": [
-        {
-          "path": "components/Settle.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "@dillingerstaffing/strand"
-      ],
-      "registryDependencies": []
-    },
-    {
       "name": "section",
       "type": "registry:ui",
       "title": "Section",
@@ -539,6 +555,22 @@
       "files": [
         {
           "path": "components/Select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "settle",
+      "type": "registry:ui",
+      "title": "Settle",
+      "description": "Settle",
+      "files": [
+        {
+          "path": "components/Settle.tsx",
           "type": "registry:ui"
         }
       ],

@@ -1749,6 +1749,38 @@ A region that holds its box while data loads, then cross-fades the placeholder t
 
 ---
 
+### ActionDock
+
+A bottom-anchored region carrying the primary action of a view, placed where a thumb rests. Implements design-language.md 14.8 (target position): 14.7 makes a target hittable, this makes it reachable. Flip data-strand-actiondock to "visible" when the in-flow control it stands in for scrolls out of view; that attribute is the whole runtime, and there is no JavaScript in this primitive. Use it for the ONE action a view exists to produce, and never alongside the real control, which would be two live buttons for one action.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-actiondock` | base | Dock root. Fixed to the viewport's bottom edge and spanning the inline axis, so its position is a function of the viewport and no amount of scrolling moves it out of reach. Carries the safe-area inset so the control clears the home indicator on a notched phone. |
+
+**Usage:**
+
+```html
+<!-- Hidden by default: an absent attribute means hidden, so a server-rendered
+     page that never flips it occludes nothing. -->
+<div class="strand-actiondock" data-strand-actiondock="hidden">
+  <button class="strand-btn strand-btn--primary" type="button">RSVP</button>
+</div>
+
+<!-- Show it only while the real control is off screen, usually driven by an
+     IntersectionObserver on that control. -->
+<div class="strand-actiondock" data-strand-actiondock="visible" aria-hidden="true">
+  <button class="strand-btn strand-btn--primary" type="button" tabindex="-1">RSVP</button>
+</div>
+
+<!-- The docked control usually duplicates one already in the accessibility
+     tree, so aria-hidden plus tabindex="-1" avoids a duplicate announcement
+     and a duplicate tab stop. Reach is a thumb problem; a keyboard user
+     reaches the in-flow control by tabbing. A dock carrying an action with NO
+     in-flow equivalent must be exposed instead. -->
+```
+
+---
+
 ### InstrumentViewport
 
 Dark instrument panel container for data-dense content.
@@ -2255,6 +2287,26 @@ Container-width visualizer. Renders proportional horizontal bars (narrow / defau
   <div class="strand-container-scale__axis"><span>0</span><span>1280</span></div>
 </div>
 ```
+
+---
+
+### CommandPalette
+
+Search-and-jump overlay. Composes Dialog, so focus trapping, focus restoration, scroll lock and Escape dismissal are inherited. Filtering and ranking belong to the caller.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-command-palette` | base | Palette root, applied to the composed Dialog. |
+| `strand-command-palette__search` | child | Search row holding the icon and the input. |
+| `strand-command-palette__icon` | child | Decorative magnifier, aria-hidden. |
+| `strand-command-palette__input` | child | The combobox input. Focus stays here while the highlight moves, via aria-activedescendant. |
+| `strand-command-palette__list` | child | Scrollable listbox of results. |
+| `strand-command-palette__option` | child | One result row (role=option, tabindex -1). |
+| `strand-command-palette__option--active` | child | The highlighted row, the one Enter acts on. Pointer hover and arrow keys drive the same state. |
+| `strand-command-palette__label` | child | Primary text of a result. |
+| `strand-command-palette__sublabel` | child | Secondary text of a result. |
+| `strand-command-palette__badge` | child | Short trailing token, such as a category. |
+| `strand-command-palette__empty` | child | Shown instead of a bare box when nothing matches. |
 
 ---
 
@@ -4320,6 +4372,35 @@ The second cost is less obvious and worse. A scroll-driven reveal (`animation-ti
 
 Minimum 44x44px on all interactive elements. This is WCAG 2.2 AA Target Size (Success Criterion 2.5.8). Touch-screen users cannot reliably hit targets smaller than 44px.
 
+### 14.8 Target Position (Reach)
+
+14.7 makes a target hittable. This makes it reachable. Size without position is half the constraint: a 44px button pinned in the top third of a phone screen satisfies 14.7 and is still the hardest place on the device to touch.
+
+**On a touch viewport, the primary action of a view must be able to occupy the bottom third of the viewport.**
+
+The bands, as fractions of viewport height measured from the top:
+
+| Band | Region | Reach |
+|---|---|---|
+| Easy | bottom third | where the thumb rests |
+| Stretch | middle third | reachable, not comfortable |
+| Hard | top third | needs a re-grip, or a second hand |
+
+**The mechanical test, needing no judgement.** Scrolling moves content up, so a control sits at its lowest viewport position at scroll offset 0 and every scroll from there only raises it. Therefore:
+
+- a control that scrolls with the document **fails** if its document centre sits above two thirds of the viewport height;
+- a fixed or sticky control **fails** if its pinned centre does.
+
+No sampling, no scroll sweep, no judgement call.
+
+**What this rules OUT as a finding, which matters as much as what it rules in.** A control below the fold is not a reach defect. The user scrolls it into the thumb zone on the way past, and counting below-fold controls as unreachable reports a number that is almost entirely noise. Reach and discovery are different constraints with different fixes, and an audit that conflates them will fix the wrong one. State them separately.
+
+The corollary is the one that catches teams out: **the top navigation bar is the worst place in the layout for a primary action.** It is fixed, so scrolling cannot improve it, and it is pinned in the hard band by design. A sign-in control that gates every capability on the site, placed there and nowhere else, is unreachable in this sense on every screen of the product.
+
+**Moving the control down the document is not a fix.** It answers the reach question at exactly one scroll offset, and it is fragile: a control clearing the band by a few pixels crosses back the next time the copy above it wraps differently or the viewport changes width. A viewport-anchored region answers the question at every offset. That is what `ActionDock` is for (Part XI).
+
+**Thirds rather than a fitted radial arc, deliberately.** A radial model needs a handedness assumption and a hand size, and on a single-column phone layout every control spans most of the width, so the horizontal term does almost no work while the vertical term does all of it. Two invented parameters that change no decision are worse than a blunt model that changes several. This omission is a decision, not an oversight; do not "improve" it into a radial model without a case where it changes an outcome.
+
 ---
 
 ## Part XV: Propagation Architecture
@@ -4926,23 +5007,71 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- every shipped component has a test, and ActionDock stops losing its class in Svelte (v0.36.4, gap #68)
+
+### Fixed
+- the palette sheds Dialog's prose padding and its orphan close button (v0.36.6)
+- the scroll lock stops trusting an inert gutter, and the palette drops to instrument scale (v0.36.5)
+
+## [0.36.3] - 2026-08-11
+
+### Fixed
+- dialogs stop shifting the page, and the palette earns its density (v0.36.3)
+
+## [0.36.2] - 2026-08-11
+
+### Fixed
+- the palette's secondary text failed AA on the highlighted row (v0.36.2)
+
+## [0.36.1] - 2026-08-11
+
+### Fixed
+- the command palette could not be typed into (v0.36.1)
+
+### Documentation
+- record gap #67, the two pipelines that disagree about a component
+
+## [0.36.0] - 2026-08-11
+
+### Added
+- CommandPalette reaches consumers, and CSS can no longer ship without it (v0.36.0, gap #67)
+- a target you can reach, not merely one you can hit (v0.35.0, gap #66)
 - Settle, the moment a state change lands (v0.34.0, gap #65)
 - the layout tier can assert where a box is, not only how big
 - a browser layout tier, because jsdom does not lay out (gap #64)
-- Reserve, a region that holds its box while data loads (v0.32.0, gap #62)
-- the wordmark and the tabs answer the pointer (v0.31.0)
 
 ### Changed
+- regenerate the changelog, which reads the git log it is committed beside
 - regenerate the agent surfaces, which Reserve left stale
 - regenerate agent surfaces missed by 0.33.0
 
 ### Fixed
+- publish could not run the browser tiers, so nothing reached npm
 - build:docs raced itself, so every release shipped a stale llms-full.txt
 - commit the half-built CommandPalette, which was breaking every local build
+
+### Documentation
+- three corrections to the layout tier, all found by its consumers
+
+## [0.33.0] - 2026-08-10
+
+### Fixed
 - Reserve can collapse when the answer is nothing (v0.33.0, gap #63)
+
+## [0.32.1] - 2026-08-10
 
 ### Documentation
 - document Reserve for the CSS-only and Bootstrap consumers (v0.32.1, gap #62)
+
+## [0.32.0] - 2026-08-10
+
+### Added
+- Reserve, a region that holds its box while data loads (v0.32.0, gap #62)
+
+## [0.31.0] - 2026-08-10
+
+### Added
+- the wordmark and the tabs answer the pointer (v0.31.0)
 
 ## [0.30.0] - 2026-08-10
 
@@ -5418,8 +5547,11 @@ pnpm lint        # Lint all files
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |
-| `pnpm test:all` | `pnpm test && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:layout && pnpm test:motion` |
+| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:layout && pnpm test:motion` |
+| `pnpm test:browser-preflight` | `node scripts/browser-preflight.mjs` |
+| `pnpm test:component-test-parity` | `node scripts/component-test-parity.mjs` |
 | `pnpm test:contrast` | `node scripts/contrast-check.mjs` |
+| `pnpm test:css-export-parity` | `node scripts/css-export-parity.mjs` |
 | `pnpm test:layout` | `node scripts/layout-check.mjs` |
 | `pnpm test:migration-staleness` | `node scripts/migration-staleness.mjs` |
 | `pnpm test:motion` | `node scripts/motion-check.mjs` |

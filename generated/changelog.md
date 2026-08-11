@@ -8,23 +8,71 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- every shipped component has a test, and ActionDock stops losing its class in Svelte (v0.36.4, gap #68)
+
+### Fixed
+- the palette sheds Dialog's prose padding and its orphan close button (v0.36.6)
+- the scroll lock stops trusting an inert gutter, and the palette drops to instrument scale (v0.36.5)
+
+## [0.36.3] - 2026-08-11
+
+### Fixed
+- dialogs stop shifting the page, and the palette earns its density (v0.36.3)
+
+## [0.36.2] - 2026-08-11
+
+### Fixed
+- the palette's secondary text failed AA on the highlighted row (v0.36.2)
+
+## [0.36.1] - 2026-08-11
+
+### Fixed
+- the command palette could not be typed into (v0.36.1)
+
+### Documentation
+- record gap #67, the two pipelines that disagree about a component
+
+## [0.36.0] - 2026-08-11
+
+### Added
+- CommandPalette reaches consumers, and CSS can no longer ship without it (v0.36.0, gap #67)
+- a target you can reach, not merely one you can hit (v0.35.0, gap #66)
 - Settle, the moment a state change lands (v0.34.0, gap #65)
 - the layout tier can assert where a box is, not only how big
 - a browser layout tier, because jsdom does not lay out (gap #64)
-- Reserve, a region that holds its box while data loads (v0.32.0, gap #62)
-- the wordmark and the tabs answer the pointer (v0.31.0)
 
 ### Changed
+- regenerate the changelog, which reads the git log it is committed beside
 - regenerate the agent surfaces, which Reserve left stale
 - regenerate agent surfaces missed by 0.33.0
 
 ### Fixed
+- publish could not run the browser tiers, so nothing reached npm
 - build:docs raced itself, so every release shipped a stale llms-full.txt
 - commit the half-built CommandPalette, which was breaking every local build
+
+### Documentation
+- three corrections to the layout tier, all found by its consumers
+
+## [0.33.0] - 2026-08-10
+
+### Fixed
 - Reserve can collapse when the answer is nothing (v0.33.0, gap #63)
+
+## [0.32.1] - 2026-08-10
 
 ### Documentation
 - document Reserve for the CSS-only and Bootstrap consumers (v0.32.1, gap #62)
+
+## [0.32.0] - 2026-08-10
+
+### Added
+- Reserve, a region that holds its box while data loads (v0.32.0, gap #62)
+
+## [0.31.0] - 2026-08-10
+
+### Added
+- the wordmark and the tabs answer the pointer (v0.31.0)
 
 ## [0.30.0] - 2026-08-10
 
