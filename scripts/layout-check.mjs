@@ -201,6 +201,90 @@ export const LAYOUT_CASES = [
 		measure: { bare: "#bare", settled: "#settled" },
 		expect: [{ of: "settled", equals: "bare" }],
 	},
+
+	// ── ActionDock ──
+	//
+	// Every claim this primitive makes is POSITIONAL, which is why the
+	// position family exists at all. A size assertion here would be a proxy:
+	// a dock of the right height sitting in the wrong place passes it.
+	//
+	// The thumb zone is the bottom third of the viewport, so at 844px it
+	// starts at 2/3 * 844 = 562.67.
+	{
+		name: "the primary action lands in the thumb zone",
+		primitive: "ActionDock",
+		// Measures the BUTTON, not the dock. A tall dock could satisfy a
+		// dock-level assertion while the control it carries sat above the
+		// band, and the contract is about where the thing you press ends up.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div style="block-size: 3000px"></div>
+			<div id="dock" class="strand-actiondock" data-strand-actiondock="visible">
+				<button id="action" class="strand-btn strand-btn--primary" type="button">RSVP</button>
+			</div>`,
+		measure: { action: "#action" },
+		// BOTH bounds, and the second one is not decoration. A negative
+		// control with position:absolute put the control at blockStart 3000,
+		// which satisfies "at least 562.67" while being nowhere near the
+		// screen. "Below the thumb zone's start" and "in the thumb zone" are
+		// different claims and only the pair expresses the second.
+		expect: [
+			{ of: "action", blockStartAtLeast: 562.67 },
+			{ of: "action", blockEndAtMost: 844 },
+		],
+	},
+	{
+		name: "the dock holds its position while the document scrolls",
+		primitive: "ActionDock",
+		// The property that justifies a viewport-anchored region over simply
+		// moving the control down the document. A document-position fix
+		// answers the reach question at exactly one scroll offset; this
+		// answers it at every offset. An absolute-positioned impostor lands
+		// at blockStart -1220 here and fails.
+		viewport: { width: 390, height: 844 },
+		scroll: { y: 2000 },
+		html: `
+			<div style="block-size: 3000px"></div>
+			<div id="dock" class="strand-actiondock" data-strand-actiondock="visible">
+				<button id="action" class="strand-btn strand-btn--primary" type="button">RSVP</button>
+			</div>`,
+		measure: { action: "#action" },
+		expect: [
+			{ of: "action", blockStartAtLeast: 562.67 },
+			{ of: "action", blockEndAtMost: 844 },
+		],
+	},
+	{
+		name: "a hidden dock is entirely outside the viewport",
+		primitive: "ActionDock",
+		// Why translateY(100%) rather than opacity: a faded dock still covers
+		// the content beneath it. This is what lets a consumer keep the dock
+		// mounted while the real control is on screen without occluding it.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div id="dock" class="strand-actiondock" data-strand-actiondock="hidden">
+				<button class="strand-btn strand-btn--primary" type="button">RSVP</button>
+			</div>`,
+		measure: { dock: "#dock" },
+		expect: [{ of: "dock", blockStartAtLeast: 844 }],
+	},
+	{
+		name: "the dock ends at the viewport's bottom edge",
+		primitive: "ActionDock",
+		// The safe-area inset growing padding-block-end is the single most
+		// likely way this primitive breaks, and it would push the control
+		// off the bottom rather than merely resize the box. Headless
+		// Chromium resolves the inset to 0, so this pins the non-inset
+		// geometry; the inset case needs a device context the layout tier
+		// does not have yet and is deliberately NOT approximated here.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div id="dock" class="strand-actiondock" data-strand-actiondock="visible">
+				<button class="strand-btn strand-btn--primary" type="button">RSVP</button>
+			</div>`,
+		measure: { dock: "#dock" },
+		expect: [{ of: "dock", blockEndAtMost: 844 }],
+	},
 ];
 
 // ── Pure decision layer ──

@@ -1894,6 +1894,35 @@ The second cost is less obvious and worse. A scroll-driven reveal (`animation-ti
 
 Minimum 44x44px on all interactive elements. This is WCAG 2.2 AA Target Size (Success Criterion 2.5.8). Touch-screen users cannot reliably hit targets smaller than 44px.
 
+### 14.8 Target Position (Reach)
+
+14.7 makes a target hittable. This makes it reachable. Size without position is half the constraint: a 44px button pinned in the top third of a phone screen satisfies 14.7 and is still the hardest place on the device to touch.
+
+**On a touch viewport, the primary action of a view must be able to occupy the bottom third of the viewport.**
+
+The bands, as fractions of viewport height measured from the top:
+
+| Band | Region | Reach |
+|---|---|---|
+| Easy | bottom third | where the thumb rests |
+| Stretch | middle third | reachable, not comfortable |
+| Hard | top third | needs a re-grip, or a second hand |
+
+**The mechanical test, needing no judgement.** Scrolling moves content up, so a control sits at its lowest viewport position at scroll offset 0 and every scroll from there only raises it. Therefore:
+
+- a control that scrolls with the document **fails** if its document centre sits above two thirds of the viewport height;
+- a fixed or sticky control **fails** if its pinned centre does.
+
+No sampling, no scroll sweep, no judgement call.
+
+**What this rules OUT as a finding, which matters as much as what it rules in.** A control below the fold is not a reach defect. The user scrolls it into the thumb zone on the way past, and counting below-fold controls as unreachable reports a number that is almost entirely noise. Reach and discovery are different constraints with different fixes, and an audit that conflates them will fix the wrong one. State them separately.
+
+The corollary is the one that catches teams out: **the top navigation bar is the worst place in the layout for a primary action.** It is fixed, so scrolling cannot improve it, and it is pinned in the hard band by design. A sign-in control that gates every capability on the site, placed there and nowhere else, is unreachable in this sense on every screen of the product.
+
+**Moving the control down the document is not a fix.** It answers the reach question at exactly one scroll offset, and it is fragile: a control clearing the band by a few pixels crosses back the next time the copy above it wraps differently or the viewport changes width. A viewport-anchored region answers the question at every offset. That is what `ActionDock` is for (Part XI).
+
+**Thirds rather than a fitted radial arc, deliberately.** A radial model needs a handedness assumption and a hand size, and on a single-column phone layout every control spans most of the width, so the horizontal term does almost no work while the vertical term does all of it. Two invented parameters that change no decision are worse than a blunt model that changes several. This omission is a decision, not an oversight; do not "improve" it into a radial model without a case where it changes an outcome.
+
 ---
 
 ## Part XV: Propagation Architecture

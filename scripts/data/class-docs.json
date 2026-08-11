@@ -1383,6 +1383,17 @@
 			"example": "<!-- Optional per-breakpoint floors, needed only when the placeholder is\n     genuinely smaller than what replaces it. Each falls back to the one below. -->\n<div class=\"strand-reserve\" data-strand-reserve=\"pending\"\n  style=\"--strand-reserve-h: 42px; --strand-reserve-h-md: 56px;\">\n  <div class=\"strand-reserve__placeholder\" aria-hidden=\"true\">\n    <div class=\"strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer\"\n      style=\"width: 100%; height: 42px;\"></div>\n  </div>\n  <div class=\"strand-reserve__content\">\n    <!-- real content, rendered from the start -->\n  </div>\n</div>\n\n<!-- Omitting data-strand-reserve entirely shows the content and hides the\n     placeholder, so a server-rendered page needs no attribute at all. -->\n\n<!-- Resolve on EVERY path, including failure. data-strand-reserve=\"empty\"\n     takes the placeholder OUT OF FLOW and collapses the region; \"ready\" alone\n     cannot, because a hidden placeholder still occupies its grid cell and the\n     region would hold its height forever. -->"
 		},
 		{
+			"name": "ActionDock",
+			"description": "A bottom-anchored region carrying the primary action of a view, placed where a thumb rests. Implements design-language.md 14.8 (target position): 14.7 makes a target hittable, this makes it reachable. Flip data-strand-actiondock to \"visible\" when the in-flow control it stands in for scrolls out of view; that attribute is the whole runtime, and there is no JavaScript in this primitive. Use it for the ONE action a view exists to produce, and never alongside the real control, which would be two live buttons for one action.",
+			"classes": [
+				{
+					"class": "strand-actiondock",
+					"description": "Dock root. Fixed to the viewport's bottom edge and spanning the inline axis, so its position is a function of the viewport and no amount of scrolling moves it out of reach. Carries the safe-area inset so the control clears the home indicator on a notched phone."
+				}
+			],
+			"example": "<!-- Hidden by default: an absent attribute means hidden, so a server-rendered\n     page that never flips it occludes nothing. -->\n<div class=\"strand-actiondock\" data-strand-actiondock=\"hidden\">\n  <button class=\"strand-btn strand-btn--primary\" type=\"button\">RSVP</button>\n</div>\n\n<!-- Show it only while the real control is off screen, usually driven by an\n     IntersectionObserver on that control. -->\n<div class=\"strand-actiondock\" data-strand-actiondock=\"visible\" aria-hidden=\"true\">\n  <button class=\"strand-btn strand-btn--primary\" type=\"button\" tabindex=\"-1\">RSVP</button>\n</div>\n\n<!-- The docked control usually duplicates one already in the accessibility\n     tree, so aria-hidden plus tabindex=\"-1\" avoids a duplicate announcement\n     and a duplicate tab stop. Reach is a thumb problem; a keyboard user\n     reaches the in-flow control by tabbing. A dock carrying an action with NO\n     in-flow equivalent must be exposed instead. -->"
+		},
+		{
 			"name": "InstrumentViewport",
 			"description": "Dark instrument panel container for data-dense content.",
 			"classes": [

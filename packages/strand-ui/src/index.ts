@@ -100,6 +100,9 @@ export type { SpinnerProps } from "./components/Spinner/index.js";
 
 export { Reserve } from "./components/Reserve/index.js";
 export type { ReserveProps } from "./components/Reserve/index.js";
+
+export { ActionDock } from "./components/ActionDock/index.js";
+export type { ActionDockProps } from "./components/ActionDock/index.js";
 export { Settle } from "./components/Settle/index.js";
 export type { SettleProps } from "./components/Settle/index.js";
 export { Skeleton } from "./components/Skeleton/index.js";
