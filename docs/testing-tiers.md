@@ -90,6 +90,36 @@ with the measured number beside the expected one. A failure reads as
 "empty state: expected block-size 0, measured 42" and names the primitive.
 That is a sentence a maintainer can act on without opening a browser.
 
+### It can assert where, not only how big
+
+Assertion kinds come in two families. Size: `blockSize`, `blockSizeAtLeast`,
+`blockSizeAtMost`, and `equals` (two subjects must occupy the same box).
+Position: `blockStartAtLeast`, `blockStartAtMost`, `blockEndAtMost`, and
+`equalsBlockStart` (two measurements must sit at the same offset).
+
+Position was missing from the first version, and the way it was missing is
+worth recording. The measure step computed the full rect and kept only height
+and width, so `top` and `bottom` were read and discarded. Every kind was a
+statement about size. A consumer whose primitive is pinned to the bottom of the
+viewport had no vocabulary for a single one of their cases, and the tempting
+move was to assert the region's own height as a stand-in. That is the point 4
+trap above, reproduced inside the tool built to explain it.
+
+Measurements are viewport-relative, which is not a compromise: a fixed
+element's viewport rect IS its contract.
+
+An optional `scroll: { y }` on a case measures after scrolling, which is how a
+region anchored to the viewport is distinguished from one merely positioned low
+in the document. The runner reads `window.scrollY` back and fails the case if
+the page did not reach the requested offset. Without that check the failure is
+silent and total: both measurements are taken at the same place, so the
+assertion passes perfectly while testing nothing.
+
+Threshold assertions report clearance as well as pass or fail. A case clearing
+a 180px floor at 180.5 and one clearing it at 400 are not the same fact, and a
+bare verdict makes a value drifting back toward the line invisible until the
+day it crosses.
+
 ### Never skips silently
 
 If Chromium is not installed the run exits non-zero with the install command.

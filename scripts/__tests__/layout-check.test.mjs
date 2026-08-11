@@ -296,6 +296,123 @@ describe("summarize", () => {
 	});
 });
 
+describe("positional assertions: WHERE a box is, not only how big", () => {
+	// Added after a consumer proved the tier could not express a single one of
+	// their cases. Every original assertion kind was a statement about SIZE;
+	// rect.top and rect.bottom were computed in the measure step and thrown
+	// away. A region pinned to the bottom of the viewport has a contract about
+	// position, and forcing that claim into blockSizeAtLeast would assert the
+	// region's own height instead: a proxy for the mechanism rather than the
+	// outcome, which is the exact trap docs/testing-tiers.md warns about.
+	const at = (blockStart, blockEnd) => ({
+		blockSize: blockEnd - blockStart,
+		inlineSize: 100,
+		blockStart,
+		blockEnd,
+	});
+
+	it("blockStartAtLeast passes when the region sits low enough", () => {
+		const r = evaluateCase(
+			{
+				name: "dock is in the thumb zone",
+				primitive: "Dock",
+				expect: [{ of: "dock", blockStartAtLeast: 563 }],
+			},
+			{ dock: at(700, 744) },
+		);
+		expect(r.ok).toBe(true);
+	});
+
+	it("blockStartAtLeast fails when the region sits too high to reach", () => {
+		const r = evaluateCase(
+			{
+				name: "dock is in the thumb zone",
+				primitive: "Dock",
+				expect: [{ of: "dock", blockStartAtLeast: 563 }],
+			},
+			{ dock: at(200, 244) },
+		);
+		expect(r.ok).toBe(false);
+		expect(r.failures[0]).toContain("200");
+	});
+
+	it("blockEndAtMost catches a region hanging off the bottom of the viewport", () => {
+		const r = evaluateCase(
+			{
+				name: "dock clears the viewport bottom",
+				primitive: "Dock",
+				expect: [{ of: "dock", blockEndAtMost: 844 }],
+			},
+			{ dock: at(820, 900) },
+		);
+		expect(r.ok).toBe(false);
+	});
+
+	it("blockStartAtMost pins a region to the top region of the viewport", () => {
+		const r = evaluateCase(
+			{ name: "n", primitive: "P", expect: [{ of: "x", blockStartAtMost: 100 }] },
+			{ x: at(150, 200) },
+		);
+		expect(r.ok).toBe(false);
+	});
+
+	it("a positional assertion against a missing element still fails", () => {
+		const r = evaluateCase(
+			{ name: "n", primitive: "P", expect: [{ of: "ghost", blockStartAtLeast: 0 }] },
+			{},
+		);
+		// blockStartAtLeast: 0 is the dangerous shape, since an absent element
+		// reads as 0 and would satisfy it.
+		expect(r.ok).toBe(false);
+	});
+
+	it("equalsBlockStart compares position across two measured states", () => {
+		// The property that justifies a viewport-anchored region existing: it
+		// does not move when the document scrolls.
+		const r = evaluateCase(
+			{
+				name: "dock is scroll independent",
+				primitive: "Dock",
+				expect: [{ of: "atTop", equalsBlockStart: "atScrolled" }],
+			},
+			{ atTop: at(800, 844), atScrolled: at(800, 844) },
+		);
+		expect(r.ok).toBe(true);
+	});
+
+	it("equalsBlockStart fails when the region scrolled away with the document", () => {
+		const r = evaluateCase(
+			{
+				name: "dock is scroll independent",
+				primitive: "Dock",
+				expect: [{ of: "atTop", equalsBlockStart: "atScrolled" }],
+			},
+			{ atTop: at(800, 844), atScrolled: at(-1200, -1156) },
+		);
+		expect(r.ok).toBe(false);
+		expect(r.failures[0]).toContain("800");
+	});
+});
+
+describe("clearance reporting: a case passing by one pixel is about to fail", () => {
+	it("reports how far a threshold assertion cleared", () => {
+		const r = evaluateCase(
+			{ name: "n", primitive: "P", expect: [{ of: "x", blockSizeAtLeast: 180 }] },
+			{ x: { blockSize: 400, inlineSize: 10 } },
+		);
+		expect(r.ok).toBe(true);
+		expect(r.clearances[0].margin).toBe(220);
+	});
+
+	it("reports a thin clearance distinctly from a fat one", () => {
+		const thin = evaluateCase(
+			{ name: "n", primitive: "P", expect: [{ of: "x", blockSizeAtLeast: 180 }] },
+			{ x: { blockSize: 180.5, inlineSize: 10 } },
+		);
+		expect(thin.clearances[0].margin).toBeCloseTo(0.5);
+	});
+});
+
 describe("checkBuildFreshness: a stale build measures the wrong library", () => {
 	// Found the hard way on this tier's very first run: dist/ is gitignored, the
 	// local copy predated the 0.33.0 fix by a week, and the tier faithfully

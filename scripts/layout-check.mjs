@@ -179,7 +179,25 @@ export const LAYOUT_CASES = [
 
 // ── Pure decision layer ──
 
-const ASSERTION_KINDS = ["blockSize", "blockSizeAtLeast", "blockSizeAtMost", "equals"];
+// Size kinds answer "how big". Position kinds answer "where", which is a
+// separate question the tier could not ask at first: the measure step computed
+// the full rect and kept only height and width, so every claim about placement
+// had to be smuggled in as a claim about size. That is a proxy assertion, and
+// it locks the implementation while going green for the wrong reason.
+const ASSERTION_KINDS = [
+	"blockSize",
+	"blockSizeAtLeast",
+	"blockSizeAtMost",
+	"equals",
+	"blockStartAtLeast",
+	"blockStartAtMost",
+	"blockEndAtMost",
+	"equalsBlockStart",
+];
+
+// Kinds that compare one subject against another measured subject rather than
+// against a literal, so validation knows to check the target exists too.
+const CROSS_SUBJECT_KINDS = ["equals", "equalsBlockStart"];
 
 /**
  * Static validation of the case set. A case whose assertion names a selector
@@ -209,9 +227,9 @@ export function validateCases(cases) {
 				);
 				continue;
 			}
-			if (kind === "equals" && !declared.includes(a.equals)) {
+			if (CROSS_SUBJECT_KINDS.includes(kind) && !declared.includes(a[kind])) {
 				errors.push(
-					`${label}: compares against "${a.equals}", which is not measured`,
+					`${label}: compares against "${a[kind]}", which is not measured`,
 				);
 			}
 		}
@@ -243,7 +261,20 @@ export function groupCasesByViewport(cases) {
  */
 export function evaluateCase(caseDef, measurements) {
 	const failures = [];
-	const label = (key) => `${caseDef.primitive}/${caseDef.name}`;
+	// Clearance on every threshold assertion. A case passing `>= 180` at 180.5
+	// and one passing at 400 are not the same fact, and a bare pass/fail makes a
+	// value drifting back toward the line invisible until the day it crosses.
+	const clearances = [];
+	const label = () => `${caseDef.primitive}/${caseDef.name}`;
+
+	// Threshold kinds: [field on the measurement, comparison, prose].
+	const THRESHOLDS = {
+		blockSizeAtLeast: ["blockSize", "atLeast", "block-size at least"],
+		blockSizeAtMost: ["blockSize", "atMost", "block-size at most"],
+		blockStartAtLeast: ["blockStart", "atLeast", "block-start at least"],
+		blockStartAtMost: ["blockStart", "atMost", "block-start at most"],
+		blockEndAtMost: ["blockEnd", "atMost", "block-end at most"],
+	};
 
 	for (const a of caseDef.expect) {
 		const subject = measurements[a.of];
@@ -253,37 +284,60 @@ export function evaluateCase(caseDef, measurements) {
 			);
 			continue;
 		}
-		const measured = subject.blockSize;
+
+		const thresholdKind = Object.keys(THRESHOLDS).find((k) => k in a);
 
 		if ("blockSize" in a) {
+			const measured = subject.blockSize;
 			if (Math.abs(measured - a.blockSize) > TOLERANCE_PX) {
 				failures.push(
 					`${label()}: "${a.of}" expected block-size ${a.blockSize}, measured ${measured}`,
 				);
 			}
-		} else if ("blockSizeAtLeast" in a) {
-			if (measured < a.blockSizeAtLeast - TOLERANCE_PX) {
+		} else if (thresholdKind) {
+			const [field, direction, prose] = THRESHOLDS[thresholdKind];
+			const measured = subject[field];
+			const limit = a[thresholdKind];
+			if (typeof measured !== "number") {
 				failures.push(
-					`${label()}: "${a.of}" expected block-size at least ${a.blockSizeAtLeast}, measured ${measured}`,
-				);
-			}
-		} else if ("blockSizeAtMost" in a) {
-			if (measured > a.blockSizeAtMost + TOLERANCE_PX) {
-				failures.push(
-					`${label()}: "${a.of}" expected block-size at most ${a.blockSizeAtMost}, measured ${measured}`,
-				);
-			}
-		} else if ("equals" in a) {
-			const other = measurements[a.equals];
-			if (!other) {
-				failures.push(
-					`${label()}: "${a.equals}" was not found in the rendered page, so nothing was compared`,
+					`${label()}: "${a.of}" has no ${field} measurement, so ${thresholdKind} cannot be evaluated`,
 				);
 				continue;
 			}
-			if (Math.abs(measured - other.blockSize) > TOLERANCE_PX) {
+			const failed =
+				direction === "atLeast"
+					? measured < limit - TOLERANCE_PX
+					: measured > limit + TOLERANCE_PX;
+			if (failed) {
 				failures.push(
-					`${label()}: "${a.of}" and "${a.equals}" must occupy the same box, measured ${measured} and ${other.blockSize}`,
+					`${label()}: "${a.of}" expected ${prose} ${limit}, measured ${measured}`,
+				);
+			} else {
+				clearances.push({
+					of: a.of,
+					kind: thresholdKind,
+					limit,
+					measured,
+					margin:
+						direction === "atLeast" ? measured - limit : limit - measured,
+				});
+			}
+		} else if ("equals" in a || "equalsBlockStart" in a) {
+			const positional = "equalsBlockStart" in a;
+			const otherKey = positional ? a.equalsBlockStart : a.equals;
+			const field = positional ? "blockStart" : "blockSize";
+			const other = measurements[otherKey];
+			if (!other) {
+				failures.push(
+					`${label()}: "${otherKey}" was not found in the rendered page, so nothing was compared`,
+				);
+				continue;
+			}
+			if (Math.abs(subject[field] - other[field]) > TOLERANCE_PX) {
+				failures.push(
+					positional
+						? `${label()}: "${a.of}" and "${otherKey}" must sit at the same block-start, measured ${subject[field]} and ${other[field]}`
+						: `${label()}: "${a.of}" and "${otherKey}" must occupy the same box, measured ${subject[field]} and ${other[field]}`,
 				);
 			}
 		}
@@ -294,6 +348,7 @@ export function evaluateCase(caseDef, measurements) {
 		primitive: caseDef.primitive,
 		ok: failures.length === 0,
 		failures,
+		clearances,
 		assertionCount: caseDef.expect.length,
 	};
 }
@@ -431,13 +486,48 @@ async function main() {
 		await page.setViewportSize({ width: group.width, height: group.height });
 		for (const c of group.cases) {
 			await page.setContent(buildFixture(css, c.html));
+
+			// An optional scroll, for regions whose contract is that they do NOT
+			// move with the document. Verified rather than assumed: if the page
+			// cannot scroll (a short fixture, say), every measurement is taken at
+			// the same offset and a "same position at both offsets" assertion
+			// passes perfectly while testing nothing. That is the strongest
+			// possible result for a test that did no work, so a scroll that does
+			// not land is a failed case rather than a quiet one.
+			if (c.scroll && typeof c.scroll.y === "number") {
+				const reached = await page.evaluate((y) => {
+					window.scrollTo(0, y);
+					return window.scrollY;
+				}, c.scroll.y);
+				if (Math.abs(reached - c.scroll.y) > 1) {
+					results.push({
+						name: c.name,
+						primitive: c.primitive,
+						ok: false,
+						clearances: [],
+						assertionCount: c.expect.length,
+						failures: [
+							`${c.primitive}/${c.name}: asked to scroll to y=${c.scroll.y} but the page reached y=${reached}, so the case would have compared two identical measurements and passed without testing anything`,
+						],
+					});
+					continue;
+				}
+			}
+
 			const measurements = await page.evaluate((selectors) => {
 				const out = {};
 				for (const [key, selector] of Object.entries(selectors)) {
 					const el = document.querySelector(selector);
 					if (!el) continue;
 					const rect = el.getBoundingClientRect();
-					out[key] = { blockSize: rect.height, inlineSize: rect.width };
+					// Viewport-relative on purpose: getBoundingClientRect already
+					// is, and a fixed element's viewport rect IS its contract.
+					out[key] = {
+						blockSize: rect.height,
+						inlineSize: rect.width,
+						blockStart: rect.top,
+						blockEnd: rect.bottom,
+					};
 				}
 				return out;
 			}, c.measure);
