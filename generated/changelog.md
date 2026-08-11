@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reserve, a region that holds its box while data loads (v0.32.0, gap #62)
 - the wordmark and the tabs answer the pointer (v0.31.0)
 
+### Fixed
+- Reserve can collapse when the answer is nothing (v0.33.0, gap #63)
+
 ### Documentation
 - document Reserve for the CSS-only and Bootstrap consumers (v0.32.1, gap #62)
 
