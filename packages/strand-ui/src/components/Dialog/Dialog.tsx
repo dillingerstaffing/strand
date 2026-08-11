@@ -90,17 +90,27 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
     // have one that widens the viewport by the scrollbar's width, shifting the
     // entire app sideways the instant a dialog opens. The defect is invisible
     // on overlay-scrollbar platforms, which is how it shipped: the gap
-    // measures 0 there and every branch below no-ops.
+    // measures 0 there and every write below is a no-op.
     //
-    // Two-tier compensation, all of it restored on close:
-    //   1. `scrollbar-gutter: stable` on the root, where supported, keeps the
-    //      gutter reserved while overflow is hidden, so nothing moves at all,
-    //      including position: fixed elements (a nav), which body padding
-    //      cannot protect because fixed boxes size against the viewport, not
-    //      the body.
-    //   2. Where unsupported, padding-right on the body by the measured gap
-    //      keeps the flowing content still; fixed elements may still shift on
-    //      those older engines, which is the least-bad degraded state.
+    // Do NOT reach for `scrollbar-gutter: stable` here. The 0.36.3 lock did,
+    // and it cannot work: per css-overflow, the gutter is only reserved when
+    // overflow is scroll or auto, so the same `overflow: hidden` that removes
+    // the scrollbar also voids the reservation, and classic-scrollbar systems
+    // shifted exactly as before. It LOOKED fixed because every headless
+    // environment this ran in uses overlay scrollbars, where the gap is 0 and
+    // the assertion was vacuous.
+    //
+    // What actually holds, all of it restored on close:
+    //   1. padding-right on the body by the measured gap keeps the in-flow
+    //      content exactly where it was;
+    //   2. `--strand-scrollbar-gap` on the root carries the same gap to
+    //      position: fixed elements, which size against the viewport and are
+    //      untouchable by body padding. Strand's own fixed chrome
+    //      (.strand-nav--glass) consumes it; consumers with their own fixed
+    //      elements can too. Unset, it resolves to 0px and is inert.
+    //   3. overflow: hidden on the BODY only. With the root's overflow left
+    //      visible, body overflow propagates to the viewport, so this alone
+    //      stops page scroll; the root's styles are never touched.
     useEffect(() => {
       if (!open) return;
 
@@ -112,28 +122,23 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
       // compensate.
       const gap = root.clientWidth > 0 ? window.innerWidth - root.clientWidth : 0;
       const originalBodyOverflow = body.style.overflow;
-      const originalRootOverflow = root.style.overflow;
-      const originalGutter = root.style.scrollbarGutter;
       const originalPadding = body.style.paddingRight;
+      const hadGapVar = root.style.getPropertyValue("--strand-scrollbar-gap");
 
-      const supportsGutter =
-        typeof CSS !== "undefined" &&
-        typeof CSS.supports === "function" &&
-        CSS.supports("scrollbar-gutter", "stable");
-
-      if (supportsGutter) {
-        root.style.scrollbarGutter = "stable";
-        root.style.overflow = "hidden";
-      } else if (gap > 0) {
+      if (gap > 0) {
         body.style.paddingRight = `${gap}px`;
+        root.style.setProperty("--strand-scrollbar-gap", `${gap}px`);
       }
       body.style.overflow = "hidden";
 
       return () => {
         body.style.overflow = originalBodyOverflow;
-        root.style.overflow = originalRootOverflow;
-        root.style.scrollbarGutter = originalGutter;
         body.style.paddingRight = originalPadding;
+        if (hadGapVar) {
+          root.style.setProperty("--strand-scrollbar-gap", hadGapVar);
+        } else {
+          root.style.removeProperty("--strand-scrollbar-gap");
+        }
       };
     }, [open]);
 

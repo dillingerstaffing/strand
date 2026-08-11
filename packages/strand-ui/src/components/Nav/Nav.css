@@ -351,7 +351,13 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	right: 0;
+	/* Not a bare 0. Fixed boxes size against the viewport, so when Dialog's
+	   scroll lock removes the scrollbar and pads the body, a right: 0 bar
+	   would still widen and shift its right-aligned content. Dialog publishes
+	   the removed scrollbar's width as --strand-scrollbar-gap while locked;
+	   consuming it here keeps the bar's right edge aligned with the padded
+	   content. Unset, the var is 0px and this IS right: 0. */
+	right: var(--strand-scrollbar-gap, 0px);
 	z-index: 100;
 	height: var(--strand-nav-height);
 	background: var(--strand-glass-bg);

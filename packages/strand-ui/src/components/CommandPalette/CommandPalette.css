@@ -8,21 +8,26 @@
 .strand-command-palette {
   align-self: flex-start;
   margin-top: 12vh;
-  max-width: 34rem;
+  /* 30rem, down from the launch 34rem. Width is perceived padding: at 34rem
+     the short labels left a wide quiet field trailing every row, which read
+     as slack rather than air. 30rem keeps the longest sublabels one line and
+     pulls the badge column close enough to scan in one fixation. */
+  max-width: 30rem;
   padding: 0;
   overflow: hidden;
 }
 
 /* ── Search row ── */
-/* space-3/space-4, not the space-4/space-5 it launched with. A palette is an
-   instrument the user summons mid-thought; a deep header reads as a form, and
-   the launch padding made the search row taller than the rows it filters,
-   which is backwards: the QUERY is transient, the RESULTS are the content. */
+/* space-2/space-3, second reduction from the launch space-4/space-5. A
+   palette is an instrument the user summons mid-thought; any header taller
+   than the rows it filters reads as a form. At space-2 block the row is the
+   same height class as an option row, which is the point: the QUERY is a row
+   among rows, not a header over them. */
 .strand-command-palette__search {
   display: flex;
   align-items: center;
-  gap: var(--strand-space-3);
-  padding: var(--strand-space-3) var(--strand-space-4);
+  gap: var(--strand-space-2);
+  padding: var(--strand-space-2) var(--strand-space-3);
   border-bottom: 1px solid var(--strand-gray-200);
 }
 
@@ -38,11 +43,12 @@
   background: transparent;
   border: none;
   font-family: var(--strand-font-sans);
-  /* text-base, matching the option labels below. The launch text-lg made the
-     input a different instrument from the list it drives; one type size makes
-     query and results read as a single column, and it is most of why the old
-     header felt oversized. */
-  font-size: var(--strand-text-base);
+  /* text-sm, second step down from the launch text-lg (via text-base). One
+     size across input and labels stays the rule; the size itself drops
+     because type is the biggest lever on perceived padding: at 16px the rows
+     needed their padding to breathe, at 14px the same information density
+     reads as instrument-compact instead of cramped. */
+  font-size: var(--strand-text-sm);
   color: var(--strand-gray-900);
   outline: none;
 }
@@ -94,7 +100,9 @@
 
 .strand-command-palette__label {
   flex: none;
-  font-size: var(--strand-text-base);
+  /* text-sm with the input above; one size, one column, see the input's
+     comment for why the size dropped. */
+  font-size: var(--strand-text-sm);
   font-weight: var(--strand-weight-medium);
   color: var(--strand-gray-900);
   line-height: var(--strand-leading-snug);
@@ -131,7 +139,7 @@
 
 .strand-command-palette__empty {
   margin: 0;
-  padding: var(--strand-space-5) var(--strand-space-4);
+  padding: var(--strand-space-4) var(--strand-space-3);
   text-align: center;
   font-size: var(--strand-text-sm);
   color: var(--strand-gray-500);
