@@ -275,7 +275,7 @@ Own the source. No dependency lock-in.
 npx strand-ui init          # Set up tokens in your project
 npx strand-ui add button    # Copy Button source to your codebase
 npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->49<!-- COMPONENT-COUNT:END --> components
+npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->51<!-- COMPONENT-COUNT:END --> components
 ```
 
 After install, the CLI is available as `strand` (e.g., `strand add button`).
@@ -287,7 +287,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-<!-- COMPONENT-COUNT:START -->49<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
+<!-- COMPONENT-COUNT:START -->51<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
 
 ### Input
 
@@ -2469,6 +2469,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid__line--16` | |
 | `strand-hero-grid__line--17` | |
 | `strand-hero-grid__line--18` | |
+| `strand-truncate` | |
 
 <!-- GENERATED:COMPONENT-REFERENCE:END -->
 
@@ -5009,9 +5010,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - every shipped component has a test, and ActionDock stops losing its class in Svelte (v0.36.4, gap #68)
 
+### Changed
+- pnpm release, the whole ceremony in one command
+
 ### Fixed
+- dialog focus moves without moving the page (v0.36.7)
 - the palette sheds Dialog's prose padding and its orphan close button (v0.36.6)
 - the scroll lock stops trusting an inert gutter, and the palette drops to instrument scale (v0.36.5)
+
+### Documentation
+- component-count markers 49 to 51 (same build:docs refresh; ActionDock and CommandPalette were missing from every count surface)
+- refresh generated reference and changelog to HEAD (stale since 0.34.0; CI regenerated at publish so npm was fresh while the tree lied)
 
 ## [0.36.3] - 2026-08-11
 
@@ -5544,6 +5553,7 @@ pnpm lint        # Lint all files
 | `pnpm lint:fix` | `biome check --write .` |
 | `pnpm measure-bundle` | `node scripts/measure-bundle.mjs` |
 | `pnpm purity-scan` | `node scripts/purity-scan.mjs` |
+| `pnpm release` | `node scripts/release.mjs` |
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |

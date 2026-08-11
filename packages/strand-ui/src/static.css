@@ -1046,6 +1046,13 @@
 .strand-flex-1 { flex: 1; }
 .strand-min-w-0 { min-width: 0; }
 .strand-full-width { width: 100%; }
+/* Single-line ellipsis. Pair with strand-min-w-0 on the flex child, or the
+   line never shrinks enough to truncate. */
+.strand-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 
 /* ── Margin top (token scale 1-8) ── */
 .strand-mt-1 { margin-top: var(--strand-space-1); }

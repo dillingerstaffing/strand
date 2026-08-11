@@ -1910,5 +1910,6 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid__line--16` | |
 | `strand-hero-grid__line--17` | |
 | `strand-hero-grid__line--18` | |
+| `strand-truncate` | |
 
 <!-- GENERATED:COMPONENT-REFERENCE:END -->

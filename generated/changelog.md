@@ -10,9 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - every shipped component has a test, and ActionDock stops losing its class in Svelte (v0.36.4, gap #68)
 
+### Changed
+- pnpm release, the whole ceremony in one command
+
 ### Fixed
+- dialog focus moves without moving the page (v0.36.7)
 - the palette sheds Dialog's prose padding and its orphan close button (v0.36.6)
 - the scroll lock stops trusting an inert gutter, and the palette drops to instrument scale (v0.36.5)
+
+### Documentation
+- component-count markers 49 to 51 (same build:docs refresh; ActionDock and CommandPalette were missing from every count surface)
+- refresh generated reference and changelog to HEAD (stale since 0.34.0; CI regenerated at publish so npm was fresh while the tree lied)
 
 ## [0.36.3] - 2026-08-11
 

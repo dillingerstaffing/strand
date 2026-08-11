@@ -49,6 +49,7 @@ pnpm lint        # Lint all files
 | `pnpm lint:fix` | `biome check --write .` |
 | `pnpm measure-bundle` | `node scripts/measure-bundle.mjs` |
 | `pnpm purity-scan` | `node scripts/purity-scan.mjs` |
+| `pnpm release` | `node scripts/release.mjs` |
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |
