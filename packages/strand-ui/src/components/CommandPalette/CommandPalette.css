@@ -1,0 +1,113 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* Sits near the top of the viewport rather than centred. A search overlay
+   belongs under the reader's gaze and above the content it filters; centring
+   puts the results where the fold is, and makes the panel jump vertically as
+   the result count changes while the user types. The backdrop is already a
+   flex container, so aligning to its start is the whole change. */
+.strand-command-palette {
+  align-self: flex-start;
+  margin-top: 12vh;
+  max-width: 34rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ── Search row ── */
+.strand-command-palette__search {
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-3);
+  padding: var(--strand-space-4) var(--strand-space-5);
+  border-bottom: 1px solid var(--strand-gray-200);
+}
+
+.strand-command-palette__icon {
+  flex: none;
+  color: var(--strand-gray-500);
+}
+
+.strand-command-palette__input {
+  flex: 1;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  border: none;
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-lg);
+  color: var(--strand-gray-900);
+  outline: none;
+}
+
+.strand-command-palette__input::placeholder {
+  color: var(--strand-gray-500);
+}
+
+/* ── Results ── */
+/* Bounded so a long list scrolls inside the panel rather than growing it past
+   the viewport, which would put the last results off screen with no way to
+   reach them. */
+.strand-command-palette__list {
+  max-height: min(24rem, 50vh);
+  overflow-y: auto;
+  padding: var(--strand-space-2);
+}
+
+.strand-command-palette__option {
+  display: flex;
+  align-items: baseline;
+  gap: var(--strand-space-3);
+  padding: var(--strand-space-3) var(--strand-space-4);
+  border-radius: var(--strand-radius-md);
+  cursor: pointer;
+  transition: background-color var(--strand-duration-fast) var(--strand-ease-out-quart);
+}
+
+/* One highlight, driven by both pointer and keyboard, so the two can never
+   disagree about which row Enter will act on. There is deliberately no
+   separate :hover rule: hovering moves this same selection. */
+.strand-command-palette__option--active {
+  background: var(--strand-blue-wash);
+}
+
+.strand-command-palette__label {
+  flex: none;
+  font-size: var(--strand-text-base);
+  font-weight: var(--strand-weight-medium);
+  color: var(--strand-gray-900);
+  line-height: var(--strand-leading-snug);
+}
+
+/* Truncates rather than wraps. A wrapping secondary line changes the row
+   height, so the list would reflow under the user as they arrow through it. */
+.strand-command-palette__sublabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-500);
+}
+
+.strand-command-palette__badge {
+  flex: none;
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.strand-command-palette__empty {
+  margin: 0;
+  padding: var(--strand-space-6) var(--strand-space-4);
+  text-align: center;
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-500);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-command-palette__option {
+    transition: none;
+  }
+}
