@@ -1044,6 +1044,12 @@
 
 /* ── Flex / sizing ── */
 .strand-flex-1 { flex: 1; }
+/* The shrink-proof pair of strand-flex-1. Note that strand-truncate alone
+   does NOT protect a flex item from shrinking: its overflow: hidden resets
+   the item's min-width: auto to 0, which is exactly what re-enables
+   shrinking. A flex item that must keep its content width (a count, a
+   timestamp) pairs truncate with THIS. */
+.strand-flex-none { flex: none; }
 .strand-min-w-0 { min-width: 0; }
 .strand-full-width { width: 100%; }
 /* Single-line ellipsis. Pair with strand-min-w-0 on the flex child, or the

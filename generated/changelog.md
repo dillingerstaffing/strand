@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- strand-truncate utility, single-line ellipsis (v0.36.8)
 - every shipped component has a test, and ActionDock stops losing its class in Svelte (v0.36.4, gap #68)
 
 ### Changed
