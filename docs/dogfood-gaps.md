@@ -702,6 +702,11 @@ Verdict: FAIL (one L3 gap; closed)
 Date: 2026-08-11
 Verdict: FAIL (one L3 gap)
 
+- **Correction, added 2026-08-11 at this gap owner's request: #64 shipped with a defect, and #65's publish was its first casualty.** Adding the layout tier gave `pnpm test:all` an ENVIRONMENT PRECONDITION rather than just another dependency: two of its tiers now drive real Chromium. `.github/workflows/ci.yml` gained the install step. `.github/workflows/publish.yml`, the other caller of `test:all`, did not. One grep for callers would have found it.
+- Consequence, measured rather than inferred: EVERY Publish run failed from that commit onward, while CI stayed green on the same shas. `npm view @dillingerstaffing/strand-ui version` returned **0.33.0** while main sat at 0.34.0. A downstream consumer's sync pulls from npm, so the #65 primitive was built, tested, documented, reviewed and pushed, and could not be consumed by anyone.
+- The tier's FAILURE MODE was correct and is the only reason this surfaced: it refused to certify itself, named the cause, and printed the fix command, per the rule in docs/testing-tiers.md. But it surfaced at publish time rather than at review time. A correct failure mode is not a substitute for tracing blast radius.
+- Durable fix in #65 rather than another comment: `scripts/browser-preflight.mjs` runs FIRST in `test:all` and fails with the install command. A comment in workflow A cannot protect workflow B, which is exactly how this happened.
+
 ### Gap #65
 - Type: **L3** (design language, not library). Same reasoning as #62 and the
   same temptation to get it wrong: a `.strand-settle` class could be added

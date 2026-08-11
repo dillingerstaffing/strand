@@ -61,6 +61,28 @@ The general form, which is the same failure in three costumes: **silent
 non-handling presented as success is worse than no check at all**, because it
 also spends the reviewer's trust.
 
+### test:all has an environment precondition
+
+Two of the tiers drive real Chromium, so `pnpm test:all` needs a BROWSER, not
+just `pnpm install`. **Any workflow or script that calls `test:all` must
+install it first.**
+
+This is stated here, and enforced by `scripts/browser-preflight.mjs` running
+first inside `test:all`, because the version that lived in a comment did not
+hold. When the layout tier joined `test:all`, `ci.yml` gained an install step
+and `publish.yml` did not. A comment in one workflow cannot protect another.
+
+The cost was not theoretical: every Publish run failed from that commit while
+CI stayed green on the same shas, npm sat a version behind main, and a
+primitive that was built, tested, documented and pushed could not be consumed
+by any downstream project, because consumers pull from npm. The tier's refusal
+to skip is what eventually surfaced it, at publish time rather than review
+time.
+
+The preflight fails FIRST, before the four cheap tiers, so the cause is the
+top line of the log rather than the bottom of it under four green sections. It
+protects a local run too, which is where the next person meets it.
+
 ---
 
 ## What jsdom cannot do, measured
