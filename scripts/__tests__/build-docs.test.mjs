@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
@@ -720,4 +720,91 @@ describe("integration: build-docs script", () => {
 			expect(htmlRef1).toBe(htmlRef2);
 		}, 60000);
 	});
+});
+
+// ---------------------------------------------------------------------------
+// Generator ordering: consumers must run after producers
+// ---------------------------------------------------------------------------
+
+describe("build-docs runs producers before the generators that read them", () => {
+	// The defect this pins, measured rather than reasoned about: all nine
+	// generators used to run in one Promise.allSettled, and three of them read
+	// what the other six write. generateLlms assembles llms-full.txt by reading
+	// every PUBLIC_DOCS path off disk, which includes generated/html-reference.md
+	// and both migration guides -- concurrently with the generator writing them.
+	//
+	// So llms-full.txt was built from whatever was on disk at read time, which is
+	// the PREVIOUS run's content. Proven by changing scripts/data/class-docs.json
+	// and running the build once: html-reference.md carried the change and
+	// llms-full.txt did not. Running the same command a second time, changing
+	// nothing else, made it appear.
+	//
+	// It never failed loudly and it did not fail every time, which is why it was
+	// twice mistaken for someone forgetting to regenerate: 0.32.1 shipped class
+	// docs 0.32.0 had missed, and a later commit regenerated surfaces Reserve had
+	// left stale. Nobody forgot. The build was nondeterministic.
+
+	it("does not read a generated file in the same phase that writes it", async () => {
+		const source = await readFile(SCRIPT_PATH, "utf8");
+
+		// The invariant is structural: generateLlms, generateRegistry and
+		// generateReadme all read from disk, so none of them may share a
+		// concurrency group with generateHtmlReference, which writes the file
+		// llms-full.txt is assembled from.
+		const groups = [...source.matchAll(/Promise\.allSettled\(\[([\s\S]*?)\]\)/g)].map(
+			(m) => m[1],
+		);
+		expect(groups.length).toBeGreaterThan(0);
+
+		const WRITER = "generateHtmlReference";
+		const READERS = ["generateLlms", "generateRegistry", "generateReadme"];
+
+		for (const group of groups) {
+			if (!group.includes(WRITER)) continue;
+			for (const reader of READERS) {
+				expect(
+					group.includes(reader),
+					`${reader} shares a Promise.allSettled group with ${WRITER}; it reads what that generator writes, so it would see the previous run's content`,
+				).toBe(false);
+			}
+		}
+	});
+
+	it("propagates a source change into llms-full.txt in a SINGLE run", async () => {
+		// The outcome assertion, not the mechanism one. If a future refactor
+		// keeps the two phases but breaks the dependency some other way, the
+		// structural test above still passes and this one does not.
+		//
+		// It is NOT the primary guard, and it is worth saying why rather than
+		// letting a reader assume it is. Checked against the pre-fix code: the
+		// structural test failed and this one PASSED, because the defect is a
+		// race and the read happened to land after the write that time. A test
+		// whose subject is nondeterministic cannot be the thing standing
+		// between the bug and a release. It earns its place as the outcome
+		// half of a pair, never alone.
+		const classDocsPath = join(REPO_ROOT, "scripts/data/class-docs.json");
+		const original = await readFile(classDocsPath, "utf8");
+		const marker = "ZZMARKERZZ";
+		const anchor = '"class": "strand-settle",';
+		expect(original).toContain(anchor);
+
+		try {
+			await writeFile(
+				classDocsPath,
+				original.replace(anchor, `${anchor}\n\t\t\t\t\t"_probe": "${marker}",`),
+				"utf8",
+			);
+			await exec("node", [SCRIPT_PATH], { cwd: REPO_ROOT });
+			// The probe key is not rendered, so assert on the file the reader
+			// consumes actually matching the file the writer produced.
+			const htmlRef = await readFile(join(REPO_ROOT, "generated/html-reference.md"), "utf8");
+			const llmsFull = await readFile(join(REPO_ROOT, "generated/llms-full.txt"), "utf8");
+			expect(llmsFull).toContain("strand-settle");
+			const refSection = htmlRef.slice(htmlRef.indexOf("strand-settle"));
+			expect(llmsFull).toContain(refSection.slice(0, 120));
+		} finally {
+			await writeFile(classDocsPath, original, "utf8");
+			await exec("node", [SCRIPT_PATH], { cwd: REPO_ROOT });
+		}
+	}, 60_000);
 });
