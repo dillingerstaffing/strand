@@ -57,7 +57,16 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
     const idRef = useRef(`strand-dialog-title-${++dialogIdCounter}`);
     const titleId = idRef.current;
 
-    // Focus trap and focus restoration
+    // Focus trap and focus restoration.
+    //
+    // Every focus() here passes preventScroll. focus() scrolls its target
+    // into view by default, and both moments this effect focuses something
+    // are moments the page must not move: on OPEN the panel is fixed in the
+    // viewport, so there is nothing to scroll to; on CLOSE the restore
+    // target is whatever held focus before the dialog, and when that sits
+    // below the fold (a clicked card, a composer) the default yanked the
+    // page down to it the instant the dialog dismissed. Focus still moves
+    // for keyboard and assistive tech; only the viewport stays put.
     useEffect(() => {
       if (!open) return;
 
@@ -69,9 +78,9 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         if (!panel) return;
         const focusable = panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
         if (focusable.length > 0) {
-          focusable[0].focus();
+          focusable[0].focus({ preventScroll: true });
         } else {
-          panel.focus();
+          panel.focus({ preventScroll: true });
         }
       });
 
@@ -79,7 +88,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         cancelAnimationFrame(raf);
         const prev = previousFocusRef.current;
         if (prev && prev instanceof HTMLElement) {
-          prev.focus();
+          prev.focus({ preventScroll: true });
         }
       };
     }, [open]);

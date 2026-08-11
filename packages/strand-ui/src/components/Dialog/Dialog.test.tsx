@@ -277,6 +277,31 @@ describe("Dialog", () => {
     expect(document.body.style.overflow).toBe("hidden");
   });
 
+  it("restores focus without scrolling the page to the restore target", async () => {
+    // The restore target is wherever focus sat before the dialog opened, and
+    // when that is below the fold a default focus() yanks the page down to
+    // it the instant the dialog closes (founder-reported on the palette,
+    // 2026-08-11). Focus must move; the viewport must not.
+    const anchor = document.createElement("button");
+    document.body.appendChild(anchor);
+    anchor.focus();
+    const focusCalls: unknown[] = [];
+    const originalFocus = anchor.focus.bind(anchor);
+    anchor.focus = (opts?: FocusOptions) => {
+      focusCalls.push(opts);
+      originalFocus(opts);
+    };
+    const { rerender } = render(<Dialog {...defaultProps}>Content</Dialog>);
+    rerender(
+      <Dialog open={false} onClose={defaultProps.onClose}>
+        Content
+      </Dialog>,
+    );
+    expect(focusCalls).toContainEqual({ preventScroll: true });
+    expect(document.activeElement).toBe(anchor);
+    anchor.remove();
+  });
+
   it("never touches the root's overflow", () => {
     const restore = simulateClassicScrollbar();
     const { rerender } = render(<Dialog {...defaultProps}>Content</Dialog>);

@@ -1190,6 +1190,38 @@ A region that holds its box while data loads, then cross-fades the placeholder t
 
 ---
 
+### ActionDock
+
+A bottom-anchored region carrying the primary action of a view, placed where a thumb rests. Implements design-language.md 14.8 (target position): 14.7 makes a target hittable, this makes it reachable. Flip data-strand-actiondock to "visible" when the in-flow control it stands in for scrolls out of view; that attribute is the whole runtime, and there is no JavaScript in this primitive. Use it for the ONE action a view exists to produce, and never alongside the real control, which would be two live buttons for one action.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-actiondock` | base | Dock root. Fixed to the viewport's bottom edge and spanning the inline axis, so its position is a function of the viewport and no amount of scrolling moves it out of reach. Carries the safe-area inset so the control clears the home indicator on a notched phone. |
+
+**Usage:**
+
+```html
+<!-- Hidden by default: an absent attribute means hidden, so a server-rendered
+     page that never flips it occludes nothing. -->
+<div class="strand-actiondock" data-strand-actiondock="hidden">
+  <button class="strand-btn strand-btn--primary" type="button">RSVP</button>
+</div>
+
+<!-- Show it only while the real control is off screen, usually driven by an
+     IntersectionObserver on that control. -->
+<div class="strand-actiondock" data-strand-actiondock="visible" aria-hidden="true">
+  <button class="strand-btn strand-btn--primary" type="button" tabindex="-1">RSVP</button>
+</div>
+
+<!-- The docked control usually duplicates one already in the accessibility
+     tree, so aria-hidden plus tabindex="-1" avoids a duplicate announcement
+     and a duplicate tab stop. Reach is a thumb problem; a keyboard user
+     reaches the in-flow control by tabbing. A dock carrying an action with NO
+     in-flow equivalent must be exposed instead. -->
+```
+
+---
+
 ### InstrumentViewport
 
 Dark instrument panel container for data-dense content.
@@ -1696,6 +1728,26 @@ Container-width visualizer. Renders proportional horizontal bars (narrow / defau
   <div class="strand-container-scale__axis"><span>0</span><span>1280</span></div>
 </div>
 ```
+
+---
+
+### CommandPalette
+
+Search-and-jump overlay. Composes Dialog, so focus trapping, focus restoration, scroll lock and Escape dismissal are inherited. Filtering and ranking belong to the caller.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-command-palette` | base | Palette root, applied to the composed Dialog. |
+| `strand-command-palette__search` | child | Search row holding the icon and the input. |
+| `strand-command-palette__icon` | child | Decorative magnifier, aria-hidden. |
+| `strand-command-palette__input` | child | The combobox input. Focus stays here while the highlight moves, via aria-activedescendant. |
+| `strand-command-palette__list` | child | Scrollable listbox of results. |
+| `strand-command-palette__option` | child | One result row (role=option, tabindex -1). |
+| `strand-command-palette__option--active` | child | The highlighted row, the one Enter acts on. Pointer hover and arrow keys drive the same state. |
+| `strand-command-palette__label` | child | Primary text of a result. |
+| `strand-command-palette__sublabel` | child | Secondary text of a result. |
+| `strand-command-palette__badge` | child | Short trailing token, such as a category. |
+| `strand-command-palette__empty` | child | Shown instead of a bare box when nothing matches. |
 
 ---
 
