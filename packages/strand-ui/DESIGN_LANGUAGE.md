@@ -872,6 +872,112 @@ A corollary for the tooling, learned by watching three separate checkers report 
 - Bounce or elastic easing
 - Animating layout properties (width, height, margin, padding)
 
+### 6.9 State change
+
+*Placed at the end of Part VI rather than beside the other motion causes,
+which would read better. 6.7 and 6.8 are cited by number from the gap ledger
+and from downstream consumer specs, and a stable number is worth more than a
+tidy order.*
+
+6.4 covers an element ENTERING the viewport. 6.5 covers the POINTER touching a
+control. 6.6 covers DATA arriving after a wait. None of them covers the most
+common motion in an application: the moment the model changes under a layout
+that does not.
+
+A state change is not a load and it is not a reveal, and the difference is not
+cosmetic. It is a difference in who initiated it, which decides what the motion
+is FOR:
+
+| | initiated by | the motion's job |
+|---|---|---|
+| Entry (6.4) | the user scrolling | introduce content they have not seen |
+| Load (6.6) | a wait nobody chose | say the region resolved |
+| **State change** | **the user acting** | **confirm the action took** |
+
+The user pressed the thing. They already know what they asked for, so the
+motion is not introducing anything, it is answering. That single fact fixes
+every parameter below.
+
+> **A region whose content changed because the model changed fades the new
+> state in. It never cuts.**
+
+**Fast, because it is an answer.** RAIL puts interaction feedback inside 100ms
+and 6.2 puts "tactile" at 150ms. A state change animates at
+`--strand-duration-fast` and never past `--strand-duration-normal`. Beyond that
+it stops reading as confirmation and starts reading as the page being slow,
+which is the opposite of the thing being signalled.
+
+**Opacity, and nothing else.** A translate would say the content arrived from
+somewhere. It did not arrive; it BECAME. Motion that describes a journey the
+content never took is decoration, and 6.3 already rules out animating anything
+but transform and opacity for the framerate cost.
+
+**Motion does not hold the box.** If the two states are different sizes, that
+is a layout problem and it belongs to the space contract in 6.6.1, not to the
+fade. A motion primitive asked to absorb a size change ends up animating
+height, which 6.8 bans and which is a layout shift wearing an easing curve. Fix
+the geometry first, then fade. A region needing both composes both; neither
+absorbs the other's job.
+
+**Under reduced motion the fade is removed and the change is immediate.** Same
+rule as 6.6.2 and the same reason: the preference is for less animation, not
+for a worse experience. Remove the animation rather than zeroing its duration:
+with `animation-fill-mode: both` a near-zero duration still applies the `from`
+frame, which can park an element at opacity 0 permanently for exactly the users
+who asked for less motion.
+
+**The test, and it needs no judgement:** change the state and ask the browser
+what ran. If `document.getAnimations()` reports nothing, the region cut. This
+one is worth mechanising rather than reviewing by eye, because a hard cut is
+invisible to every other gate there is: it throws nothing, shifts nothing,
+fails no contrast or keyboard check, and renders the correct final value. The
+only thing that detects it is a person saying the product feels like a form,
+and that is not a regression test.
+
+#### 6.9.1 Identity is what triggers it
+
+A fade on insertion is free: a keyframe animation runs when an element enters
+the DOM, so no JavaScript and no observer is required. The case that catches
+people is the one where the element does NOT change. A count going from 6 to 7
+patches a text node. Nothing is inserted, nothing fires, and the region cuts
+while the stylesheet says it should not.
+
+So the contract is about identity rather than markup:
+
+> **Give the element an identity that changes when the value changes.** The
+> framework then replaces it instead of patching it, and the fade fires.
+
+Every framework has this and they all call it the same thing: `key` in Preact,
+React and Vue, `{#key}` in Svelte, and replacing the node in plain DOM.
+
+**An optimistic update and its confirmation are ONE state change, not two.**
+This is where identity-as-trigger bites back, and the naive reading gets it
+exactly wrong. A client that echoes the user's action immediately and then
+reconciles with the server produces two records for one event: a pending one,
+and a saved one arriving a few hundred milliseconds later with a different id.
+Key on the record and the region announces itself twice. The user watches their
+own action flicker, which reads as the product being unsure rather than fast.
+
+> Key on **what the user was told**, not on the record that happens to carry
+> it. The pending row and the saved row are the same fact to the person reading
+> them.
+
+The general form: an identity that changes when the SERVER changes its mind
+about internal bookkeeping is not an identity, it is a transaction id. If the
+visible content is the same before and after, the identity must be the same
+before and after.
+
+**Deliberately not solved by watching the DOM.** A mutation observer inside the
+library would fire on every unrelated patch, would animate content the consumer
+never meant to announce, and would put a runtime in a layer that currently has
+none. The consumer knows which changes are worth telling the user about. The
+library does not, and should not guess.
+
+**Do not combine with the reveal in 6.4 on the same element.** Both are entry
+animations and they fight: the reveal is scroll-driven and holds partial
+opacity mid-range, so composing them yields an element whose opacity belongs to
+neither. Reveal the container; settle the value inside it.
+
 ---
 
 ## Part VII: Elevation

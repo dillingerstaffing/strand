@@ -1,6 +1,6 @@
 {
 	"name": "strand",
-	"version": "0.33.0",
+	"version": "0.34.0",
 	"private": true,
 	"description": "Strand Design Language and UI Component Library",
 	"author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
@@ -25,7 +25,8 @@
 		"test:migration-staleness": "node scripts/migration-staleness.mjs",
 		"test:contrast": "node scripts/contrast-check.mjs",
 		"test:layout": "node scripts/layout-check.mjs",
-		"test:all": "pnpm test && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:layout",
+    "test:motion": "node scripts/motion-check.mjs",
+		"test:all": "pnpm test && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:layout && pnpm test:motion",
 		"vendor-fonts": "node scripts/vendor-fonts.mjs",
 		"vendor-fonts:check": "node scripts/vendor-fonts.mjs --check",
 		"sync-versions": "node scripts/sync-versions.mjs",

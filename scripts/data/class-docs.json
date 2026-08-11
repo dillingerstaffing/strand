@@ -1417,6 +1417,17 @@
 			"example": "<div class=\"strand-reveal\">Fades up on scroll</div>\n\n<div class=\"strand-reveal-group\">\n  <div class=\"strand-reveal\">Staggers 0ms</div>\n  <div class=\"strand-reveal\">Staggers 80ms</div>\n</div>"
 		},
 		{
+			"name": "Settle",
+			"description": "Fades a region's new state in when the model changes, instead of cutting to it. Implements design-language.md 6.9 (state change) and 6.9.1 (identity is what triggers it). The sibling of Reserve: Reserve holds the BOX while a wait resolves, Settle acknowledges the MOMENT the user's action took effect. It cannot affect layout, deliberately, so a region whose two states differ in size needs Reserve as well. There is no JavaScript in this primitive: a keyframe animation runs when an element enters the DOM.",
+			"classes": [
+				{
+					"class": "strand-settle",
+					"description": "Fades the element in over --strand-duration-fast when it is inserted. Opacity only, and it declares no size of any kind. Under prefers-reduced-motion the animation is removed and the change is immediate."
+				}
+			],
+			"example": "<!-- Insertion alone fires the fade, so an item ARRIVING needs nothing else. -->\n<li class=\"strand-settle\">a comment that just arrived</li>\n\n<!-- THE TRAP, and the one way to use this and get nothing: a VALUE change\n     patches a text node and inserts nothing, so no animation fires. Replace\n     the element rather than rewriting its text.\n     WRONG, animates nothing however correct the class is:\n       el.textContent = count + ' people'\n     RIGHT, a new element, so the fade fires:\n       const next = document.createElement('span');\n       next.className = 'strand-settle';\n       next.textContent = count + ' people';\n       el.replaceWith(next);\n     In a framework this is the key. Key on WHAT THE USER WAS TOLD, not on\n     the record carrying it: an optimistic echo and its server confirmation\n     are ONE state change, and keying on the row id announces it twice. -->\n\n<!-- Settle never sizes anything. If the two states are different heights,\n     that is a space-contract problem: wrap in strand-reserve. -->"
+		},
+		{
 			"name": "KvEditorial",
 			"description": "Editorial modifier on the strand-kv molecule. Use inside card-metadata contexts for soft sans-serif Blue-midnight values separated by a dashed divider. The default strand-kv stays mono-tabular for instrument readouts.",
 			"classes": [

@@ -8,10 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- the layout tier can assert where a box is, not only how big
+- a browser layout tier, because jsdom does not lay out (gap #64)
 - Reserve, a region that holds its box while data loads (v0.32.0, gap #62)
 - the wordmark and the tabs answer the pointer (v0.31.0)
 
+### Changed
+- regenerate the agent surfaces, which Reserve left stale
+- regenerate agent surfaces missed by 0.33.0
+
 ### Fixed
+- commit the half-built CommandPalette, which was breaking every local build
 - Reserve can collapse when the answer is nothing (v0.33.0, gap #63)
 
 ### Documentation

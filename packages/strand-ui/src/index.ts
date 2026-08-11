@@ -100,6 +100,8 @@ export type { SpinnerProps } from "./components/Spinner/index.js";
 
 export { Reserve } from "./components/Reserve/index.js";
 export type { ReserveProps } from "./components/Reserve/index.js";
+export { Settle } from "./components/Settle/index.js";
+export type { SettleProps } from "./components/Settle/index.js";
 export { Skeleton } from "./components/Skeleton/index.js";
 export type { SkeletonProps } from "./components/Skeleton/index.js";
 

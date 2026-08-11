@@ -697,3 +697,103 @@ Verdict: FAIL (one L3 gap; closed)
 - Scope discipline, which is what keeps it fast enough to actually get run: a primitive earns a case only when its reason for existing is a statement about space. Most do not. `Badge` has padding; that is a value, not a promise, and the static tier already reads it. `Reserve` promises that a swap cannot move the page, which is a claim about rendered geometry.
 - Coverage at landing, all `Reserve`, the primitive that motivated the tier: empty collapses to zero; pending holds the box; the pending-to-ready swap measures identically (the no-shift invariant, which is the entire reason the primitive exists); a declared floor is honoured; no floor invents no reservation; the base floor holds below 768; the md floor takes over at 768; md keeps holding at 1024 when no lg floor is set; and no state attribute at all degrades to a plain wrapper. The three breakpoint cases are ones jsdom cannot evaluate at all.
 - Design recorded in `docs/testing-tiers.md`, including the tier boundary table and the rule the whole document exists for: know which tier owns your claim before you write the assertion, because an assertion placed in a tier that cannot evaluate it does not fail, it passes.
+
+## Production consumer: shipthisgroup.com - every state change is a hard cut, and the language never said it should not be
+Date: 2026-08-11
+Verdict: FAIL (one L3 gap)
+
+### Gap #65
+- Type: **L3** (design language, not library). Same reasoning as #62 and the
+  same temptation to get it wrong: a `.strand-settle` class could be added
+  without touching the spec, and it would be the next private answer to a
+  question the language has never asked. `docs/design-language.md` Part VI
+  specified motion for an element ENTERING the viewport (6.4), for the POINTER
+  touching a control (6.5), and for DATA arriving after a wait (6.6, plus
+  6.6.1/6.6.2 added by #62). It specified nothing for the moment the MODEL
+  changes under a stable layout, which is the most common motion in an
+  application. There was no rule to implement, so the spec was the incomplete
+  thing.
+- Symptom, measured rather than read. New instrument in the consumer repo,
+  `make measure-state-motion URL=https://shipthisgroup.com/event/ship-020`,
+  which mutates each region the way the client mutates it and asks
+  `document.getAnimations()` what ran:
+
+  | probe | desktop | mobile |
+  |---|---|---|
+  | rsvp count (a seat is taken or released) | NOTHING | NOTHING |
+  | rsvp control swaps to confirmation | NOTHING | NOTHING |
+  | channel join control flips to joined | NOTHING | NOTHING |
+
+  6 of 6. Every state change on the product is a hard cut.
+- **Why nothing has ever caught this, and why it needed an instrument.** A hard
+  cut throws no error, moves no layout, fails no axe rule, breaks no keyboard
+  path, and renders the correct final value. It is invisible to every gate in
+  either repo. The only detector in service today is a human saying the product
+  feels like a form, which is not a regression test and does not run on a
+  branch. The same scan that found nothing also confirmed `.strand-reserve` IS
+  present in the loaded stylesheets, which is what makes the finding specific
+  rather than a broken probe: the platform has a LOAD primitive and no STATE
+  primitive.
+- Spec fix, first per the protocol: new 6.9 State change and 6.9.1 Identity is
+  what triggers it. 6.9 derives every parameter from one fact -- the user
+  initiated it, so the motion CONFIRMS rather than introduces. That gives fast
+  (`--strand-duration-fast`, because a slow confirmation reads as a slow page),
+  opacity only (a translate would claim the content arrived from somewhere; it
+  did not arrive, it BECAME), and a mechanical test that needs no judgement.
+- Library fix: `.strand-settle`, one class and one keyframe, plus a `Settle`
+  wrapper in each framework package. No JavaScript in the primitive: a keyframe
+  animation runs when an element enters the DOM, so the trigger is the framework
+  replacing a node, which every framework already does.
+- **The boundary against Reserve is the design decision worth recording.**
+  Settle is motion-ONLY and deliberately cannot touch layout. Reserve owns the
+  BOX; Settle owns the MOMENT. If two states differ in size that is a
+  space-contract problem (6.6.1) and belongs to Reserve or to the surrounding
+  layout. A motion primitive asked to absorb a size change ends up animating
+  height, which 6.8 bans and which is a layout shift wearing an easing curve.
+  Keeping this primitive structurally incapable of sizing anything is what makes
+  that misuse impossible rather than merely discouraged.
+- **The trap the framework wrappers exist to close.** A class alone animates an
+  INSERTION. The most common state change in an application -- a count going
+  from 6 to 7 -- patches a text node and inserts nothing, so a consumer who
+  reads only the class contract gets a primitive that appears installed and
+  animates nothing. Hence 6.9.1 and the `on` prop, which derives the key so the
+  correct behaviour is the default rather than a thing to remember (Principle 8).
+- Both load-bearing mechanisms verified in a REAL browser against the consumer's
+  production bundle before any of this was written, because jsdom can answer
+  neither: it runs no animations at all, which is the same blind spot that let
+  #63's collapse bug reach a consumer.
+  - changed key -> the DOM node is REPLACED: true
+  - unchanged key -> the same node is reused, nothing re-announces: true
+  - unkeyed control -> the node is reused, which is precisely today's hard cut: true
+  - a bare keyframe fires on insertion with no JS: `animationstart` observed
+  - the reduced-motion reset leaves the element at opacity **1**, not parked at
+    the `from` frame. This one was worth checking rather than assuming: the
+    house style of zeroing a duration would, with `animation-fill-mode: both`,
+    still apply the `from` frame and could leave an element permanently
+    invisible for exactly the users who asked for less motion. `animation: none`
+    is correct and a zeroed duration is not.
+- Reduced-motion reset sits at MATCHING specificity (0,1,0) and later in the
+  file, per #56. There is deliberately no `--modifier` and no descendant form of
+  this class, so there is nothing that could later out-specify the reset -- the
+  bug #56 documents is structurally unavailable here rather than merely avoided.
+- **Testing gap, unchanged from #63 and now more acute -- and the layout tier
+  does NOT close it.** Every Strand test runs in jsdom, which runs no
+  animations, so a `Settle` that animates nothing passes every jsdom test that
+  can be written. The browser-layout tier landed alongside this gap measures BOX
+  GEOMETRY, which is a different measurement: it would confirm that a Settle
+  region does not change size and say nothing at all about whether it animated.
+  An earlier draft of this entry credited it with closing the gap and that was
+  wrong. Geometry and motion are separate instruments and each is only competent
+  at its own question.
+  - jsdom CAN test the real contract underneath, and those are the guards
+    shipped here: a changed `on` replaces the node, an unchanged `on` does not.
+    That is what makes the animation fire, so it is the invariant that matters
+    even though the animation itself is out of reach.
+  - The animation is closed by a third tier, `scripts/motion-check.mjs` +
+    `pnpm test:motion`, probing `document.getAnimations()` in real Chromium.
+    Ported from the consumer's `make measure-state-motion`, where it was built
+    first and where it produced the six-way baseline above.
+  - All three tiers share one rule, arrived at independently in each: an
+    instrument that cannot run must FAIL rather than skip, and an empty run is a
+    failure rather than a vacuous pass. "0 of 0 rules broken" is how a
+    measurement aimed slightly wrong announces success.

@@ -1,0 +1,92 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Settle ──
+   A region that fades its new state in when the model changes, instead of
+   cutting to it. Implements design-language.md 6.9 (state change) and
+   6.9.1 (identity is what triggers it).
+
+   The sibling of Reserve, and the division between them is deliberate.
+   Reserve owns the BOX: it holds space while a wait resolves. Settle owns
+   the MOMENT: it acknowledges that the thing the user just pressed took
+   effect. A region that needs both composes both; neither absorbs the
+   other's job.
+
+   The class layer is the real primitive. There is no JavaScript in it: a
+   keyframe animation runs when an element enters the DOM, so the trigger
+   is the framework replacing the node, which is something every framework
+   already does and calls the same thing.
+
+   Markup contract:
+
+     <span class="strand-settle">7 people</span>
+
+   That is the whole contract. The catch is in 6.9.1 and it is worth
+   repeating here, because it is the one way to use this and get nothing:
+   a count going from 6 to 7 patches a TEXT NODE. Nothing is inserted, so
+   no animation fires. Give the element an identity that changes with the
+   value -- key in Preact/React/Vue, {#key} in Svelte -- and the framework
+   replaces it rather than patching it. The framework wrappers do this for
+   you from the `on` prop. */
+
+@keyframes strand-settle-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.strand-settle {
+  /* Opacity only, per 6.9. A translate would say the content arrived from
+     somewhere; it did not arrive, it BECAME. Motion describing a journey
+     the content never took is decoration, and 6.3 already rules out
+     animating anything but transform and opacity for the framerate cost.
+
+     duration-fast, not normal or slow. The user pressed the thing, so
+     this is an ANSWER, not an introduction: RAIL puts interaction
+     feedback inside 100ms and 6.2 puts "tactile" at 150ms. Past
+     duration-normal it stops reading as confirmation and starts reading
+     as the page being slow, which is the opposite of what is being
+     signalled.
+
+     ease-out-expo for the snappy arrival, matching every other enter in
+     the system.
+
+     `both` so the element is at opacity 0 before the first frame paints
+     rather than flashing in at full opacity and then fading from it. */
+  animation: strand-settle-in var(--strand-duration-fast) var(--strand-ease-out-expo) both;
+}
+
+/* Deliberately NOT here: any control of the region's height.
+
+   If the two states are different sizes, that is a layout problem and it
+   belongs to the space contract in 6.6.1, not to the fade. A motion
+   primitive asked to absorb a size change ends up animating height, which
+   6.8 bans outright and which is a layout shift wearing an easing curve.
+   Fix the geometry with Reserve, or by making the states the same size,
+   and then fade. Keeping this primitive incapable of touching layout is
+   what makes it impossible to misuse in that direction. */
+
+/* ── Reduced motion ──
+   The fade goes and the change is immediate. Same rule as 6.6.2, same
+   reason: the preference is for less animation, not for a worse
+   experience.
+
+   At MATCHING specificity (0,1,0) and later in the file, per Gap #56 --
+   a reset that does not out-specify what it undoes is a reset that
+   silently does nothing, and this system has already shipped that bug
+   once. There is no `.strand-settle--modifier` and no descendant form
+   precisely so this rule cannot be out-specified later.
+
+   `animation: none` rather than a zeroed duration: with fill-mode `both`
+   a 0.01ms animation would still apply its `from` frame, and an element
+   can end up parked at opacity 0. Removing the animation entirely leaves
+   the element at its natural opacity, which is the instant state change
+   the preference asks for. */
+@media (prefers-reduced-motion: reduce) {
+  .strand-settle {
+    animation: none;
+  }
+}

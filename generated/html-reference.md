@@ -1318,6 +1318,41 @@ Scroll-triggered entrance animation.
 
 ---
 
+### Settle
+
+Fades a region's new state in when the model changes, instead of cutting to it. Implements design-language.md 6.9 (state change) and 6.9.1 (identity is what triggers it). The sibling of Reserve: Reserve holds the BOX while a wait resolves, Settle acknowledges the MOMENT the user's action took effect. It cannot affect layout, deliberately, so a region whose two states differ in size needs Reserve as well. There is no JavaScript in this primitive: a keyframe animation runs when an element enters the DOM.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-settle` | base | Fades the element in over --strand-duration-fast when it is inserted. Opacity only, and it declares no size of any kind. Under prefers-reduced-motion the animation is removed and the change is immediate. |
+| `strand-settle--modifier` | modifier | |
+
+**Usage:**
+
+```html
+<!-- Insertion alone fires the fade, so an item ARRIVING needs nothing else. -->
+<li class="strand-settle">a comment that just arrived</li>
+
+<!-- THE TRAP, and the one way to use this and get nothing: a VALUE change
+     patches a text node and inserts nothing, so no animation fires. Replace
+     the element rather than rewriting its text.
+     WRONG, animates nothing however correct the class is:
+       el.textContent = count + ' people'
+     RIGHT, a new element, so the fade fires:
+       const next = document.createElement('span');
+       next.className = 'strand-settle';
+       next.textContent = count + ' people';
+       el.replaceWith(next);
+     In a framework this is the key. Key on WHAT THE USER WAS TOLD, not on
+     the record carrying it: an optimistic echo and its server confirmation
+     are ONE state change, and keying on the row id announces it twice. -->
+
+<!-- Settle never sizes anything. If the two states are different heights,
+     that is a space-contract problem: wrap in strand-reserve. -->
+```
+
+---
+
 ### KvEditorial
 
 Editorial modifier on the strand-kv molecule. Use inside card-metadata contexts for soft sans-serif Blue-midnight values separated by a dashed divider. The default strand-kv stays mono-tabular for instrument readouts.

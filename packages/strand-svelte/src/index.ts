@@ -46,6 +46,7 @@ export { default as Tooltip } from './components/Tooltip/Tooltip.svelte'
 export { default as Progress } from './components/Progress/Progress.svelte'
 export { default as Spinner } from './components/Spinner/Spinner.svelte'
 export { default as Reserve } from './components/Reserve/Reserve.svelte'
+export { default as Settle } from './components/Settle/Settle.svelte'
 export { default as Skeleton } from './components/Skeleton/Skeleton.svelte'
 export { default as StarRating } from './components/StarRating/StarRating.svelte'
 

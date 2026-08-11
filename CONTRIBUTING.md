@@ -52,10 +52,11 @@ pnpm lint        # Lint all files
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |
-| `pnpm test:all` | `pnpm test && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:layout` |
+| `pnpm test:all` | `pnpm test && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:layout && pnpm test:motion` |
 | `pnpm test:contrast` | `node scripts/contrast-check.mjs` |
 | `pnpm test:layout` | `node scripts/layout-check.mjs` |
 | `pnpm test:migration-staleness` | `node scripts/migration-staleness.mjs` |
+| `pnpm test:motion` | `node scripts/motion-check.mjs` |
 | `pnpm test:parity` | `node scripts/parity-check.mjs` |
 | `pnpm test:scripts` | `vitest run --config vitest.config.mjs` |
 | `pnpm vendor-fonts` | `node scripts/vendor-fonts.mjs` |

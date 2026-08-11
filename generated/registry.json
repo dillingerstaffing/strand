@@ -500,6 +500,22 @@
       "registryDependencies": []
     },
     {
+      "name": "settle",
+      "type": "registry:ui",
+      "title": "Settle",
+      "description": "Settle",
+      "files": [
+        {
+          "path": "components/Settle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "section",
       "type": "registry:ui",
       "title": "Section",

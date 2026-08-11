@@ -20,10 +20,46 @@ evaluate it does not fail. It passes, and reports that the thing works.
 | Static CSS | `pnpm test:contrast`, `test:parity`, `purity-scan` | The built stylesheet, as text | Does the CSS declare the right things? | ~1s |
 | Unit (jsdom) | `pnpm test` | Components and their DOM output | Does the right markup come out? | seconds |
 | Layout (browser) | `pnpm test:layout` | The class layer, rendered and measured | Does the rendered box have the right geometry? | ~2s |
+| Motion (browser) | `pnpm test:motion` | The class layer, mutated and observed | Did anything actually animate, and within the rules? | ~3s |
 | Consumer | downstream, e.g. `make measure-cls` | A real page in production | Did it hold up in the real composition? | minutes |
 
-`pnpm test:all` runs the first three. The fourth is not ours and never will be,
-which is the point of the third existing.
+`pnpm test:all` runs the first four. The fifth is not ours and never will be,
+which is the point of the two browser tiers existing.
+
+**Layout and motion are siblings, not a tier and its subset.** They boot the
+same browser against the same built stylesheet and they answer disjoint
+questions. Layout measures boxes: it would happily confirm that a `Settle`
+region does not change size while saying nothing about whether it faded. Motion
+probes `document.getAnimations()`: it reports what animated, never what it
+measured. An early draft of gap #65 credited the layout tier with covering the
+animation claim, and it does not. Two instruments, two competences, and the
+boundary is worth restating whenever someone is tempted to fold one into the
+other.
+
+### One rule every tier obeys
+
+**An instrument that cannot run FAILS. A run that evaluated nothing FAILS.**
+
+This is not three scripts happening to agree. Each tier arrived at it from its
+own burn, and writing it here once is cheaper than each new tier rediscovering
+it:
+
+- The layout tier: an absent Chromium exits non-zero rather than skipping,
+  because a tier that quietly skips reports the same green as a tier that
+  passed.
+- The motion tier: the reduced-motion emulation is verified to have TAKEN
+  before anything measured under it is trusted. The form a test author reaches
+  for first, `test.use({ reducedMotion: "reduce" })`, silently does nothing and
+  the media query never matches, so an unchecked run reports a perfect zero for
+  a stylesheet that animates exactly as much as before. That cost this project
+  two sessions; see design-language 6.7.
+- Both, and the consumer tier downstream: an empty run exits 1. "0 of 0 cases
+  failed" is precisely how a measurement aimed slightly wrong announces success,
+  and it is indistinguishable from a real pass to anyone reading the log.
+
+The general form, which is the same failure in three costumes: **silent
+non-handling presented as success is worse than no check at all**, because it
+also spends the reviewer's trust.
 
 ---
 

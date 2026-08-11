@@ -175,6 +175,32 @@ export const LAYOUT_CASES = [
 		measure: { region: "#region" },
 		expect: [{ of: "region", blockSizeAtMost: 30 }],
 	},
+	{
+		name: "settle does not change the box it fades",
+		primitive: "Settle",
+		// The boundary between the two motion-adjacent primitives, asserted as
+		// a number rather than left to a paragraph in 6.9. Reserve owns the
+		// BOX; Settle owns the MOMENT. Right now nothing but the absence of
+		// sizing declarations stops a future edit from adding a height here to
+		// "fix" a jumpy consumer, and neither jsdom nor the motion tier would
+		// notice: jsdom does not lay out, and document.getAnimations() reports
+		// what animated, not what it measured.
+		//
+		// Same shape as the Reserve pending-vs-ready case above. Identical
+		// content, one carrying the class and one not, asserted to occupy the
+		// same box. If Settle ever declares padding, a min-height, a display
+		// change or a transform that affects layout, this is what fails.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div style="inline-size: 300px">
+				<span id="bare">7 people</span>
+			</div>
+			<div style="inline-size: 300px">
+				<span id="settled" class="strand-settle">7 people</span>
+			</div>`,
+		measure: { bare: "#bare", settled: "#settled" },
+		expect: [{ of: "settled", equals: "bare" }],
+	},
 ];
 
 // ── Pure decision layer ──
