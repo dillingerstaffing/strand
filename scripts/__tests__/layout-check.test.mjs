@@ -366,9 +366,16 @@ describe("positional assertions: WHERE a box is, not only how big", () => {
 		expect(r.ok).toBe(false);
 	});
 
-	it("equalsBlockStart compares position across two measured states", () => {
-		// The property that justifies a viewport-anchored region existing: it
-		// does not move when the document scrolls.
+	it("equalsBlockStart holds two measured subjects to the same offset", () => {
+		// NAMED CAREFULLY. An earlier name said "across two measured states",
+		// which claimed a capability the runner does not have: it takes exactly
+		// one measurement pass per case, so both subjects here come from the SAME
+		// page state. The pure function was always correct; the name oversold it,
+		// and a test name implying a capability the tier lacks is the same defect
+		// this tier exists to catch, one level up.
+		//
+		// Scroll-independence is expressed with `scroll` plus a threshold, not
+		// with this kind. See docs/testing-tiers.md.
 		const r = evaluateCase(
 			{
 				name: "dock is scroll independent",
@@ -380,10 +387,10 @@ describe("positional assertions: WHERE a box is, not only how big", () => {
 		expect(r.ok).toBe(true);
 	});
 
-	it("equalsBlockStart fails when the region scrolled away with the document", () => {
+	it("equalsBlockStart fails when the two subjects sit at different offsets", () => {
 		const r = evaluateCase(
 			{
-				name: "dock is scroll independent",
+				name: "two docks agree",
 				primitive: "Dock",
 				expect: [{ of: "atTop", equalsBlockStart: "atScrolled" }],
 			},
@@ -391,6 +398,32 @@ describe("positional assertions: WHERE a box is, not only how big", () => {
 		);
 		expect(r.ok).toBe(false);
 		expect(r.failures[0]).toContain("800");
+	});
+
+	it("a lone floor cannot express containment, which is why bounds come in pairs", () => {
+		// The first consumer's negative control caught this in their own case: a
+		// dock at document y=3000, entirely off screen, satisfies a bare
+		// blockStartAtLeast for the thumb zone. "Below the top of the band" and
+		// "inside the band" are different claims.
+		const offScreen = { blockSize: 64, inlineSize: 390, blockStart: 3000, blockEnd: 3064 };
+		const floorOnly = evaluateCase(
+			{ name: "n", primitive: "Dock", expect: [{ of: "dock", blockStartAtLeast: 563 }] },
+			{ dock: offScreen },
+		);
+		expect(floorOnly.ok).toBe(true); // passes, and is meaningless
+
+		const bounded = evaluateCase(
+			{
+				name: "n",
+				primitive: "Dock",
+				expect: [
+					{ of: "dock", blockStartAtLeast: 563 },
+					{ of: "dock", blockEndAtMost: 844 },
+				],
+			},
+			{ dock: offScreen },
+		);
+		expect(bounded.ok).toBe(false);
 	});
 });
 

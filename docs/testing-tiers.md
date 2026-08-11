@@ -153,7 +153,23 @@ That is a sentence a maintainer can act on without opening a browser.
 Assertion kinds come in two families. Size: `blockSize`, `blockSizeAtLeast`,
 `blockSizeAtMost`, and `equals` (two subjects must occupy the same box).
 Position: `blockStartAtLeast`, `blockStartAtMost`, `blockEndAtMost`, and
-`equalsBlockStart` (two measurements must sit at the same offset).
+`equalsBlockStart`.
+
+**Measured is not the same as assertable, and the gap is a trap.** The measure
+step records four fields per subject (`blockSize`, `inlineSize`, `blockStart`,
+`blockEnd`), but `inlineSize` has NO assertion kind. A case naming it fails
+validation with "names no known kind". That is deliberate rather than an
+oversight now: a whole assertion family for a secondary property is not worth
+the tier's complexity budget until two consumers need it. The first consumer who
+wanted an inline-span claim dropped the case instead, and replaced it with a
+`blockEndAtMost` bound that turned out to be worth more. Add the family when a
+second consumer asks, not before.
+
+**Both cross-subject kinds compare two SELECTORS in ONE page state**, because
+the runner takes exactly one measurement pass per case. `equalsBlockStart` does
+NOT compare one element across two scroll offsets, and an early description of
+it in this file said otherwise. Scroll-independence is expressed with `scroll`
+plus a threshold, not with an equality.
 
 Position was missing from the first version, and the way it was missing is
 worth recording. The measure step computed the full rect and kept only height
@@ -166,12 +182,27 @@ trap above, reproduced inside the tool built to explain it.
 Measurements are viewport-relative, which is not a compromise: a fixed
 element's viewport rect IS its contract.
 
-An optional `scroll: { y }` on a case measures after scrolling, which is how a
-region anchored to the viewport is distinguished from one merely positioned low
-in the document. The runner reads `window.scrollY` back and fails the case if
-the page did not reach the requested offset. Without that check the failure is
-silent and total: both measurements are taken at the same place, so the
-assertion passes perfectly while testing nothing.
+`scroll: { y }` on a case measures after scrolling. It reads as an optional
+convenience and it is not: for a viewport-anchored region it is the ONLY thing
+that can test the primitive's central claim. **At scroll offset 0, `position:
+fixed` and `position: absolute` are geometrically indistinguishable**, because
+an absolutely positioned element with `bottom: 0` and no positioned ancestor
+resolves against the initial containing block and produces an identical rect.
+Every unscrolled case passes for both. Found by the first consumer of the
+position family while running a negative control against their own primitive.
+
+The runner reads `window.scrollY` back and fails the case if the page did not
+reach the requested offset. Without that check the failure is silent and total:
+both measurements are taken at the same place, so the assertion passes perfectly
+while testing nothing.
+
+**A single threshold is usually the wrong shape for a positional claim.** The
+same consumer's first case asserted `blockStartAtLeast` alone and passed with
+the dock at document y=3000, entirely off screen: "below the top of the band"
+and "inside the band" are different claims, and only a PAIR of bounds expresses
+the second. A lone bound is open-ended in the direction nobody thinks to check.
+Prefer `blockStartAtLeast` with `blockEndAtMost` whenever the claim is
+containment rather than a floor.
 
 Threshold assertions report clearance as well as pass or fail. A case clearing
 a 180px floor at 180.5 and one clearing it at 400 are not the same fact, and a
