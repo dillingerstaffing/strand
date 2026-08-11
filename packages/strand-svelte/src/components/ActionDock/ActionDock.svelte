@@ -31,10 +31,21 @@
   /** Whether the dock is showing. Default false, so a dock that is never
       driven occludes nothing rather than welding itself across content. */
   export let visible: boolean = false
+
+  /** Additional CSS class, MERGED with the component's own.
+      Previously `class` arrived through $$restProps, which spreads AFTER the
+      class attribute and therefore REPLACED `strand-actiondock` outright. A
+      consumer adding one utility class silently lost the positioning class,
+      so the dock rendered as an ordinary in-flow div: precisely the failure
+      this primitive exists to prevent, and invisible because the element and
+      its content were still there. Preact and Vue both merged; only this port
+      did not. */
+  let className: string = ''
+  export { className as class }
 </script>
 
 <div
-  class="strand-actiondock"
+  class={['strand-actiondock', className].filter(Boolean).join(' ')}
   data-strand-actiondock={visible ? 'visible' : 'hidden'}
   {...$$restProps}
 >
