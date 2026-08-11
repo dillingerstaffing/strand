@@ -200,4 +200,74 @@ describe("Dialog", () => {
     );
     expect(document.body.style.overflow).toBe("");
   });
+
+  // ── Scroll lock compensation ──
+  //
+  // Hiding overflow removes the scrollbar, which widens the viewport and
+  // shifts the entire page sideways the instant a dialog opens. jsdom does not
+  // lay out, so the geometric truth lives in a real browser downstream; what
+  // IS pinnable here is the compensation contract: which styles the lock
+  // writes, on which element, and that every one of them is restored.
+
+  // jsdom's CSS object has no `supports` at all (which is itself the proof
+  // that the component's feature-detect must guard for absence), so these
+  // stub the method by assignment and restore by deletion.
+  const stubSupports = (impl: (prop: string, value?: string) => boolean) => {
+    const css = CSS as unknown as Record<string, unknown>;
+    const had = "supports" in css;
+    const original = css.supports;
+    css.supports = impl;
+    return () => {
+      if (had) css.supports = original;
+      else delete css.supports;
+    };
+  };
+
+  it("reserves the scrollbar gutter on the root when the engine supports it", () => {
+    const restoreSupports = stubSupports(
+      (prop, value) => prop === "scrollbar-gutter" && value === "stable",
+    );
+    const { rerender } = render(<Dialog {...defaultProps}>Content</Dialog>);
+    expect(document.documentElement.style.scrollbarGutter).toBe("stable");
+    expect(document.documentElement.style.overflow).toBe("hidden");
+    rerender(
+      <Dialog open={false} onClose={defaultProps.onClose}>
+        Content
+      </Dialog>,
+    );
+    expect(document.documentElement.style.scrollbarGutter).toBe("");
+    expect(document.documentElement.style.overflow).toBe("");
+    restoreSupports();
+  });
+
+  it("pads the body by the measured scrollbar gap where the gutter is unsupported", () => {
+    const restoreSupports = stubSupports(() => false);
+    // jsdom reports no scrollbar; simulate a classic 15px one.
+    const innerWidth = vi
+      .spyOn(window, "innerWidth", "get")
+      .mockReturnValue(1024);
+    const clientWidth = vi
+      .spyOn(document.documentElement, "clientWidth", "get")
+      .mockReturnValue(1009);
+    const { rerender } = render(<Dialog {...defaultProps}>Content</Dialog>);
+    expect(document.body.style.paddingRight).toBe("15px");
+    rerender(
+      <Dialog open={false} onClose={defaultProps.onClose}>
+        Content
+      </Dialog>,
+    );
+    expect(document.body.style.paddingRight).toBe("");
+    restoreSupports();
+    innerWidth.mockRestore();
+    clientWidth.mockRestore();
+  });
+
+  it("writes no compensation when there is no scrollbar to lose", () => {
+    const restoreSupports = stubSupports(() => false);
+    render(<Dialog {...defaultProps}>Content</Dialog>);
+    // jsdom's gap is 0: overlay-scrollbar platforms take this path too.
+    expect(document.body.style.paddingRight).toBe("");
+    expect(document.body.style.overflow).toBe("hidden");
+    restoreSupports();
+  });
 });
