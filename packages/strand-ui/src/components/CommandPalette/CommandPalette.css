@@ -87,13 +87,22 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: var(--strand-text-sm);
-  color: var(--strand-gray-500);
+  /* gray-600 rather than gray-500, because this text sits on TWO surfaces and
+     only one of them was ever checked. On white, gray-500 is 5.23:1 and fine.
+     On the highlighted row it sits on --strand-blue-wash and measures 4.34:1,
+     under the 4.5:1 AA floor -- so the secondary text failed exactly on the row
+     the user is looking at. gray-600 is 7.41:1 on white and 6.15:1 on the wash.
+     Measured with axe on a real browser, constant across runs rather than an
+     animation artifact. */
+  color: var(--strand-gray-600);
 }
 
 .strand-command-palette__badge {
   flex: none;
   font-size: var(--strand-text-xs);
-  color: var(--strand-gray-500);
+  /* Same two-surface problem as the sublabel above, and worse here because the
+     badge is smaller. */
+  color: var(--strand-gray-600);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
