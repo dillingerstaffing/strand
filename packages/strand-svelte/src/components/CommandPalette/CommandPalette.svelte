@@ -71,6 +71,7 @@
 
   let active = 0
   let listEl: HTMLDivElement
+  let inputEl: HTMLInputElement
 
   /** Wrap at both ends so the last item is one keypress from the first. */
   function wrapIndex(index: number, delta: number, length: number): number {
@@ -83,6 +84,24 @@
   // and again on open so reopening does not resume an old position.
   $: if (items) active = 0
   $: if (open) active = 0
+
+  // Put the caret in the search field when the palette opens.
+  //
+  // Dialog focuses the FIRST focusable element in its panel, which is its own
+  // close button, and the input comes after it in the DOM. For most dialogs
+  // that is the right default. For this one it is fatal: the entire
+  // interaction model is "open and type", so a visitor who opened with the
+  // keyboard was typing into a button and nothing filtered. Measured in a real
+  // browser: activeElement was BUTTON.strand-dialog__close on open.
+  //
+  // Deferred to a frame rather than run synchronously, because Dialog does not
+  // focus immediately either: it SCHEDULES a requestAnimationFrame. Focusing
+  // synchronously here would land first and Dialog's callback would steal it
+  // back to the close button, intermittently. Enqueued after Dialog's, and
+  // rAF callbacks run FIFO, so this one wins.
+  $: if (open && typeof requestAnimationFrame === 'function') {
+    requestAnimationFrame(() => inputEl?.focus())
+  }
 
   // Keyboard selection can move the highlight outside the scroll viewport,
   // where the user is driving a list they cannot see.
@@ -154,6 +173,7 @@
       <path d="M10.5 10.5L14 14" />
     </svg>
     <input
+      bind:this={inputEl}
       type="text"
       class="strand-command-palette__input"
       value={query}

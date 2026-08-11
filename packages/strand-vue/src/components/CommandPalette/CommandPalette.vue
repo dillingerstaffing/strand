@@ -82,6 +82,7 @@ const optionId = (index: number) => `${baseId}-option-${index}`
 
 const active = ref(0)
 const listRef = ref<HTMLDivElement | null>(null)
+const inputRef = ref<HTMLInputElement | null>(null)
 
 /** Wrap at both ends so the last item is one keypress from the first. */
 function wrapIndex(index: number, delta: number, length: number): number {
@@ -104,6 +105,32 @@ watch(
   (isOpen) => {
     if (isOpen) active.value = 0
   },
+)
+
+// Put the caret in the search field when the palette opens.
+//
+// Dialog focuses the FIRST focusable element in its panel, which is its own
+// close button, and the input comes after it in the DOM. For most dialogs that
+// is the right default. For this one it is fatal: the entire interaction model
+// is "open and type", so a visitor who opened with the keyboard was typing into
+// a button and nothing filtered. Measured in a real browser: activeElement was
+// BUTTON.strand-dialog__close on open.
+//
+// Not fixed by changing Dialog's policy, which would alter behaviour for every
+// other consumer to serve one component's need.
+watch(
+  () => props.open,
+  async (isOpen) => {
+    if (!isOpen) return
+    await nextTick()
+    requestAnimationFrame(() => {
+      inputRef.value?.focus()
+    })
+  },
+  // immediate, because a plain watch fires only on CHANGE: a palette mounted
+  // already open (which is how a consumer that conditionally renders it
+  // behaves, and how the tests mount it) would never focus at all.
+  { immediate: true },
 )
 
 // Keyboard selection can move the highlight outside the scroll viewport,
@@ -181,6 +208,7 @@ function onInput(event: Event) {
         <path d="M10.5 10.5L14 14" />
       </svg>
       <input
+        ref="inputRef"
         type="text"
         class="strand-command-palette__input"
         :value="query"

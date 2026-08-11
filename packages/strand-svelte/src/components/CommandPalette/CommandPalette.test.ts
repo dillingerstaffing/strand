@@ -20,6 +20,17 @@ const items = [
 const mount = (props = {}) => render(CommandPalette, { props: { open: true, items, query: '', ...props } })
 
 describe('CommandPalette', () => {
+  // Dialog focuses the FIRST focusable element in its panel, which is its own
+  // close button, so without this the visitor opens a search overlay and types
+  // into a button. Inherited behaviour still has to be checked at the point
+  // where THIS component depends on it.
+  it('puts the caret in the search field when it opens, so the visitor can type', async () => {
+    const { container } = mount()
+    await new Promise((r) => requestAnimationFrame(() => r(null)))
+    await new Promise((r) => requestAnimationFrame(() => r(null)))
+    expect(document.activeElement).toBe(container.querySelector('.strand-command-palette__input'))
+  })
+
   it('does not render when closed', () => {
     const { container } = mount({ open: false })
     expect(container.querySelector('.strand-command-palette__input')).not.toBeInTheDocument()
