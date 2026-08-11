@@ -17,6 +17,22 @@
   overflow: hidden;
 }
 
+/* The palette IS its content: the search row is the panel's first pixel row.
+   Dialog's body ships a space-6 top pad sized for prose dialogs, which here
+   reads as a dead band over the search row and was most of the remaining
+   "clunky" after two spacing passes. */
+.strand-command-palette .strand-dialog__body {
+  padding: 0;
+}
+
+/* No X. Every palette convention closes by Escape, backdrop, or picking a
+   result, and this component already routes focus straight to the search
+   field past the close button. The X earned nothing and cost the panel's
+   whole top band: an absolutely positioned control the content must dodge. */
+.strand-command-palette .strand-dialog__close {
+  display: none;
+}
+
 /* ── Search row ── */
 /* space-2/space-3, second reduction from the launch space-4/space-5. A
    palette is an instrument the user summons mid-thought; any header taller
