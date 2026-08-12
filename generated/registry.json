@@ -100,6 +100,22 @@
       "registryDependencies": []
     },
     {
+      "name": "calendar-grid",
+      "type": "registry:ui",
+      "title": "Calendar Grid",
+      "description": "Calendar Grid",
+      "files": [
+        {
+          "path": "components/CalendarGrid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "card",
       "type": "registry:ui",
       "title": "Card",

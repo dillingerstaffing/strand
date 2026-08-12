@@ -50,6 +50,7 @@ export { default as ActionDock } from './components/ActionDock/ActionDock.svelte
 export { default as SearchField } from './components/SearchField/SearchField.svelte'
 export { default as TabBar } from './components/TabBar/TabBar.svelte'
 export { default as SearchTrigger } from './components/SearchTrigger/SearchTrigger.svelte'
+export { default as CalendarGrid } from './components/CalendarGrid/CalendarGrid.svelte'
 export { default as Settle } from './components/Settle/Settle.svelte'
 export { default as Skeleton } from './components/Skeleton/Skeleton.svelte'
 export { default as StarRating } from './components/StarRating/StarRating.svelte'

@@ -1,0 +1,184 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── CalendarGrid ──
+   A month laid out as a well plate: seven columns because a week has
+   seven days, and as many rows as the month needs.
+
+   Implements the `well-plate` production (Part XI-B 11.10) and 10.6
+   Bounded Cells. Read both before changing anything here. In particular
+   a day cell is a BOUNDED cell: its size comes from the structure, not
+   from what it holds, so it declares a capacity and states its remainder
+   as a count. It never clips, never scrolls internally, and never grows
+   the row it sits in.
+
+   NOT a 5.5 auto-fit grid. Those reflow their column count to suit the
+   content, which is the correct behaviour when the columns are a
+   sequence and the wrong one here: a week has seven days at every
+   viewport, and a six-column February would be a different claim about
+   the data.
+
+   Markup contract:
+
+     <div class="strand-calendar-grid" role="grid" aria-label="August 2026">
+       <div class="strand-calendar-grid__header" role="row">
+         <span class="strand-calendar-grid__axis" role="columnheader"
+               abbr="Monday">Mon</span>
+         ...
+       </div>
+       <div class="strand-calendar-grid__week" role="row">
+         <div class="strand-calendar-grid__day" role="gridcell" tabindex="-1">
+           <span class="strand-calendar-grid__date">1</span>
+           <div class="strand-calendar-grid__content">...</div>
+           <span class="strand-calendar-grid__remainder">+2 more</span>
+         </div>
+         ...
+       </div>
+     </div>
+
+   Exactly one day carries tabindex="0" (the ARIA grid roving-tabindex
+   pattern, 14.5): the grid is ONE tab stop and arrow keys move within
+   it. Thirty-one tab stops in a month would make the keyboard path
+   through a page unusable. */
+
+.strand-calendar-grid {
+  display: grid;
+  /* Seven equal fractions, fixed. minmax(0, 1fr) rather than 1fr because
+     a bare 1fr floors at the content's min-content width, so one long
+     unbroken word in a single day would widen that column and skew the
+     whole plate -- and a plate whose columns differ in width no longer
+     supports comparison by position, which is the reason both axes are
+     semantic. 10.4 names this mechanism. */
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+
+  /* The gap IS the rule between cells, drawn by the container's
+     background showing through. One declaration instead of a border on
+     every cell, which would double at every shared edge. */
+  background: var(--strand-gray-200);
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-lg);
+  overflow: hidden;
+}
+
+/* The header row and each week row are semantic rows for assistive
+   technology, and layout-transparent so their cells land in the parent
+   grid's columns. */
+.strand-calendar-grid__header,
+.strand-calendar-grid__week {
+  display: contents;
+}
+
+.strand-calendar-grid__axis {
+  padding-block: var(--strand-space-2);
+  padding-inline: var(--strand-space-2);
+  background: var(--strand-surface-recessed);
+
+  /* The overline pattern (4.7): the column axis is a label, and this is
+     the language's most distinctive typographic element. */
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+  text-align: center;
+}
+
+.strand-calendar-grid__day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strand-space-1);
+
+  /* THE BOUNDED CELL (10.6). A fixed minimum, so every well is the same
+     size and the reader can compare by position, and no maximum, so a
+     row can still grow if a consumer sets a taller capacity. What must
+     NOT happen is one cell growing because of its own content, which is
+     why the content region below cannot expand. */
+  min-block-size: var(--strand-space-20);
+  padding: var(--strand-space-2);
+
+  background: var(--strand-surface-elevated);
+  text-align: start;
+}
+
+/* Leading and trailing days from the adjacent months. Present because
+   the plate's rows are weeks and a week does not stop at a month
+   boundary; dimmed because they are context rather than content. */
+.strand-calendar-grid__day--adjacent {
+  background: var(--strand-gray-50);
+}
+
+.strand-calendar-grid__day--adjacent .strand-calendar-grid__date {
+  /* gray-500, not the gray-400 that "dimmed" suggests. 14.2b puts gray-400
+     in the fill tier at 2.52:1, and a date is a number the reader reads,
+     so it is text at 4.5:1. gray-500 still reads as quieter than the
+     gray-600 of an in-month date (5.09:1 against 7.21:1), so the
+     distinction survives; it just survives above the line rather than
+     below it. Caught by test:contrast, not by review. */
+  color: var(--strand-gray-500);
+}
+
+.strand-calendar-grid__day--selected {
+  background: var(--strand-blue-glow);
+}
+
+.strand-calendar-grid__day:focus-visible {
+  /* Inset, like TabBar's: an outward ring on a cell flush against the
+     plate's edge is clipped by the container's overflow: hidden, and
+     14.3 requires the ring not be obscured. */
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: -2px;
+}
+
+.strand-calendar-grid__date {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--strand-gray-600);
+}
+
+/* Today. A ring rather than a fill, so it composes with the selected
+   state instead of fighting it: a day can be both today and selected,
+   and two backgrounds cannot express that. */
+.strand-calendar-grid__day--today .strand-calendar-grid__date {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: 20px;
+  min-block-size: 20px;
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-blue-deep);
+  color: var(--strand-surface-elevated);
+}
+
+.strand-calendar-grid__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  /* 10.6: the cell's height is the structure's, so the content region
+     cannot expand it. A well past its capacity states a remainder; it
+     does not push its neighbours down. */
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+/* 10.6's stated remainder. A count the reader can act on, in place of
+   content they would otherwise never know was there. */
+.strand-calendar-grid__remainder {
+  margin-block-start: auto;
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-500);
+}
+
+/* Compact density (Part XX) for a month in a sidebar or a narrow rail.
+   Padding and the cell floor shrink; type sizes and colors do not, per
+   20.1. */
+.strand-calendar-grid--compact .strand-calendar-grid__day {
+  min-block-size: var(--strand-space-12);
+  padding: var(--strand-space-1);
+}
+
+.strand-calendar-grid--compact .strand-calendar-grid__axis {
+  padding-block: var(--strand-space-1);
+}

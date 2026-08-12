@@ -392,6 +392,66 @@ export const LAYOUT_CASES = [
 			{ of: "trigger", inlineSize: 300 },
 		],
 	},
+	{
+		name: "a well past its capacity does not grow its row",
+		primitive: "CalendarGrid",
+		// 10.6's mechanical test, and the only tier that can run it. The
+		// obligation is that a cell's height comes from the STRUCTURE, so a
+		// day with eight events and a day with none are the same size and
+		// the reader can still compare by position. If the content region
+		// could expand, one busy day would push every cell beside it down
+		// and the plate would stop being a plate.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div class="strand-calendar-grid" role="grid" aria-label="Test">
+				<div class="strand-calendar-grid__week" role="row">
+					<div id="empty" class="strand-calendar-grid__day" role="gridcell">
+						<span class="strand-calendar-grid__date">1</span>
+					</div>
+					<div id="full" class="strand-calendar-grid__day" role="gridcell">
+						<span class="strand-calendar-grid__date">2</span>
+						<div class="strand-calendar-grid__content">
+							<div>one</div><div>two</div><div>three</div>
+							<div>four</div><div>five</div><div>six</div>
+							<div>seven</div><div>eight</div>
+						</div>
+						<span class="strand-calendar-grid__remainder">+6 more</span>
+					</div>
+				</div>
+			</div>`,
+		measure: { empty: "#empty", full: "#full" },
+		expect: [{ of: "full", equals: "empty" }],
+	},
+	{
+		name: "every well in a week is the same width",
+		primitive: "CalendarGrid",
+		// Both axes are semantic (Part XI-B), so the reader identifies a day
+		// by its position in the row. A column that widened to fit one long
+		// unbroken word would break that, which is why the template is
+		// minmax(0, 1fr) rather than 1fr.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div class="strand-calendar-grid" role="grid" aria-label="Test">
+				<div class="strand-calendar-grid__week" role="row">
+					<div id="a" class="strand-calendar-grid__day" role="gridcell">
+						<span class="strand-calendar-grid__date">1</span>
+					</div>
+					<div id="b" class="strand-calendar-grid__day" role="gridcell">
+						<span class="strand-calendar-grid__date">2</span>
+						<div class="strand-calendar-grid__content">
+							<div>Supercalifragilisticexpialidocious</div>
+						</div>
+					</div>
+					<div class="strand-calendar-grid__day" role="gridcell"></div>
+					<div class="strand-calendar-grid__day" role="gridcell"></div>
+					<div class="strand-calendar-grid__day" role="gridcell"></div>
+					<div class="strand-calendar-grid__day" role="gridcell"></div>
+					<div class="strand-calendar-grid__day" role="gridcell"></div>
+				</div>
+			</div>`,
+		measure: { a: "#a", b: "#b" },
+		expect: [{ of: "b", equalsInlineSize: "a" }],
+	},
 ];
 
 // ── Pure decision layer ──

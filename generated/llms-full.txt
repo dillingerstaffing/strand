@@ -275,7 +275,7 @@ Own the source. No dependency lock-in.
 npx strand-ui init          # Set up tokens in your project
 npx strand-ui add button    # Copy Button source to your codebase
 npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->54<!-- COMPONENT-COUNT:END --> components
+npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->55<!-- COMPONENT-COUNT:END --> components
 ```
 
 After install, the CLI is available as `strand` (e.g., `strand add button`).
@@ -287,7 +287,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-<!-- COMPONENT-COUNT:START -->54<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
+<!-- COMPONENT-COUNT:START -->55<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
 
 ### Input
 
@@ -1019,6 +1019,52 @@ Label + input + hint + error wrapper for form composition.
     </div>
   </div>
   <p class="strand-form-field__hint">We will never share your email.</p>
+</div>
+```
+
+---
+
+### CalendarGrid
+
+A month laid out as a well plate: seven columns because a week has seven days, and as many rows as the month needs. Implements the well-plate production (design-language.md Part XI-B 11.10) and 10.6 Bounded Cells. A day is a BOUNDED cell -- its size comes from the structure rather than from its contents, so it declares a capacity and states the rest as a count, never clipping silently and never growing its row. NOT a 5.5 auto-fit grid: those reflow their column count to suit the content, which is right when the columns are a sequence and wrong here, because a week has seven days at every viewport. Keyboard: the ARIA grid pattern (14.5). The whole grid is ONE tab stop with a roving tabindex; arrows move by day and week, Home and End move within the week, PageUp and PageDown change month.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-calendar-grid` | base | Plate root, role="grid". Seven columns as minmax(0, 1fr) rather than 1fr, because a bare 1fr floors at the content's min-content width and one long unbroken word would widen its column and skew the plate. The 1px gap is the rule between cells, drawn by the container's background showing through, so no cell needs a border that would double at every shared edge. |
+| `strand-calendar-grid__header` | child | The column-axis row, role="row". display: contents so its cells land in the parent grid's columns while staying a semantic row. |
+| `strand-calendar-grid__week` | child | One week, role="row". Also display: contents, for the same reason. |
+| `strand-calendar-grid__axis` | child | A column heading, role="columnheader", in the overline pattern (4.7). Pair a visible abbreviation marked aria-hidden with the full weekday name in strand-sr-only: "Mon" read aloud is not a weekday, and abbr is only valid on <th> so it does nothing here. |
+| `strand-calendar-grid__day` | child | One well, role="gridcell". Fixed minimum height so every well is the same size and the reader can compare by position. Exactly one day carries tabindex="0"; the rest are -1, per the roving-tabindex pattern, because thirty-one tab stops would make the keyboard path through the page unusable. |
+| `strand-calendar-grid__day--adjacent` | child | A leading or trailing day from the neighbouring month. Present because a week does not stop at a month boundary; quieter because it is context rather than content. Its date takes gray-500, not gray-400: a date is text and owes 4.5:1 (14.2b). |
+| `strand-calendar-grid__day--today` | child | Today. A ring rather than a fill, so it composes with the selected state instead of fighting it -- a day can be both, and two backgrounds cannot express that. Pair with aria-current="date". |
+| `strand-calendar-grid__day--selected` | child | The chosen day. Pair with aria-selected="true". |
+| `strand-calendar-grid__date` | child | The day number, monospace with tabular numerals so the column of dates aligns. |
+| `strand-calendar-grid__content` | child | The day's items. Cannot expand the cell (10.6): a well past its capacity states a remainder rather than pushing its neighbours down. |
+| `strand-calendar-grid__remainder` | child | 10.6's stated remainder, e.g. "+3 more". A count the reader can act on, in place of content they would otherwise never know was there. Sits inside the reserved height rather than on top of it. |
+| `strand-calendar-grid--compact` | modifier | Compact density (Part XX). Padding and the cell floor shrink; type sizes and colours do not. |
+
+**Usage:**
+
+```html
+<div class="strand-calendar-grid" role="grid" aria-label="August 2026">
+  <div class="strand-calendar-grid__header" role="row">
+    <span class="strand-calendar-grid__axis" role="columnheader">
+      <span aria-hidden="true">Sun</span>
+      <span class="strand-sr-only">Sunday</span>
+    </span>
+    <!-- ...six more... -->
+  </div>
+
+  <div class="strand-calendar-grid__week" role="row">
+    <!-- Exactly one day in the whole grid carries tabindex="0". -->
+    <div class="strand-calendar-grid__day strand-calendar-grid__day--today"
+         role="gridcell" tabindex="0" aria-current="date" data-iso="2026-08-12">
+      <span class="strand-calendar-grid__date">12</span>
+      <div class="strand-calendar-grid__content">...</div>
+      <span class="strand-calendar-grid__remainder">+3 more</span>
+    </div>
+    <!-- ...six more... -->
+  </div>
 </div>
 ```
 
@@ -3898,6 +3944,25 @@ A consumer who places any component inside any container should never see asymme
 
 Padding layers compound. When nesting containers with padding (e.g., page > card > viewport > card), available content width decreases at each level. Before composing more than two padded layers, calculate the remaining content width at the narrowest expected viewport. If content clips: use a compact (sm) component variant at the innermost level, reduce an inner padding tier, or reduce nesting depth. The preferred fix is always reducing nesting. A composition that requires four padding layers to show a single value has too many containers.
 
+### 10.6 Bounded Cells
+
+Some containers cannot resize to their content. A cell in a fixed matrix takes its dimensions from the structure it belongs to, not from what it holds.
+
+Every rule above assumes the container can be made to fit. 10.4 shrinks children so they stop breaching their parent. 10.5 reduces nesting so there is more room. 5.5's grids reflow their column count to suit the content. None of those remedies exists when the cell's size is fixed by an external fact, and the language has said nothing about that case: 21.2 covers a container with too little content and nothing covers one with too much.
+
+**A bounded cell declares a visible capacity and renders the remainder as a count, never as clipped content.**
+
+- **Capacity is measured at the cell's smallest sanctioned size, not its largest.** A cell showing three items on a desktop and clipping two on a phone has a capacity of two.
+- **The remainder is stated, never implied.** "+3 more" is a fact the reader can act on. A fade, a cut-off glyph, or content vanishing under `overflow: hidden` is information loss the reader cannot detect, which is worse than showing less.
+- **The overflow affordance sits inside the reserved height, not on top of it.** A cell that grows when it overflows moves every cell beside it. This is 6.6.1's space contract applied to a bounded region.
+- **Scrolling inside a cell is not an answer.** A scroll region smaller than a thumb is unusable on touch (14.7), and a field of independently scrolling cells has no reading order.
+
+**The mechanical test, needing no judgement.** Render the densest cell the data permits, at the narrowest sanctioned viewport. Every item is either fully legible or counted in the remainder. If any item is partially visible, the declared capacity is wrong.
+
+**What this rules OUT as a finding.** A cell that is merely empty is not an overflow defect; that is Part XXI. And a grid whose column count changes with the viewport is not a bounded cell at all -- it is a 5.5 auto-fit grid and should use one. The distinction is whether the cell's dimensions come from the data or from the structure.
+
+13.2 is the same rule stated for one visual container: "maximum 6 series per chart. If more than 6 categories exist, group or filter." That is a bounded capacity with a deterministic remedy, scoped to chart series and applied by the author. This generalises it to any container whose size is not negotiable, and moves the remedy into the component where the data cannot be filtered ahead of time.
+
 ---
 
 ## Part XI: Component Design Patterns
@@ -4211,17 +4276,40 @@ DATA_VALUE        →  inline style (CSS cannot know the data) ;
 ```
 All columns are `"flex: 1"` (equal width). Columns align to `"flex-end"` (bottom). One color only for bars (Blue Discipline, Part III.4). Semantic color is earned through annotation on the label, not bar color. The array goes inside a `SURFACE_RECESSED` when it needs the dual-surface treatment (Part V).
 
+**Matrix rules** (how data maps to a field where BOTH axes carry meaning):
+
+```
+well-plate        →  plate-header  plate-row+ ;
+plate-header      →  axis-label  axis-label  axis-label* ;
+axis-label        →  OVERLINE ;
+plate-row         →  well  well  well* ;
+well              →  well-marker?  well-content? ;
+well-marker       →  MONO_VALUE ;
+well-content      →  atom* | remainder ;
+remainder         →  MONO_VALUE ;
+```
+Both axes are semantic: a cell's identity is its row AND its column, and neither can be reordered without changing what the data means. Every well is the same size, because the reader compares them by position. Columns are equal fractions of the row; rows do not stretch to their content (see 10.6). The header names the column axis once; the row axis is named by the first well of each row, or by the marker if the rows are self-describing. The plate goes inside a `SURFACE_RECESSED` when it needs the dual-surface treatment.
+
+**Why this is not `column-array`.** A column array is one-dimensional: the columns are a sequence, the bar heights encode the data, and reordering the columns loses nothing that the labels do not restore (11.13). A well plate's positions ARE the data. Its 11.13 test is therefore the inverse: reordering rows or columns must be *impossible* to do without changing meaning, and if a plate reads correctly after a shuffle, the second axis is decorative and the composition wanted a `ranked-sequence`.
+
+**The laboratory's name for this is the microplate**, a tray of wells indexed by lettered row and numbered column, each holding one sample. It is used here rather than "grid" because Principle 10 asks every structure to carry the metaphor, and because it names the constraint the structure imposes: a well is a fixed volume, which is exactly 10.6.
+
+**A well is a bounded cell (10.6) and inherits its obligations**: a declared capacity measured at the smallest sanctioned size, a stated `remainder` rather than clipped content, and the remainder inside the reserved height rather than growing the row.
+
 ### 11.11 Containment Precedence
 
 Compositions nest in a strict hierarchy. Higher-level compositions contain lower-level ones, never the reverse. This is the stratification that prevents ambiguity.
 
 ```
 page              →  surface* ;
-surface           →  SURFACE  ( sectioned-surface | ranked-sequence | centered-group | column-array | atom+ ) ;
+surface           →  SURFACE  ( sectioned-surface | ranked-sequence | centered-group | column-array | well-plate | atom+ ) ;
 sectioned-surface →  section+ ;
 section           →  SECTION_BOUNDARY  ( ranked-sequence | centered-group | atom+ ) ;
 ranked-sequence   →  ranked-item+ ;
 ranked-item       →  inline-pair | inline-sequence | atom ;
+well-plate        →  plate-row+ ;
+plate-row         →  well+ ;
+well              →  atom* ;
 atom              →  (any component from Part XI: Button, Card, DataReadout, Badge, etc.) ;
 ```
 
@@ -4269,6 +4357,7 @@ Each production has a test. Run these at composition time.
 | section (boundary) | Remove the boundary. Can you tell where one section ends and the next begins? If yes, the boundary is redundant (Principle 1). |
 | centered-group | Remove one child. Does the group still look balanced? Add one child. Does it still fit? |
 | column-array | Reorder columns randomly. Is data still readable? (If not, labels are insufficient.) Swap all bar colors to gray. Is information lost? (If yes, Blue Discipline violation.) |
+| well-plate | Shuffle the rows, then the columns. Does the plate still say the same thing? If YES, the second axis is decorative and this wanted a ranked-sequence. Then fill one well past its capacity: is the overflow COUNTED (10.6) rather than clipped, and did the row keep its height? |
 | containment | Does each nonterminal nest inside a legal parent per 11.11? If a ranked-sequence sits directly inside a page with no surface, the containment is invalid. |
 
 Named molecules in strand-ui (see generated/html-reference.md) are convenience CSS classes for common derivations. An agent that knows this grammar can compose any valid molecule from first principles without needing the named class.
@@ -5139,6 +5228,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- TabBar and SearchTrigger; 19.1.1 settles which mobile nav a surface takes (v0.38.0, gaps #73-#74)
 - SearchField, responsive visibility, progress on dark (v0.37.0, gaps #69-#72)
 - strand-flex-none, the shrink-proof pair of flex-1 (v0.36.9)
 - strand-truncate utility, single-line ellipsis (v0.36.8)

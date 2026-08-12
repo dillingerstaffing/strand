@@ -1305,6 +1305,25 @@ A consumer who places any component inside any container should never see asymme
 
 Padding layers compound. When nesting containers with padding (e.g., page > card > viewport > card), available content width decreases at each level. Before composing more than two padded layers, calculate the remaining content width at the narrowest expected viewport. If content clips: use a compact (sm) component variant at the innermost level, reduce an inner padding tier, or reduce nesting depth. The preferred fix is always reducing nesting. A composition that requires four padding layers to show a single value has too many containers.
 
+### 10.6 Bounded Cells
+
+Some containers cannot resize to their content. A cell in a fixed matrix takes its dimensions from the structure it belongs to, not from what it holds.
+
+Every rule above assumes the container can be made to fit. 10.4 shrinks children so they stop breaching their parent. 10.5 reduces nesting so there is more room. 5.5's grids reflow their column count to suit the content. None of those remedies exists when the cell's size is fixed by an external fact, and the language has said nothing about that case: 21.2 covers a container with too little content and nothing covers one with too much.
+
+**A bounded cell declares a visible capacity and renders the remainder as a count, never as clipped content.**
+
+- **Capacity is measured at the cell's smallest sanctioned size, not its largest.** A cell showing three items on a desktop and clipping two on a phone has a capacity of two.
+- **The remainder is stated, never implied.** "+3 more" is a fact the reader can act on. A fade, a cut-off glyph, or content vanishing under `overflow: hidden` is information loss the reader cannot detect, which is worse than showing less.
+- **The overflow affordance sits inside the reserved height, not on top of it.** A cell that grows when it overflows moves every cell beside it. This is 6.6.1's space contract applied to a bounded region.
+- **Scrolling inside a cell is not an answer.** A scroll region smaller than a thumb is unusable on touch (14.7), and a field of independently scrolling cells has no reading order.
+
+**The mechanical test, needing no judgement.** Render the densest cell the data permits, at the narrowest sanctioned viewport. Every item is either fully legible or counted in the remainder. If any item is partially visible, the declared capacity is wrong.
+
+**What this rules OUT as a finding.** A cell that is merely empty is not an overflow defect; that is Part XXI. And a grid whose column count changes with the viewport is not a bounded cell at all -- it is a 5.5 auto-fit grid and should use one. The distinction is whether the cell's dimensions come from the data or from the structure.
+
+13.2 is the same rule stated for one visual container: "maximum 6 series per chart. If more than 6 categories exist, group or filter." That is a bounded capacity with a deterministic remedy, scoped to chart series and applied by the author. This generalises it to any container whose size is not negotiable, and moves the remedy into the component where the data cannot be filtered ahead of time.
+
 ---
 
 ## Part XI: Component Design Patterns
@@ -1618,17 +1637,40 @@ DATA_VALUE        →  inline style (CSS cannot know the data) ;
 ```
 All columns are `"flex: 1"` (equal width). Columns align to `"flex-end"` (bottom). One color only for bars (Blue Discipline, Part III.4). Semantic color is earned through annotation on the label, not bar color. The array goes inside a `SURFACE_RECESSED` when it needs the dual-surface treatment (Part V).
 
+**Matrix rules** (how data maps to a field where BOTH axes carry meaning):
+
+```
+well-plate        →  plate-header  plate-row+ ;
+plate-header      →  axis-label  axis-label  axis-label* ;
+axis-label        →  OVERLINE ;
+plate-row         →  well  well  well* ;
+well              →  well-marker?  well-content? ;
+well-marker       →  MONO_VALUE ;
+well-content      →  atom* | remainder ;
+remainder         →  MONO_VALUE ;
+```
+Both axes are semantic: a cell's identity is its row AND its column, and neither can be reordered without changing what the data means. Every well is the same size, because the reader compares them by position. Columns are equal fractions of the row; rows do not stretch to their content (see 10.6). The header names the column axis once; the row axis is named by the first well of each row, or by the marker if the rows are self-describing. The plate goes inside a `SURFACE_RECESSED` when it needs the dual-surface treatment.
+
+**Why this is not `column-array`.** A column array is one-dimensional: the columns are a sequence, the bar heights encode the data, and reordering the columns loses nothing that the labels do not restore (11.13). A well plate's positions ARE the data. Its 11.13 test is therefore the inverse: reordering rows or columns must be *impossible* to do without changing meaning, and if a plate reads correctly after a shuffle, the second axis is decorative and the composition wanted a `ranked-sequence`.
+
+**The laboratory's name for this is the microplate**, a tray of wells indexed by lettered row and numbered column, each holding one sample. It is used here rather than "grid" because Principle 10 asks every structure to carry the metaphor, and because it names the constraint the structure imposes: a well is a fixed volume, which is exactly 10.6.
+
+**A well is a bounded cell (10.6) and inherits its obligations**: a declared capacity measured at the smallest sanctioned size, a stated `remainder` rather than clipped content, and the remainder inside the reserved height rather than growing the row.
+
 ### 11.11 Containment Precedence
 
 Compositions nest in a strict hierarchy. Higher-level compositions contain lower-level ones, never the reverse. This is the stratification that prevents ambiguity.
 
 ```
 page              →  surface* ;
-surface           →  SURFACE  ( sectioned-surface | ranked-sequence | centered-group | column-array | atom+ ) ;
+surface           →  SURFACE  ( sectioned-surface | ranked-sequence | centered-group | column-array | well-plate | atom+ ) ;
 sectioned-surface →  section+ ;
 section           →  SECTION_BOUNDARY  ( ranked-sequence | centered-group | atom+ ) ;
 ranked-sequence   →  ranked-item+ ;
 ranked-item       →  inline-pair | inline-sequence | atom ;
+well-plate        →  plate-row+ ;
+plate-row         →  well+ ;
+well              →  atom* ;
 atom              →  (any component from Part XI: Button, Card, DataReadout, Badge, etc.) ;
 ```
 
@@ -1676,6 +1718,7 @@ Each production has a test. Run these at composition time.
 | section (boundary) | Remove the boundary. Can you tell where one section ends and the next begins? If yes, the boundary is redundant (Principle 1). |
 | centered-group | Remove one child. Does the group still look balanced? Add one child. Does it still fit? |
 | column-array | Reorder columns randomly. Is data still readable? (If not, labels are insufficient.) Swap all bar colors to gray. Is information lost? (If yes, Blue Discipline violation.) |
+| well-plate | Shuffle the rows, then the columns. Does the plate still say the same thing? If YES, the second axis is decorative and this wanted a ranked-sequence. Then fill one well past its capacity: is the overflow COUNTED (10.6) rather than clipped, and did the row keep its height? |
 | containment | Does each nonterminal nest inside a legal parent per 11.11? If a ranked-sequence sits directly inside a page with no surface, the containment is invalid. |
 
 Named molecules in strand-ui (see generated/html-reference.md) are convenience CSS classes for common derivations. An agent that knows this grammar can compose any valid molecule from first principles without needing the named class.
