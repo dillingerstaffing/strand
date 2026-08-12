@@ -8,7 +8,12 @@
 // single day underneath a specification asserting both a limit and a gate.
 
 import { describe, expect, it } from "vitest";
-import { BUDGET, evaluate, summarize } from "../bundle-budget-check.mjs";
+import {
+	BUDGET,
+	evaluate,
+	manifestStaleness,
+	summarize,
+} from "../bundle-budget-check.mjs";
 
 // The real measurement at the time the budget was last set, so these tests
 // fail loudly if someone raises a limit without touching them. Updated
@@ -167,5 +172,46 @@ describe("summarize", () => {
 		expect(r.ok).toBe(false);
 		expect(r.text).toContain("in this commit, with the reason");
 		expect(r.text).toContain("or make the artifact smaller");
+	});
+});
+
+// ── Manifest staleness ──────────────────────────────────────────────────
+//
+// The published bundle figure went stale because `measure-bundle` ran only
+// inside `pnpm build`, which a release does not run. Adding the step to
+// `release.mjs` fixes today; asserting the SCRIPT CONTAINS A STRING would
+// only re-check that one edit survives. What must hold is the property:
+// the number the manifest publishes describes the files on disk. That
+// catches the defect whatever caused it, including a future release path
+// that forgets again.
+describe("manifestStaleness", () => {
+	const fresh = { total_gz_bytes: 89417, total_gz_kb: 87 };
+
+	it("passes when the manifest describes the files that are actually there", () => {
+		expect(manifestStaleness(fresh, { ...fresh })).toBeNull();
+	});
+
+	it("reports a manifest left behind by a release that never re-measured", () => {
+		const stale = manifestStaleness(fresh, {
+			total_gz_bytes: 79800,
+			total_gz_kb: 78,
+		});
+		expect(stale).not.toBeNull();
+		expect(stale.publishedKb).toBe(78);
+		expect(stale.measuredKb).toBe(87);
+	});
+
+	it("tolerates nothing: one byte of drift is still a manifest describing a different build", () => {
+		expect(
+			manifestStaleness(fresh, { ...fresh, total_gz_bytes: 89418 }),
+		).not.toBeNull();
+	});
+
+	// A manifest with no bundle block at all published nothing, so there is
+	// no claim to be stale -- but it also means the release never measured,
+	// which is the same defect arriving as an absence.
+	it("treats a missing bundle block as stale rather than as passing", () => {
+		expect(manifestStaleness(fresh, undefined)).not.toBeNull();
+		expect(manifestStaleness(fresh, {})).not.toBeNull();
 	});
 });

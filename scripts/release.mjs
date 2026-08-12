@@ -185,6 +185,15 @@ function main() {
 	run("npx", ["vitest", "run"], { cwd: "packages/strand-ui" });
 	run("pnpm", ["build:docs"]);
 	run("pnpm", ["--filter", "./packages/strand-ui", "build"]);
+	// MUST follow the build and precede the commit. `measure-bundle` lived only
+	// in `pnpm build`, which a release does not run, so every published
+	// `parity-manifest.json` described the PREVIOUS release's bundle -- the one
+	// number in the manifest a consumer cannot check without rebuilding, stamped
+	// from whatever the developer last happened to run locally. Two things then
+	// read it as fact: this repo's own bundle-budget gate, and any consumer that
+	// trusts the manifest. Found when a DS sync reported a size that no file in
+	// the tree could produce.
+	run("pnpm", ["measure-bundle"]);
 	run("pnpm", ["test:layout"]);
 
 	const finalMsg = msg.replaceAll("vX.Y.Z", `v${next}`);

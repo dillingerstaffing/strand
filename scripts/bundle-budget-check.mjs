@@ -108,6 +108,43 @@ export const BUDGET = {
 // ── Pure decision layer ─────────────────────────────────────────────────
 
 /**
+ * Does the manifest's published bundle figure describe the files on disk?
+ *
+ * `measure-bundle` stamps `parity-manifest.json` and lived only inside
+ * `pnpm build`. A RELEASE does not run `pnpm build` -- it builds strand-ui
+ * directly -- so every published manifest carried the PREVIOUS release's
+ * bundle figure, stamped from whatever the developer last happened to run
+ * locally. `release.mjs` now runs the measurement, and this is the check
+ * that says so, because the fix and the proof must be different things.
+ *
+ * Zero tolerance is deliberate. Any drift at all means the manifest was
+ * written against a different build, and "how far off is it" is not the
+ * question -- a number the release did not measure has no provenance,
+ * whether it is out by 9 KB or by one byte.
+ *
+ * @param {{total_gz_bytes: number}} measured  a fresh measurement
+ * @param {{total_gz_bytes?: number}|undefined} published  the manifest block
+ */
+export function manifestStaleness(measured, published) {
+  const publishedBytes = published?.total_gz_bytes;
+  // No block at all is not "no claim to check". It means the release never
+  // measured, which is this exact defect arriving as an absence.
+  if (typeof publishedBytes !== "number") {
+    return {
+      publishedKb: null,
+      measuredKb: Math.round(measured.total_gz_bytes / 1024),
+      reason: "the manifest publishes no bundle measurement at all",
+    };
+  }
+  if (publishedBytes === measured.total_gz_bytes) return null;
+  return {
+    publishedKb: Math.round(publishedBytes / 1024),
+    measuredKb: Math.round(measured.total_gz_bytes / 1024),
+    reason: "the manifest describes a different build than the one on disk",
+  };
+}
+
+/**
  * Compare a measurement against the budget.
  *
  * @param {{totalGzBytes: number, cssGzBytes: number, componentCount: number}} m
@@ -204,7 +241,24 @@ async function main() {
   const measured = measure();
   const cssGzBytes = measured.files["strand-ui.css"].gzipped_bytes;
   const totalGzBytes = measured.total_gz_bytes;
-  const componentCount = JSON.parse(manifestJson).components.length;
+  const manifest = JSON.parse(manifestJson);
+  const componentCount = manifest.components.length;
+
+  const stale = manifestStaleness(measured, manifest.bundle);
+  if (stale) {
+    console.error(
+      `  STALE MANIFEST  parity-manifest.json publishes ${stale.publishedKb ?? "no"} KB; the files on disk are ${stale.measuredKb} KB.`,
+    );
+    console.error(`  ${stale.reason}.`);
+    console.error(
+      "\n  Run `pnpm measure-bundle` and commit the manifest. If a RELEASE produced",
+    );
+    console.error(
+      "  this, the release path stopped measuring and consumers are being handed a",
+    );
+    console.error("  bundle figure describing an artifact they did not receive.\n");
+    process.exit(1);
+  }
 
   // Per-component sizes come from the SOURCE stylesheets, because the bundle
   // is concatenated and a component's contribution cannot be recovered from
