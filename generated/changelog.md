@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- SearchField, responsive visibility, progress on dark (v0.37.0, gaps #69-#72)
 - strand-flex-none, the shrink-proof pair of flex-1 (v0.36.9)
 - strand-truncate utility, single-line ellipsis (v0.36.8)
 - every shipped component has a test, and ActionDock stops losing its class in Svelte (v0.36.4, gap #68)
