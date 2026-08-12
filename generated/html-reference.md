@@ -793,6 +793,10 @@ CSS Grid layout primitive with column and gap utilities.
 | `strand-grid--gap-5` | modifier | Gap: space-5 (20px). |
 | `strand-grid--gap-6` | modifier | Gap: space-6 (24px). |
 | `strand-grid--gap-8` | modifier | Gap: space-8 (32px). |
+| `strand-grid--sidebar` | modifier | A fixed 264px rail beside a flexible main track, collapsing to one column below the md breakpoint. Use for a filter rail beside a results area: it is not two equal halves, so --cols-2 is wrong, and the column COUNT is not what should vary, so auto-fit is wrong. The main track is minmax(0, 1fr) rather than 1fr, because a bare 1fr floors at the track's min-content width and one long unbroken string would widen the grid and push the rail off screen; the base rule's min-width:0 handles the ITEM, this handles the TRACK. Put the rail FIRST in the markup: below the breakpoint the regions stack in source order, and a filter met after the results it filters is one the reader has already scrolled past. |
+| `strand-ref-shell` | base | |
+| `strand-ref-example` | base | |
+| `strand-ref-taxonomy__list` | child | |
 
 **Usage:**
 

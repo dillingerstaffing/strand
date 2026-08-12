@@ -845,6 +845,10 @@
 				{
 					"class": "strand-grid--gap-8",
 					"description": "Gap: space-8 (32px)."
+				},
+				{
+					"class": "strand-grid--sidebar",
+					"description": "A fixed 264px rail beside a flexible main track, collapsing to one column below the md breakpoint. Use for a filter rail beside a results area: it is not two equal halves, so --cols-2 is wrong, and the column COUNT is not what should vary, so auto-fit is wrong. The main track is minmax(0, 1fr) rather than 1fr, because a bare 1fr floors at the track's min-content width and one long unbroken string would widen the grid and push the rail off screen; the base rule's min-width:0 handles the ITEM, this handles the TRACK. Put the rail FIRST in the markup: below the breakpoint the regions stack in source order, and a filter met after the results it filters is one the reader has already scrolled past."
 				}
 			],
 			"example": "<div class=\"strand-grid strand-grid--cols-3 strand-grid--gap-4\">\n  <div>Cell 1</div>\n  <div>Cell 2</div>\n  <div>Cell 3</div>\n</div>"

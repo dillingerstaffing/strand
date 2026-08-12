@@ -314,6 +314,8 @@ Every background color has a designated text color that guarantees WCAG 2.2 AA c
 5. **Dark text is `--strand-gray-600` for body, `--strand-gray-700` or `--strand-blue-midnight` for headlines.** Never pure black.
 6. **Every color pairing has a minimum 4.5:1 contrast ratio.** Enforced by automated test, not by manual review.
 
+**Rule 7: pick the rung by what the declaration paints, not by how the result should feel.** Every hue carries a fill tier (3:1, for backgrounds, borders, focus rings and icons) and a text tier (4.5:1, for anything a reader reads). "Dimmed", "muted" and "quiet" are descriptions of a result, not licences to drop below the text tier. See 14.2b for the table and 14.2c for why this is the most repeated mistake in the system.
+
 ### 3.8 Color Roles (Semantic Layer)
 
 Beyond the raw palette, colors have functional roles. This is where the system goes deeper than generic primary/secondary/tertiary categories. Roles are specific to the biosynthetic context.
@@ -679,7 +681,11 @@ What signals "precision" in motion:
 /* Link. Underline grows from left */
 .link {
   text-decoration: none;
-  color: var(--strand-blue-primary);
+  /* blue-DEEP for the text, blue-primary for the underline it grows.
+     The word is text at 4.5:1 (blue-primary measures 2.99:1 on the
+     recessed surface); the underline is a graphical object at 3:1. Same
+     hue, two tiers, chosen by what each declaration paints. */
+  color: var(--strand-blue-deep);
   background-image: linear-gradient(var(--strand-blue-primary), var(--strand-blue-primary));
   background-size: 0% 1px;
   background-position: left bottom;
@@ -1371,7 +1377,11 @@ Forms are the primary input surface. They collect structured data for processing
 }
 
 .field-input::placeholder {
-  color: var(--strand-gray-400);
+  /* gray-500, not gray-400. A placeholder is text (14.2b), and gray-400
+     is a fill-tier value measuring 2.29:1 on the recessed surface a
+     field sits on. See 14.2c: "dimmed" is not a licence to drop below
+     the text tier. */
+  color: var(--strand-gray-500);
 }
 ```
 
@@ -1418,18 +1428,24 @@ The overline label stays at `--strand-text-xs` across all sizes. The label-to-va
 ### 11.3 Status Indicators
 
 ```css
+/* Every value below is the TEXT tier of its hue (14.2b). A status
+   indicator rendered as a word is text and owes 4.5:1; the fill-tier
+   values these once used measure 1.96:1 to 3.43:1 on a light surface.
+   Where the status is a GLYPH rather than a word -- a tick, a dot -- the
+   fill tier is correct at 3:1 and should be used instead. */
+
 /* Tiered quality */
-.status-excellent  { color: var(--strand-teal-vital); }    /* 90%+ */
-.status-strong     { color: var(--strand-blue-primary); }   /* 70-89% */
-.status-moderate   { color: var(--strand-amber-caution); }  /* 50-69% */
-.status-low        { color: var(--strand-gray-400); }        /* <50% */
+.status-excellent  { color: var(--strand-on-teal-tint); }        /* 90%+ */
+.status-strong     { color: var(--strand-blue-deep); }            /* 70-89% */
+.status-moderate   { color: var(--strand-on-amber-tint); }        /* 50-69% */
+.status-low        { color: var(--strand-gray-500); }             /* <50% */
 
 /* Operational status */
-.status-active     { color: var(--strand-teal-vital); }
-.status-pending    { color: var(--strand-blue-primary); }
-.status-review     { color: var(--strand-amber-caution); }
-.status-closed     { color: var(--strand-gray-400); }
-.status-error      { color: var(--strand-red-alert); }
+.status-active     { color: var(--strand-on-teal-tint); }
+.status-pending    { color: var(--strand-blue-deep); }
+.status-review     { color: var(--strand-on-amber-tint); }
+.status-closed     { color: var(--strand-gray-500); }
+.status-error      { color: var(--strand-red-alert-deep); }
 ```
 
 ### 11.4 Code Display (The Terminal Readout)
@@ -1897,6 +1913,23 @@ This is enforced, not documented and hoped for. `pnpm test:contrast` reads the b
 
 **Opacity multiplies against every ratio on this page.** The ratios above describe declared colors. An ancestor at partial opacity composites foreground and background alike toward the surface behind it and destroys the ratio, and no palette value can defend against it: at opacity 0.5 nothing passes, however dark the token. This matters because `.strand-reveal` (Part VI.4) is scroll-driven, so an element parked partway through its entry range sits at partial opacity as a stable state, not a transient one. Audit contrast with reveals settled -- see Part VI.7.
 
+### 14.2c "Dimmed" Is Not a Tier
+
+14.2b gives every hue two values and says which to use. This records WHY it keeps being applied wrongly, because the correction has now been made independently at least four times and a rule that has to be rediscovered is a rule that is documented badly.
+
+**The mistake is never a colour decision. It is a WORD decision.** Nobody picks a value measuring 2.29:1 on purpose. What happens is that the author reaches for an English adjective first -- *dimmed*, *muted*, *quiet*, *secondary*, *inactive*, *disabled-looking*, *de-emphasised* -- and the palette obligingly contains a value that looks like that adjective. `gray-400` looks dimmed. `teal-vital` looks like success. `amber-caution` looks like a warning. Every one of them is a fill-tier value, and the adjective carries no information about whether the thing being painted is text.
+
+**The test, and it takes one second.** Before writing any `color:` declaration, ask: *is a reader going to READ this?* A word, a number, a date, a label, a placeholder, a status rendered as text, a footer link, a page number: all read, all 4.5:1, all text tier. A tick, a dot, a bar, a border, a focus ring, an icon carrying no meaning of its own: none read, all 3:1, all fill tier. The hue is not in question either way; only the rung is.
+
+**Two consequences that catch people out even after the tier is understood.**
+
+1. **A tint lowers the bar it looked like it raised.** A pairing that is merely weak on white can fail outright on a tinted background of its own hue, because the tint lightens the ground while the accent stays put. blue-primary is 3.29:1 on white and **2.96:1** on blue-glow. A "gentle" background makes contrast worse, not better.
+2. **The same element can need both tiers at once.** A link's word is text and the underline beneath it is a graphical object; an active tab's label is text and its 2px border is not. Two declarations, one hue, two rungs, and a rule that picks one value for "the link colour" gets one of them wrong.
+
+**Where this has bitten, recorded so the pattern is visible rather than anecdotal:** a component library's badges and danger button; a scroll-reveal parked at partial opacity; a consumer's status chip; a tab bar's active destination; a calendar's adjacent-month dates; and this specification's own form placeholder, status indicators, link example, tabs, pagination, footer and empty state. The library was corrected before the specification was, so for a period the documented values were the failing ones while the shipped values were not.
+
+`pnpm test:contrast` reads the built CSS and fails on any pairing below its threshold. It is the reason the library instances were caught. Prose has no such gate, which is why this section exists.
+
 ### 14.3 Focus Indicators
 
 - **All interactive elements** have a visible focus indicator
@@ -2362,19 +2395,25 @@ Monospace text-xs, gray-500, separated by `/` or `>`. Current item is not linked
 
 ### 19.3 Tabs
 
-Horizontal tab bar. Each tab is a text button with a 2px bottom border. Active tab: blue-primary border + blue-primary text. Inactive: transparent border + gray-500 text. Hover: gray-700 text. Transition: color and border-color at duration-fast.
+Horizontal tab bar. Each tab is a text button with a 2px bottom border. Active tab: blue-primary border + **blue-deep** text. Inactive: transparent border + gray-500 text. Hover: gray-700 text. Transition: color and border-color at duration-fast.
+
+The active tab's border and its label take DIFFERENT rungs of the same hue, and that is the point rather than an inconsistency: the border is a graphical object at 3:1, where blue-primary is correct, and the label is text at 4.5:1, where it measures 2.99:1 and is not (14.2b, 14.2c).
 
 Tabs switch content panels. The panel transition is instant (no animation between panels). The user is switching instruments, not navigating to a new room.
 
 ### 19.4 Pagination
 
-Monospace page numbers. Current page: blue-primary text + blue-glow background. Other pages: gray-600 text. Navigation arrows at the ends. Touch targets 44px minimum.
+Monospace page numbers. Current page: **blue-deep** text on a blue-glow background. Other pages: gray-600 text. Navigation arrows at the ends. Touch targets 44px minimum.
+
+blue-primary on blue-glow measures 2.96:1, which is the trap in a tinted-background pattern: the tint lightens the ground and the accent stays put, so a pairing that is merely weak on white fails outright here. blue-deep on the same tint measures 5.39:1.
 
 ### 19.5 Footer
 
 The footer is the laboratory's closing panel. Compact, informational, visually quiet.
 
-Structure: border-top using the standard divider color (gray-200), generous padding (space-12), centered content. Navigation links in a horizontal row using monospace text-xs, tracking-wider, gray-400 with blue-primary hover. Copyright line in text-xs, gray-400.
+Structure: border-top using the standard divider color (gray-200), generous padding (space-12), centered content. Navigation links in a horizontal row using monospace text-xs, tracking-wider, **gray-500** with **blue-deep** hover. Copyright line in text-xs, **gray-500**.
+
+Quiet is a matter of hue and weight, not of dropping below the text tier. gray-400 measures 2.29:1 and a footer link is still a link.
 
 The footer does not compete with page content. It is the last instrument in the room — visible but unobtrusive.
 
@@ -2406,7 +2445,7 @@ A DataReadout with no value displays `--` in the value position, with the label 
 
 ### 21.2 The Empty Collection
 
-A list or grid with no items displays a single centered message in instrument voice: "No [items] detected." Below it, an optional action: "Begin [process]" as a link. The empty state uses gray-400 text on the primary surface. No illustrations. No icons. The absence of data IS the visual.
+A list or grid with no items displays a single centered message in instrument voice: "No [items] detected." Below it, an optional action: "Begin [process]" as a link. The empty state uses gray-500 text on the primary surface (gray-400 is a fill-tier value at 2.29:1, and an empty state is the one message on the screen). No illustrations. No icons. The absence of data IS the visual.
 
 ### 21.3 The Search With No Results
 

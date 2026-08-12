@@ -42,3 +42,39 @@
 .strand-grid--gap-5 { gap: var(--strand-space-5); }
 .strand-grid--gap-6 { gap: var(--strand-space-6); }
 .strand-grid--gap-8 { gap: var(--strand-space-8); }
+
+/* ── Sidebar: a fixed rail beside a flexible main track ──
+   The library made this exact decision three times privately before
+   publishing it: `.strand-ref-shell` at 256px, `.strand-ref-example` at
+   200px and `.strand-ref-taxonomy__list` at 160px, all in the reference
+   site's own shell where no consumer can reach them. Three private
+   answers to one question is the dogfood signal, and the fix is to ship
+   the answer rather than to write a fourth.
+
+   Why a preset and not `--cols-2`: a filter rail beside a results area
+   is not two equal halves, and `auto-fit` is the wrong tool because the
+   column COUNT is not what should vary -- the rail is one fixed thing
+   and the main track absorbs the remainder.
+
+   Why `minmax(0, 1fr)` and not `1fr`: a bare `1fr` floors at the track's
+   min-content width, so one long unbroken string in the main area widens
+   the whole grid and pushes the rail off screen. The base rule above
+   sets `min-width: 0` on children, which handles the item; this handles
+   the TRACK, and they are different things. `.strand-ref-shell` already
+   carries this form for the same reason.
+
+   Below the md breakpoint the rail stops being a rail. A 264px column
+   beside anything at 390px leaves the main track unusable, so the grid
+   becomes a single column and the two regions stack in source order --
+   which is why the rail should come FIRST in the markup, since a filter
+   the reader meets after the results it filters is a filter they have
+   already scrolled past. */
+.strand-grid--sidebar {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 768px) {
+	.strand-grid--sidebar {
+		grid-template-columns: 264px minmax(0, 1fr);
+	}
+}

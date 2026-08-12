@@ -90,4 +90,39 @@ describe('Grid', () => {
     })
     expect(container.firstElementChild?.getAttribute('id')).toBe('my-grid')
   })
+
+  // ── Sidebar preset ──
+  // Its GEOMETRY is asserted in the layout tier, because jsdom neither lays
+  // out nor resolves media queries. These pin the contract a consumer
+  // programs against, mirroring the canonical Preact assertions.
+
+  it('renders the sidebar preset as a class, not an inline template', () => {
+    // The column definition changes at a breakpoint and an inline style
+    // cannot carry a media query, so emitting one would produce a
+    // declaration the stylesheet then has to fight at every width.
+    const { container } = render(Grid, { props: { sidebar: true } })
+    const grid = container.querySelector('.strand-grid') as HTMLElement
+    expect(grid.classList.contains('strand-grid--sidebar')).toBe(true)
+    expect(grid.style.gridTemplateColumns).toBe('')
+  })
+
+  it('keeps the gap when the sidebar preset owns the columns', () => {
+    const { container } = render(Grid, { props: { sidebar: true, gap: 6 } })
+    const grid = container.querySelector('.strand-grid') as HTMLElement
+    expect(grid.style.gap).toBe('var(--strand-space-6)')
+  })
+
+  it('lets the sidebar preset win over columns and minColWidth', () => {
+    const { container } = render(Grid, {
+      props: { sidebar: true, columns: 4, minColWidth: 220 },
+    })
+    const grid = container.querySelector('.strand-grid') as HTMLElement
+    expect(grid.style.gridTemplateColumns).toBe('')
+  })
+
+  it('does not apply the preset unless asked', () => {
+    const { container } = render(Grid, { props: { columns: 2 } })
+    const grid = container.querySelector('.strand-grid') as HTMLElement
+    expect(grid.classList.contains('strand-grid--sidebar')).toBe(false)
+  })
 })

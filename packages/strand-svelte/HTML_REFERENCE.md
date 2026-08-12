@@ -465,6 +465,52 @@ Label + input + hint + error wrapper for form composition.
 
 ---
 
+### CalendarGrid
+
+A month laid out as a well plate: seven columns because a week has seven days, and as many rows as the month needs. Implements the well-plate production (design-language.md Part XI-B 11.10) and 10.6 Bounded Cells. A day is a BOUNDED cell -- its size comes from the structure rather than from its contents, so it declares a capacity and states the rest as a count, never clipping silently and never growing its row. NOT a 5.5 auto-fit grid: those reflow their column count to suit the content, which is right when the columns are a sequence and wrong here, because a week has seven days at every viewport. Keyboard: the ARIA grid pattern (14.5). The whole grid is ONE tab stop with a roving tabindex; arrows move by day and week, Home and End move within the week, PageUp and PageDown change month.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-calendar-grid` | base | Plate root, role="grid". Seven columns as minmax(0, 1fr) rather than 1fr, because a bare 1fr floors at the content's min-content width and one long unbroken word would widen its column and skew the plate. The 1px gap is the rule between cells, drawn by the container's background showing through, so no cell needs a border that would double at every shared edge. |
+| `strand-calendar-grid__header` | child | The column-axis row, role="row". display: contents so its cells land in the parent grid's columns while staying a semantic row. |
+| `strand-calendar-grid__week` | child | One week, role="row". Also display: contents, for the same reason. |
+| `strand-calendar-grid__axis` | child | A column heading, role="columnheader", in the overline pattern (4.7). Pair a visible abbreviation marked aria-hidden with the full weekday name in strand-sr-only: "Mon" read aloud is not a weekday, and abbr is only valid on <th> so it does nothing here. |
+| `strand-calendar-grid__day` | child | One well, role="gridcell". Fixed minimum height so every well is the same size and the reader can compare by position. Exactly one day carries tabindex="0"; the rest are -1, per the roving-tabindex pattern, because thirty-one tab stops would make the keyboard path through the page unusable. |
+| `strand-calendar-grid__day--adjacent` | child | A leading or trailing day from the neighbouring month. Present because a week does not stop at a month boundary; quieter because it is context rather than content. Its date takes gray-500, not gray-400: a date is text and owes 4.5:1 (14.2b). |
+| `strand-calendar-grid__day--today` | child | Today. A ring rather than a fill, so it composes with the selected state instead of fighting it -- a day can be both, and two backgrounds cannot express that. Pair with aria-current="date". |
+| `strand-calendar-grid__day--selected` | child | The chosen day. Pair with aria-selected="true". |
+| `strand-calendar-grid__date` | child | The day number, monospace with tabular numerals so the column of dates aligns. |
+| `strand-calendar-grid__content` | child | The day's items. Cannot expand the cell (10.6): a well past its capacity states a remainder rather than pushing its neighbours down. |
+| `strand-calendar-grid__remainder` | child | 10.6's stated remainder, e.g. "+3 more". A count the reader can act on, in place of content they would otherwise never know was there. Sits inside the reserved height rather than on top of it. |
+| `strand-calendar-grid--compact` | modifier | Compact density (Part XX). Padding and the cell floor shrink; type sizes and colours do not. |
+
+**Usage:**
+
+```html
+<div class="strand-calendar-grid" role="grid" aria-label="August 2026">
+  <div class="strand-calendar-grid__header" role="row">
+    <span class="strand-calendar-grid__axis" role="columnheader">
+      <span aria-hidden="true">Sun</span>
+      <span class="strand-sr-only">Sunday</span>
+    </span>
+    <!-- ...six more... -->
+  </div>
+
+  <div class="strand-calendar-grid__week" role="row">
+    <!-- Exactly one day in the whole grid carries tabindex="0". -->
+    <div class="strand-calendar-grid__day strand-calendar-grid__day--today"
+         role="gridcell" tabindex="0" aria-current="date" data-iso="2026-08-12">
+      <span class="strand-calendar-grid__date">12</span>
+      <div class="strand-calendar-grid__content">...</div>
+      <span class="strand-calendar-grid__remainder">+3 more</span>
+    </div>
+    <!-- ...six more... -->
+  </div>
+</div>
+```
+
+---
+
 ### Card
 
 Content container with elevation and padding variants.

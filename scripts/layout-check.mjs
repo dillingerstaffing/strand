@@ -452,6 +452,60 @@ export const LAYOUT_CASES = [
 		measure: { a: "#a", b: "#b" },
 		expect: [{ of: "b", equalsInlineSize: "a" }],
 	},
+	{
+		name: "the sidebar rail is 264px beside a flexible main track",
+		primitive: "Grid",
+		// The decision the library made three times privately and never
+		// published: .strand-ref-shell at 256px, .strand-ref-example at
+		// 200px, .strand-ref-taxonomy__list at 160px. The number is the
+		// whole primitive, so it is measured rather than asserted in prose.
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<div class="strand-grid strand-grid--sidebar" style="inline-size: 1000px">
+				<div id="rail">rail</div>
+				<div id="main">main</div>
+			</div>`,
+		measure: { rail: "#rail", main: "#main" },
+		expect: [
+			{ of: "rail", inlineSize: 264 },
+			// The main track absorbs the remainder rather than being a
+			// second fixed thing: 1000 minus the rail and the default gap.
+			{ of: "main", inlineSizeAtLeast: 700 },
+		],
+	},
+	{
+		name: "a long unbroken string in main does not push the rail off screen",
+		primitive: "Grid",
+		// Why minmax(0, 1fr) and not a bare 1fr. A bare 1fr floors at the
+		// track's min-content width, so one long token widens the whole
+		// grid and the rail loses its 264. The base rule's min-width: 0 on
+		// CHILDREN does not cover this: that handles the item, this handles
+		// the TRACK, and they are different things.
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<div class="strand-grid strand-grid--sidebar" style="inline-size: 1000px">
+				<div id="rail">rail</div>
+				<div id="main">Supercalifragilisticexpialidociousandthensomemoreletters_______________________</div>
+			</div>`,
+		measure: { rail: "#rail" },
+		expect: [{ of: "rail", inlineSize: 264 }],
+	},
+	{
+		name: "the rail stops being a rail below the md breakpoint",
+		primitive: "Grid",
+		// A 264px column beside anything at 390px leaves the main track
+		// unusable, so the grid becomes one column and the regions stack in
+		// source order. Measured at 390 rather than inferred from the
+		// media query, which jsdom cannot evaluate at all.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div class="strand-grid strand-grid--sidebar">
+				<div id="rail">rail</div>
+				<div id="main">main</div>
+			</div>`,
+		measure: { rail: "#rail", main: "#main" },
+		expect: [{ of: "main", equalsInlineSize: "rail" }],
+	},
 ];
 
 // ── Pure decision layer ──

@@ -15,6 +15,17 @@ export interface GridProps extends JSX.HTMLAttributes<HTMLDivElement> {
    * the component form of the `strand-grid--auto-*` utilities.
    */
   minColWidth?: number;
+  /**
+   * A fixed 264px rail beside a flexible main track, collapsing to one
+   * column below the md breakpoint. Takes precedence over `columns` and
+   * `minColWidth`, because a sidebar layout is a statement about the
+   * TRACKS rather than about how many of them there are.
+   *
+   * Put the rail FIRST in the markup: below the breakpoint the two
+   * regions stack in source order, and a filter the reader meets after
+   * the results it filters is one they have already scrolled past.
+   */
+  sidebar?: boolean;
 }
 
 /**
@@ -44,6 +55,7 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(
       columns = 1,
       gap = 4,
       minColWidth,
+      sidebar = false,
       className = "",
       style,
       children,
@@ -51,13 +63,27 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(
     },
     ref,
   ) => {
-    const classes = ["strand-grid", className].filter(Boolean).join(" ");
+    const classes = [
+      "strand-grid",
+      sidebar ? "strand-grid--sidebar" : "",
+      className,
+    ]
+      .filter(Boolean)
+      .join(" ");
 
+    // The sidebar preset lives in the stylesheet because its column
+    // definition changes at a breakpoint, and an inline style cannot
+    // carry a media query. So this branch emits no gridTemplateColumns at
+    // all rather than emitting one the class would then have to fight.
     const inlineStyle: Record<string, string> = {
-      gridTemplateColumns:
-        minColWidth != null
-          ? `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`
-          : `repeat(${columns}, 1fr)`,
+      ...(sidebar
+        ? {}
+        : {
+            gridTemplateColumns:
+              minColWidth != null
+                ? `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`
+                : `repeat(${columns}, 1fr)`,
+          }),
       gap: `var(--strand-space-${gap})`,
     };
 

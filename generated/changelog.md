@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- CalendarGrid; 10.6 bounded cells and the well-plate production (v0.39.0, gaps #75-#76)
 - TabBar and SearchTrigger; 19.1.1 settles which mobile nav a surface takes (v0.38.0, gaps #73-#74)
 - SearchField, responsive visibility, progress on dark (v0.37.0, gaps #69-#72)
 - strand-flex-none, the shrink-proof pair of flex-1 (v0.36.9)

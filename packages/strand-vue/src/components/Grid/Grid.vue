@@ -33,23 +33,47 @@ interface Props {
    * is ignored.
    */
   minColWidth?: number
+  /**
+   * A fixed 264px rail beside a flexible main track, collapsing to one
+   * column below the md breakpoint. Takes precedence over columns and
+   * minColWidth. Put the rail FIRST in the markup: below the breakpoint
+   * the regions stack in source order, and a filter met after the results
+   * it filters is one the reader has already scrolled past.
+   */
+  sidebar?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   columns: 1,
   gap: 4,
   className: '',
+  minColWidth: undefined,
+  sidebar: false,
 })
 
 const classes = computed(() =>
-  ['strand-grid', props.className].filter(Boolean).join(' '),
+  [
+    'strand-grid',
+    props.sidebar ? 'strand-grid--sidebar' : '',
+    props.className,
+  ]
+    .filter(Boolean)
+    .join(' '),
 )
 
+// The sidebar preset lives in the stylesheet because its column
+// definition changes at a breakpoint, and an inline style cannot carry a
+// media query. This branch emits no gridTemplateColumns at all rather
+// than one the class would then have to fight.
 const inlineStyle = computed(() => ({
-  gridTemplateColumns:
-    props.minColWidth != null
-      ? `repeat(auto-fit, minmax(${props.minColWidth}px, 1fr))`
-      : `repeat(${props.columns}, 1fr)`,
+  ...(props.sidebar
+    ? {}
+    : {
+        gridTemplateColumns:
+          props.minColWidth != null
+            ? `repeat(auto-fit, minmax(${props.minColWidth}px, 1fr))`
+            : `repeat(${props.columns}, 1fr)`,
+      }),
   gap: `var(--strand-space-${props.gap})`,
 }))
 </script>
