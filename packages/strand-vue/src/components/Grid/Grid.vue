@@ -41,6 +41,11 @@ interface Props {
    * it filters is one the reader has already scrolled past.
    */
   sidebar?: boolean
+  /** A flexible main track beside a fixed-width panel, collapsing to one
+      column below md. `sidebar` mirrored. Set the width with
+      --strand-split-panel (default 600px). Put the MAIN track first: the
+      regions stack in source order below the breakpoint. */
+  split?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -49,12 +54,14 @@ const props = withDefaults(defineProps<Props>(), {
   className: '',
   minColWidth: undefined,
   sidebar: false,
+  split: false,
 })
 
 const classes = computed(() =>
   [
     'strand-grid',
     props.sidebar ? 'strand-grid--sidebar' : '',
+    props.split ? 'strand-grid--split' : '',
     props.className,
   ]
     .filter(Boolean)
@@ -66,7 +73,7 @@ const classes = computed(() =>
 // media query. This branch emits no gridTemplateColumns at all rather
 // than one the class would then have to fight.
 const inlineStyle = computed(() => ({
-  ...(props.sidebar
+  ...(props.sidebar || props.split
     ? {}
     : {
         gridTemplateColumns:

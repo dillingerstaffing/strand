@@ -159,4 +159,25 @@ describe("Grid", () => {
     expect(grid.classList.contains("strand-grid--sidebar")).toBe(false);
     expect(grid.style.gridTemplateColumns).toBe("repeat(2, 1fr)");
   });
+
+  it("renders the split preset as a class, not an inline template", () => {
+    const { container } = render(<Grid split />);
+    const grid = container.querySelector(".strand-grid") as HTMLElement;
+    expect(grid.classList.contains("strand-grid--split")).toBe(true);
+    expect(grid.style.gridTemplateColumns).toBe("");
+  });
+
+  it("lets the split preset win over columns and minColWidth", () => {
+    const { container } = render(<Grid split columns={4} minColWidth={220} />);
+    expect(
+      (container.querySelector(".strand-grid") as HTMLElement).style.gridTemplateColumns,
+    ).toBe("");
+  });
+
+  it("does not apply the split preset unless asked", () => {
+    const { container } = render(<Grid columns={2} />);
+    expect(
+      container.querySelector(".strand-grid")?.classList.contains("strand-grid--split"),
+    ).toBe(false);
+  });
 });

@@ -125,4 +125,18 @@ describe('Grid', () => {
     const grid = container.querySelector('.strand-grid') as HTMLElement
     expect(grid.classList.contains('strand-grid--sidebar')).toBe(false)
   })
+
+  it('renders the split preset as a class, not an inline template', () => {
+    const { container } = render(Grid, { props: { split: true } })
+    const grid = container.querySelector('.strand-grid') as HTMLElement
+    expect(grid.classList.contains('strand-grid--split')).toBe(true)
+    expect(grid.style.gridTemplateColumns).toBe('')
+  })
+
+  it('does not apply the split preset unless asked', () => {
+    const { container } = render(Grid, { props: { columns: 2 } })
+    expect(
+      container.querySelector('.strand-grid')?.classList.contains('strand-grid--split'),
+    ).toBe(false)
+  })
 })

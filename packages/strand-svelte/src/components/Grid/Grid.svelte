@@ -32,13 +32,19 @@
    */
   export let sidebar: boolean = false
 
+  /** A flexible main track beside a fixed-width panel, collapsing to one
+      column below md. `sidebar` mirrored. Set the width with
+      --strand-split-panel (default 600px). Put the MAIN track first: the
+      regions stack in source order below the breakpoint. */
+  export let split: boolean = false
+
   /** Additional CSS class, MERGED with the component's own. Explicit prop
       rather than $$restProps, which spreads AFTER the class attribute and
       would REPLACE `strand-grid` outright. */
   let className: string = ''
   export { className as class }
 
-  $: classes = ['strand-grid', sidebar ? 'strand-grid--sidebar' : '', className]
+  $: classes = ['strand-grid', sidebar ? 'strand-grid--sidebar' : '', split ? 'strand-grid--split' : '', className]
     .filter(Boolean)
     .join(' ')
 
@@ -50,7 +56,7 @@
     minColWidth != null
       ? `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`
       : `repeat(${columns}, 1fr)`
-  $: inlineStyle = sidebar
+  $: inlineStyle = sidebar || split
     ? `gap: var(--strand-space-${gap});`
     : `grid-template-columns: ${gridTemplateColumns}; gap: var(--strand-space-${gap});`
 </script>

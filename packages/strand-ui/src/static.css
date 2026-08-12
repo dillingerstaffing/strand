@@ -1060,6 +1060,90 @@
 	white-space: nowrap;
 }
 
+/* ── Scroll row ──
+   A single row that scrolls sideways instead of wrapping. The mobile
+   filter strip, a chip rail, any horizontal set that must stay one line
+   at 390px.
+
+   `strand-stack--horizontal` + `strand-stack--wrap` is the obvious
+   composition and it is the wrong one: wrapping is precisely what this
+   must not do, because a filter strip that wraps to three lines pushes
+   the content it filters off the screen.
+
+   THE BEHAVIOUR ALREADY EXISTED AND NO CONSUMER COULD REACH IT.
+   `.strand-tabs [role="tablist"]` has carried exactly this since it was
+   written, with the reasoning in its own comment: keep the overflow
+   local so a wide row does not hand the whole document a horizontal
+   scrollbar, keep every child focusable in order, and scroll-snap for
+   the tactile feel. But it is selector-scoped to a role, so reaching it
+   from a filter strip means declaring `role="tablist"` on something that
+   is not a tablist -- announcing "tab 3 of 7" for a filter and promising
+   arrow-key panel switching that does not exist. Same shape as the
+   sidebar grid: the library decided, then scoped the decision where
+   nobody could use it.
+
+   IT SCROLLS RATHER THAN CLIPPING, and that is a deliberate divergence
+   from any mockup that specifies `overflow: hidden` with `nowrap`. A
+   filter the reader cannot reach is not a filter, and clipping hides
+   them with no affordance at all. Accessibility beats fidelity here.
+
+   Children must set `flex-shrink: 0` (or use `strand-flex-none`), or
+   they squeeze to fit and the row never scrolls. */
+.strand-scroll-row {
+	display: flex;
+	flex-wrap: nowrap;
+	overflow-x: auto;
+	/* Vertical overflow stays visible so a focus ring on a child is not
+	   clipped by the scrollport. `overflow-x: auto` alone would compute
+	   the other axis to `auto` as well. */
+	overflow-y: visible;
+	/* The row owns its own overscroll, so flicking to the end does not
+	   then drag the page behind it. */
+	overscroll-behavior-x: contain;
+	-webkit-overflow-scrolling: touch;
+	scroll-snap-type: x proximity;
+	/* A scrollbar under a 32px chip row is most of the row. The content
+	   is reachable by drag, wheel, and keyboard focus regardless. */
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.strand-scroll-row::-webkit-scrollbar {
+	display: none;
+}
+
+.strand-scroll-row > * {
+	flex-shrink: 0;
+	scroll-snap-align: start;
+}
+
+/* ── Sticky ──
+   A region that scrolls with the document until it reaches its offset,
+   then holds. The filter rail beside a result list, the day rail beside
+   a schedule, the commitment rail beside a long detail page.
+
+   The library had made this decision once, privately:
+   `.strand-ref-shell__sidebar` is `position: sticky` inside the
+   reference site's own shell, where no consumer can reach it. Publishing
+   it is the same move as the sidebar grid.
+
+   THE OFFSET IS A CUSTOM PROPERTY, not a set of utilities, because the
+   value a consumer needs is whatever their fixed chrome occupies, and
+   that is a number the library cannot know. It defaults to space-6.
+
+   READ THE NOTE ON `.strand-grid` BEFORE COMPOSING THESE. A sticky
+   element is positioned against its nearest scrollport, and any ancestor
+   with `overflow: hidden` becomes one. Inside such an ancestor the
+   element sticks to a box that never scrolls, which looks exactly like
+   sticky being ignored. This is the single commonest way the property
+   fails, and it fails silently. */
+.strand-sticky {
+	position: sticky;
+	inset-block-start: var(--strand-sticky-top, var(--strand-space-6));
+	/* Above ordinary content it scrolls past, below any fixed chrome. */
+	z-index: 1;
+}
+
 /* Reserves the space a fixed bottom tab bar occupies, so the last item of
    a list is not permanently underneath the navigation -- the defect every
    fixed bottom bar ships with. Applied to the SCROLLING CONTENT, not to

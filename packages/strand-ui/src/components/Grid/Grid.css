@@ -3,7 +3,21 @@
 /* ── Base ── */
 .strand-grid {
   display: grid;
-  overflow: hidden;
+
+  /* `clip`, not `hidden`, and the difference is not cosmetic.
+     Both clip a child to the content box, which is what 10.4 Boundary
+     Integrity asks for. But `hidden` also makes the element a SCROLL
+     CONTAINER, and a `position: sticky` descendant sticks to its nearest
+     scroll container -- so a sticky rail inside this grid stuck to a box
+     that never scrolls and scrolled away with the page. Measured before
+     the change: the rail held its 24px offset for 24px and was at -1176
+     by scroll offset 1200. `clip` creates no scroll container, so the
+     clipping is identical and sticky descendants work.
+
+     Found by the sidebar grid's own first consumer composition, which is
+     a filter rail beside a result list -- the exact thing this variant
+     was added for. */
+  overflow: clip;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -77,4 +91,44 @@
 	.strand-grid--sidebar {
 		grid-template-columns: 264px minmax(0, 1fr);
 	}
+}
+
+/* ── Split: a flexible main track beside a fixed panel ──
+   `--sidebar` mirrored. There the fixed track is on the left and narrow
+   (a filter rail); here it is on the right and wide (a map, a detail
+   panel, a commitment rail).
+
+   Measured against every other preset, which is why it is a preset
+   rather than a composition: at 1280 `--cols-2` gives two equal columns,
+   `--auto-lg` gives three, and `--sidebar` gives a 264px right-hand
+   track. At 390 only `--sidebar` and `--auto-lg` collapse correctly.
+   Nothing shipped produces "one flexible track and one fixed wide one".
+
+   AND `--cols-2` IS WRONG ON DESKTOP TOO, which is the part worth
+   stating because it would have shipped silently: a 1fr/600px split at
+   1440 gives 840 and 600, where two equal columns give 720 and 720. That
+   is a map 20% wider and a list 14% narrower than designed -- a parity
+   divergence that looks like a layout choice rather than a defect.
+
+   The panel width is a custom property because the two known consumers
+   want different numbers (600px for a map, 380px for a rail) and the
+   shape is identical. A second preset for a second number would be two
+   names for one idea.
+
+   `minmax(0, 1fr)` on the main track for the reason `--sidebar`
+   documents: a bare `1fr` floors at min-content, so one long unbroken
+   string widens the track and pushes the panel off screen.
+
+   Below md the panel stops being a panel and the two regions stack in
+   source order. The main track comes FIRST here, which is the opposite
+   of `--sidebar`: a map or a detail panel is what the list is ABOUT, so
+   it follows the thing it illustrates rather than preceding it. */
+.strand-grid--split {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 768px) {
+  .strand-grid--split {
+    grid-template-columns: minmax(0, 1fr) var(--strand-split-panel, 600px);
+  }
 }

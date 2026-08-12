@@ -30,6 +30,17 @@ import { fileURLToPath } from "node:url";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(HERE, "..");
 const CSS_PATH = resolve(REPO_ROOT, "packages/strand-ui/dist/css/strand-ui.css");
+// The tokens the component CSS is written against. Without them every
+// `var(--strand-*)` in a measured rule resolves to nothing, so the fixture
+// renders the library's declarations against undefined values and measures a
+// fallback. It went unnoticed because most cases assert a relationship
+// (equal heights, equal widths) that survives the substitution, or a literal
+// px value that never needed a token. It surfaced the first time a case
+// depended on a token for a POSITION: `.strand-sticky` sets
+// `inset-block-start: var(--strand-space-6)`, which resolved to nothing, and
+// `position: sticky` with no offset behaves like `position: relative`. The
+// primitive was correct and the harness was measuring it without its tokens.
+const TOKENS_PATH = resolve(REPO_ROOT, "packages/tokens/css/tokens.css");
 
 // Subpixel noise is layout reality, not a defect. A whole pixel is a real
 // shift, so the tolerance sits below one and above rounding.
@@ -506,6 +517,122 @@ export const LAYOUT_CASES = [
 		measure: { rail: "#rail", main: "#main" },
 		expect: [{ of: "main", equalsInlineSize: "rail" }],
 	},
+	{
+		name: "a sticky rail holds its offset while the document scrolls",
+		primitive: "Sticky",
+		// The whole contract. Measured under scroll rather than asserted,
+		// because at offset 0 a sticky element and a static one are
+		// indistinguishable -- which is exactly how a broken sticky ships.
+		viewport: { width: 1280, height: 900 },
+		scroll: { y: 1200 },
+		html: `
+			<div style="display:grid;grid-template-columns:264px minmax(0,1fr);gap:24px">
+				<div><div id="rail" class="strand-sticky">rail</div></div>
+				<div style="block-size: 4000px">main</div>
+			</div>`,
+		measure: { rail: "#rail" },
+		// space-6 is 24px. A rail that failed to stick would be at -1200.
+		expect: [
+			{ of: "rail", blockStartAtLeast: 20 },
+			{ of: "rail", blockStartAtMost: 28 },
+		],
+	},
+	{
+		name: "a sticky rail still holds inside the sidebar grid",
+		primitive: "Sticky",
+		// The composition its three consumers actually use, and the one
+		// that silently breaks: `.strand-grid` clips its children for
+		// boundary integrity (10.4), and `overflow: hidden` makes an
+		// ancestor the nearest scrollport, so a sticky descendant sticks to
+		// a box that never scrolls. `overflow: clip` clips identically and
+		// creates no scrollport, which is why the base rule uses it.
+		viewport: { width: 1280, height: 900 },
+		scroll: { y: 1200 },
+		html: `
+			<div class="strand-grid strand-grid--sidebar">
+				<div><div id="rail" class="strand-sticky">rail</div></div>
+				<div style="block-size: 4000px">main</div>
+			</div>`,
+		measure: { rail: "#rail" },
+		expect: [
+			{ of: "rail", blockStartAtLeast: 20 },
+			{ of: "rail", blockStartAtMost: 28 },
+		],
+	},
+	{
+		name: "a scroll row keeps its children at full width instead of wrapping",
+		primitive: "ScrollRow",
+		// The failure this exists to prevent, at the width it happens: eight
+		// chips in a 390px row either wrap to three lines and push the
+		// content off screen, or squeeze until their labels are unreadable.
+		// Neither is a filter strip.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div class="strand-scroll-row" style="gap:8px">
+				<span id="first" class="strand-tag">All channels</span>
+				<span class="strand-tag">Outdoors</span>
+				<span class="strand-tag">Making</span>
+				<span class="strand-tag">Games</span>
+				<span class="strand-tag">Music</span>
+				<span class="strand-tag">Food</span>
+				<span class="strand-tag">Books</span>
+				<span id="last" class="strand-tag">Cycling</span>
+			</div>`,
+		measure: { first: "#first", last: "#last" },
+		// One line: every child shares the first child's block-start. A
+		// wrapped row would put the last chip a row lower.
+		expect: [{ of: "last", equalsBlockStart: "first" }],
+	},
+	{
+		name: "the split panel is 600px beside a flexible main track",
+		primitive: "Grid",
+		// Measured against the preset that would otherwise have been used:
+		// --cols-2 at 1440 gives 720/720, where the design is 840/600. That
+		// is a panel 20% wider and a main track 14% narrower than designed,
+		// which reads as a layout choice rather than a defect.
+		viewport: { width: 1440, height: 900 },
+		html: `
+			<div class="strand-grid strand-grid--split" style="inline-size: 1440px; gap: 0">
+				<div id="main">main</div>
+				<div id="panel">panel</div>
+			</div>`,
+		measure: { main: "#main", panel: "#panel" },
+		expect: [
+			{ of: "panel", inlineSize: 600 },
+			{ of: "main", inlineSize: 840 },
+		],
+	},
+	{
+		name: "the split panel width is driven by its custom property",
+		primitive: "Grid",
+		// One shape, two consumers, two numbers: 600 for a map and 380 for a
+		// commitment rail. A second preset for the second number would be
+		// two names for one idea.
+		viewport: { width: 1440, height: 900 },
+		html: `
+			<div class="strand-grid strand-grid--split"
+			     style="inline-size: 1440px; gap: 0; --strand-split-panel: 380px">
+				<div id="main">main</div>
+				<div id="panel">panel</div>
+			</div>`,
+		measure: { main: "#main", panel: "#panel" },
+		expect: [
+			{ of: "panel", inlineSize: 380 },
+			{ of: "main", inlineSize: 1060 },
+		],
+	},
+	{
+		name: "the split panel stops being a panel below the md breakpoint",
+		primitive: "Grid",
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div class="strand-grid strand-grid--split">
+				<div id="main">main</div>
+				<div id="panel">panel</div>
+			</div>`,
+		measure: { main: "#main", panel: "#panel" },
+		expect: [{ of: "panel", equalsInlineSize: "main" }],
+	},
 ];
 
 // ── Pure decision layer ──
@@ -810,7 +937,7 @@ async function main() {
 	let css;
 	let builtStat;
 	try {
-		css = await readFile(CSS_PATH, "utf8");
+		css = `${await readFile(TOKENS_PATH, "utf8")}\n${await readFile(CSS_PATH, "utf8")}`;
 		builtStat = await stat(CSS_PATH);
 	} catch {
 		console.error(

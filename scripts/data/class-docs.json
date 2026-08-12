@@ -780,6 +780,10 @@
 				{
 					"class": "strand-grid--sidebar",
 					"description": "A fixed 264px rail beside a flexible main track, collapsing to one column below the md breakpoint. Use for a filter rail beside a results area: it is not two equal halves, so --cols-2 is wrong, and the column COUNT is not what should vary, so auto-fit is wrong. The main track is minmax(0, 1fr) rather than 1fr, because a bare 1fr floors at the track's min-content width and one long unbroken string would widen the grid and push the rail off screen; the base rule's min-width:0 handles the ITEM, this handles the TRACK. Put the rail FIRST in the markup: below the breakpoint the regions stack in source order, and a filter met after the results it filters is one the reader has already scrolled past."
+				},
+				{
+					"class": "strand-grid--split",
+					"description": "A flexible main track beside a fixed-width panel, collapsing to one column below md. strand-grid--sidebar mirrored: there the fixed track is narrow and on the left, here it is wide and on the right. Panel width is --strand-split-panel (default 600px), a custom property because the known consumers want 600 for a map and 380 for a rail and the shape is identical. Do NOT reach for --cols-2 instead: at 1440 it gives 720/720 where a 1fr/600px split gives 840/600, making the panel 20% wider and the main track 14% narrower than designed. Put the MAIN track first: below the breakpoint the regions stack in source order, and a map or detail panel is what the list is about."
 				}
 			],
 			"example": "<div class=\"strand-grid strand-grid--cols-3 strand-grid--gap-4\">\n  <div>Cell 1</div>\n  <div>Cell 2</div>\n  <div>Cell 3</div>\n</div>"
@@ -2765,6 +2769,14 @@
 			{
 				"class": "strand-tabbar-offset",
 				"description": "Reserves the space a fixed bottom tab bar occupies, so the last item of a list is not permanently underneath the navigation. Applied to the SCROLLING CONTENT, not to the bar, which is why it is a utility rather than part of the component. Shares one token with the bar so a taller bar cannot outgrow its reservation."
+			},
+			{
+				"class": "strand-sticky",
+				"description": "A region that scrolls with the document until it reaches its offset, then holds: a filter rail beside a result list, a day rail beside a schedule, a commitment rail beside a long detail page. Offset is --strand-sticky-top (default space-6), a custom property rather than a set of utilities because the value a consumer needs is whatever their fixed chrome occupies. CAUTION: a sticky element is positioned against its nearest scrollport, and ANY ancestor with overflow: hidden becomes one, so the element sticks to a box that never scrolls and looks exactly like sticky being ignored. strand-grid uses overflow: clip for this reason; clip clips identically and creates no scrollport."
+			},
+			{
+				"class": "strand-scroll-row",
+				"description": "A single row that scrolls sideways instead of wrapping: a mobile filter strip, a chip rail, any horizontal set that must stay one line at 390px. strand-stack--horizontal plus strand-stack--wrap is the obvious composition and the wrong one, because wrapping is precisely what this must not do. It SCROLLS rather than clipping, which is a deliberate divergence from any mockup specifying overflow: hidden with nowrap: a filter the reader cannot reach is not a filter. Children get flex-shrink: 0 and scroll-snap-align automatically, so they keep their label width and the row scrolls instead of squeezing. Scrollbar hidden; content stays reachable by drag, wheel and keyboard focus."
 			}
 		]
 	}

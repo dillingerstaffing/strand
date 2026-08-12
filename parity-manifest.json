@@ -100,17 +100,17 @@
 				"gzipped_bytes": 4582
 			},
 			"strand-ui.css": {
-				"raw_bytes": 287368,
-				"gzipped_bytes": 67231
+				"raw_bytes": 293681,
+				"gzipped_bytes": 69696
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 326701,
-		"total_gz_bytes": 79812,
-		"total_gz_kb": 78
+		"total_raw_bytes": 333014,
+		"total_gz_bytes": 82277,
+		"total_gz_kb": 80
 	},
 	"foreignBlocks": {
 		"Button": [
