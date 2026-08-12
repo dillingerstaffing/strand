@@ -2052,7 +2052,7 @@ A design language that appeals to only one group spreads within that tribe but d
 | Developer Tribe | What They See | Why They Adopt |
 |---|---|---|
 | Craft-driven | The biosynthetic aesthetic, typography, motion | "Most distinctive design system I've seen" |
-| Engineering-driven | Zero-runtime CSS, <50KB, performance budgets, token architecture | "Technically superior to CSS-in-JS alternatives" |
+| Engineering-driven | Zero-runtime CSS, a gated size budget, performance budgets, token architecture | "Technically superior to CSS-in-JS alternatives" |
 | Pragmatism-driven | 5-minute setup, copy-paste, good defaults, clear docs | "Just works and looks great out of the box" |
 
 The same system, three different value propositions, no contradiction. This is maximal tribal reach.
@@ -2097,9 +2097,31 @@ Every artifact produced by this design language carries provenance metadata in s
 | INP | < 50ms | Minimal JS + GPU compositing |
 | CLS | < 0.05 | Automated test assertion |
 | TBT | < 150ms | Automated test assertion |
-| Total library size | < 50KB gzipped | Build step validation |
+| Total artifact | < 85KB gzipped | `pnpm test:bundle-budget` |
+| CSS per component | < 1.35KB gzipped | `pnpm test:bundle-budget` |
+| CSS in any one component | < 12KB gzipped | `pnpm test:bundle-budget` |
 | Animation framerate | 60fps | Transform-only animations |
 | RAIL response budget | JS tasks < 50ms | Architecture constraint |
+
+#### 16.1.1 Why the size budget is two numbers
+
+This entry read "Total library size, < 50KB gzipped, **Build step validation**" and both halves were wrong at once. No build step validated it, and the artifact had reached **78KB**. The measurement was being taken on every release and written into the manifest, and nothing compared it to anything.
+
+**The number was not exceeded by carelessness.** Measured: the CSS bundle is about **1.11KB gzipped per component**. At the 31 components the library had when 50KB was written, that same efficiency produces roughly 47KB, which is under the old budget. The library did not become wasteful; it became larger. A 59-component library cannot be 50KB at any plausible efficiency, so the old figure had quietly become a cap on how many components could exist.
+
+That is the case for splitting it:
+
+- **The total** is what a consumer downloads, so it stays, honestly stated, as a ceiling that must be raised deliberately rather than drifted past.
+- **The per-component average** is what says whether the library is still efficient, and it is the number that stays flat as the library grows. It catches systemic drift: every component growing by a third is invisible in a total that was raised last month.
+- **The single-component ceiling** catches the one failure neither of the others can. This entry exists because the average was first claimed to catch it and does not: 12KB of sloppy CSS in one component, divided across 59 others, moves the average from 1.11 to 1.29 and passes a 1.35 limit. **Averages hide outliers**, which is what outlier checks are for. The claim was tested, found false, and the budget gained a number rather than the claim being quietly softened.
+
+The three readings fail on three different things, which is the test for whether a budget needs more than one number: a total catches unbounded growth, an average catches systemic drift, and a maximum catches one careless component. Any reading that cannot fail on something the others catch is not earning its place.
+
+**Today's largest component is a symptom, not a baseline.** `InstrumentViewport` is 11.2KB because it still contains nine class families that belong in components of their own. The 12KB ceiling admits it and nothing more; it is expected to fall when that debt is paid, and lowering it is part of paying it.
+
+**The CSS figure is the per-page cost, not merely an artifact size.** The stylesheet is concatenated from every component and cannot be tree-shaken, so a consumer importing three components downloads all of it. The JavaScript entry does tree-shake, which is why it is not budgeted separately: a consumer pays for what it imports. The lever that would genuinely reduce the CSS number is per-component entry points, which this library does not have; recording that here is more honest than a budget that implies the number is already minimal.
+
+**Raising either number is an edit in the same commit as the change that needs it, with the reason.** A budget revised on its own, in a commit about revising budgets, is a budget being retired.
 
 ### 16.2 Accessibility Compliance
 
@@ -2155,7 +2177,7 @@ Every component must satisfy ALL of the following before it is considered comple
 |---|---|---|
 | Aesthetic identity | Generic (recognizable as parent corporation) | Specific niche (biosynthetic laboratory) |
 | Runtime cost | CSS-in-JS, computes styles per render | Zero-runtime CSS custom properties |
-| Bundle size | 300KB+ | Target: <50KB gzipped |
+| Bundle size | 300KB+ | 78KB gzipped for 59 components, ~1.1KB each (16.1) |
 | Framework dependency | Single framework only | Framework-agnostic tokens; Preact/React components |
 | Performance specification | No specific budgets | Specific budgets enforced as automated tests |
 | Named principles | Generic, untestable | 10 named, testable, memorable principles |
@@ -2171,8 +2193,8 @@ Every component must satisfy ALL of the following before it is considered comple
 | Property | Enterprise Libraries | Strand |
 |---|---|---|
 | Aesthetic ambition | Corporate/enterprise | Biosynthetic laboratory |
-| Component count | 60+ at varying quality | 31 (each flawless) |
-| Bundle size | 1MB+ | <50KB gzipped |
+| Component count | 60+ at varying quality | 59 (each flawless) |
+| Bundle size | 1MB+ | 78KB gzipped, budgeted and gated (16.1) |
 | Motion philosophy | Basic (generic ease-in-out) | Specific easings per context (expo for enter, quart for general) |
 | Typography as design | Standard (14px base, generic weights) | Core mechanism (weight hierarchy + monospace labels IS the design) |
 | Organizing metaphor | None (abstract values) | The laboratory (concrete, functional, constraining) |

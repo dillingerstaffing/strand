@@ -5,30 +5,67 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.41.0] - 2026-08-12
+
+### Added
+- map primitives as components; fixedWeeks; the spec gets a contrast gate (v0.41.0, gaps #79-#83)
+
+## [0.40.0] - 2026-08-12
 
 ### Added
 - grid sidebar preset; correct 7 fill-tier-as-text prescriptions in the DL (v0.40.0, gaps #77-#78)
+
+## [0.39.0] - 2026-08-12
+
+### Added
 - CalendarGrid; 10.6 bounded cells and the well-plate production (v0.39.0, gaps #75-#76)
+
+## [0.38.0] - 2026-08-12
+
+### Added
 - TabBar and SearchTrigger; 19.1.1 settles which mobile nav a surface takes (v0.38.0, gaps #73-#74)
 - SearchField, responsive visibility, progress on dark (v0.37.0, gaps #69-#72)
-- strand-flex-none, the shrink-proof pair of flex-1 (v0.36.9)
-- strand-truncate utility, single-line ellipsis (v0.36.8)
-- every shipped component has a test, and ActionDock stops losing its class in Svelte (v0.36.4, gap #68)
-
-### Changed
-- pnpm release, the whole ceremony in one command
 
 ### Fixed
 - commit SearchField's source, which v0.37.0 exported and never shipped
 - release ceremony can bump a minor; SearchField is (v0.37.0), not a patch
+
+## [0.36.9] - 2026-08-11
+
+### Added
+- strand-flex-none, the shrink-proof pair of flex-1 (v0.36.9)
+
+## [0.36.8] - 2026-08-11
+
+### Added
+- strand-truncate utility, single-line ellipsis (v0.36.8)
+
+### Changed
+- pnpm release, the whole ceremony in one command
+
+## [0.36.7] - 2026-08-11
+
+### Fixed
 - dialog focus moves without moving the page (v0.36.7)
-- the palette sheds Dialog's prose padding and its orphan close button (v0.36.6)
-- the scroll lock stops trusting an inert gutter, and the palette drops to instrument scale (v0.36.5)
 
 ### Documentation
 - component-count markers 49 to 51 (same build:docs refresh; ActionDock and CommandPalette were missing from every count surface)
 - refresh generated reference and changelog to HEAD (stale since 0.34.0; CI regenerated at publish so npm was fresh while the tree lied)
+
+## [0.36.6] - 2026-08-11
+
+### Fixed
+- the palette sheds Dialog's prose padding and its orphan close button (v0.36.6)
+
+## [0.36.5] - 2026-08-11
+
+### Fixed
+- the scroll lock stops trusting an inert gutter, and the palette drops to instrument scale (v0.36.5)
+
+## [0.36.4] - 2026-08-11
+
+### Added
+- every shipped component has a test, and ActionDock stops losing its class in Svelte (v0.36.4, gap #68)
 
 ## [0.36.3] - 2026-08-11
 

@@ -22,7 +22,7 @@ import { gzipSync } from "node:zlib";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
 
-const ARTIFACTS = [
+export const ARTIFACTS = [
 	["tokens.css", "packages/tokens/css/tokens.css"],
 	["reset.css", "packages/tokens/css/reset.css"],
 	["base.css", "packages/tokens/css/base.css"],
@@ -30,7 +30,7 @@ const ARTIFACTS = [
 	["strand-ui.js", "packages/strand-ui/dist/vanilla/strand-ui.js"],
 ];
 
-function measure() {
+export function measure() {
 	const files = {};
 	let totalRaw = 0;
 	let totalGz = 0;
@@ -59,4 +59,10 @@ function main() {
 	);
 }
 
-main();
+// Guarded so importing this module for `measure()` does not WRITE the
+// manifest as a side effect. Without it, the budget gate rewrote the file
+// it was about to read -- which would have made a stale manifest impossible
+// to detect, because reading it always refreshed it first.
+if (process.argv[1] && process.argv[1].endsWith("measure-bundle.mjs")) {
+	main();
+}
