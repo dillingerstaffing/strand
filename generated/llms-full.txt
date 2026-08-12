@@ -1290,11 +1290,15 @@ The second dark surface role (design-language.md 9.3): a single element promoted
 | `strand-feature-surface` | base | Feature surface root. Paints blue-midnight with the instrument border and carries a text cascade one rung lighter than the instrument viewport's: overlines and the quiet tier take gray-300 (7.46), secondary text gray-200 (8.98), headlines and values white (11.00), accent overlines blue-indicator (6.44). A meter's fill stays blue-primary, which is a graphical object at 3:1 and correct at 3.34 where it would fail as a word. |
 | `strand-headline` | base | |
 | `strand-title` | base | |
+| `strand-heading--sm` | modifier | |
+| `strand-lead` | base | |
+| `strand-heading` | base | |
+| `strand-value--positive` | modifier | |
+| `strand-value--negative` | modifier | |
 | `strand-overline` | base | |
 | `strand-overline--accent` | modifier | |
 | `strand-text-secondary` | base | |
 | `strand-text-secondary--xs` | modifier | |
-| `strand-lead` | base | |
 | `strand-kv__label` | child | |
 | `strand-kv__value` | child | |
 | `strand-kv__value--status` | child | |
@@ -1427,6 +1431,12 @@ Dark instrument panel container for data-dense content.
 | `strand-text-secondary--xs` | modifier | |
 | `strand-overline` | base | |
 | `strand-overline--accent` | modifier | |
+| `strand-heading` | base | |
+| `strand-heading--sm` | modifier | |
+| `strand-title` | base | |
+| `strand-lead` | base | |
+| `strand-value--positive` | modifier | |
+| `strand-value--negative` | modifier | |
 | `strand-log__time` | child | |
 | `strand-bar-chart__label` | child | |
 | `strand-log__text` | child | |
@@ -5464,6 +5474,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- FeatureSurface, and 9.3 admits two dark surface roles (v0.44.0, gap #88)
 - sticky, scroll-row and the split grid; overflow:clip so sticky works inside a grid (v0.43.0, gaps #85-#87)
 - the size budget becomes three gated numbers (v0.42.0, gap #84)
 
@@ -6064,12 +6075,13 @@ pnpm lint        # Lint all files
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |
-| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:motion` |
+| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion` |
 | `pnpm test:browser-preflight` | `node scripts/browser-preflight.mjs` |
 | `pnpm test:bundle-budget` | `node scripts/bundle-budget-check.mjs` |
 | `pnpm test:component-test-parity` | `node scripts/component-test-parity.mjs` |
 | `pnpm test:contrast` | `node scripts/contrast-check.mjs` |
 | `pnpm test:css-export-parity` | `node scripts/css-export-parity.mjs` |
+| `pnpm test:dark-composition` | `node scripts/dark-composition-check.mjs` |
 | `pnpm test:doc-contrast` | `node scripts/doc-contrast-check.mjs` |
 | `pnpm test:layout` | `node scripts/layout-check.mjs` |
 | `pnpm test:migration-staleness` | `node scripts/migration-staleness.mjs` |

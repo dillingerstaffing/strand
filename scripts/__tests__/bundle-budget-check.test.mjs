@@ -127,12 +127,19 @@ describe("BUDGET", () => {
 		const perComponent = TODAY.cssGzBytes / TODAY.componentCount / 1024;
 		expect(BUDGET.totalGzKb).toBeLessThan(totalKb * 1.25);
 		expect(BUDGET.cssKbPerComponent).toBeLessThan(perComponent * 1.5);
-		// The largest-component ceiling sits just above InstrumentViewport's
-		// 11.2 KB, which is a symptom of its nine unextracted foreign blocks
-		// rather than a baseline. This assertion is what makes lowering the
-		// ceiling part of paying that debt: extract them and this fails until
-		// somebody lowers it.
-		expect(BUDGET.cssKbLargestComponent).toBeLessThan(11.2 * 1.15);
+		// The largest-component ceiling tracks InstrumentViewport, which is a
+		// symptom of its nine unextracted foreign blocks rather than a
+		// baseline. This assertion is what keeps the ceiling near the
+		// measurement in BOTH directions: extract the blocks and it fails
+		// until somebody lowers it, and raise it carelessly and it fails now.
+		//
+		// The anchor moved 11.2 -> 12.11 when the dark cascade gained the
+		// heading, lead, title, link and value roles after a card shipped at
+		// 1.23:1. It fired on that change, which is why the raise is
+		// documented in BUDGET rather than silent. Anchor updated rather than
+		// the ratio loosened: widening the tolerance would retire the guard
+		// while appearing to keep it.
+		expect(BUDGET.cssKbLargestComponent).toBeLessThan(12.11 * 1.15);
 	});
 });
 

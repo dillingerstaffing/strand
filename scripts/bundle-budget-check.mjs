@@ -74,12 +74,25 @@ export const BUDGET = {
   // across 59 others, moves the average to 1.29 and passes a 1.35 ceiling.
   // Averages hide outliers, which is the whole reason outlier checks exist.
   //
-  // Today's largest is InstrumentViewport at ~11.2 KB, and that figure is a
-  // symptom rather than a baseline: it still contains nine foreign blocks
-  // (the search overlay, the detail panel, the map pins and others) that
-  // belong in components of their own. This ceiling is expected to FALL when
-  // that debt is paid, and lowering it then is part of paying it.
-  cssKbLargestComponent: 12,
+  // RAISED 12 -> 13 on 2026-08-12, in the commit that needed it, per the
+  // rule below. The cause was an accessibility fix: the dark cascade gained
+  // heading, lead, title, link and semantic-value roles after a shipped card
+  // rendered its heading at 1.23:1, which cost InstrumentViewport about
+  // 0.95 KB gzipped and took it from 11.16 to 12.11.
+  //
+  // THE GATE DID ITS JOB AND THE DIRECTION IS STILL WRONG. The previous
+  // entry said this ceiling was "expected to FALL when that debt is paid",
+  // and it has now gone up instead. InstrumentViewport is the largest
+  // component because it still holds NINE class families that are not its
+  // own -- the search overlay, the detail panel, the map pins, the cluster
+  // marker and the rest. Every accessibility rule the cabinet needs lands on
+  // top of that. So the number is not measuring one component; it is
+  // measuring nine, and a ceiling that has to be raised to accommodate an
+  // a11y fix is a ceiling measuring the wrong thing.
+  //
+  // Extracting those nine is no longer a tidy-up item. It is the thing
+  // standing between this reading and meaning anything.
+  cssKbLargestComponent: 13,
 };
 
 // ── Pure decision layer ─────────────────────────────────────────────────

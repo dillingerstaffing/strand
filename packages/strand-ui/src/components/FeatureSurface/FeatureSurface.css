@@ -47,6 +47,50 @@
 
 /* gray-300 at 7.46, where the instrument uses gray-400. gray-400
    measures 4.36 here and an overline is text. */
+/* Headings and values. The instrument cascade shipped without these and
+   a heading rendered ~1.2:1 on the live site; this surface had the
+   identical hole, and the focal card was about to swap onto it, which
+   would have moved the defect into the single most prominent element in
+   the product rather than fixing it. */
+.strand-feature-surface .strand-heading--sm,
+.strand-feature-surface .strand-lead {
+  color: var(--strand-on-blue-primary);
+}
+
+/* Targeted by the MODIFIER: `.strand-heading--sm` ships without a base
+   class and no `.strand-heading` rule exists, so a cascade written against
+   the base matches nothing. */
+
+/* Semantic values, and the rung is the TINT rather than the mid-tone.
+   Measured every member of both families against midnight: nothing in
+   between works. teal-vital is 4.42 and green-positive 4.34, both just
+   under; every -deep and -vivid is worse, because they were derived to sit
+   on a LIGHT ground. The only members that clear 4.5 while still reading
+   as their hue are the tints -- teal-tint at 9.76 and red-tint at 10.05.
+
+   That is the tier logic pointed the other way, and it is worth stating as
+   a rule rather than a lookup: on a light ground a hue goes DEEP to gain
+   contrast, and on a dark ground it goes to its TINT. The abyss does not
+   need this because it is dark enough for the mid-tones (teal-vital is
+   7.07 there); midnight is the lighter dark, which is precisely why it is
+   a separate role and not a shade.
+
+   !important for the same reason as the instrument cascade: the base
+   utilities carry it so the tone beats a host component (Gap #44), and
+   between two rules both claiming that, the surface is the one that knows
+   what is legible. */
+.strand-feature-surface .strand-value--positive {
+  color: var(--strand-teal-tint) !important;
+}
+
+.strand-feature-surface .strand-value--negative {
+  color: var(--strand-red-tint) !important;
+}
+
+.strand-feature-surface .strand-link--mono {
+  color: var(--strand-blue-indicator);
+}
+
 .strand-feature-surface .strand-overline {
   color: var(--strand-gray-300);
 }

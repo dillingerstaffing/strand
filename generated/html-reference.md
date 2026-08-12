@@ -731,11 +731,15 @@ The second dark surface role (design-language.md 9.3): a single element promoted
 | `strand-feature-surface` | base | Feature surface root. Paints blue-midnight with the instrument border and carries a text cascade one rung lighter than the instrument viewport's: overlines and the quiet tier take gray-300 (7.46), secondary text gray-200 (8.98), headlines and values white (11.00), accent overlines blue-indicator (6.44). A meter's fill stays blue-primary, which is a graphical object at 3:1 and correct at 3.34 where it would fail as a word. |
 | `strand-headline` | base | |
 | `strand-title` | base | |
+| `strand-heading--sm` | modifier | |
+| `strand-lead` | base | |
+| `strand-heading` | base | |
+| `strand-value--positive` | modifier | |
+| `strand-value--negative` | modifier | |
 | `strand-overline` | base | |
 | `strand-overline--accent` | modifier | |
 | `strand-text-secondary` | base | |
 | `strand-text-secondary--xs` | modifier | |
-| `strand-lead` | base | |
 | `strand-kv__label` | child | |
 | `strand-kv__value` | child | |
 | `strand-kv__value--status` | child | |
@@ -868,6 +872,12 @@ Dark instrument panel container for data-dense content.
 | `strand-text-secondary--xs` | modifier | |
 | `strand-overline` | base | |
 | `strand-overline--accent` | modifier | |
+| `strand-heading` | base | |
+| `strand-heading--sm` | modifier | |
+| `strand-title` | base | |
+| `strand-lead` | base | |
+| `strand-value--positive` | modifier | |
+| `strand-value--negative` | modifier | |
 | `strand-log__time` | child | |
 | `strand-bar-chart__label` | child | |
 | `strand-log__text` | child | |

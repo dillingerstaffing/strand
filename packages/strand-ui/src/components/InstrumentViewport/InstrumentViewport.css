@@ -95,6 +95,67 @@
   color: var(--strand-gray-400);
 }
 
+/* ── Headings and values, on dark (DL 9.3) ──
+   SHIPPED DEFECT, found on the live site rather than by a gate: the
+   hero card's "SHIP 001" rendered gray-800 (#1E2B3B) on the abyss
+   (#0F192A), about 1.2:1 -- a heading that was very nearly invisible on
+   the most prominent card in the product.
+
+   The cascade below it covers nine text roles and was verified for all
+   of them. `.strand-heading` was simply not in the set anybody
+   enumerated, so it kept its light-surface colour and fell through in
+   silence. That is why the compositional check now exists: this class is
+   CORRECT on its own surface, so a per-declaration audit passes it, and
+   the failing pair only comes into existence when a consumer puts the
+   heading inside a dark card. Contrast is a property of a PAIRING, and a
+   pairing that is created by composition cannot be found by reading
+   declarations. */
+.strand-body--instrument .strand-heading--sm,
+.strand-instrument-viewport .strand-heading--sm,
+.strand-body--instrument .strand-title,
+.strand-instrument-viewport .strand-title,
+.strand-body--instrument .strand-lead,
+.strand-instrument-viewport .strand-lead {
+  color: var(--strand-on-blue-primary);
+}
+
+/* The heading tier is targeted by its MODIFIER, not by a base class, and
+   that is not a style choice. `.strand-heading--sm` is written without
+   `.strand-heading` throughout, and no `.strand-heading` rule exists to
+   inherit from -- the modifier IS the class. A cascade written against the
+   base matches nothing.
+
+   Recorded because I got it wrong first: the fix targeted `.strand-heading`
+   and looked complete, and the compositional check measured it still at
+   1.23:1. A cascade is only as correct as the selectors consumers actually
+   ship, and reading the fix cannot tell you that. */
+
+/* These carry !important, which is not an escalation war: the base
+   utilities carry it too, deliberately, so the semantic tone wins over a
+   host component's own colour (Gap #44). That contract did not anticipate
+   a dark ground. Both rules are saying "beat the component", and between
+   them the SURFACE is the one that knows what is actually legible, so the
+   surface wins. Without the marker here the light-surface tone survives
+   onto the abyss at 2.7:1 and onto midnight at 1.7:1.
+
+   The tone is preserved, only its rung changes: positive stays green-family
+   and negative stays red-family, so the meaning a reader takes from the
+   colour is unchanged. */
+.strand-body--instrument .strand-value--positive,
+.strand-instrument-viewport .strand-value--positive {
+  color: var(--strand-teal-vital) !important;
+}
+
+.strand-body--instrument .strand-value--negative,
+.strand-instrument-viewport .strand-value--negative {
+  color: var(--strand-red-alert) !important;
+}
+
+.strand-body--instrument .strand-link--mono,
+.strand-instrument-viewport .strand-link--mono {
+  color: var(--strand-blue-indicator);
+}
+
 /* ── Progress, on dark (DL 9.3) ──
    The bar's track is gray-200, which is correct on a light card and
    inverted on the cabinet: a near-white bar reading as FULL, with the
