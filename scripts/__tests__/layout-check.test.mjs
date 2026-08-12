@@ -510,3 +510,65 @@ describe("the shipped case set", () => {
 		expect(widths.size).toBeGreaterThan(1);
 	});
 });
+
+// ── Inline-axis assertion kinds ──
+//
+// Added because the rect was already measuring inlineSize and nothing could
+// assert on it, so every claim about width was either smuggled in as a claim
+// about height or simply left untested. 14.7 is a 44x44 rule and only one of
+// those numbers was checkable: a touch target 44px tall and 12px wide passed.
+//
+// The MISMATCH cases below are the load-bearing ones. Every case in the real
+// set passes, so the failure branch of a cross-subject comparison is never
+// executed by `pnpm test:layout` -- a stale variable reference lived there
+// through a fully green run and was found only by a negative control. These
+// pin all three prose branches so that cannot happen again.
+
+describe("inline-axis assertions", () => {
+	const M = {
+		a: { blockSize: 36, inlineSize: 300, blockStart: 0, blockEnd: 36 },
+		b: { blockSize: 40, inlineSize: 250, blockStart: 10, blockEnd: 50 },
+	};
+	const run = (expect) =>
+		evaluateCase({ primitive: "X", name: "c", expect }, M).failures;
+
+	it("accepts an exact inline-size and rejects a wrong one", () => {
+		expect(run([{ of: "a", inlineSize: 300 }])).toEqual([]);
+		expect(run([{ of: "a", inlineSize: 299 }])).toHaveLength(1);
+	});
+
+	it("enforces an inline-size floor, which is 14.7's second dimension", () => {
+		expect(run([{ of: "a", inlineSizeAtLeast: 44 }])).toEqual([]);
+		expect(run([{ of: "b", inlineSizeAtLeast: 400 }])).toHaveLength(1);
+	});
+
+	it("enforces an inline-size ceiling", () => {
+		expect(run([{ of: "a", inlineSizeAtMost: 300 }])).toEqual([]);
+		expect(run([{ of: "a", inlineSizeAtMost: 100 }])).toHaveLength(1);
+	});
+
+	it("compares two subjects' widths", () => {
+		expect(run([{ of: "a", equalsInlineSize: "a" }])).toEqual([]);
+		expect(run([{ of: "a", equalsInlineSize: "b" }])).toHaveLength(1);
+	});
+
+	// One per field, because the message is selected by field and a wrong
+	// selection is invisible until someone reads a failure they did not expect.
+	it("names the right axis in each cross-subject failure", () => {
+		expect(run([{ of: "a", equalsInlineSize: "b" }])[0]).toContain(
+			"must be the same width",
+		);
+		expect(run([{ of: "a", equalsBlockStart: "b" }])[0]).toContain(
+			"must sit at the same block-start",
+		);
+		expect(run([{ of: "a", equals: "b" }])[0]).toContain(
+			"must occupy the same box",
+		);
+	});
+
+	it("rejects a case whose cross-subject target is not measured", () => {
+		expect(run([{ of: "a", equalsInlineSize: "ghost" }])[0]).toContain(
+			"was not found",
+		);
+	});
+});

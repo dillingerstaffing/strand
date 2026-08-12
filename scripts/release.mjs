@@ -157,9 +157,15 @@ function main() {
 	// message written with a literal version silently disagrees with the
 	// version that shipped -- which is exactly how SearchField ended up
 	// released as 0.36.10 under a commit announcing v0.37.0.
-	if (!msg.includes("(vX.Y.Z)")) {
+	// The token, not the parenthetical. The original form required the exact
+	// string "(vX.Y.Z)" with its own brackets, which disagreed with this
+	// repo's actual commit convention -- the ActionDock release reads
+	// "(v0.35.0, gap #66)" -- so a correctly-written message silently skipped
+	// substitution and announced a version that was never released. Found by
+	// this guard on its first real use, which is the outcome it was for.
+	if (!msg.includes("vX.Y.Z")) {
 		console.error(
-			`release: the message must contain the literal "(vX.Y.Z)", which is replaced with the computed version. Refusing to publish ${next} under a message that names a different one.`,
+			`release: the message must contain the literal "vX.Y.Z", which is replaced with the computed version. Refusing to publish ${next} under a message that names a different one.`,
 		);
 		process.exit(1);
 	}
@@ -181,7 +187,7 @@ function main() {
 	run("pnpm", ["--filter", "./packages/strand-ui", "build"]);
 	run("pnpm", ["test:layout"]);
 
-	const finalMsg = msg.replace("(vX.Y.Z)", `(v${next})`);
+	const finalMsg = msg.replaceAll("vX.Y.Z", `v${next}`);
 	run("git", ["add", "-u"]);
 	run("git", ["commit", "-m", finalMsg]);
 	run("git", ["push", "origin", "main"]);

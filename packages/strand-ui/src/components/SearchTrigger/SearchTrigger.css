@@ -1,0 +1,83 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── SearchTrigger ──
+   A control that LOOKS like a search field and behaves like a button: it
+   opens a search overlay rather than accepting text.
+
+   Composed on top of `.strand-search-field`, which owns the box. This
+   file adds only what a button root needs, so the two controls cannot
+   drift apart visually -- there is exactly one definition of the shape,
+   the border, the surface and the coarse-pointer height.
+
+   Markup contract:
+
+     <button type="button" aria-haspopup="dialog"
+             class="strand-search-field strand-search-trigger">
+       <svg class="strand-search-field__icon" aria-hidden="true">...</svg>
+       <span class="strand-search-trigger__label">Search events</span>
+     </button>
+
+   WHY THIS EXISTS AS A SEPARATE PRIMITIVE rather than a variant of
+   SearchField. Three reasons, and each is a defect if ignored:
+
+   1. An `<input>` that opens a modal on focus is WCAG 3.2.1 (On Focus):
+      focusing a control must not change context. Tabbing into a field and
+      being thrown into an overlay is exactly that.
+   2. A field the user can type into, whose text is then handled somewhere
+      else, gives one query two homes and matching two entry points.
+   3. `role="search"` wrapped around a text input promises assistive
+      technology that typing works here. If the keystrokes actually go to
+      an overlay, that promise is false at the AT layer, which is worse
+      than a plainly-labelled button.
+
+   So the styles are shared and the semantics are split. A single
+   component carrying two root elements and two accessibility contracts
+   would be reset-then-restyle (Principle 8) expressed in semantics. */
+
+.strand-search-trigger {
+  /* A button brings its own UA appearance, font and centring, none of
+     which the field's box expects. */
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
+  text-align: start;
+  cursor: pointer;
+
+  /* The field sets padding-inline; a UA button stylesheet also sets
+     padding-block, which would make the trigger taller than the field
+     beside it. */
+  padding-block: 0;
+}
+
+/* The label reads as a placeholder because that is what it stands in for,
+   and it takes the same token as the field's real placeholder so the two
+   controls are indistinguishable at rest. gray-500 rather than the
+   gray-400 a mockup specifies here: 14.2b puts gray-400 in the fill tier
+   at 2.52:1, and this is a word, so it is text and owes 4.5:1. */
+.strand-search-trigger__label {
+  flex: 1;
+  min-inline-size: 0;
+
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-500);
+
+  /* One line. Unlike a tab bar destination this has no count rule
+     limiting its length, and a wrapping placeholder would change the
+     control's height and break the reservation the field promises. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The field styles its focus with :focus-within, which a button also
+   satisfies, so the ring is inherited rather than restated here. Hover is
+   not: a field has no hover affordance because it is not clickable in the
+   same sense, and this is. */
+.strand-search-trigger:hover {
+  border-color: var(--strand-gray-300);
+}
+
+.strand-search-trigger:hover .strand-search-trigger__label,
+.strand-search-trigger:hover .strand-search-field__icon {
+  color: var(--strand-gray-600);
+}

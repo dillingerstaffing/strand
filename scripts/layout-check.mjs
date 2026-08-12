@@ -285,6 +285,113 @@ export const LAYOUT_CASES = [
 		measure: { dock: "#dock" },
 		expect: [{ of: "dock", blockEndAtMost: 844 }],
 	},
+	{
+		name: "the tab bar sits in the thumb zone",
+		primitive: "TabBar",
+		// 19.1.1's whole argument, measured rather than asserted. The
+		// condition exists because a hamburger pins every destination in
+		// 14.8's hard band; if the replacement did not actually land in the
+		// easy band the amendment would be buying nothing. Both bounds, per
+		// the ActionDock lesson: "below the zone's start" and "in the zone"
+		// are different claims and only a pair expresses the second.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div style="block-size: 3000px"></div>
+			<nav id="bar" class="strand-tabbar" aria-label="Primary">
+				<a id="first" class="strand-tabbar__item" href="/a" aria-current="page">
+					<span class="strand-tabbar__label">Discover</span>
+				</a>
+				<a class="strand-tabbar__item" href="/b"><span class="strand-tabbar__label">Calendar</span></a>
+				<a class="strand-tabbar__item" href="/c"><span class="strand-tabbar__label">People</span></a>
+			</nav>`,
+		measure: { first: "#first" },
+		expect: [
+			{ of: "first", blockStartAtLeast: 562.67 },
+			{ of: "first", blockEndAtMost: 844 },
+		],
+	},
+	{
+		name: "the tab bar holds its position while the document scrolls",
+		primitive: "TabBar",
+		// Fixed rather than sticky. A sticky bar stops at its scroll
+		// container's end, which is exactly where a reader arrives after a
+		// long list -- the moment they are most likely to navigate away.
+		viewport: { width: 390, height: 844 },
+		scroll: { y: 2000 },
+		html: `
+			<div style="block-size: 3000px"></div>
+			<nav id="bar" class="strand-tabbar" aria-label="Primary">
+				<a id="first" class="strand-tabbar__item" href="/a"><span class="strand-tabbar__label">Discover</span></a>
+				<a class="strand-tabbar__item" href="/b"><span class="strand-tabbar__label">Calendar</span></a>
+			</nav>`,
+		measure: { first: "#first" },
+		expect: [
+			{ of: "first", blockStartAtLeast: 562.67 },
+			{ of: "first", blockEndAtMost: 844 },
+		],
+	},
+	{
+		name: "every tab bar destination clears the 44px touch floor",
+		primitive: "TabBar",
+		// 14.7, measured on the ITEM rather than assumed from the bar's
+		// height: the bar can be tall while its items are not, if padding
+		// eats the difference. Five destinations at 320px is the tightest
+		// case 19.1.1's count rule permits, so it is the one worth pinning.
+		viewport: { width: 320, height: 844 },
+		html: `
+			<nav class="strand-tabbar" aria-label="Primary">
+				<a id="item" class="strand-tabbar__item" href="/a"><span class="strand-tabbar__label">Discover</span></a>
+				<a class="strand-tabbar__item" href="/b"><span class="strand-tabbar__label">Calendar</span></a>
+				<a class="strand-tabbar__item" href="/c"><span class="strand-tabbar__label">People</span></a>
+				<a class="strand-tabbar__item" href="/d"><span class="strand-tabbar__label">Saved</span></a>
+				<a class="strand-tabbar__item" href="/e"><span class="strand-tabbar__label">You</span></a>
+			</nav>`,
+		measure: { item: "#item" },
+		expect: [
+			{ of: "item", blockSizeAtLeast: 44 },
+			{ of: "item", inlineSizeAtLeast: 44 },
+		],
+	},
+	{
+		name: "the tab bar ends at the viewport's bottom edge",
+		primitive: "TabBar",
+		// The safe-area inset growing padding-block-end is the likeliest way
+		// this breaks, and it would push the items off the bottom rather than
+		// merely resize the box. Headless Chromium resolves the inset to 0,
+		// so this pins the non-inset geometry; the notched case needs a
+		// device context the tier does not have and is NOT approximated.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<nav id="bar" class="strand-tabbar" aria-label="Primary">
+				<a class="strand-tabbar__item" href="/a"><span class="strand-tabbar__label">Discover</span></a>
+			</nav>`,
+		measure: { bar: "#bar" },
+		expect: [{ of: "bar", blockEndAtMost: 844 }],
+	},
+	{
+		name: "the search trigger is the same box as the search field",
+		primitive: "SearchTrigger",
+		// The reason the trigger composes the field's classes instead of
+		// restating them. If these two ever differ, a header swapping one for
+		// the other shifts, and the whole point of sharing the class layer is
+		// that they cannot. Measured, because "they share a class" is a claim
+		// about source and this is a claim about pixels.
+		viewport: { width: 1440, height: 900 },
+		html: `
+			<form id="field" class="strand-search-field" role="search">
+				<input class="strand-search-field__input" type="search" aria-label="Search">
+			</form>
+			<button id="trigger" type="button" class="strand-search-field strand-search-trigger" aria-haspopup="dialog">
+				<span class="strand-search-trigger__label">Search</span>
+			</button>`,
+		measure: { field: "#field", trigger: "#trigger" },
+		expect: [
+			{ of: "field", blockSize: 36 },
+			{ of: "trigger", blockSize: 36 },
+			{ of: "field", inlineSize: 300 },
+			{ of: "trigger", inlineSize: 300 },
+		],
+	},
 ];
 
 // ── Pure decision layer ──
@@ -303,11 +410,20 @@ const ASSERTION_KINDS = [
 	"blockStartAtMost",
 	"blockEndAtMost",
 	"equalsBlockStart",
+	// Inline-axis kinds, added for the same reason the position kinds were.
+	// The rect was already measuring inlineSize and nothing could assert on
+	// it, so any claim about width had to be smuggled in as a claim about
+	// height or left untested. 14.7 is a 44x44 rule and only one of those
+	// numbers was checkable; a target 44px tall and 12px wide passed.
+	"inlineSize",
+	"inlineSizeAtLeast",
+	"inlineSizeAtMost",
+	"equalsInlineSize",
 ];
 
 // Kinds that compare one subject against another measured subject rather than
 // against a literal, so validation knows to check the target exists too.
-const CROSS_SUBJECT_KINDS = ["equals", "equalsBlockStart"];
+const CROSS_SUBJECT_KINDS = ["equals", "equalsBlockStart", "equalsInlineSize"];
 
 /**
  * Static validation of the case set. A case whose assertion names a selector
@@ -384,6 +500,8 @@ export function evaluateCase(caseDef, measurements) {
 		blockStartAtLeast: ["blockStart", "atLeast", "block-start at least"],
 		blockStartAtMost: ["blockStart", "atMost", "block-start at most"],
 		blockEndAtMost: ["blockEnd", "atMost", "block-end at most"],
+		inlineSizeAtLeast: ["inlineSize", "atLeast", "inline-size at least"],
+		inlineSizeAtMost: ["inlineSize", "atMost", "inline-size at most"],
 	};
 
 	for (const a of caseDef.expect) {
@@ -402,6 +520,13 @@ export function evaluateCase(caseDef, measurements) {
 			if (Math.abs(measured - a.blockSize) > TOLERANCE_PX) {
 				failures.push(
 					`${label()}: "${a.of}" expected block-size ${a.blockSize}, measured ${measured}`,
+				);
+			}
+		} else if ("inlineSize" in a) {
+			const measured = subject.inlineSize;
+			if (Math.abs(measured - a.inlineSize) > TOLERANCE_PX) {
+				failures.push(
+					`${label()}: "${a.of}" expected inline-size ${a.inlineSize}, measured ${measured}`,
 				);
 			}
 		} else if (thresholdKind) {
@@ -432,10 +557,19 @@ export function evaluateCase(caseDef, measurements) {
 						direction === "atLeast" ? measured - limit : limit - measured,
 				});
 			}
-		} else if ("equals" in a || "equalsBlockStart" in a) {
-			const positional = "equalsBlockStart" in a;
-			const otherKey = positional ? a.equalsBlockStart : a.equals;
-			const field = positional ? "blockStart" : "blockSize";
+		} else if (
+			"equals" in a ||
+			"equalsBlockStart" in a ||
+			"equalsInlineSize" in a
+		) {
+			const otherKey =
+				a.equalsBlockStart ?? a.equalsInlineSize ?? a.equals;
+			const field =
+				"equalsBlockStart" in a
+					? "blockStart"
+					: "equalsInlineSize" in a
+						? "inlineSize"
+						: "blockSize";
 			const other = measurements[otherKey];
 			if (!other) {
 				failures.push(
@@ -443,11 +577,18 @@ export function evaluateCase(caseDef, measurements) {
 				);
 				continue;
 			}
+			// Prose per field. This branch is only reached on a MISMATCH,
+			// which is why a stale reference here survived a green suite: no
+			// case in the set fails, so nothing executed this line until a
+			// negative control did.
+			const PROSE = {
+				blockStart: "must sit at the same block-start",
+				inlineSize: "must be the same width",
+				blockSize: "must occupy the same box",
+			};
 			if (Math.abs(subject[field] - other[field]) > TOLERANCE_PX) {
 				failures.push(
-					positional
-						? `${label()}: "${a.of}" and "${otherKey}" must sit at the same block-start, measured ${subject[field]} and ${other[field]}`
-						: `${label()}: "${a.of}" and "${otherKey}" must occupy the same box, measured ${subject[field]} and ${other[field]}`,
+					`${label()}: "${a.of}" and "${otherKey}" ${PROSE[field]}, measured ${subject[field]} and ${other[field]}`,
 				);
 			}
 		}

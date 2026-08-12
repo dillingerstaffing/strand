@@ -1060,6 +1060,18 @@
 	white-space: nowrap;
 }
 
+/* Reserves the space a fixed bottom tab bar occupies, so the last item of
+   a list is not permanently underneath the navigation -- the defect every
+   fixed bottom bar ships with. Applied to the SCROLLING CONTENT, not to
+   the bar, which is why it lives here beside strand-nav-offset rather
+   than in the component's own stylesheet. Shares one token with the bar
+   so a taller bar cannot outgrow its reservation. */
+.strand-tabbar-offset {
+	padding-block-end: calc(
+		var(--strand-tabbar-height) + env(safe-area-inset-bottom, 0px)
+	);
+}
+
 /* ── Responsive visibility ──
    Both presentations of a control live in the markup and CSS chooses
    between them. The alternative -- measuring the viewport in JS and

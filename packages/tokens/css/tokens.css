@@ -217,6 +217,11 @@
   /* ── COMPONENT SIZES ── */
   --strand-nav-height: 64px;
   --strand-control-size: 18px;
+  /* The tab bar's height, and the space content must reserve for it. One
+     value because the bar and the offset that clears it must never
+     disagree: a bar taller than the reservation leaves the last item of
+     every list permanently underneath the navigation. */
+  --strand-tabbar-height: 76px;
 
   /* ── ANIMATION: STAGGER ── */
   --strand-stagger-delay: 80ms;

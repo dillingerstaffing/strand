@@ -548,6 +548,22 @@
       "registryDependencies": []
     },
     {
+      "name": "search-trigger",
+      "type": "registry:ui",
+      "title": "Search Trigger",
+      "description": "Search Trigger",
+      "files": [
+        {
+          "path": "components/SearchTrigger.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "section",
       "type": "registry:ui",
       "title": "Section",
@@ -715,6 +731,22 @@
       "files": [
         {
           "path": "components/Table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "tab-bar",
+      "type": "registry:ui",
+      "title": "Tab Bar",
+      "description": "Tab Bar",
+      "files": [
+        {
+          "path": "components/TabBar.tsx",
           "type": "registry:ui"
         }
       ],

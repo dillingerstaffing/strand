@@ -1457,7 +1457,7 @@ Navigation is the laboratory directory. It tells you where you are and what inst
 
 - Brand mark always present in the nav. Links to home
 - Lab/section name in monospace (e.g., "DASHBOARD")
-- Horizontal bar on desktop, hamburger collapse on mobile
+- Horizontal bar on desktop. On a touch viewport the answer is conditional and 19.1.1 owns it: a content surface collapses to a hamburger, an application shell anchors its destinations in the easy band per 14.8. Stated once there rather than twice here.
 - Active item indicated by blue underline (2px, animated from left)
 - Navigation background: white or glassmorphic (for dark-viewport contexts)
 
@@ -2295,6 +2295,23 @@ Structure: content-narrow container (640px max), prose typography (Part IV.6: 60
 Horizontal bar on desktop. Monospace lab identifier on the left. Linked items on the right. Active item indicated by a 2px blue underline that animates from left (250ms, ease-out-expo). Scrolled state: subtle background + elevation-1 shadow.
 
 Mobile: hamburger collapse into a slide-down panel. All items visible. Touch targets 44px minimum. The mobile nav is still the laboratory directory — compact but functional.
+
+#### 19.1.1 Which mobile navigation a surface takes
+
+The hamburger above is the right answer for a **content surface** and the wrong one for an **application shell**. The paragraph above gives one answer to a question that has two, and this states the condition that selects between them.
+
+14.8 establishes that the top third of a touch viewport is the hard band, and that a fixed top bar is the worst place in a layout for a primary action because scrolling can never improve it. A hamburger puts every destination behind a control pinned in that band, and behind a disclosure. A content surface can afford both: its destinations are visited rarely, the reader came for what is on the page rather than for the menu, and the cost is one stretch on the way past. An application shell cannot. Its destinations are not a detour from the content, they are the product's top level, moved between repeatedly inside a single session, so the same cost is multiplied by the number of switches. That multiplication is the case 14.8 was written about.
+
+**On a touch viewport, a surface that is an application shell — a small, fixed set of top-level destinations the user moves between repeatedly — presents those destinations in a persistent viewport-anchored region in the easy band. Every other surface keeps the hamburger.**
+
+**The mechanical test, needing no judgement.**
+
+- **Count the top-level destinations.** Fewer than three is a link, not a navigation. More than five cannot sit in an inline row at 320px without truncating labels, and a truncated destination is not a destination. Outside three to five, the surface takes the hamburger whatever else is true of it.
+- **Ask whether a destination is reached repeatedly within one session, or once on the way in.** Once is a content surface.
+
+**What this rules OUT, which matters as much as what it rules in.** It is not a licence for a second persistent bar. A surface has ONE primary navigation, and a bottom bar coexisting with a hamburger is two answers to one question, leaving the reader to learn which holds what. It also does not replace 14.8's dock: a dock carries the one ACTION a view exists to produce, a navigation region carries DESTINATIONS, and a viewport wanting both must decide which belongs nearer the thumb rather than stacking them into a wall.
+
+Desktop is unchanged. Reach is a property of a touch viewport; a horizontal bar at the top of a pointer-driven layout carries none of the costs above.
 
 ### 19.2 Breadcrumbs
 

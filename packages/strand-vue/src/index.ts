@@ -47,6 +47,8 @@ export { default as Spinner } from "./components/Spinner/Spinner.vue";
 export { default as Reserve } from "./components/Reserve/Reserve.vue";
 export { default as ActionDock } from "./components/ActionDock/ActionDock.vue";
 export { default as SearchField } from "./components/SearchField/SearchField.vue";
+export { default as TabBar } from "./components/TabBar/TabBar.vue";
+export { default as SearchTrigger } from "./components/SearchTrigger/SearchTrigger.vue";
 export { default as Settle } from "./components/Settle/Settle.vue";
 export { default as Skeleton } from "./components/Skeleton/Skeleton.vue";
 export { default as StarRating } from "./components/StarRating/StarRating.vue";

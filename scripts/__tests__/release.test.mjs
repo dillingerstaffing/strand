@@ -133,3 +133,31 @@ describe("releaseBlockingUntracked", () => {
 		expect(releaseBlockingUntracked([])).toEqual([]);
 	});
 });
+
+describe("the version placeholder", () => {
+	// The token, not the parenthetical. Requiring the exact string "(vX.Y.Z)"
+	// with its own brackets disagreed with this repo's own commit convention,
+	// where the version sits inside a larger parenthetical alongside a gap
+	// reference: "(v0.35.0, gap #66)". Under the old form a correctly-written
+	// message skipped substitution silently and announced a version that was
+	// never released -- the exact failure the guard exists to prevent.
+	const stamp = (msg, v) => msg.replaceAll("vX.Y.Z", `v${v}`);
+
+	it("substitutes a bare token", () => {
+		expect(stamp("fix(strand): thing (vX.Y.Z)", "0.38.0")).toBe(
+			"fix(strand): thing (v0.38.0)",
+		);
+	});
+
+	it("substitutes inside a larger parenthetical, which is the house form", () => {
+		expect(stamp("feat(strand): thing (vX.Y.Z, gaps #73-#74)", "0.38.0")).toBe(
+			"feat(strand): thing (v0.38.0, gaps #73-#74)",
+		);
+	});
+
+	it("leaves a message with no placeholder untouched, which the guard then refuses", () => {
+		const msg = "feat(strand): thing (v0.37.0)";
+		expect(stamp(msg, "0.38.0")).toBe(msg);
+		expect(msg.includes("vX.Y.Z")).toBe(false);
+	});
+});

@@ -1261,6 +1261,71 @@ A search input for page chrome: a fixed-width field on a wide viewport, a full-w
 
 ---
 
+### SearchTrigger
+
+A control that LOOKS like a search field and behaves like a button: it opens a search overlay rather than accepting text. Composed on top of strand-search-field, which owns the box, so the two controls cannot drift apart visually. Use this wherever search is palette-driven; use SearchField only where the input itself is the search and the keystrokes have nowhere else to go. Three reasons it is a separate primitive rather than a variant: an input that opens a modal on focus is WCAG 3.2.1 (On Focus); a field the user can type into whose text is handled elsewhere gives one query two homes; and role="search" around a text input promises assistive technology that typing works, which is a false promise if the keystrokes go to an overlay.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-search-trigger` | base | Trigger root, a button. Applied ALONGSIDE strand-search-field, which supplies the box; this class adds only the button resets a field's box does not expect. Carries aria-haspopup="dialog". |
+| `strand-search-trigger__label` | child | Visible standing text, styled as a placeholder and taking the same token as the field's real placeholder. This is ALSO the accessible name: no aria-label override, because WCAG 2.5.3 (Label in Name) requires the accessible name to contain the visible text so a speech-input user saying what they see activates the control. Truncates on one line, since a wrapping label would change the control's height. |
+| `strand-search-field` | base | |
+| `strand-search-field__icon` | child | |
+
+**Usage:**
+
+```html
+<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->
+<button type="button" class="strand-search-field strand-search-trigger strand-hide-below-md"
+        aria-haspopup="dialog" aria-expanded="false" aria-controls="search-palette">
+  <svg class="strand-search-field__icon" aria-hidden="true" focusable="false">...</svg>
+  <span class="strand-search-trigger__label">Search trail runs, pottery, chess</span>
+</button>
+
+<button type="button"
+        class="strand-search-field strand-search-field--full strand-search-trigger strand-hide-from-md"
+        aria-haspopup="dialog">
+  <svg class="strand-search-field__icon" aria-hidden="true" focusable="false">...</svg>
+  <span class="strand-search-trigger__label">Search events</span>
+</button>
+```
+
+---
+
+### TabBar
+
+The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations; 19.1.1 forbids stacking the two.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-tabbar` | base | Bar root, a nav landmark. Fixed to the viewport's bottom edge so its position is a function of the viewport and no scroll can move it out of reach, with the safe-area inset so it clears the home indicator on a notched phone. Give it an aria-label; an unnamed nav is one a screen reader user tells apart by guessing. |
+| `strand-tabbar__item` | child | One destination. A link when it has a href, so middle-click and open-in-new-tab keep working; a button only when there is genuinely no URL. Minimum 44x44 per 14.7, measured on the item rather than inferred from the bar's height. |
+| `strand-tabbar__icon` | child | Decorative glyph, 20px. aria-hidden: the label already names the destination. |
+| `strand-tabbar__label` | child | Destination name. text-xs with wider tracking, uppercase mono. Wraps rather than truncating, because a destination the user cannot read is not a destination; if a label does not fit, the surface has too many destinations and 19.1.1's count test already refuses it. |
+| `strand-actiondock` | base | |
+
+**Usage:**
+
+```html
+<!-- The current destination is marked with aria-current="page", which is
+     BOTH the announced state and the styling hook, so the two cannot drift. -->
+<nav class="strand-tabbar" aria-label="Primary">
+  <a class="strand-tabbar__item" href="/discover" aria-current="page">
+    <span class="strand-tabbar__icon" aria-hidden="true"><svg>...</svg></span>
+    <span class="strand-tabbar__label">Discover</span>
+  </a>
+  <a class="strand-tabbar__item" href="/calendar">
+    <span class="strand-tabbar__label">Calendar</span>
+  </a>
+</nav>
+
+<!-- Reserve the space the bar occupies on the SCROLLING CONTENT, or the last
+     item of every list sits permanently underneath the navigation. -->
+<main class="strand-tabbar-offset">...</main>
+```
+
+---
+
 ### InstrumentViewport
 
 Dark instrument panel container for data-dense content.
@@ -1936,6 +2001,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid` | Hero layout grid. |
 | `strand-bar-chart--sm` | Compact bar chart, 96px. For dense contexts; the default height is 160px because at 96 the usable bar range collapses to about 10px and a 2.5:1 data ratio becomes a 6px difference. |
 | `strand-bar-chart--lg` | Large bar chart, 192px. For primary readouts and large displays. |
+| `strand-tabbar-offset` | Reserves the space a fixed bottom tab bar occupies, so the last item of a list is not permanently underneath the navigation. Applied to the SCROLLING CONTENT, not to the bar, which is why it is a utility rather than part of the component. Shares one token with the bar so a taller bar cannot outgrow its reservation. |
 | `strand-log__text` | |
 | `strand-hero-grid__line--N` | |
 | `strand-hero-grid__nodes` | |

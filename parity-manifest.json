@@ -37,6 +37,7 @@
 		"Reserve",
 		"ScrollReveal",
 		"SearchField",
+		"SearchTrigger",
 		"Section",
 		"Select",
 		"Settle",
@@ -48,6 +49,7 @@
 		"Swatch",
 		"Switch",
 		"Table",
+		"TabBar",
 		"Tabs",
 		"Tag",
 		"Textarea",
@@ -81,8 +83,8 @@
 	"bundle": {
 		"files": {
 			"tokens.css": {
-				"raw_bytes": 12264,
-				"gzipped_bytes": 4075
+				"raw_bytes": 12569,
+				"gzipped_bytes": 4217
 			},
 			"reset.css": {
 				"raw_bytes": 1857,
@@ -93,17 +95,17 @@
 				"gzipped_bytes": 4582
 			},
 			"strand-ui.css": {
-				"raw_bytes": 266838,
-				"gzipped_bytes": 60433
+				"raw_bytes": 277539,
+				"gzipped_bytes": 63980
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 305866,
-		"total_gz_bytes": 72872,
-		"total_gz_kb": 71
+		"total_raw_bytes": 316872,
+		"total_gz_bytes": 76561,
+		"total_gz_kb": 75
 	},
 	"foreignBlocks": {
 		"Button": [
