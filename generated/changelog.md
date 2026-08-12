@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - pnpm release, the whole ceremony in one command
 
 ### Fixed
+- release ceremony can bump a minor; SearchField is (v0.37.0), not a patch
 - dialog focus moves without moving the page (v0.36.7)
 - the palette sheds Dialog's prose padding and its orphan close button (v0.36.6)
 - the scroll lock stops trusting an inert gutter, and the palette drops to instrument scale (v0.36.5)

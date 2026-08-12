@@ -35,6 +35,38 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 
 /**
+ * Untracked files that belong in the release.
+ *
+ * THE DEFECT THIS EXISTS FOR, because it shipped before it was caught:
+ * the ceremony staged with `git add -u`, which stages modifications to
+ * files git already knows and CANNOT add a new one. So a release that
+ * introduced a component committed its EXPORT, its manifest entry and its
+ * documentation, and left every source file of the component itself
+ * untracked. v0.37.0 went out with `index.ts` re-exporting SearchField
+ * from a directory that did not exist in the repository. The local build
+ * passed throughout, because the local build reads the working tree; only
+ * a fresh clone would have failed, which is to say CI and every consumer.
+ *
+ * `git add -u` was not a careless choice -- it is the safe form in a
+ * shared checkout, where `git add -A` sweeps up whatever a neighbour left
+ * lying around. It is simply the wrong form for a release, whose whole
+ * job is to publish new files. So this refuses rather than widening the
+ * add: the ceremony names what it is about to miss and stops, and the
+ * author stages deliberately.
+ *
+ * Scoped to source and script paths on purpose. Build output, scratch
+ * files and editor droppings are untracked all the time and must not
+ * block a release; a new file under a package's `src` directory, or under
+ * `scripts`, is almost never anything but part of the change being
+ * released.
+ */
+export function releaseBlockingUntracked(untrackedPaths) {
+	return untrackedPaths.filter(
+		(p) => /^packages\/[^/]+\/src\//.test(p) || /^scripts\//.test(p),
+	);
+}
+
+/**
  * The next version, given the current one and the requested level.
  *
  * Pure and exported so the arithmetic is testable without a git tree: the
@@ -96,6 +128,24 @@ function main() {
 	// would otherwise create an empty bump commit.
 	if (out("git", ["status", "--porcelain"]) === "") {
 		console.error("release: working tree is clean; nothing to release.");
+		process.exit(1);
+	}
+
+	// Before anything is bumped: a new file that nobody staged is the one
+	// failure this ceremony cannot recover from after the fact, because the
+	// push is what makes it public.
+	const untracked = out("git", ["ls-files", "--others", "--exclude-standard"])
+		.split("\n")
+		.filter(Boolean);
+	const blocking = releaseBlockingUntracked(untracked);
+	if (blocking.length) {
+		console.error(
+			"release: untracked source files would be left out of this release:",
+		);
+		for (const p of blocking) console.error(`  ${p}`);
+		console.error(
+			"\n  `git add -u` stages modifications, never additions, so these would not ship.\n  Stage them deliberately (git add <path>) and run the release again.",
+		);
 		process.exit(1);
 	}
 
