@@ -722,6 +722,39 @@ Visual separator (horizontal or vertical).
 
 ---
 
+### FeatureSurface
+
+The second dark surface role (design-language.md 9.3): a single element promoted above the content around it, the one card a view is built on. NOT InstrumentViewport, and the difference is not a shade. That one is blue-abyss and exists for DENSITY (maps, charts, terminal output, where fine marks need the darkest ground). This is blue-midnight and exists for EMPHASIS. 9.3's test: is the darkness carrying data, or carrying emphasis? A view with several feature surfaces has no feature. THE CASCADE IS THE PRIMITIVE, not the background: midnight is about 2.5x lighter than the abyss, so gray-400 (6.99 to 4.36) and teal-vital (7.07 to 4.42) both FAIL as text here while passing there, and the instrument cascade uses the first for overlines and the second for status values. Put the ordinary text primitives inside this and they retint themselves; a bare background utility would hand a consumer the right box and the wrong contents, invisibly.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-feature-surface` | base | Feature surface root. Paints blue-midnight with the instrument border and carries a text cascade one rung lighter than the instrument viewport's: overlines and the quiet tier take gray-300 (7.46), secondary text gray-200 (8.98), headlines and values white (11.00), accent overlines blue-indicator (6.44). A meter's fill stays blue-primary, which is a graphical object at 3:1 and correct at 3.34 where it would fail as a word. |
+| `strand-headline` | base | |
+| `strand-title` | base | |
+| `strand-overline` | base | |
+| `strand-overline--accent` | modifier | |
+| `strand-text-secondary` | base | |
+| `strand-text-secondary--xs` | modifier | |
+| `strand-lead` | base | |
+| `strand-kv__label` | child | |
+| `strand-kv__value` | child | |
+| `strand-kv__value--status` | child | |
+| `strand-status-chip--neutral` | modifier | |
+
+**Usage:**
+
+```html
+<article class="strand-feature-surface">
+  <span class="strand-overline">Next ship</span>
+  <h2 class="strand-title">Ship 042</h2>
+  <p class="strand-text-secondary">Thursday, 6:30 PM ET</p>
+  <!-- The meter's fill is a graphical object, so blue-primary is right here. -->
+  <div class="strand-progress strand-progress--bar"><div class="strand-progress__fill" style="width:60%"></div></div>
+</article>
+```
+
+---
+
 ### FormField
 
 Label + input + hint + error wrapper for form composition.

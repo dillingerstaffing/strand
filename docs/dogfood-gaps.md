@@ -1070,3 +1070,26 @@ Verdict: FAIL (three L2 gaps; all closed)
 - **The second defect is the one worth stating, because it would have shipped silently.** `--cols-2` is not merely a poor fit on mobile, it is wrong on desktop: a 1fr/600px split at 1440 gives 840 and 600, where two equal columns give 720 and 720. That is a panel **20% wider** and a main track **14% narrower** than designed, and it reads as a layout choice rather than a defect. Its own author flagged it against themselves.
 - The panel width is `--strand-split-panel` because the two known consumers want 600px and 380px for an identical shape. A second preset for a second number would be two names for one idea.
 - The MAIN track comes first in the markup, the opposite of `--sidebar`, and for a symmetrical reason: below the breakpoint the regions stack in source order, and a map or a detail panel is what the list is ABOUT, so it follows the thing it illustrates rather than preceding it.
+
+---
+
+## Production consumer: the most visible card in the product, on the wrong dark
+Date: 2026-08-12
+Verdict: FAIL (one L3 gap; closed)
+
+### Gap #88
+- Type: **L3** (design language). The language admitted ONE dark surface role and the product needed two.
+- Symptom: the design's feature card is `blue-midnight`; `InstrumentViewport` paints `blue-abyss`. Verified across every class painting midnight as a background: `.strand-btn--primary:hover` and three `strand-ref-*` reference-page internals. **A button hover state and the documentation site's own chrome.** Nothing reusable, so the flagship card was composing `InstrumentViewport` and rendering the wrong dark.
+- **9.3 was titled "The Instrument Viewport (Dark Mode Island)", singular**, and `blue-midnight` was documented at III.2 as "Headlines on light backgrounds" — a text colour. Painting a card with it contradicted its own documented role, so this could not be an L2: a second dark surface role is a statement about what the language contains.
+- Spec fix: **9.3 becomes "The Dark Surfaces"** and admits two roles, stated in terms of what each is FOR rather than in terms of any product's card. The instrument viewport is the abyss and exists for DENSITY, where fine marks and thin type need the darkest ground the language sanctions. The feature surface is midnight and exists for EMPHASIS, where one element is lifted out of a list. The test that separates them is stated: **is the darkness carrying data, or carrying emphasis?** Also recorded: a view with several feature surfaces has no feature, and an instrument viewport nested inside a feature card is legitimate because they do different jobs. The III.2 token entry now documents both uses and points at 9.3.
+- **The argument for two ROLES rather than one role and two background colours is a contrast fact, and I found a second instance of it than the one reported.** Midnight is about 2.5x lighter than the abyss, so the instrument's text values do not survive the move. Measured against the real token file:
+
+  | | on abyss | on midnight |
+  |---|---|---|
+  | `gray-400` | 6.99 | **4.36 fails** — the abyss cascade uses it for OVERLINES |
+  | `teal-vital` | 7.07 | **4.42 fails** — the abyss cascade uses it for STATUS VALUES |
+
+  The report named the first. The second was found by measuring every value in the cascade rather than the ones already suspected. **Porting the instrument cascade would have shipped two failing text colours into the most prominent element on the page**, and a bare `background: midnight` utility would have done it silently, handing a consumer the right box and the wrong contents.
+- Library fix: `FeatureSurface`, whose cascade is the primitive and whose background is almost incidental. Overlines and the quiet tier take `gray-300` (7.46) where the instrument takes `gray-400`; the status value takes white rather than the accent, because a status is carried by its label and not by tinting a number below a legible ratio; the meter's fill stays `blue-primary`, correct at 3.34 as a graphical object where it would fail as a word.
+- Registered in `parity-manifest.json#/darkCabinetComponents`, so `test:contrast` judges it against the dark surface rather than a light one — the derivation fixed in #80, now doing its job for a new member on the first try.
+- **Fourth mockup value the sweep has caught failing AA**: `rgba(255, 255, 255, .45)` composites to `#8395a7` on midnight, **3.57:1**. Every divergence in this program has run the same direction.

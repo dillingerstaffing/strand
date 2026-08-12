@@ -20,6 +20,7 @@
 		"DataReadout",
 		"Dialog",
 		"Divider",
+		"FeatureSurface",
 		"FormField",
 		"Grid",
 		"Input",
@@ -100,17 +101,17 @@
 				"gzipped_bytes": 4582
 			},
 			"strand-ui.css": {
-				"raw_bytes": 293681,
-				"gzipped_bytes": 69696
+				"raw_bytes": 297935,
+				"gzipped_bytes": 70842
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 333014,
-		"total_gz_bytes": 82277,
-		"total_gz_kb": 80
+		"total_raw_bytes": 337268,
+		"total_gz_bytes": 83423,
+		"total_gz_kb": 81
 	},
 	"foreignBlocks": {
 		"Button": [
@@ -185,7 +186,8 @@
 		"MapLegend",
 		"MapLoading",
 		"ResultCard",
-		"ResultsPanel"
+		"ResultsPanel",
+		"FeatureSurface"
 	],
 	"darkCabinetComponentsNote": "The dark instrument cabinet (DL 9.3). Text in these components is painted on the abyss, never on a light surface, so contrast-check judges them against the dark surface. This was derived from InstrumentViewport.css alone until four primitives were given their own component directories; the derivation broke silently and reported six findings about colours that were correct. Membership is a decision, so it is declared rather than inferred from a file boundary. Add a component here only if its text genuinely never appears on a light surface."
 }

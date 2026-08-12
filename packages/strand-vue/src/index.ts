@@ -50,6 +50,7 @@ export { default as SearchField } from "./components/SearchField/SearchField.vue
 export { default as TabBar } from "./components/TabBar/TabBar.vue";
 export { default as SearchTrigger } from "./components/SearchTrigger/SearchTrigger.vue";
 export { default as CalendarGrid } from "./components/CalendarGrid/CalendarGrid.vue";
+export { default as FeatureSurface } from "./components/FeatureSurface/FeatureSurface.vue";
 export { default as MapLegend } from "./components/MapLegend/MapLegend.vue";
 export { default as MapLoading } from "./components/MapLoading/MapLoading.vue";
 export { default as ResultCard } from "./components/ResultCard/ResultCard.vue";

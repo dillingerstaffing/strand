@@ -51,6 +51,7 @@ export { default as SearchField } from './components/SearchField/SearchField.sve
 export { default as TabBar } from './components/TabBar/TabBar.svelte'
 export { default as SearchTrigger } from './components/SearchTrigger/SearchTrigger.svelte'
 export { default as CalendarGrid } from './components/CalendarGrid/CalendarGrid.svelte'
+export { default as FeatureSurface } from './components/FeatureSurface/FeatureSurface.svelte'
 export { default as MapLegend } from './components/MapLegend/MapLegend.svelte'
 export { default as MapLoading } from './components/MapLoading/MapLoading.svelte'
 export { default as ResultCard } from './components/ResultCard/ResultCard.svelte'

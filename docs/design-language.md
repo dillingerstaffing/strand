@@ -250,7 +250,7 @@ The accent color is a single, carefully calibrated blue: the blue of biosyntheti
 | `--strand-blue-primary` | `#3B8EF6` | Primary actions, links, key data points. |
 | `--strand-blue-vivid` | `#2570EB` | Hover state on primary elements. |
 | `--strand-blue-deep` | `#1D5AD8` | Active/pressed states, high-emphasis data. |
-| `--strand-blue-midnight` | `#1E3E5F` | Headlines on light backgrounds. |
+| `--strand-blue-midnight` | `#1E3E5F` | Headlines on light backgrounds, AND the feature surface (9.3). One of two dark surface roles; see 9.3 for the text cascade it requires, which is not the instrument viewport's. |
 | `--strand-blue-abyss` | `#0F192A` | Maximum contrast text, near-black. |
 
 The spectrum runs from near-white (#E8F5FD) to near-black (#0F192A), all blue-shifted. This is a single hue at varying luminance. The visual equivalent of a single instrument indicator at varying intensity levels.
@@ -1173,9 +1173,32 @@ body::after {
 
 All variants must pass the Part 7 test: the texture is invisible in isolation, present in aggregate. Higher opacity is "dirty screen." Lower opacity is no effect.
 
-### 9.3 The Instrument Viewport (Dark Mode Island)
+### 9.3 The Dark Surfaces (Dark Mode Islands)
 
-Instruments within the laboratory may use dark backgrounds for data-dense contexts (maps, charts, terminal-style displays) while the surrounding lab frame stays white. This is the dual-surface principle: white frame, dark viewport.
+The language admits **two** dark surface roles, and they are not interchangeable. Both sit as islands in the white lab frame; they differ in what they are for and, critically, in the text tier each one can carry.
+
+| Role | Surface | What it is for |
+|---|---|---|
+| **Instrument viewport** | `--strand-blue-abyss` (#0F192A) | Data-dense contexts where the instrument IS the content: maps, charts, terminal output, live readouts. The darkest surface the language sanctions, chosen so fine data marks and thin type hold their contrast. |
+| **Feature surface** | `--strand-blue-midnight` (#1E3E5F) | A single element promoted above the surrounding content: the one card a view is built around. It is a device of EMPHASIS rather than of density, so it is lighter, warmer and closer to the page it sits on. |
+
+The test that separates them: **is the darkness carrying data, or carrying emphasis?** A map needs the abyss because its marks are fine and numerous. A feature card needs midnight because it is being lifted out of a list, not filled with instrumentation. A view with several midnight surfaces has no feature; a view with an instrument viewport inside a feature card is legitimate, because they are doing different jobs.
+
+**Each role carries its own text cascade, and the second is one rung lighter than the first. This is the reason there are two ROLES rather than one role and two background colours.** Midnight is ~2.5x lighter than the abyss, so values that clear AA on one fail on the other. Measured against the real tokens:
+
+| Value | On abyss | On midnight | |
+|---|---|---|---|
+| `gray-400` | 6.99 | **4.36** | **fails as text on midnight**, and the abyss cascade uses it for overlines |
+| `teal-vital` | 7.07 | **4.42** | **fails as text on midnight**, and the abyss cascade uses it for status values |
+| `gray-300` | 11.94 | 7.46 | the feature surface's overline and quiet-text value |
+| `gray-200` | 14.38 | 8.98 | the feature surface's secondary text |
+| `blue-indicator` | 10.31 | 6.44 | accent overline on either |
+| `blue-primary` | 5.35 | 3.34 | a FILL on midnight (meters, bars) and never text there |
+| `#FFFFFF` | 18.98 | 11.00 | headline and primary value on either |
+
+**Porting the instrument cascade to the feature surface would ship two failing text colours.** That is the whole argument: a bare background utility hands a consumer the right colour for the box and the wrong colours for everything inside it, for free and invisibly. A role brings its cascade with it.
+
+The dual-surface principle is unchanged: white frame, dark island. There are simply two kinds of island.
 
 ```css
 .strand-instrument-viewport {

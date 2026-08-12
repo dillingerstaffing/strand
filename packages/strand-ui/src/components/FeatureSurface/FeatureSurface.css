@@ -1,0 +1,116 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── FeatureSurface ──
+   The second dark surface role (design-language.md 9.3): a single
+   element promoted above the content around it. The one card a view is
+   built around.
+
+   NOT `.strand-instrument-viewport`, and the difference is not a shade.
+   That one is the abyss and exists for DENSITY -- maps, charts, terminal
+   output, where fine marks need the darkest ground the language allows.
+   This is midnight and exists for EMPHASIS: something lifted out of a
+   list, not filled with instrumentation. 9.3's test: is the darkness
+   carrying data, or carrying emphasis?
+
+   THE CASCADE IS THE PRIMITIVE, not the background. Midnight is about
+   2.5x lighter than the abyss, so the instrument's text values do not
+   survive the move:
+
+     gray-400    6.99 on abyss  ->  4.36 on midnight   FAILS as text
+     teal-vital  7.07 on abyss  ->  4.42 on midnight   FAILS as text
+
+   The abyss cascade uses the first for overlines and the second for
+   status values, so porting it would ship two failing colours into the
+   most prominent element on the page. Every rule below is one rung
+   lighter for that reason. A bare `background: midnight` utility would
+   hand a consumer the right box and the wrong contents, invisibly.
+
+   Markup contract: put the class on the surface and use the ordinary
+   text primitives inside it. They retint themselves. */
+
+.strand-feature-surface {
+  background: var(--strand-blue-midnight);
+  color: var(--strand-gray-200);
+  border: 1px solid var(--strand-instrument-border);
+  border-radius: var(--strand-radius-lg);
+  padding: var(--strand-space-6);
+}
+
+/* ── Text cascade on midnight ──
+   Mirrors the instrument viewport's cascade in structure and differs in
+   every value that needed to. */
+
+.strand-feature-surface .strand-headline,
+.strand-feature-surface .strand-title {
+  color: var(--strand-on-blue-primary);
+}
+
+/* gray-300 at 7.46, where the instrument uses gray-400. gray-400
+   measures 4.36 here and an overline is text. */
+.strand-feature-surface .strand-overline {
+  color: var(--strand-gray-300);
+}
+
+.strand-feature-surface .strand-overline--accent {
+  color: var(--strand-blue-indicator);
+}
+
+.strand-feature-surface .strand-text-secondary {
+  color: var(--strand-gray-200);
+}
+
+/* The quiet tier drops one step and stops there, at 7.46. On the abyss
+   this tier goes to gray-400; here that is the failing value. */
+.strand-feature-surface .strand-text-secondary--xs {
+  color: var(--strand-gray-300);
+}
+
+.strand-feature-surface .strand-lead {
+  color: var(--strand-gray-200);
+}
+
+.strand-feature-surface .strand-data-readout__label,
+.strand-feature-surface .strand-kv__label {
+  color: var(--strand-gray-300);
+}
+
+.strand-feature-surface .strand-data-readout__value,
+.strand-feature-surface .strand-kv__value {
+  color: var(--strand-on-blue-primary);
+}
+
+/* teal-vital is 4.42 here and 7.07 on the abyss, so the status value
+   takes the same white as any other value rather than the accent the
+   instrument gives it. The status is carried by its label, not by
+   tinting the number below a legible ratio. */
+.strand-feature-surface .strand-kv__value--status {
+  color: var(--strand-on-blue-primary);
+}
+
+.strand-feature-surface .strand-link {
+  color: var(--strand-blue-indicator);
+}
+
+/* A meter's fill is a graphical object at 3:1, not text, so blue-primary
+   is correct here at 3.34 where it would fail as a word. The track takes
+   the same subtle structure value the instrument cabinet uses. */
+.strand-feature-surface .strand-progress--bar {
+  background: var(--strand-instrument-border);
+}
+
+.strand-feature-surface .strand-progress__track {
+  stroke: var(--strand-instrument-border);
+}
+
+/* Ghost buttons and neutral chips lose their light-surface contrast
+   here, the same way they do on the abyss. */
+.strand-feature-surface .strand-btn--ghost {
+  color: var(--strand-on-blue-primary);
+  border-color: var(--strand-instrument-border-strong);
+}
+
+.strand-feature-surface .strand-status-chip--neutral {
+  background: color-mix(in srgb, var(--strand-gray-300) 14%, transparent);
+  color: var(--strand-gray-200);
+  border: 1px solid color-mix(in srgb, var(--strand-gray-300) 22%, transparent);
+}

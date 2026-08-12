@@ -276,6 +276,22 @@
       "registryDependencies": []
     },
     {
+      "name": "feature-surface",
+      "type": "registry:ui",
+      "title": "Feature Surface",
+      "description": "Feature Surface",
+      "files": [
+        {
+          "path": "components/FeatureSurface.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "form-field",
       "type": "registry:ui",
       "title": "Form Field",
