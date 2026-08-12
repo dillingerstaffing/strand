@@ -633,6 +633,55 @@ export const LAYOUT_CASES = [
 		measure: { main: "#main", panel: "#panel" },
 		expect: [{ of: "panel", equalsInlineSize: "main" }],
 	},
+	{
+		name: "the app shell is bounded by the frame width, not a content measure",
+		primitive: "AppShell",
+		// The naming risk, as a number: a consumer must not get 1024 when
+		// they wanted a frame. 1440 is the frame token; the widest content
+		// tier is 1024 and is a reading measure for prose.
+		viewport: { width: 1600, height: 900 },
+		html: `<div id="shell" class="strand-app-shell"><div>app</div></div>`,
+		measure: { shell: "#shell" },
+		expect: [{ of: "shell", inlineSize: 1440 }],
+	},
+	{
+		name: "the app shell clips a child wider than itself",
+		primitive: "AppShell",
+		// The point of the primitive. A nav flush to the top edge overhangs
+		// the frame only AT THE CORNERS, which is invisible to a width
+		// assertion on the nav and visible to a reader. Asserting the
+		// FRAME's width with an oversized child inside is what proves the
+		// clip is in force: unclipped, the child would widen it.
+		viewport: { width: 1600, height: 900 },
+		html: `
+			<div id="shell" class="strand-app-shell">
+				<div id="nav" style="inline-size: 2000px; block-size: 64px">nav</div>
+			</div>`,
+		measure: { shell: "#shell" },
+		expect: [{ of: "shell", inlineSize: 1440 }],
+	},
+	{
+		name: "a sticky child inside the app shell still sticks",
+		primitive: "AppShell",
+		// The reason the frame uses `overflow: clip` and not the `hidden`
+		// the mockup specifies. `hidden` makes an element a scroll
+		// container, and this is the OUTERMOST container in the product, so
+		// it would have broken every sticky element beneath it at once.
+		viewport: { width: 1280, height: 900 },
+		scroll: { y: 1200 },
+		html: `
+			<div class="strand-app-shell">
+				<div style="display:grid;grid-template-columns:264px minmax(0,1fr);gap:24px">
+					<div><div id="rail" class="strand-sticky">rail</div></div>
+					<div style="block-size: 4000px">main</div>
+				</div>
+			</div>`,
+		measure: { rail: "#rail" },
+		expect: [
+			{ of: "rail", blockStartAtLeast: 20 },
+			{ of: "rail", blockStartAtMost: 28 },
+		],
+	},
 ];
 
 // ── Pure decision layer ──

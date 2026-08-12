@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - sticky, scroll-row and the split grid; overflow:clip so sticky works inside a grid (v0.43.0, gaps #85-#87)
 - the size budget becomes three gated numbers (v0.42.0, gap #84)
 
+### Fixed
+- a shipped heading at 1.23:1, and the compositional check that finds them (v0.45.0, gaps #89-#90)
+
 ## [0.41.0] - 2026-08-12
 
 ### Added

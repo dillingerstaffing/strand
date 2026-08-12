@@ -1117,6 +1117,24 @@
 	scroll-snap-align: start;
 }
 
+/* ── Clip ──
+   Clips children to the container's own rounded corners. The mechanical
+   consequence of sanctioning rounded surfaces at all: a square-cornered
+   child flush against a rounded parent overhangs it, and the overhang is
+   at the corners, which is where a reader looks first.
+
+   `clip` rather than `hidden` deliberately. Both clip. But `hidden` also
+   makes the element a SCROLL CONTAINER, and a `position: sticky`
+   descendant sticks to its nearest scroll container rather than to the
+   viewport -- so adding this utility to a wrapper would silently break
+   every sticky element inside it. `clip` creates no scroll container,
+   which is exactly why `.strand-grid` and `.strand-app-shell` both use
+   it. If you need a genuinely scrolling region, that is `overflow: auto`
+   and a deliberate decision, not this. */
+.strand-clip {
+	overflow: clip;
+}
+
 /* ── Sticky ──
    A region that scrolls with the document until it reaches its offset,
    then holds. The filter rail beside a result list, the day rail beside

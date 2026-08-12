@@ -1,0 +1,48 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── BigMonoTime ──
+   An oversized monospace clock readout. The single largest element in the
+   rail it sits in, which is why its figure alignment matters more than
+   its size: at this scale a 1 that is narrower than a 7 is visible as a
+   wobble between two times stacked above each other.
+
+   NOT `DataReadout`, which pairs an overline label with a value and
+   renders them as a unit. This is the value alone, at display scale,
+   with no label of its own -- the surrounding rail supplies the context.
+
+   Renders on BOTH surfaces: light in a detail panel, and inside the dark
+   feature surface on the focal rail. The dark cascades live with their
+   surfaces, so this file declares only the light case. */
+
+.strand-big-mono-time {
+  display: block;
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-2xl);
+  font-weight: var(--strand-weight-semibold);
+
+  /* The whole point of the primitive. Proportional figures at 31px make
+     06:45 and 11:11 different widths, so a column of times ripples. */
+  font-variant-numeric: tabular-nums;
+
+  /* Mono at display size reads loose; the negative step closes it back up
+     without touching the figure advance, which tabular-nums fixes. */
+  letter-spacing: var(--strand-tracking-tight);
+  line-height: var(--strand-leading-none);
+  color: var(--strand-blue-midnight);
+}
+
+.strand-big-mono-time--lg {
+  font-size: var(--strand-text-3xl);
+}
+
+.strand-big-mono-time--sm {
+  font-size: var(--strand-text-xl);
+}
+
+/* The separator in a range. Quieter than the figures so the eye reads
+   two times rather than one string, and non-selectable so copying the
+   element yields the times rather than the punctuation. */
+.strand-big-mono-time__sep {
+  color: var(--strand-gray-500);
+  padding-inline: var(--strand-space-1);
+}

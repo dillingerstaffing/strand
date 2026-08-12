@@ -1,0 +1,103 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── ChipSet ──
+   A set of selectable chips that WRAPS in a rail and SCROLLS on a narrow
+   viewport. The overflow behaviour is the component, not a detail of it.
+
+   Why not `strand-stack--horizontal` + `--wrap`: wrapping is correct in a
+   desktop rail and wrong at 390, where a filter strip that wraps to three
+   lines pushes the content it filters off the screen. Both behaviours are
+   needed from one set of chips, which is what makes this a component.
+
+   The scrolling variant composes `strand-scroll-row`'s contract rather
+   than restating it, so a chip strip and any other scrolling row share
+   one definition of what "scrolls sideways and never wraps" means.
+
+   IT SCROLLS RATHER THAN CLIPPING. A mockup specifying `overflow: hidden`
+   with `nowrap` hides filters with no affordance to reach them, and a
+   filter the reader cannot reach is not a filter. Accessibility over
+   fidelity, which is a sanctioned divergence.
+
+   SELECTION IS ANNOUNCED, NOT ONLY PAINTED. Multi-select chips carry
+   aria-pressed; single-select uses a radiogroup, because "one of these"
+   and "any of these" are different promises to a screen reader and
+   painting both the same way tells it nothing. */
+
+.strand-chip-set {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strand-space-2);
+}
+
+/* The scrolling density. Everything that makes a row scroll instead of
+   wrap lives in strand-scroll-row; this only turns wrapping off. */
+.strand-chip-set--scroll {
+  flex-wrap: nowrap;
+}
+
+.strand-chip-set__chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-1);
+
+  padding-block: var(--strand-space-1);
+  padding-inline: var(--strand-space-3);
+
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-600);
+
+  background: var(--strand-surface-elevated);
+  border: 1px solid var(--strand-gray-300);
+  border-radius: var(--strand-radius-full);
+  cursor: pointer;
+  white-space: nowrap;
+
+  transition:
+    background-color var(--strand-duration-fast) ease,
+    border-color var(--strand-duration-fast) ease,
+    color var(--strand-duration-fast) ease;
+}
+
+/* 14.7's floor, applied where the pointer is coarse rather than at a
+   width breakpoint: a narrow desktop window is still a mouse. */
+@media (pointer: coarse) {
+  .strand-chip-set__chip {
+    min-block-size: 44px;
+  }
+}
+
+.strand-chip-set__chip:hover {
+  border-color: var(--strand-gray-400);
+  color: var(--strand-gray-800);
+}
+
+.strand-chip-set__chip:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}
+
+/* Selected. Styled from the ARIA state rather than a class, so the
+   painted state and the announced state cannot drift apart -- there is no
+   way to paint a chip selected without also saying so. */
+.strand-chip-set__chip[aria-pressed="true"],
+.strand-chip-set__chip[aria-checked="true"] {
+  background: var(--strand-blue-midnight);
+  border-color: var(--strand-blue-midnight);
+  /* White on midnight is 11.00:1. */
+  color: var(--strand-on-blue-primary);
+}
+
+.strand-chip-set__chip[aria-pressed="true"]:hover,
+.strand-chip-set__chip[aria-checked="true"]:hover {
+  background: var(--strand-blue-abyss);
+  border-color: var(--strand-blue-abyss);
+  color: var(--strand-on-blue-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-chip-set__chip {
+    transition: none;
+  }
+}

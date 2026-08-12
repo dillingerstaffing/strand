@@ -156,6 +156,41 @@
   color: var(--strand-blue-indicator);
 }
 
+/* ── The screen primitives, on dark (DL 9.3) ──
+   Added WITH the components rather than after a consumer found them
+   illegible, which is the sequence the 1.23:1 heading earned.
+
+   These were briefly missing: the components were parked out of the tree
+   during an unrelated diagnosis and restored, but only the untracked
+   component directories came back -- these tracked cascade edits did
+   not. `test:dark-composition` caught it at 1.60:1 here and 1.00:1 on
+   the feature surface, where the readout was painting midnight on
+   midnight and was literally invisible. A restore that returns most of a
+   change is the failure mode a compositional check exists for. */
+.strand-body--instrument .strand-big-mono-time,
+.strand-instrument-viewport .strand-big-mono-time,
+.strand-body--instrument .strand-stat-strip__value,
+.strand-instrument-viewport .strand-stat-strip__value {
+  color: var(--strand-on-blue-primary);
+}
+
+.strand-body--instrument .strand-big-mono-time__sep,
+.strand-instrument-viewport .strand-big-mono-time__sep,
+.strand-body--instrument .strand-stat-strip__label,
+.strand-instrument-viewport .strand-stat-strip__label {
+  color: var(--strand-gray-300);
+}
+
+/* The bordered strip's rules are gray-200, a near-white line on the
+   abyss. The instrument border is this cabinet's value for subtle
+   structure. */
+.strand-body--instrument .strand-stat-strip--bordered,
+.strand-instrument-viewport .strand-stat-strip--bordered,
+.strand-body--instrument .strand-stat-strip--bordered .strand-stat-strip__cell,
+.strand-instrument-viewport .strand-stat-strip--bordered .strand-stat-strip__cell {
+  border-color: var(--strand-instrument-border);
+}
+
 /* ── Progress, on dark (DL 9.3) ──
    The bar's track is gray-200, which is correct on a light card and
    inverted on the cabinet: a near-white bar reading as FULL, with the

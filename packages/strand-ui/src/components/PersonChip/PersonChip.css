@@ -1,0 +1,79 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── PersonChip ──
+   An initials avatar beside a name, in a pill. Used in a wrapping strip,
+   in a grid, and beside an organiser block.
+
+   NOT `Avatar` + `Tag` composed by hand, which was the obvious answer and
+   is wrong for one reason: the pill has to align the circle's optical
+   centre with the name's baseline box, and a consumer composing two
+   primitives gets that alignment right only by accident. Shipping it as
+   one primitive is what makes the alignment a property of the library
+   rather than of each call site.
+
+   The initials are DECORATIVE. The name beside them is the accessible
+   name, so the circle is aria-hidden: a screen reader announcing "MK,
+   Maria Klein" reads the same person twice. */
+
+.strand-person-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-2);
+  padding-block: var(--strand-space-1);
+  padding-inline: var(--strand-space-1) var(--strand-space-3);
+  background: var(--strand-surface-recessed);
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-full);
+  max-inline-size: 100%;
+}
+
+.strand-person-chip__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-blue-wash);
+
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-semibold);
+  /* blue-deep, not blue-primary: these are letters, so 14.2b makes them
+     text at 4.5:1 rather than a graphical object at 3:1. */
+  color: var(--strand-blue-deep);
+  /* Mono caps sit high in their box; the optical centre of two capitals
+     is above the geometric one, so the grid centring is nudged back. */
+  line-height: 1;
+}
+
+.strand-person-chip__name {
+  font-size: var(--strand-text-sm);
+  color: var(--strand-gray-700);
+  /* A name is the one string that must not wrap inside a pill: a
+     two-line pill in a wrapping strip breaks the row's rhythm. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-inline-size: 0;
+}
+
+/* Interactive form, for a chip that opens a profile. A button rather than
+   a div with a handler, so it is reachable and announced as actionable. */
+.strand-person-chip--action {
+  cursor: pointer;
+  font: inherit;
+  transition:
+    border-color var(--strand-duration-fast) ease,
+    background-color var(--strand-duration-fast) ease;
+}
+
+.strand-person-chip--action:hover {
+  background: var(--strand-blue-glow);
+  border-color: var(--strand-blue-indicator);
+}
+
+.strand-person-chip--action:focus-visible {
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}

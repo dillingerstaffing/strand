@@ -81,6 +81,13 @@ export const COMPOSABLE_TEXT = [
   "strand-status-chip",
   "strand-code-inline",
   "strand-step-indicator",
+  // The four screen primitives. Registered WITH the components, so the
+  // check judges them on both surfaces from their first release rather
+  // than after a consumer finds one illegible.
+  "strand-big-mono-time",
+  "strand-stat-strip",
+  "strand-person-chip",
+  "strand-chip-set",
 ];
 
 /**

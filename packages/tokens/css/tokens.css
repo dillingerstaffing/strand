@@ -222,6 +222,14 @@
      disagree: a bar taller than the reservation leaves the last item of
      every list permanently underneath the navigation. */
   --strand-tabbar-height: 76px;
+  /* The application FRAME's maximum width. Deliberately not a
+     --strand-content-* value: those are reading measures for prose and
+     card grids, and the widest is 1024 because text stops being readable
+     past it. A frame is chrome, so it is bounded by how wide an app
+     should feel rather than by how far an eye tracks a line. It lives
+     here beside the nav and tab-bar heights, which are the other
+     chrome dimensions. */
+  --strand-frame-max: 1440px;
 
   /* ── ANIMATION: STAGGER ── */
   --strand-stagger-delay: 80ms;

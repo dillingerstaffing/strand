@@ -62,7 +62,17 @@ export const BUDGET = {
   // fall when a consumer imports three components. That is why it is the
   // number worth guarding, and why the lever that would genuinely reduce it
   // is per-component CSS entry points, which the library does not have yet.
-  totalGzKb: 85,
+  // RAISED 85 -> 92 on 2026-08-12, in the commit that needed it, per the
+  // rule below. Five components landed at once -- AppShell, BigMonoTime,
+  // StatStrip, PersonChip and ChipSet -- taking the artifact from 77.9 to
+  // 87.3 KB. That is the top-down decomposition of eight screens: six
+  // primitives generate most of the redesign, and these are five of them.
+  //
+  // The per-component average is the reading that says whether this was
+  // growth or waste, and it MOVED DOWN, from 1.18 to 1.16 KB. The library
+  // got bigger by getting more capable at slightly better efficiency,
+  // which is the case the average exists to distinguish from bloat.
+  totalGzKb: 92,
   // Gzipped CSS per component in the parity contract. The efficiency
   // invariant. Today ~1.11; the ceiling leaves room for a genuinely complex
   // primitive without leaving room for a careless one.

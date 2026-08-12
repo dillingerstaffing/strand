@@ -5,14 +5,17 @@
 	"components": [
 		"ActionDock",
 		"Alert",
+		"AppShell",
 		"Avatar",
 		"Badge",
+		"BigMonoTime",
 		"Breadcrumb",
 		"Button",
 		"CalendarGrid",
 		"Card",
 		"CardSection",
 		"Checkbox",
+		"ChipSet",
 		"CodeBlock",
 		"CommandPalette",
 		"Container",
@@ -36,6 +39,7 @@
 		"MapLegend",
 		"MapLoading",
 		"Nav",
+		"PersonChip",
 		"Progress",
 		"Radio",
 		"Reserve",
@@ -52,6 +56,7 @@
 		"Spinner",
 		"Stack",
 		"StarRating",
+		"StatStrip",
 		"Swatch",
 		"Switch",
 		"TabBar",
@@ -89,8 +94,8 @@
 	"bundle": {
 		"files": {
 			"tokens.css": {
-				"raw_bytes": 12569,
-				"gzipped_bytes": 4217
+				"raw_bytes": 13041,
+				"gzipped_bytes": 4435
 			},
 			"reset.css": {
 				"raw_bytes": 1857,
@@ -101,17 +106,17 @@
 				"gzipped_bytes": 4582
 			},
 			"strand-ui.css": {
-				"raw_bytes": 297935,
-				"gzipped_bytes": 70842
+				"raw_bytes": 317328,
+				"gzipped_bytes": 76618
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 337268,
-		"total_gz_bytes": 83423,
-		"total_gz_kb": 81
+		"total_raw_bytes": 357133,
+		"total_gz_bytes": 89417,
+		"total_gz_kb": 87
 	},
 	"foreignBlocks": {
 		"Button": [

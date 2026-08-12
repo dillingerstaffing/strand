@@ -36,6 +36,22 @@
       "registryDependencies": []
     },
     {
+      "name": "app-shell",
+      "type": "registry:ui",
+      "title": "App Shell",
+      "description": "App Shell",
+      "files": [
+        {
+          "path": "components/AppShell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "avatar",
       "type": "registry:ui",
       "title": "Avatar",
@@ -59,6 +75,22 @@
       "files": [
         {
           "path": "components/Badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "big-mono-time",
+      "type": "registry:ui",
+      "title": "Big Mono Time",
+      "description": "Big Mono Time",
+      "files": [
+        {
+          "path": "components/BigMonoTime.tsx",
           "type": "registry:ui"
         }
       ],
@@ -155,6 +187,22 @@
       "files": [
         {
           "path": "components/Checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "chip-set",
+      "type": "registry:ui",
+      "title": "Chip Set",
+      "description": "Chip Set",
+      "files": [
+        {
+          "path": "components/ChipSet.tsx",
           "type": "registry:ui"
         }
       ],
@@ -532,6 +580,22 @@
       "registryDependencies": []
     },
     {
+      "name": "person-chip",
+      "type": "registry:ui",
+      "title": "Person Chip",
+      "description": "Person Chip",
+      "files": [
+        {
+          "path": "components/PersonChip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "progress",
       "type": "registry:ui",
       "title": "Progress",
@@ -779,6 +843,22 @@
       "files": [
         {
           "path": "components/StarRating.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "stat-strip",
+      "type": "registry:ui",
+      "title": "Stat Strip",
+      "description": "Stat Strip",
+      "files": [
+        {
+          "path": "components/StatStrip.tsx",
           "type": "registry:ui"
         }
       ],

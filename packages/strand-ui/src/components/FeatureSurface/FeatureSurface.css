@@ -52,6 +52,26 @@
    identical hole, and the focal card was about to swap onto it, which
    would have moved the defect into the single most prominent element in
    the product rather than fixing it. */
+/* ── The screen primitives, on midnight ──
+   Same roles, and the readout is the sharpest case for why this surface
+   needs its own cascade rather than inheriting the abyss one: its light
+   value IS blue-midnight, so on this ground it measured 1.00:1 -- the
+   same colour as the surface, invisible rather than merely dim. */
+.strand-feature-surface .strand-big-mono-time,
+.strand-feature-surface .strand-stat-strip__value {
+  color: var(--strand-on-blue-primary);
+}
+
+.strand-feature-surface .strand-big-mono-time__sep,
+.strand-feature-surface .strand-stat-strip__label {
+  color: var(--strand-gray-300);
+}
+
+.strand-feature-surface .strand-stat-strip--bordered,
+.strand-feature-surface .strand-stat-strip--bordered .strand-stat-strip__cell {
+  border-color: var(--strand-instrument-border);
+}
+
 .strand-feature-surface .strand-heading--sm,
 .strand-feature-surface .strand-lead {
   color: var(--strand-on-blue-primary);

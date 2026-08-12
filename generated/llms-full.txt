@@ -275,7 +275,7 @@ Own the source. No dependency lock-in.
 npx strand-ui init          # Set up tokens in your project
 npx strand-ui add button    # Copy Button source to your codebase
 npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->60<!-- COMPONENT-COUNT:END --> components
+npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->65<!-- COMPONENT-COUNT:END --> components
 ```
 
 After install, the CLI is available as `strand` (e.g., `strand add button`).
@@ -287,7 +287,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-<!-- COMPONENT-COUNT:START -->60<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
+<!-- COMPONENT-COUNT:START -->65<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
 
 ### Input
 
@@ -844,6 +844,27 @@ Persistent notification with status variants.
 
 ---
 
+### AppShell
+
+The card the whole application sits inside: a bounded frame on the page ground, chrome flush to its edges, corners rounded and children clipped to them. NOT A CONTENT WIDTH, and the naming is the risk: the strand-container tiers are READING MEASURES (640 for prose, 1024 at the widest, because text stops being readable past it), while a frame is a different axis bounded by how wide an application should feel. Use a container INSIDE this, never instead of it. Clipping is the point rather than the width: without it a nav's square top corners overhang the frame's rounded ones, which is visible at exactly the two pixels a reader looks at first. Below md it drops border, radius and shadow, because chrome around content that already fills the viewport draws attention to itself and costs space a phone does not have.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-app-shell` | base | Application frame. Max width --strand-frame-max (1440px), a chrome dimension declared beside the nav and tab-bar heights rather than among the content tiers. Uses overflow: clip, NOT hidden: hidden would make the outermost container in the product a scroll container and break every position:sticky element beneath it at once. |
+| `strand-tabbar` | base | |
+
+**Usage:**
+
+```html
+<div class="strand-app-shell">
+  <nav class="strand-nav">...</nav>
+  <!-- Reading measures go INSIDE the frame, not instead of it. -->
+  <div class="strand-container strand-container--wide">...</div>
+</div>
+```
+
+---
+
 ### Avatar
 
 User or entity representation with image or initials.
@@ -917,6 +938,27 @@ Top-of-page notification banner.
   <p class="strand-banner__text">Scheduled maintenance tonight.</p>
   <button class="strand-banner__dismiss" aria-label="Dismiss">...</button>
 </div>
+```
+
+---
+
+### BigMonoTime
+
+An oversized monospace clock readout: the largest element in the rail it sits in, so its figure alignment matters more than its size. tabular-nums is why 06:45 and 11:11 are the same width and a column of times does not ripple. Not DataReadout, which pairs a label with a value and renders them as a unit; this is the value alone at display scale and the surrounding rail supplies the context. Renders <time> when given a machine-readable value and <span> otherwise, because a <time> without datetime asserts an instant that is not there.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-big-mono-time` | base | The readout. Mono, semibold, tabular figures, tight tracking to close up mono's loose display-size rhythm without touching the figure advance. |
+| `strand-big-mono-time--sm` | modifier | Smaller step. |
+| `strand-big-mono-time--lg` | modifier | Larger step. |
+| `strand-big-mono-time__sep` | child | Range separator. Quieter than the figures so the eye reads two times rather than one string, and aria-hidden so a screen reader is not read punctuation mid-time. |
+
+**Usage:**
+
+```html
+<time class="strand-big-mono-time" datetime="2026-08-13T06:45">06:45</time>
+
+<span class="strand-big-mono-time strand-big-mono-time--lg">06:45<span class="strand-big-mono-time__sep" aria-hidden="true">–</span>08:30</span>
 ```
 
 ---
@@ -1097,6 +1139,32 @@ Binary toggle for multiple selections with custom visual.
   </span>
   <span class="strand-checkbox__label">Accept terms</span>
 </label>
+```
+
+---
+
+### ChipSet
+
+A set of selectable chips that WRAPS in a rail and SCROLLS on a narrow viewport. The overflow behaviour is the component, not a detail of it: wrapping is correct in a desktop rail and wrong at 390, where a filter strip wrapping to three lines pushes the content it filters off the screen. It SCROLLS rather than clipping, because a filter the reader cannot reach is not a filter. SELECTION IS ANNOUNCED, NOT ONLY PAINTED: multi-select uses aria-pressed toggles, single-select uses a radiogroup, because "any of these" and "one of these" are different promises and painting them identically tells a screen reader nothing.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-chip-set` | base | The set. role=group for multi-select, role=radiogroup for single. Wraps by default. |
+| `strand-chip-set--scroll` | modifier | Never wraps. Pair with strand-scroll-row, which owns everything else about scrolling sideways, so a chip strip and any other scrolling row share one definition. |
+| `strand-chip-set__chip` | child | One chip. Selected state is styled from aria-pressed / aria-checked, so the painted state and the announced state cannot drift. 44px minimum block size under a coarse pointer. |
+
+**Usage:**
+
+```html
+<div class="strand-chip-set" role="group" aria-label="Interests">
+  <button type="button" class="strand-chip-set__chip" aria-pressed="true">Outdoors</button>
+  <button type="button" class="strand-chip-set__chip" aria-pressed="false">Making</button>
+</div>
+
+<!-- Mobile: one line, scrolls sideways, one choice. -->
+<div class="strand-chip-set strand-chip-set--scroll strand-scroll-row" role="radiogroup" aria-label="Filter">
+  <button type="button" role="radio" class="strand-chip-set__chip" aria-checked="true">All</button>
+</div>
 ```
 
 ---
@@ -1290,6 +1358,12 @@ The second dark surface role (design-language.md 9.3): a single element promoted
 | `strand-feature-surface` | base | Feature surface root. Paints blue-midnight with the instrument border and carries a text cascade one rung lighter than the instrument viewport's: overlines and the quiet tier take gray-300 (7.46), secondary text gray-200 (8.98), headlines and values white (11.00), accent overlines blue-indicator (6.44). A meter's fill stays blue-primary, which is a graphical object at 3:1 and correct at 3.34 where it would fail as a word. |
 | `strand-headline` | base | |
 | `strand-title` | base | |
+| `strand-big-mono-time` | base | |
+| `strand-stat-strip__value` | child | |
+| `strand-big-mono-time__sep` | child | |
+| `strand-stat-strip__label` | child | |
+| `strand-stat-strip--bordered` | modifier | |
+| `strand-stat-strip__cell` | child | |
 | `strand-heading--sm` | modifier | |
 | `strand-lead` | base | |
 | `strand-heading` | base | |
@@ -1437,6 +1511,12 @@ Dark instrument panel container for data-dense content.
 | `strand-lead` | base | |
 | `strand-value--positive` | modifier | |
 | `strand-value--negative` | modifier | |
+| `strand-big-mono-time` | base | |
+| `strand-stat-strip__value` | child | |
+| `strand-big-mono-time__sep` | child | |
+| `strand-stat-strip__label` | child | |
+| `strand-stat-strip--bordered` | modifier | |
+| `strand-stat-strip__cell` | child | |
 | `strand-log__time` | child | |
 | `strand-bar-chart__label` | child | |
 | `strand-log__text` | child | |
@@ -1853,6 +1933,28 @@ Site/app navigation with mobile menu and glass variant.
     </div>
   </div>
 </nav>
+```
+
+---
+
+### PersonChip
+
+An initials avatar beside a name, in a pill. Shipped as ONE primitive rather than Avatar + Tag composed by hand, because the pill has to align the circle's optical centre with the name's baseline box and a consumer composing two primitives gets that right only by accident. The initials are DECORATIVE and the circle is aria-hidden: the name beside them is the accessible name, and announcing "MK, Maria Klein" reads the same person twice. A button only when it does something; a strip of thirty non-interactive chips would otherwise be thirty tab stops promising an action that does not exist.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-person-chip` | base | The pill. A <span> when it only names someone, a <button> when it opens a profile. |
+| `strand-person-chip--action` | modifier | Interactive form: hover and focus affordances. |
+| `strand-person-chip__avatar` | child | Initials circle. aria-hidden. blue-deep on blue-wash, not blue-primary: these are letters, so 14.2b makes them text at 4.5:1 rather than a graphical object at 3:1. |
+| `strand-person-chip__name` | child | The name, and the accessible name. Truncates on one line: a two-line pill breaks a wrapping strip's rhythm. |
+
+**Usage:**
+
+```html
+<span class="strand-person-chip">
+  <span class="strand-person-chip__avatar" aria-hidden="true">MK</span>
+  <span class="strand-person-chip__name">Maria Klein</span>
+</span>
 ```
 
 ---
@@ -2328,6 +2430,31 @@ Flex layout primitive with direction, gap, and alignment.
 
 ---
 
+### StatStrip
+
+A row of labelled value cells, compared across rather than read singly. Not DataReadout, which renders ONE label-and-value pair as a unit with sizes tuned for a single dominant figure; here the cells are peers, so they are equal-width and their values share a baseline. Renders as a description list because that is what it is: a row of divs would give a screen reader six unrelated strings instead of three pairs.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-stat-strip` | base | The row, as a <dl>. Equal fractions via minmax(0, 1fr) so a long value cannot widen its own column and break the comparison by position. |
+| `strand-stat-strip--bordered` | modifier | Denser panel form: cells gain padding and a hairline rule between them, for a strip that is its own panel rather than a row inside a card. |
+| `strand-stat-strip__cell` | child | One cell, wrapping a dt and its dd. The wrapper is what pairs them when several sit side by side; without it the association is only visual. |
+| `strand-stat-strip__label` | child | The dt, in the overline pattern. gray-500 rather than the gray-400 a mockup specifies: a label is a word, so 14.2b makes it text at 4.5:1. |
+| `strand-stat-strip__value` | child | The dd. Mono with tabular figures; wraps rather than widening its column. |
+
+**Usage:**
+
+```html
+<dl class="strand-stat-strip">
+  <div class="strand-stat-strip__cell">
+    <dt class="strand-stat-strip__label">Group</dt>
+    <dd class="strand-stat-strip__value">East Bay</dd>
+  </div>
+</dl>
+```
+
+---
+
 ### Swatch
 
 Color swatch specimen for design-token documentation. The swatch grid auto-fills with 160px tiles; each tile sets its own background/color inline (tone-dependent).
@@ -2768,6 +2895,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-tabbar-offset` | Reserves the space a fixed bottom tab bar occupies, so the last item of a list is not permanently underneath the navigation. Applied to the SCROLLING CONTENT, not to the bar, which is why it is a utility rather than part of the component. Shares one token with the bar so a taller bar cannot outgrow its reservation. |
 | `strand-sticky` | A region that scrolls with the document until it reaches its offset, then holds: a filter rail beside a result list, a day rail beside a schedule, a commitment rail beside a long detail page. Offset is --strand-sticky-top (default space-6), a custom property rather than a set of utilities because the value a consumer needs is whatever their fixed chrome occupies. CAUTION: a sticky element is positioned against its nearest scrollport, and ANY ancestor with overflow: hidden becomes one, so the element sticks to a box that never scrolls and looks exactly like sticky being ignored. strand-grid uses overflow: clip for this reason; clip clips identically and creates no scrollport. |
 | `strand-scroll-row` | A single row that scrolls sideways instead of wrapping: a mobile filter strip, a chip rail, any horizontal set that must stay one line at 390px. strand-stack--horizontal plus strand-stack--wrap is the obvious composition and the wrong one, because wrapping is precisely what this must not do. It SCROLLS rather than clipping, which is a deliberate divergence from any mockup specifying overflow: hidden with nowrap: a filter the reader cannot reach is not a filter. Children get flex-shrink: 0 and scroll-snap-align automatically, so they keep their label width and the row scrolls instead of squeezing. Scrollbar hidden; content stays reachable by drag, wheel and keyboard focus. |
+| `strand-clip` | Clips children to the container's own rounded corners: the mechanical consequence of sanctioning rounded surfaces, since a square-cornered child flush against a rounded parent overhangs it exactly at the corners. Uses overflow: clip rather than hidden, because hidden also makes the element a SCROLL CONTAINER and would silently break every position:sticky element inside it. A genuinely scrolling region is overflow: auto and a deliberate decision, not this. |
 | `strand-log__text` | |
 | `strand-hero-grid__line--N` | |
 | `strand-hero-grid__nodes` | |
@@ -2791,6 +2919,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid__line--16` | |
 | `strand-hero-grid__line--17` | |
 | `strand-hero-grid__line--18` | |
+| `strand-app-shell` | |
 | `strand-ref-shell__sidebar` | |
 
 <!-- GENERATED:COMPONENT-REFERENCE:END -->
@@ -5477,6 +5606,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - FeatureSurface, and 9.3 admits two dark surface roles (v0.44.0, gap #88)
 - sticky, scroll-row and the split grid; overflow:clip so sticky works inside a grid (v0.43.0, gaps #85-#87)
 - the size budget becomes three gated numbers (v0.42.0, gap #84)
+
+### Fixed
+- a shipped heading at 1.23:1, and the compositional check that finds them (v0.45.0, gaps #89-#90)
 
 ## [0.41.0] - 2026-08-12
 

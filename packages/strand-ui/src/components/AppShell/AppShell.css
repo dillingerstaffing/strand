@@ -1,0 +1,63 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── AppShell ──
+   The card the whole application sits inside: a bounded frame on the page
+   ground, with its chrome flush to the edges and its corners rounded.
+
+   NOT A CONTENT WIDTH, and the naming is the whole risk here. The
+   `--strand-content-*` tiers are READING MEASURES: 640 for prose, 1024
+   at the widest, because text stops being readable past it (10.3). A
+   frame is a different axis that happens also to have a width -- it is
+   bounded by how wide an application should feel, not by how far an eye
+   tracks a line. A consumer reaching for a reading measure must not find
+   this, and a consumer building an app shell must not find 1024.
+
+   Precedent for it being a library concern rather than a design-language
+   one: `.strand-nav`, `.strand-tabbar` and `.strand-instrument-viewport`
+   are all application chrome rather than content measures, so a frame
+   joins a set that already exists.
+
+   CLIPPING IS THE POINT, not the width. Without it a nav's square top
+   corners overhang the frame's rounded ones and the shell reads as
+   broken at exactly the two pixels a reader looks at first. */
+
+.strand-app-shell {
+  inline-size: 100%;
+  max-inline-size: var(--strand-frame-max);
+  margin-inline: auto;
+
+  background: var(--strand-surface-primary);
+  border: 1px solid var(--strand-gray-200);
+  border-radius: var(--strand-radius-xl);
+
+  /* `clip`, NOT `hidden`, and this is the one line most likely to be
+     "corrected" later. Both clip a child to the rounded box. But `hidden`
+     also makes the element a SCROLL CONTAINER, and a `position: sticky`
+     descendant sticks to its nearest scroll container -- so a sticky
+     filter rail anywhere inside the shell would stick to a box that never
+     scrolls and scroll away with the page. Measured on `.strand-grid`
+     earlier today: the rail held its offset for 24px and was at -1176 by
+     scroll offset 1200. `clip` creates no scroll container.
+
+     An app shell is the outermost container in the product, so it would
+     have broken EVERY sticky element beneath it at once. */
+  overflow: clip;
+
+  /* elevation-3. The mockup specifies its own two-layer shadow; the
+     ladder governs (geometry and density from the design, raw values
+     never), and a page-level frame lifting off the ground is what this
+     rung is for. */
+  box-shadow: var(--strand-elevation-3);
+}
+
+/* The frame is the page's own surface at narrow widths: a 1px border and
+   a 12px radius around content that already fills the viewport is chrome
+   drawing attention to itself, and it costs horizontal space a phone
+   does not have. */
+@media (max-width: 767.98px) {
+  .strand-app-shell {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}

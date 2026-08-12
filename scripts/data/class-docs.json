@@ -55,6 +55,17 @@
 			"example": "<div class=\"strand-alert strand-alert--info\" role=\"status\">\n  <span class=\"strand-alert__status\">INFO</span>\n  <div class=\"strand-alert__content\">This is an informational message.</div>\n</div>"
 		},
 		{
+			"name": "AppShell",
+			"description": "The card the whole application sits inside: a bounded frame on the page ground, chrome flush to its edges, corners rounded and children clipped to them. NOT A CONTENT WIDTH, and the naming is the risk: the strand-container tiers are READING MEASURES (640 for prose, 1024 at the widest, because text stops being readable past it), while a frame is a different axis bounded by how wide an application should feel. Use a container INSIDE this, never instead of it. Clipping is the point rather than the width: without it a nav's square top corners overhang the frame's rounded ones, which is visible at exactly the two pixels a reader looks at first. Below md it drops border, radius and shadow, because chrome around content that already fills the viewport draws attention to itself and costs space a phone does not have.",
+			"classes": [
+				{
+					"class": "strand-app-shell",
+					"description": "Application frame. Max width --strand-frame-max (1440px), a chrome dimension declared beside the nav and tab-bar heights rather than among the content tiers. Uses overflow: clip, NOT hidden: hidden would make the outermost container in the product a scroll container and break every position:sticky element beneath it at once."
+				}
+			],
+			"example": "<div class=\"strand-app-shell\">\n  <nav class=\"strand-nav\">...</nav>\n  <!-- Reading measures go INSIDE the frame, not instead of it. -->\n  <div class=\"strand-container strand-container--wide\">...</div>\n</div>"
+		},
+		{
 			"name": "Avatar",
 			"description": "User or entity representation with image or initials.",
 			"classes": [
@@ -166,6 +177,29 @@
 				}
 			],
 			"example": "<div class=\"strand-banner strand-banner--info\">\n  <p class=\"strand-banner__text\">Scheduled maintenance tonight.</p>\n  <button class=\"strand-banner__dismiss\" aria-label=\"Dismiss\">...</button>\n</div>"
+		},
+		{
+			"name": "BigMonoTime",
+			"description": "An oversized monospace clock readout: the largest element in the rail it sits in, so its figure alignment matters more than its size. tabular-nums is why 06:45 and 11:11 are the same width and a column of times does not ripple. Not DataReadout, which pairs a label with a value and renders them as a unit; this is the value alone at display scale and the surrounding rail supplies the context. Renders <time> when given a machine-readable value and <span> otherwise, because a <time> without datetime asserts an instant that is not there.",
+			"classes": [
+				{
+					"class": "strand-big-mono-time",
+					"description": "The readout. Mono, semibold, tabular figures, tight tracking to close up mono's loose display-size rhythm without touching the figure advance."
+				},
+				{
+					"class": "strand-big-mono-time--sm",
+					"description": "Smaller step."
+				},
+				{
+					"class": "strand-big-mono-time--lg",
+					"description": "Larger step."
+				},
+				{
+					"class": "strand-big-mono-time__sep",
+					"description": "Range separator. Quieter than the figures so the eye reads two times rather than one string, and aria-hidden so a screen reader is not read punctuation mid-time."
+				}
+			],
+			"example": "<time class=\"strand-big-mono-time\" datetime=\"2026-08-13T06:45\">06:45</time>\n\n<span class=\"strand-big-mono-time strand-big-mono-time--lg\">06:45<span class=\"strand-big-mono-time__sep\" aria-hidden=\"true\">–</span>08:30</span>"
 		},
 		{
 			"name": "Breadcrumb",
@@ -417,6 +451,25 @@
 				}
 			],
 			"example": "<label class=\"strand-checkbox strand-checkbox--checked\">\n  <input type=\"checkbox\" class=\"strand-checkbox__native\" checked>\n  <span class=\"strand-checkbox__control\" aria-hidden=\"true\">\n    <svg class=\"strand-checkbox__icon\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <path d=\"M3.5 8L6.5 11L12.5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"strand-checkbox__label\">Accept terms</span>\n</label>"
+		},
+		{
+			"name": "ChipSet",
+			"description": "A set of selectable chips that WRAPS in a rail and SCROLLS on a narrow viewport. The overflow behaviour is the component, not a detail of it: wrapping is correct in a desktop rail and wrong at 390, where a filter strip wrapping to three lines pushes the content it filters off the screen. It SCROLLS rather than clipping, because a filter the reader cannot reach is not a filter. SELECTION IS ANNOUNCED, NOT ONLY PAINTED: multi-select uses aria-pressed toggles, single-select uses a radiogroup, because \"any of these\" and \"one of these\" are different promises and painting them identically tells a screen reader nothing.",
+			"classes": [
+				{
+					"class": "strand-chip-set",
+					"description": "The set. role=group for multi-select, role=radiogroup for single. Wraps by default."
+				},
+				{
+					"class": "strand-chip-set--scroll",
+					"description": "Never wraps. Pair with strand-scroll-row, which owns everything else about scrolling sideways, so a chip strip and any other scrolling row share one definition."
+				},
+				{
+					"class": "strand-chip-set__chip",
+					"description": "One chip. Selected state is styled from aria-pressed / aria-checked, so the painted state and the announced state cannot drift. 44px minimum block size under a coarse pointer."
+				}
+			],
+			"example": "<div class=\"strand-chip-set\" role=\"group\" aria-label=\"Interests\">\n  <button type=\"button\" class=\"strand-chip-set__chip\" aria-pressed=\"true\">Outdoors</button>\n  <button type=\"button\" class=\"strand-chip-set__chip\" aria-pressed=\"false\">Making</button>\n</div>\n\n<!-- Mobile: one line, scrolls sideways, one choice. -->\n<div class=\"strand-chip-set strand-chip-set--scroll strand-scroll-row\" role=\"radiogroup\" aria-label=\"Filter\">\n  <button type=\"button\" role=\"radio\" class=\"strand-chip-set__chip\" aria-checked=\"true\">All</button>\n</div>"
 		},
 		{
 			"name": "CodeBlock",
@@ -1367,6 +1420,29 @@
 			"example": "<nav class=\"strand-nav\" aria-label=\"Main navigation\">\n  <div class=\"strand-nav__inner\">\n    <div class=\"strand-nav__logo\"><strong>Brand</strong></div>\n    <div class=\"strand-nav__items\">\n      <a href=\"/\" class=\"strand-nav__link strand-nav__link--active\">Home</a>\n    </div>\n  </div>\n</nav>"
 		},
 		{
+			"name": "PersonChip",
+			"description": "An initials avatar beside a name, in a pill. Shipped as ONE primitive rather than Avatar + Tag composed by hand, because the pill has to align the circle's optical centre with the name's baseline box and a consumer composing two primitives gets that right only by accident. The initials are DECORATIVE and the circle is aria-hidden: the name beside them is the accessible name, and announcing \"MK, Maria Klein\" reads the same person twice. A button only when it does something; a strip of thirty non-interactive chips would otherwise be thirty tab stops promising an action that does not exist.",
+			"classes": [
+				{
+					"class": "strand-person-chip",
+					"description": "The pill. A <span> when it only names someone, a <button> when it opens a profile."
+				},
+				{
+					"class": "strand-person-chip--action",
+					"description": "Interactive form: hover and focus affordances."
+				},
+				{
+					"class": "strand-person-chip__avatar",
+					"description": "Initials circle. aria-hidden. blue-deep on blue-wash, not blue-primary: these are letters, so 14.2b makes them text at 4.5:1 rather than a graphical object at 3:1."
+				},
+				{
+					"class": "strand-person-chip__name",
+					"description": "The name, and the accessible name. Truncates on one line: a two-line pill breaks a wrapping strip's rhythm."
+				}
+			],
+			"example": "<span class=\"strand-person-chip\">\n  <span class=\"strand-person-chip__avatar\" aria-hidden=\"true\">MK</span>\n  <span class=\"strand-person-chip__name\">Maria Klein</span>\n</span>"
+		},
+		{
 			"name": "Progress",
 			"description": "Completion indicator (bar or ring).",
 			"classes": [
@@ -1870,6 +1946,33 @@
 				}
 			],
 			"example": "<div class=\"strand-stack strand-stack--vertical strand-stack--gap-4\">\n  <div>Item 1</div>\n  <div>Item 2</div>\n</div>\n\n<!-- Header row: title left, actions right. Inside a flex or grid parent,\n     a stack shrink-wraps to its content; add strand-full-width so\n     justify-between has room to distribute. -->\n<div class=\"strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--align-center strand-stack--justify-between strand-full-width\">\n  <span class=\"strand-overline strand-overline--accent\">Section title</span>\n  <div class=\"strand-stack strand-stack--horizontal strand-stack--gap-2\">\n    <button class=\"strand-btn strand-btn--ghost strand-btn--sm\"><span class=\"strand-btn__content\">Cancel</span></button>\n    <button class=\"strand-btn strand-btn--primary strand-btn--sm\"><span class=\"strand-btn__content\">Save</span></button>\n  </div>\n</div>"
+		},
+		{
+			"name": "StatStrip",
+			"description": "A row of labelled value cells, compared across rather than read singly. Not DataReadout, which renders ONE label-and-value pair as a unit with sizes tuned for a single dominant figure; here the cells are peers, so they are equal-width and their values share a baseline. Renders as a description list because that is what it is: a row of divs would give a screen reader six unrelated strings instead of three pairs.",
+			"classes": [
+				{
+					"class": "strand-stat-strip",
+					"description": "The row, as a <dl>. Equal fractions via minmax(0, 1fr) so a long value cannot widen its own column and break the comparison by position."
+				},
+				{
+					"class": "strand-stat-strip--bordered",
+					"description": "Denser panel form: cells gain padding and a hairline rule between them, for a strip that is its own panel rather than a row inside a card."
+				},
+				{
+					"class": "strand-stat-strip__cell",
+					"description": "One cell, wrapping a dt and its dd. The wrapper is what pairs them when several sit side by side; without it the association is only visual."
+				},
+				{
+					"class": "strand-stat-strip__label",
+					"description": "The dt, in the overline pattern. gray-500 rather than the gray-400 a mockup specifies: a label is a word, so 14.2b makes it text at 4.5:1."
+				},
+				{
+					"class": "strand-stat-strip__value",
+					"description": "The dd. Mono with tabular figures; wraps rather than widening its column."
+				}
+			],
+			"example": "<dl class=\"strand-stat-strip\">\n  <div class=\"strand-stat-strip__cell\">\n    <dt class=\"strand-stat-strip__label\">Group</dt>\n    <dd class=\"strand-stat-strip__value\">East Bay</dd>\n  </div>\n</dl>"
 		},
 		{
 			"name": "Swatch",
@@ -2788,6 +2891,10 @@
 			{
 				"class": "strand-scroll-row",
 				"description": "A single row that scrolls sideways instead of wrapping: a mobile filter strip, a chip rail, any horizontal set that must stay one line at 390px. strand-stack--horizontal plus strand-stack--wrap is the obvious composition and the wrong one, because wrapping is precisely what this must not do. It SCROLLS rather than clipping, which is a deliberate divergence from any mockup specifying overflow: hidden with nowrap: a filter the reader cannot reach is not a filter. Children get flex-shrink: 0 and scroll-snap-align automatically, so they keep their label width and the row scrolls instead of squeezing. Scrollbar hidden; content stays reachable by drag, wheel and keyboard focus."
+			},
+			{
+				"class": "strand-clip",
+				"description": "Clips children to the container's own rounded corners: the mechanical consequence of sanctioning rounded surfaces, since a square-cornered child flush against a rounded parent overhangs it exactly at the corners. Uses overflow: clip rather than hidden, because hidden also makes the element a SCROLL CONTAINER and would silently break every position:sticky element inside it. A genuinely scrolling region is overflow: auto and a deliberate decision, not this."
 			}
 		]
 	}
