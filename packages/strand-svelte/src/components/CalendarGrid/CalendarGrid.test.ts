@@ -55,6 +55,32 @@ describe('buildMonthGrid', () => {
     expect(checked).toBe(7 * 12 * 2)
   })
 
+
+  // fixedWeeks: the grid must not resize the page when the month turns.
+  // Paging from a six-row month to a five-row one moves everything beneath
+  // it. 6.6.1's space contract, and 10.6's argument one level up.
+  it('pads every month to the same row count when asked', () => {
+    for (const [y, m] of [[2026, 7], [2026, 8], [2026, 1]]) {
+      expect(buildMonthGrid(y, m, 0, 6)).toHaveLength(6)
+    }
+  })
+
+  it('pads from the adjacent months rather than emitting a blank band', () => {
+    const trailing = buildMonthGrid(2026, 1, 0, 6)[5]
+    expect(trailing).toHaveLength(7)
+    expect(trailing.every((d) => d.adjacent)).toBe(true)
+  })
+
+  it('still contains every day of the month exactly once when padded', () => {
+    const own = buildMonthGrid(2026, 1, 0, 6).flat().filter((d) => !d.adjacent)
+    expect(own.map((d) => d.day)).toEqual(Array.from({ length: 28 }, (_, i) => i + 1))
+  })
+
+  it('keeps the variable row count when fixedWeeks is unset', () => {
+    expect(buildMonthGrid(2026, 1)).toHaveLength(4)
+    expect(buildMonthGrid(2026, 7)).toHaveLength(6)
+  })
+
   it('emits an iso key matching the local date, not a UTC shift', () => {
     for (const day of buildMonthGrid(2026, 7).flat()) {
       const [y, m, d] = day.iso.split('-').map(Number)

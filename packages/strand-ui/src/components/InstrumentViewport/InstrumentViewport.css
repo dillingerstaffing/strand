@@ -714,101 +714,6 @@
 }
 
 /* ──────────────────────────────────────────────
-   FUI: MAP LEGEND (sector classification HUD)
-   ──────────────────────────────────────────────
-   A small HUD panel listing the sector classifications used by
-   the instrument. The colored dots are the connector between
-   the legend and the map pins. Hovering an item dims unrelated
-   pins so the user can scan one sector at a time. */
-
-.strand-map-legend {
-  position: absolute;
-  bottom: calc(var(--strand-space-6) + 6rem);
-  right: var(--strand-space-4);
-  z-index: 10;
-  font-family: var(--strand-font-mono);
-  font-size: var(--strand-text-xs);
-  letter-spacing: var(--strand-tracking-wide);
-  color: rgba(148, 163, 184, 0.6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--strand-space-2);
-  background: rgba(15, 25, 42, 0.7);
-  border: 1px solid var(--strand-instrument-border);
-  border-radius: var(--strand-radius-md);
-  padding: var(--strand-space-3) var(--strand-space-4);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  box-shadow: var(--strand-instrument-shadow-inset), var(--strand-instrument-shadow-soft);
-}
-
-.strand-map-legend__title {
-  font-weight: var(--strand-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--strand-tracking-widest);
-  color: rgba(148, 163, 184, 0.4);
-  margin-bottom: var(--strand-space-1);
-  display: flex;
-  align-items: center;
-  gap: var(--strand-space-2);
-}
-
-.strand-map-legend__title::before {
-  content: "";
-  width: 4px;
-  height: 4px;
-  background: var(--strand-instrument-glow-strong);
-  border-radius: var(--strand-radius-full);
-  animation: strand-instrument-breathe 3s var(--strand-ease-in-out-sine) infinite;
-}
-
-.strand-map-legend__item {
-  display: flex;
-  align-items: center;
-  gap: var(--strand-space-3);
-  padding: 2px 0;
-  cursor: pointer;
-  transition: color var(--strand-duration-fast) ease;
-}
-
-.strand-map-legend__item:hover {
-  color: rgba(226, 232, 240, 0.9);
-}
-
-.strand-map-legend__item:hover .strand-map-legend__dot {
-  transform: scale(1.4);
-  filter: brightness(1.3);
-}
-
-.strand-map-legend__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--strand-radius-full);
-  transition: transform var(--strand-duration-fast) var(--strand-ease-out-expo),
-    filter var(--strand-duration-fast) ease;
-}
-
-.strand-map-legend__dot--tech {
-  background: var(--strand-sector-tech);
-  box-shadow: 0 0 8px rgba(59, 142, 246, 0.5);
-}
-
-.strand-map-legend__dot--health {
-  background: var(--strand-sector-health);
-  box-shadow: 0 0 8px rgba(20, 184, 166, 0.5);
-}
-
-.strand-map-legend__dot--trades {
-  background: var(--strand-sector-trades);
-  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
-}
-
-.strand-map-legend__dot--finance {
-  background: var(--strand-sector-finance);
-  box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
-}
-
-/* ──────────────────────────────────────────────
    SEARCH BAR (floating glassmorphic, instrument)
    ──────────────────────────────────────────────
    A floating search bar centered above the viewport. Glass-
@@ -931,162 +836,6 @@
 @keyframes strand-search-bar-pulse {
   0%, 100% { border-color: var(--strand-blue-primary); }
   50%      { border-color: rgba(59, 142, 246, 0.3); }
-}
-
-/* ──────────────────────────────────────────────
-   RESULTS PANEL (instrument left sidebar)
-   ──────────────────────────────────────────────
-   The list of items returned by an instrument query. Glass-
-   morphic dark surface, fixed left side on desktop, bottom
-   sheet on mobile. Holds count, scrollable items, empty/error
-   states. */
-
-.strand-results-panel {
-  position: absolute;
-  top: var(--strand-space-4);
-  left: var(--strand-space-4);
-  width: 340px;
-  max-height: calc(100% - var(--strand-space-8));
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  background: var(--strand-instrument-bg-glass);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(59, 142, 246, 0.12);
-  border-radius: var(--strand-radius-lg);
-  overflow: hidden;
-  box-shadow: var(--strand-instrument-shadow-medium);
-}
-
-.strand-results-panel[hidden] {
-  display: none;
-}
-
-.strand-results-panel__count {
-  font-family: var(--strand-font-mono);
-  font-size: var(--strand-text-xs);
-  letter-spacing: var(--strand-tracking-widest);
-  text-transform: uppercase;
-  color: var(--strand-instrument-text-tertiary);
-  padding: var(--strand-space-3) var(--strand-space-4);
-  border-bottom: 1px solid rgba(59, 142, 246, 0.08);
-}
-
-.strand-results-panel__items {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  max-height: calc(100vh - 240px);
-  overscroll-behavior: contain;
-}
-
-.strand-results-panel__state {
-  padding: var(--strand-space-6) var(--strand-space-4);
-  text-align: center;
-}
-
-.strand-results-panel__state-title {
-  font-family: var(--strand-font-mono);
-  font-size: var(--strand-text-xs);
-  letter-spacing: var(--strand-tracking-wide);
-  color: var(--strand-instrument-text-tertiary);
-}
-
-.strand-results-panel__state-hint {
-  font-size: var(--strand-text-xs);
-  color: var(--strand-instrument-text-quiet);
-  margin-top: var(--strand-space-2);
-}
-
-.strand-results-panel__error-link {
-  display: inline-block;
-  margin-top: var(--strand-space-3);
-  font-family: var(--strand-font-mono);
-  font-size: var(--strand-text-xs);
-  color: var(--strand-blue-primary);
-  text-decoration: none;
-  border: 1px solid rgba(59, 142, 246, 0.3);
-  border-radius: var(--strand-radius-sm);
-  padding: var(--strand-space-2) var(--strand-space-3);
-  transition: background var(--strand-duration-fast) ease;
-}
-
-.strand-results-panel__error-link:hover {
-  background: rgba(59, 142, 246, 0.1);
-}
-
-/* ── Result card ── */
-.strand-result-card {
-  display: block;
-  padding: var(--strand-space-3) var(--strand-space-4);
-  border-bottom: 1px solid rgba(59, 142, 246, 0.06);
-  cursor: pointer;
-  transition: background var(--strand-duration-fast) ease;
-}
-
-.strand-result-card:hover {
-  background: rgba(59, 142, 246, 0.08);
-}
-
-/* Selection state for a master-detail list row. Uses background
-   tint only. No left-edge accent bar (banned pattern, see
-   Card.css comment above .strand-card--active). */
-.strand-result-card.is-active,
-.strand-result-card--active {
-  background: rgba(59, 142, 246, 0.12);
-}
-
-.strand-result-card__title {
-  font-size: var(--strand-text-sm);
-  font-weight: var(--strand-weight-medium);
-  color: var(--strand-instrument-text-primary);
-  margin-bottom: 2px;
-  line-height: 1.3;
-}
-
-.strand-result-card__company {
-  font-size: var(--strand-text-xs);
-  color: rgba(148, 163, 184, 0.7);
-  margin-bottom: 4px;
-}
-
-.strand-result-card__meta {
-  display: flex;
-  align-items: center;
-  gap: var(--strand-space-2);
-  flex-wrap: wrap;
-}
-
-.strand-result-card__location {
-  font-family: var(--strand-font-mono);
-  font-size: 10px;
-  letter-spacing: var(--strand-tracking-wide);
-  color: var(--strand-instrument-text-tertiary);
-}
-
-.strand-result-card__salary {
-  font-family: var(--strand-font-mono);
-  font-size: 10px;
-  color: var(--strand-blue-indicator);
-}
-
-.strand-result-card__badge {
-  font-family: var(--strand-font-mono);
-  font-size: 9px;
-  letter-spacing: var(--strand-tracking-wide);
-  text-transform: uppercase;
-  padding: 1px 6px;
-  border-radius: var(--strand-radius-sm);
-}
-
-.strand-result-card__badge--remote {
-  color: var(--strand-teal-vital);
-  background: rgba(20, 184, 166, 0.12);
-}
-
-.strand-result-card__badge--source {
-  color: rgba(148, 163, 184, 0.4);
-  background: rgba(148, 163, 184, 0.06);
 }
 
 /* ──────────────────────────────────────────────
@@ -1271,80 +1020,6 @@
   letter-spacing: var(--strand-tracking-wide);
   color: var(--strand-gray-500);
   text-align: center;
-}
-
-/* ──────────────────────────────────────────────
-   MAP LOADING (instrument startup screen)
-   ──────────────────────────────────────────────
-   The full-bleed loading screen that hides the instrument while
-   it boots. Centered spinner, mono caption, sweeping bar.
-   Fades out via opacity transition. */
-
-.strand-map-loading {
-  position: absolute;
-  inset: 0;
-  z-index: 30;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--strand-space-6);
-  background: var(--strand-instrument-bg);
-  transition: opacity 0.6s ease;
-}
-
-.strand-map-loading.is-hidden,
-.strand-map-loading--hidden,
-.strand-map-loading.hidden {
-  display: none;
-}
-
-.strand-map-loading__spinner {
-  width: 40px;
-  height: 40px;
-  border: 1.5px solid rgba(59, 142, 246, 0.15);
-  border-top-color: rgba(59, 142, 246, 0.7);
-  border-radius: var(--strand-radius-full);
-  animation: strand-map-loading-spin 1s linear infinite;
-}
-
-@keyframes strand-map-loading-spin {
-  to { transform: rotate(360deg); }
-}
-
-.strand-map-loading__text {
-  font-family: var(--strand-font-mono);
-  font-size: 11px;
-  letter-spacing: var(--strand-tracking-widest);
-  text-transform: uppercase;
-  color: var(--strand-instrument-text-tertiary);
-}
-
-.strand-map-loading__bar {
-  width: 160px;
-  height: 1px;
-  background: rgba(59, 142, 246, 0.1);
-  border-radius: var(--strand-radius-sm);
-  overflow: hidden;
-}
-
-.strand-map-loading__bar::after {
-  content: "";
-  display: block;
-  height: 100%;
-  width: 40%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(59, 142, 246, 0.6),
-    transparent
-  );
-  animation: strand-map-loading-sweep 1.4s var(--strand-ease-in-out-sine) infinite;
-}
-
-@keyframes strand-map-loading-sweep {
-  0%   { transform: translateX(-200%); }
-  100% { transform: translateX(500%); }
 }
 
 /* ──────────────────────────────────────────────
@@ -1578,22 +1253,6 @@
    readout) hide because they would crowd small screens. */
 
 @media (max-width: 768px) {
-  .strand-results-panel {
-    top: auto;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    max-height: 40vh;
-    border-radius: var(--strand-radius-lg) var(--strand-radius-lg) 0 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-  }
-
-  .strand-results-panel__items {
-    max-height: none;
-    overflow-y: visible;
-  }
 
   .strand-search-bar,
   .strand-search-bar--shifted {
@@ -1669,11 +1328,6 @@
     margin-bottom: var(--strand-space-2);
   }
 
-  .strand-map-legend,
-  .strand-coord-readout {
-    display: none;
-  }
-
   .strand-search-bar__input {
     font-size: 16px;
   }
@@ -1739,17 +1393,8 @@
     animation: none;
   }
 
-  .strand-map-legend__title::before {
-    animation: none;
-  }
-
   .strand-coord-readout::before {
     animation: none;
-  }
-
-  .strand-map-loading__spinner {
-    animation: none;
-    border-color: rgba(59, 142, 246, 0.4);
   }
 
   .strand-search-bar__action--locating {
@@ -1767,4 +1412,13 @@
 .strand-body--instrument .strand-status-chip--committed,
 .strand-instrument-viewport .strand-status-chip--committed {
   color: var(--strand-teal-vital);
+}
+
+/* The other half of the legend's narrow-viewport rule. Both primitives
+   hide below 640px; the selector is split because they live in separate
+   files, so neither file appears to define the other. */
+@media (max-width: 640px) {
+  .strand-coord-readout {
+    display: none;
+  }
 }

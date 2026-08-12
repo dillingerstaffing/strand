@@ -36,6 +36,12 @@ interface Props {
   year: number
   month: number
   weekStartsOn?: 0 | 1
+  /** Render exactly this many week rows, padding from the adjacent months.
+      A month is four to six weeks long, so a grid that stops when the month
+      is covered changes height as the reader pages and moves everything
+      beneath it. That is 6.6.1's space contract and 10.6 one level up.
+      Six never truncates. */
+  fixedWeeks?: number
   /** Accessible name, e.g. "August 2026". A grid with no name is announced
       as an unlabelled table of numbers. */
   label: string
@@ -58,6 +64,7 @@ const DAY_NAMES_LONG = [
 
 const props = withDefaults(defineProps<Props>(), {
   weekStartsOn: 0,
+  fixedWeeks: undefined,
   dayNames: undefined,
   dayNamesLong: undefined,
   selected: undefined,
@@ -78,7 +85,7 @@ const gridEl = ref<HTMLElement | null>(null)
 const focused = ref<string | undefined>(undefined)
 
 const weeks = computed(() =>
-  buildMonthGrid(props.year, props.month, props.weekStartsOn),
+  buildMonthGrid(props.year, props.month, props.weekStartsOn, props.fixedWeeks),
 )
 const flat = computed(() => weeks.value.flat())
 const todayIso = computed(() => isoOf(props.today ?? new Date()))

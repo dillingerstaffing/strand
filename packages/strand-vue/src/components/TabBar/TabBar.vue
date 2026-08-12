@@ -10,7 +10,10 @@
 
   Not Tabs, which switches content panels inside one view (19.3). Not
   ActionDock either: a dock carries the one ACTION a view produces, this
-  carries DESTINATIONS, and 19.1.1 forbids stacking them.
+  carries DESTINATIONS. 19.1.1 does NOT forbid the two coexisting -- it
+  forbids stacking them into a wall and requires a surface wanting both to
+  decide which belongs nearer the thumb. Mutually exclusive by state is a
+  legal answer.
 
   Reserve the space it occupies with `strand-tabbar-offset` on the
   scrolling content, or the last item of every list sits underneath it.

@@ -32,10 +32,14 @@
 		"LabTip",
 		"LabUtilCell",
 		"Link",
+		"MapLegend",
+		"MapLoading",
 		"Nav",
 		"Progress",
 		"Radio",
 		"Reserve",
+		"ResultCard",
+		"ResultsPanel",
 		"ScrollReveal",
 		"SearchField",
 		"SearchTrigger",
@@ -49,8 +53,8 @@
 		"StarRating",
 		"Swatch",
 		"Switch",
-		"Table",
 		"TabBar",
+		"Table",
 		"Tabs",
 		"Tag",
 		"Textarea",
@@ -96,17 +100,17 @@
 				"gzipped_bytes": 4582
 			},
 			"strand-ui.css": {
-				"raw_bytes": 286183,
-				"gzipped_bytes": 66703
+				"raw_bytes": 287368,
+				"gzipped_bytes": 67231
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 325516,
-		"total_gz_bytes": 79284,
-		"total_gz_kb": 77
+		"total_raw_bytes": 326701,
+		"total_gz_bytes": 79812,
+		"total_gz_kb": 78
 	},
 	"foreignBlocks": {
 		"Button": [
@@ -128,12 +132,8 @@
 			"strand-scanline",
 			"strand-viewport-vignette",
 			"strand-coord-readout",
-			"strand-map-legend",
 			"strand-search-bar",
-			"strand-results-panel",
-			"strand-result-card",
 			"strand-detail-panel",
-			"strand-map-loading",
 			"strand-map-pin",
 			"strand-cluster-marker"
 		],
@@ -179,5 +179,13 @@
 			"strand-token-specimen-grid"
 		]
 	},
-	"foreignBlocksNote": "Blocks a component stylesheet defines that are not its own, recorded so the debt is legible and cannot grow silently. Seeded 2026-08-12 from the sweep that added this invariant; every entry predates it. Three kinds are mixed here and they are not equally benign. (1) A component whose class name simply differs from its directory name -- Button/strand-btn, Tag/strand-chip, ScrollReveal/strand-reveal -- which is cosmetic. (2) A helper block that plainly belongs to its component, such as Table/strand-table-wrapper. (3) INDEPENDENT PRIMITIVES hiding in a neighbour: InstrumentViewport.css defines the search overlay, the results panel, the result card, the detail panel, the map pins, the cluster marker and the map legend, none of which has a component in any of the eight consumer types, a parity-manifest entry, or a test. Card.css defines five strand-channel-* blocks, which is consumer-specific markup in the library. Kind 3 is real work; kinds 1 and 2 may simply be recorded forever."
+	"foreignBlocksNote": "Blocks a component stylesheet defines that are not its own, recorded so the debt is legible and cannot grow silently. Seeded 2026-08-12 from the sweep that added this invariant; every entry predates it. Three kinds are mixed here and they are not equally benign. (1) A component whose class name simply differs from its directory name -- Button/strand-btn, Tag/strand-chip, ScrollReveal/strand-reveal -- which is cosmetic. (2) A helper block that plainly belongs to its component, such as Table/strand-table-wrapper. (3) INDEPENDENT PRIMITIVES hiding in a neighbour: InstrumentViewport.css defines the search overlay, the results panel, the result card, the detail panel, the map pins, the cluster marker and the map legend, none of which has a component in any of the eight consumer types, a parity-manifest entry, or a test. Card.css defines five strand-channel-* blocks, which is consumer-specific markup in the library. Kind 3 is real work; kinds 1 and 2 may simply be recorded forever.",
+	"darkCabinetComponents": [
+		"InstrumentViewport",
+		"MapLegend",
+		"MapLoading",
+		"ResultCard",
+		"ResultsPanel"
+	],
+	"darkCabinetComponentsNote": "The dark instrument cabinet (DL 9.3). Text in these components is painted on the abyss, never on a light surface, so contrast-check judges them against the dark surface. This was derived from InstrumentViewport.css alone until four primitives were given their own component directories; the derivation broke silently and reported six findings about colours that were correct. Membership is a decision, so it is declared rather than inferred from a file boundary. Add a component here only if its text genuinely never appears on a light surface."
 }

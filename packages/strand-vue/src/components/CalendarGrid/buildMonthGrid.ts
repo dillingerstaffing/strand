@@ -27,6 +27,7 @@ export function buildMonthGrid(
   year: number,
   month: number,
   weekStartsOn = 0,
+  fixedWeeks?: number,
 ): CalendarDay[][] {
   const toDay = (d: Date): CalendarDay => ({
     date: d,
@@ -54,7 +55,11 @@ export function buildMonthGrid(
       cursor.setDate(cursor.getDate() + 1)
     }
     weeks.push(week)
-    if (week[6].date >= lastOfMonth) break
+    if (fixedWeeks != null) {
+      if (weeks.length >= fixedWeeks) break
+    } else if (week[6].date >= lastOfMonth) {
+      break
+    }
   }
   return weeks
 }

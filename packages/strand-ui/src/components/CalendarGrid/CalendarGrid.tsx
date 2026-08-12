@@ -31,11 +31,14 @@ export interface CalendarDay {
  * @param year  Full year, e.g. 2026.
  * @param month Zero-based month, matching `Date.getMonth()`.
  * @param weekStartsOn 0 = Sunday, 1 = Monday. Default 0.
+ * @param fixedWeeks Pad to exactly this many rows. Unset means "as many
+ *   as the month needs", which changes the grid's height between months.
  */
 export function buildMonthGrid(
   year: number,
   month: number,
   weekStartsOn = 0,
+  fixedWeeks?: number,
 ): CalendarDay[][] {
   const pad = (n: number) => String(n).padStart(2, "0");
   const toDay = (d: Date, adjacent: boolean): CalendarDay => ({
@@ -74,7 +77,11 @@ export function buildMonthGrid(
       cursor.setDate(cursor.getDate() + 1);
     }
     weeks.push(week);
-    if (week[6].date >= lastOfMonth) break;
+    if (fixedWeeks != null) {
+      if (weeks.length >= fixedWeeks) break;
+    } else if (week[6].date >= lastOfMonth) {
+      break;
+    }
   }
   return weeks;
 }
@@ -87,6 +94,28 @@ export interface CalendarGridProps
   month: number;
   /** 0 = Sunday, 1 = Monday. Default 0. */
   weekStartsOn?: 0 | 1;
+  /**
+   * Render exactly this many week rows, padding from the adjacent months.
+   *
+ * A month is four to six weeks long, so a grid that stops when the month
+ * is covered CHANGES HEIGHT as the reader pages: six rows for August
+ * 2026, five for September, four for February. At ~112px a row that
+ * resizes the region and moves everything beneath it, every time someone
+ * turns the month.
+ *
+ * `fixedWeeks` pads to a constant row count instead. This is 6.6.1's
+ * space contract and 10.6's argument one level up: 10.6 says a bounded
+ * cell must not grow its row, and this says the grid must not grow its
+ * page. Same obligation, different scale, so it needs no new rule.
+ *
+ * Six is the value that never truncates, because six is the most rows any
+ * month can need. Padding is drawn from the adjacent months, which the
+ * grid already renders and already marks, so a padded row is not a blank
+ * band -- it is the same context the first and last rows always carry.
+   *
+   * Unset keeps the old behaviour: as many rows as the month needs.
+   */
+  fixedWeeks?: number;
   /**
    * Accessible name for the grid, e.g. "August 2026". Required: a grid
    * with no name is announced as an unlabelled table of numbers.
@@ -163,6 +192,7 @@ export function CalendarGrid({
   year,
   month,
   weekStartsOn = 0,
+  fixedWeeks,
   label,
   dayNames,
   dayNamesLong,
@@ -177,8 +207,8 @@ export function CalendarGrid({
   ...rest
 }: CalendarGridProps) {
   const weeks = useMemo(
-    () => buildMonthGrid(year, month, weekStartsOn),
-    [year, month, weekStartsOn],
+    () => buildMonthGrid(year, month, weekStartsOn, fixedWeeks),
+    [year, month, weekStartsOn, fixedWeeks],
   );
 
   const gridRef = useRef<HTMLDivElement>(null);

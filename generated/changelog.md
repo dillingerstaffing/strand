@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- grid sidebar preset; correct 7 fill-tier-as-text prescriptions in the DL (v0.40.0, gaps #77-#78)
 - CalendarGrid; 10.6 bounded cells and the well-plate production (v0.39.0, gaps #75-#76)
 - TabBar and SearchTrigger; 19.1.1 settles which mobile nav a surface takes (v0.38.0, gaps #73-#74)
 - SearchField, responsive visibility, progress on dark (v0.37.0, gaps #69-#72)

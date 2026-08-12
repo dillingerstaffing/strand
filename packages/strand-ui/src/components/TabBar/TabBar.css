@@ -16,9 +16,11 @@
 
    NOT `.strand-actiondock` either, and the boundary is stated in that
    primitive's own guidance: a dock carries the ONE action a view exists
-   to produce, this carries DESTINATIONS. 19.1.1 forbids stacking them
-   into a wall at the bottom of the viewport; a surface wanting both must
-   decide which belongs nearer the thumb.
+   to produce, this carries DESTINATIONS. 19.1.1 does NOT forbid the two
+   coexisting -- it forbids stacking them into a wall and requires a
+   surface wanting both to DECIDE which belongs nearer the thumb.
+   Mutually exclusive by state is a legal answer: destinations at rest,
+   the dock taking the band only while a commitment is live.
 
    Markup contract:
 

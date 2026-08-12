@@ -793,6 +793,10 @@ CSS Grid layout primitive with column and gap utilities.
 | `strand-grid--gap-5` | modifier | Gap: space-5 (20px). |
 | `strand-grid--gap-6` | modifier | Gap: space-6 (24px). |
 | `strand-grid--gap-8` | modifier | Gap: space-8 (32px). |
+| `strand-grid--sidebar` | modifier | A fixed 264px rail beside a flexible main track, collapsing to one column below the md breakpoint. Use for a filter rail beside a results area: it is not two equal halves, so --cols-2 is wrong, and the column COUNT is not what should vary, so auto-fit is wrong. The main track is minmax(0, 1fr) rather than 1fr, because a bare 1fr floors at the track's min-content width and one long unbroken string would widen the grid and push the rail off screen; the base rule's min-width:0 handles the ITEM, this handles the TRACK. Put the rail FIRST in the markup: below the breakpoint the regions stack in source order, and a filter met after the results it filters is one the reader has already scrolled past. |
+| `strand-ref-shell` | base | |
+| `strand-ref-example` | base | |
+| `strand-ref-taxonomy__list` | child | |
 
 **Usage:**
 
@@ -1340,7 +1344,7 @@ A control that LOOKS like a search field and behaves like a button: it opens a s
 
 ### TabBar
 
-The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations; 19.1.1 forbids stacking the two.
+The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations. 19.1.1 does not forbid the two coexisting; it forbids stacking them into a wall at the bottom of the viewport and requires a surface wanting both to DECIDE which belongs nearer the thumb. Mutually exclusive by state is a legal answer: destinations at rest, the dock taking the band only while a commitment is live, then yielding it back.
 
 | Class | Type | Description |
 |---|---|---|
@@ -1407,14 +1411,6 @@ Dark instrument panel container for data-dense content.
 | `strand-coord-readout` | base | |
 | `strand-coord-readout__lat` | child | |
 | `strand-coord-readout__lng` | child | |
-| `strand-map-legend` | base | |
-| `strand-map-legend__title` | child | |
-| `strand-map-legend__item` | child | |
-| `strand-map-legend__dot` | child | |
-| `strand-map-legend__dot--tech` | child | |
-| `strand-map-legend__dot--health` | child | |
-| `strand-map-legend__dot--trades` | child | |
-| `strand-map-legend__dot--finance` | child | |
 | `strand-search-bar` | base | |
 | `strand-search-bar--shifted` | modifier | |
 | `strand-search-bar__inner` | child | |
@@ -1422,23 +1418,6 @@ Dark instrument panel container for data-dense content.
 | `strand-search-bar__action` | child | |
 | `strand-search-bar__action--danger` | child | |
 | `strand-search-bar__action--locating` | child | |
-| `strand-results-panel` | base | |
-| `strand-results-panel__count` | child | |
-| `strand-results-panel__items` | child | |
-| `strand-results-panel__state` | child | |
-| `strand-results-panel__state-title` | child | |
-| `strand-results-panel__state-hint` | child | |
-| `strand-results-panel__error-link` | child | |
-| `strand-result-card` | base | |
-| `strand-result-card--active` | modifier | |
-| `strand-result-card__title` | child | |
-| `strand-result-card__company` | child | |
-| `strand-result-card__meta` | child | |
-| `strand-result-card__location` | child | |
-| `strand-result-card__salary` | child | |
-| `strand-result-card__badge` | child | |
-| `strand-result-card__badge--remote` | child | |
-| `strand-result-card__badge--source` | child | |
 | `strand-detail-panel--open` | modifier | |
 | `strand-detail-panel__title` | child | |
 | `strand-detail-panel__meta` | child | |
@@ -1450,11 +1429,6 @@ Dark instrument panel container for data-dense content.
 | `strand-detail-panel__close-icon` | child | |
 | `strand-detail-panel__company` | child | |
 | `strand-detail-panel__location` | child | |
-| `strand-map-loading` | base | |
-| `strand-map-loading--hidden` | modifier | |
-| `strand-map-loading__spinner` | child | |
-| `strand-map-loading__text` | child | |
-| `strand-map-loading__bar` | child | |
 | `strand-map-pin` | base | |
 | `strand-map-pin--tech` | modifier | |
 | `strand-map-pin--health` | modifier | |
@@ -1463,6 +1437,11 @@ Dark instrument panel container for data-dense content.
 | `strand-map-pin--highlighted` | modifier | |
 | `strand-map-pin--dimmed` | modifier | |
 | `strand-cluster-marker` | base | |
+| `strand-results-panel` | base | |
+| `strand-results-panel__items` | child | |
+| `strand-map-legend` | base | |
+| `strand-map-legend__title` | child | |
+| `strand-map-loading__spinner` | child | |
 | `strand-status-chip--committed` | modifier | |
 
 **Usage:**

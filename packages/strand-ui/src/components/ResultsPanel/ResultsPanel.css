@@ -1,0 +1,102 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ──────────────────────────────────────────────
+   RESULTS PANEL (instrument left sidebar)
+   ──────────────────────────────────────────────
+   The list of items returned by an instrument query. Glass-
+   morphic dark surface, fixed left side on desktop, bottom
+   sheet on mobile. Holds count, scrollable items, empty/error
+   states. */
+
+.strand-results-panel {
+  position: absolute;
+  top: var(--strand-space-4);
+  left: var(--strand-space-4);
+  width: 340px;
+  max-height: calc(100% - var(--strand-space-8));
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background: var(--strand-instrument-bg-glass);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(59, 142, 246, 0.12);
+  border-radius: var(--strand-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--strand-instrument-shadow-medium);
+}
+
+.strand-results-panel[hidden] {
+  display: none;
+}
+
+.strand-results-panel__count {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-instrument-text-tertiary);
+  padding: var(--strand-space-3) var(--strand-space-4);
+  border-bottom: 1px solid rgba(59, 142, 246, 0.08);
+}
+
+.strand-results-panel__items {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: calc(100vh - 240px);
+  overscroll-behavior: contain;
+}
+
+.strand-results-panel__state {
+  padding: var(--strand-space-6) var(--strand-space-4);
+  text-align: center;
+}
+
+.strand-results-panel__state-title {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  letter-spacing: var(--strand-tracking-wide);
+  color: var(--strand-instrument-text-tertiary);
+}
+
+.strand-results-panel__state-hint {
+  font-size: var(--strand-text-xs);
+  color: var(--strand-instrument-text-quiet);
+  margin-top: var(--strand-space-2);
+}
+
+.strand-results-panel__error-link {
+  display: inline-block;
+  margin-top: var(--strand-space-3);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-blue-primary);
+  text-decoration: none;
+  border: 1px solid rgba(59, 142, 246, 0.3);
+  border-radius: var(--strand-radius-sm);
+  padding: var(--strand-space-2) var(--strand-space-3);
+  transition: background var(--strand-duration-fast) ease;
+}
+
+.strand-results-panel__error-link:hover {
+  background: rgba(59, 142, 246, 0.1);
+}
+
+@media (max-width: 768px) {
+  .strand-results-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-height: 40vh;
+    border-radius: var(--strand-radius-lg) var(--strand-radius-lg) 0 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .strand-results-panel__items {
+    max-height: none;
+    overflow-y: visible;
+  }
+}

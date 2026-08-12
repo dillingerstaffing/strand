@@ -76,13 +76,26 @@ export const LIGHT_ISLANDS = /detail-panel|surface-light/;
  * The dark instrument cabinet (DL 9.3) is a family of FUI components whose
  * names mostly do not contain the word "instrument" -- search-bar, result-card,
  * cluster-marker, log, bar-chart. Rather than maintain that list by hand and
- * get it wrong, derive it: every class InstrumentViewport.css defines is a
- * dark-context class by construction, because that file IS the dark cabinet.
+ * get it wrong, derive it: every class the cabinet's stylesheets DEFINE is a
+ * dark-context class by construction.
  *
- * @param {string} instrumentCss
+ * **This used to read one file, and that was a latent bug rather than a
+ * simplification.** The derivation was "InstrumentViewport.css IS the dark
+ * cabinet", which held only while every dark primitive happened to live in
+ * that one file. The moment four of them were given their own component
+ * directories -- which the css-export-parity guard asks for -- they left the
+ * dark set and were judged against a light surface they are never painted on,
+ * producing six confident findings about colours that were correct. The
+ * cabinet is a FAMILY, so its membership is declared in
+ * parity-manifest.json#/darkCabinetComponents and every member's stylesheet
+ * is read here.
+ *
+ * @param {string|string[]} cabinetCss One or more cabinet stylesheets.
  * @returns {Set<string>}
  */
-export function darkContextClasses(instrumentCss) {
+export function darkContextClasses(cabinetCss) {
+	const sources = Array.isArray(cabinetCss) ? cabinetCss : [cabinetCss];
+	const instrumentCss = sources.join("\n");
 	const classes = new Set();
 	for (const rule of instrumentCss.matchAll(/([^{}]+)\{[^{}]*\}/g)) {
 		const selector = rule[1];
@@ -236,20 +249,34 @@ export function auditRule(rule, palette, darkClasses = new Set()) {
 }
 
 async function main() {
-	const [css, tokensCss, instrumentCss] = await Promise.all([
+	const [css, tokensCss, manifestJson] = await Promise.all([
 		readFile(CSS_PATH, "utf8"),
 		readFile(TOKENS_PATH, "utf8"),
-		readFile(
-			resolve(
-				REPO_ROOT,
-				"packages/strand-ui/src/components/InstrumentViewport/InstrumentViewport.css",
-			),
-			"utf8",
-		),
+		readFile(resolve(REPO_ROOT, "parity-manifest.json"), "utf8"),
 	]);
 
+	// Every member of the dark cabinet, not just the one file that used to
+	// hold all of them. An empty or missing declaration is a failure rather
+	// than a pass: it would silently judge every dark primitive against a
+	// light surface and report findings that are all wrong.
+	const cabinet = JSON.parse(manifestJson).darkCabinetComponents;
+	if (!Array.isArray(cabinet) || cabinet.length === 0) {
+		console.error(
+			"  CONTRAST CHECK FAILED: parity-manifest.json#/darkCabinetComponents is missing or empty, so every dark-cabinet class would be judged against a light surface.",
+		);
+		process.exit(1);
+	}
+	const cabinetCss = await Promise.all(
+		cabinet.map((name) =>
+			readFile(
+				resolve(REPO_ROOT, `packages/strand-ui/src/components/${name}/${name}.css`),
+				"utf8",
+			),
+		),
+	);
+
 	const palette = parsePalette(tokensCss);
-	const darkClasses = darkContextClasses(instrumentCss);
+	const darkClasses = darkContextClasses(cabinetCss);
 	const findings = parseRules(css).flatMap((rule) => auditRule(rule, palette, darkClasses));
 
 	if (findings.length > 0) {

@@ -1,6 +1,204 @@
 {
 	"components": [
 		{
+			"name": "ActionDock",
+			"description": "A bottom-anchored region carrying the primary action of a view, placed where a thumb rests. Implements design-language.md 14.8 (target position): 14.7 makes a target hittable, this makes it reachable. Flip data-strand-actiondock to \"visible\" when the in-flow control it stands in for scrolls out of view; that attribute is the whole runtime, and there is no JavaScript in this primitive. Use it for the ONE action a view exists to produce, and never alongside the real control, which would be two live buttons for one action.",
+			"classes": [
+				{
+					"class": "strand-actiondock",
+					"description": "Dock root. Fixed to the viewport's bottom edge and spanning the inline axis, so its position is a function of the viewport and no amount of scrolling moves it out of reach. Carries the safe-area inset so the control clears the home indicator on a notched phone."
+				}
+			],
+			"example": "<!-- Hidden by default: an absent attribute means hidden, so a server-rendered\n     page that never flips it occludes nothing. -->\n<div class=\"strand-actiondock\" data-strand-actiondock=\"hidden\">\n  <button class=\"strand-btn strand-btn--primary\" type=\"button\">RSVP</button>\n</div>\n\n<!-- Show it only while the real control is off screen, usually driven by an\n     IntersectionObserver on that control. -->\n<div class=\"strand-actiondock\" data-strand-actiondock=\"visible\" aria-hidden=\"true\">\n  <button class=\"strand-btn strand-btn--primary\" type=\"button\" tabindex=\"-1\">RSVP</button>\n</div>\n\n<!-- The docked control usually duplicates one already in the accessibility\n     tree, so aria-hidden plus tabindex=\"-1\" avoids a duplicate announcement\n     and a duplicate tab stop. Reach is a thumb problem; a keyboard user\n     reaches the in-flow control by tabbing. A dock carrying an action with NO\n     in-flow equivalent must be exposed instead. -->"
+		},
+		{
+			"name": "Alert",
+			"description": "Persistent notification with status variants.",
+			"classes": [
+				{
+					"class": "strand-alert",
+					"description": "Base alert element."
+				},
+				{
+					"class": "strand-alert__status",
+					"description": "Status prefix label."
+				},
+				{
+					"class": "strand-alert__content",
+					"description": "Alert message content."
+				},
+				{
+					"class": "strand-alert__dismiss",
+					"description": "Dismiss button."
+				},
+				{
+					"class": "strand-alert--info",
+					"description": "Info status."
+				},
+				{
+					"class": "strand-alert--success",
+					"description": "Success status."
+				},
+				{
+					"class": "strand-alert--warning",
+					"description": "Warning status."
+				},
+				{
+					"class": "strand-alert--error",
+					"description": "Error status."
+				},
+				{
+					"class": "strand-alert--stack",
+					"description": "Stacked layout variant: lays the alert body out in a column (flex-direction:column, align-items:stretch, space-3 gap) for a multi-line confirmation with its own action. Background and prefix-only status color are unchanged."
+				}
+			],
+			"example": "<div class=\"strand-alert strand-alert--info\" role=\"status\">\n  <span class=\"strand-alert__status\">INFO</span>\n  <div class=\"strand-alert__content\">This is an informational message.</div>\n</div>"
+		},
+		{
+			"name": "Avatar",
+			"description": "User or entity representation with image or initials.",
+			"classes": [
+				{
+					"class": "strand-avatar",
+					"description": "Base avatar element."
+				},
+				{
+					"class": "strand-avatar__img",
+					"description": "Image element inside avatar."
+				},
+				{
+					"class": "strand-avatar__initials",
+					"description": "Initials fallback text."
+				},
+				{
+					"class": "strand-avatar--sm",
+					"description": "Small size (32px)."
+				},
+				{
+					"class": "strand-avatar--md",
+					"description": "Medium size (40px)."
+				},
+				{
+					"class": "strand-avatar--lg",
+					"description": "Large size (48px)."
+				},
+				{
+					"class": "strand-avatar--xl",
+					"description": "Extra-large size (64px)."
+				}
+			],
+			"example": "<div class=\"strand-avatar strand-avatar--md\" role=\"img\" aria-label=\"JS\">\n  <span class=\"strand-avatar__initials\" aria-hidden=\"true\">JS</span>\n</div>"
+		},
+		{
+			"name": "Badge",
+			"description": "Status or count indicator that wraps a child element.",
+			"classes": [
+				{
+					"class": "strand-badge",
+					"description": "Wrapper element (positions indicator at top-right of child)."
+				},
+				{
+					"class": "strand-badge--inline",
+					"description": "Standalone inline badge without wrapping a child."
+				},
+				{
+					"class": "strand-badge__indicator",
+					"description": "The indicator element (dot or count pill)."
+				},
+				{
+					"class": "strand-badge--dot",
+					"description": "8px circle indicator, no text."
+				},
+				{
+					"class": "strand-badge--count",
+					"description": "Pill indicator with number text."
+				},
+				{
+					"class": "strand-badge--default",
+					"description": "Default color."
+				},
+				{
+					"class": "strand-badge--teal",
+					"description": "Teal color."
+				},
+				{
+					"class": "strand-badge--blue",
+					"description": "Blue color."
+				},
+				{
+					"class": "strand-badge--amber",
+					"description": "Amber color."
+				},
+				{
+					"class": "strand-badge--red",
+					"description": "Red color."
+				}
+			],
+			"example": "<span class=\"strand-badge strand-badge--inline\">\n  <span class=\"strand-badge__indicator strand-badge--count strand-badge--blue\">5</span>\n</span>"
+		},
+		{
+			"name": "Banner",
+			"description": "Top-of-page notification banner.",
+			"classes": [
+				{
+					"class": "strand-banner",
+					"description": "Base banner element, fixed to top."
+				},
+				{
+					"class": "strand-banner__text",
+					"description": "Banner message text."
+				},
+				{
+					"class": "strand-banner__dismiss",
+					"description": "Dismiss button."
+				},
+				{
+					"class": "strand-banner--info",
+					"description": "Info variant (blue)."
+				},
+				{
+					"class": "strand-banner--warning",
+					"description": "Warning variant (amber)."
+				},
+				{
+					"class": "strand-banner--critical",
+					"description": "Critical variant (red)."
+				}
+			],
+			"example": "<div class=\"strand-banner strand-banner--info\">\n  <p class=\"strand-banner__text\">Scheduled maintenance tonight.</p>\n  <button class=\"strand-banner__dismiss\" aria-label=\"Dismiss\">...</button>\n</div>"
+		},
+		{
+			"name": "Breadcrumb",
+			"description": "Hierarchical location indicator.",
+			"classes": [
+				{
+					"class": "strand-breadcrumb",
+					"description": "Nav wrapper element."
+				},
+				{
+					"class": "strand-breadcrumb__list",
+					"description": "Ordered list of breadcrumb items."
+				},
+				{
+					"class": "strand-breadcrumb__item",
+					"description": "Individual breadcrumb item."
+				},
+				{
+					"class": "strand-breadcrumb__link",
+					"description": "Clickable breadcrumb link."
+				},
+				{
+					"class": "strand-breadcrumb__separator",
+					"description": "Separator between items (aria-hidden)."
+				},
+				{
+					"class": "strand-breadcrumb__current",
+					"description": "Current page indicator (aria-current)."
+				}
+			],
+			"example": "<nav aria-label=\"Breadcrumb\" class=\"strand-breadcrumb\">\n  <ol class=\"strand-breadcrumb__list\">\n    <li class=\"strand-breadcrumb__item\">\n      <a href=\"/\" class=\"strand-breadcrumb__link\">Home</a>\n    </li>\n  </ol>\n</nav>"
+		},
+		{
 			"name": "Button",
 			"description": "Primary action trigger with variants, sizes, and loading state.",
 			"classes": [
@@ -64,264 +262,8 @@
 			"example": "<button class=\"strand-btn strand-btn--primary strand-btn--md\" type=\"button\">\n  <span class=\"strand-btn__content\">Label</span>\n</button>"
 		},
 		{
-			"name": "Input",
-			"description": "Single-line text entry field with addon support.",
-			"classes": [
-				{
-					"class": "strand-input",
-					"description": "Wrapper element for the input field."
-				},
-				{
-					"class": "strand-input__field",
-					"description": "The native input element."
-				},
-				{
-					"class": "strand-input__leading",
-					"description": "Leading addon (prefix icon or text)."
-				},
-				{
-					"class": "strand-input__trailing",
-					"description": "Trailing addon (suffix icon or text)."
-				},
-				{
-					"class": "strand-input--error",
-					"description": "Error state with red border."
-				},
-				{
-					"class": "strand-input--disabled",
-					"description": "Disabled state."
-				},
-				{
-					"class": "strand-input--has-leading",
-					"description": "Wrapper modifier when leading addon is present."
-				},
-				{
-					"class": "strand-input--has-trailing",
-					"description": "Wrapper modifier when trailing addon is present."
-				}
-			],
-			"example": "<div class=\"strand-input\">\n  <input type=\"text\" class=\"strand-input__field\" placeholder=\"Enter text\">\n</div>"
-		},
-		{
-			"name": "Textarea",
-			"description": "Multi-line text entry with optional character count.",
-			"classes": [
-				{
-					"class": "strand-textarea",
-					"description": "Wrapper element for the textarea."
-				},
-				{
-					"class": "strand-textarea__field",
-					"description": "The native textarea element."
-				},
-				{
-					"class": "strand-textarea__count",
-					"description": "Character count display."
-				},
-				{
-					"class": "strand-textarea--error",
-					"description": "Error state."
-				},
-				{
-					"class": "strand-textarea--disabled",
-					"description": "Disabled state."
-				},
-				{
-					"class": "strand-textarea--auto-resize",
-					"description": "Auto-resize modifier."
-				}
-			],
-			"example": "<div class=\"strand-textarea\">\n  <textarea class=\"strand-textarea__field\" placeholder=\"Enter text\"></textarea>\n</div>"
-		},
-		{
-			"name": "Select",
-			"description": "Option selection dropdown with custom arrow.",
-			"classes": [
-				{
-					"class": "strand-select",
-					"description": "Wrapper element for the select."
-				},
-				{
-					"class": "strand-select__field",
-					"description": "The native select element."
-				},
-				{
-					"class": "strand-select__arrow",
-					"description": "Custom dropdown caret indicator."
-				},
-				{
-					"class": "strand-select--error",
-					"description": "Error state."
-				},
-				{
-					"class": "strand-select--disabled",
-					"description": "Disabled state."
-				}
-			],
-			"example": "<div class=\"strand-select\">\n  <select class=\"strand-select__field\">\n    <option value=\"a\">Option A</option>\n  </select>\n  <span class=\"strand-select__arrow\" aria-hidden=\"true\"></span>\n</div>"
-		},
-		{
-			"name": "Checkbox",
-			"description": "Binary toggle for multiple selections with custom visual.",
-			"classes": [
-				{
-					"class": "strand-checkbox",
-					"description": "Label wrapper element."
-				},
-				{
-					"class": "strand-checkbox__native",
-					"description": "Hidden native checkbox input."
-				},
-				{
-					"class": "strand-checkbox__control",
-					"description": "Custom visual control."
-				},
-				{
-					"class": "strand-checkbox__icon",
-					"description": "SVG check/dash icon inside control."
-				},
-				{
-					"class": "strand-checkbox__label",
-					"description": "Text label."
-				},
-				{
-					"class": "strand-checkbox--checked",
-					"description": "Checked state."
-				},
-				{
-					"class": "strand-checkbox--indeterminate",
-					"description": "Indeterminate state."
-				},
-				{
-					"class": "strand-checkbox--disabled",
-					"description": "Disabled state."
-				}
-			],
-			"example": "<label class=\"strand-checkbox strand-checkbox--checked\">\n  <input type=\"checkbox\" class=\"strand-checkbox__native\" checked>\n  <span class=\"strand-checkbox__control\" aria-hidden=\"true\">\n    <svg class=\"strand-checkbox__icon\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <path d=\"M3.5 8L6.5 11L12.5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"strand-checkbox__label\">Accept terms</span>\n</label>"
-		},
-		{
-			"name": "Radio",
-			"description": "Single selection from a set with custom dot indicator.",
-			"classes": [
-				{
-					"class": "strand-radio",
-					"description": "Label wrapper element."
-				},
-				{
-					"class": "strand-radio__native",
-					"description": "Hidden native radio input."
-				},
-				{
-					"class": "strand-radio__control",
-					"description": "Custom visual control."
-				},
-				{
-					"class": "strand-radio__dot",
-					"description": "Inner dot indicator."
-				},
-				{
-					"class": "strand-radio__label",
-					"description": "Text label."
-				},
-				{
-					"class": "strand-radio--checked",
-					"description": "Checked state."
-				},
-				{
-					"class": "strand-radio--disabled",
-					"description": "Disabled state."
-				}
-			],
-			"example": "<label class=\"strand-radio strand-radio--checked\">\n  <input type=\"radio\" class=\"strand-radio__native\" name=\"group\" checked>\n  <span class=\"strand-radio__control\" aria-hidden=\"true\">\n    <span class=\"strand-radio__dot\"></span>\n  </span>\n  <span class=\"strand-radio__label\">Option A</span>\n</label>"
-		},
-		{
-			"name": "Switch",
-			"description": "Binary toggle (single) with track and thumb.",
-			"classes": [
-				{
-					"class": "strand-switch",
-					"description": "Label wrapper element."
-				},
-				{
-					"class": "strand-switch__track",
-					"description": "Track button element with role=\"switch\"."
-				},
-				{
-					"class": "strand-switch__thumb",
-					"description": "Sliding thumb indicator."
-				},
-				{
-					"class": "strand-switch__label",
-					"description": "Text label."
-				},
-				{
-					"class": "strand-switch--checked",
-					"description": "Checked (on) state."
-				},
-				{
-					"class": "strand-switch--disabled",
-					"description": "Disabled state."
-				}
-			],
-			"example": "<label class=\"strand-switch strand-switch--checked\">\n  <button type=\"button\" role=\"switch\" class=\"strand-switch__track\" aria-checked=\"true\">\n    <span class=\"strand-switch__thumb\" aria-hidden=\"true\"></span>\n  </button>\n  <span class=\"strand-switch__label\">Dark mode</span>\n</label>"
-		},
-		{
-			"name": "Slider",
-			"description": "Range value selection.",
-			"classes": [
-				{
-					"class": "strand-slider",
-					"description": "Wrapper element."
-				},
-				{
-					"class": "strand-slider__field",
-					"description": "Native range input."
-				},
-				{
-					"class": "strand-slider--disabled",
-					"description": "Disabled state."
-				}
-			],
-			"example": "<div class=\"strand-slider\">\n  <input type=\"range\" class=\"strand-slider__field\" min=\"0\" max=\"100\" value=\"50\">\n</div>"
-		},
-		{
-			"name": "FormField",
-			"description": "Label + input + hint + error wrapper for form composition.",
-			"classes": [
-				{
-					"class": "strand-form-field",
-					"description": "Wrapper element."
-				},
-				{
-					"class": "strand-form-field__label",
-					"description": "Field label with monospace uppercase styling."
-				},
-				{
-					"class": "strand-form-field__control",
-					"description": "Control wrapper for any input component."
-				},
-				{
-					"class": "strand-form-field__hint",
-					"description": "Hint text below the control."
-				},
-				{
-					"class": "strand-form-field__error",
-					"description": "Error message (replaces hint in error state)."
-				},
-				{
-					"class": "strand-form-field__required",
-					"description": "Required indicator asterisk."
-				},
-				{
-					"class": "strand-form-field--error",
-					"description": "Error state modifier."
-				}
-			],
-			"example": "<div class=\"strand-form-field\">\n  <label class=\"strand-form-field__label\" for=\"email\">Email</label>\n  <div class=\"strand-form-field__control\">\n    <div class=\"strand-input\">\n      <input type=\"email\" id=\"email\" class=\"strand-input__field\">\n    </div>\n  </div>\n  <p class=\"strand-form-field__hint\">We will never share your email.</p>\n</div>"
-		},
-		{
 			"name": "CalendarGrid",
-			"description": "A month laid out as a well plate: seven columns because a week has seven days, and as many rows as the month needs. Implements the well-plate production (design-language.md Part XI-B 11.10) and 10.6 Bounded Cells. A day is a BOUNDED cell -- its size comes from the structure rather than from its contents, so it declares a capacity and states the rest as a count, never clipping silently and never growing its row. NOT a 5.5 auto-fit grid: those reflow their column count to suit the content, which is right when the columns are a sequence and wrong here, because a week has seven days at every viewport. Keyboard: the ARIA grid pattern (14.5). The whole grid is ONE tab stop with a roving tabindex; arrows move by day and week, Home and End move within the week, PageUp and PageDown change month.",
+			"description": "A month laid out as a well plate: seven columns because a week has seven days, and as many rows as the month needs. Implements the well-plate production (design-language.md Part XI-B 11.10) and 10.6 Bounded Cells. A day is a BOUNDED cell -- its size comes from the structure rather than from its contents, so it declares a capacity and states the rest as a count, never clipping silently and never growing its row. NOT a 5.5 auto-fit grid: those reflow their column count to suit the content, which is right when the columns are a sequence and wrong here, because a week has seven days at every viewport. Keyboard: the ARIA grid pattern (14.5). The whole grid is ONE tab stop with a roving tabindex; arrows move by day and week, Home and End move within the week, PageUp and PageDown change month. A month is four to six weeks long, so a grid that stops when the month is covered CHANGES HEIGHT as the reader pages (six rows for August 2026, five for September, four for February) and moves everything beneath it. Set a fixed row count to hold the page still: that is 6.6.1's space contract and 10.6's argument one level up, and six is the value that never truncates because six is the most rows any month can need.",
 			"classes": [
 				{
 					"class": "strand-calendar-grid",
@@ -438,207 +380,43 @@
 			"example": "<div class=\"strand-card strand-card--elevated strand-card--pad-md\">\n  Card content here.\n</div>\n\n<div class=\"strand-card strand-card--pad-none\">\n  <div class=\"strand-card__section strand-card__section--header\">Title</div>\n  <div class=\"strand-card__section\">Body</div>\n</div>"
 		},
 		{
-			"name": "Badge",
-			"description": "Status or count indicator that wraps a child element.",
+			"name": "Checkbox",
+			"description": "Binary toggle for multiple selections with custom visual.",
 			"classes": [
 				{
-					"class": "strand-badge",
-					"description": "Wrapper element (positions indicator at top-right of child)."
+					"class": "strand-checkbox",
+					"description": "Label wrapper element."
 				},
 				{
-					"class": "strand-badge--inline",
-					"description": "Standalone inline badge without wrapping a child."
+					"class": "strand-checkbox__native",
+					"description": "Hidden native checkbox input."
 				},
 				{
-					"class": "strand-badge__indicator",
-					"description": "The indicator element (dot or count pill)."
+					"class": "strand-checkbox__control",
+					"description": "Custom visual control."
 				},
 				{
-					"class": "strand-badge--dot",
-					"description": "8px circle indicator, no text."
+					"class": "strand-checkbox__icon",
+					"description": "SVG check/dash icon inside control."
 				},
 				{
-					"class": "strand-badge--count",
-					"description": "Pill indicator with number text."
+					"class": "strand-checkbox__label",
+					"description": "Text label."
 				},
 				{
-					"class": "strand-badge--default",
-					"description": "Default color."
+					"class": "strand-checkbox--checked",
+					"description": "Checked state."
 				},
 				{
-					"class": "strand-badge--teal",
-					"description": "Teal color."
+					"class": "strand-checkbox--indeterminate",
+					"description": "Indeterminate state."
 				},
 				{
-					"class": "strand-badge--blue",
-					"description": "Blue color."
-				},
-				{
-					"class": "strand-badge--amber",
-					"description": "Amber color."
-				},
-				{
-					"class": "strand-badge--red",
-					"description": "Red color."
+					"class": "strand-checkbox--disabled",
+					"description": "Disabled state."
 				}
 			],
-			"example": "<span class=\"strand-badge strand-badge--inline\">\n  <span class=\"strand-badge__indicator strand-badge--count strand-badge--blue\">5</span>\n</span>"
-		},
-		{
-			"name": "Avatar",
-			"description": "User or entity representation with image or initials.",
-			"classes": [
-				{
-					"class": "strand-avatar",
-					"description": "Base avatar element."
-				},
-				{
-					"class": "strand-avatar__img",
-					"description": "Image element inside avatar."
-				},
-				{
-					"class": "strand-avatar__initials",
-					"description": "Initials fallback text."
-				},
-				{
-					"class": "strand-avatar--sm",
-					"description": "Small size (32px)."
-				},
-				{
-					"class": "strand-avatar--md",
-					"description": "Medium size (40px)."
-				},
-				{
-					"class": "strand-avatar--lg",
-					"description": "Large size (48px)."
-				},
-				{
-					"class": "strand-avatar--xl",
-					"description": "Extra-large size (64px)."
-				}
-			],
-			"example": "<div class=\"strand-avatar strand-avatar--md\" role=\"img\" aria-label=\"JS\">\n  <span class=\"strand-avatar__initials\" aria-hidden=\"true\">JS</span>\n</div>"
-		},
-		{
-			"name": "Tag",
-			"description": "Categorization label with optional remove button.",
-			"classes": [
-				{
-					"class": "strand-tag",
-					"description": "Base tag element."
-				},
-				{
-					"class": "strand-tag__text",
-					"description": "Tag text content."
-				},
-				{
-					"class": "strand-tag__remove",
-					"description": "Remove button."
-				},
-				{
-					"class": "strand-tag--solid",
-					"description": "Solid filled variant."
-				},
-				{
-					"class": "strand-tag--outlined",
-					"description": "Outlined variant."
-				},
-				{
-					"class": "strand-tag--default",
-					"description": "Default color."
-				},
-				{
-					"class": "strand-tag--teal",
-					"description": "Teal color."
-				},
-				{
-					"class": "strand-tag--blue",
-					"description": "Blue color."
-				},
-				{
-					"class": "strand-tag--amber",
-					"description": "Amber color."
-				},
-				{
-					"class": "strand-tag--red",
-					"description": "Red color."
-				}
-			],
-			"example": "<span class=\"strand-tag strand-tag--solid strand-tag--blue\">\n  <span class=\"strand-tag__text\">Design</span>\n</span>"
-		},
-		{
-			"name": "Table",
-			"description": "Tabular data display with sortable headers.",
-			"classes": [
-				{
-					"class": "strand-table-wrapper",
-					"description": "Responsive scroll wrapper."
-				},
-				{
-					"class": "strand-table",
-					"description": "Base table element."
-				},
-				{
-					"class": "strand-table__head",
-					"description": "Table header group (thead)."
-				},
-				{
-					"class": "strand-table__body",
-					"description": "Table body group (tbody)."
-				},
-				{
-					"class": "strand-table__row",
-					"description": "Table row with hover highlight."
-				},
-				{
-					"class": "strand-table__th",
-					"description": "Table header cell (monospaced, uppercase, tracked)."
-				},
-				{
-					"class": "strand-table__td",
-					"description": "Table data cell."
-				},
-				{
-					"class": "strand-table__sort-btn",
-					"description": "Sortable column header button."
-				},
-				{
-					"class": "strand-table__sort-indicator",
-					"description": "Sort direction indicator."
-				}
-			],
-			"example": "<div class=\"strand-table-wrapper\">\n  <table class=\"strand-table\">\n    <thead class=\"strand-table__head\">\n      <tr><th class=\"strand-table__th\">Name</th></tr>\n    </thead>\n    <tbody class=\"strand-table__body\">\n      <tr class=\"strand-table__row\"><td class=\"strand-table__td\">Alice</td></tr>\n    </tbody>\n  </table>\n</div>"
-		},
-		{
-			"name": "DataReadout",
-			"description": "Monospace metric display with label and value.",
-			"classes": [
-				{
-					"class": "strand-data-readout",
-					"description": "Base readout element."
-				},
-				{
-					"class": "strand-data-readout__label",
-					"description": "Monospace uppercase label."
-				},
-				{
-					"class": "strand-data-readout__value",
-					"description": "Large numeric value."
-				},
-				{
-					"class": "strand-data-readout--sm",
-					"description": "Small size (text-xl)."
-				},
-				{
-					"class": "strand-data-readout--lg",
-					"description": "Large size (text-4xl)."
-				},
-				{
-					"class": "strand-data-readout--xl",
-					"description": "Extra-large size (fluid 72-112px)."
-				}
-			],
-			"example": "<div class=\"strand-data-readout\">\n  <span class=\"strand-data-readout__label\">Revenue</span>\n  <span class=\"strand-data-readout__value\">$142,800</span>\n</div>"
+			"example": "<label class=\"strand-checkbox strand-checkbox--checked\">\n  <input type=\"checkbox\" class=\"strand-checkbox__native\" checked>\n  <span class=\"strand-checkbox__control\" aria-hidden=\"true\">\n    <svg class=\"strand-checkbox__icon\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <path d=\"M3.5 8L6.5 11L12.5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"strand-checkbox__label\">Accept terms</span>\n</label>"
 		},
 		{
 			"name": "CodeBlock",
@@ -684,99 +462,252 @@
 			"example": "<div class=\"strand-code-block\">\n  <span class=\"strand-code-block__label\">bash</span>\n  <pre class=\"strand-code-block__pre\"><code>npm install @dillingerstaffing/strand</code></pre>\n</div>"
 		},
 		{
-			"name": "Stack",
-			"description": "Flex layout primitive with direction, gap, and alignment.",
+			"name": "CommandPalette",
+			"description": "Search-and-jump overlay. Composes Dialog, so focus trapping, focus restoration, scroll lock and Escape dismissal are inherited. Filtering and ranking belong to the caller.",
 			"classes": [
 				{
-					"class": "strand-stack",
-					"description": "Base flex container."
+					"class": "strand-command-palette",
+					"description": "Palette root, applied to the composed Dialog."
 				},
 				{
-					"class": "strand-stack--vertical",
-					"description": "Column direction."
+					"class": "strand-command-palette__search",
+					"description": "Search row holding the icon and the input."
 				},
 				{
-					"class": "strand-stack--horizontal",
-					"description": "Row direction."
+					"class": "strand-command-palette__icon",
+					"description": "Decorative magnifier, aria-hidden."
 				},
 				{
-					"class": "strand-stack--align-start",
-					"description": "Align items to start."
+					"class": "strand-command-palette__input",
+					"description": "The combobox input. Focus stays here while the highlight moves, via aria-activedescendant."
 				},
 				{
-					"class": "strand-stack--align-center",
-					"description": "Align items to center."
+					"class": "strand-command-palette__list",
+					"description": "Scrollable listbox of results."
 				},
 				{
-					"class": "strand-stack--align-end",
-					"description": "Align items to end."
+					"class": "strand-command-palette__option",
+					"description": "One result row (role=option, tabindex -1)."
 				},
 				{
-					"class": "strand-stack--justify-start",
-					"description": "Justify content to start."
+					"class": "strand-command-palette__option--active",
+					"description": "The highlighted row, the one Enter acts on. Pointer hover and arrow keys drive the same state."
 				},
 				{
-					"class": "strand-stack--justify-center",
-					"description": "Justify content to center."
+					"class": "strand-command-palette__label",
+					"description": "Primary text of a result."
 				},
 				{
-					"class": "strand-stack--justify-end",
-					"description": "Justify content to end."
+					"class": "strand-command-palette__sublabel",
+					"description": "Secondary text of a result."
 				},
 				{
-					"class": "strand-stack--justify-between",
-					"description": "Justify content with space-between."
+					"class": "strand-command-palette__badge",
+					"description": "Short trailing token, such as a category."
 				},
 				{
-					"class": "strand-stack--justify-around",
-					"description": "Justify content with space-around."
+					"class": "strand-command-palette__empty",
+					"description": "Shown instead of a bare box when nothing matches."
+				}
+			]
+		},
+		{
+			"name": "Container",
+			"description": "Width constraint with centered content.",
+			"classes": [
+				{
+					"class": "strand-container",
+					"description": "Base container with auto margins."
 				},
 				{
-					"class": "strand-stack--wrap",
-					"description": "Enable flex wrap."
+					"class": "strand-container--narrow",
+					"description": "Max width 640px."
 				},
 				{
-					"class": "strand-stack--responsive",
-					"description": "Collapse horizontal to vertical at 768px."
+					"class": "strand-container--default",
+					"description": "Max width 768px."
 				},
 				{
-					"class": "strand-stack__item--full-mobile",
-					"description": "Full-width child on mobile in responsive mode."
+					"class": "strand-container--wide",
+					"description": "Max width 1024px."
 				},
 				{
-					"class": "strand-stack--gap-0",
-					"description": "Gap: none. Collapse the stack's spacing where an adjacent element already owns it."
-				},
-				{
-					"class": "strand-stack--gap-1",
-					"description": "Gap: space-1 (4px)."
-				},
-				{
-					"class": "strand-stack--gap-2",
-					"description": "Gap: space-2 (8px)."
-				},
-				{
-					"class": "strand-stack--gap-3",
-					"description": "Gap: space-3 (12px)."
-				},
-				{
-					"class": "strand-stack--gap-4",
-					"description": "Gap: space-4 (16px)."
-				},
-				{
-					"class": "strand-stack--gap-5",
-					"description": "Gap: space-5 (20px)."
-				},
-				{
-					"class": "strand-stack--gap-6",
-					"description": "Gap: space-6 (24px)."
-				},
-				{
-					"class": "strand-stack--gap-8",
-					"description": "Gap: space-8 (32px)."
+					"class": "strand-container--full",
+					"description": "Max width 1280px."
 				}
 			],
-			"example": "<div class=\"strand-stack strand-stack--vertical strand-stack--gap-4\">\n  <div>Item 1</div>\n  <div>Item 2</div>\n</div>\n\n<!-- Header row: title left, actions right. Inside a flex or grid parent,\n     a stack shrink-wraps to its content; add strand-full-width so\n     justify-between has room to distribute. -->\n<div class=\"strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--align-center strand-stack--justify-between strand-full-width\">\n  <span class=\"strand-overline strand-overline--accent\">Section title</span>\n  <div class=\"strand-stack strand-stack--horizontal strand-stack--gap-2\">\n    <button class=\"strand-btn strand-btn--ghost strand-btn--sm\"><span class=\"strand-btn__content\">Cancel</span></button>\n    <button class=\"strand-btn strand-btn--primary strand-btn--sm\"><span class=\"strand-btn__content\">Save</span></button>\n  </div>\n</div>"
+			"example": "<div class=\"strand-container strand-container--default\">\n  Centered content.\n</div>"
+		},
+		{
+			"name": "ContainerScale",
+			"description": "Container-width visualizer. Renders proportional horizontal bars (narrow / default / wide / full) against a 0-to-max axis.",
+			"classes": [
+				{
+					"class": "strand-container-scale",
+					"description": "Vertical stack of scale rows."
+				},
+				{
+					"class": "strand-container-scale__row",
+					"description": "Single row (label + track + caption)."
+				},
+				{
+					"class": "strand-container-scale__label",
+					"description": "Row label row (flex baseline space-between)."
+				},
+				{
+					"class": "strand-container-scale__caption",
+					"description": "Subtle gray caption text."
+				},
+				{
+					"class": "strand-container-scale__track",
+					"description": "Track surface (22px tall, recessed, hairline border)."
+				},
+				{
+					"class": "strand-container-scale__bar",
+					"description": "Proportional bar; width set inline per row."
+				},
+				{
+					"class": "strand-container-scale__px",
+					"description": "Bar pixel label (mono 10px blue-primary)."
+				},
+				{
+					"class": "strand-container-scale__axis",
+					"description": "Axis row (flex justify-between, mono 9px)."
+				}
+			],
+			"example": "<div class=\"strand-container-scale\">\n  <div class=\"strand-container-scale__row\">\n    <div class=\"strand-container-scale__label\">\n      <code>--strand-container-narrow</code>\n      <span class=\"strand-container-scale__caption\">640px</span>\n    </div>\n    <div class=\"strand-container-scale__track\">\n      <div class=\"strand-container-scale__bar\" style=\"width: 50%;\">\n        <span class=\"strand-container-scale__px\">640</span>\n      </div>\n    </div>\n  </div>\n  <div class=\"strand-container-scale__axis\"><span>0</span><span>1280</span></div>\n</div>"
+		},
+		{
+			"name": "DataReadout",
+			"description": "Monospace metric display with label and value.",
+			"classes": [
+				{
+					"class": "strand-data-readout",
+					"description": "Base readout element."
+				},
+				{
+					"class": "strand-data-readout__label",
+					"description": "Monospace uppercase label."
+				},
+				{
+					"class": "strand-data-readout__value",
+					"description": "Large numeric value."
+				},
+				{
+					"class": "strand-data-readout--sm",
+					"description": "Small size (text-xl)."
+				},
+				{
+					"class": "strand-data-readout--lg",
+					"description": "Large size (text-4xl)."
+				},
+				{
+					"class": "strand-data-readout--xl",
+					"description": "Extra-large size (fluid 72-112px)."
+				}
+			],
+			"example": "<div class=\"strand-data-readout\">\n  <span class=\"strand-data-readout__label\">Revenue</span>\n  <span class=\"strand-data-readout__value\">$142,800</span>\n</div>"
+		},
+		{
+			"name": "Dialog",
+			"description": "Modal overlay with backdrop, panel, and focus trap.",
+			"classes": [
+				{
+					"class": "strand-dialog__backdrop",
+					"description": "Full-viewport overlay backdrop."
+				},
+				{
+					"class": "strand-dialog__panel",
+					"description": "Centered dialog panel (max-width 560px)."
+				},
+				{
+					"class": "strand-dialog__header",
+					"description": "Dialog header area."
+				},
+				{
+					"class": "strand-dialog__title",
+					"description": "Dialog title text."
+				},
+				{
+					"class": "strand-dialog__close",
+					"description": "Close button."
+				},
+				{
+					"class": "strand-dialog__body",
+					"description": "Dialog content area."
+				}
+			],
+			"example": "<div class=\"strand-dialog__backdrop\">\n  <div class=\"strand-dialog__panel\" role=\"dialog\" aria-modal=\"true\">\n    <div class=\"strand-dialog__header\">\n      <h2 class=\"strand-dialog__title\">Confirm</h2>\n    </div>\n    <button class=\"strand-dialog__close\" aria-label=\"Close\">&times;</button>\n    <div class=\"strand-dialog__body\">Content</div>\n  </div>\n</div>"
+		},
+		{
+			"name": "Divider",
+			"description": "Visual separator (horizontal or vertical).",
+			"classes": [
+				{
+					"class": "strand-divider",
+					"description": "Base divider element."
+				},
+				{
+					"class": "strand-divider--horizontal",
+					"description": "Horizontal orientation."
+				},
+				{
+					"class": "strand-divider--vertical",
+					"description": "Vertical orientation."
+				},
+				{
+					"class": "strand-divider--gradient",
+					"description": "Gradient fade effect."
+				},
+				{
+					"class": "strand-divider--labeled",
+					"description": "Divider with centered text label."
+				},
+				{
+					"class": "strand-divider__line",
+					"description": "Line segment in labeled divider."
+				},
+				{
+					"class": "strand-divider__label",
+					"description": "Text label in labeled divider."
+				}
+			],
+			"example": "<hr class=\"strand-divider strand-divider--horizontal\" role=\"separator\">"
+		},
+		{
+			"name": "FormField",
+			"description": "Label + input + hint + error wrapper for form composition.",
+			"classes": [
+				{
+					"class": "strand-form-field",
+					"description": "Wrapper element."
+				},
+				{
+					"class": "strand-form-field__label",
+					"description": "Field label with monospace uppercase styling."
+				},
+				{
+					"class": "strand-form-field__control",
+					"description": "Control wrapper for any input component."
+				},
+				{
+					"class": "strand-form-field__hint",
+					"description": "Hint text below the control."
+				},
+				{
+					"class": "strand-form-field__error",
+					"description": "Error message (replaces hint in error state)."
+				},
+				{
+					"class": "strand-form-field__required",
+					"description": "Required indicator asterisk."
+				},
+				{
+					"class": "strand-form-field--error",
+					"description": "Error state modifier."
+				}
+			],
+			"example": "<div class=\"strand-form-field\">\n  <label class=\"strand-form-field__label\" for=\"email\">Email</label>\n  <div class=\"strand-form-field__control\">\n    <div class=\"strand-input\">\n      <input type=\"email\" id=\"email\" class=\"strand-input__field\">\n    </div>\n  </div>\n  <p class=\"strand-form-field__hint\">We will never share your email.</p>\n</div>"
 		},
 		{
 			"name": "Grid",
@@ -854,668 +785,43 @@
 			"example": "<div class=\"strand-grid strand-grid--cols-3 strand-grid--gap-4\">\n  <div>Cell 1</div>\n  <div>Cell 2</div>\n  <div>Cell 3</div>\n</div>"
 		},
 		{
-			"name": "Container",
-			"description": "Width constraint with centered content.",
+			"name": "Input",
+			"description": "Single-line text entry field with addon support.",
 			"classes": [
 				{
-					"class": "strand-container",
-					"description": "Base container with auto margins."
+					"class": "strand-input",
+					"description": "Wrapper element for the input field."
 				},
 				{
-					"class": "strand-container--narrow",
-					"description": "Max width 640px."
+					"class": "strand-input__field",
+					"description": "The native input element."
 				},
 				{
-					"class": "strand-container--default",
-					"description": "Max width 768px."
+					"class": "strand-input__leading",
+					"description": "Leading addon (prefix icon or text)."
 				},
 				{
-					"class": "strand-container--wide",
-					"description": "Max width 1024px."
+					"class": "strand-input__trailing",
+					"description": "Trailing addon (suffix icon or text)."
 				},
 				{
-					"class": "strand-container--full",
-					"description": "Max width 1280px."
+					"class": "strand-input--error",
+					"description": "Error state with red border."
+				},
+				{
+					"class": "strand-input--disabled",
+					"description": "Disabled state."
+				},
+				{
+					"class": "strand-input--has-leading",
+					"description": "Wrapper modifier when leading addon is present."
+				},
+				{
+					"class": "strand-input--has-trailing",
+					"description": "Wrapper modifier when trailing addon is present."
 				}
 			],
-			"example": "<div class=\"strand-container strand-container--default\">\n  Centered content.\n</div>"
-		},
-		{
-			"name": "Divider",
-			"description": "Visual separator (horizontal or vertical).",
-			"classes": [
-				{
-					"class": "strand-divider",
-					"description": "Base divider element."
-				},
-				{
-					"class": "strand-divider--horizontal",
-					"description": "Horizontal orientation."
-				},
-				{
-					"class": "strand-divider--vertical",
-					"description": "Vertical orientation."
-				},
-				{
-					"class": "strand-divider--gradient",
-					"description": "Gradient fade effect."
-				},
-				{
-					"class": "strand-divider--labeled",
-					"description": "Divider with centered text label."
-				},
-				{
-					"class": "strand-divider__line",
-					"description": "Line segment in labeled divider."
-				},
-				{
-					"class": "strand-divider__label",
-					"description": "Text label in labeled divider."
-				}
-			],
-			"example": "<hr class=\"strand-divider strand-divider--horizontal\" role=\"separator\">"
-		},
-		{
-			"name": "Section",
-			"description": "Page section with padding, background, and scroll-target variants.",
-			"classes": [
-				{
-					"class": "strand-section",
-					"description": "Base section element."
-				},
-				{
-					"class": "strand-section--standard",
-					"description": "Standard section padding."
-				},
-				{
-					"class": "strand-section--hero-compact",
-					"description": "Tighter hero padding for secondary CTA visibility."
-				},
-				{
-					"class": "strand-section--hero",
-					"description": "Hero section padding."
-				},
-				{
-					"class": "strand-section--hero-xl",
-					"description": "Extra-generous hero padding for marketing pages."
-				},
-				{
-					"class": "strand-section--compact",
-					"description": "Compact section padding (space-12)."
-				},
-				{
-					"class": "strand-section--bg-primary",
-					"description": "Primary surface background."
-				},
-				{
-					"class": "strand-section--bg-elevated",
-					"description": "Elevated surface background."
-				},
-				{
-					"class": "strand-section--bg-recessed",
-					"description": "Recessed surface background."
-				},
-				{
-					"class": "strand-section--border-top",
-					"description": "1px top border for visual separation."
-				},
-				{
-					"class": "strand-section--scroll-target",
-					"description": "Adds scroll-margin-top for anchor offset."
-				}
-			],
-			"example": "<section class=\"strand-section strand-section--standard strand-section--bg-primary\">\n  <div class=\"strand-container strand-container--default\">Content</div>\n</section>"
-		},
-		{
-			"name": "Link",
-			"description": "Inline navigation link with animated underline.",
-			"classes": [
-				{
-					"class": "strand-link",
-					"description": "Base link with animated underline on hover."
-				},
-				{
-					"class": "strand-link--cta",
-					"description": "Call-to-action link with touch-target height."
-				},
-				{
-					"class": "strand-link--mono",
-					"description": "Monospace overline-style link for footers."
-				}
-			],
-			"example": "<a href=\"/about\" class=\"strand-link\">About us</a>"
-		},
-		{
-			"name": "Tabs",
-			"description": "Content switching with accessible tab pattern.",
-			"classes": [
-				{
-					"class": "strand-tabs",
-					"description": "Tab container."
-				},
-				{
-					"class": "strand-tabs__tab",
-					"description": "Individual tab button."
-				},
-				{
-					"class": "strand-tabs__tab--active",
-					"description": "Active tab state."
-				},
-				{
-					"class": "strand-tabs__panel--reveal",
-					"description": "Panel entrance animation."
-				},
-				{
-					"class": "strand-tabs--instrument",
-					"description": "Instrument viewport variant for tabs."
-				}
-			],
-			"example": "<div class=\"strand-tabs\">\n  <div role=\"tablist\">\n    <button role=\"tab\" class=\"strand-tabs__tab strand-tabs__tab--active\" aria-selected=\"true\">Tab 1</button>\n  </div>\n</div>"
-		},
-		{
-			"name": "Breadcrumb",
-			"description": "Hierarchical location indicator.",
-			"classes": [
-				{
-					"class": "strand-breadcrumb",
-					"description": "Nav wrapper element."
-				},
-				{
-					"class": "strand-breadcrumb__list",
-					"description": "Ordered list of breadcrumb items."
-				},
-				{
-					"class": "strand-breadcrumb__item",
-					"description": "Individual breadcrumb item."
-				},
-				{
-					"class": "strand-breadcrumb__link",
-					"description": "Clickable breadcrumb link."
-				},
-				{
-					"class": "strand-breadcrumb__separator",
-					"description": "Separator between items (aria-hidden)."
-				},
-				{
-					"class": "strand-breadcrumb__current",
-					"description": "Current page indicator (aria-current)."
-				}
-			],
-			"example": "<nav aria-label=\"Breadcrumb\" class=\"strand-breadcrumb\">\n  <ol class=\"strand-breadcrumb__list\">\n    <li class=\"strand-breadcrumb__item\">\n      <a href=\"/\" class=\"strand-breadcrumb__link\">Home</a>\n    </li>\n  </ol>\n</nav>"
-		},
-		{
-			"name": "Nav",
-			"description": "Site/app navigation with mobile menu and glass variant.",
-			"classes": [
-				{
-					"class": "strand-nav",
-					"description": "Base nav element."
-				},
-				{
-					"class": "strand-nav__inner",
-					"description": "Inner flex layout container."
-				},
-				{
-					"class": "strand-nav__logo",
-					"description": "Logo/brand area (mono uppercase tracked)."
-				},
-				{
-					"class": "strand-nav__logo--pulse",
-					"description": "Animated pulse underline on logo."
-				},
-				{
-					"class": "strand-nav__items",
-					"description": "Navigation links container."
-				},
-				{
-					"class": "strand-nav__link",
-					"description": "Desktop navigation link."
-				},
-				{
-					"class": "strand-nav__link--active",
-					"description": "Active desktop link state."
-				},
-				{
-					"class": "strand-nav__slot",
-					"description": "Right-edge content slot (account, utility)."
-				},
-				{
-					"class": "strand-nav__slot--reserve",
-					"description": "Slot with a pinned inline size, so swapping its contents cannot shift the nav."
-				},
-				{
-					"class": "strand-nav__actions",
-					"description": "Actions area."
-				},
-				{
-					"class": "strand-nav__hamburger",
-					"description": "Mobile menu toggle button."
-				},
-				{
-					"class": "strand-nav__hamburger-icon",
-					"description": "Hamburger icon lines."
-				},
-				{
-					"class": "strand-nav__mobile-menu",
-					"description": "Mobile navigation panel."
-				},
-				{
-					"class": "strand-nav__mobile-menu--open",
-					"description": "Open state for mobile menu."
-				},
-				{
-					"class": "strand-nav__mobile-link",
-					"description": "Mobile navigation link."
-				},
-				{
-					"class": "strand-nav__mobile-link--active",
-					"description": "Active mobile link state."
-				},
-				{
-					"class": "strand-nav__title",
-					"description": "Nav title text."
-				},
-				{
-					"class": "strand-nav__title-tag",
-					"description": "Nav title tag element."
-				},
-				{
-					"class": "strand-nav--glass",
-					"description": "Fixed glassmorphic nav with frosted backdrop."
-				},
-				{
-					"class": "strand-nav--scrolled",
-					"description": "Scrolled state with subtle shadow."
-				},
-				{
-					"class": "strand-nav--instrument",
-					"description": "Instrument viewport nav variant."
-				}
-			],
-			"example": "<nav class=\"strand-nav\" aria-label=\"Main navigation\">\n  <div class=\"strand-nav__inner\">\n    <div class=\"strand-nav__logo\"><strong>Brand</strong></div>\n    <div class=\"strand-nav__items\">\n      <a href=\"/\" class=\"strand-nav__link strand-nav__link--active\">Home</a>\n    </div>\n  </div>\n</nav>"
-		},
-		{
-			"name": "Toast",
-			"description": "Transient notification with status variants.",
-			"classes": [
-				{
-					"class": "strand-toast",
-					"description": "Base toast element."
-				},
-				{
-					"class": "strand-toast__container",
-					"description": "Fixed stacking container (bottom-right)."
-				},
-				{
-					"class": "strand-toast__status",
-					"description": "Status prefix label."
-				},
-				{
-					"class": "strand-toast__message",
-					"description": "Message text."
-				},
-				{
-					"class": "strand-toast__dismiss",
-					"description": "Dismiss button."
-				},
-				{
-					"class": "strand-toast--info",
-					"description": "Info status."
-				},
-				{
-					"class": "strand-toast--success",
-					"description": "Success status."
-				},
-				{
-					"class": "strand-toast--warning",
-					"description": "Warning status."
-				},
-				{
-					"class": "strand-toast--error",
-					"description": "Error status."
-				}
-			],
-			"example": "<div class=\"strand-toast strand-toast--info\" role=\"status\" aria-live=\"polite\">\n  <span class=\"strand-toast__status\">INFO</span>\n  <span class=\"strand-toast__message\">Changes saved.</span>\n  <button class=\"strand-toast__dismiss\" aria-label=\"Dismiss\">&times;</button>\n</div>"
-		},
-		{
-			"name": "Alert",
-			"description": "Persistent notification with status variants.",
-			"classes": [
-				{
-					"class": "strand-alert",
-					"description": "Base alert element."
-				},
-				{
-					"class": "strand-alert__status",
-					"description": "Status prefix label."
-				},
-				{
-					"class": "strand-alert__content",
-					"description": "Alert message content."
-				},
-				{
-					"class": "strand-alert__dismiss",
-					"description": "Dismiss button."
-				},
-				{
-					"class": "strand-alert--info",
-					"description": "Info status."
-				},
-				{
-					"class": "strand-alert--success",
-					"description": "Success status."
-				},
-				{
-					"class": "strand-alert--warning",
-					"description": "Warning status."
-				},
-				{
-					"class": "strand-alert--error",
-					"description": "Error status."
-				},
-				{
-					"class": "strand-alert--stack",
-					"description": "Stacked layout variant: lays the alert body out in a column (flex-direction:column, align-items:stretch, space-3 gap) for a multi-line confirmation with its own action. Background and prefix-only status color are unchanged."
-				}
-			],
-			"example": "<div class=\"strand-alert strand-alert--info\" role=\"status\">\n  <span class=\"strand-alert__status\">INFO</span>\n  <div class=\"strand-alert__content\">This is an informational message.</div>\n</div>"
-		},
-		{
-			"name": "Banner",
-			"description": "Top-of-page notification banner.",
-			"classes": [
-				{
-					"class": "strand-banner",
-					"description": "Base banner element, fixed to top."
-				},
-				{
-					"class": "strand-banner__text",
-					"description": "Banner message text."
-				},
-				{
-					"class": "strand-banner__dismiss",
-					"description": "Dismiss button."
-				},
-				{
-					"class": "strand-banner--info",
-					"description": "Info variant (blue)."
-				},
-				{
-					"class": "strand-banner--warning",
-					"description": "Warning variant (amber)."
-				},
-				{
-					"class": "strand-banner--critical",
-					"description": "Critical variant (red)."
-				}
-			],
-			"example": "<div class=\"strand-banner strand-banner--info\">\n  <p class=\"strand-banner__text\">Scheduled maintenance tonight.</p>\n  <button class=\"strand-banner__dismiss\" aria-label=\"Dismiss\">...</button>\n</div>"
-		},
-		{
-			"name": "Dialog",
-			"description": "Modal overlay with backdrop, panel, and focus trap.",
-			"classes": [
-				{
-					"class": "strand-dialog__backdrop",
-					"description": "Full-viewport overlay backdrop."
-				},
-				{
-					"class": "strand-dialog__panel",
-					"description": "Centered dialog panel (max-width 560px)."
-				},
-				{
-					"class": "strand-dialog__header",
-					"description": "Dialog header area."
-				},
-				{
-					"class": "strand-dialog__title",
-					"description": "Dialog title text."
-				},
-				{
-					"class": "strand-dialog__close",
-					"description": "Close button."
-				},
-				{
-					"class": "strand-dialog__body",
-					"description": "Dialog content area."
-				}
-			],
-			"example": "<div class=\"strand-dialog__backdrop\">\n  <div class=\"strand-dialog__panel\" role=\"dialog\" aria-modal=\"true\">\n    <div class=\"strand-dialog__header\">\n      <h2 class=\"strand-dialog__title\">Confirm</h2>\n    </div>\n    <button class=\"strand-dialog__close\" aria-label=\"Close\">&times;</button>\n    <div class=\"strand-dialog__body\">Content</div>\n  </div>\n</div>"
-		},
-		{
-			"name": "Tooltip",
-			"description": "Contextual hint with position variants.",
-			"classes": [
-				{
-					"class": "strand-tooltip__wrapper",
-					"description": "Wrapper for the trigger element."
-				},
-				{
-					"class": "strand-tooltip",
-					"description": "Tooltip content element."
-				},
-				{
-					"class": "strand-tooltip--top",
-					"description": "Position above trigger."
-				},
-				{
-					"class": "strand-tooltip--right",
-					"description": "Position to the right."
-				},
-				{
-					"class": "strand-tooltip--bottom",
-					"description": "Position below trigger."
-				},
-				{
-					"class": "strand-tooltip--left",
-					"description": "Position to the left."
-				},
-				{
-					"class": "strand-tooltip--visible",
-					"description": "Show the tooltip."
-				}
-			],
-			"example": "<span class=\"strand-tooltip__wrapper\" aria-describedby=\"tip-1\">\n  Hover me\n  <span id=\"tip-1\" class=\"strand-tooltip strand-tooltip--top\" role=\"tooltip\">Helpful tip</span>\n</span>"
-		},
-		{
-			"name": "Progress",
-			"description": "Completion indicator (bar or ring).",
-			"classes": [
-				{
-					"class": "strand-progress",
-					"description": "Base progress element."
-				},
-				{
-					"class": "strand-progress--bar",
-					"description": "Bar variant."
-				},
-				{
-					"class": "strand-progress--ring",
-					"description": "Ring (circular) variant."
-				},
-				{
-					"class": "strand-progress__fill",
-					"description": "Fill track element."
-				},
-				{
-					"class": "strand-progress__ring",
-					"description": "SVG ring element."
-				},
-				{
-					"class": "strand-progress__track",
-					"description": "Ring background track."
-				},
-				{
-					"class": "strand-progress--indeterminate",
-					"description": "Indeterminate animation state."
-				},
-				{
-					"class": "strand-progress--sm",
-					"description": "Small size (bar: 4px, ring: 24px)."
-				},
-				{
-					"class": "strand-progress--md",
-					"description": "Medium size (bar: 8px, ring: 40px)."
-				},
-				{
-					"class": "strand-progress--lg",
-					"description": "Large size (bar: 12px, ring: 56px)."
-				}
-			],
-			"example": "<div class=\"strand-progress strand-progress--bar strand-progress--md\" role=\"progressbar\"\n  aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"65\">\n  <div class=\"strand-progress__fill\" style=\"width: 65%;\"></div>\n</div>"
-		},
-		{
-			"name": "Spinner",
-			"description": "Loading indicator with accessible text.",
-			"classes": [
-				{
-					"class": "strand-spinner",
-					"description": "Base spinner element."
-				},
-				{
-					"class": "strand-spinner__ring",
-					"description": "Spinning ring visual."
-				},
-				{
-					"class": "strand-spinner__sr-only",
-					"description": "Screen-reader-only loading text."
-				},
-				{
-					"class": "strand-spinner--sm",
-					"description": "Small size (16px)."
-				},
-				{
-					"class": "strand-spinner--md",
-					"description": "Medium size (20px)."
-				},
-				{
-					"class": "strand-spinner--lg",
-					"description": "Large size (32px)."
-				}
-			],
-			"example": "<span class=\"strand-spinner strand-spinner--md\" role=\"status\">\n  <span class=\"strand-spinner__ring\" aria-hidden=\"true\"></span>\n  <span class=\"strand-spinner__sr-only\">Loading</span>\n</span>"
-		},
-		{
-			"name": "Skeleton",
-			"description": "Content placeholder with shimmer animation.",
-			"classes": [
-				{
-					"class": "strand-skeleton",
-					"description": "Base skeleton element."
-				},
-				{
-					"class": "strand-skeleton--text",
-					"description": "Text placeholder (small radius)."
-				},
-				{
-					"class": "strand-skeleton--rectangle",
-					"description": "Rectangle placeholder (medium radius)."
-				},
-				{
-					"class": "strand-skeleton--circle",
-					"description": "Circle placeholder (full radius)."
-				},
-				{
-					"class": "strand-skeleton--shimmer",
-					"description": "Shimmer animation effect."
-				}
-			],
-			"example": "<div class=\"strand-skeleton strand-skeleton--text strand-skeleton--shimmer\" aria-hidden=\"true\"\n  style=\"width: 100%; height: 1em;\"></div>"
-		},
-		{
-			"name": "Reserve",
-			"description": "A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to \"ready\" when the data lands, or to \"empty\" when the answer arrived and there is nothing to show; that attribute is the whole runtime, and there is no JavaScript in this primitive.",
-			"classes": [
-				{
-					"class": "strand-reserve",
-					"description": "Region root. Places both layers in one grid cell, so the region self-sizes to the taller and the swap cannot move layout."
-				},
-				{
-					"class": "strand-reserve__placeholder",
-					"description": "The waiting layer, usually skeletons. Mark it aria-hidden so assistive tech does not read filler."
-				},
-				{
-					"class": "strand-reserve__content",
-					"description": "The real content. Present and sized from first paint, hidden by opacity rather than absent from the DOM."
-				}
-			],
-			"example": "<!-- Optional per-breakpoint floors, needed only when the placeholder is\n     genuinely smaller than what replaces it. Each falls back to the one below. -->\n<div class=\"strand-reserve\" data-strand-reserve=\"pending\"\n  style=\"--strand-reserve-h: 42px; --strand-reserve-h-md: 56px;\">\n  <div class=\"strand-reserve__placeholder\" aria-hidden=\"true\">\n    <div class=\"strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer\"\n      style=\"width: 100%; height: 42px;\"></div>\n  </div>\n  <div class=\"strand-reserve__content\">\n    <!-- real content, rendered from the start -->\n  </div>\n</div>\n\n<!-- Omitting data-strand-reserve entirely shows the content and hides the\n     placeholder, so a server-rendered page needs no attribute at all. -->\n\n<!-- Resolve on EVERY path, including failure. data-strand-reserve=\"empty\"\n     takes the placeholder OUT OF FLOW and collapses the region; \"ready\" alone\n     cannot, because a hidden placeholder still occupies its grid cell and the\n     region would hold its height forever. -->"
-		},
-		{
-			"name": "ActionDock",
-			"description": "A bottom-anchored region carrying the primary action of a view, placed where a thumb rests. Implements design-language.md 14.8 (target position): 14.7 makes a target hittable, this makes it reachable. Flip data-strand-actiondock to \"visible\" when the in-flow control it stands in for scrolls out of view; that attribute is the whole runtime, and there is no JavaScript in this primitive. Use it for the ONE action a view exists to produce, and never alongside the real control, which would be two live buttons for one action.",
-			"classes": [
-				{
-					"class": "strand-actiondock",
-					"description": "Dock root. Fixed to the viewport's bottom edge and spanning the inline axis, so its position is a function of the viewport and no amount of scrolling moves it out of reach. Carries the safe-area inset so the control clears the home indicator on a notched phone."
-				}
-			],
-			"example": "<!-- Hidden by default: an absent attribute means hidden, so a server-rendered\n     page that never flips it occludes nothing. -->\n<div class=\"strand-actiondock\" data-strand-actiondock=\"hidden\">\n  <button class=\"strand-btn strand-btn--primary\" type=\"button\">RSVP</button>\n</div>\n\n<!-- Show it only while the real control is off screen, usually driven by an\n     IntersectionObserver on that control. -->\n<div class=\"strand-actiondock\" data-strand-actiondock=\"visible\" aria-hidden=\"true\">\n  <button class=\"strand-btn strand-btn--primary\" type=\"button\" tabindex=\"-1\">RSVP</button>\n</div>\n\n<!-- The docked control usually duplicates one already in the accessibility\n     tree, so aria-hidden plus tabindex=\"-1\" avoids a duplicate announcement\n     and a duplicate tab stop. Reach is a thumb problem; a keyboard user\n     reaches the in-flow control by tabbing. A dock carrying an action with NO\n     in-flow equivalent must be exposed instead. -->"
-		},
-		{
-			"name": "SearchField",
-			"description": "A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late.",
-			"classes": [
-				{
-					"class": "strand-search-field",
-					"description": "Field root. A role=\"search\" landmark laid out as a flex row: icon, input, optional clear control. Fixed at min(300px, 100%) so it cannot breach a narrower parent's padding (10.4). Height is 36px, raised to 44px under a coarse pointer for 14.7."
-				},
-				{
-					"class": "strand-search-field--full",
-					"description": "Spans the container instead of holding 300px. The narrow-viewport presentation; differs from the base in exactly one property."
-				},
-				{
-					"class": "strand-search-field__icon",
-					"description": "Leading magnifier, 16px, decorative (aria-hidden). Uses gray-500 rather than the gray-400 a mockup usually specifies: 14.2b puts gray-400 in the fill tier at 2.52:1, below the 3:1 SC 1.4.11 asks of a graphical object."
-				},
-				{
-					"class": "strand-search-field__input",
-					"description": "The control. Transparent and borderless because the wrapper draws the box; min-inline-size 0 so it shrinks inside the flex row rather than pushing the field past its declared width. Give it an accessible name: a placeholder is a hint, not a label."
-				},
-				{
-					"class": "strand-search-field__clear",
-					"description": "Optional clear control. Hidden with the hidden attribute while the field is empty, so it is absent from the accessibility tree and the tab order rather than merely invisible. 24px drawn, 44px hit area under a coarse pointer."
-				}
-			],
-			"example": "<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->\n<form class=\"strand-search-field strand-hide-below-md\" role=\"search\">\n  <svg class=\"strand-search-field__icon\" viewBox=\"0 0 16 16\" fill=\"none\"\n       stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\" focusable=\"false\">\n    <circle cx=\"7\" cy=\"7\" r=\"4.5\" /><path d=\"M10.5 10.5 14 14\" />\n  </svg>\n  <input class=\"strand-search-field__input\" type=\"search\"\n         aria-label=\"Search\" placeholder=\"Search trail runs, pottery, chess\">\n</form>\n\n<form class=\"strand-search-field strand-search-field--full strand-hide-from-md\" role=\"search\">\n  <svg class=\"strand-search-field__icon\" viewBox=\"0 0 16 16\" fill=\"none\"\n       stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\" focusable=\"false\">\n    <circle cx=\"7\" cy=\"7\" r=\"4.5\" /><path d=\"M10.5 10.5 14 14\" />\n  </svg>\n  <input class=\"strand-search-field__input\" type=\"search\"\n         aria-label=\"Search\" placeholder=\"Search events\">\n</form>"
-		},
-		{
-			"name": "SearchTrigger",
-			"description": "A control that LOOKS like a search field and behaves like a button: it opens a search overlay rather than accepting text. Composed on top of strand-search-field, which owns the box, so the two controls cannot drift apart visually. Use this wherever search is palette-driven; use SearchField only where the input itself is the search and the keystrokes have nowhere else to go. Three reasons it is a separate primitive rather than a variant: an input that opens a modal on focus is WCAG 3.2.1 (On Focus); a field the user can type into whose text is handled elsewhere gives one query two homes; and role=\"search\" around a text input promises assistive technology that typing works, which is a false promise if the keystrokes go to an overlay.",
-			"classes": [
-				{
-					"class": "strand-search-trigger",
-					"description": "Trigger root, a button. Applied ALONGSIDE strand-search-field, which supplies the box; this class adds only the button resets a field's box does not expect. Carries aria-haspopup=\"dialog\"."
-				},
-				{
-					"class": "strand-search-trigger__label",
-					"description": "Visible standing text, styled as a placeholder and taking the same token as the field's real placeholder. This is ALSO the accessible name: no aria-label override, because WCAG 2.5.3 (Label in Name) requires the accessible name to contain the visible text so a speech-input user saying what they see activates the control. Truncates on one line, since a wrapping label would change the control's height."
-				}
-			],
-			"example": "<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->\n<button type=\"button\" class=\"strand-search-field strand-search-trigger strand-hide-below-md\"\n        aria-haspopup=\"dialog\" aria-expanded=\"false\" aria-controls=\"search-palette\">\n  <svg class=\"strand-search-field__icon\" aria-hidden=\"true\" focusable=\"false\">...</svg>\n  <span class=\"strand-search-trigger__label\">Search trail runs, pottery, chess</span>\n</button>\n\n<button type=\"button\"\n        class=\"strand-search-field strand-search-field--full strand-search-trigger strand-hide-from-md\"\n        aria-haspopup=\"dialog\">\n  <svg class=\"strand-search-field__icon\" aria-hidden=\"true\" focusable=\"false\">...</svg>\n  <span class=\"strand-search-trigger__label\">Search events</span>\n</button>"
-		},
-		{
-			"name": "TabBar",
-			"description": "The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations; 19.1.1 forbids stacking the two.",
-			"classes": [
-				{
-					"class": "strand-tabbar",
-					"description": "Bar root, a nav landmark. Fixed to the viewport's bottom edge so its position is a function of the viewport and no scroll can move it out of reach, with the safe-area inset so it clears the home indicator on a notched phone. Give it an aria-label; an unnamed nav is one a screen reader user tells apart by guessing."
-				},
-				{
-					"class": "strand-tabbar__item",
-					"description": "One destination. A link when it has a href, so middle-click and open-in-new-tab keep working; a button only when there is genuinely no URL. Minimum 44x44 per 14.7, measured on the item rather than inferred from the bar's height."
-				},
-				{
-					"class": "strand-tabbar__icon",
-					"description": "Decorative glyph, 20px. aria-hidden: the label already names the destination."
-				},
-				{
-					"class": "strand-tabbar__label",
-					"description": "Destination name. text-xs with wider tracking, uppercase mono. Wraps rather than truncating, because a destination the user cannot read is not a destination; if a label does not fit, the surface has too many destinations and 19.1.1's count test already refuses it."
-				}
-			],
-			"example": "<!-- The current destination is marked with aria-current=\"page\", which is\n     BOTH the announced state and the styling hook, so the two cannot drift. -->\n<nav class=\"strand-tabbar\" aria-label=\"Primary\">\n  <a class=\"strand-tabbar__item\" href=\"/discover\" aria-current=\"page\">\n    <span class=\"strand-tabbar__icon\" aria-hidden=\"true\"><svg>...</svg></span>\n    <span class=\"strand-tabbar__label\">Discover</span>\n  </a>\n  <a class=\"strand-tabbar__item\" href=\"/calendar\">\n    <span class=\"strand-tabbar__label\">Calendar</span>\n  </a>\n</nav>\n\n<!-- Reserve the space the bar occupies on the SCROLLING CONTENT, or the last\n     item of every list sits permanently underneath the navigation. -->\n<main class=\"strand-tabbar-offset\">...</main>"
+			"example": "<div class=\"strand-input\">\n  <input type=\"text\" class=\"strand-input__field\" placeholder=\"Enter text\">\n</div>"
 		},
 		{
 			"name": "InstrumentViewport",
@@ -1533,36 +839,6 @@
 			"example": "<div class=\"strand-instrument-viewport\">\n  <!-- Dark data-dense content -->\n</div>"
 		},
 		{
-			"name": "ScrollReveal",
-			"description": "Scroll-triggered entrance animation.",
-			"classes": [
-				{
-					"class": "strand-reveal",
-					"description": "Element with scroll-triggered fade-up."
-				},
-				{
-					"class": "strand-reveal--visible",
-					"description": "Visible state after scroll trigger."
-				},
-				{
-					"class": "strand-reveal-group",
-					"description": "Group container for staggered reveals."
-				}
-			],
-			"example": "<div class=\"strand-reveal\">Fades up on scroll</div>\n\n<div class=\"strand-reveal-group\">\n  <div class=\"strand-reveal\">Staggers 0ms</div>\n  <div class=\"strand-reveal\">Staggers 80ms</div>\n</div>"
-		},
-		{
-			"name": "Settle",
-			"description": "Fades a region's new state in when the model changes, instead of cutting to it. Implements design-language.md 6.9 (state change) and 6.9.1 (identity is what triggers it). The sibling of Reserve: Reserve holds the BOX while a wait resolves, Settle acknowledges the MOMENT the user's action took effect. It cannot affect layout, deliberately, so a region whose two states differ in size needs Reserve as well. There is no JavaScript in this primitive: a keyframe animation runs when an element enters the DOM.",
-			"classes": [
-				{
-					"class": "strand-settle",
-					"description": "Fades the element in over --strand-duration-fast when it is inserted. Opacity only, and it declares no size of any kind. Under prefers-reduced-motion the animation is removed and the change is immediate."
-				}
-			],
-			"example": "<!-- Insertion alone fires the fade, so an item ARRIVING needs nothing else. -->\n<li class=\"strand-settle\">a comment that just arrived</li>\n\n<!-- THE TRAP, and the one way to use this and get nothing: a VALUE change\n     patches a text node and inserts nothing, so no animation fires. Replace\n     the element rather than rewriting its text.\n     WRONG, animates nothing however correct the class is:\n       el.textContent = count + ' people'\n     RIGHT, a new element, so the fade fires:\n       const next = document.createElement('span');\n       next.className = 'strand-settle';\n       next.textContent = count + ' people';\n       el.replaceWith(next);\n     In a framework this is the key. Key on WHAT THE USER WAS TOLD, not on\n     the record carrying it: an optimistic echo and its server confirmation\n     are ONE state change, and keying on the row id announces it twice. -->\n\n<!-- Settle never sizes anything. If the two states are different heights,\n     that is a space-contract problem: wrap in strand-reserve. -->"
-		},
-		{
 			"name": "KvEditorial",
 			"description": "Editorial modifier on the strand-kv molecule. Use inside card-metadata contexts for soft sans-serif Blue-midnight values separated by a dashed divider. The default strand-kv stays mono-tabular for instrument readouts.",
 			"classes": [
@@ -1572,6 +848,103 @@
 				}
 			],
 			"example": "<div class=\"strand-kv strand-kv--editorial\">\n  <span class=\"strand-kv__label\">Owner</span>\n  <span class=\"strand-kv__value\">Dillinger Staffing</span>\n</div>"
+		},
+		{
+			"name": "LabFrame",
+			"description": "Fake in-page window chrome that hosts a modal demo inline. Use on docs pages to show how a dialog appears without taking over the viewport.",
+			"classes": [
+				{
+					"class": "strand-ref-frame",
+					"description": "Frame container (recessed background, rounded)."
+				},
+				{
+					"class": "strand-ref-frame__chrome",
+					"description": "Top chrome bar (traffic-light dots + title)."
+				},
+				{
+					"class": "strand-ref-frame__dot",
+					"description": "Traffic-light dot (color set inline per dot)."
+				},
+				{
+					"class": "strand-ref-frame__title",
+					"description": "Chrome title (mono 11px gray)."
+				},
+				{
+					"class": "strand-ref-frame__body",
+					"description": "Frame body (white surface, relative positioning)."
+				},
+				{
+					"class": "strand-ref-frame__content",
+					"description": "Primary content area; [aria-hidden=true] blurs and fades."
+				},
+				{
+					"class": "strand-ref-frame__content-head",
+					"description": "Header container for overline + heading inside content."
+				},
+				{
+					"class": "strand-ref-frame__actions",
+					"description": "Action row inside content (flex, 10px gap)."
+				},
+				{
+					"class": "strand-ref-frame__overlay",
+					"description": "Modal backdrop (absolute inset 0, translucent)."
+				},
+				{
+					"class": "strand-ref-frame__panel",
+					"description": "Modal panel (white card centered in overlay)."
+				},
+				{
+					"class": "strand-ref-frame__panel-header",
+					"description": "Panel header row (title + close button)."
+				},
+				{
+					"class": "strand-ref-frame__panel-title",
+					"description": "Panel title (h2 sans 18px medium)."
+				},
+				{
+					"class": "strand-ref-frame__panel-close",
+					"description": "Panel close button (28x28, ghost)."
+				},
+				{
+					"class": "strand-ref-frame__panel-body",
+					"description": "Panel body paragraph (14px gray-700)."
+				},
+				{
+					"class": "strand-ref-frame__panel-footer",
+					"description": "Panel footer row (flex end, recessed bg)."
+				}
+			],
+			"example": "<div class=\"strand-ref-frame\">\n  <div class=\"strand-ref-frame__chrome\">\n    <span class=\"strand-ref-frame__dot\" style=\"background: #ff5f57\"></span>\n    <span class=\"strand-ref-frame__dot\" style=\"background: #febc2e\"></span>\n    <span class=\"strand-ref-frame__dot\" style=\"background: #28c840\"></span>\n    <span class=\"strand-ref-frame__title\">Demo</span>\n  </div>\n  <div class=\"strand-ref-frame__body\">\n    <div class=\"strand-ref-frame__content\" aria-hidden=\"true\">Background content</div>\n    <div class=\"strand-ref-frame__overlay\">\n      <div class=\"strand-ref-frame__panel\" role=\"dialog\" aria-modal=\"true\">\n        <div class=\"strand-ref-frame__panel-header\">\n          <h2 class=\"strand-ref-frame__panel-title\">Confirm</h2>\n          <button type=\"button\" class=\"strand-ref-frame__panel-close\" aria-label=\"Close\">&times;</button>\n        </div>\n        <div class=\"strand-ref-frame__panel-body\">Are you sure?</div>\n        <div class=\"strand-ref-frame__panel-footer\">...</div>\n      </div>\n    </div>\n  </div>\n</div>"
+		},
+		{
+			"name": "LabGlassStage",
+			"description": "Cinematic glass-surface specimen container. Renders a layered blue/teal gradient backdrop with an embedded frosted-glass panel.",
+			"classes": [
+				{
+					"class": "strand-ref-glass-stage",
+					"description": "Gradient backdrop (radial + diagonal linear, overflow hidden)."
+				},
+				{
+					"class": "strand-ref-glass-panel",
+					"description": "Frosted panel with backdrop-filter, translucent dark bg, hairline border."
+				}
+			],
+			"example": "<div class=\"strand-ref-glass-stage\">\n  <div class=\"strand-ref-glass-panel\">Glass content</div>\n</div>"
+		},
+		{
+			"name": "LabRevealStage",
+			"description": "Staggered entry animation specimen. Four lines animate in at 0 / 180 / 360 / 540 ms. Remount the stage (new key/ref) to replay.",
+			"classes": [
+				{
+					"class": "strand-ref-reveal-stage",
+					"description": "Stage container (vertical stack, 10px gap)."
+				},
+				{
+					"class": "strand-ref-reveal-line",
+					"description": "Animated line (nth-child controls delay 0/180/360/540)."
+				}
+			],
+			"example": "<div class=\"strand-ref-reveal-stage\">\n  <div class=\"strand-ref-reveal-line\">First</div>\n  <div class=\"strand-ref-reveal-line\">Second</div>\n  <div class=\"strand-ref-reveal-line\">Third</div>\n  <div class=\"strand-ref-reveal-line\">Fourth</div>\n</div>"
 		},
 		{
 			"name": "LabShell",
@@ -1737,103 +1110,6 @@
 			"example": "<div class=\"strand-ref-shell\" style=\"--strand-ref-sticky-top: 64px;\">\n  <aside class=\"strand-ref-shell__sidebar\">...</aside>\n  <main class=\"strand-ref-shell__main\">\n    <header class=\"strand-ref-header\">\n      <h1 class=\"strand-ref-header__title\">Every component, rendered.</h1>\n      <p class=\"strand-ref-header__lead\">Reference layout for component docs.</p>\n    </header>\n    <section class=\"strand-ref-section\" id=\"typography\">\n      <div class=\"strand-ref-section__head\"><h2>Typography</h2></div>\n      <div class=\"strand-ref-section__body\">\n        <div class=\"strand-ref-example\">\n          <div class=\"strand-ref-example__meta\">\n            <div class=\"strand-ref-example__label\">Headline</div>\n            <code class=\"strand-ref-example__code\">strand-headline--xl</code>\n          </div>\n          <div class=\"strand-ref-example__demo\">...</div>\n        </div>\n      </div>\n    </section>\n  </main>\n</div>"
 		},
 		{
-			"name": "LabFrame",
-			"description": "Fake in-page window chrome that hosts a modal demo inline. Use on docs pages to show how a dialog appears without taking over the viewport.",
-			"classes": [
-				{
-					"class": "strand-ref-frame",
-					"description": "Frame container (recessed background, rounded)."
-				},
-				{
-					"class": "strand-ref-frame__chrome",
-					"description": "Top chrome bar (traffic-light dots + title)."
-				},
-				{
-					"class": "strand-ref-frame__dot",
-					"description": "Traffic-light dot (color set inline per dot)."
-				},
-				{
-					"class": "strand-ref-frame__title",
-					"description": "Chrome title (mono 11px gray)."
-				},
-				{
-					"class": "strand-ref-frame__body",
-					"description": "Frame body (white surface, relative positioning)."
-				},
-				{
-					"class": "strand-ref-frame__content",
-					"description": "Primary content area; [aria-hidden=true] blurs and fades."
-				},
-				{
-					"class": "strand-ref-frame__content-head",
-					"description": "Header container for overline + heading inside content."
-				},
-				{
-					"class": "strand-ref-frame__actions",
-					"description": "Action row inside content (flex, 10px gap)."
-				},
-				{
-					"class": "strand-ref-frame__overlay",
-					"description": "Modal backdrop (absolute inset 0, translucent)."
-				},
-				{
-					"class": "strand-ref-frame__panel",
-					"description": "Modal panel (white card centered in overlay)."
-				},
-				{
-					"class": "strand-ref-frame__panel-header",
-					"description": "Panel header row (title + close button)."
-				},
-				{
-					"class": "strand-ref-frame__panel-title",
-					"description": "Panel title (h2 sans 18px medium)."
-				},
-				{
-					"class": "strand-ref-frame__panel-close",
-					"description": "Panel close button (28x28, ghost)."
-				},
-				{
-					"class": "strand-ref-frame__panel-body",
-					"description": "Panel body paragraph (14px gray-700)."
-				},
-				{
-					"class": "strand-ref-frame__panel-footer",
-					"description": "Panel footer row (flex end, recessed bg)."
-				}
-			],
-			"example": "<div class=\"strand-ref-frame\">\n  <div class=\"strand-ref-frame__chrome\">\n    <span class=\"strand-ref-frame__dot\" style=\"background: #ff5f57\"></span>\n    <span class=\"strand-ref-frame__dot\" style=\"background: #febc2e\"></span>\n    <span class=\"strand-ref-frame__dot\" style=\"background: #28c840\"></span>\n    <span class=\"strand-ref-frame__title\">Demo</span>\n  </div>\n  <div class=\"strand-ref-frame__body\">\n    <div class=\"strand-ref-frame__content\" aria-hidden=\"true\">Background content</div>\n    <div class=\"strand-ref-frame__overlay\">\n      <div class=\"strand-ref-frame__panel\" role=\"dialog\" aria-modal=\"true\">\n        <div class=\"strand-ref-frame__panel-header\">\n          <h2 class=\"strand-ref-frame__panel-title\">Confirm</h2>\n          <button type=\"button\" class=\"strand-ref-frame__panel-close\" aria-label=\"Close\">&times;</button>\n        </div>\n        <div class=\"strand-ref-frame__panel-body\">Are you sure?</div>\n        <div class=\"strand-ref-frame__panel-footer\">...</div>\n      </div>\n    </div>\n  </div>\n</div>"
-		},
-		{
-			"name": "LabGlassStage",
-			"description": "Cinematic glass-surface specimen container. Renders a layered blue/teal gradient backdrop with an embedded frosted-glass panel.",
-			"classes": [
-				{
-					"class": "strand-ref-glass-stage",
-					"description": "Gradient backdrop (radial + diagonal linear, overflow hidden)."
-				},
-				{
-					"class": "strand-ref-glass-panel",
-					"description": "Frosted panel with backdrop-filter, translucent dark bg, hairline border."
-				}
-			],
-			"example": "<div class=\"strand-ref-glass-stage\">\n  <div class=\"strand-ref-glass-panel\">Glass content</div>\n</div>"
-		},
-		{
-			"name": "LabRevealStage",
-			"description": "Staggered entry animation specimen. Four lines animate in at 0 / 180 / 360 / 540 ms. Remount the stage (new key/ref) to replay.",
-			"classes": [
-				{
-					"class": "strand-ref-reveal-stage",
-					"description": "Stage container (vertical stack, 10px gap)."
-				},
-				{
-					"class": "strand-ref-reveal-line",
-					"description": "Animated line (nth-child controls delay 0/180/360/540)."
-				}
-			],
-			"example": "<div class=\"strand-ref-reveal-stage\">\n  <div class=\"strand-ref-reveal-line\">First</div>\n  <div class=\"strand-ref-reveal-line\">Second</div>\n  <div class=\"strand-ref-reveal-line\">Third</div>\n  <div class=\"strand-ref-reveal-line\">Fourth</div>\n</div>"
-		},
-		{
 			"name": "LabTip",
 			"description": "Pure-CSS tooltip specimen (not the production Tooltip). Use on docs pages to show the four fixed bubble placements. Supports --pinned for screenshots.",
 			"classes": [
@@ -1900,6 +1176,687 @@
 			"example": "<div class=\"strand-ref-util-row\">\n  <div class=\"strand-ref-util-cell\">\n    <span class=\"strand-ref-util-cell__code\">.strand-mt-4</span>\n    <div class=\"strand-ref-util-cell__demo\">\n      <span class=\"strand-ref-util-cell__block strand-mt-4\">space-4</span>\n    </div>\n    <span class=\"strand-ref-util-cell__caption\">16px margin-top</span>\n  </div>\n</div>"
 		},
 		{
+			"name": "Link",
+			"description": "Inline navigation link with animated underline.",
+			"classes": [
+				{
+					"class": "strand-link",
+					"description": "Base link with animated underline on hover."
+				},
+				{
+					"class": "strand-link--cta",
+					"description": "Call-to-action link with touch-target height."
+				},
+				{
+					"class": "strand-link--mono",
+					"description": "Monospace overline-style link for footers."
+				}
+			],
+			"example": "<a href=\"/about\" class=\"strand-link\">About us</a>"
+		},
+		{
+			"name": "MapLegend",
+			"description": "The category key for an instrument viewport's map. The four sector colours are the only place the Blue Discipline (Part III.4) is relaxed, and 9.3's sector palette says why: multi-category encoding is the instrument's purpose, so the colour is data rather than decoration. An item renders as a button when it filters and a plain row when it does not; a legend that only explains is not interactive, and a button role would promise an action the user cannot take while adding a tab stop per row.",
+			"classes": [
+				{
+					"class": "strand-map-legend",
+					"description": "Legend root. Sits on the dark instrument cabinet. Hides below 640px, where the map needs every pixel."
+				},
+				{
+					"class": "strand-map-legend__title",
+					"description": "Overline heading for the key."
+				},
+				{
+					"class": "strand-map-legend__item",
+					"description": "One category row. A <button type=\"button\"> when it filters, a <div> when it only explains."
+				},
+				{
+					"class": "strand-map-legend__dot",
+					"description": "The sector swatch. aria-hidden: the label beside it already names the category, so an exposed swatch is a second announcement of the same fact."
+				},
+				{
+					"class": "strand-map-legend__dot--tech",
+					"description": "Technology sector encoding."
+				},
+				{
+					"class": "strand-map-legend__dot--health",
+					"description": "Health sector encoding."
+				},
+				{
+					"class": "strand-map-legend__dot--trades",
+					"description": "Trades sector encoding."
+				},
+				{
+					"class": "strand-map-legend__dot--finance",
+					"description": "Finance sector encoding."
+				}
+			],
+			"example": "<div class=\"strand-map-legend\">\n  <div class=\"strand-map-legend__title\">Sectors</div>\n  <!-- Filtering row: a real button. -->\n  <button type=\"button\" class=\"strand-map-legend__item\">\n    <span class=\"strand-map-legend__dot strand-map-legend__dot--tech\" aria-hidden=\"true\"></span>\n    Technology\n  </button>\n  <!-- Explaining row: not interactive, so not a button. -->\n  <div class=\"strand-map-legend__item\">\n    <span class=\"strand-map-legend__dot strand-map-legend__dot--health\" aria-hidden=\"true\"></span>\n    Health\n  </div>\n</div>"
+		},
+		{
+			"name": "MapLoading",
+			"description": "The screen that covers an instrument viewport while it boots. Fades out rather than unmounting, so the map beneath is never revealed mid-paint: keep it mounted and toggle the modifier. Default state is VISIBLE, because it covers a booting instrument and a consumer that forgets to drive it should show a loading screen rather than a half-painted map. Caption uses instrument voice (11.7): \"Processing\", never \"Loading...\".",
+			"classes": [
+				{
+					"class": "strand-map-loading",
+					"description": "Full-bleed cover over the viewport. Give it role=\"status\" with aria-live=\"polite\" and aria-busy, so the caption is announced and the state change is not silent for a screen reader."
+				},
+				{
+					"class": "strand-map-loading--hidden",
+					"description": "Faded out. The element stays mounted; removing it would cut the opacity transition and reveal the map mid-paint."
+				},
+				{
+					"class": "strand-map-loading__spinner",
+					"description": "Rotating indicator. Decorative, aria-hidden."
+				},
+				{
+					"class": "strand-map-loading__text",
+					"description": "Caption, instrument voice."
+				},
+				{
+					"class": "strand-map-loading__bar",
+					"description": "Sweeping progress bar. Decorative, aria-hidden."
+				}
+			],
+			"example": "<div class=\"strand-map-loading\" role=\"status\" aria-live=\"polite\" aria-busy=\"true\">\n  <div class=\"strand-map-loading__spinner\" aria-hidden=\"true\"></div>\n  <div class=\"strand-map-loading__text\">Processing</div>\n  <div class=\"strand-map-loading__bar\" aria-hidden=\"true\"></div>\n</div>\n\n<!-- Booted: add the modifier, do not unmount. -->\n<div class=\"strand-map-loading strand-map-loading--hidden\" role=\"status\" aria-live=\"polite\" aria-busy=\"false\">...</div>"
+		},
+		{
+			"name": "Nav",
+			"description": "Site/app navigation with mobile menu and glass variant.",
+			"classes": [
+				{
+					"class": "strand-nav",
+					"description": "Base nav element."
+				},
+				{
+					"class": "strand-nav__inner",
+					"description": "Inner flex layout container."
+				},
+				{
+					"class": "strand-nav__logo",
+					"description": "Logo/brand area (mono uppercase tracked)."
+				},
+				{
+					"class": "strand-nav__logo--pulse",
+					"description": "Animated pulse underline on logo."
+				},
+				{
+					"class": "strand-nav__items",
+					"description": "Navigation links container."
+				},
+				{
+					"class": "strand-nav__link",
+					"description": "Desktop navigation link."
+				},
+				{
+					"class": "strand-nav__link--active",
+					"description": "Active desktop link state."
+				},
+				{
+					"class": "strand-nav__slot",
+					"description": "Right-edge content slot (account, utility)."
+				},
+				{
+					"class": "strand-nav__slot--reserve",
+					"description": "Slot with a pinned inline size, so swapping its contents cannot shift the nav."
+				},
+				{
+					"class": "strand-nav__actions",
+					"description": "Actions area."
+				},
+				{
+					"class": "strand-nav__hamburger",
+					"description": "Mobile menu toggle button."
+				},
+				{
+					"class": "strand-nav__hamburger-icon",
+					"description": "Hamburger icon lines."
+				},
+				{
+					"class": "strand-nav__mobile-menu",
+					"description": "Mobile navigation panel."
+				},
+				{
+					"class": "strand-nav__mobile-menu--open",
+					"description": "Open state for mobile menu."
+				},
+				{
+					"class": "strand-nav__mobile-link",
+					"description": "Mobile navigation link."
+				},
+				{
+					"class": "strand-nav__mobile-link--active",
+					"description": "Active mobile link state."
+				},
+				{
+					"class": "strand-nav__title",
+					"description": "Nav title text."
+				},
+				{
+					"class": "strand-nav__title-tag",
+					"description": "Nav title tag element."
+				},
+				{
+					"class": "strand-nav--glass",
+					"description": "Fixed glassmorphic nav with frosted backdrop."
+				},
+				{
+					"class": "strand-nav--scrolled",
+					"description": "Scrolled state with subtle shadow."
+				},
+				{
+					"class": "strand-nav--instrument",
+					"description": "Instrument viewport nav variant."
+				}
+			],
+			"example": "<nav class=\"strand-nav\" aria-label=\"Main navigation\">\n  <div class=\"strand-nav__inner\">\n    <div class=\"strand-nav__logo\"><strong>Brand</strong></div>\n    <div class=\"strand-nav__items\">\n      <a href=\"/\" class=\"strand-nav__link strand-nav__link--active\">Home</a>\n    </div>\n  </div>\n</nav>"
+		},
+		{
+			"name": "Progress",
+			"description": "Completion indicator (bar or ring).",
+			"classes": [
+				{
+					"class": "strand-progress",
+					"description": "Base progress element."
+				},
+				{
+					"class": "strand-progress--bar",
+					"description": "Bar variant."
+				},
+				{
+					"class": "strand-progress--ring",
+					"description": "Ring (circular) variant."
+				},
+				{
+					"class": "strand-progress__fill",
+					"description": "Fill track element."
+				},
+				{
+					"class": "strand-progress__ring",
+					"description": "SVG ring element."
+				},
+				{
+					"class": "strand-progress__track",
+					"description": "Ring background track."
+				},
+				{
+					"class": "strand-progress--indeterminate",
+					"description": "Indeterminate animation state."
+				},
+				{
+					"class": "strand-progress--sm",
+					"description": "Small size (bar: 4px, ring: 24px)."
+				},
+				{
+					"class": "strand-progress--md",
+					"description": "Medium size (bar: 8px, ring: 40px)."
+				},
+				{
+					"class": "strand-progress--lg",
+					"description": "Large size (bar: 12px, ring: 56px)."
+				}
+			],
+			"example": "<div class=\"strand-progress strand-progress--bar strand-progress--md\" role=\"progressbar\"\n  aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"65\">\n  <div class=\"strand-progress__fill\" style=\"width: 65%;\"></div>\n</div>"
+		},
+		{
+			"name": "Radio",
+			"description": "Single selection from a set with custom dot indicator.",
+			"classes": [
+				{
+					"class": "strand-radio",
+					"description": "Label wrapper element."
+				},
+				{
+					"class": "strand-radio__native",
+					"description": "Hidden native radio input."
+				},
+				{
+					"class": "strand-radio__control",
+					"description": "Custom visual control."
+				},
+				{
+					"class": "strand-radio__dot",
+					"description": "Inner dot indicator."
+				},
+				{
+					"class": "strand-radio__label",
+					"description": "Text label."
+				},
+				{
+					"class": "strand-radio--checked",
+					"description": "Checked state."
+				},
+				{
+					"class": "strand-radio--disabled",
+					"description": "Disabled state."
+				}
+			],
+			"example": "<label class=\"strand-radio strand-radio--checked\">\n  <input type=\"radio\" class=\"strand-radio__native\" name=\"group\" checked>\n  <span class=\"strand-radio__control\" aria-hidden=\"true\">\n    <span class=\"strand-radio__dot\"></span>\n  </span>\n  <span class=\"strand-radio__label\">Option A</span>\n</label>"
+		},
+		{
+			"name": "Reserve",
+			"description": "A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to \"ready\" when the data lands, or to \"empty\" when the answer arrived and there is nothing to show; that attribute is the whole runtime, and there is no JavaScript in this primitive.",
+			"classes": [
+				{
+					"class": "strand-reserve",
+					"description": "Region root. Places both layers in one grid cell, so the region self-sizes to the taller and the swap cannot move layout."
+				},
+				{
+					"class": "strand-reserve__placeholder",
+					"description": "The waiting layer, usually skeletons. Mark it aria-hidden so assistive tech does not read filler."
+				},
+				{
+					"class": "strand-reserve__content",
+					"description": "The real content. Present and sized from first paint, hidden by opacity rather than absent from the DOM."
+				}
+			],
+			"example": "<!-- Optional per-breakpoint floors, needed only when the placeholder is\n     genuinely smaller than what replaces it. Each falls back to the one below. -->\n<div class=\"strand-reserve\" data-strand-reserve=\"pending\"\n  style=\"--strand-reserve-h: 42px; --strand-reserve-h-md: 56px;\">\n  <div class=\"strand-reserve__placeholder\" aria-hidden=\"true\">\n    <div class=\"strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer\"\n      style=\"width: 100%; height: 42px;\"></div>\n  </div>\n  <div class=\"strand-reserve__content\">\n    <!-- real content, rendered from the start -->\n  </div>\n</div>\n\n<!-- Omitting data-strand-reserve entirely shows the content and hides the\n     placeholder, so a server-rendered page needs no attribute at all. -->\n\n<!-- Resolve on EVERY path, including failure. data-strand-reserve=\"empty\"\n     takes the placeholder OUT OF FLOW and collapses the region; \"ready\" alone\n     cannot, because a hidden placeholder still occupies its grid cell and the\n     region would hold its height forever. -->"
+		},
+		{
+			"name": "ResultCard",
+			"description": "One result in an instrument's results panel. Renders as a <button> when it is selectable and an <article> when it is not: a card that pans a map when clicked is a control and owes the keyboard the same affordance as the mouse, while a card that only displays is not, and a button role would promise otherwise. Pair the active state with aria-current so the highlighted result is announced rather than only tinted.",
+			"classes": [
+				{
+					"class": "strand-result-card",
+					"description": "Card root, on the dark cabinet."
+				},
+				{
+					"class": "strand-result-card--active",
+					"description": "The highlighted result, e.g. the one under the cursor on the map. Pair with aria-current=\"true\"."
+				},
+				{
+					"class": "strand-result-card__title",
+					"description": "Primary line."
+				},
+				{
+					"class": "strand-result-card__company",
+					"description": "Secondary line."
+				},
+				{
+					"class": "strand-result-card__meta",
+					"description": "Metadata row. Omit the element entirely when there is no metadata: an empty styled row takes vertical space and draws a border for nothing, in a panel where every row competes for height."
+				},
+				{
+					"class": "strand-result-card__location",
+					"description": "Where the result is."
+				},
+				{
+					"class": "strand-result-card__salary",
+					"description": "A second metadata value."
+				},
+				{
+					"class": "strand-result-card__badge",
+					"description": "Small chip. A badge with no variant keeps the base class alone, never a --undefined modifier that matches no rule."
+				},
+				{
+					"class": "strand-result-card__badge--remote",
+					"description": "Remote tint."
+				},
+				{
+					"class": "strand-result-card__badge--source",
+					"description": "Source tint."
+				}
+			],
+			"example": "<!-- Selectable: a real button, reachable by keyboard. -->\n<button type=\"button\" class=\"strand-result-card strand-result-card--active\" aria-current=\"true\">\n  <div class=\"strand-result-card__title\">Systems Engineer</div>\n  <div class=\"strand-result-card__company\">Acme</div>\n  <div class=\"strand-result-card__meta\">\n    <span class=\"strand-result-card__location\">Oakland</span>\n    <span class=\"strand-result-card__badge strand-result-card__badge--remote\">Remote</span>\n  </div>\n</button>\n\n<!-- Display only: not a control, so not a button. -->\n<article class=\"strand-result-card\">\n  <div class=\"strand-result-card__title\">Systems Engineer</div>\n</article>"
+		},
+		{
+			"name": "ResultsPanel",
+			"description": "The list an instrument returns for a query. THREE states, not two, deliberately: a failed request and an empty result are different answers and the user is owed the difference. \"0 matches detected\" means the instrument ran and found nothing; an error means it did not run. The retry affordance therefore belongs to the error state only, because an empty result is not a failure and there is nothing to retry.",
+			"classes": [
+				{
+					"class": "strand-results-panel",
+					"description": "Panel root: a labelled <section> on the dark cabinet, fixed left on desktop and a bottom sheet below 768px. Hide it with the hidden attribute so it leaves the accessibility tree rather than sitting invisible."
+				},
+				{
+					"class": "strand-results-panel__count",
+					"description": "The count line, instrument voice. Mark it aria-live=\"polite\" so a screen reader hears the count change when a query re-runs. Polite, never assertive: a count re-announcing on every keystroke of a live search interrupts more than it informs."
+				},
+				{
+					"class": "strand-results-panel__items",
+					"description": "Scrollable list region. Rendered only in the results state."
+				},
+				{
+					"class": "strand-results-panel__state",
+					"description": "The empty or error block, rendered instead of the items."
+				},
+				{
+					"class": "strand-results-panel__state-title",
+					"description": "Heading for the empty or error state."
+				},
+				{
+					"class": "strand-results-panel__state-hint",
+					"description": "Supporting line, e.g. \"Adjust parameters and retry\"."
+				},
+				{
+					"class": "strand-results-panel__error-link",
+					"description": "Retry control. Error state only."
+				}
+			],
+			"example": "<section class=\"strand-results-panel\" aria-label=\"Results\">\n  <div class=\"strand-results-panel__count\" aria-live=\"polite\">12 matches detected</div>\n  <div class=\"strand-results-panel__items\">...</div>\n</section>\n\n<!-- Ran, found nothing. No retry: this is not a failure. -->\n<section class=\"strand-results-panel\" aria-label=\"Results\">\n  <div class=\"strand-results-panel__state\">\n    <div class=\"strand-results-panel__state-title\">0 matches detected</div>\n    <div class=\"strand-results-panel__state-hint\">Adjust parameters and retry</div>\n  </div>\n</section>\n\n<!-- Did not run. Retry belongs here. -->\n<section class=\"strand-results-panel\" aria-label=\"Results\">\n  <div class=\"strand-results-panel__state\">\n    <div class=\"strand-results-panel__state-title\">Process interrupted</div>\n    <button type=\"button\" class=\"strand-results-panel__error-link\">Retry sequence</button>\n  </div>\n</section>"
+		},
+		{
+			"name": "ScrollReveal",
+			"description": "Scroll-triggered entrance animation.",
+			"classes": [
+				{
+					"class": "strand-reveal",
+					"description": "Element with scroll-triggered fade-up."
+				},
+				{
+					"class": "strand-reveal--visible",
+					"description": "Visible state after scroll trigger."
+				},
+				{
+					"class": "strand-reveal-group",
+					"description": "Group container for staggered reveals."
+				}
+			],
+			"example": "<div class=\"strand-reveal\">Fades up on scroll</div>\n\n<div class=\"strand-reveal-group\">\n  <div class=\"strand-reveal\">Staggers 0ms</div>\n  <div class=\"strand-reveal\">Staggers 80ms</div>\n</div>"
+		},
+		{
+			"name": "SearchField",
+			"description": "A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late.",
+			"classes": [
+				{
+					"class": "strand-search-field",
+					"description": "Field root. A role=\"search\" landmark laid out as a flex row: icon, input, optional clear control. Fixed at min(300px, 100%) so it cannot breach a narrower parent's padding (10.4). Height is 36px, raised to 44px under a coarse pointer for 14.7."
+				},
+				{
+					"class": "strand-search-field--full",
+					"description": "Spans the container instead of holding 300px. The narrow-viewport presentation; differs from the base in exactly one property."
+				},
+				{
+					"class": "strand-search-field__icon",
+					"description": "Leading magnifier, 16px, decorative (aria-hidden). Uses gray-500 rather than the gray-400 a mockup usually specifies: 14.2b puts gray-400 in the fill tier at 2.52:1, below the 3:1 SC 1.4.11 asks of a graphical object."
+				},
+				{
+					"class": "strand-search-field__input",
+					"description": "The control. Transparent and borderless because the wrapper draws the box; min-inline-size 0 so it shrinks inside the flex row rather than pushing the field past its declared width. Give it an accessible name: a placeholder is a hint, not a label."
+				},
+				{
+					"class": "strand-search-field__clear",
+					"description": "Optional clear control. Hidden with the hidden attribute while the field is empty, so it is absent from the accessibility tree and the tab order rather than merely invisible. 24px drawn, 44px hit area under a coarse pointer."
+				}
+			],
+			"example": "<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->\n<form class=\"strand-search-field strand-hide-below-md\" role=\"search\">\n  <svg class=\"strand-search-field__icon\" viewBox=\"0 0 16 16\" fill=\"none\"\n       stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\" focusable=\"false\">\n    <circle cx=\"7\" cy=\"7\" r=\"4.5\" /><path d=\"M10.5 10.5 14 14\" />\n  </svg>\n  <input class=\"strand-search-field__input\" type=\"search\"\n         aria-label=\"Search\" placeholder=\"Search trail runs, pottery, chess\">\n</form>\n\n<form class=\"strand-search-field strand-search-field--full strand-hide-from-md\" role=\"search\">\n  <svg class=\"strand-search-field__icon\" viewBox=\"0 0 16 16\" fill=\"none\"\n       stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\" focusable=\"false\">\n    <circle cx=\"7\" cy=\"7\" r=\"4.5\" /><path d=\"M10.5 10.5 14 14\" />\n  </svg>\n  <input class=\"strand-search-field__input\" type=\"search\"\n         aria-label=\"Search\" placeholder=\"Search events\">\n</form>"
+		},
+		{
+			"name": "SearchTrigger",
+			"description": "A control that LOOKS like a search field and behaves like a button: it opens a search overlay rather than accepting text. Composed on top of strand-search-field, which owns the box, so the two controls cannot drift apart visually. Use this wherever search is palette-driven; use SearchField only where the input itself is the search and the keystrokes have nowhere else to go. Three reasons it is a separate primitive rather than a variant: an input that opens a modal on focus is WCAG 3.2.1 (On Focus); a field the user can type into whose text is handled elsewhere gives one query two homes; and role=\"search\" around a text input promises assistive technology that typing works, which is a false promise if the keystrokes go to an overlay.",
+			"classes": [
+				{
+					"class": "strand-search-trigger",
+					"description": "Trigger root, a button. Applied ALONGSIDE strand-search-field, which supplies the box; this class adds only the button resets a field's box does not expect. Carries aria-haspopup=\"dialog\"."
+				},
+				{
+					"class": "strand-search-trigger__label",
+					"description": "Visible standing text, styled as a placeholder and taking the same token as the field's real placeholder. This is ALSO the accessible name: no aria-label override, because WCAG 2.5.3 (Label in Name) requires the accessible name to contain the visible text so a speech-input user saying what they see activates the control. Truncates on one line, since a wrapping label would change the control's height."
+				}
+			],
+			"example": "<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->\n<button type=\"button\" class=\"strand-search-field strand-search-trigger strand-hide-below-md\"\n        aria-haspopup=\"dialog\" aria-expanded=\"false\" aria-controls=\"search-palette\">\n  <svg class=\"strand-search-field__icon\" aria-hidden=\"true\" focusable=\"false\">...</svg>\n  <span class=\"strand-search-trigger__label\">Search trail runs, pottery, chess</span>\n</button>\n\n<button type=\"button\"\n        class=\"strand-search-field strand-search-field--full strand-search-trigger strand-hide-from-md\"\n        aria-haspopup=\"dialog\">\n  <svg class=\"strand-search-field__icon\" aria-hidden=\"true\" focusable=\"false\">...</svg>\n  <span class=\"strand-search-trigger__label\">Search events</span>\n</button>"
+		},
+		{
+			"name": "Section",
+			"description": "Page section with padding, background, and scroll-target variants.",
+			"classes": [
+				{
+					"class": "strand-section",
+					"description": "Base section element."
+				},
+				{
+					"class": "strand-section--standard",
+					"description": "Standard section padding."
+				},
+				{
+					"class": "strand-section--hero-compact",
+					"description": "Tighter hero padding for secondary CTA visibility."
+				},
+				{
+					"class": "strand-section--hero",
+					"description": "Hero section padding."
+				},
+				{
+					"class": "strand-section--hero-xl",
+					"description": "Extra-generous hero padding for marketing pages."
+				},
+				{
+					"class": "strand-section--compact",
+					"description": "Compact section padding (space-12)."
+				},
+				{
+					"class": "strand-section--bg-primary",
+					"description": "Primary surface background."
+				},
+				{
+					"class": "strand-section--bg-elevated",
+					"description": "Elevated surface background."
+				},
+				{
+					"class": "strand-section--bg-recessed",
+					"description": "Recessed surface background."
+				},
+				{
+					"class": "strand-section--border-top",
+					"description": "1px top border for visual separation."
+				},
+				{
+					"class": "strand-section--scroll-target",
+					"description": "Adds scroll-margin-top for anchor offset."
+				}
+			],
+			"example": "<section class=\"strand-section strand-section--standard strand-section--bg-primary\">\n  <div class=\"strand-container strand-container--default\">Content</div>\n</section>"
+		},
+		{
+			"name": "Select",
+			"description": "Option selection dropdown with custom arrow.",
+			"classes": [
+				{
+					"class": "strand-select",
+					"description": "Wrapper element for the select."
+				},
+				{
+					"class": "strand-select__field",
+					"description": "The native select element."
+				},
+				{
+					"class": "strand-select__arrow",
+					"description": "Custom dropdown caret indicator."
+				},
+				{
+					"class": "strand-select--error",
+					"description": "Error state."
+				},
+				{
+					"class": "strand-select--disabled",
+					"description": "Disabled state."
+				}
+			],
+			"example": "<div class=\"strand-select\">\n  <select class=\"strand-select__field\">\n    <option value=\"a\">Option A</option>\n  </select>\n  <span class=\"strand-select__arrow\" aria-hidden=\"true\"></span>\n</div>"
+		},
+		{
+			"name": "Settle",
+			"description": "Fades a region's new state in when the model changes, instead of cutting to it. Implements design-language.md 6.9 (state change) and 6.9.1 (identity is what triggers it). The sibling of Reserve: Reserve holds the BOX while a wait resolves, Settle acknowledges the MOMENT the user's action took effect. It cannot affect layout, deliberately, so a region whose two states differ in size needs Reserve as well. There is no JavaScript in this primitive: a keyframe animation runs when an element enters the DOM.",
+			"classes": [
+				{
+					"class": "strand-settle",
+					"description": "Fades the element in over --strand-duration-fast when it is inserted. Opacity only, and it declares no size of any kind. Under prefers-reduced-motion the animation is removed and the change is immediate."
+				}
+			],
+			"example": "<!-- Insertion alone fires the fade, so an item ARRIVING needs nothing else. -->\n<li class=\"strand-settle\">a comment that just arrived</li>\n\n<!-- THE TRAP, and the one way to use this and get nothing: a VALUE change\n     patches a text node and inserts nothing, so no animation fires. Replace\n     the element rather than rewriting its text.\n     WRONG, animates nothing however correct the class is:\n       el.textContent = count + ' people'\n     RIGHT, a new element, so the fade fires:\n       const next = document.createElement('span');\n       next.className = 'strand-settle';\n       next.textContent = count + ' people';\n       el.replaceWith(next);\n     In a framework this is the key. Key on WHAT THE USER WAS TOLD, not on\n     the record carrying it: an optimistic echo and its server confirmation\n     are ONE state change, and keying on the row id announces it twice. -->\n\n<!-- Settle never sizes anything. If the two states are different heights,\n     that is a space-contract problem: wrap in strand-reserve. -->"
+		},
+		{
+			"name": "Skeleton",
+			"description": "Content placeholder with shimmer animation.",
+			"classes": [
+				{
+					"class": "strand-skeleton",
+					"description": "Base skeleton element."
+				},
+				{
+					"class": "strand-skeleton--text",
+					"description": "Text placeholder (small radius)."
+				},
+				{
+					"class": "strand-skeleton--rectangle",
+					"description": "Rectangle placeholder (medium radius)."
+				},
+				{
+					"class": "strand-skeleton--circle",
+					"description": "Circle placeholder (full radius)."
+				},
+				{
+					"class": "strand-skeleton--shimmer",
+					"description": "Shimmer animation effect."
+				}
+			],
+			"example": "<div class=\"strand-skeleton strand-skeleton--text strand-skeleton--shimmer\" aria-hidden=\"true\"\n  style=\"width: 100%; height: 1em;\"></div>"
+		},
+		{
+			"name": "Slider",
+			"description": "Range value selection.",
+			"classes": [
+				{
+					"class": "strand-slider",
+					"description": "Wrapper element."
+				},
+				{
+					"class": "strand-slider__field",
+					"description": "Native range input."
+				},
+				{
+					"class": "strand-slider--disabled",
+					"description": "Disabled state."
+				}
+			],
+			"example": "<div class=\"strand-slider\">\n  <input type=\"range\" class=\"strand-slider__field\" min=\"0\" max=\"100\" value=\"50\">\n</div>"
+		},
+		{
+			"name": "Spinner",
+			"description": "Loading indicator with accessible text.",
+			"classes": [
+				{
+					"class": "strand-spinner",
+					"description": "Base spinner element."
+				},
+				{
+					"class": "strand-spinner__ring",
+					"description": "Spinning ring visual."
+				},
+				{
+					"class": "strand-spinner__sr-only",
+					"description": "Screen-reader-only loading text."
+				},
+				{
+					"class": "strand-spinner--sm",
+					"description": "Small size (16px)."
+				},
+				{
+					"class": "strand-spinner--md",
+					"description": "Medium size (20px)."
+				},
+				{
+					"class": "strand-spinner--lg",
+					"description": "Large size (32px)."
+				}
+			],
+			"example": "<span class=\"strand-spinner strand-spinner--md\" role=\"status\">\n  <span class=\"strand-spinner__ring\" aria-hidden=\"true\"></span>\n  <span class=\"strand-spinner__sr-only\">Loading</span>\n</span>"
+		},
+		{
+			"name": "Stack",
+			"description": "Flex layout primitive with direction, gap, and alignment.",
+			"classes": [
+				{
+					"class": "strand-stack",
+					"description": "Base flex container."
+				},
+				{
+					"class": "strand-stack--vertical",
+					"description": "Column direction."
+				},
+				{
+					"class": "strand-stack--horizontal",
+					"description": "Row direction."
+				},
+				{
+					"class": "strand-stack--align-start",
+					"description": "Align items to start."
+				},
+				{
+					"class": "strand-stack--align-center",
+					"description": "Align items to center."
+				},
+				{
+					"class": "strand-stack--align-end",
+					"description": "Align items to end."
+				},
+				{
+					"class": "strand-stack--justify-start",
+					"description": "Justify content to start."
+				},
+				{
+					"class": "strand-stack--justify-center",
+					"description": "Justify content to center."
+				},
+				{
+					"class": "strand-stack--justify-end",
+					"description": "Justify content to end."
+				},
+				{
+					"class": "strand-stack--justify-between",
+					"description": "Justify content with space-between."
+				},
+				{
+					"class": "strand-stack--justify-around",
+					"description": "Justify content with space-around."
+				},
+				{
+					"class": "strand-stack--wrap",
+					"description": "Enable flex wrap."
+				},
+				{
+					"class": "strand-stack--responsive",
+					"description": "Collapse horizontal to vertical at 768px."
+				},
+				{
+					"class": "strand-stack__item--full-mobile",
+					"description": "Full-width child on mobile in responsive mode."
+				},
+				{
+					"class": "strand-stack--gap-0",
+					"description": "Gap: none. Collapse the stack's spacing where an adjacent element already owns it."
+				},
+				{
+					"class": "strand-stack--gap-1",
+					"description": "Gap: space-1 (4px)."
+				},
+				{
+					"class": "strand-stack--gap-2",
+					"description": "Gap: space-2 (8px)."
+				},
+				{
+					"class": "strand-stack--gap-3",
+					"description": "Gap: space-3 (12px)."
+				},
+				{
+					"class": "strand-stack--gap-4",
+					"description": "Gap: space-4 (16px)."
+				},
+				{
+					"class": "strand-stack--gap-5",
+					"description": "Gap: space-5 (20px)."
+				},
+				{
+					"class": "strand-stack--gap-6",
+					"description": "Gap: space-6 (24px)."
+				},
+				{
+					"class": "strand-stack--gap-8",
+					"description": "Gap: space-8 (32px)."
+				}
+			],
+			"example": "<div class=\"strand-stack strand-stack--vertical strand-stack--gap-4\">\n  <div>Item 1</div>\n  <div>Item 2</div>\n</div>\n\n<!-- Header row: title left, actions right. Inside a flex or grid parent,\n     a stack shrink-wraps to its content; add strand-full-width so\n     justify-between has room to distribute. -->\n<div class=\"strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--align-center strand-stack--justify-between strand-full-width\">\n  <span class=\"strand-overline strand-overline--accent\">Section title</span>\n  <div class=\"strand-stack strand-stack--horizontal strand-stack--gap-2\">\n    <button class=\"strand-btn strand-btn--ghost strand-btn--sm\"><span class=\"strand-btn__content\">Cancel</span></button>\n    <button class=\"strand-btn strand-btn--primary strand-btn--sm\"><span class=\"strand-btn__content\">Save</span></button>\n  </div>\n</div>"
+		},
+		{
 			"name": "Swatch",
 			"description": "Color swatch specimen for design-token documentation. The swatch grid auto-fills with 160px tiles; each tile sets its own background/color inline (tone-dependent).",
 			"classes": [
@@ -1923,19 +1880,249 @@
 			"example": "<div class=\"strand-swatch-grid\">\n  <div class=\"strand-swatch\" style=\"background: #3B8EF6; color: #fff;\">\n    <span class=\"strand-swatch__name\">blue-primary</span>\n    <span class=\"strand-swatch__hex\">#3B8EF6</span>\n  </div>\n</div>"
 		},
 		{
-			"name": "TypeSpecimen",
-			"description": "Typography specimen. Stacks a display line on top of a mono meta row; siblings are separated by dashed dividers.",
+			"name": "Switch",
+			"description": "Binary toggle (single) with track and thumb.",
 			"classes": [
 				{
-					"class": "strand-type-specimen",
-					"description": "Specimen container (vertical stack with dashed top border)."
+					"class": "strand-switch",
+					"description": "Label wrapper element."
 				},
 				{
-					"class": "strand-type-specimen__meta",
-					"description": "Mono meta row; inline <b> children highlight in blue-primary."
+					"class": "strand-switch__track",
+					"description": "Track button element with role=\"switch\"."
+				},
+				{
+					"class": "strand-switch__thumb",
+					"description": "Sliding thumb indicator."
+				},
+				{
+					"class": "strand-switch__label",
+					"description": "Text label."
+				},
+				{
+					"class": "strand-switch--checked",
+					"description": "Checked (on) state."
+				},
+				{
+					"class": "strand-switch--disabled",
+					"description": "Disabled state."
 				}
 			],
-			"example": "<div class=\"strand-type-specimen\">\n  <h2 class=\"strand-headline strand-headline--xl\">The quick brown fox</h2>\n  <span class=\"strand-type-specimen__meta\">Inter <b>48px</b> <b>weight-300</b> <b>tracking-tight</b></span>\n</div>"
+			"example": "<label class=\"strand-switch strand-switch--checked\">\n  <button type=\"button\" role=\"switch\" class=\"strand-switch__track\" aria-checked=\"true\">\n    <span class=\"strand-switch__thumb\" aria-hidden=\"true\"></span>\n  </button>\n  <span class=\"strand-switch__label\">Dark mode</span>\n</label>"
+		},
+		{
+			"name": "TabBar",
+			"description": "The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations. 19.1.1 does not forbid the two coexisting; it forbids stacking them into a wall at the bottom of the viewport and requires a surface wanting both to DECIDE which belongs nearer the thumb. Mutually exclusive by state is a legal answer: destinations at rest, the dock taking the band only while a commitment is live, then yielding it back.",
+			"classes": [
+				{
+					"class": "strand-tabbar",
+					"description": "Bar root, a nav landmark. Fixed to the viewport's bottom edge so its position is a function of the viewport and no scroll can move it out of reach, with the safe-area inset so it clears the home indicator on a notched phone. Give it an aria-label; an unnamed nav is one a screen reader user tells apart by guessing."
+				},
+				{
+					"class": "strand-tabbar__item",
+					"description": "One destination. A link when it has a href, so middle-click and open-in-new-tab keep working; a button only when there is genuinely no URL. Minimum 44x44 per 14.7, measured on the item rather than inferred from the bar's height."
+				},
+				{
+					"class": "strand-tabbar__icon",
+					"description": "Decorative glyph, 20px. aria-hidden: the label already names the destination."
+				},
+				{
+					"class": "strand-tabbar__label",
+					"description": "Destination name. text-xs with wider tracking, uppercase mono. Wraps rather than truncating, because a destination the user cannot read is not a destination; if a label does not fit, the surface has too many destinations and 19.1.1's count test already refuses it."
+				}
+			],
+			"example": "<!-- The current destination is marked with aria-current=\"page\", which is\n     BOTH the announced state and the styling hook, so the two cannot drift. -->\n<nav class=\"strand-tabbar\" aria-label=\"Primary\">\n  <a class=\"strand-tabbar__item\" href=\"/discover\" aria-current=\"page\">\n    <span class=\"strand-tabbar__icon\" aria-hidden=\"true\"><svg>...</svg></span>\n    <span class=\"strand-tabbar__label\">Discover</span>\n  </a>\n  <a class=\"strand-tabbar__item\" href=\"/calendar\">\n    <span class=\"strand-tabbar__label\">Calendar</span>\n  </a>\n</nav>\n\n<!-- Reserve the space the bar occupies on the SCROLLING CONTENT, or the last\n     item of every list sits permanently underneath the navigation. -->\n<main class=\"strand-tabbar-offset\">...</main>"
+		},
+		{
+			"name": "Table",
+			"description": "Tabular data display with sortable headers.",
+			"classes": [
+				{
+					"class": "strand-table-wrapper",
+					"description": "Responsive scroll wrapper."
+				},
+				{
+					"class": "strand-table",
+					"description": "Base table element."
+				},
+				{
+					"class": "strand-table__head",
+					"description": "Table header group (thead)."
+				},
+				{
+					"class": "strand-table__body",
+					"description": "Table body group (tbody)."
+				},
+				{
+					"class": "strand-table__row",
+					"description": "Table row with hover highlight."
+				},
+				{
+					"class": "strand-table__th",
+					"description": "Table header cell (monospaced, uppercase, tracked)."
+				},
+				{
+					"class": "strand-table__td",
+					"description": "Table data cell."
+				},
+				{
+					"class": "strand-table__sort-btn",
+					"description": "Sortable column header button."
+				},
+				{
+					"class": "strand-table__sort-indicator",
+					"description": "Sort direction indicator."
+				}
+			],
+			"example": "<div class=\"strand-table-wrapper\">\n  <table class=\"strand-table\">\n    <thead class=\"strand-table__head\">\n      <tr><th class=\"strand-table__th\">Name</th></tr>\n    </thead>\n    <tbody class=\"strand-table__body\">\n      <tr class=\"strand-table__row\"><td class=\"strand-table__td\">Alice</td></tr>\n    </tbody>\n  </table>\n</div>"
+		},
+		{
+			"name": "Tabs",
+			"description": "Content switching with accessible tab pattern.",
+			"classes": [
+				{
+					"class": "strand-tabs",
+					"description": "Tab container."
+				},
+				{
+					"class": "strand-tabs__tab",
+					"description": "Individual tab button."
+				},
+				{
+					"class": "strand-tabs__tab--active",
+					"description": "Active tab state."
+				},
+				{
+					"class": "strand-tabs__panel--reveal",
+					"description": "Panel entrance animation."
+				},
+				{
+					"class": "strand-tabs--instrument",
+					"description": "Instrument viewport variant for tabs."
+				}
+			],
+			"example": "<div class=\"strand-tabs\">\n  <div role=\"tablist\">\n    <button role=\"tab\" class=\"strand-tabs__tab strand-tabs__tab--active\" aria-selected=\"true\">Tab 1</button>\n  </div>\n</div>"
+		},
+		{
+			"name": "Tag",
+			"description": "Categorization label with optional remove button.",
+			"classes": [
+				{
+					"class": "strand-tag",
+					"description": "Base tag element."
+				},
+				{
+					"class": "strand-tag__text",
+					"description": "Tag text content."
+				},
+				{
+					"class": "strand-tag__remove",
+					"description": "Remove button."
+				},
+				{
+					"class": "strand-tag--solid",
+					"description": "Solid filled variant."
+				},
+				{
+					"class": "strand-tag--outlined",
+					"description": "Outlined variant."
+				},
+				{
+					"class": "strand-tag--default",
+					"description": "Default color."
+				},
+				{
+					"class": "strand-tag--teal",
+					"description": "Teal color."
+				},
+				{
+					"class": "strand-tag--blue",
+					"description": "Blue color."
+				},
+				{
+					"class": "strand-tag--amber",
+					"description": "Amber color."
+				},
+				{
+					"class": "strand-tag--red",
+					"description": "Red color."
+				}
+			],
+			"example": "<span class=\"strand-tag strand-tag--solid strand-tag--blue\">\n  <span class=\"strand-tag__text\">Design</span>\n</span>"
+		},
+		{
+			"name": "Textarea",
+			"description": "Multi-line text entry with optional character count.",
+			"classes": [
+				{
+					"class": "strand-textarea",
+					"description": "Wrapper element for the textarea."
+				},
+				{
+					"class": "strand-textarea__field",
+					"description": "The native textarea element."
+				},
+				{
+					"class": "strand-textarea__count",
+					"description": "Character count display."
+				},
+				{
+					"class": "strand-textarea--error",
+					"description": "Error state."
+				},
+				{
+					"class": "strand-textarea--disabled",
+					"description": "Disabled state."
+				},
+				{
+					"class": "strand-textarea--auto-resize",
+					"description": "Auto-resize modifier."
+				}
+			],
+			"example": "<div class=\"strand-textarea\">\n  <textarea class=\"strand-textarea__field\" placeholder=\"Enter text\"></textarea>\n</div>"
+		},
+		{
+			"name": "Toast",
+			"description": "Transient notification with status variants.",
+			"classes": [
+				{
+					"class": "strand-toast",
+					"description": "Base toast element."
+				},
+				{
+					"class": "strand-toast__container",
+					"description": "Fixed stacking container (bottom-right)."
+				},
+				{
+					"class": "strand-toast__status",
+					"description": "Status prefix label."
+				},
+				{
+					"class": "strand-toast__message",
+					"description": "Message text."
+				},
+				{
+					"class": "strand-toast__dismiss",
+					"description": "Dismiss button."
+				},
+				{
+					"class": "strand-toast--info",
+					"description": "Info status."
+				},
+				{
+					"class": "strand-toast--success",
+					"description": "Success status."
+				},
+				{
+					"class": "strand-toast--warning",
+					"description": "Warning status."
+				},
+				{
+					"class": "strand-toast--error",
+					"description": "Error status."
+				}
+			],
+			"example": "<div class=\"strand-toast strand-toast--info\" role=\"status\" aria-live=\"polite\">\n  <span class=\"strand-toast__status\">INFO</span>\n  <span class=\"strand-toast__message\">Changes saved.</span>\n  <button class=\"strand-toast__dismiss\" aria-label=\"Dismiss\">&times;</button>\n</div>"
 		},
 		{
 			"name": "TokenSpecimen",
@@ -1961,93 +2148,54 @@
 			"example": "<div class=\"strand-token-specimen-grid\">\n  <div class=\"strand-token-specimen\">\n    <b>space-4</b>\n    <span class=\"strand-token-specimen__spacer\" style=\"width: 16px;\"></span>\n    <span>16px</span>\n  </div>\n</div>"
 		},
 		{
-			"name": "ContainerScale",
-			"description": "Container-width visualizer. Renders proportional horizontal bars (narrow / default / wide / full) against a 0-to-max axis.",
+			"name": "Tooltip",
+			"description": "Contextual hint with position variants.",
 			"classes": [
 				{
-					"class": "strand-container-scale",
-					"description": "Vertical stack of scale rows."
+					"class": "strand-tooltip__wrapper",
+					"description": "Wrapper for the trigger element."
 				},
 				{
-					"class": "strand-container-scale__row",
-					"description": "Single row (label + track + caption)."
+					"class": "strand-tooltip",
+					"description": "Tooltip content element."
 				},
 				{
-					"class": "strand-container-scale__label",
-					"description": "Row label row (flex baseline space-between)."
+					"class": "strand-tooltip--top",
+					"description": "Position above trigger."
 				},
 				{
-					"class": "strand-container-scale__caption",
-					"description": "Subtle gray caption text."
+					"class": "strand-tooltip--right",
+					"description": "Position to the right."
 				},
 				{
-					"class": "strand-container-scale__track",
-					"description": "Track surface (22px tall, recessed, hairline border)."
+					"class": "strand-tooltip--bottom",
+					"description": "Position below trigger."
 				},
 				{
-					"class": "strand-container-scale__bar",
-					"description": "Proportional bar; width set inline per row."
+					"class": "strand-tooltip--left",
+					"description": "Position to the left."
 				},
 				{
-					"class": "strand-container-scale__px",
-					"description": "Bar pixel label (mono 10px blue-primary)."
-				},
-				{
-					"class": "strand-container-scale__axis",
-					"description": "Axis row (flex justify-between, mono 9px)."
+					"class": "strand-tooltip--visible",
+					"description": "Show the tooltip."
 				}
 			],
-			"example": "<div class=\"strand-container-scale\">\n  <div class=\"strand-container-scale__row\">\n    <div class=\"strand-container-scale__label\">\n      <code>--strand-container-narrow</code>\n      <span class=\"strand-container-scale__caption\">640px</span>\n    </div>\n    <div class=\"strand-container-scale__track\">\n      <div class=\"strand-container-scale__bar\" style=\"width: 50%;\">\n        <span class=\"strand-container-scale__px\">640</span>\n      </div>\n    </div>\n  </div>\n  <div class=\"strand-container-scale__axis\"><span>0</span><span>1280</span></div>\n</div>"
+			"example": "<span class=\"strand-tooltip__wrapper\" aria-describedby=\"tip-1\">\n  Hover me\n  <span id=\"tip-1\" class=\"strand-tooltip strand-tooltip--top\" role=\"tooltip\">Helpful tip</span>\n</span>"
 		},
 		{
-			"name": "CommandPalette",
-			"description": "Search-and-jump overlay. Composes Dialog, so focus trapping, focus restoration, scroll lock and Escape dismissal are inherited. Filtering and ranking belong to the caller.",
+			"name": "TypeSpecimen",
+			"description": "Typography specimen. Stacks a display line on top of a mono meta row; siblings are separated by dashed dividers.",
 			"classes": [
 				{
-					"class": "strand-command-palette",
-					"description": "Palette root, applied to the composed Dialog."
+					"class": "strand-type-specimen",
+					"description": "Specimen container (vertical stack with dashed top border)."
 				},
 				{
-					"class": "strand-command-palette__search",
-					"description": "Search row holding the icon and the input."
-				},
-				{
-					"class": "strand-command-palette__icon",
-					"description": "Decorative magnifier, aria-hidden."
-				},
-				{
-					"class": "strand-command-palette__input",
-					"description": "The combobox input. Focus stays here while the highlight moves, via aria-activedescendant."
-				},
-				{
-					"class": "strand-command-palette__list",
-					"description": "Scrollable listbox of results."
-				},
-				{
-					"class": "strand-command-palette__option",
-					"description": "One result row (role=option, tabindex -1)."
-				},
-				{
-					"class": "strand-command-palette__option--active",
-					"description": "The highlighted row, the one Enter acts on. Pointer hover and arrow keys drive the same state."
-				},
-				{
-					"class": "strand-command-palette__label",
-					"description": "Primary text of a result."
-				},
-				{
-					"class": "strand-command-palette__sublabel",
-					"description": "Secondary text of a result."
-				},
-				{
-					"class": "strand-command-palette__badge",
-					"description": "Short trailing token, such as a category."
-				},
-				{
-					"class": "strand-command-palette__empty",
-					"description": "Shown instead of a bare box when nothing matches."
+					"class": "strand-type-specimen__meta",
+					"description": "Mono meta row; inline <b> children highlight in blue-primary."
 				}
-			]
+			],
+			"example": "<div class=\"strand-type-specimen\">\n  <h2 class=\"strand-headline strand-headline--xl\">The quick brown fox</h2>\n  <span class=\"strand-type-specimen__meta\">Inter <b>48px</b> <b>weight-300</b> <b>tracking-tight</b></span>\n</div>"
 		}
 	],
 	"global": {

@@ -86,6 +86,62 @@ describe("buildMonthGrid", () => {
     expect(checked).toBe(7 * 12 * 2);
   });
 
+
+  // ── fixedWeeks: the grid must not resize the page when the month turns ──
+  //
+  // Measured on a consumer: paging from a six-row month to a five-row month
+  // resizes the region by ~112px and moves everything beneath it. That is
+  // 6.6.1's space contract and 10.6's argument one level up -- 10.6 says a
+  // bounded cell must not grow its row, this says the grid must not grow
+  // its page.
+
+  it("pads every month to the same row count when asked", () => {
+    // The three shapes a month can take: six rows, five, and four.
+    for (const [y, m] of [[2026, 7], [2026, 8], [2026, 1]]) {
+      expect(buildMonthGrid(y, m, 0, 6)).toHaveLength(6);
+    }
+  });
+
+  it("pads from the adjacent months rather than emitting a blank band", () => {
+    // The grid already renders and already marks adjacent days, so a padded
+    // row is the same context the first and last rows always carry.
+    const weeks = buildMonthGrid(2026, 1, 0, 6);
+    const trailing = weeks[5];
+    expect(trailing).toHaveLength(7);
+    expect(trailing.every((d) => d.adjacent)).toBe(true);
+    expect(trailing[0].date.getMonth()).toBe(2);
+  });
+
+  it("still contains every day of the month exactly once when padded", () => {
+    // The padding must not cost or duplicate a real day.
+    const own = buildMonthGrid(2026, 1, 0, 6).flat().filter((d) => !d.adjacent);
+    expect(own.map((d) => d.day)).toEqual(
+      Array.from({ length: 28 }, (_, i) => i + 1),
+    );
+  });
+
+  it("keeps the variable row count when fixedWeeks is unset", () => {
+    // The old behaviour is the default, so this is additive for consumers
+    // that were relying on a month-sized grid.
+    expect(buildMonthGrid(2026, 1)).toHaveLength(4);
+    expect(buildMonthGrid(2026, 7)).toHaveLength(6);
+  });
+
+  it("never truncates a month at six, which is the most any month needs", () => {
+    let maxRows = 0;
+    for (let y = 2024; y <= 2030; y++) {
+      for (let m = 0; m < 12; m++) {
+        for (const ws of [0, 1] as const) {
+          maxRows = Math.max(maxRows, buildMonthGrid(y, m, ws).length);
+          const padded = buildMonthGrid(y, m, ws, 6);
+          const own = padded.flat().filter((d) => !d.adjacent);
+          expect(own).toHaveLength(new Date(y, m + 1, 0).getDate());
+        }
+      }
+    }
+    expect(maxRows).toBe(6);
+  });
+
   it("handles a leap February", () => {
     const days = buildMonthGrid(2028, 1).flat().filter((d) => !d.adjacent);
     expect(days).toHaveLength(29);

@@ -468,6 +468,38 @@
       "registryDependencies": []
     },
     {
+      "name": "map-legend",
+      "type": "registry:ui",
+      "title": "Map Legend",
+      "description": "Map Legend",
+      "files": [
+        {
+          "path": "components/MapLegend.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "map-loading",
+      "type": "registry:ui",
+      "title": "Map Loading",
+      "description": "Map Loading",
+      "files": [
+        {
+          "path": "components/MapLoading.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "nav",
       "type": "registry:ui",
       "title": "Nav",
@@ -523,6 +555,38 @@
       "files": [
         {
           "path": "components/Reserve.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "result-card",
+      "type": "registry:ui",
+      "title": "Result Card",
+      "description": "Result Card",
+      "files": [
+        {
+          "path": "components/ResultCard.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
+      "name": "results-panel",
+      "type": "registry:ui",
+      "title": "Results Panel",
+      "description": "Results Panel",
+      "files": [
+        {
+          "path": "components/ResultsPanel.tsx",
           "type": "registry:ui"
         }
       ],
@@ -740,13 +804,13 @@
       "registryDependencies": []
     },
     {
-      "name": "table",
+      "name": "tab-bar",
       "type": "registry:ui",
-      "title": "Table",
-      "description": "Tabular data display",
+      "title": "Tab Bar",
+      "description": "Tab Bar",
       "files": [
         {
-          "path": "components/Table.tsx",
+          "path": "components/TabBar.tsx",
           "type": "registry:ui"
         }
       ],
@@ -756,13 +820,13 @@
       "registryDependencies": []
     },
     {
-      "name": "tab-bar",
+      "name": "table",
       "type": "registry:ui",
-      "title": "Tab Bar",
-      "description": "Tab Bar",
+      "title": "Table",
+      "description": "Tabular data display",
       "files": [
         {
-          "path": "components/TabBar.tsx",
+          "path": "components/Table.tsx",
           "type": "registry:ui"
         }
       ],

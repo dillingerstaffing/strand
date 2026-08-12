@@ -275,7 +275,7 @@ Own the source. No dependency lock-in.
 npx strand-ui init          # Set up tokens in your project
 npx strand-ui add button    # Copy Button source to your codebase
 npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->55<!-- COMPONENT-COUNT:END --> components
+npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->59<!-- COMPONENT-COUNT:END --> components
 ```
 
 After install, the CLI is available as `strand` (e.g., `strand add button`).
@@ -287,7 +287,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-<!-- COMPONENT-COUNT:START -->55<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
+<!-- COMPONENT-COUNT:START -->59<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
 
 ### Input
 
@@ -785,6 +785,169 @@ All container components (Grid, Stack, Card, Container) enforce boundary integri
 ---
 
 <!-- GENERATED:COMPONENT-REFERENCE:START -->
+### ActionDock
+
+A bottom-anchored region carrying the primary action of a view, placed where a thumb rests. Implements design-language.md 14.8 (target position): 14.7 makes a target hittable, this makes it reachable. Flip data-strand-actiondock to "visible" when the in-flow control it stands in for scrolls out of view; that attribute is the whole runtime, and there is no JavaScript in this primitive. Use it for the ONE action a view exists to produce, and never alongside the real control, which would be two live buttons for one action.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-actiondock` | base | Dock root. Fixed to the viewport's bottom edge and spanning the inline axis, so its position is a function of the viewport and no amount of scrolling moves it out of reach. Carries the safe-area inset so the control clears the home indicator on a notched phone. |
+
+**Usage:**
+
+```html
+<!-- Hidden by default: an absent attribute means hidden, so a server-rendered
+     page that never flips it occludes nothing. -->
+<div class="strand-actiondock" data-strand-actiondock="hidden">
+  <button class="strand-btn strand-btn--primary" type="button">RSVP</button>
+</div>
+
+<!-- Show it only while the real control is off screen, usually driven by an
+     IntersectionObserver on that control. -->
+<div class="strand-actiondock" data-strand-actiondock="visible" aria-hidden="true">
+  <button class="strand-btn strand-btn--primary" type="button" tabindex="-1">RSVP</button>
+</div>
+
+<!-- The docked control usually duplicates one already in the accessibility
+     tree, so aria-hidden plus tabindex="-1" avoids a duplicate announcement
+     and a duplicate tab stop. Reach is a thumb problem; a keyboard user
+     reaches the in-flow control by tabbing. A dock carrying an action with NO
+     in-flow equivalent must be exposed instead. -->
+```
+
+---
+
+### Alert
+
+Persistent notification with status variants.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-alert` | base | Base alert element. |
+| `strand-alert__status` | child | Status prefix label. |
+| `strand-alert__content` | child | Alert message content. |
+| `strand-alert__dismiss` | child | Dismiss button. |
+| `strand-alert--info` | modifier | Info status. |
+| `strand-alert--success` | modifier | Success status. |
+| `strand-alert--warning` | modifier | Warning status. |
+| `strand-alert--error` | modifier | Error status. |
+| `strand-alert--stack` | modifier | Stacked layout variant: lays the alert body out in a column (flex-direction:column, align-items:stretch, space-3 gap) for a multi-line confirmation with its own action. Background and prefix-only status color are unchanged. |
+
+**Usage:**
+
+```html
+<div class="strand-alert strand-alert--info" role="status">
+  <span class="strand-alert__status">INFO</span>
+  <div class="strand-alert__content">This is an informational message.</div>
+</div>
+```
+
+---
+
+### Avatar
+
+User or entity representation with image or initials.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-avatar` | base | Base avatar element. |
+| `strand-avatar__img` | child | Image element inside avatar. |
+| `strand-avatar__initials` | child | Initials fallback text. |
+| `strand-avatar--sm` | modifier | Small size (32px). |
+| `strand-avatar--md` | modifier | Medium size (40px). |
+| `strand-avatar--lg` | modifier | Large size (48px). |
+| `strand-avatar--xl` | modifier | Extra-large size (64px). |
+
+**Usage:**
+
+```html
+<div class="strand-avatar strand-avatar--md" role="img" aria-label="JS">
+  <span class="strand-avatar__initials" aria-hidden="true">JS</span>
+</div>
+```
+
+---
+
+### Badge
+
+Status or count indicator that wraps a child element.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-badge` | base | Wrapper element (positions indicator at top-right of child). |
+| `strand-badge--inline` | modifier | Standalone inline badge without wrapping a child. |
+| `strand-badge__indicator` | child | The indicator element (dot or count pill). |
+| `strand-badge--dot` | modifier | 8px circle indicator, no text. |
+| `strand-badge--count` | modifier | Pill indicator with number text. |
+| `strand-badge--default` | modifier | Default color. |
+| `strand-badge--teal` | modifier | Teal color. |
+| `strand-badge--blue` | modifier | Blue color. |
+| `strand-badge--amber` | modifier | Amber color. |
+| `strand-badge--red` | modifier | Red color. |
+
+**Usage:**
+
+```html
+<span class="strand-badge strand-badge--inline">
+  <span class="strand-badge__indicator strand-badge--count strand-badge--blue">5</span>
+</span>
+```
+
+---
+
+### Banner
+
+Top-of-page notification banner.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-banner` | base | Base banner element, fixed to top. |
+| `strand-banner__text` | child | Banner message text. |
+| `strand-banner__dismiss` | child | Dismiss button. |
+| `strand-banner--info` | modifier | Info variant (blue). |
+| `strand-banner--warning` | modifier | Warning variant (amber). |
+| `strand-banner--critical` | modifier | Critical variant (red). |
+| `strand-banner-active` | base | |
+| `strand-prose` | base | |
+
+**Usage:**
+
+```html
+<div class="strand-banner strand-banner--info">
+  <p class="strand-banner__text">Scheduled maintenance tonight.</p>
+  <button class="strand-banner__dismiss" aria-label="Dismiss">...</button>
+</div>
+```
+
+---
+
+### Breadcrumb
+
+Hierarchical location indicator.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-breadcrumb` | base | Nav wrapper element. |
+| `strand-breadcrumb__list` | child | Ordered list of breadcrumb items. |
+| `strand-breadcrumb__item` | child | Individual breadcrumb item. |
+| `strand-breadcrumb__link` | child | Clickable breadcrumb link. |
+| `strand-breadcrumb__separator` | child | Separator between items (aria-hidden). |
+| `strand-breadcrumb__current` | child | Current page indicator (aria-current). |
+
+**Usage:**
+
+```html
+<nav aria-label="Breadcrumb" class="strand-breadcrumb">
+  <ol class="strand-breadcrumb__list">
+    <li class="strand-breadcrumb__item">
+      <a href="/" class="strand-breadcrumb__link">Home</a>
+    </li>
+  </ol>
+</nav>
+```
+
+---
+
 ### Button
 
 Primary action trigger with variants, sizes, and loading state.
@@ -816,217 +979,9 @@ Primary action trigger with variants, sizes, and loading state.
 
 ---
 
-### Input
-
-Single-line text entry field with addon support.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-input` | base | Wrapper element for the input field. |
-| `strand-input__field` | child | The native input element. |
-| `strand-input__leading` | child | Leading addon (prefix icon or text). |
-| `strand-input__trailing` | child | Trailing addon (suffix icon or text). |
-| `strand-input--error` | modifier | Error state with red border. |
-| `strand-input--disabled` | modifier | Disabled state. |
-| `strand-input--has-leading` | modifier | Wrapper modifier when leading addon is present. |
-| `strand-input--has-trailing` | modifier | Wrapper modifier when trailing addon is present. |
-
-**Usage:**
-
-```html
-<div class="strand-input">
-  <input type="text" class="strand-input__field" placeholder="Enter text">
-</div>
-```
-
----
-
-### Textarea
-
-Multi-line text entry with optional character count.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-textarea` | base | Wrapper element for the textarea. |
-| `strand-textarea__field` | child | The native textarea element. |
-| `strand-textarea__count` | child | Character count display. |
-| `strand-textarea--error` | modifier | Error state. |
-| `strand-textarea--disabled` | modifier | Disabled state. |
-| `strand-textarea--auto-resize` | modifier | Auto-resize modifier. |
-
-**Usage:**
-
-```html
-<div class="strand-textarea">
-  <textarea class="strand-textarea__field" placeholder="Enter text"></textarea>
-</div>
-```
-
----
-
-### Select
-
-Option selection dropdown with custom arrow.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-select` | base | Wrapper element for the select. |
-| `strand-select__field` | child | The native select element. |
-| `strand-select__arrow` | child | Custom dropdown caret indicator. |
-| `strand-select--error` | modifier | Error state. |
-| `strand-select--disabled` | modifier | Disabled state. |
-
-**Usage:**
-
-```html
-<div class="strand-select">
-  <select class="strand-select__field">
-    <option value="a">Option A</option>
-  </select>
-  <span class="strand-select__arrow" aria-hidden="true"></span>
-</div>
-```
-
----
-
-### Checkbox
-
-Binary toggle for multiple selections with custom visual.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-checkbox` | base | Label wrapper element. |
-| `strand-checkbox__native` | child | Hidden native checkbox input. |
-| `strand-checkbox__control` | child | Custom visual control. |
-| `strand-checkbox__icon` | child | SVG check/dash icon inside control. |
-| `strand-checkbox__label` | child | Text label. |
-| `strand-checkbox--checked` | modifier | Checked state. |
-| `strand-checkbox--indeterminate` | modifier | Indeterminate state. |
-| `strand-checkbox--disabled` | modifier | Disabled state. |
-
-**Usage:**
-
-```html
-<label class="strand-checkbox strand-checkbox--checked">
-  <input type="checkbox" class="strand-checkbox__native" checked>
-  <span class="strand-checkbox__control" aria-hidden="true">
-    <svg class="strand-checkbox__icon" viewBox="0 0 16 16" fill="none">
-      <path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </span>
-  <span class="strand-checkbox__label">Accept terms</span>
-</label>
-```
-
----
-
-### Radio
-
-Single selection from a set with custom dot indicator.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-radio` | base | Label wrapper element. |
-| `strand-radio__native` | child | Hidden native radio input. |
-| `strand-radio__control` | child | Custom visual control. |
-| `strand-radio__dot` | child | Inner dot indicator. |
-| `strand-radio__label` | child | Text label. |
-| `strand-radio--checked` | modifier | Checked state. |
-| `strand-radio--disabled` | modifier | Disabled state. |
-
-**Usage:**
-
-```html
-<label class="strand-radio strand-radio--checked">
-  <input type="radio" class="strand-radio__native" name="group" checked>
-  <span class="strand-radio__control" aria-hidden="true">
-    <span class="strand-radio__dot"></span>
-  </span>
-  <span class="strand-radio__label">Option A</span>
-</label>
-```
-
----
-
-### Switch
-
-Binary toggle (single) with track and thumb.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-switch` | base | Label wrapper element. |
-| `strand-switch__track` | child | Track button element with role="switch". |
-| `strand-switch__thumb` | child | Sliding thumb indicator. |
-| `strand-switch__label` | child | Text label. |
-| `strand-switch--checked` | modifier | Checked (on) state. |
-| `strand-switch--disabled` | modifier | Disabled state. |
-
-**Usage:**
-
-```html
-<label class="strand-switch strand-switch--checked">
-  <button type="button" role="switch" class="strand-switch__track" aria-checked="true">
-    <span class="strand-switch__thumb" aria-hidden="true"></span>
-  </button>
-  <span class="strand-switch__label">Dark mode</span>
-</label>
-```
-
----
-
-### Slider
-
-Range value selection.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-slider` | base | Wrapper element. |
-| `strand-slider__field` | child | Native range input. |
-| `strand-slider--disabled` | modifier | Disabled state. |
-
-**Usage:**
-
-```html
-<div class="strand-slider">
-  <input type="range" class="strand-slider__field" min="0" max="100" value="50">
-</div>
-```
-
----
-
-### FormField
-
-Label + input + hint + error wrapper for form composition.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-form-field` | base | Wrapper element. |
-| `strand-form-field__label` | child | Field label with monospace uppercase styling. |
-| `strand-form-field__control` | child | Control wrapper for any input component. |
-| `strand-form-field__hint` | child | Hint text below the control. |
-| `strand-form-field__error` | child | Error message (replaces hint in error state). |
-| `strand-form-field__required` | child | Required indicator asterisk. |
-| `strand-form-field--error` | modifier | Error state modifier. |
-
-**Usage:**
-
-```html
-<div class="strand-form-field">
-  <label class="strand-form-field__label" for="email">Email</label>
-  <div class="strand-form-field__control">
-    <div class="strand-input">
-      <input type="email" id="email" class="strand-input__field">
-    </div>
-  </div>
-  <p class="strand-form-field__hint">We will never share your email.</p>
-</div>
-```
-
----
-
 ### CalendarGrid
 
-A month laid out as a well plate: seven columns because a week has seven days, and as many rows as the month needs. Implements the well-plate production (design-language.md Part XI-B 11.10) and 10.6 Bounded Cells. A day is a BOUNDED cell -- its size comes from the structure rather than from its contents, so it declares a capacity and states the rest as a count, never clipping silently and never growing its row. NOT a 5.5 auto-fit grid: those reflow their column count to suit the content, which is right when the columns are a sequence and wrong here, because a week has seven days at every viewport. Keyboard: the ARIA grid pattern (14.5). The whole grid is ONE tab stop with a roving tabindex; arrows move by day and week, Home and End move within the week, PageUp and PageDown change month.
+A month laid out as a well plate: seven columns because a week has seven days, and as many rows as the month needs. Implements the well-plate production (design-language.md Part XI-B 11.10) and 10.6 Bounded Cells. A day is a BOUNDED cell -- its size comes from the structure rather than from its contents, so it declares a capacity and states the rest as a count, never clipping silently and never growing its row. NOT a 5.5 auto-fit grid: those reflow their column count to suit the content, which is right when the columns are a sequence and wrong here, because a week has seven days at every viewport. Keyboard: the ARIA grid pattern (14.5). The whole grid is ONE tab stop with a roving tabindex; arrows move by day and week, Home and End move within the week, PageUp and PageDown change month. A month is four to six weeks long, so a grid that stops when the month is covered CHANGES HEIGHT as the reader pages (six rows for August 2026, five for September, four for February) and moves everything beneath it. Set a fixed row count to hold the page still: that is 6.6.1's space contract and 10.6's argument one level up, and six is the value that never truncates because six is the most rows any month can need.
 
 | Class | Type | Description |
 |---|---|---|
@@ -1115,139 +1070,33 @@ Content container with elevation and padding variants.
 
 ---
 
-### Badge
+### Checkbox
 
-Status or count indicator that wraps a child element.
+Binary toggle for multiple selections with custom visual.
 
 | Class | Type | Description |
 |---|---|---|
-| `strand-badge` | base | Wrapper element (positions indicator at top-right of child). |
-| `strand-badge--inline` | modifier | Standalone inline badge without wrapping a child. |
-| `strand-badge__indicator` | child | The indicator element (dot or count pill). |
-| `strand-badge--dot` | modifier | 8px circle indicator, no text. |
-| `strand-badge--count` | modifier | Pill indicator with number text. |
-| `strand-badge--default` | modifier | Default color. |
-| `strand-badge--teal` | modifier | Teal color. |
-| `strand-badge--blue` | modifier | Blue color. |
-| `strand-badge--amber` | modifier | Amber color. |
-| `strand-badge--red` | modifier | Red color. |
+| `strand-checkbox` | base | Label wrapper element. |
+| `strand-checkbox__native` | child | Hidden native checkbox input. |
+| `strand-checkbox__control` | child | Custom visual control. |
+| `strand-checkbox__icon` | child | SVG check/dash icon inside control. |
+| `strand-checkbox__label` | child | Text label. |
+| `strand-checkbox--checked` | modifier | Checked state. |
+| `strand-checkbox--indeterminate` | modifier | Indeterminate state. |
+| `strand-checkbox--disabled` | modifier | Disabled state. |
 
 **Usage:**
 
 ```html
-<span class="strand-badge strand-badge--inline">
-  <span class="strand-badge__indicator strand-badge--count strand-badge--blue">5</span>
-</span>
-```
-
----
-
-### Avatar
-
-User or entity representation with image or initials.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-avatar` | base | Base avatar element. |
-| `strand-avatar__img` | child | Image element inside avatar. |
-| `strand-avatar__initials` | child | Initials fallback text. |
-| `strand-avatar--sm` | modifier | Small size (32px). |
-| `strand-avatar--md` | modifier | Medium size (40px). |
-| `strand-avatar--lg` | modifier | Large size (48px). |
-| `strand-avatar--xl` | modifier | Extra-large size (64px). |
-
-**Usage:**
-
-```html
-<div class="strand-avatar strand-avatar--md" role="img" aria-label="JS">
-  <span class="strand-avatar__initials" aria-hidden="true">JS</span>
-</div>
-```
-
----
-
-### Tag
-
-Categorization label with optional remove button.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-tag` | base | Base tag element. |
-| `strand-tag__text` | child | Tag text content. |
-| `strand-tag__remove` | child | Remove button. |
-| `strand-tag--solid` | modifier | Solid filled variant. |
-| `strand-tag--outlined` | modifier | Outlined variant. |
-| `strand-tag--default` | modifier | Default color. |
-| `strand-tag--teal` | modifier | Teal color. |
-| `strand-tag--blue` | modifier | Blue color. |
-| `strand-tag--amber` | modifier | Amber color. |
-| `strand-tag--red` | modifier | Red color. |
-| `strand-chip--joined` | modifier | |
-| `strand-chip--joined__check` | child | |
-
-**Usage:**
-
-```html
-<span class="strand-tag strand-tag--solid strand-tag--blue">
-  <span class="strand-tag__text">Design</span>
-</span>
-```
-
----
-
-### Table
-
-Tabular data display with sortable headers.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-table-wrapper` | base | Responsive scroll wrapper. |
-| `strand-table` | base | Base table element. |
-| `strand-table__head` | child | Table header group (thead). |
-| `strand-table__body` | child | Table body group (tbody). |
-| `strand-table__row` | child | Table row with hover highlight. |
-| `strand-table__th` | child | Table header cell (monospaced, uppercase, tracked). |
-| `strand-table__td` | child | Table data cell. |
-| `strand-table__sort-btn` | child | Sortable column header button. |
-| `strand-table__sort-indicator` | child | Sort direction indicator. |
-
-**Usage:**
-
-```html
-<div class="strand-table-wrapper">
-  <table class="strand-table">
-    <thead class="strand-table__head">
-      <tr><th class="strand-table__th">Name</th></tr>
-    </thead>
-    <tbody class="strand-table__body">
-      <tr class="strand-table__row"><td class="strand-table__td">Alice</td></tr>
-    </tbody>
-  </table>
-</div>
-```
-
----
-
-### DataReadout
-
-Monospace metric display with label and value.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-data-readout` | base | Base readout element. |
-| `strand-data-readout__label` | child | Monospace uppercase label. |
-| `strand-data-readout__value` | child | Large numeric value. |
-| `strand-data-readout--sm` | modifier | Small size (text-xl). |
-| `strand-data-readout--lg` | modifier | Large size (text-4xl). |
-| `strand-data-readout--xl` | modifier | Extra-large size (fluid 72-112px). |
-
-**Usage:**
-
-```html
-<div class="strand-data-readout">
-  <span class="strand-data-readout__label">Revenue</span>
-  <span class="strand-data-readout__value">$142,800</span>
-</div>
+<label class="strand-checkbox strand-checkbox--checked">
+  <input type="checkbox" class="strand-checkbox__native" checked>
+  <span class="strand-checkbox__control" aria-hidden="true">
+    <svg class="strand-checkbox__icon" viewBox="0 0 16 16" fill="none">
+      <path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+  <span class="strand-checkbox__label">Accept terms</span>
+</label>
 ```
 
 ---
@@ -1279,52 +1128,184 @@ Code snippet display with optional language label.
 
 ---
 
-### Stack
+### CommandPalette
 
-Flex layout primitive with direction, gap, and alignment.
+Search-and-jump overlay. Composes Dialog, so focus trapping, focus restoration, scroll lock and Escape dismissal are inherited. Filtering and ranking belong to the caller.
 
 | Class | Type | Description |
 |---|---|---|
-| `strand-stack` | base | Base flex container. |
-| `strand-stack--vertical` | modifier | Column direction. |
-| `strand-stack--horizontal` | modifier | Row direction. |
-| `strand-stack--align-start` | modifier | Align items to start. |
-| `strand-stack--align-center` | modifier | Align items to center. |
-| `strand-stack--align-end` | modifier | Align items to end. |
-| `strand-stack--justify-start` | modifier | Justify content to start. |
-| `strand-stack--justify-center` | modifier | Justify content to center. |
-| `strand-stack--justify-end` | modifier | Justify content to end. |
-| `strand-stack--justify-between` | modifier | Justify content with space-between. |
-| `strand-stack--justify-around` | modifier | Justify content with space-around. |
-| `strand-stack--wrap` | modifier | Enable flex wrap. |
-| `strand-stack--responsive` | modifier | Collapse horizontal to vertical at 768px. |
-| `strand-stack__item--full-mobile` | child | Full-width child on mobile in responsive mode. |
-| `strand-stack--gap-0` | modifier | Gap: none. Collapse the stack's spacing where an adjacent element already owns it. |
-| `strand-stack--gap-1` | modifier | Gap: space-1 (4px). |
-| `strand-stack--gap-2` | modifier | Gap: space-2 (8px). |
-| `strand-stack--gap-3` | modifier | Gap: space-3 (12px). |
-| `strand-stack--gap-4` | modifier | Gap: space-4 (16px). |
-| `strand-stack--gap-5` | modifier | Gap: space-5 (20px). |
-| `strand-stack--gap-6` | modifier | Gap: space-6 (24px). |
-| `strand-stack--gap-8` | modifier | Gap: space-8 (32px). |
+| `strand-command-palette` | base | Palette root, applied to the composed Dialog. |
+| `strand-command-palette__search` | child | Search row holding the icon and the input. |
+| `strand-command-palette__icon` | child | Decorative magnifier, aria-hidden. |
+| `strand-command-palette__input` | child | The combobox input. Focus stays here while the highlight moves, via aria-activedescendant. |
+| `strand-command-palette__list` | child | Scrollable listbox of results. |
+| `strand-command-palette__option` | child | One result row (role=option, tabindex -1). |
+| `strand-command-palette__option--active` | child | The highlighted row, the one Enter acts on. Pointer hover and arrow keys drive the same state. |
+| `strand-command-palette__label` | child | Primary text of a result. |
+| `strand-command-palette__sublabel` | child | Secondary text of a result. |
+| `strand-command-palette__badge` | child | Short trailing token, such as a category. |
+| `strand-command-palette__empty` | child | Shown instead of a bare box when nothing matches. |
+
+---
+
+### Container
+
+Width constraint with centered content.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-container` | base | Base container with auto margins. |
+| `strand-container--narrow` | modifier | Max width 640px. |
+| `strand-container--default` | modifier | Max width 768px. |
+| `strand-container--wide` | modifier | Max width 1024px. |
+| `strand-container--full` | modifier | Max width 1280px. |
 
 **Usage:**
 
 ```html
-<div class="strand-stack strand-stack--vertical strand-stack--gap-4">
-  <div>Item 1</div>
-  <div>Item 2</div>
+<div class="strand-container strand-container--default">
+  Centered content.
 </div>
+```
 
-<!-- Header row: title left, actions right. Inside a flex or grid parent,
-     a stack shrink-wraps to its content; add strand-full-width so
-     justify-between has room to distribute. -->
-<div class="strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--align-center strand-stack--justify-between strand-full-width">
-  <span class="strand-overline strand-overline--accent">Section title</span>
-  <div class="strand-stack strand-stack--horizontal strand-stack--gap-2">
-    <button class="strand-btn strand-btn--ghost strand-btn--sm"><span class="strand-btn__content">Cancel</span></button>
-    <button class="strand-btn strand-btn--primary strand-btn--sm"><span class="strand-btn__content">Save</span></button>
+---
+
+### ContainerScale
+
+Container-width visualizer. Renders proportional horizontal bars (narrow / default / wide / full) against a 0-to-max axis.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-container-scale` | base | Vertical stack of scale rows. |
+| `strand-container-scale__row` | child | Single row (label + track + caption). |
+| `strand-container-scale__label` | child | Row label row (flex baseline space-between). |
+| `strand-container-scale__caption` | child | Subtle gray caption text. |
+| `strand-container-scale__track` | child | Track surface (22px tall, recessed, hairline border). |
+| `strand-container-scale__bar` | child | Proportional bar; width set inline per row. |
+| `strand-container-scale__px` | child | Bar pixel label (mono 10px blue-primary). |
+| `strand-container-scale__axis` | child | Axis row (flex justify-between, mono 9px). |
+
+**Usage:**
+
+```html
+<div class="strand-container-scale">
+  <div class="strand-container-scale__row">
+    <div class="strand-container-scale__label">
+      <code>--strand-container-narrow</code>
+      <span class="strand-container-scale__caption">640px</span>
+    </div>
+    <div class="strand-container-scale__track">
+      <div class="strand-container-scale__bar" style="width: 50%;">
+        <span class="strand-container-scale__px">640</span>
+      </div>
+    </div>
   </div>
+  <div class="strand-container-scale__axis"><span>0</span><span>1280</span></div>
+</div>
+```
+
+---
+
+### DataReadout
+
+Monospace metric display with label and value.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-data-readout` | base | Base readout element. |
+| `strand-data-readout__label` | child | Monospace uppercase label. |
+| `strand-data-readout__value` | child | Large numeric value. |
+| `strand-data-readout--sm` | modifier | Small size (text-xl). |
+| `strand-data-readout--lg` | modifier | Large size (text-4xl). |
+| `strand-data-readout--xl` | modifier | Extra-large size (fluid 72-112px). |
+
+**Usage:**
+
+```html
+<div class="strand-data-readout">
+  <span class="strand-data-readout__label">Revenue</span>
+  <span class="strand-data-readout__value">$142,800</span>
+</div>
+```
+
+---
+
+### Dialog
+
+Modal overlay with backdrop, panel, and focus trap.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-dialog__backdrop` | child | Full-viewport overlay backdrop. |
+| `strand-dialog__panel` | child | Centered dialog panel (max-width 560px). |
+| `strand-dialog__header` | child | Dialog header area. |
+| `strand-dialog__title` | child | Dialog title text. |
+| `strand-dialog__close` | child | Close button. |
+| `strand-dialog__body` | child | Dialog content area. |
+
+**Usage:**
+
+```html
+<div class="strand-dialog__backdrop">
+  <div class="strand-dialog__panel" role="dialog" aria-modal="true">
+    <div class="strand-dialog__header">
+      <h2 class="strand-dialog__title">Confirm</h2>
+    </div>
+    <button class="strand-dialog__close" aria-label="Close">&times;</button>
+    <div class="strand-dialog__body">Content</div>
+  </div>
+</div>
+```
+
+---
+
+### Divider
+
+Visual separator (horizontal or vertical).
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-divider` | base | Base divider element. |
+| `strand-divider--horizontal` | modifier | Horizontal orientation. |
+| `strand-divider--vertical` | modifier | Vertical orientation. |
+| `strand-divider--gradient` | modifier | Gradient fade effect. |
+| `strand-divider--labeled` | modifier | Divider with centered text label. |
+| `strand-divider__line` | child | Line segment in labeled divider. |
+| `strand-divider__label` | child | Text label in labeled divider. |
+
+**Usage:**
+
+```html
+<hr class="strand-divider strand-divider--horizontal" role="separator">
+```
+
+---
+
+### FormField
+
+Label + input + hint + error wrapper for form composition.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-form-field` | base | Wrapper element. |
+| `strand-form-field__label` | child | Field label with monospace uppercase styling. |
+| `strand-form-field__control` | child | Control wrapper for any input component. |
+| `strand-form-field__hint` | child | Hint text below the control. |
+| `strand-form-field__error` | child | Error message (replaces hint in error state). |
+| `strand-form-field__required` | child | Required indicator asterisk. |
+| `strand-form-field--error` | modifier | Error state modifier. |
+
+**Usage:**
+
+```html
+<div class="strand-form-field">
+  <label class="strand-form-field__label" for="email">Email</label>
+  <div class="strand-form-field__control">
+    <div class="strand-input">
+      <input type="email" id="email" class="strand-input__field">
+    </div>
+  </div>
+  <p class="strand-form-field__hint">We will never share your email.</p>
 </div>
 ```
 
@@ -1369,568 +1350,27 @@ CSS Grid layout primitive with column and gap utilities.
 
 ---
 
-### Container
+### Input
 
-Width constraint with centered content.
+Single-line text entry field with addon support.
 
 | Class | Type | Description |
 |---|---|---|
-| `strand-container` | base | Base container with auto margins. |
-| `strand-container--narrow` | modifier | Max width 640px. |
-| `strand-container--default` | modifier | Max width 768px. |
-| `strand-container--wide` | modifier | Max width 1024px. |
-| `strand-container--full` | modifier | Max width 1280px. |
+| `strand-input` | base | Wrapper element for the input field. |
+| `strand-input__field` | child | The native input element. |
+| `strand-input__leading` | child | Leading addon (prefix icon or text). |
+| `strand-input__trailing` | child | Trailing addon (suffix icon or text). |
+| `strand-input--error` | modifier | Error state with red border. |
+| `strand-input--disabled` | modifier | Disabled state. |
+| `strand-input--has-leading` | modifier | Wrapper modifier when leading addon is present. |
+| `strand-input--has-trailing` | modifier | Wrapper modifier when trailing addon is present. |
 
 **Usage:**
 
 ```html
-<div class="strand-container strand-container--default">
-  Centered content.
+<div class="strand-input">
+  <input type="text" class="strand-input__field" placeholder="Enter text">
 </div>
-```
-
----
-
-### Divider
-
-Visual separator (horizontal or vertical).
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-divider` | base | Base divider element. |
-| `strand-divider--horizontal` | modifier | Horizontal orientation. |
-| `strand-divider--vertical` | modifier | Vertical orientation. |
-| `strand-divider--gradient` | modifier | Gradient fade effect. |
-| `strand-divider--labeled` | modifier | Divider with centered text label. |
-| `strand-divider__line` | child | Line segment in labeled divider. |
-| `strand-divider__label` | child | Text label in labeled divider. |
-
-**Usage:**
-
-```html
-<hr class="strand-divider strand-divider--horizontal" role="separator">
-```
-
----
-
-### Section
-
-Page section with padding, background, and scroll-target variants.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-section` | base | Base section element. |
-| `strand-section--standard` | modifier | Standard section padding. |
-| `strand-section--hero-compact` | modifier | Tighter hero padding for secondary CTA visibility. |
-| `strand-section--hero` | modifier | Hero section padding. |
-| `strand-section--hero-xl` | modifier | Extra-generous hero padding for marketing pages. |
-| `strand-section--compact` | modifier | Compact section padding (space-12). |
-| `strand-section--bg-primary` | modifier | Primary surface background. |
-| `strand-section--bg-elevated` | modifier | Elevated surface background. |
-| `strand-section--bg-recessed` | modifier | Recessed surface background. |
-| `strand-section--border-top` | modifier | 1px top border for visual separation. |
-| `strand-section--scroll-target` | modifier | Adds scroll-margin-top for anchor offset. |
-
-**Usage:**
-
-```html
-<section class="strand-section strand-section--standard strand-section--bg-primary">
-  <div class="strand-container strand-container--default">Content</div>
-</section>
-```
-
----
-
-### Link
-
-Inline navigation link with animated underline.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-link` | base | Base link with animated underline on hover. |
-| `strand-link--cta` | modifier | Call-to-action link with touch-target height. |
-| `strand-link--mono` | modifier | Monospace overline-style link for footers. |
-| `strand-link--inherit` | modifier | |
-
-**Usage:**
-
-```html
-<a href="/about" class="strand-link">About us</a>
-```
-
----
-
-### Tabs
-
-Content switching with accessible tab pattern.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-tabs` | base | Tab container. |
-| `strand-tabs__tab` | child | Individual tab button. |
-| `strand-tabs__tab--active` | child | Active tab state. |
-| `strand-tabs__panel--reveal` | child | Panel entrance animation. |
-| `strand-tabs--instrument` | modifier | Instrument viewport variant for tabs. |
-
-**Usage:**
-
-```html
-<div class="strand-tabs">
-  <div role="tablist">
-    <button role="tab" class="strand-tabs__tab strand-tabs__tab--active" aria-selected="true">Tab 1</button>
-  </div>
-</div>
-```
-
----
-
-### Breadcrumb
-
-Hierarchical location indicator.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-breadcrumb` | base | Nav wrapper element. |
-| `strand-breadcrumb__list` | child | Ordered list of breadcrumb items. |
-| `strand-breadcrumb__item` | child | Individual breadcrumb item. |
-| `strand-breadcrumb__link` | child | Clickable breadcrumb link. |
-| `strand-breadcrumb__separator` | child | Separator between items (aria-hidden). |
-| `strand-breadcrumb__current` | child | Current page indicator (aria-current). |
-
-**Usage:**
-
-```html
-<nav aria-label="Breadcrumb" class="strand-breadcrumb">
-  <ol class="strand-breadcrumb__list">
-    <li class="strand-breadcrumb__item">
-      <a href="/" class="strand-breadcrumb__link">Home</a>
-    </li>
-  </ol>
-</nav>
-```
-
----
-
-### Nav
-
-Site/app navigation with mobile menu and glass variant.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-nav` | base | Base nav element. |
-| `strand-nav__inner` | child | Inner flex layout container. |
-| `strand-nav__logo` | child | Logo/brand area (mono uppercase tracked). |
-| `strand-nav__logo--pulse` | child | Animated pulse underline on logo. |
-| `strand-nav__items` | child | Navigation links container. |
-| `strand-nav__link` | child | Desktop navigation link. |
-| `strand-nav__link--active` | child | Active desktop link state. |
-| `strand-nav__slot` | child | Right-edge content slot (account, utility). |
-| `strand-nav__slot--reserve` | child | Slot with a pinned inline size, so swapping its contents cannot shift the nav. |
-| `strand-nav__actions` | child | Actions area. |
-| `strand-nav__hamburger` | child | Mobile menu toggle button. |
-| `strand-nav__hamburger-icon` | child | Hamburger icon lines. |
-| `strand-nav__mobile-menu` | child | Mobile navigation panel. |
-| `strand-nav__mobile-menu--open` | child | Open state for mobile menu. |
-| `strand-nav__mobile-link` | child | Mobile navigation link. |
-| `strand-nav__mobile-link--active` | child | Active mobile link state. |
-| `strand-nav__title` | child | Nav title text. |
-| `strand-nav__title-tag` | child | Nav title tag element. |
-| `strand-nav--glass` | modifier | Fixed glassmorphic nav with frosted backdrop. |
-| `strand-nav--scrolled` | modifier | Scrolled state with subtle shadow. |
-| `strand-nav--instrument` | modifier | Instrument viewport nav variant. |
-
-**Usage:**
-
-```html
-<nav class="strand-nav" aria-label="Main navigation">
-  <div class="strand-nav__inner">
-    <div class="strand-nav__logo"><strong>Brand</strong></div>
-    <div class="strand-nav__items">
-      <a href="/" class="strand-nav__link strand-nav__link--active">Home</a>
-    </div>
-  </div>
-</nav>
-```
-
----
-
-### Toast
-
-Transient notification with status variants.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-toast` | base | Base toast element. |
-| `strand-toast__container` | child | Fixed stacking container (bottom-right). |
-| `strand-toast__status` | child | Status prefix label. |
-| `strand-toast__message` | child | Message text. |
-| `strand-toast__dismiss` | child | Dismiss button. |
-| `strand-toast--info` | modifier | Info status. |
-| `strand-toast--success` | modifier | Success status. |
-| `strand-toast--warning` | modifier | Warning status. |
-| `strand-toast--error` | modifier | Error status. |
-
-**Usage:**
-
-```html
-<div class="strand-toast strand-toast--info" role="status" aria-live="polite">
-  <span class="strand-toast__status">INFO</span>
-  <span class="strand-toast__message">Changes saved.</span>
-  <button class="strand-toast__dismiss" aria-label="Dismiss">&times;</button>
-</div>
-```
-
----
-
-### Alert
-
-Persistent notification with status variants.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-alert` | base | Base alert element. |
-| `strand-alert__status` | child | Status prefix label. |
-| `strand-alert__content` | child | Alert message content. |
-| `strand-alert__dismiss` | child | Dismiss button. |
-| `strand-alert--info` | modifier | Info status. |
-| `strand-alert--success` | modifier | Success status. |
-| `strand-alert--warning` | modifier | Warning status. |
-| `strand-alert--error` | modifier | Error status. |
-| `strand-alert--stack` | modifier | Stacked layout variant: lays the alert body out in a column (flex-direction:column, align-items:stretch, space-3 gap) for a multi-line confirmation with its own action. Background and prefix-only status color are unchanged. |
-
-**Usage:**
-
-```html
-<div class="strand-alert strand-alert--info" role="status">
-  <span class="strand-alert__status">INFO</span>
-  <div class="strand-alert__content">This is an informational message.</div>
-</div>
-```
-
----
-
-### Banner
-
-Top-of-page notification banner.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-banner` | base | Base banner element, fixed to top. |
-| `strand-banner__text` | child | Banner message text. |
-| `strand-banner__dismiss` | child | Dismiss button. |
-| `strand-banner--info` | modifier | Info variant (blue). |
-| `strand-banner--warning` | modifier | Warning variant (amber). |
-| `strand-banner--critical` | modifier | Critical variant (red). |
-| `strand-banner-active` | base | |
-| `strand-prose` | base | |
-
-**Usage:**
-
-```html
-<div class="strand-banner strand-banner--info">
-  <p class="strand-banner__text">Scheduled maintenance tonight.</p>
-  <button class="strand-banner__dismiss" aria-label="Dismiss">...</button>
-</div>
-```
-
----
-
-### Dialog
-
-Modal overlay with backdrop, panel, and focus trap.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-dialog__backdrop` | child | Full-viewport overlay backdrop. |
-| `strand-dialog__panel` | child | Centered dialog panel (max-width 560px). |
-| `strand-dialog__header` | child | Dialog header area. |
-| `strand-dialog__title` | child | Dialog title text. |
-| `strand-dialog__close` | child | Close button. |
-| `strand-dialog__body` | child | Dialog content area. |
-
-**Usage:**
-
-```html
-<div class="strand-dialog__backdrop">
-  <div class="strand-dialog__panel" role="dialog" aria-modal="true">
-    <div class="strand-dialog__header">
-      <h2 class="strand-dialog__title">Confirm</h2>
-    </div>
-    <button class="strand-dialog__close" aria-label="Close">&times;</button>
-    <div class="strand-dialog__body">Content</div>
-  </div>
-</div>
-```
-
----
-
-### Tooltip
-
-Contextual hint with position variants.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-tooltip__wrapper` | child | Wrapper for the trigger element. |
-| `strand-tooltip` | base | Tooltip content element. |
-| `strand-tooltip--top` | modifier | Position above trigger. |
-| `strand-tooltip--right` | modifier | Position to the right. |
-| `strand-tooltip--bottom` | modifier | Position below trigger. |
-| `strand-tooltip--left` | modifier | Position to the left. |
-| `strand-tooltip--visible` | modifier | Show the tooltip. |
-
-**Usage:**
-
-```html
-<span class="strand-tooltip__wrapper" aria-describedby="tip-1">
-  Hover me
-  <span id="tip-1" class="strand-tooltip strand-tooltip--top" role="tooltip">Helpful tip</span>
-</span>
-```
-
----
-
-### Progress
-
-Completion indicator (bar or ring).
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-progress` | base | Base progress element. |
-| `strand-progress--bar` | modifier | Bar variant. |
-| `strand-progress--ring` | modifier | Ring (circular) variant. |
-| `strand-progress__fill` | child | Fill track element. |
-| `strand-progress__ring` | child | SVG ring element. |
-| `strand-progress__track` | child | Ring background track. |
-| `strand-progress--indeterminate` | modifier | Indeterminate animation state. |
-| `strand-progress--sm` | modifier | Small size (bar: 4px, ring: 24px). |
-| `strand-progress--md` | modifier | Medium size (bar: 8px, ring: 40px). |
-| `strand-progress--lg` | modifier | Large size (bar: 12px, ring: 56px). |
-
-**Usage:**
-
-```html
-<div class="strand-progress strand-progress--bar strand-progress--md" role="progressbar"
-  aria-valuemin="0" aria-valuemax="100" aria-valuenow="65">
-  <div class="strand-progress__fill" style="width: 65%;"></div>
-</div>
-```
-
----
-
-### Spinner
-
-Loading indicator with accessible text.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-spinner` | base | Base spinner element. |
-| `strand-spinner__ring` | child | Spinning ring visual. |
-| `strand-spinner__sr-only` | child | Screen-reader-only loading text. |
-| `strand-spinner--sm` | modifier | Small size (16px). |
-| `strand-spinner--md` | modifier | Medium size (20px). |
-| `strand-spinner--lg` | modifier | Large size (32px). |
-
-**Usage:**
-
-```html
-<span class="strand-spinner strand-spinner--md" role="status">
-  <span class="strand-spinner__ring" aria-hidden="true"></span>
-  <span class="strand-spinner__sr-only">Loading</span>
-</span>
-```
-
----
-
-### Skeleton
-
-Content placeholder with shimmer animation.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-skeleton` | base | Base skeleton element. |
-| `strand-skeleton--text` | modifier | Text placeholder (small radius). |
-| `strand-skeleton--rectangle` | modifier | Rectangle placeholder (medium radius). |
-| `strand-skeleton--circle` | modifier | Circle placeholder (full radius). |
-| `strand-skeleton--shimmer` | modifier | Shimmer animation effect. |
-
-**Usage:**
-
-```html
-<div class="strand-skeleton strand-skeleton--text strand-skeleton--shimmer" aria-hidden="true"
-  style="width: 100%; height: 1em;"></div>
-```
-
----
-
-### Reserve
-
-A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to "ready" when the data lands, or to "empty" when the answer arrived and there is nothing to show; that attribute is the whole runtime, and there is no JavaScript in this primitive.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-reserve` | base | Region root. Places both layers in one grid cell, so the region self-sizes to the taller and the swap cannot move layout. |
-| `strand-reserve__placeholder` | child | The waiting layer, usually skeletons. Mark it aria-hidden so assistive tech does not read filler. |
-| `strand-reserve__content` | child | The real content. Present and sized from first paint, hidden by opacity rather than absent from the DOM. |
-
-**Usage:**
-
-```html
-<!-- Optional per-breakpoint floors, needed only when the placeholder is
-     genuinely smaller than what replaces it. Each falls back to the one below. -->
-<div class="strand-reserve" data-strand-reserve="pending"
-  style="--strand-reserve-h: 42px; --strand-reserve-h-md: 56px;">
-  <div class="strand-reserve__placeholder" aria-hidden="true">
-    <div class="strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer"
-      style="width: 100%; height: 42px;"></div>
-  </div>
-  <div class="strand-reserve__content">
-    <!-- real content, rendered from the start -->
-  </div>
-</div>
-
-<!-- Omitting data-strand-reserve entirely shows the content and hides the
-     placeholder, so a server-rendered page needs no attribute at all. -->
-
-<!-- Resolve on EVERY path, including failure. data-strand-reserve="empty"
-     takes the placeholder OUT OF FLOW and collapses the region; "ready" alone
-     cannot, because a hidden placeholder still occupies its grid cell and the
-     region would hold its height forever. -->
-```
-
----
-
-### ActionDock
-
-A bottom-anchored region carrying the primary action of a view, placed where a thumb rests. Implements design-language.md 14.8 (target position): 14.7 makes a target hittable, this makes it reachable. Flip data-strand-actiondock to "visible" when the in-flow control it stands in for scrolls out of view; that attribute is the whole runtime, and there is no JavaScript in this primitive. Use it for the ONE action a view exists to produce, and never alongside the real control, which would be two live buttons for one action.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-actiondock` | base | Dock root. Fixed to the viewport's bottom edge and spanning the inline axis, so its position is a function of the viewport and no amount of scrolling moves it out of reach. Carries the safe-area inset so the control clears the home indicator on a notched phone. |
-
-**Usage:**
-
-```html
-<!-- Hidden by default: an absent attribute means hidden, so a server-rendered
-     page that never flips it occludes nothing. -->
-<div class="strand-actiondock" data-strand-actiondock="hidden">
-  <button class="strand-btn strand-btn--primary" type="button">RSVP</button>
-</div>
-
-<!-- Show it only while the real control is off screen, usually driven by an
-     IntersectionObserver on that control. -->
-<div class="strand-actiondock" data-strand-actiondock="visible" aria-hidden="true">
-  <button class="strand-btn strand-btn--primary" type="button" tabindex="-1">RSVP</button>
-</div>
-
-<!-- The docked control usually duplicates one already in the accessibility
-     tree, so aria-hidden plus tabindex="-1" avoids a duplicate announcement
-     and a duplicate tab stop. Reach is a thumb problem; a keyboard user
-     reaches the in-flow control by tabbing. A dock carrying an action with NO
-     in-flow equivalent must be exposed instead. -->
-```
-
----
-
-### SearchField
-
-A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-search-field` | base | Field root. A role="search" landmark laid out as a flex row: icon, input, optional clear control. Fixed at min(300px, 100%) so it cannot breach a narrower parent's padding (10.4). Height is 36px, raised to 44px under a coarse pointer for 14.7. |
-| `strand-search-field--full` | modifier | Spans the container instead of holding 300px. The narrow-viewport presentation; differs from the base in exactly one property. |
-| `strand-search-field__icon` | child | Leading magnifier, 16px, decorative (aria-hidden). Uses gray-500 rather than the gray-400 a mockup usually specifies: 14.2b puts gray-400 in the fill tier at 2.52:1, below the 3:1 SC 1.4.11 asks of a graphical object. |
-| `strand-search-field__input` | child | The control. Transparent and borderless because the wrapper draws the box; min-inline-size 0 so it shrinks inside the flex row rather than pushing the field past its declared width. Give it an accessible name: a placeholder is a hint, not a label. |
-| `strand-search-field__clear` | child | Optional clear control. Hidden with the hidden attribute while the field is empty, so it is absent from the accessibility tree and the tab order rather than merely invisible. 24px drawn, 44px hit area under a coarse pointer. |
-| `strand-search-bar` | base | |
-| `strand-search-bar__action` | child | |
-
-**Usage:**
-
-```html
-<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->
-<form class="strand-search-field strand-hide-below-md" role="search">
-  <svg class="strand-search-field__icon" viewBox="0 0 16 16" fill="none"
-       stroke="currentColor" stroke-width="1.75" aria-hidden="true" focusable="false">
-    <circle cx="7" cy="7" r="4.5" /><path d="M10.5 10.5 14 14" />
-  </svg>
-  <input class="strand-search-field__input" type="search"
-         aria-label="Search" placeholder="Search trail runs, pottery, chess">
-</form>
-
-<form class="strand-search-field strand-search-field--full strand-hide-from-md" role="search">
-  <svg class="strand-search-field__icon" viewBox="0 0 16 16" fill="none"
-       stroke="currentColor" stroke-width="1.75" aria-hidden="true" focusable="false">
-    <circle cx="7" cy="7" r="4.5" /><path d="M10.5 10.5 14 14" />
-  </svg>
-  <input class="strand-search-field__input" type="search"
-         aria-label="Search" placeholder="Search events">
-</form>
-```
-
----
-
-### SearchTrigger
-
-A control that LOOKS like a search field and behaves like a button: it opens a search overlay rather than accepting text. Composed on top of strand-search-field, which owns the box, so the two controls cannot drift apart visually. Use this wherever search is palette-driven; use SearchField only where the input itself is the search and the keystrokes have nowhere else to go. Three reasons it is a separate primitive rather than a variant: an input that opens a modal on focus is WCAG 3.2.1 (On Focus); a field the user can type into whose text is handled elsewhere gives one query two homes; and role="search" around a text input promises assistive technology that typing works, which is a false promise if the keystrokes go to an overlay.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-search-trigger` | base | Trigger root, a button. Applied ALONGSIDE strand-search-field, which supplies the box; this class adds only the button resets a field's box does not expect. Carries aria-haspopup="dialog". |
-| `strand-search-trigger__label` | child | Visible standing text, styled as a placeholder and taking the same token as the field's real placeholder. This is ALSO the accessible name: no aria-label override, because WCAG 2.5.3 (Label in Name) requires the accessible name to contain the visible text so a speech-input user saying what they see activates the control. Truncates on one line, since a wrapping label would change the control's height. |
-| `strand-search-field` | base | |
-| `strand-search-field__icon` | child | |
-
-**Usage:**
-
-```html
-<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->
-<button type="button" class="strand-search-field strand-search-trigger strand-hide-below-md"
-        aria-haspopup="dialog" aria-expanded="false" aria-controls="search-palette">
-  <svg class="strand-search-field__icon" aria-hidden="true" focusable="false">...</svg>
-  <span class="strand-search-trigger__label">Search trail runs, pottery, chess</span>
-</button>
-
-<button type="button"
-        class="strand-search-field strand-search-field--full strand-search-trigger strand-hide-from-md"
-        aria-haspopup="dialog">
-  <svg class="strand-search-field__icon" aria-hidden="true" focusable="false">...</svg>
-  <span class="strand-search-trigger__label">Search events</span>
-</button>
-```
-
----
-
-### TabBar
-
-The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations; 19.1.1 forbids stacking the two.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-tabbar` | base | Bar root, a nav landmark. Fixed to the viewport's bottom edge so its position is a function of the viewport and no scroll can move it out of reach, with the safe-area inset so it clears the home indicator on a notched phone. Give it an aria-label; an unnamed nav is one a screen reader user tells apart by guessing. |
-| `strand-tabbar__item` | child | One destination. A link when it has a href, so middle-click and open-in-new-tab keep working; a button only when there is genuinely no URL. Minimum 44x44 per 14.7, measured on the item rather than inferred from the bar's height. |
-| `strand-tabbar__icon` | child | Decorative glyph, 20px. aria-hidden: the label already names the destination. |
-| `strand-tabbar__label` | child | Destination name. text-xs with wider tracking, uppercase mono. Wraps rather than truncating, because a destination the user cannot read is not a destination; if a label does not fit, the surface has too many destinations and 19.1.1's count test already refuses it. |
-| `strand-actiondock` | base | |
-
-**Usage:**
-
-```html
-<!-- The current destination is marked with aria-current="page", which is
-     BOTH the announced state and the styling hook, so the two cannot drift. -->
-<nav class="strand-tabbar" aria-label="Primary">
-  <a class="strand-tabbar__item" href="/discover" aria-current="page">
-    <span class="strand-tabbar__icon" aria-hidden="true"><svg>...</svg></span>
-    <span class="strand-tabbar__label">Discover</span>
-  </a>
-  <a class="strand-tabbar__item" href="/calendar">
-    <span class="strand-tabbar__label">Calendar</span>
-  </a>
-</nav>
-
-<!-- Reserve the space the bar occupies on the SCROLLING CONTENT, or the last
-     item of every list sits permanently underneath the navigation. -->
-<main class="strand-tabbar-offset">...</main>
 ```
 
 ---
@@ -1970,14 +1410,6 @@ Dark instrument panel container for data-dense content.
 | `strand-coord-readout` | base | |
 | `strand-coord-readout__lat` | child | |
 | `strand-coord-readout__lng` | child | |
-| `strand-map-legend` | base | |
-| `strand-map-legend__title` | child | |
-| `strand-map-legend__item` | child | |
-| `strand-map-legend__dot` | child | |
-| `strand-map-legend__dot--tech` | child | |
-| `strand-map-legend__dot--health` | child | |
-| `strand-map-legend__dot--trades` | child | |
-| `strand-map-legend__dot--finance` | child | |
 | `strand-search-bar` | base | |
 | `strand-search-bar--shifted` | modifier | |
 | `strand-search-bar__inner` | child | |
@@ -1985,23 +1417,6 @@ Dark instrument panel container for data-dense content.
 | `strand-search-bar__action` | child | |
 | `strand-search-bar__action--danger` | child | |
 | `strand-search-bar__action--locating` | child | |
-| `strand-results-panel` | base | |
-| `strand-results-panel__count` | child | |
-| `strand-results-panel__items` | child | |
-| `strand-results-panel__state` | child | |
-| `strand-results-panel__state-title` | child | |
-| `strand-results-panel__state-hint` | child | |
-| `strand-results-panel__error-link` | child | |
-| `strand-result-card` | base | |
-| `strand-result-card--active` | modifier | |
-| `strand-result-card__title` | child | |
-| `strand-result-card__company` | child | |
-| `strand-result-card__meta` | child | |
-| `strand-result-card__location` | child | |
-| `strand-result-card__salary` | child | |
-| `strand-result-card__badge` | child | |
-| `strand-result-card__badge--remote` | child | |
-| `strand-result-card__badge--source` | child | |
 | `strand-detail-panel--open` | modifier | |
 | `strand-detail-panel__title` | child | |
 | `strand-detail-panel__meta` | child | |
@@ -2013,11 +1428,6 @@ Dark instrument panel container for data-dense content.
 | `strand-detail-panel__close-icon` | child | |
 | `strand-detail-panel__company` | child | |
 | `strand-detail-panel__location` | child | |
-| `strand-map-loading` | base | |
-| `strand-map-loading--hidden` | modifier | |
-| `strand-map-loading__spinner` | child | |
-| `strand-map-loading__text` | child | |
-| `strand-map-loading__bar` | child | |
 | `strand-map-pin` | base | |
 | `strand-map-pin--tech` | modifier | |
 | `strand-map-pin--health` | modifier | |
@@ -2038,66 +1448,6 @@ Dark instrument panel container for data-dense content.
 
 ---
 
-### ScrollReveal
-
-Scroll-triggered entrance animation.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-reveal` | base | Element with scroll-triggered fade-up. |
-| `strand-reveal--visible` | modifier | Visible state after scroll trigger. |
-| `strand-reveal-group` | base | Group container for staggered reveals. |
-| `strand-reveal--manual` | modifier | |
-| `strand-reveal-group--manual` | modifier | |
-
-**Usage:**
-
-```html
-<div class="strand-reveal">Fades up on scroll</div>
-
-<div class="strand-reveal-group">
-  <div class="strand-reveal">Staggers 0ms</div>
-  <div class="strand-reveal">Staggers 80ms</div>
-</div>
-```
-
----
-
-### Settle
-
-Fades a region's new state in when the model changes, instead of cutting to it. Implements design-language.md 6.9 (state change) and 6.9.1 (identity is what triggers it). The sibling of Reserve: Reserve holds the BOX while a wait resolves, Settle acknowledges the MOMENT the user's action took effect. It cannot affect layout, deliberately, so a region whose two states differ in size needs Reserve as well. There is no JavaScript in this primitive: a keyframe animation runs when an element enters the DOM.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-settle` | base | Fades the element in over --strand-duration-fast when it is inserted. Opacity only, and it declares no size of any kind. Under prefers-reduced-motion the animation is removed and the change is immediate. |
-| `strand-settle--modifier` | modifier | |
-
-**Usage:**
-
-```html
-<!-- Insertion alone fires the fade, so an item ARRIVING needs nothing else. -->
-<li class="strand-settle">a comment that just arrived</li>
-
-<!-- THE TRAP, and the one way to use this and get nothing: a VALUE change
-     patches a text node and inserts nothing, so no animation fires. Replace
-     the element rather than rewriting its text.
-     WRONG, animates nothing however correct the class is:
-       el.textContent = count + ' people'
-     RIGHT, a new element, so the fade fires:
-       const next = document.createElement('span');
-       next.className = 'strand-settle';
-       next.textContent = count + ' people';
-       el.replaceWith(next);
-     In a framework this is the key. Key on WHAT THE USER WAS TOLD, not on
-     the record carrying it: an optimistic echo and its server confirmation
-     are ONE state change, and keying on the row id announces it twice. -->
-
-<!-- Settle never sizes anything. If the two states are different heights,
-     that is a space-contract problem: wrap in strand-reserve. -->
-```
-
----
-
 ### KvEditorial
 
 Editorial modifier on the strand-kv molecule. Use inside card-metadata contexts for soft sans-serif Blue-midnight values separated by a dashed divider. The default strand-kv stays mono-tabular for instrument readouts.
@@ -2112,81 +1462,6 @@ Editorial modifier on the strand-kv molecule. Use inside card-metadata contexts 
 <div class="strand-kv strand-kv--editorial">
   <span class="strand-kv__label">Owner</span>
   <span class="strand-kv__value">Dillinger Staffing</span>
-</div>
-```
-
----
-
-### LabShell
-
-Component-reference page chrome. Named primitive family for a docs-site layout: sticky sidebar + scrollable main + header + section + example blocks. Forty-plus classes map 1:1 to the classic component-lab pattern.
-
-| Class | Type | Description |
-|---|---|---|
-| `strand-ref-shell` | base | Grid root with sidebar (256px) and main (1fr). |
-| `strand-ref-shell__sidebar` | child | Sticky left column with brand + nav groups. |
-| `strand-ref-shell__sidebar-head` | child | Fixed top block inside the sidebar (brand + lead). |
-| `strand-ref-shell__sidebar-scroll` | child | Scrollable region containing nav groups. |
-| `strand-ref-shell__brand` | child | Horizontal brand row (mark + title + sub). |
-| `strand-ref-shell__brand-mark` | child | Square brand glyph (36x36 on blue-midnight). |
-| `strand-ref-shell__brand-title` | child | Brand title (mono 15px blue-midnight). |
-| `strand-ref-shell__brand-sub` | child | Brand subtitle overline (mono 10px uppercase). |
-| `strand-ref-shell__group` | child | Sidebar nav group with top hairline separator. |
-| `strand-ref-shell__group-label` | child | Nav group label (mono 10px uppercase blue-midnight). |
-| `strand-ref-shell__group-list` | child | Nav link list container (flex column, 1px gap). |
-| `strand-ref-shell__group-link` | child | Nav link row (dot + label). |
-| `strand-ref-shell__group-dot` | child | 4x4 dot indicator inside nav links. |
-| `strand-ref-shell__main` | child | Main content column (56px 64px 96px padding, 1120px max). |
-| `strand-ref-header` | base | Page header block (title + lead + metrics). |
-| `strand-ref-header__title` | child | H1 title (light 40px blue-midnight). |
-| `strand-ref-header__lead` | child | Header lead paragraph (20px gray-500). |
-| `strand-ref-header__meta` | child | Metrics row (grid, 4 columns auto). |
-| `strand-ref-header__meta-item` | child | Metric column (label + value). |
-| `strand-ref-header__meta-label` | child | Metric label (mono 10px uppercase). |
-| `strand-ref-header__meta-value` | child | Metric value (sans 22px light blue-midnight). |
-| `strand-ref-taxonomy` | base | Taxonomy explainer block (recessed card with definition list). |
-| `strand-ref-taxonomy__title` | child | Taxonomy overline title. |
-| `strand-ref-taxonomy__list` | child | Taxonomy definition list (dl). |
-| `strand-ref-section` | base | Section block with bottom hairline + scroll-margin. |
-| `strand-ref-section__head` | child | Section head (h2 + note, flex baseline space-between). |
-| `strand-ref-section__head-note` | child | Section head note (mono 10px uppercase). |
-| `strand-ref-section__body` | child | Section body (vertical stack with 32px gaps). |
-| `strand-ref-example` | base | Example row (200px meta + 1fr demo grid). |
-| `strand-ref-example__meta` | child | Example meta column. |
-| `strand-ref-example__label` | child | Example label (sans 13px blue-midnight). |
-| `strand-ref-example__code` | child | Example code snippet (mono 10px gray). |
-| `strand-ref-example__demo` | child | Example demo panel (white card, 24px 28px padding, subtle shadow). |
-| `strand-ref-example__demo--pad-none` | child | Modifier: remove internal padding + hide overflow. |
-| `strand-ref-example__demo--recessed` | child | Modifier: use recessed surface background instead of white. |
-| `strand-ref-example__caption` | child | Example caption paragraph below the demo. |
-| `strand-ref-shell__nav-scrim` | child | Mobile drawer scrim (covers main, dismisses drawer on tap). Hidden until parent has .is-nav-open at <=1040px. |
-| `strand-ref-mobile-trigger` | base | Mobile FAB toggle for the sidebar drawer. Use on a strand-btn (icon-only + circular). Hidden by default; shown only at <=1040px breakpoint. |
-| `is-nav-open` | base | State class on the .strand-ref-shell mount; consumer toggles to open the mobile drawer. |
-| `strand-handoff-render` | base | |
-
-**Usage:**
-
-```html
-<div class="strand-ref-shell" style="--strand-ref-sticky-top: 64px;">
-  <aside class="strand-ref-shell__sidebar">...</aside>
-  <main class="strand-ref-shell__main">
-    <header class="strand-ref-header">
-      <h1 class="strand-ref-header__title">Every component, rendered.</h1>
-      <p class="strand-ref-header__lead">Reference layout for component docs.</p>
-    </header>
-    <section class="strand-ref-section" id="typography">
-      <div class="strand-ref-section__head"><h2>Typography</h2></div>
-      <div class="strand-ref-section__body">
-        <div class="strand-ref-example">
-          <div class="strand-ref-example__meta">
-            <div class="strand-ref-example__label">Headline</div>
-            <code class="strand-ref-example__code">strand-headline--xl</code>
-          </div>
-          <div class="strand-ref-example__demo">...</div>
-        </div>
-      </div>
-    </section>
-  </main>
 </div>
 ```
 
@@ -2283,6 +1558,81 @@ Staggered entry animation specimen. Four lines animate in at 0 / 180 / 360 / 540
 
 ---
 
+### LabShell
+
+Component-reference page chrome. Named primitive family for a docs-site layout: sticky sidebar + scrollable main + header + section + example blocks. Forty-plus classes map 1:1 to the classic component-lab pattern.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-ref-shell` | base | Grid root with sidebar (256px) and main (1fr). |
+| `strand-ref-shell__sidebar` | child | Sticky left column with brand + nav groups. |
+| `strand-ref-shell__sidebar-head` | child | Fixed top block inside the sidebar (brand + lead). |
+| `strand-ref-shell__sidebar-scroll` | child | Scrollable region containing nav groups. |
+| `strand-ref-shell__brand` | child | Horizontal brand row (mark + title + sub). |
+| `strand-ref-shell__brand-mark` | child | Square brand glyph (36x36 on blue-midnight). |
+| `strand-ref-shell__brand-title` | child | Brand title (mono 15px blue-midnight). |
+| `strand-ref-shell__brand-sub` | child | Brand subtitle overline (mono 10px uppercase). |
+| `strand-ref-shell__group` | child | Sidebar nav group with top hairline separator. |
+| `strand-ref-shell__group-label` | child | Nav group label (mono 10px uppercase blue-midnight). |
+| `strand-ref-shell__group-list` | child | Nav link list container (flex column, 1px gap). |
+| `strand-ref-shell__group-link` | child | Nav link row (dot + label). |
+| `strand-ref-shell__group-dot` | child | 4x4 dot indicator inside nav links. |
+| `strand-ref-shell__main` | child | Main content column (56px 64px 96px padding, 1120px max). |
+| `strand-ref-header` | base | Page header block (title + lead + metrics). |
+| `strand-ref-header__title` | child | H1 title (light 40px blue-midnight). |
+| `strand-ref-header__lead` | child | Header lead paragraph (20px gray-500). |
+| `strand-ref-header__meta` | child | Metrics row (grid, 4 columns auto). |
+| `strand-ref-header__meta-item` | child | Metric column (label + value). |
+| `strand-ref-header__meta-label` | child | Metric label (mono 10px uppercase). |
+| `strand-ref-header__meta-value` | child | Metric value (sans 22px light blue-midnight). |
+| `strand-ref-taxonomy` | base | Taxonomy explainer block (recessed card with definition list). |
+| `strand-ref-taxonomy__title` | child | Taxonomy overline title. |
+| `strand-ref-taxonomy__list` | child | Taxonomy definition list (dl). |
+| `strand-ref-section` | base | Section block with bottom hairline + scroll-margin. |
+| `strand-ref-section__head` | child | Section head (h2 + note, flex baseline space-between). |
+| `strand-ref-section__head-note` | child | Section head note (mono 10px uppercase). |
+| `strand-ref-section__body` | child | Section body (vertical stack with 32px gaps). |
+| `strand-ref-example` | base | Example row (200px meta + 1fr demo grid). |
+| `strand-ref-example__meta` | child | Example meta column. |
+| `strand-ref-example__label` | child | Example label (sans 13px blue-midnight). |
+| `strand-ref-example__code` | child | Example code snippet (mono 10px gray). |
+| `strand-ref-example__demo` | child | Example demo panel (white card, 24px 28px padding, subtle shadow). |
+| `strand-ref-example__demo--pad-none` | child | Modifier: remove internal padding + hide overflow. |
+| `strand-ref-example__demo--recessed` | child | Modifier: use recessed surface background instead of white. |
+| `strand-ref-example__caption` | child | Example caption paragraph below the demo. |
+| `strand-ref-shell__nav-scrim` | child | Mobile drawer scrim (covers main, dismisses drawer on tap). Hidden until parent has .is-nav-open at <=1040px. |
+| `strand-ref-mobile-trigger` | base | Mobile FAB toggle for the sidebar drawer. Use on a strand-btn (icon-only + circular). Hidden by default; shown only at <=1040px breakpoint. |
+| `is-nav-open` | base | State class on the .strand-ref-shell mount; consumer toggles to open the mobile drawer. |
+| `strand-handoff-render` | base | |
+
+**Usage:**
+
+```html
+<div class="strand-ref-shell" style="--strand-ref-sticky-top: 64px;">
+  <aside class="strand-ref-shell__sidebar">...</aside>
+  <main class="strand-ref-shell__main">
+    <header class="strand-ref-header">
+      <h1 class="strand-ref-header__title">Every component, rendered.</h1>
+      <p class="strand-ref-header__lead">Reference layout for component docs.</p>
+    </header>
+    <section class="strand-ref-section" id="typography">
+      <div class="strand-ref-section__head"><h2>Typography</h2></div>
+      <div class="strand-ref-section__body">
+        <div class="strand-ref-example">
+          <div class="strand-ref-example__meta">
+            <div class="strand-ref-example__label">Headline</div>
+            <code class="strand-ref-example__code">strand-headline--xl</code>
+          </div>
+          <div class="strand-ref-example__demo">...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+```
+
+---
+
 ### LabTip
 
 Pure-CSS tooltip specimen (not the production Tooltip). Use on docs pages to show the four fixed bubble placements. Supports --pinned for screenshots.
@@ -2339,6 +1689,601 @@ Utility-class demo tiles. A row of cells each pairing a class name + demo + capt
 
 ---
 
+### Link
+
+Inline navigation link with animated underline.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-link` | base | Base link with animated underline on hover. |
+| `strand-link--cta` | modifier | Call-to-action link with touch-target height. |
+| `strand-link--mono` | modifier | Monospace overline-style link for footers. |
+| `strand-link--inherit` | modifier | |
+
+**Usage:**
+
+```html
+<a href="/about" class="strand-link">About us</a>
+```
+
+---
+
+### MapLegend
+
+The category key for an instrument viewport's map. The four sector colours are the only place the Blue Discipline (Part III.4) is relaxed, and 9.3's sector palette says why: multi-category encoding is the instrument's purpose, so the colour is data rather than decoration. An item renders as a button when it filters and a plain row when it does not; a legend that only explains is not interactive, and a button role would promise an action the user cannot take while adding a tab stop per row.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-map-legend` | base | Legend root. Sits on the dark instrument cabinet. Hides below 640px, where the map needs every pixel. |
+| `strand-map-legend__title` | child | Overline heading for the key. |
+| `strand-map-legend__item` | child | One category row. A <button type="button"> when it filters, a <div> when it only explains. |
+| `strand-map-legend__dot` | child | The sector swatch. aria-hidden: the label beside it already names the category, so an exposed swatch is a second announcement of the same fact. |
+| `strand-map-legend__dot--tech` | child | Technology sector encoding. |
+| `strand-map-legend__dot--health` | child | Health sector encoding. |
+| `strand-map-legend__dot--trades` | child | Trades sector encoding. |
+| `strand-map-legend__dot--finance` | child | Finance sector encoding. |
+
+**Usage:**
+
+```html
+<div class="strand-map-legend">
+  <div class="strand-map-legend__title">Sectors</div>
+  <!-- Filtering row: a real button. -->
+  <button type="button" class="strand-map-legend__item">
+    <span class="strand-map-legend__dot strand-map-legend__dot--tech" aria-hidden="true"></span>
+    Technology
+  </button>
+  <!-- Explaining row: not interactive, so not a button. -->
+  <div class="strand-map-legend__item">
+    <span class="strand-map-legend__dot strand-map-legend__dot--health" aria-hidden="true"></span>
+    Health
+  </div>
+</div>
+```
+
+---
+
+### MapLoading
+
+The screen that covers an instrument viewport while it boots. Fades out rather than unmounting, so the map beneath is never revealed mid-paint: keep it mounted and toggle the modifier. Default state is VISIBLE, because it covers a booting instrument and a consumer that forgets to drive it should show a loading screen rather than a half-painted map. Caption uses instrument voice (11.7): "Processing", never "Loading...".
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-map-loading` | base | Full-bleed cover over the viewport. Give it role="status" with aria-live="polite" and aria-busy, so the caption is announced and the state change is not silent for a screen reader. |
+| `strand-map-loading--hidden` | modifier | Faded out. The element stays mounted; removing it would cut the opacity transition and reveal the map mid-paint. |
+| `strand-map-loading__spinner` | child | Rotating indicator. Decorative, aria-hidden. |
+| `strand-map-loading__text` | child | Caption, instrument voice. |
+| `strand-map-loading__bar` | child | Sweeping progress bar. Decorative, aria-hidden. |
+
+**Usage:**
+
+```html
+<div class="strand-map-loading" role="status" aria-live="polite" aria-busy="true">
+  <div class="strand-map-loading__spinner" aria-hidden="true"></div>
+  <div class="strand-map-loading__text">Processing</div>
+  <div class="strand-map-loading__bar" aria-hidden="true"></div>
+</div>
+
+<!-- Booted: add the modifier, do not unmount. -->
+<div class="strand-map-loading strand-map-loading--hidden" role="status" aria-live="polite" aria-busy="false">...</div>
+```
+
+---
+
+### Nav
+
+Site/app navigation with mobile menu and glass variant.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-nav` | base | Base nav element. |
+| `strand-nav__inner` | child | Inner flex layout container. |
+| `strand-nav__logo` | child | Logo/brand area (mono uppercase tracked). |
+| `strand-nav__logo--pulse` | child | Animated pulse underline on logo. |
+| `strand-nav__items` | child | Navigation links container. |
+| `strand-nav__link` | child | Desktop navigation link. |
+| `strand-nav__link--active` | child | Active desktop link state. |
+| `strand-nav__slot` | child | Right-edge content slot (account, utility). |
+| `strand-nav__slot--reserve` | child | Slot with a pinned inline size, so swapping its contents cannot shift the nav. |
+| `strand-nav__actions` | child | Actions area. |
+| `strand-nav__hamburger` | child | Mobile menu toggle button. |
+| `strand-nav__hamburger-icon` | child | Hamburger icon lines. |
+| `strand-nav__mobile-menu` | child | Mobile navigation panel. |
+| `strand-nav__mobile-menu--open` | child | Open state for mobile menu. |
+| `strand-nav__mobile-link` | child | Mobile navigation link. |
+| `strand-nav__mobile-link--active` | child | Active mobile link state. |
+| `strand-nav__title` | child | Nav title text. |
+| `strand-nav__title-tag` | child | Nav title tag element. |
+| `strand-nav--glass` | modifier | Fixed glassmorphic nav with frosted backdrop. |
+| `strand-nav--scrolled` | modifier | Scrolled state with subtle shadow. |
+| `strand-nav--instrument` | modifier | Instrument viewport nav variant. |
+
+**Usage:**
+
+```html
+<nav class="strand-nav" aria-label="Main navigation">
+  <div class="strand-nav__inner">
+    <div class="strand-nav__logo"><strong>Brand</strong></div>
+    <div class="strand-nav__items">
+      <a href="/" class="strand-nav__link strand-nav__link--active">Home</a>
+    </div>
+  </div>
+</nav>
+```
+
+---
+
+### Progress
+
+Completion indicator (bar or ring).
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-progress` | base | Base progress element. |
+| `strand-progress--bar` | modifier | Bar variant. |
+| `strand-progress--ring` | modifier | Ring (circular) variant. |
+| `strand-progress__fill` | child | Fill track element. |
+| `strand-progress__ring` | child | SVG ring element. |
+| `strand-progress__track` | child | Ring background track. |
+| `strand-progress--indeterminate` | modifier | Indeterminate animation state. |
+| `strand-progress--sm` | modifier | Small size (bar: 4px, ring: 24px). |
+| `strand-progress--md` | modifier | Medium size (bar: 8px, ring: 40px). |
+| `strand-progress--lg` | modifier | Large size (bar: 12px, ring: 56px). |
+
+**Usage:**
+
+```html
+<div class="strand-progress strand-progress--bar strand-progress--md" role="progressbar"
+  aria-valuemin="0" aria-valuemax="100" aria-valuenow="65">
+  <div class="strand-progress__fill" style="width: 65%;"></div>
+</div>
+```
+
+---
+
+### Radio
+
+Single selection from a set with custom dot indicator.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-radio` | base | Label wrapper element. |
+| `strand-radio__native` | child | Hidden native radio input. |
+| `strand-radio__control` | child | Custom visual control. |
+| `strand-radio__dot` | child | Inner dot indicator. |
+| `strand-radio__label` | child | Text label. |
+| `strand-radio--checked` | modifier | Checked state. |
+| `strand-radio--disabled` | modifier | Disabled state. |
+
+**Usage:**
+
+```html
+<label class="strand-radio strand-radio--checked">
+  <input type="radio" class="strand-radio__native" name="group" checked>
+  <span class="strand-radio__control" aria-hidden="true">
+    <span class="strand-radio__dot"></span>
+  </span>
+  <span class="strand-radio__label">Option A</span>
+</label>
+```
+
+---
+
+### Reserve
+
+A region that holds its box while data loads, then cross-fades the placeholder to the content. Implements design-language.md 6.6.1 (the space contract) and 6.6.2 (placeholder to content). Flip data-strand-reserve to "ready" when the data lands, or to "empty" when the answer arrived and there is nothing to show; that attribute is the whole runtime, and there is no JavaScript in this primitive.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-reserve` | base | Region root. Places both layers in one grid cell, so the region self-sizes to the taller and the swap cannot move layout. |
+| `strand-reserve__placeholder` | child | The waiting layer, usually skeletons. Mark it aria-hidden so assistive tech does not read filler. |
+| `strand-reserve__content` | child | The real content. Present and sized from first paint, hidden by opacity rather than absent from the DOM. |
+
+**Usage:**
+
+```html
+<!-- Optional per-breakpoint floors, needed only when the placeholder is
+     genuinely smaller than what replaces it. Each falls back to the one below. -->
+<div class="strand-reserve" data-strand-reserve="pending"
+  style="--strand-reserve-h: 42px; --strand-reserve-h-md: 56px;">
+  <div class="strand-reserve__placeholder" aria-hidden="true">
+    <div class="strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer"
+      style="width: 100%; height: 42px;"></div>
+  </div>
+  <div class="strand-reserve__content">
+    <!-- real content, rendered from the start -->
+  </div>
+</div>
+
+<!-- Omitting data-strand-reserve entirely shows the content and hides the
+     placeholder, so a server-rendered page needs no attribute at all. -->
+
+<!-- Resolve on EVERY path, including failure. data-strand-reserve="empty"
+     takes the placeholder OUT OF FLOW and collapses the region; "ready" alone
+     cannot, because a hidden placeholder still occupies its grid cell and the
+     region would hold its height forever. -->
+```
+
+---
+
+### ResultCard
+
+One result in an instrument's results panel. Renders as a <button> when it is selectable and an <article> when it is not: a card that pans a map when clicked is a control and owes the keyboard the same affordance as the mouse, while a card that only displays is not, and a button role would promise otherwise. Pair the active state with aria-current so the highlighted result is announced rather than only tinted.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-result-card` | base | Card root, on the dark cabinet. |
+| `strand-result-card--active` | modifier | The highlighted result, e.g. the one under the cursor on the map. Pair with aria-current="true". |
+| `strand-result-card__title` | child | Primary line. |
+| `strand-result-card__company` | child | Secondary line. |
+| `strand-result-card__meta` | child | Metadata row. Omit the element entirely when there is no metadata: an empty styled row takes vertical space and draws a border for nothing, in a panel where every row competes for height. |
+| `strand-result-card__location` | child | Where the result is. |
+| `strand-result-card__salary` | child | A second metadata value. |
+| `strand-result-card__badge` | child | Small chip. A badge with no variant keeps the base class alone, never a --undefined modifier that matches no rule. |
+| `strand-result-card__badge--remote` | child | Remote tint. |
+| `strand-result-card__badge--source` | child | Source tint. |
+
+**Usage:**
+
+```html
+<!-- Selectable: a real button, reachable by keyboard. -->
+<button type="button" class="strand-result-card strand-result-card--active" aria-current="true">
+  <div class="strand-result-card__title">Systems Engineer</div>
+  <div class="strand-result-card__company">Acme</div>
+  <div class="strand-result-card__meta">
+    <span class="strand-result-card__location">Oakland</span>
+    <span class="strand-result-card__badge strand-result-card__badge--remote">Remote</span>
+  </div>
+</button>
+
+<!-- Display only: not a control, so not a button. -->
+<article class="strand-result-card">
+  <div class="strand-result-card__title">Systems Engineer</div>
+</article>
+```
+
+---
+
+### ResultsPanel
+
+The list an instrument returns for a query. THREE states, not two, deliberately: a failed request and an empty result are different answers and the user is owed the difference. "0 matches detected" means the instrument ran and found nothing; an error means it did not run. The retry affordance therefore belongs to the error state only, because an empty result is not a failure and there is nothing to retry.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-results-panel` | base | Panel root: a labelled <section> on the dark cabinet, fixed left on desktop and a bottom sheet below 768px. Hide it with the hidden attribute so it leaves the accessibility tree rather than sitting invisible. |
+| `strand-results-panel__count` | child | The count line, instrument voice. Mark it aria-live="polite" so a screen reader hears the count change when a query re-runs. Polite, never assertive: a count re-announcing on every keystroke of a live search interrupts more than it informs. |
+| `strand-results-panel__items` | child | Scrollable list region. Rendered only in the results state. |
+| `strand-results-panel__state` | child | The empty or error block, rendered instead of the items. |
+| `strand-results-panel__state-title` | child | Heading for the empty or error state. |
+| `strand-results-panel__state-hint` | child | Supporting line, e.g. "Adjust parameters and retry". |
+| `strand-results-panel__error-link` | child | Retry control. Error state only. |
+
+**Usage:**
+
+```html
+<section class="strand-results-panel" aria-label="Results">
+  <div class="strand-results-panel__count" aria-live="polite">12 matches detected</div>
+  <div class="strand-results-panel__items">...</div>
+</section>
+
+<!-- Ran, found nothing. No retry: this is not a failure. -->
+<section class="strand-results-panel" aria-label="Results">
+  <div class="strand-results-panel__state">
+    <div class="strand-results-panel__state-title">0 matches detected</div>
+    <div class="strand-results-panel__state-hint">Adjust parameters and retry</div>
+  </div>
+</section>
+
+<!-- Did not run. Retry belongs here. -->
+<section class="strand-results-panel" aria-label="Results">
+  <div class="strand-results-panel__state">
+    <div class="strand-results-panel__state-title">Process interrupted</div>
+    <button type="button" class="strand-results-panel__error-link">Retry sequence</button>
+  </div>
+</section>
+```
+
+---
+
+### ScrollReveal
+
+Scroll-triggered entrance animation.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-reveal` | base | Element with scroll-triggered fade-up. |
+| `strand-reveal--visible` | modifier | Visible state after scroll trigger. |
+| `strand-reveal-group` | base | Group container for staggered reveals. |
+| `strand-reveal--manual` | modifier | |
+| `strand-reveal-group--manual` | modifier | |
+
+**Usage:**
+
+```html
+<div class="strand-reveal">Fades up on scroll</div>
+
+<div class="strand-reveal-group">
+  <div class="strand-reveal">Staggers 0ms</div>
+  <div class="strand-reveal">Staggers 80ms</div>
+</div>
+```
+
+---
+
+### SearchField
+
+A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-search-field` | base | Field root. A role="search" landmark laid out as a flex row: icon, input, optional clear control. Fixed at min(300px, 100%) so it cannot breach a narrower parent's padding (10.4). Height is 36px, raised to 44px under a coarse pointer for 14.7. |
+| `strand-search-field--full` | modifier | Spans the container instead of holding 300px. The narrow-viewport presentation; differs from the base in exactly one property. |
+| `strand-search-field__icon` | child | Leading magnifier, 16px, decorative (aria-hidden). Uses gray-500 rather than the gray-400 a mockup usually specifies: 14.2b puts gray-400 in the fill tier at 2.52:1, below the 3:1 SC 1.4.11 asks of a graphical object. |
+| `strand-search-field__input` | child | The control. Transparent and borderless because the wrapper draws the box; min-inline-size 0 so it shrinks inside the flex row rather than pushing the field past its declared width. Give it an accessible name: a placeholder is a hint, not a label. |
+| `strand-search-field__clear` | child | Optional clear control. Hidden with the hidden attribute while the field is empty, so it is absent from the accessibility tree and the tab order rather than merely invisible. 24px drawn, 44px hit area under a coarse pointer. |
+| `strand-search-bar` | base | |
+| `strand-search-bar__action` | child | |
+
+**Usage:**
+
+```html
+<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->
+<form class="strand-search-field strand-hide-below-md" role="search">
+  <svg class="strand-search-field__icon" viewBox="0 0 16 16" fill="none"
+       stroke="currentColor" stroke-width="1.75" aria-hidden="true" focusable="false">
+    <circle cx="7" cy="7" r="4.5" /><path d="M10.5 10.5 14 14" />
+  </svg>
+  <input class="strand-search-field__input" type="search"
+         aria-label="Search" placeholder="Search trail runs, pottery, chess">
+</form>
+
+<form class="strand-search-field strand-search-field--full strand-hide-from-md" role="search">
+  <svg class="strand-search-field__icon" viewBox="0 0 16 16" fill="none"
+       stroke="currentColor" stroke-width="1.75" aria-hidden="true" focusable="false">
+    <circle cx="7" cy="7" r="4.5" /><path d="M10.5 10.5 14 14" />
+  </svg>
+  <input class="strand-search-field__input" type="search"
+         aria-label="Search" placeholder="Search events">
+</form>
+```
+
+---
+
+### SearchTrigger
+
+A control that LOOKS like a search field and behaves like a button: it opens a search overlay rather than accepting text. Composed on top of strand-search-field, which owns the box, so the two controls cannot drift apart visually. Use this wherever search is palette-driven; use SearchField only where the input itself is the search and the keystrokes have nowhere else to go. Three reasons it is a separate primitive rather than a variant: an input that opens a modal on focus is WCAG 3.2.1 (On Focus); a field the user can type into whose text is handled elsewhere gives one query two homes; and role="search" around a text input promises assistive technology that typing works, which is a false promise if the keystrokes go to an overlay.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-search-trigger` | base | Trigger root, a button. Applied ALONGSIDE strand-search-field, which supplies the box; this class adds only the button resets a field's box does not expect. Carries aria-haspopup="dialog". |
+| `strand-search-trigger__label` | child | Visible standing text, styled as a placeholder and taking the same token as the field's real placeholder. This is ALSO the accessible name: no aria-label override, because WCAG 2.5.3 (Label in Name) requires the accessible name to contain the visible text so a speech-input user saying what they see activates the control. Truncates on one line, since a wrapping label would change the control's height. |
+| `strand-search-field` | base | |
+| `strand-search-field__icon` | child | |
+
+**Usage:**
+
+```html
+<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->
+<button type="button" class="strand-search-field strand-search-trigger strand-hide-below-md"
+        aria-haspopup="dialog" aria-expanded="false" aria-controls="search-palette">
+  <svg class="strand-search-field__icon" aria-hidden="true" focusable="false">...</svg>
+  <span class="strand-search-trigger__label">Search trail runs, pottery, chess</span>
+</button>
+
+<button type="button"
+        class="strand-search-field strand-search-field--full strand-search-trigger strand-hide-from-md"
+        aria-haspopup="dialog">
+  <svg class="strand-search-field__icon" aria-hidden="true" focusable="false">...</svg>
+  <span class="strand-search-trigger__label">Search events</span>
+</button>
+```
+
+---
+
+### Section
+
+Page section with padding, background, and scroll-target variants.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-section` | base | Base section element. |
+| `strand-section--standard` | modifier | Standard section padding. |
+| `strand-section--hero-compact` | modifier | Tighter hero padding for secondary CTA visibility. |
+| `strand-section--hero` | modifier | Hero section padding. |
+| `strand-section--hero-xl` | modifier | Extra-generous hero padding for marketing pages. |
+| `strand-section--compact` | modifier | Compact section padding (space-12). |
+| `strand-section--bg-primary` | modifier | Primary surface background. |
+| `strand-section--bg-elevated` | modifier | Elevated surface background. |
+| `strand-section--bg-recessed` | modifier | Recessed surface background. |
+| `strand-section--border-top` | modifier | 1px top border for visual separation. |
+| `strand-section--scroll-target` | modifier | Adds scroll-margin-top for anchor offset. |
+
+**Usage:**
+
+```html
+<section class="strand-section strand-section--standard strand-section--bg-primary">
+  <div class="strand-container strand-container--default">Content</div>
+</section>
+```
+
+---
+
+### Select
+
+Option selection dropdown with custom arrow.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-select` | base | Wrapper element for the select. |
+| `strand-select__field` | child | The native select element. |
+| `strand-select__arrow` | child | Custom dropdown caret indicator. |
+| `strand-select--error` | modifier | Error state. |
+| `strand-select--disabled` | modifier | Disabled state. |
+
+**Usage:**
+
+```html
+<div class="strand-select">
+  <select class="strand-select__field">
+    <option value="a">Option A</option>
+  </select>
+  <span class="strand-select__arrow" aria-hidden="true"></span>
+</div>
+```
+
+---
+
+### Settle
+
+Fades a region's new state in when the model changes, instead of cutting to it. Implements design-language.md 6.9 (state change) and 6.9.1 (identity is what triggers it). The sibling of Reserve: Reserve holds the BOX while a wait resolves, Settle acknowledges the MOMENT the user's action took effect. It cannot affect layout, deliberately, so a region whose two states differ in size needs Reserve as well. There is no JavaScript in this primitive: a keyframe animation runs when an element enters the DOM.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-settle` | base | Fades the element in over --strand-duration-fast when it is inserted. Opacity only, and it declares no size of any kind. Under prefers-reduced-motion the animation is removed and the change is immediate. |
+| `strand-settle--modifier` | modifier | |
+
+**Usage:**
+
+```html
+<!-- Insertion alone fires the fade, so an item ARRIVING needs nothing else. -->
+<li class="strand-settle">a comment that just arrived</li>
+
+<!-- THE TRAP, and the one way to use this and get nothing: a VALUE change
+     patches a text node and inserts nothing, so no animation fires. Replace
+     the element rather than rewriting its text.
+     WRONG, animates nothing however correct the class is:
+       el.textContent = count + ' people'
+     RIGHT, a new element, so the fade fires:
+       const next = document.createElement('span');
+       next.className = 'strand-settle';
+       next.textContent = count + ' people';
+       el.replaceWith(next);
+     In a framework this is the key. Key on WHAT THE USER WAS TOLD, not on
+     the record carrying it: an optimistic echo and its server confirmation
+     are ONE state change, and keying on the row id announces it twice. -->
+
+<!-- Settle never sizes anything. If the two states are different heights,
+     that is a space-contract problem: wrap in strand-reserve. -->
+```
+
+---
+
+### Skeleton
+
+Content placeholder with shimmer animation.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-skeleton` | base | Base skeleton element. |
+| `strand-skeleton--text` | modifier | Text placeholder (small radius). |
+| `strand-skeleton--rectangle` | modifier | Rectangle placeholder (medium radius). |
+| `strand-skeleton--circle` | modifier | Circle placeholder (full radius). |
+| `strand-skeleton--shimmer` | modifier | Shimmer animation effect. |
+
+**Usage:**
+
+```html
+<div class="strand-skeleton strand-skeleton--text strand-skeleton--shimmer" aria-hidden="true"
+  style="width: 100%; height: 1em;"></div>
+```
+
+---
+
+### Slider
+
+Range value selection.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-slider` | base | Wrapper element. |
+| `strand-slider__field` | child | Native range input. |
+| `strand-slider--disabled` | modifier | Disabled state. |
+
+**Usage:**
+
+```html
+<div class="strand-slider">
+  <input type="range" class="strand-slider__field" min="0" max="100" value="50">
+</div>
+```
+
+---
+
+### Spinner
+
+Loading indicator with accessible text.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-spinner` | base | Base spinner element. |
+| `strand-spinner__ring` | child | Spinning ring visual. |
+| `strand-spinner__sr-only` | child | Screen-reader-only loading text. |
+| `strand-spinner--sm` | modifier | Small size (16px). |
+| `strand-spinner--md` | modifier | Medium size (20px). |
+| `strand-spinner--lg` | modifier | Large size (32px). |
+
+**Usage:**
+
+```html
+<span class="strand-spinner strand-spinner--md" role="status">
+  <span class="strand-spinner__ring" aria-hidden="true"></span>
+  <span class="strand-spinner__sr-only">Loading</span>
+</span>
+```
+
+---
+
+### Stack
+
+Flex layout primitive with direction, gap, and alignment.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-stack` | base | Base flex container. |
+| `strand-stack--vertical` | modifier | Column direction. |
+| `strand-stack--horizontal` | modifier | Row direction. |
+| `strand-stack--align-start` | modifier | Align items to start. |
+| `strand-stack--align-center` | modifier | Align items to center. |
+| `strand-stack--align-end` | modifier | Align items to end. |
+| `strand-stack--justify-start` | modifier | Justify content to start. |
+| `strand-stack--justify-center` | modifier | Justify content to center. |
+| `strand-stack--justify-end` | modifier | Justify content to end. |
+| `strand-stack--justify-between` | modifier | Justify content with space-between. |
+| `strand-stack--justify-around` | modifier | Justify content with space-around. |
+| `strand-stack--wrap` | modifier | Enable flex wrap. |
+| `strand-stack--responsive` | modifier | Collapse horizontal to vertical at 768px. |
+| `strand-stack__item--full-mobile` | child | Full-width child on mobile in responsive mode. |
+| `strand-stack--gap-0` | modifier | Gap: none. Collapse the stack's spacing where an adjacent element already owns it. |
+| `strand-stack--gap-1` | modifier | Gap: space-1 (4px). |
+| `strand-stack--gap-2` | modifier | Gap: space-2 (8px). |
+| `strand-stack--gap-3` | modifier | Gap: space-3 (12px). |
+| `strand-stack--gap-4` | modifier | Gap: space-4 (16px). |
+| `strand-stack--gap-5` | modifier | Gap: space-5 (20px). |
+| `strand-stack--gap-6` | modifier | Gap: space-6 (24px). |
+| `strand-stack--gap-8` | modifier | Gap: space-8 (32px). |
+
+**Usage:**
+
+```html
+<div class="strand-stack strand-stack--vertical strand-stack--gap-4">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+
+<!-- Header row: title left, actions right. Inside a flex or grid parent,
+     a stack shrink-wraps to its content; add strand-full-width so
+     justify-between has room to distribute. -->
+<div class="strand-stack strand-stack--horizontal strand-stack--gap-4 strand-stack--align-center strand-stack--justify-between strand-full-width">
+  <span class="strand-overline strand-overline--accent">Section title</span>
+  <div class="strand-stack strand-stack--horizontal strand-stack--gap-2">
+    <button class="strand-btn strand-btn--ghost strand-btn--sm"><span class="strand-btn__content">Cancel</span></button>
+    <button class="strand-btn strand-btn--primary strand-btn--sm"><span class="strand-btn__content">Save</span></button>
+  </div>
+</div>
+```
+
+---
+
 ### Swatch
 
 Color swatch specimen for design-token documentation. The swatch grid auto-fills with 160px tiles; each tile sets its own background/color inline (tone-dependent).
@@ -2363,21 +2308,198 @@ Color swatch specimen for design-token documentation. The swatch grid auto-fills
 
 ---
 
-### TypeSpecimen
+### Switch
 
-Typography specimen. Stacks a display line on top of a mono meta row; siblings are separated by dashed dividers.
+Binary toggle (single) with track and thumb.
 
 | Class | Type | Description |
 |---|---|---|
-| `strand-type-specimen` | base | Specimen container (vertical stack with dashed top border). |
-| `strand-type-specimen__meta` | child | Mono meta row; inline <b> children highlight in blue-primary. |
+| `strand-switch` | base | Label wrapper element. |
+| `strand-switch__track` | child | Track button element with role="switch". |
+| `strand-switch__thumb` | child | Sliding thumb indicator. |
+| `strand-switch__label` | child | Text label. |
+| `strand-switch--checked` | modifier | Checked (on) state. |
+| `strand-switch--disabled` | modifier | Disabled state. |
 
 **Usage:**
 
 ```html
-<div class="strand-type-specimen">
-  <h2 class="strand-headline strand-headline--xl">The quick brown fox</h2>
-  <span class="strand-type-specimen__meta">Inter <b>48px</b> <b>weight-300</b> <b>tracking-tight</b></span>
+<label class="strand-switch strand-switch--checked">
+  <button type="button" role="switch" class="strand-switch__track" aria-checked="true">
+    <span class="strand-switch__thumb" aria-hidden="true"></span>
+  </button>
+  <span class="strand-switch__label">Dark mode</span>
+</label>
+```
+
+---
+
+### TabBar
+
+The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations. 19.1.1 does not forbid the two coexisting; it forbids stacking them into a wall at the bottom of the viewport and requires a surface wanting both to DECIDE which belongs nearer the thumb. Mutually exclusive by state is a legal answer: destinations at rest, the dock taking the band only while a commitment is live, then yielding it back.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-tabbar` | base | Bar root, a nav landmark. Fixed to the viewport's bottom edge so its position is a function of the viewport and no scroll can move it out of reach, with the safe-area inset so it clears the home indicator on a notched phone. Give it an aria-label; an unnamed nav is one a screen reader user tells apart by guessing. |
+| `strand-tabbar__item` | child | One destination. A link when it has a href, so middle-click and open-in-new-tab keep working; a button only when there is genuinely no URL. Minimum 44x44 per 14.7, measured on the item rather than inferred from the bar's height. |
+| `strand-tabbar__icon` | child | Decorative glyph, 20px. aria-hidden: the label already names the destination. |
+| `strand-tabbar__label` | child | Destination name. text-xs with wider tracking, uppercase mono. Wraps rather than truncating, because a destination the user cannot read is not a destination; if a label does not fit, the surface has too many destinations and 19.1.1's count test already refuses it. |
+| `strand-actiondock` | base | |
+
+**Usage:**
+
+```html
+<!-- The current destination is marked with aria-current="page", which is
+     BOTH the announced state and the styling hook, so the two cannot drift. -->
+<nav class="strand-tabbar" aria-label="Primary">
+  <a class="strand-tabbar__item" href="/discover" aria-current="page">
+    <span class="strand-tabbar__icon" aria-hidden="true"><svg>...</svg></span>
+    <span class="strand-tabbar__label">Discover</span>
+  </a>
+  <a class="strand-tabbar__item" href="/calendar">
+    <span class="strand-tabbar__label">Calendar</span>
+  </a>
+</nav>
+
+<!-- Reserve the space the bar occupies on the SCROLLING CONTENT, or the last
+     item of every list sits permanently underneath the navigation. -->
+<main class="strand-tabbar-offset">...</main>
+```
+
+---
+
+### Table
+
+Tabular data display with sortable headers.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-table-wrapper` | base | Responsive scroll wrapper. |
+| `strand-table` | base | Base table element. |
+| `strand-table__head` | child | Table header group (thead). |
+| `strand-table__body` | child | Table body group (tbody). |
+| `strand-table__row` | child | Table row with hover highlight. |
+| `strand-table__th` | child | Table header cell (monospaced, uppercase, tracked). |
+| `strand-table__td` | child | Table data cell. |
+| `strand-table__sort-btn` | child | Sortable column header button. |
+| `strand-table__sort-indicator` | child | Sort direction indicator. |
+
+**Usage:**
+
+```html
+<div class="strand-table-wrapper">
+  <table class="strand-table">
+    <thead class="strand-table__head">
+      <tr><th class="strand-table__th">Name</th></tr>
+    </thead>
+    <tbody class="strand-table__body">
+      <tr class="strand-table__row"><td class="strand-table__td">Alice</td></tr>
+    </tbody>
+  </table>
+</div>
+```
+
+---
+
+### Tabs
+
+Content switching with accessible tab pattern.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-tabs` | base | Tab container. |
+| `strand-tabs__tab` | child | Individual tab button. |
+| `strand-tabs__tab--active` | child | Active tab state. |
+| `strand-tabs__panel--reveal` | child | Panel entrance animation. |
+| `strand-tabs--instrument` | modifier | Instrument viewport variant for tabs. |
+
+**Usage:**
+
+```html
+<div class="strand-tabs">
+  <div role="tablist">
+    <button role="tab" class="strand-tabs__tab strand-tabs__tab--active" aria-selected="true">Tab 1</button>
+  </div>
+</div>
+```
+
+---
+
+### Tag
+
+Categorization label with optional remove button.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-tag` | base | Base tag element. |
+| `strand-tag__text` | child | Tag text content. |
+| `strand-tag__remove` | child | Remove button. |
+| `strand-tag--solid` | modifier | Solid filled variant. |
+| `strand-tag--outlined` | modifier | Outlined variant. |
+| `strand-tag--default` | modifier | Default color. |
+| `strand-tag--teal` | modifier | Teal color. |
+| `strand-tag--blue` | modifier | Blue color. |
+| `strand-tag--amber` | modifier | Amber color. |
+| `strand-tag--red` | modifier | Red color. |
+| `strand-chip--joined` | modifier | |
+| `strand-chip--joined__check` | child | |
+
+**Usage:**
+
+```html
+<span class="strand-tag strand-tag--solid strand-tag--blue">
+  <span class="strand-tag__text">Design</span>
+</span>
+```
+
+---
+
+### Textarea
+
+Multi-line text entry with optional character count.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-textarea` | base | Wrapper element for the textarea. |
+| `strand-textarea__field` | child | The native textarea element. |
+| `strand-textarea__count` | child | Character count display. |
+| `strand-textarea--error` | modifier | Error state. |
+| `strand-textarea--disabled` | modifier | Disabled state. |
+| `strand-textarea--auto-resize` | modifier | Auto-resize modifier. |
+
+**Usage:**
+
+```html
+<div class="strand-textarea">
+  <textarea class="strand-textarea__field" placeholder="Enter text"></textarea>
+</div>
+```
+
+---
+
+### Toast
+
+Transient notification with status variants.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-toast` | base | Base toast element. |
+| `strand-toast__container` | child | Fixed stacking container (bottom-right). |
+| `strand-toast__status` | child | Status prefix label. |
+| `strand-toast__message` | child | Message text. |
+| `strand-toast__dismiss` | child | Dismiss button. |
+| `strand-toast--info` | modifier | Info status. |
+| `strand-toast--success` | modifier | Success status. |
+| `strand-toast--warning` | modifier | Warning status. |
+| `strand-toast--error` | modifier | Error status. |
+
+**Usage:**
+
+```html
+<div class="strand-toast strand-toast--info" role="status" aria-live="polite">
+  <span class="strand-toast__status">INFO</span>
+  <span class="strand-toast__message">Changes saved.</span>
+  <button class="strand-toast__dismiss" aria-label="Dismiss">&times;</button>
 </div>
 ```
 
@@ -2408,59 +2530,48 @@ Spacing/radius/shadow token specimen tiles. Each tile pairs a visual (spacer bar
 
 ---
 
-### ContainerScale
+### Tooltip
 
-Container-width visualizer. Renders proportional horizontal bars (narrow / default / wide / full) against a 0-to-max axis.
+Contextual hint with position variants.
 
 | Class | Type | Description |
 |---|---|---|
-| `strand-container-scale` | base | Vertical stack of scale rows. |
-| `strand-container-scale__row` | child | Single row (label + track + caption). |
-| `strand-container-scale__label` | child | Row label row (flex baseline space-between). |
-| `strand-container-scale__caption` | child | Subtle gray caption text. |
-| `strand-container-scale__track` | child | Track surface (22px tall, recessed, hairline border). |
-| `strand-container-scale__bar` | child | Proportional bar; width set inline per row. |
-| `strand-container-scale__px` | child | Bar pixel label (mono 10px blue-primary). |
-| `strand-container-scale__axis` | child | Axis row (flex justify-between, mono 9px). |
+| `strand-tooltip__wrapper` | child | Wrapper for the trigger element. |
+| `strand-tooltip` | base | Tooltip content element. |
+| `strand-tooltip--top` | modifier | Position above trigger. |
+| `strand-tooltip--right` | modifier | Position to the right. |
+| `strand-tooltip--bottom` | modifier | Position below trigger. |
+| `strand-tooltip--left` | modifier | Position to the left. |
+| `strand-tooltip--visible` | modifier | Show the tooltip. |
 
 **Usage:**
 
 ```html
-<div class="strand-container-scale">
-  <div class="strand-container-scale__row">
-    <div class="strand-container-scale__label">
-      <code>--strand-container-narrow</code>
-      <span class="strand-container-scale__caption">640px</span>
-    </div>
-    <div class="strand-container-scale__track">
-      <div class="strand-container-scale__bar" style="width: 50%;">
-        <span class="strand-container-scale__px">640</span>
-      </div>
-    </div>
-  </div>
-  <div class="strand-container-scale__axis"><span>0</span><span>1280</span></div>
-</div>
+<span class="strand-tooltip__wrapper" aria-describedby="tip-1">
+  Hover me
+  <span id="tip-1" class="strand-tooltip strand-tooltip--top" role="tooltip">Helpful tip</span>
+</span>
 ```
 
 ---
 
-### CommandPalette
+### TypeSpecimen
 
-Search-and-jump overlay. Composes Dialog, so focus trapping, focus restoration, scroll lock and Escape dismissal are inherited. Filtering and ranking belong to the caller.
+Typography specimen. Stacks a display line on top of a mono meta row; siblings are separated by dashed dividers.
 
 | Class | Type | Description |
 |---|---|---|
-| `strand-command-palette` | base | Palette root, applied to the composed Dialog. |
-| `strand-command-palette__search` | child | Search row holding the icon and the input. |
-| `strand-command-palette__icon` | child | Decorative magnifier, aria-hidden. |
-| `strand-command-palette__input` | child | The combobox input. Focus stays here while the highlight moves, via aria-activedescendant. |
-| `strand-command-palette__list` | child | Scrollable listbox of results. |
-| `strand-command-palette__option` | child | One result row (role=option, tabindex -1). |
-| `strand-command-palette__option--active` | child | The highlighted row, the one Enter acts on. Pointer hover and arrow keys drive the same state. |
-| `strand-command-palette__label` | child | Primary text of a result. |
-| `strand-command-palette__sublabel` | child | Secondary text of a result. |
-| `strand-command-palette__badge` | child | Short trailing token, such as a category. |
-| `strand-command-palette__empty` | child | Shown instead of a bare box when nothing matches. |
+| `strand-type-specimen` | base | Specimen container (vertical stack with dashed top border). |
+| `strand-type-specimen__meta` | child | Mono meta row; inline <b> children highlight in blue-primary. |
+
+**Usage:**
+
+```html
+<div class="strand-type-specimen">
+  <h2 class="strand-headline strand-headline--xl">The quick brown fox</h2>
+  <span class="strand-type-specimen__meta">Inter <b>48px</b> <b>weight-300</b> <b>tracking-tight</b></span>
+</div>
+```
 
 ---
 
@@ -5271,6 +5382,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- grid sidebar preset; correct 7 fill-tier-as-text prescriptions in the DL (v0.40.0, gaps #77-#78)
 - CalendarGrid; 10.6 bounded cells and the well-plate production (v0.39.0, gaps #75-#76)
 - TabBar and SearchTrigger; 19.1.1 settles which mobile nav a surface takes (v0.38.0, gaps #73-#74)
 - SearchField, responsive visibility, progress on dark (v0.37.0, gaps #69-#72)
@@ -5827,11 +5939,12 @@ pnpm lint        # Lint all files
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |
-| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:layout && pnpm test:motion` |
+| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:layout && pnpm test:motion` |
 | `pnpm test:browser-preflight` | `node scripts/browser-preflight.mjs` |
 | `pnpm test:component-test-parity` | `node scripts/component-test-parity.mjs` |
 | `pnpm test:contrast` | `node scripts/contrast-check.mjs` |
 | `pnpm test:css-export-parity` | `node scripts/css-export-parity.mjs` |
+| `pnpm test:doc-contrast` | `node scripts/doc-contrast-check.mjs` |
 | `pnpm test:layout` | `node scripts/layout-check.mjs` |
 | `pnpm test:migration-staleness` | `node scripts/migration-staleness.mjs` |
 | `pnpm test:motion` | `node scripts/motion-check.mjs` |

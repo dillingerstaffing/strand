@@ -52,6 +52,7 @@
     year: number,
     month: number,
     weekStartsOn = 0,
+    fixedWeeks?: number,
   ): CalendarDay[][] {
     const toDay = (d: Date): CalendarDay => ({
       date: d,
@@ -79,7 +80,11 @@
         cursor.setDate(cursor.getDate() + 1)
       }
       weeks.push(week)
-      if (week[6].date >= lastOfMonth) break
+      if (fixedWeeks != null) {
+        if (weeks.length >= fixedWeeks) break
+      } else if (week[6].date >= lastOfMonth) {
+        break
+      }
     }
     return weeks
   }
@@ -89,6 +94,13 @@
   export let year: number
   export let month: number
   export let weekStartsOn: 0 | 1 = 0
+
+  /** Render exactly this many week rows, padding from the adjacent months.
+      A month is four to six weeks long, so a grid that stops when the month
+      is covered changes height as the reader pages and moves everything
+      beneath it. That is 6.6.1's space contract and 10.6 one level up.
+      Six never truncates. */
+  export let fixedWeeks: number | undefined = undefined
 
   /** Accessible name, e.g. "August 2026". A grid with no name is announced
       as an unlabelled table of numbers. */
@@ -121,7 +133,7 @@
   let gridEl: HTMLElement | null = null
   let focused: string | undefined = undefined
 
-  $: weeks = buildMonthGrid(year, month, weekStartsOn)
+  $: weeks = buildMonthGrid(year, month, weekStartsOn, fixedWeeks)
   $: flat = weeks.flat()
   $: todayIso = isoOf(today ?? new Date())
   $: ordered = Array.from({ length: 7 }, (_, i) => (i + weekStartsOn) % 7)

@@ -42,7 +42,10 @@ export interface TabBarProps extends JSX.HTMLAttributes<HTMLElement> {
  * Not `Tabs`, which switches content panels inside one view (19.3). Tabs
  * change what a region shows; this changes which destination the user is
  * on. Not `ActionDock` either: a dock carries the one ACTION a view
- * produces, this carries DESTINATIONS, and 19.1.1 forbids stacking them.
+ * produces, this carries DESTINATIONS. 19.1.1 does NOT forbid the two
+ * coexisting -- it forbids stacking them into a wall and requires a
+ * surface wanting both to decide which belongs nearer the thumb.
+ * Mutually exclusive by state is a legal answer.
  *
  * Reserve the space it occupies by putting `strand-tabbar-offset` on the
  * scrolling content. Without it the last item of every list sits under

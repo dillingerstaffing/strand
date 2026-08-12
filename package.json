@@ -1,6 +1,6 @@
 {
 	"name": "strand",
-	"version": "0.40.0",
+	"version": "0.41.0",
 	"private": true,
 	"description": "Strand Design Language and UI Component Library",
 	"author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
@@ -30,7 +30,7 @@
 		"test:browser-preflight": "node scripts/browser-preflight.mjs",
 		"test:layout": "node scripts/layout-check.mjs",
 		"test:motion": "node scripts/motion-check.mjs",
-		"test:all": "pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:layout && pnpm test:motion",
+		"test:all": "pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:layout && pnpm test:motion",
 		"vendor-fonts": "node scripts/vendor-fonts.mjs",
 		"vendor-fonts:check": "node scripts/vendor-fonts.mjs --check",
 		"sync-versions": "node scripts/sync-versions.mjs",
@@ -41,7 +41,8 @@
 		"build:docs": "node scripts/build-docs.mjs",
 		"test:scripts": "vitest run --config vitest.config.mjs",
 		"lint": "biome check .",
-		"lint:fix": "biome check --write ."
+		"lint:fix": "biome check --write .",
+		"test:doc-contrast": "node scripts/doc-contrast-check.mjs"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.0",
