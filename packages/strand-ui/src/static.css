@@ -1060,6 +1060,40 @@
 	white-space: nowrap;
 }
 
+/* ── Responsive visibility ──
+   Both presentations of a control live in the markup and CSS chooses
+   between them. The alternative -- measuring the viewport in JS and
+   rendering one -- puts the control on screen a frame late, which is a
+   layout shift in whatever region it lands in, and it renders nothing at
+   all until hydration, which a server-rendered header cannot afford.
+
+   These are HIDE-only, deliberately. A matching `display: block` utility
+   would have to guess the element's natural display and would flatten a
+   flex or grid container into a block the moment it became visible. An
+   element is shown by NOT hiding it.
+
+   Named for the boundary rather than for a device: `below` is the range
+   under the breakpoint, `from` is the breakpoint and everything above.
+   The two are exact complements, so a pair covers every viewport exactly
+   once with no overlap and no gap.
+
+   The pixel values restate --strand-breakpoint-* (640/768/1024/1280).
+   They cannot reference the tokens: a media query is evaluated before
+   custom properties resolve, so `@media (min-width: var(...))` never
+   matches. This is the one sanctioned place in the library where a
+   breakpoint is written as a literal. */
+@media (max-width: 639.98px) { .strand-hide-below-sm { display: none; } }
+@media (min-width: 640px)    { .strand-hide-from-sm  { display: none; } }
+
+@media (max-width: 767.98px) { .strand-hide-below-md { display: none; } }
+@media (min-width: 768px)    { .strand-hide-from-md  { display: none; } }
+
+@media (max-width: 1023.98px) { .strand-hide-below-lg { display: none; } }
+@media (min-width: 1024px)    { .strand-hide-from-lg  { display: none; } }
+
+@media (max-width: 1279.98px) { .strand-hide-below-xl { display: none; } }
+@media (min-width: 1280px)    { .strand-hide-from-xl  { display: none; } }
+
 /* ── Margin top (token scale 1-8) ── */
 .strand-mt-1 { margin-top: var(--strand-space-1); }
 .strand-mt-2 { margin-top: var(--strand-space-2); }

@@ -92,6 +92,102 @@ export function classifyCssComponents(cssComponents, exported, declaredCssOnly) 
   return { orphans, cssOnly, backed, staleDeclarations };
 }
 
+/**
+ * The class blocks a selector DEFINES, as opposed to the ones it merely
+ * scopes against.
+ *
+ * A selector's last compound is the element it styles; everything before it
+ * is context. `.strand-instrument-viewport .strand-progress--bar` styles
+ * Progress INSIDE the viewport, which is the dark cascade doing its job and
+ * is not InstrumentViewport defining Progress. Only a selector whose whole
+ * body is one compound is defining the block it names.
+ *
+ * Returns block names with `__element` and `--modifier` stripped, so the
+ * three rules of a BEM component collapse to one answer.
+ */
+export function selectorBlocks(selector) {
+  const out = [];
+  for (const branch of selector.split(",")) {
+    const trimmed = branch.trim();
+    if (!trimmed) continue;
+    // Any descendant, child, sibling or adjacent combinator means the
+    // leading compound is context rather than a definition.
+    if (/[\s>+~]/.test(trimmed)) continue;
+    for (const raw of trimmed.matchAll(/\.(strand-[A-Za-z0-9-]+)/g)) {
+      const block = raw[1].split("__")[0].split("--")[0];
+      if (!out.includes(block)) out.push(block);
+    }
+  }
+  return out;
+}
+
+/**
+ * The block names a component directory is allowed to define.
+ *
+ * Two forms, because the library ships both. `InstrumentViewport` kebabs to
+ * `strand-instrument-viewport`, but `ActionDock` ships `strand-actiondock`.
+ * Tolerating both beats renaming a published class to satisfy a checker.
+ */
+export function expectedBlocksFor(dirName) {
+  const kebab = dirName.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+  return [`strand-${kebab}`, `strand-${dirName.toLowerCase()}`];
+}
+
+/**
+ * Blocks a stylesheet defines that do not belong to it and are not declared.
+ *
+ * Comments are stripped first so a class named in prose does not count as a
+ * definition, and at-rule preludes (`@media (min-width: 768px)`) never match
+ * the class pattern, so nesting is transparent here.
+ */
+export function findForeignBlocks(dirName, cssSource, declaredBlocks) {
+  const withoutComments = cssSource.replace(/\/\*[\s\S]*?\*\//g, "");
+  const own = new Set(expectedBlocksFor(dirName));
+  const foreign = [];
+  for (const rule of withoutComments.matchAll(/([^{}]+)\{/g)) {
+    for (const block of selectorBlocks(rule[1])) {
+      if (own.has(block)) continue;
+      if (declaredBlocks.has(block)) continue;
+      if (!foreign.includes(block)) foreign.push(block);
+    }
+  }
+  return foreign;
+}
+
+/**
+ * Compare the foreign blocks a stylesheet actually defines against the ones
+ * it is recorded as defining.
+ *
+ * A RATCHET rather than a clean gate, deliberately and visibly. The sweep
+ * that introduced this found 39 pre-existing foreign blocks across 15
+ * stylesheets, and most are benign: Button defines `strand-btn`, Tag defines
+ * `strand-chip`, ScrollReveal defines `strand-reveal`. Failing the build on
+ * all 39 would mean either 39 renames of published classes in one change, or
+ * -- far likelier -- somebody switching the check off. Recording them makes
+ * the debt legible and stops it growing, which is the property that matters.
+ *
+ * A STALE entry fails for the same reason a stale css-only declaration does:
+ * an entry that outlives its need would keep a future orphan of the same name
+ * invisible.
+ */
+export function classifyForeignBlocks(actualByComponent, recordedByComponent) {
+  const undeclared = [];
+  const stale = [];
+  for (const [name, blocks] of Object.entries(actualByComponent)) {
+    const recorded = new Set(recordedByComponent[name] || []);
+    for (const b of blocks) {
+      if (!recorded.has(b)) undeclared.push({ name, block: b });
+    }
+  }
+  for (const [name, blocks] of Object.entries(recordedByComponent)) {
+    const actual = new Set(actualByComponent[name] || []);
+    for (const b of blocks) {
+      if (!actual.has(b)) stale.push({ name, block: b });
+    }
+  }
+  return { undeclared, stale };
+}
+
 /** Human-readable verdict. Pure, so it is testable without a filesystem. */
 export function summarize({ orphans, cssOnly, backed, staleDeclarations }, bundleGzip) {
   const lines = [];
@@ -170,8 +266,40 @@ function main() {
   const result = classifyCssComponents(cssComponents, exported, declared);
   const { ok, text } = summarize(result, bundleGzip);
   console.log(text);
+
+  // ── Second invariant: a class lives in its own component's stylesheet ──
+  const recorded = manifest.foreignBlocks || {};
+  const actual = {};
+  for (const { name } of cssComponents) {
+    const css = readFileSync(join(COMPONENTS_DIR, name, `${name}.css`), "utf-8");
+    const foreign = findForeignBlocks(name, css, new Set());
+    if (foreign.length) actual[name] = foreign;
+  }
+  const { undeclared, stale } = classifyForeignBlocks(actual, recorded);
+
+  const recordedCount = Object.values(recorded).reduce((n, b) => n + b.length, 0);
+  console.log(
+    `\n  ${recordedCount} foreign block definitions recorded as debt across ${Object.keys(recorded).length} stylesheets.`,
+  );
+  for (const { name, block } of undeclared) {
+    console.error(
+      `  UNDECLARED  ${name}.css defines .${block}, which is not its own block. Move it to its own component directory, or record it in parity-manifest.json#/foreignBlocks with a reason.`,
+    );
+  }
+  for (const { name, block } of stale) {
+    console.error(
+      `  STALE  ${name} is recorded as defining .${block} and no longer does. Remove the entry.`,
+    );
+  }
+  const blocksOk = undeclared.length === 0 && stale.length === 0;
+  console.log(
+    blocksOk
+      ? "  PASS  no stylesheet defines an unrecorded foreign block."
+      : "  FAIL  a stylesheet defines a class that does not belong to it.",
+  );
+
   console.log("");
-  process.exit(ok ? 0 : 1);
+  process.exit(ok && blocksOk ? 0 : 1);
 }
 
 if (process.argv[1] && process.argv[1].endsWith("css-export-parity.mjs")) {

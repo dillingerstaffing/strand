@@ -1394,6 +1394,33 @@
 			"example": "<!-- Hidden by default: an absent attribute means hidden, so a server-rendered\n     page that never flips it occludes nothing. -->\n<div class=\"strand-actiondock\" data-strand-actiondock=\"hidden\">\n  <button class=\"strand-btn strand-btn--primary\" type=\"button\">RSVP</button>\n</div>\n\n<!-- Show it only while the real control is off screen, usually driven by an\n     IntersectionObserver on that control. -->\n<div class=\"strand-actiondock\" data-strand-actiondock=\"visible\" aria-hidden=\"true\">\n  <button class=\"strand-btn strand-btn--primary\" type=\"button\" tabindex=\"-1\">RSVP</button>\n</div>\n\n<!-- The docked control usually duplicates one already in the accessibility\n     tree, so aria-hidden plus tabindex=\"-1\" avoids a duplicate announcement\n     and a duplicate tab stop. Reach is a thumb problem; a keyboard user\n     reaches the in-flow control by tabbing. A dock carrying an action with NO\n     in-flow equivalent must be exposed instead. -->"
 		},
 		{
+			"name": "SearchField",
+			"description": "A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late.",
+			"classes": [
+				{
+					"class": "strand-search-field",
+					"description": "Field root. A role=\"search\" landmark laid out as a flex row: icon, input, optional clear control. Fixed at min(300px, 100%) so it cannot breach a narrower parent's padding (10.4). Height is 36px, raised to 44px under a coarse pointer for 14.7."
+				},
+				{
+					"class": "strand-search-field--full",
+					"description": "Spans the container instead of holding 300px. The narrow-viewport presentation; differs from the base in exactly one property."
+				},
+				{
+					"class": "strand-search-field__icon",
+					"description": "Leading magnifier, 16px, decorative (aria-hidden). Uses gray-500 rather than the gray-400 a mockup usually specifies: 14.2b puts gray-400 in the fill tier at 2.52:1, below the 3:1 SC 1.4.11 asks of a graphical object."
+				},
+				{
+					"class": "strand-search-field__input",
+					"description": "The control. Transparent and borderless because the wrapper draws the box; min-inline-size 0 so it shrinks inside the flex row rather than pushing the field past its declared width. Give it an accessible name: a placeholder is a hint, not a label."
+				},
+				{
+					"class": "strand-search-field__clear",
+					"description": "Optional clear control. Hidden with the hidden attribute while the field is empty, so it is absent from the accessibility tree and the tab order rather than merely invisible. 24px drawn, 44px hit area under a coarse pointer."
+				}
+			],
+			"example": "<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->\n<form class=\"strand-search-field strand-hide-below-md\" role=\"search\">\n  <svg class=\"strand-search-field__icon\" viewBox=\"0 0 16 16\" fill=\"none\"\n       stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\" focusable=\"false\">\n    <circle cx=\"7\" cy=\"7\" r=\"4.5\" /><path d=\"M10.5 10.5 14 14\" />\n  </svg>\n  <input class=\"strand-search-field__input\" type=\"search\"\n         aria-label=\"Search\" placeholder=\"Search trail runs, pottery, chess\">\n</form>\n\n<form class=\"strand-search-field strand-search-field--full strand-hide-from-md\" role=\"search\">\n  <svg class=\"strand-search-field__icon\" viewBox=\"0 0 16 16\" fill=\"none\"\n       stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\" focusable=\"false\">\n    <circle cx=\"7\" cy=\"7\" r=\"4.5\" /><path d=\"M10.5 10.5 14 14\" />\n  </svg>\n  <input class=\"strand-search-field__input\" type=\"search\"\n         aria-label=\"Search\" placeholder=\"Search events\">\n</form>"
+		},
+		{
 			"name": "InstrumentViewport",
 			"description": "Dark instrument panel container for data-dense content.",
 			"classes": [
@@ -2433,6 +2460,62 @@
 			{
 				"class": "strand-m-0",
 				"description": "Margin: 0. Strips a browser default margin (e.g. a paragraph inside a stack that already owns the gap) so the element sits flush without an inline style."
+			},
+			{
+				"class": "strand-hide-below-sm",
+				"description": "Hidden below 640px. Pairs exactly with strand-hide-from-sm: the two are complements, so a pair covers every viewport once with no overlap and no gap. Hide-only by design; an element is shown by not hiding it, because a matching show utility would have to guess the element's natural display and would flatten a flex or grid container."
+			},
+			{
+				"class": "strand-hide-from-sm",
+				"description": "Hidden at 640px and above."
+			},
+			{
+				"class": "strand-hide-below-md",
+				"description": "Hidden below 768px. The desktop half of a two-presentation control: put both in the markup and let CSS choose, rather than measuring the viewport in JavaScript, which renders the control a frame late and shifts whatever region it lands in."
+			},
+			{
+				"class": "strand-hide-from-md",
+				"description": "Hidden at 768px and above. The mobile half of the same pair."
+			},
+			{
+				"class": "strand-hide-below-lg",
+				"description": "Hidden below 1024px."
+			},
+			{
+				"class": "strand-hide-from-lg",
+				"description": "Hidden at 1024px and above."
+			},
+			{
+				"class": "strand-hide-below-xl",
+				"description": "Hidden below 1280px."
+			},
+			{
+				"class": "strand-hide-from-xl",
+				"description": "Hidden at 1280px and above."
+			},
+			{
+				"class": "strand-truncate",
+				"description": "Single-line ellipsis. Pair with strand-min-w-0 on a flex child, or the line never shrinks enough to truncate."
+			},
+			{
+				"class": "strand-flex-none",
+				"description": "The shrink-proof pair of strand-flex-1, for an item that must keep its content width (a count, a timestamp). Note strand-truncate alone does NOT protect a flex item: its overflow: hidden resets min-width: auto to 0, which is exactly what re-enables shrinking."
+			},
+			{
+				"class": "strand-nav-offset",
+				"description": "Top padding clearing a fixed glass nav, for the first content section on a page that uses strand-nav--glass. Without it the nav overlaps that section's first line."
+			},
+			{
+				"class": "strand-hero-grid",
+				"description": "Hero layout grid."
+			},
+			{
+				"class": "strand-bar-chart--sm",
+				"description": "Compact bar chart, 96px. For dense contexts; the default height is 160px because at 96 the usable bar range collapses to about 10px and a 2.5:1 data ratio becomes a 6px difference."
+			},
+			{
+				"class": "strand-bar-chart--lg",
+				"description": "Large bar chart, 192px. For primary readouts and large displays."
 			}
 		]
 	}

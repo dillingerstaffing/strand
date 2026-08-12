@@ -95,6 +95,36 @@
   color: var(--strand-gray-400);
 }
 
+/* ── Progress, on dark (DL 9.3) ──
+   The bar's track is gray-200, which is correct on a light card and
+   inverted on the cabinet: a near-white bar reading as FULL, with the
+   blue fill marking the part that is empty. The meter states the
+   opposite of the truth, which is worse than being merely hard to read,
+   and it is why this is a defect rather than a polish item.
+
+   The fill is deliberately NOT changed. blue-primary measures 5.35:1 on
+   the abyss and clears SC 1.4.11's 3:1 for a non-text graphical object,
+   so the value that is correct on light is correct here too.
+
+   --strand-instrument-border rather than a white alpha: it is the
+   established "subtle structure on dark" value in this cabinet, it keeps
+   the empty portion of the meter in the same blue family as the fill,
+   and 16.3 forbids writing the raw rgba a mockup would specify. The
+   track and fill stay distinguishable because the token is 12% blue over
+   the abyss while the fill is the full brand blue. */
+.strand-body--instrument .strand-progress--bar,
+.strand-instrument-viewport .strand-progress--bar {
+  background: var(--strand-instrument-border);
+}
+
+/* The ring paints its track with stroke, not background, so the bar rule
+   above cannot reach it. Same omission, same context, different
+   property. */
+.strand-body--instrument .strand-progress__track,
+.strand-instrument-viewport .strand-progress__track {
+  stroke: var(--strand-instrument-border);
+}
+
 /* ── Diagnostic log and bar chart, on dark (DL 9.3) ──
    These are FUI readouts and the viewport is where they normally live, but
    they are declared in static.css and had never been given an on-dark rule.

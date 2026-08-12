@@ -532,6 +532,22 @@
       "registryDependencies": []
     },
     {
+      "name": "search-field",
+      "type": "registry:ui",
+      "title": "Search Field",
+      "description": "Search Field",
+      "files": [
+        {
+          "path": "components/SearchField.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "section",
       "type": "registry:ui",
       "title": "Section",

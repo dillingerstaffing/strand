@@ -103,6 +103,8 @@ export type { ReserveProps } from "./components/Reserve/index.js";
 
 export { ActionDock } from "./components/ActionDock/index.js";
 export type { ActionDockProps } from "./components/ActionDock/index.js";
+export { SearchField } from "./components/SearchField/index.js";
+export type { SearchFieldProps } from "./components/SearchField/index.js";
 export { Settle } from "./components/Settle/index.js";
 export type { SettleProps } from "./components/Settle/index.js";
 export { Skeleton } from "./components/Skeleton/index.js";

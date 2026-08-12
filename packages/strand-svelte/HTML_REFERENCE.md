@@ -1190,6 +1190,77 @@ A region that holds its box while data loads, then cross-fades the placeholder t
 
 ---
 
+### ActionDock
+
+A bottom-anchored region carrying the primary action of a view, placed where a thumb rests. Implements design-language.md 14.8 (target position): 14.7 makes a target hittable, this makes it reachable. Flip data-strand-actiondock to "visible" when the in-flow control it stands in for scrolls out of view; that attribute is the whole runtime, and there is no JavaScript in this primitive. Use it for the ONE action a view exists to produce, and never alongside the real control, which would be two live buttons for one action.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-actiondock` | base | Dock root. Fixed to the viewport's bottom edge and spanning the inline axis, so its position is a function of the viewport and no amount of scrolling moves it out of reach. Carries the safe-area inset so the control clears the home indicator on a notched phone. |
+
+**Usage:**
+
+```html
+<!-- Hidden by default: an absent attribute means hidden, so a server-rendered
+     page that never flips it occludes nothing. -->
+<div class="strand-actiondock" data-strand-actiondock="hidden">
+  <button class="strand-btn strand-btn--primary" type="button">RSVP</button>
+</div>
+
+<!-- Show it only while the real control is off screen, usually driven by an
+     IntersectionObserver on that control. -->
+<div class="strand-actiondock" data-strand-actiondock="visible" aria-hidden="true">
+  <button class="strand-btn strand-btn--primary" type="button" tabindex="-1">RSVP</button>
+</div>
+
+<!-- The docked control usually duplicates one already in the accessibility
+     tree, so aria-hidden plus tabindex="-1" avoids a duplicate announcement
+     and a duplicate tab stop. Reach is a thumb problem; a keyboard user
+     reaches the in-flow control by tabbing. A dock carrying an action with NO
+     in-flow equivalent must be exposed instead. -->
+```
+
+---
+
+### SearchField
+
+A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-search-field` | base | Field root. A role="search" landmark laid out as a flex row: icon, input, optional clear control. Fixed at min(300px, 100%) so it cannot breach a narrower parent's padding (10.4). Height is 36px, raised to 44px under a coarse pointer for 14.7. |
+| `strand-search-field--full` | modifier | Spans the container instead of holding 300px. The narrow-viewport presentation; differs from the base in exactly one property. |
+| `strand-search-field__icon` | child | Leading magnifier, 16px, decorative (aria-hidden). Uses gray-500 rather than the gray-400 a mockup usually specifies: 14.2b puts gray-400 in the fill tier at 2.52:1, below the 3:1 SC 1.4.11 asks of a graphical object. |
+| `strand-search-field__input` | child | The control. Transparent and borderless because the wrapper draws the box; min-inline-size 0 so it shrinks inside the flex row rather than pushing the field past its declared width. Give it an accessible name: a placeholder is a hint, not a label. |
+| `strand-search-field__clear` | child | Optional clear control. Hidden with the hidden attribute while the field is empty, so it is absent from the accessibility tree and the tab order rather than merely invisible. 24px drawn, 44px hit area under a coarse pointer. |
+| `strand-search-bar` | base | |
+| `strand-search-bar__action` | child | |
+
+**Usage:**
+
+```html
+<!-- Both presentations ship in the markup; CSS picks one at the breakpoint. -->
+<form class="strand-search-field strand-hide-below-md" role="search">
+  <svg class="strand-search-field__icon" viewBox="0 0 16 16" fill="none"
+       stroke="currentColor" stroke-width="1.75" aria-hidden="true" focusable="false">
+    <circle cx="7" cy="7" r="4.5" /><path d="M10.5 10.5 14 14" />
+  </svg>
+  <input class="strand-search-field__input" type="search"
+         aria-label="Search" placeholder="Search trail runs, pottery, chess">
+</form>
+
+<form class="strand-search-field strand-search-field--full strand-hide-from-md" role="search">
+  <svg class="strand-search-field__icon" viewBox="0 0 16 16" fill="none"
+       stroke="currentColor" stroke-width="1.75" aria-hidden="true" focusable="false">
+    <circle cx="7" cy="7" r="4.5" /><path d="M10.5 10.5 14 14" />
+  </svg>
+  <input class="strand-search-field__input" type="search"
+         aria-label="Search" placeholder="Search events">
+</form>
+```
+
+---
+
 ### InstrumentViewport
 
 Dark instrument panel container for data-dense content.
@@ -1699,6 +1770,26 @@ Container-width visualizer. Renders proportional horizontal bars (narrow / defau
 
 ---
 
+### CommandPalette
+
+Search-and-jump overlay. Composes Dialog, so focus trapping, focus restoration, scroll lock and Escape dismissal are inherited. Filtering and ranking belong to the caller.
+
+| Class | Type | Description |
+|---|---|---|
+| `strand-command-palette` | base | Palette root, applied to the composed Dialog. |
+| `strand-command-palette__search` | child | Search row holding the icon and the input. |
+| `strand-command-palette__icon` | child | Decorative magnifier, aria-hidden. |
+| `strand-command-palette__input` | child | The combobox input. Focus stays here while the highlight moves, via aria-activedescendant. |
+| `strand-command-palette__list` | child | Scrollable listbox of results. |
+| `strand-command-palette__option` | child | One result row (role=option, tabindex -1). |
+| `strand-command-palette__option--active` | child | The highlighted row, the one Enter acts on. Pointer hover and arrow keys drive the same state. |
+| `strand-command-palette__label` | child | Primary text of a result. |
+| `strand-command-palette__sublabel` | child | Secondary text of a result. |
+| `strand-command-palette__badge` | child | Short trailing token, such as a category. |
+| `strand-command-palette__empty` | child | Shown instead of a bare box when nothing matches. |
+
+---
+
 ### Global (Utilities, Molecules, Typography)
 
 Utilities, molecules, typography, and empty states from static.css.
@@ -1831,12 +1922,22 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-mb-8` | Margin-bottom: space-8. |
 | `strand-mx-auto` | Horizontal auto margins for centering. |
 | `strand-m-0` | Margin: 0. Strips a browser default margin (e.g. a paragraph inside a stack that already owns the gap) so the element sits flush without an inline style. |
+| `strand-hide-below-sm` | Hidden below 640px. Pairs exactly with strand-hide-from-sm: the two are complements, so a pair covers every viewport once with no overlap and no gap. Hide-only by design; an element is shown by not hiding it, because a matching show utility would have to guess the element's natural display and would flatten a flex or grid container. |
+| `strand-hide-from-sm` | Hidden at 640px and above. |
+| `strand-hide-below-md` | Hidden below 768px. The desktop half of a two-presentation control: put both in the markup and let CSS choose, rather than measuring the viewport in JavaScript, which renders the control a frame late and shifts whatever region it lands in. |
+| `strand-hide-from-md` | Hidden at 768px and above. The mobile half of the same pair. |
+| `strand-hide-below-lg` | Hidden below 1024px. |
+| `strand-hide-from-lg` | Hidden at 1024px and above. |
+| `strand-hide-below-xl` | Hidden below 1280px. |
+| `strand-hide-from-xl` | Hidden at 1280px and above. |
+| `strand-truncate` | Single-line ellipsis. Pair with strand-min-w-0 on a flex child, or the line never shrinks enough to truncate. |
+| `strand-flex-none` | The shrink-proof pair of strand-flex-1, for an item that must keep its content width (a count, a timestamp). Note strand-truncate alone does NOT protect a flex item: its overflow: hidden resets min-width: auto to 0, which is exactly what re-enables shrinking. |
+| `strand-nav-offset` | Top padding clearing a fixed glass nav, for the first content section on a page that uses strand-nav--glass. Without it the nav overlaps that section's first line. |
+| `strand-hero-grid` | Hero layout grid. |
+| `strand-bar-chart--sm` | Compact bar chart, 96px. For dense contexts; the default height is 160px because at 96 the usable bar range collapses to about 10px and a 2.5:1 data ratio becomes a 6px difference. |
+| `strand-bar-chart--lg` | Large bar chart, 192px. For primary readouts and large displays. |
 | `strand-log__text` | |
-| `strand-bar-chart--sm` | |
-| `strand-bar-chart--lg` | |
-| `strand-nav-offset` | |
 | `strand-hero-grid__line--N` | |
-| `strand-hero-grid` | |
 | `strand-hero-grid__nodes` | |
 | `strand-hero-grid__lines` | |
 | `strand-hero-grid__line` | |
