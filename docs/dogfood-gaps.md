@@ -1328,3 +1328,20 @@ That reframing is what made these three gaps visible. A consumer building a head
 
 ### Not a gap: the featured card's own layout
 - The eyebrow's colour, the dot's placement before the text, and the facts block seeking the bottom of the lead pane are consumer compositions. Which token a product paints its overline in, and where in its own flex column a block sits, is not something a design system can know. The three gaps above are the places the consumer was reaching INTO a primitive.
+
+### Correction to Gap #108 (filed in 0.50.0)
+
+**#108 should not have been filed.** `.strand-overline--pulse` already ships exactly the case that motivated it: a 6px dot pulsing to the LEFT of an overline's text, sized to the text rather than to its container, with `prefers-reduced-motion` handled. That is the design being reproduced, to the pixel, and it predates the gap by a long way.
+
+The gap was written after finding `.strand-pulse` and stopping there. `.strand-pulse` genuinely is trailing-only, so the sentence in #108 is true; it is just not the whole search, and the consumer's actual need was met by a modifier one file away.
+
+`.strand-badge--live` STAYS, and the reason is proportion rather than merit. It is published in 0.50.0, removing a primitive requires a major bump, and a major on every consumer to retract one modifier nobody is harmed by is a worse trade than carrying it. It is also not strictly redundant: it makes a BADGE live, including a count badge, where the overline modifier makes an overline live. But this consumer did not need it, and the honest record is that it was built before the library was fully searched.
+
+**What this costs, stated once so it is not repeated:** a dogfood gap is a claim that the library cannot express something. Filing one without exhausting the search ships a second way to do a solved thing, which is the exact cruft the protocol exists to prevent, and it cannot be cheaply withdrawn.
+
+### Logged, not fixed: Badge statuses on either dark surface
+
+- Every `Badge` status paints a DEEP value chosen against a light page. On `FeatureSurface` and `InstrumentViewport` those are dark-on-dark: `--teal` is `--strand-teal-deep` (#0f766e) on `--strand-blue-midnight`, a status indicator you cannot see. Neither surface covers badges at all.
+- It is the alert defect (#107) one component over, and the same root cause: the cascade was built by listing the components someone had in front of them.
+- **Not fixed here, because nothing needs it.** It was found while using a Badge on a feature surface, and that use turned out to be the wrong composition (see the #108 correction above). Shipping five inversions no consumer has asked for is speculative work in a library whose bundle is the per-page cost for everybody, and the budget check is currently at 94.5 of 95.
+- The fix, when a consumer needs it: inversions alongside the alert block in `InstrumentViewport.css`, each status taking a vital or tint value of its own hue, with the same completeness guard the alerts have.

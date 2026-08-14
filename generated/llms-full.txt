@@ -1552,6 +1552,7 @@ Dark instrument panel container for data-dense content.
 | `strand-log__text` | child | |
 | `strand-bar-chart__amount` | child | |
 | `strand-kv__value--status` | child | |
+| `strand-feature-surface` | base | |
 | `strand-detail-panel` | base | |
 | `strand-surface-light` | base | |
 | `strand-instrument-viewport__label` | child | |
@@ -5664,6 +5665,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- an alert on a feature surface, a live dot, and a label that can thin out (v0.50.0), gaps #107-#109
 - the tab bar owns its contrast, the field owns its width (v0.49.0, gaps #104-#106)
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 

@@ -287,6 +287,7 @@
    content color explicitly rather than leaving it to inherit. The status
    prefix keeps its semantic color (DL 11.6). */
 .strand-body--instrument .strand-alert,
+.strand-feature-surface .strand-alert,
 .strand-instrument-viewport .strand-alert {
   background: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);
   color: var(--strand-on-blue-primary);
@@ -312,21 +313,25 @@
    Completeness is guarded in InstrumentViewport.test.tsx: every variant with
    a per-variant colour in Alert.css must have a rule here. */
 .strand-body--instrument .strand-alert--info .strand-alert__status,
+.strand-feature-surface .strand-alert--info .strand-alert__status,
 .strand-instrument-viewport .strand-alert--info .strand-alert__status {
   color: var(--strand-blue-indicator);
 }
 
 .strand-body--instrument .strand-alert--success .strand-alert__status,
+.strand-feature-surface .strand-alert--success .strand-alert__status,
 .strand-instrument-viewport .strand-alert--success .strand-alert__status {
   color: var(--strand-teal-tint);
 }
 
 .strand-body--instrument .strand-alert--warning .strand-alert__status,
+.strand-feature-surface .strand-alert--warning .strand-alert__status,
 .strand-instrument-viewport .strand-alert--warning .strand-alert__status {
   color: var(--strand-amber-tint);
 }
 
 .strand-body--instrument .strand-alert--error .strand-alert__status,
+.strand-feature-surface .strand-alert--error .strand-alert__status,
 .strand-instrument-viewport .strand-alert--error .strand-alert__status {
   color: var(--strand-red-tint);
 }

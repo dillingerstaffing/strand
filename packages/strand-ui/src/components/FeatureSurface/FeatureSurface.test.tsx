@@ -93,7 +93,7 @@ describe("FeatureSurface", () => {
     const read = (rel: string) => readFileSync(resolve(__dirname, rel), "utf8");
 
     const alertCss = read("../Alert/Alert.css");
-    const surfaceCss = read("./FeatureSurface.css");
+    const surfaceCss = read("../InstrumentViewport/InstrumentViewport.css");
 
     const lightVariants = [
       ...alertCss.matchAll(/\.strand-alert--([a-z]+)\s+\.strand-alert__status\s*\{/g),
@@ -113,7 +113,11 @@ describe("FeatureSurface", () => {
   it("washes the alert panel itself, not only its status prefix", async () => {
     const { readFileSync } = await import("node:fs");
     const { resolve } = await import("node:path");
-    const css = readFileSync(resolve(__dirname, "./FeatureSurface.css"), "utf8");
-    expect(css).toMatch(/\.strand-feature-surface\s+\.strand-alert\s*\{/);
+    const css = readFileSync(
+      resolve(__dirname, "../InstrumentViewport/InstrumentViewport.css"),
+      "utf8",
+    );
+    expect(css).toMatch(/\.strand-feature-surface\s+\.strand-alert\s*[,{]/);
   });
+
 });

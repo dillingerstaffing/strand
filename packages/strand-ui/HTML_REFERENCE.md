@@ -988,6 +988,7 @@ Dark instrument panel container for data-dense content.
 | `strand-log__text` | child | |
 | `strand-bar-chart__amount` | child | |
 | `strand-kv__value--status` | child | |
+| `strand-feature-surface` | base | |
 | `strand-detail-panel` | base | |
 | `strand-surface-light` | base | |
 | `strand-instrument-viewport__label` | child | |
