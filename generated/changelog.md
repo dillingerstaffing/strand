@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- the bar spans its parent, destinations hold, and 14.7's floor follows the pointer (v0.47.0, gaps #93-#99)
 - AppShell and the four screen primitives (v0.46.0, gaps #91-#92)
 - FeatureSurface, and 9.3 admits two dark surface roles (v0.44.0, gap #88)
 - sticky, scroll-row and the split grid; overflow:clip so sticky works inside a grid (v0.43.0, gaps #85-#87)

@@ -458,6 +458,29 @@
 		padding-block: 0;
 		padding-inline: var(--strand-space-3);
 	}
+
+	/* AN ICON-ONLY CONTROL IS A SHAPE, NOT A WORD, and the rule above is written
+	   for a word. `padding-inline: var(--strand-space-3)` is correct either side
+	   of "Sign in" and wrong either side of a 32px circle: it measured 58x34, a
+	   pill, on every signed-in desktop session. Same rule, same premise that the
+	   avatar gets the same treatment, and the treatment was wrong for it.
+
+	   Padding is 0 rather than 1px because `.strand-btn` carries a 1px
+	   transparent border and the box is border-box, so a 32px avatar plus two
+	   borders is exactly the 34 the design draws, and the two auth states match
+	   without either being nudged.
+
+	   THE `.strand-btn` IN THIS SELECTOR IS LOAD-BEARING. Button's own
+	   `.strand-btn--icon-only.strand-btn--sm` is (0,2,0), so a selector that ties
+	   at (0,2,0) is decided by source order between two stylesheets, which is not
+	   a thing to depend on. Doubling up here makes this (0,3,0) and the outcome
+	   is a property of the selector rather than of the bundler. */
+	.strand-nav__actions .strand-btn.strand-btn--icon-only,
+	.strand-nav__slot .strand-btn.strand-btn--icon-only {
+		padding: 0;
+		min-width: 34px;
+		min-height: 34px;
+	}
 }
 
 /* ── Glassmorphic variant (DL 11.5: "white or glassmorphic") ──

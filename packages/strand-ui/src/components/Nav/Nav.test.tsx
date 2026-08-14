@@ -349,6 +349,28 @@ describe("the nav wordmark answers hover and press", () => {
     expect(fine).toMatch(/min-height:\s*34px/);
   });
 
+  it("keeps an icon-only control square rather than making it a pill", () => {
+    // The word rule is wrong for a shape: space-3 either side of a 32px circle
+    // measured 58x34. Padding 0, because .strand-btn's 1px transparent border
+    // plus a 32px avatar is border-box 34, which is what the design draws.
+    const fine = css.slice(css.indexOf("@media (pointer: fine)"));
+    const iconRule = fine.match(
+      /\.strand-nav__actions \.strand-btn\.strand-btn--icon-only[^{]*\{([^}]*)\}/,
+    )?.[1];
+    expect(iconRule, "no icon-only rule in the fine-pointer block").toBeTruthy();
+    expect(iconRule).toMatch(/padding:\s*0/);
+    expect(iconRule).toMatch(/min-width:\s*34px/);
+    expect(iconRule).toMatch(/min-height:\s*34px/);
+  });
+
+  it("out-specifies Button's own icon-only sizing rather than racing it", () => {
+    // Button ships .strand-btn--icon-only.strand-btn--sm at (0,2,0). Tying at
+    // (0,2,0) would leave the result to source order between two stylesheets.
+    // The doubled .strand-btn makes this (0,3,0) and settles it in the selector.
+    const fine = css.slice(css.indexOf("@media (pointer: fine)"));
+    expect(fine).toMatch(/\.strand-nav__(actions|slot) \.strand-btn\.strand-btn--icon-only/);
+  });
+
   it("never compacts under a coarse pointer", () => {
     // The guarantee this clause is most likely to be misread into breaking.
     // 44px is the touch floor and it stays; the rule is inside a fine-pointer
