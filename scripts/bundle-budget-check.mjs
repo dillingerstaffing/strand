@@ -91,11 +91,38 @@ export const BUDGET = {
   // The lever that would genuinely reduce this is still per-component CSS
   // entry points, and it is still not built. This number should not be raised
   // a third time without it.
-  totalGzKb: 95,
+  //
+  // LOWERED 95 -> 45 on 2026-08-14, and the instruction above is why. A change
+  // needed 2.2 KB of room and the honest options were "raise it a third time"
+  // (forbidden here) or "make the artifact smaller". Measuring where the bytes
+  // actually were answered it: the bundle was 344,311 raw bytes, 164,997 of
+  // them COMMENTS, and 85,927 gzipped against 23,669 with the prose removed.
+  // Source commentary was 62,258 gzipped bytes -- 72% of the CSS every
+  // consumer downloads.
+  //
+  // It hid because collectCss() in strand-ui/vite.config.ts readFileSync's the
+  // source files and concatenates them, so this stylesheet never reached a
+  // minifier. Three ceiling raises in three days were all measuring comment
+  // volume and calling it library weight. The fix is packages/strand-ui/build/
+  // strip-comments.mjs: `/*!` banners survive, source prose does not, and the
+  // SOURCE is untouched, so contributors lose nothing.
+  //
+  // Measured after: 35.81 KB. The ceiling is set at 44 rather than at the
+  // measurement, per the headroom rule above, and this is the first time it
+  // has had real room in it -- the previous entries were each raised onto a
+  // number they already touched.
+  //
+  // Per-component CSS entry points remain the NEXT lever and are still not
+  // built. What changed is that the library can now grow without that lever
+  // being urgent, which is what the previous three entries were really asking
+  // for.
+  totalGzKb: 44,
   // Gzipped CSS per component in the parity contract. The efficiency
-  // invariant. Today ~1.11; the ceiling leaves room for a genuinely complex
-  // primitive without leaving room for a careless one.
-  cssKbPerComponent: 1.35,
+  // invariant. LOWERED 1.35 -> 0.50 alongside the total, same cause: today
+  // ~0.36 against a former ~1.25, and almost all of that difference was prose
+  // rather than declarations. A ceiling nearly 4x the measurement stops being
+  // a gate, which is the failure mode this file exists to prevent.
+  cssKbPerComponent: 0.5,
   // The largest SINGLE component stylesheet, gzipped.
   //
   // An average cannot do this job, and I found that out by writing a test

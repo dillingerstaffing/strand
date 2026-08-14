@@ -27,8 +27,12 @@ import { computed } from 'vue'
 
 interface Props {
   /** `field` is the fixed-width header presentation, `full` spans its
-      container. */
-  variant?: 'field' | 'full'
+      container, `icon` is a square button at the touch-target floor for
+      the band where a header has stopped having room for a field but has
+      not yet handed over to a phone layout. `icon` keeps the label in the
+      accessibility tree (clipped, not display:none), because the label is
+      the accessible name and WCAG 2.5.3 requires it to survive. */
+  variant?: 'field' | 'full' | 'icon'
   /** Visible standing text, which is ALSO the accessible name. There is no
       aria-label override: WCAG 2.5.3 (Label in Name) requires the
       accessible name to contain the visible text, so a speech-input user
@@ -55,6 +59,7 @@ const classes = computed(() =>
     'strand-search-field',
     props.variant === 'full' ? 'strand-search-field--full' : '',
     'strand-search-trigger',
+    props.variant === 'icon' ? 'strand-search-trigger--icon' : '',
     props.className,
   ]
     .filter(Boolean)

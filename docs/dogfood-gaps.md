@@ -1345,3 +1345,71 @@ The gap was written after finding `.strand-pulse` and stopping there. `.strand-p
 - It is the alert defect (#107) one component over, and the same root cause: the cascade was built by listing the components someone had in front of them.
 - **Not fixed here, because nothing needs it.** It was found while using a Badge on a feature surface, and that use turned out to be the wrong composition (see the #108 correction above). Shipping five inversions no consumer has asked for is speculative work in a library whose bundle is the per-page cost for everybody, and the budget check is currently at 94.5 of 95.
 - The fix, when a consumer needs it: inversions alongside the alert block in `InstrumentViewport.css`, each status taking a vital or tint value of its own hue, with the same completeness guard the alerts have.
+
+---
+
+## Production consumer: Ship This Group - the Locator overlay, and a stylesheet that was 72% prose
+
+Date: 2026-08-14
+Verdict: FAIL (four L2 gaps; all closed). One further defect found, logged, not fixed.
+
+The consumer is a search overlay replacing a command palette. It was built as a
+prototype whose every page-local override was recorded with the measurement that
+produced it, then handed to a separate session to propagate. Five overrides were
+named in that handoff; the prototype stylesheet actually carried seven, and the
+undercount is worth stating because it is the failure mode of writing the gap
+list from memory instead of from the file.
+
+### Gap #110
+- Type: **L2** (library). Tree: no primitive, no spec change.
+- Symptom: **three consumer-side overrides of `Dialog` in one file**, and the command palette this overlay replaces carried the identical three. Two consumers paying for one missing input is the definition of a library gap rather than a misuse.
+  - `align-self: flex-start; margin-block-start: 12vh` -- a search overlay belongs under the reader's gaze. Centred, a fixed-height panel puts its results across the fold on a short viewport and makes the query row the LAST thing the eye reaches.
+  - `.strand-dialog__body { padding: 0 }` -- MEASURED: `--strand-space-6` of dead band above the query row. This panel's first pixel row IS its input.
+  - `.strand-dialog__close { display: none }` -- no palette convention has an X, and it costs the panel's whole top band to an absolutely positioned control the content must dodge.
+- Four MORE overrides the handoff did not name, found by reading the stylesheet rather than the summary: `inline-size` (560 -> 640), the panel's own `padding`, `overflow: hidden`, `border-radius` (xl -> lg) and a hairline `border`. The consumer's approved baseline pins `border-radius: 8px` and `width: 640`, so these are part of the approval and not incidental.
+- Fix: `align`, `padding` and `dismissible` props, plus `--strand-dialog-inline-size`, `--strand-dialog-radius`, `--strand-dialog-border` and `--strand-dialog-inset-block-start`. **Every default is today's value**, so a consumer who sets nothing renders byte-identical output; a test asserts exactly that, because an additive diff that quietly changes a default is a breaking change wearing a safe shape.
+- `padding` is the SAME five-rung ladder `Card` carries, at the same values, so the two surface primitives do not disagree about what "lg" means. `--pad-none` also clips to the panel's radius, exactly as `.strand-card--pad-none` does.
+- `dismissible={false}` **removes the button rather than hiding it**, and that distinction is the whole gap. Dialog focuses the first focusable element in its panel, and a `display: none` button is still in the DOM: gap #67's post-mortem records a visitor opening a search overlay and typing into a button for exactly this reason. Escape and backdrop dismissal are untouched, asserted by test, because hiding a control must never trap a reader.
+- `max-width: 560px` is GONE rather than kept beside the new custom property. A consumer raising the width past 560 would otherwise have to clear a cap it cannot see, which is two overrides for one intention.
+
+### Gap #111
+- Type: **L2** (library). Tree: no primitive, no spec change.
+- Symptom: **a 182px band of viewport width with no search affordance at all.** MEASURED on the consumer, one probe per width, before the fix:
+
+  ```
+   1440 field | 950 field | 949 NONE | 900 NONE | 800 NONE | 768 NONE | 767 mobile | 390 mobile
+  ```
+
+  The desktop field hides below 950 and the phone header only arrives below 768. Across common tablet and small-laptop widths the only way into search was a keyboard chord, which is not an affordance.
+- The two moves available WITHOUT a new primitive are both defects, which is what makes this a library gap: a `strand-btn--icon-only` Button is not a SearchTrigger and so drops `aria-haspopup="dialog"` and the shared `.strand-search-field` identity; and hiding the label with a consumer rule on `.strand-search-trigger__label` is a consumer restyling a design-system class.
+- Fix: `variant="icon"`, a third presentation beside `field` and `full`, square at `--strand-touch-target`.
+- **The label is clipped, never `display: none`.** It is the control's accessible name (WCAG 2.5.3, Label in Name), so removing it visually must not remove it from the accessibility tree or the button announces nothing. Guarded by a test that reads the stylesheet, because every markup assertion stays green when a rule changes clipping to `display: none`.
+
+### Gap #112
+- Type: **L2** (library, WCAG 2.2 AA). Tree: **the spec already mandates the fix**, so no spec change.
+- Symptom: `.strand-search-field:focus-within` shipped `box-shadow: 0 0 0 3px rgb(59 142 246 / 10%)`, which over white blends to about `#ebf1ff`: roughly **1.1:1** against the surrounding surface where SC 1.4.11 asks **3:1**.
+- The design language already answers this in three places, which is why it is not L3: 12.3 and 14.3 both specify `2px solid --strand-blue-primary, 2px offset`, 14.2b lists blue-primary as the fill-tier value at **3.29:1** naming focus rings explicitly, and `base.css:251` already implements the global rule.
+- Fix: `box-shadow: 0 0 0 2px var(--strand-blue-primary)`. 3px drops to 2px because at full opacity the old width reads as a slab rather than an edge.
+- **The shared `--strand-focus-ring` token was NOT touched, deliberately.** Gap #60 examined all nine of its users on 2026-08-10 and left it alone with a per-usage rationale: six pair the soft ring with a `border-color` that IS the indicator, and raising the token would make those six heavy. That reasoning still holds and this consumer produced no evidence against it. What it did produce is evidence about SearchField specifically: at 10% alpha the ring and the blue border read as two concentric edges, a hard line floating outside a soft glow, which the reviewer rejected on sight. At full strength they merge into one thickened edge, which is what the border going blue was always trying to say.
+- **No axe rule covers 2.4.11.** Focus appearance is not automatable that way, which is how the weak ring survived eight consumer suites, and why the guard here is a stylesheet assertion rather than a browser one. Same blind spot #60 recorded.
+
+### Gap #113
+- Type: **L2** (library). Not a component gap: an ARTIFACT gap, and the largest single number in this log.
+- Symptom, measured rather than argued: the built `strand-ui.css` was **344,311 raw bytes, of which 164,997 (48%) were comments**. Gzip does not rescue prose relative to repeated CSS tokens: **85,927 bytes gzipped as shipped against 23,669 with comments removed**. Source commentary was **62,258 gzipped bytes, 72% of the CSS every consumer of every Strand-built page downloads.**
+- Root cause: `collectCss()` in `packages/strand-ui/vite.config.ts` `readFileSync`s each component stylesheet and concatenates it, so this artifact never passes through Vite's CSS pipeline and **nothing has ever minified it**.
+- **How it stayed invisible: the bundle budget was reading comment volume and calling it library weight.** `scripts/bundle-budget-check.mjs` had been raised 85 -> 92 -> 95 KB across three days, each time in good faith with a per-component average cited as evidence of efficiency. Every one of those readings was mostly prose. The file's own standing instruction -- "this number should not be raised a third time" -- is what forced the measurement instead of a fourth raise.
+- Fix: `packages/strand-ui/build/strip-comments.mjs`. `/*!` banners survive, which is the convention every minifier honours for a license notice and a redistribution obligation. Comments ONLY: no whitespace collapsing, no declaration rewriting, so the diff a reviewer must trust is "prose removed" and nothing the function does can change what a browser renders.
+- **The comments are not the problem and were not trimmed.** They are how this library records why a declaration is the value it is, and a reader of the SOURCE still gets every word. Only the artifact loses them, which is the one audience that was never reading them.
+- Measured after: **35.81 KB gzipped total, 0.36 KB per component.** The budget was LOWERED 95 -> 44 and the per-component average 1.35 -> 0.50, because a ceiling nearly 4x its measurement has stopped being a gate. Per-component CSS entry points remain the next lever and are still not built; what changed is that the library can now grow without that lever being urgent, which is what the three previous raises were really asking for.
+
+### Fixed in passing: a staleness check that was matching prose
+
+`scripts/migration-staleness.mjs` resolved a custom property by looking for `--strand-x:` or a bare `var(--strand-x)`. **A consumer-settable knob is never defined by the library** -- that is what makes it settable -- and is always read as `var(--strand-x, <default>)`, so every such property was invisible to the check. `--strand-ref-sticky-top` nonetheless passed for months, because the artifact carried source comments and `LabShell.css` documents the property with a worked example containing the literal `--strand-ref-sticky-top:`. The check was matching a comment.
+
+Stripping comments removed the accidental evidence and left the real gap visible, which is the useful kind of test failure: nothing broke, something stopped lying. `tokenExistsIn` now accepts a `var()` read with or without a fallback, with a guard against a longer property that merely shares a prefix. This would have hidden `--strand-search-field-inline-size` and every `--strand-dialog-*` property added above.
+
+### Logged, not fixed: `--strand-focus-ring` hardcodes a non-Strand blue
+
+- `--strand-focus-ring` is `rgba(59, 130, 246, 0.1)`, which is `#3b82f6`. `--strand-blue-primary` is `#3b8ef6`. The token paints a blue the palette does not contain, and AGENTS.md rule 2 forbids a raw hex where a Strand token exists. `--strand-focus-ring-error` has the same shape against `--strand-red-alert`.
+- `SearchField.css` used the CORRECT literal (`rgb(59 142 246 / 10%)`) rather than the token, so the two had already drifted, which is how this surfaced.
+- **Not fixed here, and the reason is scope rather than difficulty.** Correcting the hue nudges the rendering of the six components gap #60 deliberately protected, and this change has no business touching them. It is a one-line fix for whoever picks it up, and it should quote #60 when it does.

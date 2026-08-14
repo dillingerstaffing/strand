@@ -221,4 +221,52 @@ describe('Dialog', () => {
     first.dispatchEvent(event)
     expect(document.activeElement).toBe(last)
   })
+
+  // -- Composition props, at parity with the Preact and Svelte implementations --
+
+  it('centres and pads unchanged when asked for nothing', () => {
+    const { container } = render(Dialog, { props: { open: true } })
+    const panel = container.querySelector('.strand-dialog__panel')
+    expect(panel?.classList.contains('strand-dialog__panel--align-start')).toBe(false)
+    expect(panel?.classList.contains('strand-dialog__panel--pad-lg')).toBe(true)
+    expect(container.querySelector('.strand-dialog__close')).not.toBeNull()
+  })
+
+  it('aligns the panel to the start of the viewport when asked', () => {
+    const { container } = render(Dialog, { props: { open: true, align: 'start' } })
+    expect(
+      container
+        .querySelector('.strand-dialog__panel')
+        ?.classList.contains('strand-dialog__panel--align-start'),
+    ).toBe(true)
+  })
+
+  it('carries each rung of the padding ladder', () => {
+    for (const padding of ['none', 'sm', 'md', 'lg', 'xl'] as const) {
+      const { container } = render(Dialog, { props: { open: true, padding } })
+      expect(
+        container
+          .querySelector('.strand-dialog__panel')
+          ?.classList.contains(`strand-dialog__panel--pad-${padding}`),
+      ).toBe(true)
+    }
+  })
+
+  it('omits the close button entirely when not dismissible', () => {
+    // Absent, not hidden: the focus trap queries the DOM, so a display:none
+    // close button still swallows the open focus.
+    const { container } = render(Dialog, { props: { open: true, dismissible: false } })
+    expect(container.querySelector('.strand-dialog__close')).toBeNull()
+  })
+
+  it('still closes on Escape when not dismissible', async () => {
+    // Hiding a control must never trap the reader.
+    const { container, emitted } = render(Dialog, {
+      props: { open: true, dismissible: false },
+    })
+    await fireEvent.keyDown(container.querySelector('.strand-dialog__backdrop')!, {
+      key: 'Escape',
+    })
+    expect(emitted().close).toBeTruthy()
+  })
 })

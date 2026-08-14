@@ -25,8 +25,36 @@
   export let closeOnOutsideClick: boolean = true
   /** Close when pressing Escape */
   export let closeOnEscape: boolean = true
+  /**
+   * Where the panel sits in the viewport. `center` is right for a
+   * confirmation. `start` drops it under the reader's gaze, which is where
+   * a search or command overlay belongs: centred, a fixed-height panel
+   * straddles the fold on a short viewport and its input is the last thing
+   * the eye reaches.
+   */
+  export let align: 'center' | 'start' = 'center'
+  /**
+   * Inner padding. The same ladder `Card` carries, at the same values.
+   * `none` also clips content to the panel's radius, for panels whose
+   * children carry their own inset (a query row, a scrolling list).
+   */
+  export let padding: 'none' | 'sm' | 'md' | 'lg' | 'xl' = 'lg'
+  /**
+   * Whether to render the close button. Set `false` for overlays whose
+   * convention has no X and whose dismissal is Escape or the backdrop.
+   * Escape and backdrop dismissal are unaffected.
+   */
+  export let dismissible: boolean = true
   /** Called when the dialog should close */
   export let onclose: (() => void) | undefined = undefined
+
+  $: panelClasses = [
+    'strand-dialog__panel',
+    align === 'start' ? 'strand-dialog__panel--align-start' : '',
+    `strand-dialog__panel--pad-${padding}`,
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   const FOCUSABLE_SELECTOR =
     'a[href], button:not(:disabled), textarea:not(:disabled), input:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])'
@@ -119,7 +147,7 @@
   >
     <div
       bind:this={panelEl}
-      class="strand-dialog__panel"
+      class={panelClasses}
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? titleId : undefined}
@@ -130,14 +158,16 @@
           <h2 id={titleId} class="strand-dialog__title">{title}</h2>
         </div>
       {/if}
-      <button
-        type="button"
-        class="strand-dialog__close"
-        aria-label="Close"
-        on:click={() => onclose?.()}
-      >
-        &#215;
-      </button>
+      {#if dismissible}
+        <button
+          type="button"
+          class="strand-dialog__close"
+          aria-label="Close"
+          on:click={() => onclose?.()}
+        >
+          &#215;
+        </button>
+      {/if}
       <div class="strand-dialog__body">
         <slot />
       </div>

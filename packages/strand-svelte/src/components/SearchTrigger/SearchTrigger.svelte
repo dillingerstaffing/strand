@@ -28,8 +28,12 @@
 -->
 <script lang="ts">
   /** `field` is the fixed-width header presentation, `full` spans its
-      container. */
-  export let variant: 'field' | 'full' = 'field'
+      container, `icon` is a square button at the touch-target floor for
+      the band where a header has stopped having room for a field but has
+      not yet handed over to a phone layout. `icon` keeps the label in the
+      accessibility tree (clipped, not display:none), because the label is
+      the accessible name and WCAG 2.5.3 requires it to survive. */
+  export let variant: 'field' | 'full' | 'icon' = 'field'
 
   /** Visible standing text, which is ALSO the accessible name. There is no
       aria-label override: WCAG 2.5.3 (Label in Name) requires the
@@ -54,6 +58,7 @@
     'strand-search-field',
     variant === 'full' ? 'strand-search-field--full' : '',
     'strand-search-trigger',
+    variant === 'icon' ? 'strand-search-trigger--icon' : '',
     className,
   ]
     .filter(Boolean)

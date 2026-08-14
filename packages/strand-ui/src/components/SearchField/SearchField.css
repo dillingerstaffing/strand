@@ -98,17 +98,39 @@
 }
 
 /* 11.1's focused-field treatment: the border takes the brand blue and a
-   soft ring grows outside it. Applied with :focus-within because the
-   focusable element is the input and the styled element is its wrapper.
+   ring grows outside it. Applied with :focus-within because the focusable
+   element is the input and the styled element is its wrapper.
 
    This is deliberately NOT :focus-visible. That distinction exists so a
    MOUSE user does not see a keyboard affordance on a control they just
    clicked, and it is right for a button. A text field is different: a
    focused input is accepting keystrokes, and the user needs to know
-   that whichever way they got there. */
+   that whichever way they got there.
+
+   THE RING IS SOLID, AND 2px, AND THAT IS THE SPECIFICATION RATHER THAN A
+   PREFERENCE. It shipped as `0 0 0 3px rgb(59 142 246 / 10%)`, which over
+   white blends to about #ebf1ff: roughly 1.1:1 against the surrounding
+   surface, where 12.3 and 14.3 both call for `2px solid
+   --strand-blue-primary` and SC 1.4.11 wants 3:1. blue-primary is
+   3.29:1 on white, which is the fill-tier value 14.2b lists for exactly
+   this use.
+
+   Read alongside Gap #60, which examined all nine users of
+   `--strand-focus-ring` and deliberately left the token alone: six of them
+   pair a soft ring with a border that IS the indicator, and raising the
+   shared token would make those six heavy. That reasoning still holds and
+   the token is still untouched. This rule is changed on its own evidence,
+   from a consumer whose overlay puts a focused field at the top of the
+   panel as its first pixel row: at 10% alpha the ring and the blue border
+   read as two concentric edges, a hard line floating outside a soft glow.
+   At full strength they merge into ONE thickened edge, which is what the
+   border going blue was always trying to say.
+
+   3px drops to 2px for the same reason: at full opacity the old width
+   reads as a slab rather than as an edge. */
 .strand-search-field:focus-within {
   border-color: var(--strand-blue-primary);
-  box-shadow: 0 0 0 3px rgb(59 142 246 / 10%);
+  box-shadow: 0 0 0 2px var(--strand-blue-primary);
 }
 
 .strand-search-field__icon {

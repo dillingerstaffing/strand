@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { stripComments } from "../../build/strip-comments.mjs";
 
 const distDir = resolve(__dirname, "../../dist");
 
@@ -183,6 +184,71 @@ describe("Build output", () => {
         expect(css, `${name}.css uses animation/transition but missing prefers-reduced-motion`).toContain("prefers-reduced-motion");
       }
     }
+  });
+
+  // ── The shipped stylesheet carries no source commentary ──
+  //
+  // Measured before this was true: 344,311 raw bytes of bundle, 164,997 of
+  // them comments, and 85,927 gzipped against 23,669 with the prose removed.
+  // Comments were 72% of the CSS every consumer downloads, and nothing
+  // noticed because collectCss() concatenates source and the stylesheet never
+  // reaches a minifier.
+
+  it("strips a source comment but keeps a license banner", () => {
+    const css = `/*! Strand UI | MIT */\n/* why this value */\n.a { color: red; }\n`;
+    const out = stripComments(css);
+    expect(out).toContain("/*! Strand UI | MIT */");
+    expect(out).not.toContain("why this value");
+    expect(out).toContain(".a { color: red; }");
+  });
+
+  it("leaves declarations byte-identical", () => {
+    // The transform must not be able to change what renders. If it ever
+    // rewrites a declaration, every parity baseline downstream is wrong and
+    // this is where it gets caught.
+    const decls = ".a{color:red}.b{margin:0 auto}@media (min-width:40rem){.c{gap:1px}}";
+    expect(stripComments(`/* x */${decls}/* y */`)).toContain(decls);
+  });
+
+  it("removes a multi-line comment without eating the rule after it", () => {
+    const out = stripComments("/*\n  many\n  lines\n*/\n.a { color: red; }");
+    expect(out).not.toContain("many");
+    expect(out).toContain(".a { color: red; }");
+  });
+
+  it("ships the license banner in the built stylesheet", () => {
+    // A redistribution obligation, not a nicety: MIT requires the notice to
+    // travel with the artifact.
+    const css = readFileSync(resolve(distDir, "css/strand-ui.css"), "utf-8");
+    expect(css).toMatch(/^\/\*! Strand UI v[\d.]+ \| MIT License/);
+  });
+
+  it("ships no source commentary in the built stylesheet", () => {
+    const css = readFileSync(resolve(distDir, "css/strand-ui.css"), "utf-8");
+    const comments = css.match(/\/\*[\s\S]*?\*\//g) ?? [];
+    const nonBanner = comments.filter((c) => !c.startsWith("/*!"));
+    expect(
+      nonBanner.slice(0, 3),
+      `${nonBanner.length} source comments reached the artifact`,
+    ).toEqual([]);
+  });
+
+  it("spends its remaining comment bytes only on license banners", () => {
+    // What survives is the MIT notice at the head of each component file,
+    // repeated once per file the bundle concatenates: 66 of them, ~3.5 KB,
+    // about 2% of the artifact. That duplication is a redistribution
+    // obligation rather than waste, so it is bounded rather than removed.
+    //
+    // Stated as a RATIO so it holds as the library grows, and measured on raw
+    // bytes rather than gzipped ones because node:zlib trips jsdom's
+    // TextEncoder invariant in this environment. The compressed win is a
+    // consequence of this ratio, and scripts/bundle-budget-check.mjs is the
+    // gate that measures it.
+    const css = readFileSync(resolve(distDir, "css/strand-ui.css"), "utf-8");
+    const comments = css.match(/\/\*[\s\S]*?\*\//g) ?? [];
+    expect(comments.every((c) => c.startsWith("/*!"))).toBe(true);
+    const bytes = comments.reduce((n, c) => n + c.length, 0);
+    expect(bytes / css.length).toBeLessThan(0.03);
   });
 
   it("All component CSS files start with MIT license banner", () => {

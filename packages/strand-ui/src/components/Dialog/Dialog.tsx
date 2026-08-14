@@ -16,6 +16,31 @@ export interface DialogProps
   closeOnOutsideClick?: boolean;
   /** Close when pressing Escape */
   closeOnEscape?: boolean;
+  /**
+   * Where the panel sits in the viewport. `center` is right for a
+   * confirmation. `start` drops it under the reader's gaze, which is where
+   * a search or command overlay belongs: centred, a fixed-height panel
+   * straddles the fold on a short viewport and its input is the last thing
+   * the eye reaches.
+   */
+  align?: "center" | "start";
+  /**
+   * Inner padding. The same ladder `Card` carries, at the same values.
+   * `none` also clips content to the panel's radius, for panels whose
+   * children carry their own inset (a query row, a scrolling list).
+   */
+  padding?: "none" | "sm" | "md" | "lg" | "xl";
+  /**
+   * Whether to render the close button. Set `false` for overlays whose
+   * convention has no X and whose dismissal is Escape or the backdrop: a
+   * palette, a command bar, a search panel. The button is absolutely
+   * positioned over the panel's top band, so content otherwise has to
+   * dodge a control the pattern does not use.
+   *
+   * Escape and backdrop dismissal are unaffected; this hides a control, it
+   * does not trap the reader.
+   */
+  dismissible?: boolean;
   /** Dialog content */
   children?: ComponentChildren;
 }
@@ -46,6 +71,9 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
       title,
       closeOnOutsideClick = true,
       closeOnEscape = true,
+      align = "center",
+      padding = "lg",
+      dismissible = true,
       className = "",
       children,
       ...rest
@@ -199,7 +227,12 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
 
     if (!open) return null;
 
-    const classes = ["strand-dialog__panel", className]
+    const classes = [
+      "strand-dialog__panel",
+      align === "start" ? "strand-dialog__panel--align-start" : "",
+      `strand-dialog__panel--pad-${padding}`,
+      className,
+    ]
       .filter(Boolean)
       .join(" ");
 
@@ -229,14 +262,16 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
               </h2>
             </div>
           )}
-          <button
-            type="button"
-            className="strand-dialog__close"
-            aria-label="Close"
-            onClick={onClose}
-          >
-            &#215;
-          </button>
+          {dismissible && (
+            <button
+              type="button"
+              className="strand-dialog__close"
+              aria-label="Close"
+              onClick={onClose}
+            >
+              &#215;
+            </button>
+          )}
           <div className="strand-dialog__body">{children}</div>
         </div>
       </div>

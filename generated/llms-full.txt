@@ -1322,10 +1322,16 @@ Modal overlay with backdrop, panel, and focus trap.
 | Class | Type | Description |
 |---|---|---|
 | `strand-dialog__backdrop` | child | Full-viewport overlay backdrop. |
-| `strand-dialog__panel` | child | Centered dialog panel (max-width 560px). |
+| `strand-dialog__panel` | child | Dialog panel, centered in the backdrop. Width, radius and edge are token-driven so a consumer sets a value rather than overriding the class: --strand-dialog-inline-size (default min(560px, 100%)), --strand-dialog-radius (default --strand-radius-xl) and --strand-dialog-border (default none). |
+| `strand-dialog__panel--align-start` | child | Drops the panel under the reader's gaze instead of centering it, at --strand-dialog-inset-block-start (default 12vh). For a search or command overlay: centered, a fixed-height panel straddles the fold on a short viewport and its input is the last thing the eye reaches. |
+| `strand-dialog__panel--pad-none` | child | No inner padding, on the panel and on its body alike, and clips content to the panel's radius. For panels whose children carry their own inset (a query row, a scrolling list). Same semantics as strand-card--pad-none. |
+| `strand-dialog__panel--pad-sm` | child | Inner padding at --strand-space-4. |
+| `strand-dialog__panel--pad-md` | child | Inner padding at --strand-space-6. |
+| `strand-dialog__panel--pad-lg` | child | Inner padding at --strand-space-8. The default, and what the base panel carries. |
+| `strand-dialog__panel--pad-xl` | child | Inner padding at --strand-space-10. |
 | `strand-dialog__header` | child | Dialog header area. |
 | `strand-dialog__title` | child | Dialog title text. |
-| `strand-dialog__close` | child | Close button. |
+| `strand-dialog__close` | child | Close button. Omit the element entirely for overlays whose convention has no X (a palette, a command bar); it is absolutely positioned over the panel's top band, so content otherwise has to dodge a control the pattern does not use. Escape and backdrop dismissal are unaffected. |
 | `strand-dialog__body` | child | Dialog content area. |
 
 **Usage:**
@@ -2232,6 +2238,7 @@ A control that LOOKS like a search field and behaves like a button: it opens a s
 | Class | Type | Description |
 |---|---|---|
 | `strand-search-trigger` | base | Trigger root, a button. Applied ALONGSIDE strand-search-field, which supplies the box; this class adds only the button resets a field's box does not expect. Carries aria-haspopup="dialog". |
+| `strand-search-trigger--icon` | modifier | Square icon presentation at --strand-touch-target, for the band of widths where a header has stopped having room for a field but has not yet handed over to a phone layout. The label stays IN the accessibility tree, clipped rather than display:none, because it is the control's accessible name and WCAG 2.5.3 requires it to survive. Reach for this rather than a strand-btn--icon-only, which is not a SearchTrigger and so drops aria-haspopup="dialog" and the shared field identity. |
 | `strand-search-trigger__label` | child | Visible standing text, styled as a placeholder and taking the same token as the field's real placeholder. This is ALSO the accessible name: no aria-label override, because WCAG 2.5.3 (Label in Name) requires the accessible name to contain the visible text so a speech-input user saying what they see activates the control. Truncates on one line, since a wrapping label would change the control's height. |
 | `strand-search-field` | base | |
 | `strand-search-field__icon` | child | |
@@ -5670,6 +5677,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Fixed
+- alerts on dark live in one place, not two (v0.50.1)
 - the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
 
 ### Documentation

@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import { resolve } from "node:path";
 import { readdirSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { stripComments } from "./build/strip-comments.mjs";
 
 // Collect all component CSS into a single file after build
 function collectCss() {
@@ -12,7 +13,7 @@ function collectCss() {
         .filter((d) => d.isDirectory())
         .map((d) => d.name);
 
-      let allCss = "/*! Strand UI v0.50.1 | MIT License | dillingerstaffing.com */\n\n";
+      let allCss = "/*! Strand UI v0.51.0 | MIT License | dillingerstaffing.com */\n\n";
 
       for (const dir of dirs) {
         try {
@@ -33,7 +34,7 @@ function collectCss() {
       }
 
       mkdirSync(resolve(__dirname, "dist/css"), { recursive: true });
-      writeFileSync(resolve(__dirname, "dist/css/strand-ui.css"), allCss);
+      writeFileSync(resolve(__dirname, "dist/css/strand-ui.css"), stripComments(allCss));
     },
   };
 }

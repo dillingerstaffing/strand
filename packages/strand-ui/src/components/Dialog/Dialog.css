@@ -14,15 +14,85 @@
 /* ── Panel ── */
 .strand-dialog__panel {
   position: relative;
-  width: 100%;
-  max-width: 560px;
+
+  /* A custom property rather than a size ladder, because the answer is a
+     WIDTH and consumers want different ones; a modifier would have to grow
+     a variant per width. Setting a token is design-system usage, overriding
+     the class is a workaround, and the difference is what the dogfood gate
+     is looking for. Same idiom as `--strand-search-field-inline-size`.
+
+     The default resolves exactly as the previous `width: 100%` +
+     `max-width: 560px` pair did, at every viewport: the panel is a flex
+     item carrying margins, so it shrinks to `min(560px, 100vw - 2 * margin)`
+     either way. The pair is gone rather than kept alongside because a
+     consumer raising the width past 560 would otherwise have to clear a cap
+     it cannot see, which is two overrides for one intention. */
+  inline-size: var(--strand-dialog-inline-size, min(560px, 100%));
+
   margin: var(--strand-space-4);
   padding: var(--strand-space-8);
   background: var(--strand-surface-elevated);
-  border-radius: var(--strand-radius-xl);
+
+  /* Shape and edge are tokenised for the same reason the width is: a
+     consumer whose panel is a composed surface rather than a prose card
+     wants a different radius and a hairline edge, and both are values the
+     design language already scales. Defaults are exactly what shipped
+     before, so an untouched consumer renders unchanged. */
+  border: var(--strand-dialog-border, none);
+  border-radius: var(--strand-dialog-radius, var(--strand-radius-xl));
+
   box-shadow: var(--strand-elevation-4);
   font-family: var(--strand-font-sans);
   outline: none;
+}
+
+/* ── Alignment ──
+   The backdrop centres its panel, which is right for a confirmation and
+   wrong for a search overlay. A panel of fixed height, centred, puts its
+   results across the fold on a short viewport and makes the query row the
+   LAST thing the eye reaches rather than the first, so a palette belongs
+   under the reader's gaze instead. */
+.strand-dialog__panel--align-start {
+  align-self: flex-start;
+  margin-block-start: var(--strand-dialog-inset-block-start, 12vh);
+}
+
+/* ── Padding modifiers ──
+   The same five-rung ladder `.strand-card` carries, at the same values, so
+   the two surface primitives do not disagree about what "lg" means. The
+   base above is `--pad-lg`, which is what shipped, so the default emits a
+   class that changes nothing.
+
+   `--pad-none` also clips to the panel's radius, exactly as
+   `.strand-card--pad-none` does: a panel whose children carry the inset is
+   a panel whose children reach the corners, and a scrolling region inside
+   one would otherwise square them off. */
+.strand-dialog__panel--pad-none {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* The body's own pad is a separator between a header and its content. With
+   no padding on the panel there is no header band to separate from, and the
+   pad becomes a dead band above whatever the consumer put first. */
+.strand-dialog__panel--pad-none .strand-dialog__body {
+  padding: 0;
+}
+
+.strand-dialog__panel--pad-sm {
+  padding: var(--strand-space-4);
+}
+
+.strand-dialog__panel--pad-md {
+  padding: var(--strand-space-6);
+}
+
+.strand-dialog__panel--pad-lg {
+  padding: var(--strand-space-8);
+}
+
+.strand-dialog__panel--pad-xl {
+  padding: var(--strand-space-10);
 }
 
 /* ── Header ── */

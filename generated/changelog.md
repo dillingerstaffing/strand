@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Fixed
+- alerts on dark live in one place, not two (v0.50.1)
 - the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
 
 ### Documentation

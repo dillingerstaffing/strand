@@ -71,6 +71,40 @@ describe("tokenExistsIn", () => {
 		expect(tokenExistsIn("$strand-removed", sources)).toBe(false);
 	});
 
+	// A consumer-settable knob is never DEFINED by the library -- that is what
+	// makes it settable -- and is always read with a fallback. Before this,
+	// only a bare `var(--x)` counted, so every such property read as stale.
+	// It stayed hidden because the built stylesheet carried source comments
+	// and one of them documented the property with a literal `--x:` in a
+	// worked example, so the check was matching prose.
+	it("finds a custom property that is only ever read with a fallback", () => {
+		const css = ".a { top: var(--strand-ref-sticky-top, 0); }";
+		expect(tokenExistsIn("--strand-ref-sticky-top", { css, scss: "" })).toBe(true);
+	});
+
+	it("finds a custom property read with a nested var() fallback", () => {
+		const css = ".a { inline-size: var(--strand-dialog-inline-size, min(560px, 100%)); }";
+		expect(tokenExistsIn("--strand-dialog-inline-size", { css, scss: "" })).toBe(true);
+	});
+
+	it("still finds a custom property that is defined outright", () => {
+		expect(
+			tokenExistsIn("--strand-blue-primary", { css: ":root { --strand-blue-primary: #3B8EF6; }", scss: "" }),
+		).toBe(true);
+	});
+
+	it("still reports a custom property nothing defines or reads", () => {
+		const css = ".a { top: var(--strand-ref-sticky-top, 0); }";
+		expect(tokenExistsIn("--strand-gone", { css, scss: "" })).toBe(false);
+	});
+
+	it("does not accept a DIFFERENT property that merely shares a prefix", () => {
+		// `var(--strand-dialog-inline-size-extra, 0)` must not satisfy a lookup
+		// for `--strand-dialog-inline-size`, which a bare substring match would.
+		const css = ".a { inline-size: var(--strand-dialog-inline-size-extra, 0); }";
+		expect(tokenExistsIn("--strand-dialog-inline-size", { css, scss: "" })).toBe(false);
+	});
+
 	it("resolves a family wildcard against any member of the family", () => {
 		expect(tokenExistsIn("strand-ref-*", sources)).toBe(true);
 	});

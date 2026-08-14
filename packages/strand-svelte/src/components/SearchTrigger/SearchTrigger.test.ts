@@ -82,4 +82,31 @@ describe('SearchTrigger', () => {
     expect(el(container).classList.contains('strand-hide-below-md')).toBe(true)
     expect(el(container).classList.contains('strand-search-field')).toBe(true)
   })
+
+  it('takes the icon presentation without becoming a different control', () => {
+    // An icon-only Button is not a SearchTrigger: it drops the popup
+    // semantics and the shared field identity. Both survive the variant.
+    const { container } = render(SearchTrigger, { props: { variant: 'icon' } })
+    expect(el(container).classList.contains('strand-search-trigger--icon')).toBe(true)
+    expect(el(container).classList.contains('strand-search-field')).toBe(true)
+    expect(el(container).getAttribute('aria-haspopup')).toBe('dialog')
+    expect(el(container).tagName).toBe('BUTTON')
+  })
+
+  it('keeps its accessible name when the label is visually hidden', () => {
+    // WCAG 2.5.3, Label in Name. The label is the control's accessible name,
+    // so it is clipped by CSS and never removed from the markup.
+    const { container } = render(SearchTrigger, {
+      props: { variant: 'icon', label: 'Search events' },
+    })
+    expect(el(container).textContent).toContain('Search events')
+    expect(el(container).hasAttribute('aria-label')).toBe(false)
+  })
+
+  it('emits no icon modifier for the other two presentations', () => {
+    for (const variant of ['field', 'full'] as const) {
+      const { container } = render(SearchTrigger, { props: { variant } })
+      expect(el(container).classList.contains('strand-search-trigger--icon')).toBe(false)
+    }
+  })
 })

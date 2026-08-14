@@ -185,10 +185,26 @@ export function tokenExistsIn(token, sources) {
 	if (token.startsWith("$")) {
 		return new RegExp(`\\${token}\\s*:`).test(scssContent);
 	}
-	// For CSS variables: check for `--strand-...:` or the var() usage.
+	// For CSS variables: a definition (`--strand-...:`) or any var() READ of
+	// it, with or without a fallback.
+	//
+	// THE FALLBACK ARM IS THE LOAD-BEARING ONE, and its absence was a hole
+	// this check could not see through. A consumer-settable knob is never
+	// defined by the library at all -- that is the point of it -- and it is
+	// always read as `var(--strand-thing, <default>)`. `--strand-ref-sticky-top`
+	// is exactly that shape, and so are `--strand-search-field-inline-size` and
+	// the `--strand-dialog-*` properties.
+	//
+	// It nonetheless passed for months, because the built stylesheet used to
+	// carry every source COMMENT, and LabShell.css documents the property with
+	// a worked example containing the literal `--strand-ref-sticky-top:`. The
+	// check was matching prose. Stripping comments from the artifact removed
+	// the accidental evidence and left the real gap visible, which is the
+	// useful kind of test failure: nothing broke, something stopped lying.
 	if (token.startsWith("--")) {
-		return (
-			cssContent.includes(`${token}:`) || cssContent.includes(`var(${token})`)
+		if (cssContent.includes(`${token}:`)) return true;
+		return new RegExp(`var\\(\\s*${token.replace(/[^\w-]/g, "\\$&")}\\s*[,)]`).test(
+			cssContent,
 		);
 	}
 	// A family glob is satisfied by any member: `strand-ref-*` by

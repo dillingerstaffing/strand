@@ -69,6 +69,53 @@
   white-space: nowrap;
 }
 
+/* ── The icon presentation ──
+   A third variant beside `field` and `full`, for the band of viewport
+   widths where a header has stopped having room for a 300px field but has
+   not yet handed over to a phone layout. Without it that band has no way
+   into search except a keyboard chord, which is not an affordance.
+
+   The two moves available WITHOUT this variant are both defects, which is
+   what makes it a library gap rather than a usage one:
+
+   1. A `strand-btn--icon-only` Button is not a SearchTrigger. It drops
+      `aria-haspopup="dialog"`, so assistive technology stops announcing
+      that the control opens something, and it drops the shared
+      `.strand-search-field` identity, so the icon and the field it stands
+      in for can drift apart visually.
+   2. Hiding the label with a consumer rule on
+      `.strand-search-trigger__label` is a consumer restyling a design
+      system class, which is the thing the dogfood gate exists to stop.
+
+   Square at the touch-target floor rather than at the field's 36px: this
+   presentation exists for the narrower half of the viewport range, where a
+   coarse pointer is likelier, and 14.7 asks for 44 in each dimension. The
+   field beside it is hidden at these widths by construction, so the two
+   heights are never on screen together to disagree. */
+.strand-search-trigger--icon {
+  inline-size: var(--strand-touch-target);
+  block-size: var(--strand-touch-target);
+  justify-content: center;
+  padding: 0;
+}
+
+/* THE LABEL IS REMOVED FROM THE VISUAL FLOW AND NEVER FROM THE
+   ACCESSIBILITY TREE. It is the control's accessible name (WCAG 2.5.3,
+   Label in Name), so `display: none` here would take the name with it and
+   leave a button that announces nothing. Clipped instead, which keeps it
+   in the tree, keeps a speech-input user able to say what the field beside
+   it would have read, and costs no layout because the box is 1px. */
+.strand-search-trigger--icon .strand-search-trigger__label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* The field styles its focus with :focus-within, which a button also
    satisfies, so the ring is inherited rather than restated here. Hover is
    not: a field has no hover affordance because it is not clickable in the

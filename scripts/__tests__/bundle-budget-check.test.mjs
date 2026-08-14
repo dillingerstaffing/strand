@@ -19,7 +19,14 @@ import {
 // fail loudly if someone raises a limit without touching them. Updated
 // 2026-08-12 when five components landed at once (77.9 -> 87.9 KB); the
 // RELATIONSHIPS below are unchanged, only the measurement they anchor to.
-const TODAY = { totalGzBytes: 89970, cssGzBytes: 76000, componentCount: 65 };
+// Updated 2026-08-14 again, and this time the measurement FELL rather than
+// grew: 89,970 -> 36,669 total and 76,000 -> 23,871 of CSS, at the same 65
+// components. Nothing was removed from the library. The bundle had been
+// shipping 62 KB gzipped of source commentary, because collectCss()
+// concatenates source files and no minifier ever saw the result, and the
+// three ceiling raises above were each measuring prose. The RELATIONSHIPS
+// below are unchanged, only the measurement they anchor to.
+const TODAY = { totalGzBytes: 36669, cssGzBytes: 23871, componentCount: 65 };
 
 describe("evaluate", () => {
 	it("passes the artifact as it stands", () => {
@@ -44,10 +51,16 @@ describe("evaluate", () => {
 	// components moves the average to 1.29 and passes a 1.35 ceiling.
 	// Averages hide outliers. The claim was wrong, so the budget changed
 	// rather than the claim being softened.
+	// Rescaled 2026-08-14 to the comment-free artifact. The claim is about a
+	// RATIO -- an outlier many times the average component still moves the
+	// average very little -- so the figures have to live in the same era as
+	// the ceilings or the test fails on the total and proves nothing about the
+	// average. The outlier is ~11x the average component here, exactly as the
+	// original 12 KB was against a ~1.12 KB average.
 	it("does NOT catch one bloated component by average alone", () => {
 		const r = evaluate({
-			totalGzBytes: 79812,
-			cssGzBytes: 67231 + 12 * 1024,
+			totalGzBytes: 39014,
+			cssGzBytes: 22118 + 4 * 1024,
 			componentCount: 60,
 		});
 		expect(r.ok).toBe(true);
@@ -88,14 +101,28 @@ describe("evaluate", () => {
 		expect(r.readings.some((x) => x.name.startsWith("largest"))).toBe(false);
 	});
 
-	// The argument for splitting the budget, as a test: the library at the
-	// era the 50KB figure was written passes BOTH numbers. It did not become
-	// wasteful, it became larger, and a total-only budget could not say so.
-	it("passes the library as it was when the old 50KB figure was written", () => {
-		const r = evaluate({ totalGzBytes: 47890, cssGzBytes: 35309, componentCount: 31 });
+	// The argument for splitting the budget, as a test: a library HALF this
+	// size at the same efficiency passes both numbers, so growth alone never
+	// trips the gate and only a change in efficiency does.
+	//
+	// This used to anchor on the real 31-component, 47,890-byte measurement
+	// from the era the 50 KB figure was written, and asserted "same efficiency
+	// then as now, within rounding". That comparison died honestly on
+	// 2026-08-14: the historical figure was measured on a bundle carrying its
+	// source comments and today's is not, so the two per-component averages
+	// (1.11 KB and 0.36 KB) are not measuring the same thing and their
+	// closeness would have been a coincidence rather than evidence. A
+	// synthetic half-size library makes the same argument without pretending
+	// two incommensurable measurements are comparable.
+	it("passes a library half this size at the same efficiency", () => {
+		const half = {
+			totalGzBytes: Math.round(TODAY.totalGzBytes / 2),
+			cssGzBytes: Math.round(TODAY.cssGzBytes / 2),
+			componentCount: Math.round(TODAY.componentCount / 2),
+		};
+		const r = evaluate(half);
 		expect(r.ok).toBe(true);
-		// Same efficiency then as now, within rounding.
-		const then = 35309 / 31 / 1024;
+		const then = half.cssGzBytes / half.componentCount / 1024;
 		const now = TODAY.cssGzBytes / TODAY.componentCount / 1024;
 		expect(Math.abs(then - now)).toBeLessThan(0.05);
 	});

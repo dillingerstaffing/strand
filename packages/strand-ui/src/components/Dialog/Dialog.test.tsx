@@ -317,4 +317,93 @@ describe("Dialog", () => {
     expect(document.documentElement.style.overflow).toBe("");
     restore();
   });
+
+  // ── Composition props ──
+  //
+  // Three consumer-side overrides of this one primitive, in one file, is what
+  // produced these. Two separate overlays (a command palette and a search
+  // locator) had written the identical three rules, which is the definition of
+  // a missing input rather than a misuse.
+
+  const panel = (c: HTMLElement) => c.querySelector(".strand-dialog__panel");
+
+  it("centres its panel and pads it, unchanged, when asked for nothing", () => {
+    // The defaults ARE the old rendering. A consumer who never heard of these
+    // props must get byte-identical output, or this is a breaking change
+    // wearing an additive diff.
+    const { container } = render(<Dialog {...defaultProps}>Content</Dialog>);
+    const el = panel(container as HTMLElement);
+    expect(el?.classList.contains("strand-dialog__panel--align-start")).toBe(false);
+    expect(el?.classList.contains("strand-dialog__panel--pad-lg")).toBe(true);
+    expect(container.querySelector(".strand-dialog__close")).not.toBeNull();
+  });
+
+  it("drops the panel under the reader's gaze when aligned to start", () => {
+    const { container } = render(
+      <Dialog {...defaultProps} align="start">
+        Content
+      </Dialog>,
+    );
+    expect(panel(container as HTMLElement)?.classList.contains("strand-dialog__panel--align-start")).toBe(
+      true,
+    );
+  });
+
+  it("carries each rung of the padding ladder", () => {
+    for (const padding of ["none", "sm", "md", "lg", "xl"] as const) {
+      const { container } = render(
+        <Dialog {...defaultProps} padding={padding}>
+          Content
+        </Dialog>,
+      );
+      expect(
+        panel(container as HTMLElement)?.classList.contains(`strand-dialog__panel--pad-${padding}`),
+      ).toBe(true);
+    }
+  });
+
+  it("omits the close button entirely when not dismissible", () => {
+    // NOT hidden. A `display: none` button is still in the DOM, and the focus
+    // trap queries the DOM: Dialog focuses the first focusable element in its
+    // panel, so a hidden close button still swallows the open focus and the
+    // visitor types into a button they cannot see. That shipped once already
+    // (gap #67's post-mortem). Absent is the only correct answer.
+    const { container } = render(
+      <Dialog {...defaultProps} dismissible={false}>
+        <input aria-label="Query" />
+      </Dialog>,
+    );
+    expect(container.querySelector(".strand-dialog__close")).toBeNull();
+  });
+
+  it("still closes on Escape and on the backdrop when not dismissible", () => {
+    // `dismissible` hides a CONTROL. A reader who cannot leave a modal is
+    // trapped, so the two dismissal paths that do not depend on that control
+    // must be untouched by it.
+    const onClose = vi.fn();
+    const { container } = render(
+      <Dialog open onClose={onClose} dismissible={false}>
+        Content
+      </Dialog>,
+    );
+    const backdrop = container.querySelector(".strand-dialog__backdrop") as HTMLElement;
+    fireEvent.keyDown(backdrop, { key: "Escape" });
+    expect(onClose).toHaveBeenCalledTimes(1);
+    fireEvent.click(backdrop);
+    expect(onClose).toHaveBeenCalledTimes(2);
+  });
+
+  it("lets the first focusable child take focus once the close button is gone", async () => {
+    // The reason `dismissible` exists at all, stated as behaviour rather than
+    // as a class name: an overlay whose interaction model is "open and type"
+    // needs its input to be what focus lands on.
+    const { container } = render(
+      <Dialog {...defaultProps} dismissible={false}>
+        <input aria-label="Query" />
+      </Dialog>,
+    );
+    const input = container.querySelector("input") as HTMLInputElement;
+    await new Promise((r) => requestAnimationFrame(r));
+    expect(document.activeElement).toBe(input);
+  });
 });

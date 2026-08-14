@@ -74,4 +74,45 @@ describe('Dialog', () => {
     const { container } = render(Dialog, { props: { open: true } })
     expect(container.querySelector('.strand-dialog__body')).toBeInTheDocument()
   })
+
+  // -- Composition props, at parity with the Preact and Vue implementations --
+
+  it('centres and pads unchanged when asked for nothing', () => {
+    const { container } = render(Dialog, { props: { open: true } })
+    const panel = container.querySelector('.strand-dialog__panel')
+    expect(panel).not.toHaveClass('strand-dialog__panel--align-start')
+    expect(panel).toHaveClass('strand-dialog__panel--pad-lg')
+    expect(container.querySelector('.strand-dialog__close')).toBeInTheDocument()
+  })
+
+  it('aligns the panel to the start of the viewport when asked', () => {
+    const { container } = render(Dialog, { props: { open: true, align: 'start' } })
+    expect(container.querySelector('.strand-dialog__panel')).toHaveClass(
+      'strand-dialog__panel--align-start',
+    )
+  })
+
+  it('carries each rung of the padding ladder', () => {
+    for (const padding of ['none', 'sm', 'md', 'lg', 'xl'] as const) {
+      const { container } = render(Dialog, { props: { open: true, padding } })
+      expect(container.querySelector('.strand-dialog__panel')).toHaveClass(
+        `strand-dialog__panel--pad-${padding}`,
+      )
+    }
+  })
+
+  it('omits the close button entirely when not dismissible', () => {
+    // Absent, not hidden: the focus trap queries the DOM, so a display:none
+    // close button still swallows the open focus.
+    const { container } = render(Dialog, { props: { open: true, dismissible: false } })
+    expect(container.querySelector('.strand-dialog__close')).not.toBeInTheDocument()
+  })
+
+  it('still closes on Escape when not dismissible', async () => {
+    // Hiding a control must never trap the reader.
+    const onclose = vi.fn()
+    const { container } = render(Dialog, { props: { open: true, dismissible: false, onclose } })
+    await fireEvent.keyDown(container.querySelector('.strand-dialog__backdrop')!, { key: 'Escape' })
+    expect(onclose).toHaveBeenCalled()
+  })
 })

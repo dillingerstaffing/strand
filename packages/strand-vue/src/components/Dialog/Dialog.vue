@@ -29,11 +29,34 @@ export interface DialogProps {
   closeOnOutsideClick?: boolean
   /** Close when pressing Escape */
   closeOnEscape?: boolean
+  /**
+   * Where the panel sits in the viewport. `center` is right for a
+   * confirmation. `start` drops it under the reader's gaze, which is where
+   * a search or command overlay belongs: centred, a fixed-height panel
+   * straddles the fold on a short viewport and its input is the last thing
+   * the eye reaches.
+   */
+  align?: 'center' | 'start'
+  /**
+   * Inner padding. The same ladder `Card` carries, at the same values.
+   * `none` also clips content to the panel's radius, for panels whose
+   * children carry their own inset (a query row, a scrolling list).
+   */
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  /**
+   * Whether to render the close button. Set `false` for overlays whose
+   * convention has no X and whose dismissal is Escape or the backdrop.
+   * Escape and backdrop dismissal are unaffected.
+   */
+  dismissible?: boolean
 }
 
 const props = withDefaults(defineProps<DialogProps>(), {
   closeOnOutsideClick: true,
   closeOnEscape: true,
+  align: 'center',
+  padding: 'lg',
+  dismissible: true,
 })
 
 const emit = defineEmits<{
@@ -51,7 +74,13 @@ let previousFocus: Element | null = null
 let originalOverflow = ''
 
 const panelClasses = computed(() =>
-  ['strand-dialog__panel'].filter(Boolean).join(' '),
+  [
+    'strand-dialog__panel',
+    props.align === 'start' ? 'strand-dialog__panel--align-start' : '',
+    `strand-dialog__panel--pad-${props.padding}`,
+  ]
+    .filter(Boolean)
+    .join(' '),
 )
 
 function handleKeyDown(event: KeyboardEvent) {
@@ -149,6 +178,7 @@ onUnmounted(() => {
         </h2>
       </div>
       <button
+        v-if="dismissible"
         type="button"
         class="strand-dialog__close"
         aria-label="Close"

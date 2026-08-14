@@ -679,7 +679,31 @@
 				},
 				{
 					"class": "strand-dialog__panel",
-					"description": "Centered dialog panel (max-width 560px)."
+					"description": "Dialog panel, centered in the backdrop. Width, radius and edge are token-driven so a consumer sets a value rather than overriding the class: --strand-dialog-inline-size (default min(560px, 100%)), --strand-dialog-radius (default --strand-radius-xl) and --strand-dialog-border (default none)."
+				},
+				{
+					"class": "strand-dialog__panel--align-start",
+					"description": "Drops the panel under the reader's gaze instead of centering it, at --strand-dialog-inset-block-start (default 12vh). For a search or command overlay: centered, a fixed-height panel straddles the fold on a short viewport and its input is the last thing the eye reaches."
+				},
+				{
+					"class": "strand-dialog__panel--pad-none",
+					"description": "No inner padding, on the panel and on its body alike, and clips content to the panel's radius. For panels whose children carry their own inset (a query row, a scrolling list). Same semantics as strand-card--pad-none."
+				},
+				{
+					"class": "strand-dialog__panel--pad-sm",
+					"description": "Inner padding at --strand-space-4."
+				},
+				{
+					"class": "strand-dialog__panel--pad-md",
+					"description": "Inner padding at --strand-space-6."
+				},
+				{
+					"class": "strand-dialog__panel--pad-lg",
+					"description": "Inner padding at --strand-space-8. The default, and what the base panel carries."
+				},
+				{
+					"class": "strand-dialog__panel--pad-xl",
+					"description": "Inner padding at --strand-space-10."
 				},
 				{
 					"class": "strand-dialog__header",
@@ -691,7 +715,7 @@
 				},
 				{
 					"class": "strand-dialog__close",
-					"description": "Close button."
+					"description": "Close button. Omit the element entirely for overlays whose convention has no X (a palette, a command bar); it is absolutely positioned over the panel's top band, so content otherwise has to dodge a control the pattern does not use. Escape and backdrop dismissal are unaffected."
 				},
 				{
 					"class": "strand-dialog__body",
@@ -1710,6 +1734,10 @@
 				{
 					"class": "strand-search-trigger",
 					"description": "Trigger root, a button. Applied ALONGSIDE strand-search-field, which supplies the box; this class adds only the button resets a field's box does not expect. Carries aria-haspopup=\"dialog\"."
+				},
+				{
+					"class": "strand-search-trigger--icon",
+					"description": "Square icon presentation at --strand-touch-target, for the band of widths where a header has stopped having room for a field but has not yet handed over to a phone layout. The label stays IN the accessibility tree, clipped rather than display:none, because it is the control's accessible name and WCAG 2.5.3 requires it to survive. Reach for this rather than a strand-btn--icon-only, which is not a SearchTrigger and so drops aria-haspopup=\"dialog\" and the shared field identity."
 				},
 				{
 					"class": "strand-search-trigger__label",
