@@ -9,6 +9,15 @@
 //   - CodeBlock: copy-to-clipboard button on .strand-code-block__pre
 //   - Nav: hamburger toggle on .strand-nav__hamburger
 //   - Nav: glass nav :has() fallback (body.strand-glass-nav-active)
+//
+// Nav, mobileMenu: the framework packages take a `mobileMenu` prop that
+// defaults to true and, when false, omits the hamburger and its panel (DL
+// 19.1.1: an application shell with a persistent destination region must not
+// also carry a hamburger). For a CSS-only consumer the markup IS the API, so
+// the equivalent is simply not writing .strand-nav__hamburger and
+// .strand-nav__mobile-menu. attachNav returns early when either is absent, so
+// omitting them is supported rather than merely tolerated, and there is no
+// class to remember.
 //   - Banner: :has() fallback (body.strand-banner-active)
 //   - Tabs: click-to-switch + keyboard nav on [role="tablist"]
 //   - StarRating: click / keyboard / hover on [data-strand-component="star-rating"]

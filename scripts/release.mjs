@@ -181,6 +181,21 @@ function main() {
 	}
 	console.log(`── release: ${current} -> ${next} (${level}) ──`);
 
+	// MUST follow the bump and precede the build, for the same reason
+	// `measure-bundle` must follow the build: it stamps the `/*! Strand vX.Y.Z */`
+	// banner in the token stylesheets and the strand-ui vite banner from the root
+	// package.json, so running it before the bump stamps the OLD version and
+	// running it after the build leaves the built CSS carrying a banner the
+	// source no longer has.
+	//
+	// It was absent, and the drift is what proved it: every banner in the repo
+	// sat at v0.36.4 while the packages were at 0.46.1, ten minor releases apart.
+	// `pnpm sync-versions:check` is a real invariant and it had been failing for
+	// all ten, because the only thing that writes those banners was a command
+	// nobody on the release path ran. A version stamp that is only correct when
+	// someone remembers to run a separate script is not a stamp, it is a comment.
+	run("node", ["scripts/sync-versions.mjs"]);
+
 	// Fast local tiers. The publish workflow runs the full matrix afterward.
 	run("npx", ["vitest", "run"], { cwd: "packages/strand-ui" });
 	run("pnpm", ["build:docs"]);

@@ -20,6 +20,21 @@ export interface NavProps
   actions?: ComponentChildren;
   /** Glassmorphic variant (fixed, backdrop-filter, DL 11.5) */
   glass?: boolean;
+  /**
+   * Render the hamburger and its slide-down panel below the md breakpoint.
+   * Defaults to `true`, which is the right answer for a content surface.
+   *
+   * Pass `false` when the surface is an application shell that already carries
+   * its destinations in a persistent viewport-anchored region (DL 19.1.1). A
+   * bottom bar coexisting with a hamburger is two answers to one question, and
+   * the spec rules it out; without this prop the only way to comply was to
+   * override `.strand-nav__hamburger` from the consumer, which the strand-first
+   * gate forbids.
+   *
+   * A consumer with no other mobile navigation still needs the hamburger, so
+   * the default cannot change.
+   */
+  mobileMenu?: boolean;
 }
 
 /**
@@ -40,7 +55,10 @@ export interface NavProps
  * ```
  */
 export const Nav = forwardRef<HTMLElement, NavProps>(
-  ({ logo, items = [], actions, glass = false, className = "", ...rest }, ref) => {
+  (
+    { logo, items = [], actions, glass = false, mobileMenu = true, className = "", ...rest },
+    ref,
+  ) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = useCallback(() => {
@@ -85,18 +103,24 @@ export const Nav = forwardRef<HTMLElement, NavProps>(
 
           {actions && <div className="strand-nav__actions">{actions}</div>}
 
-          <button
-            type="button"
-            className="strand-nav__hamburger"
-            aria-expanded={menuOpen ? "true" : "false"}
-            aria-label={menuOpen ? "Close menu" : "Menu"}
-            onClick={toggleMenu}
-          >
-            <span className="strand-nav__hamburger-icon" aria-hidden="true" />
-          </button>
+          {/* Not rendered rather than hidden. A `display: none` control is out
+              of the accessibility tree but still in the DOM and still a thing
+              to reason about; a surface that has declared it has no mobile menu
+              should not ship the button that opens one. */}
+          {mobileMenu && (
+            <button
+              type="button"
+              className="strand-nav__hamburger"
+              aria-expanded={menuOpen ? "true" : "false"}
+              aria-label={menuOpen ? "Close menu" : "Menu"}
+              onClick={toggleMenu}
+            >
+              <span className="strand-nav__hamburger-icon" aria-hidden="true" />
+            </button>
+          )}
         </div>
 
-        {menuOpen && (
+        {mobileMenu && menuOpen && (
           <div className="strand-nav__mobile-menu">
             {items.map((item) => {
               const linkClasses = [

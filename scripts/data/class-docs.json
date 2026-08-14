@@ -1330,7 +1330,7 @@
 		},
 		{
 			"name": "Nav",
-			"description": "Site/app navigation with mobile menu and glass variant.",
+			"description": "Site/app navigation with an optional mobile menu and a glass variant. The bar spans its parent and insets by its own padding; place it inside a Container if you want it held to a reading measure. The hamburger and its panel are opt-out via the mobileMenu prop, which an application shell already carrying its destinations in a persistent region should pass as false (DL 19.1.1). For a CSS-only consumer the equivalent is omitting the hamburger and mobile-menu markup.",
 			"classes": [
 				{
 					"class": "strand-nav",
@@ -1338,7 +1338,7 @@
 				},
 				{
 					"class": "strand-nav__inner",
-					"description": "Inner flex layout container."
+					"description": "Inner flex layout container. Spans the parent and insets by its own padding (32px, 16px below 480). It carries no max-width and does not centre: 1280 is a content measure and belongs to Container."
 				},
 				{
 					"class": "strand-nav__logo",
@@ -1370,11 +1370,11 @@
 				},
 				{
 					"class": "strand-nav__actions",
-					"description": "Actions area."
+					"description": "Actions area. Sizes to its contents rather than shrinking, so a child cannot hang outside it (DL 10.4)."
 				},
 				{
 					"class": "strand-nav__hamburger",
-					"description": "Mobile menu toggle button."
+					"description": "Mobile menu toggle button. Not rendered when the mobileMenu prop is false; omit the markup entirely in a CSS-only consumer."
 				},
 				{
 					"class": "strand-nav__hamburger-icon",

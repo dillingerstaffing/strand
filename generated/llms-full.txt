@@ -1896,12 +1896,12 @@ The screen that covers an instrument viewport while it boots. Fades out rather t
 
 ### Nav
 
-Site/app navigation with mobile menu and glass variant.
+Site/app navigation with an optional mobile menu and a glass variant. The bar spans its parent and insets by its own padding; place it inside a Container if you want it held to a reading measure. The hamburger and its panel are opt-out via the mobileMenu prop, which an application shell already carrying its destinations in a persistent region should pass as false (DL 19.1.1). For a CSS-only consumer the equivalent is omitting the hamburger and mobile-menu markup.
 
 | Class | Type | Description |
 |---|---|---|
 | `strand-nav` | base | Base nav element. |
-| `strand-nav__inner` | child | Inner flex layout container. |
+| `strand-nav__inner` | child | Inner flex layout container. Spans the parent and insets by its own padding (32px, 16px below 480). It carries no max-width and does not centre: 1280 is a content measure and belongs to Container. |
 | `strand-nav__logo` | child | Logo/brand area (mono uppercase tracked). |
 | `strand-nav__logo--pulse` | child | Animated pulse underline on logo. |
 | `strand-nav__items` | child | Navigation links container. |
@@ -1909,8 +1909,8 @@ Site/app navigation with mobile menu and glass variant.
 | `strand-nav__link--active` | child | Active desktop link state. |
 | `strand-nav__slot` | child | Right-edge content slot (account, utility). |
 | `strand-nav__slot--reserve` | child | Slot with a pinned inline size, so swapping its contents cannot shift the nav. |
-| `strand-nav__actions` | child | Actions area. |
-| `strand-nav__hamburger` | child | Mobile menu toggle button. |
+| `strand-nav__actions` | child | Actions area. Sizes to its contents rather than shrinking, so a child cannot hang outside it (DL 10.4). |
+| `strand-nav__hamburger` | child | Mobile menu toggle button. Not rendered when the mobileMenu prop is false; omit the markup entirely in a CSS-only consumer. |
 | `strand-nav__hamburger-icon` | child | Hamburger icon lines. |
 | `strand-nav__mobile-menu` | child | Mobile navigation panel. |
 | `strand-nav__mobile-menu--open` | child | Open state for mobile menu. |
@@ -4921,7 +4921,18 @@ The second cost is less obvious and worse. A scroll-driven reveal (`animation-ti
 
 ### 14.7 Touch Targets
 
-Minimum 44x44px on all interactive elements. This is WCAG 2.2 AA Target Size (Success Criterion 2.5.8). Touch-screen users cannot reliably hit targets smaller than 44px.
+**The floor is a property of the INPUT MODALITY, not of the element.** A finger and a mouse do not have the same pointing precision, so one number cannot be correct for both, and stating a single number makes the language wrong in one direction or the other on every surface.
+
+| Pointer | Floor | Basis |
+|---|---|---|
+| `coarse` (touch) | 44x44px | The size a finger can reliably hit. Strand holds this above the normative minimum deliberately. |
+| `fine` (mouse, trackpad, stylus) | 24x24px | WCAG 2.2 Success Criterion 2.5.8 Target Size (Minimum), which is the AA criterion and is 24x24 CSS px. |
+
+Earlier revisions of this section stated "minimum 44x44px on all interactive elements" and attributed 44px to SC 2.5.8. **That attribution was wrong.** 2.5.8 is AA and its threshold is 24x24; the 44px figure belongs to SC 2.5.5 Target Size (Enhanced), which is AAA. The consequence of the error was not academic: it made every compact desktop control a spec violation, so the only way to build a nav bar at the density this language calls for was to contradict the language.
+
+**What this does NOT license.** It is not permission to shrink controls generally. 44px remains the default everywhere, and `--strand-touch-target` is still `44px` with no modality branch, so no component changes size by inheriting this clause. A component may drop toward the fine-pointer floor only where density is the point and the control is in a pointer-driven region: nav bar chrome is the case this was written for. Anything a reader must find under time pressure, and anything in 14.8's hard band, stays at 44 whatever the pointer.
+
+**And never on the coarse side.** Trading a real accessibility guarantee for tidiness is the failure this clause is most likely to be misread into. A rule that shrinks a control must be written inside `@media (pointer: fine)` so that touch is untouched by construction rather than by care.
 
 ### 14.8 Target Position (Reach)
 
@@ -5083,7 +5094,7 @@ The three readings fail on three different things, which is the test for whether
 | WCAG 2.2 AA | All content | Automated (axe-core) + manual audit |
 | Color contrast (normal text) | 4.5:1 | Token system + automated test |
 | Color contrast (large text) | 3:1 | Token system + automated test |
-| Touch targets | 44x44px minimum | Automated test |
+| Touch targets | 44x44px under `pointer: coarse`; 24x24px under `pointer: fine` (14.7) | Automated test |
 | Keyboard navigation | All interactive elements | Manual test per component |
 | Screen reader | All non-text content has text alt | Manual test per component |
 | Reduced motion | All animations disabled | Automated test |
@@ -5609,6 +5620,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the size budget becomes three gated numbers (v0.42.0, gap #84)
 
 ### Fixed
+- delete two rules that fought each other and the consumer
+- release must measure the bundle it publishes (v0.46.1)
 - a shipped heading at 1.23:1, and the compositional check that finds them (v0.45.0, gaps #89-#90)
 
 ## [0.41.0] - 2026-08-12
@@ -6689,10 +6702,10 @@ Strand and Bootstrap coexist without conflicts. All Strand classes are prefixed 
 | `alert alert-warning` | `strand-alert strand-alert--warning` | |
 | `alert alert-info` | `strand-alert strand-alert--info` | |
 | `btn-close` (in alert) | `strand-alert__dismiss` | |
-| `navbar` | `strand-nav` | Sub-elements: `strand-nav__inner`, `strand-nav__logo`, `strand-nav__items`, `strand-nav__actions` |
+| `navbar` | `strand-nav` | Sub-elements: `strand-nav__inner`, `strand-nav__logo`, `strand-nav__items`, `strand-nav__actions`. **Spans its parent.** Bootstrap navbars usually wrap their contents in `.container`, which caps and centres them; `strand-nav__inner` does not, so wrap the nav in `strand-container` if you want that measure back. |
 | `navbar-brand` | `strand-nav__logo` | |
 | `nav-link` | `strand-nav__link` | Active state: `strand-nav__link--active` |
-| `navbar-toggler` | `strand-nav__hamburger` | Auto-shown below 768px |
+| `navbar-toggler` | `strand-nav__hamburger` | Auto-shown below 768px. Omit it (or pass `mobileMenu={false}`) when the surface already carries its destinations in a persistent region: a bottom bar plus a hamburger is two answers to one question (DL 19.1.1). |
 | `navbar-collapse` | `strand-nav__mobile-menu` | Mobile links use `strand-nav__mobile-link` |
 | `nav-tabs` / `nav-link` | `strand-tabs` + `strand-tabs__tab` | Active: `strand-tabs__tab--active`. Uses `role="tablist"` / `role="tabpanel"` for accessibility |
 | `badge bg-primary` | `strand-tag strand-tag--solid strand-tag--blue` | Colors: `--default`, `--teal`, `--blue`, `--amber`, `--red`. Variants: `--solid`, `--outlined` |

@@ -19,14 +19,31 @@
    which reads as "logo squished upward". With min-height: inherit the
    inner is always at least token-tall and align-items: center
    distributes content vertically through that full height. */
+/* NO `max-width` AND NO `margin: 0 auto` HERE, and their removal is the fix
+   rather than an oversight.
+
+   The bar used to cap at 1280 and centre itself. Inside a 1440 application
+   frame that put 80px of dead space either side, so the wordmark measured 104px
+   in from the frame edge at >=1280 viewport and 24px below it. An inset that is
+   a function of the VIEWPORT rather than of the design is why narrowing the
+   window appeared to "fix" it.
+
+   1280 is a CONTENT measure (10.3 Full tier), and 10.2 assigns it to
+   `.container`, which owns centring and fluid padding. A bar is not content: it
+   spans its parent and insets by its own padding. A bar that wants a reading
+   measure is a bar placed inside a Container, which is the consumer's
+   composition to make and not this component's to assume. Baking the container
+   into the bar meant a consumer who wanted a full-bleed bar had no way to ask
+   for one except by overriding a design-system class. */
 .strand-nav__inner {
 	display: flex;
 	align-items: center;
 	height: 100%;
 	min-height: inherit;
-	padding: 0 var(--strand-space-6);
-	max-width: 1280px;
-	margin: 0 auto;
+	/* 32px. The bar now spans its parent, so its padding is the only thing
+	   setting the brand's inset, and 24 read as tight against a full-bleed
+	   edge. */
+	padding: 0 var(--strand-space-8);
 }
 
 /* ── Logo ──
@@ -126,11 +143,20 @@
 
    Links belong next to the brand they qualify; the actions belong at the far
    edge. One auto margin, on the actions, expresses exactly that. */
+/* `flex: none` because the destinations are not the part of the row that
+   yields. As an ordinary flex item this box was `0 1 auto` and shrank: between
+   roughly 770 and 850 the labels crunched, measured "My groups" going 68px to
+   58 to 45, and then broke onto two lines mid-label. That reads as a rendering
+   fault rather than as a layout out of room.
+
+   A bar either fits its destinations or hands them to the mobile menu. There is
+   no correct intermediate state in which it shows half of one. */
 .strand-nav__items {
 	display: flex;
 	align-items: center;
 	gap: var(--strand-space-6);
 	list-style: none;
+	flex: none;
 }
 
 /* ── Nav slot ──
@@ -186,6 +212,10 @@
 	text-decoration: none;
 	font-size: var(--strand-text-sm);
 	font-weight: var(--strand-weight-medium);
+	/* A destination's label is a name, and half a name is not a shorter name.
+	   Wrapping is the failure mode this prevents; the row giving up and handing
+	   its destinations to the mobile menu is the intended one. */
+	white-space: nowrap;
 	transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
@@ -203,12 +233,39 @@
 	font-weight: var(--strand-weight-medium);
 }
 
-/* ── Actions ── */
+/* ── Actions ──
+   THIS BOX WAS SMALLER THAN THE THINGS INSIDE IT, and 10.4 Boundary Integrity
+   says that is the component's failure to prevent, not the consumer's.
+
+   Measured on a consumer whose actions hold a 300px search field and an account
+   control: the box resolved to 299 while holding 384px of children, so the
+   account hung 85px outside its own parent. An application shell clips
+   (`overflow: clip`), so the Sign in button was simply cut off, and it read as
+   "the button disappears when I open DevTools" because the overhang varied with
+   viewport.
+
+   Two causes, both fixed here:
+
+   1. `margin-left: auto` takes the free space, and the box then shrink-to-fits.
+      As an ordinary flex item it was `0 1 auto` and shrank below its contents.
+      `flex: none` makes it size to what it holds, which is what a
+      right-anchored action group is for.
+
+   2. A PERCENTAGE contributes nothing to a parent's intrinsic size. A field
+      sized `min(300px, 100%)` (SearchField does exactly this, correctly, so it
+      cannot breach a narrow parent) therefore offered the shrink-to-fit
+      calculation nothing, and the parent measured itself from the rest alone.
+      `min-inline-size: max-content` restores the floor the percentage removed.
+
+   The second is the one worth remembering: every child can be individually
+   correct and the parent still measure short. */
 .strand-nav__actions {
 	display: flex;
 	align-items: center;
 	gap: var(--strand-space-3);
 	margin-left: auto;
+	flex: none;
+	min-inline-size: max-content;
 }
 
 /* ── Hamburger ── */
@@ -357,6 +414,49 @@
 	.strand-nav {
 		height: auto;
 		min-height: var(--strand-nav-height);
+	}
+}
+
+/* ── Phone gutter ──
+   A 32px gutter is a desktop measure. Arithmetic rather than mystery: a 136px
+   wordmark and an 85px account control need 285px of row before anything wraps
+   when each side spends 32, so below that width the gutter is the only thing
+   left to give and it gave. Measured 32px of clearance down to 320, then 15px
+   at 300 and -5px at 280, the control pushing through the gutter and out of the
+   bar.
+
+   Phones conventionally use 16, and at 16 the same row needs 253, which is
+   comfortable at 280. Nothing truncates and nothing is hidden; the bar simply
+   stops spending desktop padding on a phone. */
+@media (max-width: 479.98px) {
+	.strand-nav__inner {
+		padding-inline: var(--strand-space-4);
+	}
+}
+
+/* ── Nav chrome density on a pointer-driven viewport (14.7) ──
+   ONLY under `pointer: fine`, and the guard is the whole point. 44px is the
+   touch floor and it is correct on touch; 14.7's fine-pointer floor is 24, and
+   nav chrome is the region that clause was written for.
+
+   Two reasons this is not merely tidiness. Visually a 44px control reads heavy
+   in a 64px bar, especially on the account corner where it sits alone beside
+   the wordmark. Structurally an auth affordance is ONE SLOT rendering two
+   states, and a signed-out button 10px taller than the avatar that replaces it
+   is a layout shift the moment auth resolves, on every page load, for every
+   member. Matching the boxes removes the shift by construction rather than by
+   reserving a size that neither state actually is.
+
+   34px rather than a spacing token for the same reason SearchField states its
+   36px directly: the scale has no rung here, and inventing one to express a
+   control height would put a value in the spacing system that is not spacing.
+   It is the avatar's rendered box, which is what the button has to match. */
+@media (pointer: fine) {
+	.strand-nav__actions .strand-btn,
+	.strand-nav__slot .strand-btn {
+		min-height: 34px;
+		padding-block: 0;
+		padding-inline: var(--strand-space-3);
 	}
 }
 

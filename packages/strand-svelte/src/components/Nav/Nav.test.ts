@@ -77,4 +77,21 @@ describe('Nav', () => {
     const { container } = render(Nav, { props: { items: testItems, glass: true } })
     expect(container.querySelector('.strand-nav')).toHaveClass('strand-nav--glass')
   })
+
+  // ── Gap #96: mobileMenu (DL 19.1.1) ──
+
+  it('ships the hamburger by default', () => {
+    const { container } = render(Nav, { props: { items: testItems } })
+    expect(container.querySelector('.strand-nav__hamburger')).toBeInTheDocument()
+  })
+
+  it('omits the hamburger when the surface carries its own destinations', () => {
+    const { container } = render(Nav, { props: { items: testItems, mobileMenu: false } })
+    expect(container.querySelector('.strand-nav__hamburger')).toBeNull()
+  })
+
+  it('cannot open a panel it does not have', () => {
+    const { container } = render(Nav, { props: { items: testItems, mobileMenu: false } })
+    expect(container.querySelector('.strand-nav__mobile-menu')).toBeNull()
+  })
 })

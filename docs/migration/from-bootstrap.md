@@ -30,10 +30,10 @@ Strand and Bootstrap coexist without conflicts. All Strand classes are prefixed 
 | `alert alert-warning` | `strand-alert strand-alert--warning` | |
 | `alert alert-info` | `strand-alert strand-alert--info` | |
 | `btn-close` (in alert) | `strand-alert__dismiss` | |
-| `navbar` | `strand-nav` | Sub-elements: `strand-nav__inner`, `strand-nav__logo`, `strand-nav__items`, `strand-nav__actions` |
+| `navbar` | `strand-nav` | Sub-elements: `strand-nav__inner`, `strand-nav__logo`, `strand-nav__items`, `strand-nav__actions`. **Spans its parent.** Bootstrap navbars usually wrap their contents in `.container`, which caps and centres them; `strand-nav__inner` does not, so wrap the nav in `strand-container` if you want that measure back. |
 | `navbar-brand` | `strand-nav__logo` | |
 | `nav-link` | `strand-nav__link` | Active state: `strand-nav__link--active` |
-| `navbar-toggler` | `strand-nav__hamburger` | Auto-shown below 768px |
+| `navbar-toggler` | `strand-nav__hamburger` | Auto-shown below 768px. Omit it (or pass `mobileMenu={false}`) when the surface already carries its destinations in a persistent region: a bottom bar plus a hamburger is two answers to one question (DL 19.1.1). |
 | `navbar-collapse` | `strand-nav__mobile-menu` | Mobile links use `strand-nav__mobile-link` |
 | `nav-tabs` / `nav-link` | `strand-tabs` + `strand-tabs__tab` | Active: `strand-tabs__tab--active`. Uses `role="tablist"` / `role="tabpanel"` for accessibility |
 | `badge bg-primary` | `strand-tag strand-tag--solid strand-tag--blue` | Colors: `--default`, `--teal`, `--blue`, `--amber`, `--red`. Variants: `--solid`, `--outlined` |

@@ -1139,3 +1139,68 @@ Verdict: FAIL (two L2 gaps; both closed)
 - **`test:dark-composition` earned its place on its second day.** The cascades for these primitives were written with them, then lost: the components were parked out of the tree during the publish-integrity diagnosis and restored, but only the untracked component directories came back — the tracked cascade edits did not. The check caught `.strand-big-mono-time` at 1.60:1 on the abyss and **1.00:1 on the feature surface**, where the readout was painting `blue-midnight` on `blue-midnight` and was literally invisible. **A restore that returns most of a change is exactly the failure a compositional check exists for**, and no declaration audit could have seen it: the class is correct on a light surface.
 - The bundle ceiling moved 85 → 92 KB for five components, in the same commit with the reason. **The per-component average moved DOWN, 1.18 → 1.16 KB**, which is the reading that distinguishes growth from bloat and is why that number exists.
 - Its guard test was re-anchored rather than loosened, and its hardcoded ceiling replaced with one derived from `BUDGET`: a literal goes stale the moment the budget is legitimately raised, and then the test fails for a reason unrelated to the behaviour it checks, which is how a guard gets weakened while appearing maintained.
+
+---
+
+## Production consumer: the top nav of an application shell
+Date: 2026-08-13
+Verdict: FAIL (five L2 gaps, one L3 gap, one L1 gap; all closed). One further finding was correctly NOT a gap, and saying so is part of the record.
+
+The consumer is a real product bar: one wordmark, four destinations, a 300px search field and an account control, inside a 1440 application frame. Seven findings were prototyped as page-local overrides of design-system classes first, purely so the visual result could be confirmed before propagation, and every override carried the measurement that produced it. That file is the specification these entries are written from, and it is deleted now that they have landed.
+
+**Six of the seven were fixed by REMOVING a rule or by not rendering an element.** That ratio is the useful number in this iteration. The bar did not need new capability; it needed the component to stop asserting things that were not its to assert.
+
+### Gap #93
+- Type: **L2** (library). Tree: could a world-class designer build this with the current public API? No, the cap is unconditional and the only exit is overriding a design-system class. Does the fix need `docs/design-language.md` changed? No, the spec already assigns this measure elsewhere. Therefore L2.
+- Symptom, measured: the wordmark sat **104px** in from the frame edge at >=1280 viewport and **24px** below it. An inset that is a function of the VIEWPORT rather than of the design is why narrowing the window appeared to "fix" it.
+- Root cause: `.strand-nav__inner` carried `max-width: 1280px; margin: 0 auto`. Inside a 1440 frame that is 80px of dead space either side, plus the 24px padding.
+- **1280 is a CONTENT measure and 10.2 already assigns it to `.container`.** A bar is not content: it spans its parent and insets by its own padding. A bar that wants a reading measure is a bar placed inside a Container, which is the consumer's composition to make. The component was doing a container's job and leaving the consumer no way to decline it.
+- Fix: both declarations deleted; padding raised 24 to 32 because the bar now spans the frame and its own padding is the only thing setting the brand's inset. Breaking for any consumer relying on the implicit measure, so it is called out in the Bootstrap migration guide, where `navbar` maps to `strand-nav` and Bootstrap navbars conventionally wrap their contents in `.container`.
+
+### Gap #94
+- Type: **L2** (library). Tree: no primitive expresses "fit or hand over", and no spec change is needed to add it.
+- Symptom, measured: between roughly 770 and 850 the labels shrank rather than the row giving up. "My groups" went **68px, then 58, then 45**, and then broke onto two lines mid-label.
+- Root cause: `.strand-nav__items` was an ordinary flex item at `0 1 auto` and shrank; the links had no `white-space` rule to stop the reflow that followed.
+- **A destination's label is a name, and half a name is not a shorter name.** A bar either fits its destinations or hands them to the mobile menu. There is no correct intermediate state, so the component should not have one. `flex: none` plus `white-space: nowrap`.
+- The failure mode is the reason this was worth a gap rather than a patch: crunched labels read as a RENDERING fault, so nobody reports it as a layout problem and it survives review.
+
+### Gap #95
+- Type: **L2** (library). Tree: 10.4 Boundary Integrity already says a child may not breach its parent and that this is "enforced at the component level, not by the consumer", so the spec demands the behaviour and the component failed to deliver it. No spec change; L2.
+- Symptom, measured: `.strand-nav__actions` resolved to **299px while holding 384px of children**, so the account control hung **85px outside its own parent**, ending at 1503 inside a 1438 box. The application shell clips, so the Sign in button was cut off. It presented as "the button disappears when I open DevTools", because the overhang varied with viewport.
+- Two independent causes, and the second is the one worth carrying forward:
+  1. `margin-left: auto` takes the free space and the box then shrink-to-fits. As an ordinary flex item it could also shrink below its contents. `flex: none` makes it size to what it holds, which is what a right-anchored action group is for.
+  2. **A PERCENTAGE contributes nothing to a parent's intrinsic size.** `SearchField` is `inline-size: min(300px, 100%)`, which is correct and deliberate (10.4: a fixed width is a promise about the field, not about every container it is put in). But it offered the shrink-to-fit calculation nothing, so the parent measured itself from the remaining children alone. `min-inline-size: max-content` restores the floor the percentage removed.
+- **Every child was individually correct and the parent still measured short.** No per-component review finds this, because there is no component to look at: the defect exists only in the composition.
+
+### Gap #96
+- Type: **L2** (library). Tree: the hamburger was unconditional, so the only compliant route was a consumer override of `.strand-nav__hamburger`, which the strand-first gate forbids. **19.1.1 already specifies the answer**, so no spec change; L2.
+- Symptom: on a phone the bar showed a hamburger AND the account control, and the hamburger opened a menu duplicating the bottom tab bar the product already ships. Two navigation affordances in the corner where one belongs, and the menu was a second door to the same room.
+- **The spec already ruled this out and the library could not express it.** 19.1.1: "A surface has ONE primary navigation, and a bottom bar coexisting with a hamburger is two answers to one question, leaving the reader to learn which holds what." The consumer qualifies as an application shell on the mechanical test (four destinations, inside the three-to-five band, moved between repeatedly in one session).
+- Fix: a `mobileMenu` prop, defaulting to **true** so no existing consumer changes behaviour. False omits the hamburger and its panel.
+- **Not rendered rather than hidden.** A `display: none` control is out of the accessibility tree but still in the DOM and still a thing to reason about; a surface that has declared it has no mobile menu should not ship the button that opens one. For the CSS-only consumer type the markup IS the API, so the equivalent is omitting the two elements, and `attachNav` already returns early when either is absent, which makes omission supported rather than merely tolerated.
+
+### Gap #97
+- Type: **L2** (library). Tree: no primitive, no spec change.
+- Symptom, measured: **32px of clearance down to 320, then 15px at 300, then -5px at 280**, the account control pushing through the gutter and out of the bar.
+- Arithmetic rather than mystery: a 136px wordmark and an 85px control need 285px of row when each side spends 32, so below that the gutter is the only thing left to give and it gave.
+- **A 32px gutter is a desktop measure.** Phones conventionally use 16, and at 16 the same row needs 253, comfortable at 280. Nothing truncates and nothing is hidden; the bar stops spending desktop padding on a phone.
+
+### Gap #98
+- Type: **L3** (design language). Tree: no primitive exists, AND the primitive cannot be added without changing `docs/design-language.md`, because 14.7 said "minimum 44x44px on all interactive elements" with no modality qualification. Shipping a 34px control would have made the library contradict its own spec. Therefore L3, and the spec moved first.
+- Symptom, measured: signed-out **85x44**, signed-in **34x34**. Two consequences, one visual and one structural. Visually 44px reads heavy in a 64px bar, especially on a phone where it is the only thing beside the wordmark. Structurally **the two states are the SAME SLOT**, so a 10px height difference is a layout shift the moment auth resolves, on every page load, for every member.
+- **The spec was not merely incomplete, it was wrong on a citation.** 14.7 attributed 44px to WCAG 2.2 SC 2.5.8. 2.5.8 is the AA criterion and its threshold is **24x24 CSS px**; 44px belongs to SC 2.5.5 Target Size (Enhanced), which is AAA. The error was not academic: it made every compact desktop control a spec violation, so the only way to build a bar at the density this language calls for was to contradict the language.
+- Fix, in order: 14.7 rewritten to state that the floor is a property of the INPUT MODALITY (44 under `coarse`, 24 under `fine`), with the mis-citation corrected in place so it cannot be reintroduced by someone reading the old sentence. Then one nav-scoped rule inside `@media (pointer: fine)`.
+- **`--strand-touch-target` was deliberately NOT touched and stays 44px.** It feeds Button, Radio, Checkbox, Switch, Slider, Link, StarRating and CodeBlock, so a modality branch on the token would have resized every control in every consumer to fix a nav bar. The spec now permits a lower fine-pointer floor; nothing except the nav takes it.
+- The guarantee this clause is most likely to be misread into breaking is the coarse one, so it is protected by construction rather than by care: the rule lives inside a fine-pointer query, and a test asserts both that no `pointer: coarse` branch exists and that 34px never appears outside the fine-pointer block.
+
+### Gap #99
+- Type: **L1** (usage). Tree: could a world-class designer build this correctly with the current API? Yes, by adding a size modifier. So the fix is documentation, not library code.
+- Symptom: the consumer's avatar control shipped `class="strand-btn strand-btn--ghost strand-btn--icon-only"` with **no size modifier**. `.strand-btn` carries no padding and no min-height on its own, and `.strand-btn--icon-only` sets nothing by itself: every dimension comes from `--sm` / `--md` / `--lg`, and the icon-only padding rules are compound selectors requiring both classes. The control therefore had no touch-target floor at all.
+- **This silently defeated Gap #98's stated intent.** #98 exists so the two auth states match and the slot does not shift, and its rule was written expecting "the avatar gets the same treatment from the same rule". The avatar could not get that treatment on the coarse side, because it had no 44px floor to be held to in the first place. A fix and the defect it was meant to close were shipped in the same bar.
+- Fix at the L1 layer: the composition trap is now stated where a consumer meets it (`icon-only` is a shape modifier, not a size, and carries no dimensions without a size modifier beside it).
+- **Recorded because the tooling that should have caught it could not see the file.** The consumer's audit globbed `**/*.js` while the surface is authored in `.jsx`, so 57 of its 90 files were unaudited. That is the consumer's gap to close and it has closed it, but it belongs in this log too: an L1 gap is only cheap when something finds it, and here nothing did.
+
+### Not a gap: the search field's 950px threshold
+- The seventh finding was where the search field stops being shown. It was hidden below `lg` (1024), which is a viewport breakpoint rather than an answer about this bar, and about 75px too early. Lowering it to where the row merely stops OVERFLOWING was too late in the other direction: the field slid left until it sat flush against the last destination.
+- **Fitting is not the test.** The bar has one spacing rhythm and the field has to keep it. Measured with the field forced visible, brand to destinations held 32 at every width while destinations to field went 116 at 1024, 67 at 975, 42 at 950, 17 at 925 and 0 at 900. So 32 is the bar's spacing, and the field survives exactly while it can hold it.
+- **This stayed in the consumer, and that is the correct layer rather than a deferral.** 950 is a property of THIS bar's contents: one wordmark, four destinations, a 300px field and an account control. Strand cannot know how many destinations a product has, and a design system shipping 950px here would be encoding someone else's nav. The general capability the consumer needed already exists; only the number is local.

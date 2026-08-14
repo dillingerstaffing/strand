@@ -1337,12 +1337,12 @@ The screen that covers an instrument viewport while it boots. Fades out rather t
 
 ### Nav
 
-Site/app navigation with mobile menu and glass variant.
+Site/app navigation with an optional mobile menu and a glass variant. The bar spans its parent and insets by its own padding; place it inside a Container if you want it held to a reading measure. The hamburger and its panel are opt-out via the mobileMenu prop, which an application shell already carrying its destinations in a persistent region should pass as false (DL 19.1.1). For a CSS-only consumer the equivalent is omitting the hamburger and mobile-menu markup.
 
 | Class | Type | Description |
 |---|---|---|
 | `strand-nav` | base | Base nav element. |
-| `strand-nav__inner` | child | Inner flex layout container. |
+| `strand-nav__inner` | child | Inner flex layout container. Spans the parent and insets by its own padding (32px, 16px below 480). It carries no max-width and does not centre: 1280 is a content measure and belongs to Container. |
 | `strand-nav__logo` | child | Logo/brand area (mono uppercase tracked). |
 | `strand-nav__logo--pulse` | child | Animated pulse underline on logo. |
 | `strand-nav__items` | child | Navigation links container. |
@@ -1350,8 +1350,8 @@ Site/app navigation with mobile menu and glass variant.
 | `strand-nav__link--active` | child | Active desktop link state. |
 | `strand-nav__slot` | child | Right-edge content slot (account, utility). |
 | `strand-nav__slot--reserve` | child | Slot with a pinned inline size, so swapping its contents cannot shift the nav. |
-| `strand-nav__actions` | child | Actions area. |
-| `strand-nav__hamburger` | child | Mobile menu toggle button. |
+| `strand-nav__actions` | child | Actions area. Sizes to its contents rather than shrinking, so a child cannot hang outside it (DL 10.4). |
+| `strand-nav__hamburger` | child | Mobile menu toggle button. Not rendered when the mobileMenu prop is false; omit the markup entirely in a CSS-only consumer. |
 | `strand-nav__hamburger-icon` | child | Hamburger icon lines. |
 | `strand-nav__mobile-menu` | child | Mobile navigation panel. |
 | `strand-nav__mobile-menu--open` | child | Open state for mobile menu. |

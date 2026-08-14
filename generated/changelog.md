@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the size budget becomes three gated numbers (v0.42.0, gap #84)
 
 ### Fixed
+- delete two rules that fought each other and the consumer
+- release must measure the bundle it publishes (v0.46.1)
 - a shipped heading at 1.23:1, and the compositional check that finds them (v0.45.0, gaps #89-#90)
 
 ## [0.41.0] - 2026-08-12

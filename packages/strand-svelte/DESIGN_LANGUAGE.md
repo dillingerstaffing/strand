@@ -1991,7 +1991,18 @@ The second cost is less obvious and worse. A scroll-driven reveal (`animation-ti
 
 ### 14.7 Touch Targets
 
-Minimum 44x44px on all interactive elements. This is WCAG 2.2 AA Target Size (Success Criterion 2.5.8). Touch-screen users cannot reliably hit targets smaller than 44px.
+**The floor is a property of the INPUT MODALITY, not of the element.** A finger and a mouse do not have the same pointing precision, so one number cannot be correct for both, and stating a single number makes the language wrong in one direction or the other on every surface.
+
+| Pointer | Floor | Basis |
+|---|---|---|
+| `coarse` (touch) | 44x44px | The size a finger can reliably hit. Strand holds this above the normative minimum deliberately. |
+| `fine` (mouse, trackpad, stylus) | 24x24px | WCAG 2.2 Success Criterion 2.5.8 Target Size (Minimum), which is the AA criterion and is 24x24 CSS px. |
+
+Earlier revisions of this section stated "minimum 44x44px on all interactive elements" and attributed 44px to SC 2.5.8. **That attribution was wrong.** 2.5.8 is AA and its threshold is 24x24; the 44px figure belongs to SC 2.5.5 Target Size (Enhanced), which is AAA. The consequence of the error was not academic: it made every compact desktop control a spec violation, so the only way to build a nav bar at the density this language calls for was to contradict the language.
+
+**What this does NOT license.** It is not permission to shrink controls generally. 44px remains the default everywhere, and `--strand-touch-target` is still `44px` with no modality branch, so no component changes size by inheriting this clause. A component may drop toward the fine-pointer floor only where density is the point and the control is in a pointer-driven region: nav bar chrome is the case this was written for. Anything a reader must find under time pressure, and anything in 14.8's hard band, stays at 44 whatever the pointer.
+
+**And never on the coarse side.** Trading a real accessibility guarantee for tidiness is the failure this clause is most likely to be misread into. A rule that shrinks a control must be written inside `@media (pointer: fine)` so that touch is untouched by construction rather than by care.
 
 ### 14.8 Target Position (Reach)
 
@@ -2153,7 +2164,7 @@ The three readings fail on three different things, which is the test for whether
 | WCAG 2.2 AA | All content | Automated (axe-core) + manual audit |
 | Color contrast (normal text) | 4.5:1 | Token system + automated test |
 | Color contrast (large text) | 3:1 | Token system + automated test |
-| Touch targets | 44x44px minimum | Automated test |
+| Touch targets | 44x44px under `pointer: coarse`; 24x24px under `pointer: fine` (14.7) | Automated test |
 | Keyboard navigation | All interactive elements | Manual test per component |
 | Screen reader | All non-text content has text alt | Manual test per component |
 | Reduced motion | All animations disabled | Automated test |

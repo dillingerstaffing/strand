@@ -36,11 +36,23 @@ export interface NavProps {
   items?: NavItem[]
   /** Glassmorphic variant (fixed, backdrop-filter, DL 11.5) */
   glass?: boolean
+  /**
+   * Render the hamburger and its slide-down panel below the md breakpoint.
+   * Defaults to `true`, which is the right answer for a content surface.
+   *
+   * Pass `false` when the surface is an application shell that already carries
+   * its destinations in a persistent viewport-anchored region (DL 19.1.1). A
+   * bottom bar coexisting with a hamburger is two answers to one question, and
+   * the spec rules it out. A consumer with no other mobile navigation still
+   * needs the hamburger, so the default cannot change.
+   */
+  mobileMenu?: boolean
 }
 
 const props = withDefaults(defineProps<NavProps>(), {
   items: () => [],
   glass: false,
+  mobileMenu: true,
 })
 
 const menuOpen = ref(false)
@@ -90,7 +102,10 @@ const classes = computed(() => ['strand-nav', props.glass && 'strand-nav--glass'
         <slot name="actions" />
       </div>
 
+      <!-- Not rendered rather than hidden: a surface that has declared it has
+           no mobile menu should not ship the button that opens one. -->
       <button
+        v-if="mobileMenu"
         type="button"
         class="strand-nav__hamburger"
         :aria-expanded="menuOpen ? 'true' : 'false'"
@@ -101,7 +116,7 @@ const classes = computed(() => ['strand-nav', props.glass && 'strand-nav--glass'
       </button>
     </div>
 
-    <div v-if="menuOpen" class="strand-nav__mobile-menu">
+    <div v-if="mobileMenu && menuOpen" class="strand-nav__mobile-menu">
       <a
         v-for="item in items"
         :key="item.href"

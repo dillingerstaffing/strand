@@ -31,6 +31,17 @@
   export let items: NavItem[] = []
   /** Glassmorphic variant (fixed, backdrop-filter, DL 11.5) */
   export let glass: boolean = false
+  /**
+   * Render the hamburger and its slide-down panel below the md breakpoint.
+   * Defaults to `true`, which is the right answer for a content surface.
+   *
+   * Pass `false` when the surface is an application shell that already carries
+   * its destinations in a persistent viewport-anchored region (DL 19.1.1). A
+   * bottom bar coexisting with a hamburger is two answers to one question, and
+   * the spec rules it out. A consumer with no other mobile navigation still
+   * needs the hamburger, so the default cannot change.
+   */
+  export let mobileMenu: boolean = true
 
   let menuOpen = false
 
@@ -85,18 +96,22 @@
       </div>
     {/if}
 
-    <button
-      type="button"
-      class="strand-nav__hamburger"
-      aria-expanded={menuOpen ? 'true' : 'false'}
-      aria-label={menuOpen ? 'Close menu' : 'Menu'}
-      on:click={toggleMenu}
-    >
-      <span class="strand-nav__hamburger-icon" aria-hidden="true"></span>
-    </button>
+    <!-- Not rendered rather than hidden: a surface that has declared it has no
+         mobile menu should not ship the button that opens one. -->
+    {#if mobileMenu}
+      <button
+        type="button"
+        class="strand-nav__hamburger"
+        aria-expanded={menuOpen ? 'true' : 'false'}
+        aria-label={menuOpen ? 'Close menu' : 'Menu'}
+        on:click={toggleMenu}
+      >
+        <span class="strand-nav__hamburger-icon" aria-hidden="true"></span>
+      </button>
+    {/if}
   </div>
 
-  {#if menuOpen}
+  {#if mobileMenu && menuOpen}
     <div class="strand-nav__mobile-menu">
       {#each items as item (item.href)}
         <a

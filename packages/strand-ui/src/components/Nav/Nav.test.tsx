@@ -292,4 +292,101 @@ describe("the nav wordmark answers hover and press", () => {
     const reduced = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"));
     expect(reduced).toMatch(/\.strand-nav__logo\s*\{[^}]*transition:\s*none/);
   });
+
+  // ── Gap #93: the bar spans its parent rather than capping at a measure ──
+
+  it("does not cap or centre its inner row", () => {
+    // 1280 is a CONTENT measure and 10.2 assigns it to .container. A bar that
+    // caps at it puts dead space either side of itself inside a wider frame,
+    // and the brand's inset then varies with the viewport rather than with the
+    // design. Asserted as an absence because the defect was a present rule.
+    const inner = ruleFor(".strand-nav__inner") || "";
+    expect(inner, "the bar must not carry a container's measure").not.toMatch(/max-width/);
+    expect(inner, "nothing to centre once the cap is gone").not.toMatch(/margin:\s*0\s+auto/);
+  });
+
+  it("insets the brand by its own padding, at the design's 32px", () => {
+    expect(ruleFor(".strand-nav__inner")).toMatch(/padding:\s*0\s+var\(--strand-space-8\)/);
+  });
+
+  it("spends a phone gutter rather than a desktop one below 480", () => {
+    // Below 480 a 32px gutter each side is the only thing left to give, so it
+    // gave: measured -5px of clearance at 280, the control through the gutter.
+    const phone = css.slice(css.indexOf("@media (max-width: 479.98px)"));
+    expect(phone).toMatch(/\.strand-nav__inner\s*\{[^}]*padding-inline:\s*var\(--strand-space-4\)/);
+  });
+
+  // ── Gap #94: destinations fit or they leave; they never crunch ──
+
+  it("holds the destinations at their labels' width", () => {
+    expect(ruleFor(".strand-nav__items")).toMatch(/flex:\s*none/);
+  });
+
+  it("never wraps a destination mid-label", () => {
+    expect(ruleFor(".strand-nav__link")).toMatch(/white-space:\s*nowrap/);
+  });
+
+  // ── Gap #95: the action group measures itself honestly (10.4) ──
+
+  it("sizes the action group to what it holds", () => {
+    const actions = ruleFor(".strand-nav__actions") || "";
+    expect(actions, "an auto margin plus shrink resolved this box below its children")
+      .toMatch(/flex:\s*none/);
+    // A percentage width on a child contributes NOTHING to the parent's
+    // intrinsic size, so shrink-to-fit measured the field at zero and the
+    // account control hung 85px outside its own parent, where the app shell
+    // clipped it. This restores the floor the percentage removed.
+    expect(actions, "a percentage child cannot be measured without this")
+      .toMatch(/min-inline-size:\s*max-content/);
+  });
+
+  // ── Gap #98 (L3): 14.7's floor is a property of the input modality ──
+
+  it("compacts nav chrome only under a fine pointer", () => {
+    const i = css.indexOf("@media (pointer: fine)");
+    expect(i, "no fine-pointer block").toBeGreaterThan(-1);
+    const fine = css.slice(i);
+    expect(fine).toMatch(/min-height:\s*34px/);
+  });
+
+  it("never compacts under a coarse pointer", () => {
+    // The guarantee this clause is most likely to be misread into breaking.
+    // 44px is the touch floor and it stays; the rule is inside a fine-pointer
+    // query so touch is untouched by construction rather than by care.
+    expect(css, "a coarse-pointer branch would trade a11y for tidiness")
+      .not.toMatch(/@media\s*\(pointer:\s*coarse\)/);
+    const beforeFine = css.slice(0, css.indexOf("@media (pointer: fine)"));
+    expect(beforeFine, "34px must not leak outside the fine-pointer query")
+      .not.toMatch(/min-height:\s*34px/);
+  });
+
+  // ── Gap #96: mobileMenu (DL 19.1.1) ──
+
+  it("ships the hamburger by default, because most surfaces need it", () => {
+    const { container } = render(<Nav items={sampleItems} />);
+    expect(container.querySelector(".strand-nav__hamburger")).toBeTruthy();
+  });
+
+  it("omits the hamburger entirely when the surface has its own destinations", () => {
+    // Not hidden. A surface that has declared it has no mobile menu should not
+    // ship the button that opens one, and a display:none control is still in
+    // the DOM and still a thing to reason about.
+    const { container } = render(<Nav items={sampleItems} mobileMenu={false} />);
+    expect(container.querySelector(".strand-nav__hamburger")).toBeNull();
+  });
+
+  it("cannot open a panel it does not have", () => {
+    const { container } = render(<Nav items={sampleItems} mobileMenu={false} />);
+    expect(container.querySelector(".strand-nav__mobile-menu")).toBeNull();
+  });
+
+  it("still opens its panel when the hamburger is present", () => {
+    // The default path must keep working, or the prop has quietly become a
+    // breaking change for every existing consumer.
+    const { container } = render(<Nav items={sampleItems} />);
+    const btn = container.querySelector(".strand-nav__hamburger") as HTMLElement;
+    expect(container.querySelector(".strand-nav__mobile-menu")).toBeNull();
+    fireEvent.click(btn);
+    expect(container.querySelector(".strand-nav__mobile-menu")).toBeTruthy();
+  });
 });

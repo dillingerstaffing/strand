@@ -34,11 +34,18 @@
 </head>
 <body>
 
+<!-- The bar spans its parent and insets by its own padding. A bar that wants a
+     reading measure is a bar inside a Container, which is the composition
+     shown here: the container is --wide, matching the page's own measure, so
+     the wordmark lines up with the content beneath it instead of floating at
+     a width neither the bar nor the page chose. -->
 <nav class="strand-nav strand-nav--glass" aria-label="Listening Station">
-  <div class="strand-nav__inner">
-    <a href="#" class="strand-nav__logo">Listening Station</a>
-    <div class="strand-nav__actions">
-      <span class="strand-overline" style="color: var(--strand-teal-vital)">● Streaming</span>
+  <div class="strand-container strand-container--wide">
+    <div class="strand-nav__inner">
+      <a href="#" class="strand-nav__logo">Listening Station</a>
+      <div class="strand-nav__actions">
+        <span class="strand-overline" style="color: var(--strand-teal-vital)">● Streaming</span>
+      </div>
     </div>
   </div>
 </nav>
