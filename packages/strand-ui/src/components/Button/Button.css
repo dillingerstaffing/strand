@@ -52,6 +52,30 @@
   min-height: var(--strand-touch-target);
 }
 
+/* ── Compact ──
+   A text button at chrome density, for a header row rather than a page.
+
+   THE GAP THIS CLOSES. #98 gave nav chrome a compact treatment, correctly
+   scoped to `.strand-nav__actions` and `.strand-nav__slot` so it could not
+   leak into page content. A consumer then built its phone header as a plain
+   header block rather than as a `Nav`, which is the right composition for
+   it, and had no way to reach that density: an 85px sign-in button beside a
+   26px title read as the loudest thing on the screen. The treatment was
+   tied to a CONTAINER when it is a property of the CONTROL.
+
+   Padding only. It deliberately does NOT touch min-height, because that is
+   the touch-target floor and 14.7 makes it a function of the input
+   modality, not of how dense a row looks. Compact is about horizontal
+   noise; shrinking a target is a different decision with a different rule.
+
+   Not applied to `--icon-only`: an icon button's padding is what makes it
+   square, and the same declaration that tightens a word deforms a circle
+   into a pill. #100 is that mistake; this is the guard against repeating
+   it, which is why the selector excludes it rather than relying on order. */
+.strand-btn--compact:not(.strand-btn--icon-only) {
+  padding-inline: var(--strand-space-3);
+}
+
 /* ── Icon-only ── */
 .strand-btn--icon-only.strand-btn--sm {
   padding: var(--strand-space-1);

@@ -8,20 +8,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- the bar spans its parent, destinations hold, and 14.7's floor follows the pointer (v0.47.0, gaps #93-#99)
-- AppShell and the four screen primitives (v0.46.0, gaps #91-#92)
-- FeatureSurface, and 9.3 admits two dark surface roles (v0.44.0, gap #88)
-- sticky, scroll-row and the split grid; overflow:clip so sticky works inside a grid (v0.43.0, gaps #85-#87)
-- the size budget becomes three gated numbers (v0.42.0, gap #84)
-
-### Fixed
-- an icon-only control is a shape, not a word (v0.47.1, gap #100)
-- delete two rules that fought each other and the consumer
-- release must measure the bundle it publishes (v0.46.1)
-- a shipped heading at 1.23:1, and the compositional check that finds them (v0.45.0, gaps #89-#90)
+- a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Documentation
 - #101, Dialog's Escape binding and the unit test that cannot see it
+
+## [0.47.1] - 2026-08-13
+
+### Fixed
+- an icon-only control is a shape, not a word (v0.47.1, gap #100)
+
+## [0.47.0] - 2026-08-13
+
+### Added
+- the bar spans its parent, destinations hold, and 14.7's floor follows the pointer (v0.47.0, gaps #93-#99)
+
+### Fixed
+- delete two rules that fought each other and the consumer
+
+## [0.46.1] - 2026-08-12
+
+### Fixed
+- release must measure the bundle it publishes (v0.46.1)
+
+## [0.46.0] - 2026-08-12
+
+### Added
+- AppShell and the four screen primitives (v0.46.0, gaps #91-#92)
+
+## [0.45.0] - 2026-08-12
+
+### Fixed
+- a shipped heading at 1.23:1, and the compositional check that finds them (v0.45.0, gaps #89-#90)
+
+## [0.44.0] - 2026-08-12
+
+### Added
+- FeatureSurface, and 9.3 admits two dark surface roles (v0.44.0, gap #88)
+
+## [0.43.0] - 2026-08-12
+
+### Added
+- sticky, scroll-row and the split grid; overflow:clip so sticky works inside a grid (v0.43.0, gaps #85-#87)
+
+## [0.42.0] - 2026-08-12
+
+### Added
+- the size budget becomes three gated numbers (v0.42.0, gap #84)
 
 ## [0.41.0] - 2026-08-12
 

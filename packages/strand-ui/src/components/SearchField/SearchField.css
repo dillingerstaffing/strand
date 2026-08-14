@@ -44,8 +44,22 @@
   /* min() rather than a bare 300px so the field cannot breach a narrower
      parent's padding (10.4 Boundary Integrity). A fixed width is a
      promise about the field; it is not a promise about every container
-     the field will ever be put in. */
-  inline-size: min(300px, 100%);
+     the field will ever be put in.
+
+     THE DEFAULT IS A DEFAULT NOW, not a decree. Two consumers on one
+     product both had to override this declaration to place the same
+     primitive: a header field wanted a flat 300 (the percentage makes the
+     field unmeasurable to an intrinsically sized parent, gap #95), and a
+     phone header wanted the full row. Neither is exotic, and a primitive
+     that has to be overridden to be positioned is missing an input rather
+     than being used wrongly.
+
+     A custom property rather than a --fluid modifier because the answer is
+     a WIDTH and consumers wanted different ones; a modifier would have to
+     grow a variant per width. Setting a token is design-system usage,
+     overriding a class is a workaround, and the difference is what the
+     strand-first gate is looking for. */
+  inline-size: var(--strand-search-field-inline-size, min(300px, 100%));
 
   /* 36px. Not a spacing token because the scale has no 9 rung, and
      inventing one to express a control height would put a value in the

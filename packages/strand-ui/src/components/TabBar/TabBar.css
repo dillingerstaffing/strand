@@ -49,15 +49,20 @@
 
   display: flex;
   align-items: flex-start;
-  justify-content: space-around;
+  /* space-around is the default and it is the wrong answer for a bar whose
+     items should line up with the page gutter above them: it leaves uneven
+     air at the ends, so the outer tabs never agree with the content margin.
+     Tokenised rather than changed, because a bar of two or three items
+     genuinely reads better distributed. */
+  justify-content: var(--strand-tabbar-justify, space-around);
 
   /* min rather than fixed, so a wrapped label grows the bar instead of
      spilling out of it. The token is shared with the offset below, which
      is what stops the two from drifting apart. */
   min-block-size: var(--strand-tabbar-height);
 
-  padding-block-start: var(--strand-space-2);
-  padding-inline: var(--strand-space-4);
+  padding-block-start: var(--strand-tabbar-pad-block-start, var(--strand-space-2));
+  padding-inline: var(--strand-tabbar-pad-inline, var(--strand-space-4));
 
   /* THE INSET IS WHY THIS IS A PRIMITIVE RATHER THAN FOUR LINES EACH
      CONSUMER WRITES. On a notched phone the home indicator overlaps the
@@ -67,9 +72,28 @@
      every device that has no inset to report. */
   padding-block-end: env(safe-area-inset-bottom, 0px);
 
-  background: var(--strand-glass-bg);
-  -webkit-backdrop-filter: blur(var(--strand-glass-blur));
-  backdrop-filter: blur(var(--strand-glass-blur));
+  /* OPAQUE, and this is an accessibility correction rather than a taste
+     change. It replaces a glass treatment.
+
+     9.5 says a sticky toolbar MAY use glass; it does not say this one must,
+     and glass is wrong here for a reason specific to this primitive. The
+     labels are small text and owe 4.5:1 (14.2c / WCAG 1.4.3). Behind a
+     translucent bar the effective background is WHATEVER HAPPENS TO BE
+     SCROLLED UNDER IT, so the ratio is a function of scroll position.
+     Measured on a consumer at 96% white: the active label 4.49 and the
+     three inactive ones 3.92 once real content passed beneath, while the
+     identical bar passed comfortably over an empty page.
+
+     A contrast ratio that changes as the reader scrolls is not a contrast
+     ratio, and a primitive cannot promise 4.5:1 on a ground it does not
+     own. The 4% of translucency bought nothing a reader can name and cost
+     the only property that makes the labels legible.
+
+     This is the same lesson as gap #90, arriving from the other direction:
+     there a pairing created by COMPOSITION was invisible to a declaration
+     audit; here a pairing created by TRANSPARENCY is invisible to one,
+     because the failing background appears in no stylesheet at all. */
+  background: var(--strand-tabbar-bg, var(--strand-surface-raised));
   border-block-start: 1px solid var(--strand-gray-200);
 }
 
@@ -78,13 +102,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--strand-space-1);
+  gap: var(--strand-tabbar-item-gap, var(--strand-space-1));
 
   /* 14.7: 44x44 minimum. This is the floor and not the drawn size -- the
      items distribute across the bar and will usually be wider. Height is
      min not fixed so a label that wraps grows the target rather than
      spilling out of it. */
-  min-inline-size: 44px;
+  min-inline-size: var(--strand-tabbar-item-size, 44px);
   min-block-size: 44px;
   padding-block: var(--strand-space-2);
   padding-inline: var(--strand-space-1);
@@ -140,10 +164,21 @@
      entirely; adding a rung to the scale to hold one label would be a
      specification change made to fit a widget. The tracking below is what
      recovers the intended density. */
-  font-size: var(--strand-text-xs);
+  /* THE TOKEN DOES NOT ADD A RUNG TO THE TYPE SCALE, and the distinction is
+     the whole reason it is safe. The comment above is still right: a mockup
+     asking for 9px is asking for something the scale does not have, and
+     amending 4.2 to hold one widget's label would be a specification change
+     made to fit a widget. A consumer setting this property is making a
+     local decision about one bar, which is theirs to make; the scale is
+     unchanged and every other consumer still gets text-xs. */
+  font-size: var(--strand-tabbar-label-size, var(--strand-text-xs));
   font-weight: var(--strand-weight-medium);
-  letter-spacing: var(--strand-tracking-wider);
+  letter-spacing: var(--strand-tabbar-label-tracking, var(--strand-tracking-wider));
   text-transform: uppercase;
+  /* A label that wraps changes the bar's height, and the bar's height is a
+     token other layouts reserve against. Failing visibly at the end of the
+     row is better than folding in half quietly. */
+  white-space: nowrap;
   line-height: var(--strand-leading-none);
 
   /* A destination the user cannot read is not a destination. If a label

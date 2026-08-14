@@ -199,7 +199,7 @@
 					"description": "Range separator. Quieter than the figures so the eye reads two times rather than one string, and aria-hidden so a screen reader is not read punctuation mid-time."
 				}
 			],
-			"example": "<time class=\"strand-big-mono-time\" datetime=\"2026-08-13T06:45\">06:45</time>\n\n<span class=\"strand-big-mono-time strand-big-mono-time--lg\">06:45<span class=\"strand-big-mono-time__sep\" aria-hidden=\"true\">–</span>08:30</span>"
+			"example": "<time class=\"strand-big-mono-time\" datetime=\"2026-08-13T06:45\">06:45</time>\n\n<span class=\"strand-big-mono-time strand-big-mono-time--lg\">06:45<span class=\"strand-big-mono-time__sep\" aria-hidden=\"true\">\u2013</span>08:30</span>"
 		},
 		{
 			"name": "Breadcrumb",
@@ -291,6 +291,10 @@
 				{
 					"class": "strand-btn--loading",
 					"description": "Loading state, disables pointer events and shows spinner."
+				},
+				{
+					"class": "strand-btn--compact",
+					"description": "Chrome density for a header row: tighter horizontal padding only. Never shrinks the touch target, and has no effect on strand-btn--icon-only, whose padding is what keeps it square."
 				}
 			],
 			"example": "<button class=\"strand-btn strand-btn--primary strand-btn--md\" type=\"button\">\n  <span class=\"strand-btn__content\">Label</span>\n</button>"
@@ -756,7 +760,7 @@
 					"description": "Extra-large padding (40px)."
 				}
 			],
-			"example": "<article class=\"strand-feature-surface\">\n  <span class=\"strand-overline\">Next ship</span>\n  <h2 class=\"strand-title\">Ship 042</h2>\n  <p class=\"strand-text-secondary\">Thursday, 6:30 PM ET</p>\n  <!-- The meter's fill is a graphical object, so blue-primary is right here. -->\n  <div class=\"strand-progress strand-progress--bar\"><div class=\"strand-progress__fill\" style=\"width:60%\"></div></div>\n</article>\n\n<!-- A split card: the panes carry the inset so the divider runs full height. -->\n<article class=\"strand-feature-surface strand-feature-surface--pad-none\">\n  <div class=\"my-split__lead\">…</div>\n  <div class=\"my-split__rail\">…</div>\n</article>"
+			"example": "<article class=\"strand-feature-surface\">\n  <span class=\"strand-overline\">Next ship</span>\n  <h2 class=\"strand-title\">Ship 042</h2>\n  <p class=\"strand-text-secondary\">Thursday, 6:30 PM ET</p>\n  <!-- The meter's fill is a graphical object, so blue-primary is right here. -->\n  <div class=\"strand-progress strand-progress--bar\"><div class=\"strand-progress__fill\" style=\"width:60%\"></div></div>\n</article>\n\n<!-- A split card: the panes carry the inset so the divider runs full height. -->\n<article class=\"strand-feature-surface strand-feature-surface--pad-none\">\n  <div class=\"my-split__lead\">\u2026</div>\n  <div class=\"my-split__rail\">\u2026</div>\n</article>"
 		},
 		{
 			"name": "FormField",
@@ -1390,7 +1394,7 @@
 				},
 				{
 					"class": "strand-nav__actions",
-					"description": "Actions area. Sizes to its contents rather than shrinking, so a child cannot hang outside it (DL 10.4)."
+					"description": "Actions area. Sizes to its contents rather than shrinking, so a child cannot hang outside it (DL 10.4). Buttons here take the compact nav-chrome density on a fine pointer; outside a Nav, reach the same density with strand-btn--compact."
 				},
 				{
 					"class": "strand-nav__hamburger",
@@ -1666,7 +1670,7 @@
 		},
 		{
 			"name": "SearchField",
-			"description": "A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late.",
+			"description": "A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late. Width is --strand-search-field-inline-size, defaulting to min(300px, 100%): set a flat width where an intrinsically sized parent must be able to measure the field, or 100% to fill a row.",
 			"classes": [
 				{
 					"class": "strand-search-field",
@@ -2050,7 +2054,7 @@
 		},
 		{
 			"name": "TabBar",
-			"description": "The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations. 19.1.1 does not forbid the two coexisting; it forbids stacking them into a wall at the bottom of the viewport and requires a surface wanting both to DECIDE which belongs nearer the thumb. Mutually exclusive by state is a legal answer: destinations at rest, the dock taking the band only while a commitment is live, then yielding it back.",
+			"description": "The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations. 19.1.1 does not forbid the two coexisting; it forbids stacking them into a wall at the bottom of the viewport and requires a surface wanting both to DECIDE which belongs nearer the thumb. Mutually exclusive by state is a legal answer: destinations at rest, the dock taking the band only while a commitment is live, then yielding it back. Paints an OPAQUE ground by default: its labels are small text owing 4.5:1, and behind a translucent bar the effective background is whatever is scrolled underneath, so the ratio would change with scroll position. Geometry is tunable without overriding classes via --strand-tabbar-justify, --strand-tabbar-pad-block-start, --strand-tabbar-pad-inline, --strand-tabbar-item-size, --strand-tabbar-item-gap, --strand-tabbar-label-size and --strand-tabbar-label-tracking; the label token does not add a rung to the type scale, it lets one consumer size one bar.",
 			"classes": [
 				{
 					"class": "strand-tabbar",

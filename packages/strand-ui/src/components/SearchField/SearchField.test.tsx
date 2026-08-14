@@ -1,4 +1,6 @@
 import { fireEvent, render } from "@testing-library/preact";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { SearchField } from "./SearchField.js";
 
@@ -134,5 +136,19 @@ describe("SearchField", () => {
       "INPUT",
       "BUTTON",
     ]);
+  });
+
+  // ── Gap #105: the field could not be asked for a width ──
+
+  it("takes its width from a token, defaulting to the reserved box", () => {
+    // Two consumers on one product both had to override this declaration to
+    // place the same primitive: a header field wanting a flat 300 (a
+    // percentage is invisible to an intrinsically sized parent, #95) and a
+    // phone header wanting the full row. A primitive that must be overridden
+    // to be positioned is missing an input.
+    const sf = readFileSync(resolve(__dirname, "SearchField.css"), "utf8");
+    expect(sf).toMatch(
+      /inline-size:\s*var\(--strand-search-field-inline-size,\s*min\(300px,\s*100%\)\)/,
+    );
   });
 });

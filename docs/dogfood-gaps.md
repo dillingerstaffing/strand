@@ -1266,3 +1266,39 @@ Same consumer, next surface down: the Discover listing on a real product. A dark
 - Each row is a `Card` with `padding: 20px 24px`, which is not on Card's symmetric pad ladder, and the prototype overrode `.strand-card--pad-md` to get it.
 - Fixed with the EXISTING API and no library change: `padding="none"` plus the row's own inset, which is part of the grid the row already owns (`72px 1fr 200px`, its date chip, its gutters). The markup stops emitting a `--pad-md` class that claimed 24px on a box that has 20/24, so the class list and the rendering agree again.
 - Worth noting the values ARE on the spacing scale (`space-5 space-6`) and are exactly `.strand-card__section`'s inset. That is a hint the language already knows this measure; it simply belongs to a row inside a card, which is what this is.
+
+---
+
+## Production consumer: the phone header the design actually draws
+Date: 2026-08-14
+Verdict: FAIL (three L2 gaps; all closed). Findings 8 and 9 of the same nav prototype that produced #93 to #101.
+
+The finding behind all three is one sentence: **the design draws no nav bar on a phone.** It draws a page header block, an overline and a title on the left, an avatar on the right, a full-width search under both. The product had been rendering the DESKTOP bar at phone width, which is why nothing about adjusting its dimensions was ever going to converge. The wrong thing was on the screen.
+
+That reframing is what made these three gaps visible. A consumer building a header block rather than a `Nav` immediately loses everything scoped to `Nav`, and what it loses is a fair test of whether those things were scoped correctly.
+
+### Gap #104
+- Type: **L2** (library). Tree: could a designer build this with the current API? No, the failure is in the primitive's own painting. Does the fix need the spec changed? No, 9.5 says a sticky toolbar MAY use glass, not must. Therefore L2.
+- Symptom, measured by axe on a consumer: the active tab-bar label at **4.49:1** and the three inactive ones at **3.92:1**, against WCAG 1.4.3's 4.5:1 for small text. The identical bar passed over an empty page.
+- Root cause: the bar painted `--strand-glass-bg` with a backdrop blur, so the effective background behind the labels is **whatever happens to be scrolled underneath it**. The ratio was a function of scroll position.
+- **A contrast ratio that changes as the reader scrolls is not a contrast ratio.** A primitive cannot promise 4.5:1 on a ground it does not own, and 4% of translucency bought nothing a reader can name while costing the only property that makes 9-to-11px labels legible. The bar is opaque by default now, with `--strand-tabbar-bg` for a consumer that has measured its own ground.
+- **The same lesson as #90 arriving from the other direction.** There, a pairing created by COMPOSITION was invisible to a declaration audit. Here, a pairing created by TRANSPARENCY is invisible to one, because the failing background appears in no stylesheet at all. `test:contrast` cannot see either, and both were found by rendering.
+- Caught only because a consumer had real content behind the bar. The product's own axe run reports zero violations today purely because the surface above it is still empty, which is a reminder that an accessibility pass over placeholder content is a pass over placeholder content.
+
+### Gap #105
+- Type: **L2** (library). Tree: no primitive expresses it, no spec change needed.
+- Symptom: `SearchField` could not be asked for a width. Two consumers of the same product both overrode the same declaration to place the same primitive: a desktop header wanting a flat `300px`, and a phone header wanting the full row.
+- The flat-300 case is #95's other half. `inline-size: min(300px, 100%)` is correct and deliberate (10.4: a fixed width is a promise about the field, not about every container it is put in), but a percentage contributes nothing to an intrinsically sized parent, so the header field had to state a flat width for its parent to measure itself at all.
+- **A primitive that must be overridden in order to be positioned is missing an input rather than being used wrongly.** `--strand-search-field-inline-size`, defaulting to the reserved box, so nothing changes for anyone who sets nothing.
+- A custom property rather than a `--fluid` modifier, because the answer is a WIDTH and the two consumers wanted different ones; a modifier would grow a variant per width. Setting a token is design-system usage and overriding a class is a workaround, and that difference is precisely what the strand-first gate is looking for.
+
+### Gap #106
+- Type: **L2** (library). Tree: no primitive, no spec change.
+- Symptom: an 85px sign-in button beside a 26px title, reading as the loudest thing on a phone screen.
+- Root cause: **#98's compact treatment was tied to a CONTAINER when it is a property of the CONTROL.** It was scoped to `.strand-nav__actions` and `.strand-nav__slot`, correctly, so it could not leak into page content. A consumer whose phone header is a header block rather than a `Nav`, which is the right composition for it, therefore had no way to reach that density.
+- `.strand-btn--compact`. Padding only: it deliberately does not touch `min-height`, because that is the touch-target floor and 14.7 makes it a function of the input modality rather than of how dense a row looks. Compact is about horizontal noise; shrinking a target is a different decision under a different rule.
+- **It excludes `--icon-only` in the selector rather than by source order**, because #100 is exactly this mistake made once already: a declaration written for a word applied to a shape measured 58x34 where the design draws a 34 circle. A test asserts the exclusion is present, since the guard looks like a redundant class to anyone tidying.
+
+### Not a gap: the mobile geometry itself
+- The header's own layout (`.stg-mobile-top` and its parts, the 125px reserve, the desktop bar hidden below 768) stayed in the consumer. It is product composition: which block a product draws at which width, and how tall its own header is, is not something a design system can know. The three gaps above are the parts where the consumer was reaching INTO a Strand primitive; the rest is the consumer arranging its own boxes.
+- The reserve is worth recording even though it is consumer-side, because it is the mechanism that keeps the surface at CLS 0. The mount reserves `--stg-top-reserve` and the header binds its own `min-block-size` to the same variable, so the reservation cannot silently stop matching the thing it reserves for. Before it existed, every phone shifted 61px on hydrate, on every page load, because the mount fell back to the 64px nav-height token for a block that is 125px tall.
