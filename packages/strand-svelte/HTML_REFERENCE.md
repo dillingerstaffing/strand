@@ -451,6 +451,7 @@ Primary action trigger with variants, sizes, and loading state.
 | `strand-btn--icon-only` | modifier | Square button for icon-only use. |
 | `strand-btn--circular` | modifier | Circular button shape for icon-only buttons. |
 | `strand-btn--loading` | modifier | Loading state, disables pointer events and shows spinner. |
+| `strand-btn--compact` | modifier | Chrome density for a header row: tighter horizontal padding only. Never shrinks the touch target, and has no effect on strand-btn--icon-only, whose padding is what keeps it square. |
 
 **Usage:**
 
@@ -1370,7 +1371,7 @@ Site/app navigation with an optional mobile menu and a glass variant. The bar sp
 | `strand-nav__link--active` | child | Active desktop link state. |
 | `strand-nav__slot` | child | Right-edge content slot (account, utility). |
 | `strand-nav__slot--reserve` | child | Slot with a pinned inline size, so swapping its contents cannot shift the nav. |
-| `strand-nav__actions` | child | Actions area. Sizes to its contents rather than shrinking, so a child cannot hang outside it (DL 10.4). |
+| `strand-nav__actions` | child | Actions area. Sizes to its contents rather than shrinking, so a child cannot hang outside it (DL 10.4). Buttons here take the compact nav-chrome density on a fine pointer; outside a Nav, reach the same density with strand-btn--compact. |
 | `strand-nav__hamburger` | child | Mobile menu toggle button. Not rendered when the mobileMenu prop is false; omit the markup entirely in a CSS-only consumer. |
 | `strand-nav__hamburger-icon` | child | Hamburger icon lines. |
 | `strand-nav__mobile-menu` | child | Mobile navigation panel. |
@@ -1619,7 +1620,7 @@ Scroll-triggered entrance animation.
 
 ### SearchField
 
-A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late.
+A search input for page chrome: a fixed-width field on a wide viewport, a full-width bar on a narrow one. Renders its full geometry from first paint with no JavaScript, so it can be server-rendered into a header without moving the page when it hydrates (design-language.md 6.6.1, the space contract). NOT to be confused with strand-search-bar, which is the overlay that floats ON an instrument viewport; that one is absolutely positioned against a map beneath it. Put both presentations in the markup and choose between them with strand-hide-below-md / strand-hide-from-md rather than measuring the viewport in JavaScript, which renders the control a frame late. Width is --strand-search-field-inline-size, defaulting to min(300px, 100%): set a flat width where an intrinsically sized parent must be able to measure the field, or 100% to fill a row.
 
 | Class | Type | Description |
 |---|---|---|
@@ -1968,7 +1969,7 @@ Binary toggle (single) with track and thumb.
 
 ### TabBar
 
-The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations. 19.1.1 does not forbid the two coexisting; it forbids stacking them into a wall at the bottom of the viewport and requires a surface wanting both to DECIDE which belongs nearer the thumb. Mutually exclusive by state is a legal answer: destinations at rest, the dock taking the band only while a commitment is live, then yielding it back.
+The persistent viewport-anchored navigation an application shell takes on a touch viewport. Implements design-language.md 19.1.1, which is the CONDITION selecting between this and the hamburger in 19.1: a content surface collapses to a hamburger, an application shell with three to five top-level destinations anchors them in 14.8's easy band. Read 19.1.1 before using this, because the commonest misuse is a tab bar on a content surface, where it costs 76px of every screen forever. Not Tabs, which switches content panels inside one view (19.3). Not ActionDock, which carries the one ACTION a view produces rather than destinations. 19.1.1 does not forbid the two coexisting; it forbids stacking them into a wall at the bottom of the viewport and requires a surface wanting both to DECIDE which belongs nearer the thumb. Mutually exclusive by state is a legal answer: destinations at rest, the dock taking the band only while a commitment is live, then yielding it back. Paints an OPAQUE ground by default: its labels are small text owing 4.5:1, and behind a translucent bar the effective background is whatever is scrolled underneath, so the ratio would change with scroll position. Geometry is tunable without overriding classes via --strand-tabbar-justify, --strand-tabbar-pad-block-start, --strand-tabbar-pad-inline, --strand-tabbar-item-size, --strand-tabbar-item-gap, --strand-tabbar-label-size and --strand-tabbar-label-tracking; the label token does not add a rung to the type scale, it lets one consumer size one bar.
 
 | Class | Type | Description |
 |---|---|---|

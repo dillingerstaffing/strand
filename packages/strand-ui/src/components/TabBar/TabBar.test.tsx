@@ -184,7 +184,7 @@ describe("TabBar", () => {
     // the reader. Measured on a consumer: 3.92:1 with content behind, passing
     // over an empty page. A ratio that depends on scroll position is not one.
     const bar = ruleFor(".strand-tabbar") || "";
-    expect(bar).toMatch(/background:\s*var\(--strand-tabbar-bg,\s*var\(--strand-surface-raised\)\)/);
+    expect(bar).toMatch(/background:\s*var\(--strand-tabbar-bg,\s*var\(--strand-surface-[a-z]+\)\)/);
     expect(bar, "glass is what made the ratio undefined").not.toMatch(/backdrop-filter/);
     expect(bar, "glass is what made the ratio undefined").not.toMatch(/--strand-glass-bg/);
   });
@@ -208,5 +208,22 @@ describe("TabBar", () => {
     expect(ruleFor(".strand-tabbar__label")).toMatch(
       /font-size:\s*var\(--strand-tabbar-label-size,\s*var\(--strand-text-xs\)\)/,
     );
+  });
+
+  it("falls back to a token that actually exists", () => {
+    // A var() whose fallback is itself an UNDEFINED var() resolves to nothing,
+    // and `background: <nothing>` is transparent. That shipped once in a draft
+    // of the rule above, naming --strand-surface-raised, which does not exist:
+    // the bar measured rgba(0,0,0,0), worse than the glass it replaced, and it
+    // read as correct because the name looks like a real token.
+    const tokens = readFileSync(
+      resolve(__dirname, "../../../../tokens/css/tokens.css"),
+      "utf8",
+    );
+    const fallback = (ruleFor(".strand-tabbar") || "").match(
+      /background:\s*var\(--strand-tabbar-bg,\s*var\((--strand-[a-z-]+)\)\)/,
+    )?.[1];
+    expect(fallback, "no token fallback found on the tab bar background").toBeTruthy();
+    expect(tokens, `${fallback} is not defined in tokens.css`).toContain(`${fallback}:`);
   });
 });

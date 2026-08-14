@@ -93,7 +93,14 @@
      there a pairing created by COMPOSITION was invisible to a declaration
      audit; here a pairing created by TRANSPARENCY is invisible to one,
      because the failing background appears in no stylesheet at all. */
-  background: var(--strand-tabbar-bg, var(--strand-surface-raised));
+  /* surface-ELEVATED, and the name matters more than it looks. An earlier
+     draft of this rule fell back to `--strand-surface-raised`, which does not
+     exist: a var() whose fallback is itself an undefined var() resolves to
+     nothing, and `background: <nothing>` is TRANSPARENT. The bar measured
+     rgba(0,0,0,0), which is strictly worse than the glass it replaced, and it
+     looked plausible in review because the token name reads like a real one.
+     A test below asserts this fallback names a token the token file defines. */
+  background: var(--strand-tabbar-bg, var(--strand-surface-elevated));
   border-block-start: 1px solid var(--strand-gray-200);
 }
 
