@@ -47,7 +47,10 @@ describe("layout utility classes", () => {
     const cssPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
     const content = fs.readFileSync(cssPath, "utf-8");
     expect(content).toContain(".strand-grid--cols-3");
-    expect(content).toContain("repeat(3, 1fr)");
+    // `minmax(0, 1fr)` since gap #114: a bare `1fr` floors at min-content, so
+    // a long unbroken string widened the grid past its container and the
+    // since-removed `overflow: clip` painted over the result.
+    expect(content).toContain("repeat(3, minmax(0, 1fr))");
   });
 
   it("Grid gap utilities exist in build output", async () => {
@@ -339,5 +342,43 @@ describe("margin-zero + stacked-alert utilities (dogfood gap #46)", () => {
     expect(content).toContain(".strand-alert--stack");
     expect(content).toMatch(/\.strand-alert--stack\s*{[^}]*flex-direction:\s*column/);
     expect(content).toMatch(/\.strand-alert--stack\s*{[^}]*align-items:\s*stretch/);
+  });
+});
+
+// ── Gap #115: the thumb-bar reservation was charged at desktop too ──
+describe("strand-tabbar-offset (dogfood gap #115)", () => {
+  async function bundle() {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    return fs.readFileSync(path.resolve(__dirname, "../../dist/css/strand-ui.css"), "utf-8");
+  }
+
+  it("reserves the bar's height only below the breakpoint the bar hides at", async () => {
+    const content = await bundle();
+    // The declaration must sit INSIDE a media query, not beside one. An
+    // unconditional rule plus a media query that re-states it would leave the
+    // desktop reservation exactly where it was while looking fixed, so this
+    // matches the query and the rule together rather than each separately.
+    expect(content).toMatch(
+      /@media\s*\(max-width:\s*767\.98px\)\s*{\s*\.strand-tabbar-offset\s*{\s*padding-block-end:/,
+    );
+  });
+
+  it("keeps sharing one token with the bar, so a taller bar cannot outgrow it", async () => {
+    const content = await bundle();
+    const rule = content.match(/\.strand-tabbar-offset\s*{([^}]*)}/)?.[1] ?? "";
+    expect(rule).toContain("--strand-tabbar-height");
+    // The safe-area inset is the half a headless browser resolves to 0, which
+    // is why it is asserted from source rather than measured.
+    expect(rule).toContain("env(safe-area-inset-bottom");
+  });
+
+  it("charges desktop nothing, which is the whole of 19.1.1's closing sentence", async () => {
+    const content = await bundle();
+    // "Desktop is unchanged. Reach is a property of a touch viewport."
+    // A second, unconditional copy of the rule anywhere in the bundle would
+    // re-introduce the 76px, so the count is pinned rather than the shape.
+    const occurrences = content.match(/\.strand-tabbar-offset\s*{/g) ?? [];
+    expect(occurrences).toHaveLength(1);
   });
 });

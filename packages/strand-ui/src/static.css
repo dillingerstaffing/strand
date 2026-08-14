@@ -1167,11 +1167,32 @@
    fixed bottom bar ships with. Applied to the SCROLLING CONTENT, not to
    the bar, which is why it lives here beside strand-nav-offset rather
    than in the component's own stylesheet. Shares one token with the bar
-   so a taller bar cannot outgrow its reservation. */
-.strand-tabbar-offset {
-	padding-block-end: calc(
-		var(--strand-tabbar-height) + env(safe-area-inset-bottom, 0px)
-	);
+   so a taller bar cannot outgrow its reservation.
+
+   THE RESERVATION IS SCOPED TO THE VIEWPORT THE BAR EXISTS ON, and this
+   used to be unconditional. 19.1.1 answers mobile primary navigation with
+   this bar and closes with "Desktop is unchanged. Reach is a property of a
+   touch viewport" -- so a bar that is not there above the breakpoint was
+   still charging every consumer for its height. Measured on a consumer's
+   calendar at 1440: 76px of padding-block-end under a bar computing
+   `display: none`, on the one screen whose whole design is that a month is
+   legible without scrolling.
+
+   767.98px is the exact complement of `strand-hide-from-md`, which is the
+   composition this bar documents for hiding itself, so the two thresholds
+   are restated here TOGETHER rather than left to drift into a gap (no
+   reservation under a visible bar) or an overlap (padding under no bar).
+
+   A consumer that hides the bar at a DIFFERENT width owns both halves of
+   that decision and sets `--strand-tabbar-height: 0px` at its own
+   breakpoint; the reservation follows the token, which is the same
+   single-token contract that stops a taller bar outgrowing its space. */
+@media (max-width: 767.98px) {
+	.strand-tabbar-offset {
+		padding-block-end: calc(
+			var(--strand-tabbar-height) + env(safe-area-inset-bottom, 0px)
+		);
+	}
 }
 
 /* ── Responsive visibility ──

@@ -20,7 +20,7 @@ describe('Grid', () => {
   it('sets grid-template-columns with default 1 column', () => {
     const { container } = render(Grid, { slots: { default: '<div>Item</div>' } })
     const el = container.firstElementChild as HTMLElement
-    expect(el.style.gridTemplateColumns).toBe('repeat(1, 1fr)')
+    expect(el.style.gridTemplateColumns).toBe('repeat(1, minmax(0, 1fr))')
   })
 
   it('sets grid-template-columns to match columns prop', () => {
@@ -29,7 +29,7 @@ describe('Grid', () => {
       slots: { default: '<div>Item</div>' },
     })
     const el = container.firstElementChild as HTMLElement
-    expect(el.style.gridTemplateColumns).toBe('repeat(3, 1fr)')
+    expect(el.style.gridTemplateColumns).toBe('repeat(3, minmax(0, 1fr))')
   })
 
   // ── Auto-fit (minColWidth) ──

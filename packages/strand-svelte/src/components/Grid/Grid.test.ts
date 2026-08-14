@@ -14,7 +14,7 @@ describe('Grid', () => {
   it('sets grid-template-columns from columns prop', () => {
     const { container } = render(Grid, { props: { columns: 3 } })
     const el = container.querySelector('.strand-grid') as HTMLElement
-    expect(el.style.gridTemplateColumns).toBe('repeat(3, 1fr)')
+    expect(el.style.gridTemplateColumns).toBe('repeat(3, minmax(0, 1fr))')
   })
 
   it('renders a responsive auto-fit track when minColWidth is set', () => {
@@ -38,7 +38,7 @@ describe('Grid', () => {
   it('uses default columns=1 and gap=4', () => {
     const { container } = render(Grid)
     const el = container.querySelector('.strand-grid') as HTMLElement
-    expect(el.style.gridTemplateColumns).toBe('repeat(1, 1fr)')
+    expect(el.style.gridTemplateColumns).toBe('repeat(1, minmax(0, 1fr))')
     expect(el.style.gap).toBe('var(--strand-space-4)')
   })
 

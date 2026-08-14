@@ -52,10 +52,14 @@
   // definition changes at a breakpoint, and an inline style cannot carry a
   // media query. This emits no grid-template-columns at all in that case
   // rather than one the class would then have to fight.
+  // `minmax(0, 1fr)`, never a bare `1fr`: a bare one floors at the track's
+  // min-content width, so a single long unbroken string widens the grid past
+  // its container. The base rule's `min-width: 0` on children handles the
+  // ITEM; this handles the TRACK.
   $: gridTemplateColumns =
     minColWidth != null
       ? `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`
-      : `repeat(${columns}, 1fr)`
+      : `repeat(${columns}, minmax(0, 1fr))`
   $: inlineStyle = sidebar || split
     ? `gap: var(--strand-space-${gap});`
     : `grid-template-columns: ${gridTemplateColumns}; gap: var(--strand-space-${gap});`

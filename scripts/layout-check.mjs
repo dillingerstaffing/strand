@@ -485,6 +485,32 @@ export const LAYOUT_CASES = [
 		],
 	},
 	{
+		name: "a long unbroken string cannot widen a fixed-column grid past its container",
+		primitive: "Grid",
+		// GAP #114's LOAD-BEARING CASE. The base rule used to carry
+		// `overflow: clip`, so this overflow was PAINTED OVER rather than
+		// prevented: the grid still grew, the surplus was just not drawn.
+		// Removing the clip to give children back their hover affordance
+		// would have exposed it, so every fixed track became
+		// `minmax(0, 1fr)` in the same change and the protection is now
+		// structural.
+		//
+		// Measured on the GRID rather than on the child, deliberately. The
+		// child is already covered by the base rule's `min-width: 0`, and
+		// asserting there would stay green with the track floor intact --
+		// which is the exact state this case exists to refuse.
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<div id="box" style="inline-size: 600px">
+				<div id="grid" class="strand-grid strand-grid--cols-2">
+					<div>a</div>
+					<div>Supercalifragilisticexpialidociousandthensomemoreletters_______________________</div>
+				</div>
+			</div>`,
+		measure: { box: "#box", grid: "#grid" },
+		expect: [{ of: "grid", inlineSizeAtMost: 600 }],
+	},
+	{
 		name: "a long unbroken string in main does not push the rail off screen",
 		primitive: "Grid",
 		// Why minmax(0, 1fr) and not a bare 1fr. A bare 1fr floors at the
@@ -541,11 +567,19 @@ export const LAYOUT_CASES = [
 		name: "a sticky rail still holds inside the sidebar grid",
 		primitive: "Sticky",
 		// The composition its three consumers actually use, and the one
-		// that silently breaks: `.strand-grid` clips its children for
-		// boundary integrity (10.4), and `overflow: hidden` makes an
-		// ancestor the nearest scrollport, so a sticky descendant sticks to
-		// a box that never scrolls. `overflow: clip` clips identically and
-		// creates no scrollport, which is why the base rule uses it.
+		// that silently breaks. HISTORY, because the case outlived two
+		// different causes: `.strand-grid` first set `overflow: hidden` for
+		// 10.4, which makes an ancestor the nearest scrollport so a sticky
+		// descendant sticks to a box that never scrolls; that became
+		// `overflow: clip`, which clips identically and creates no
+		// scrollport; and gap #114 removed the clip altogether, because
+		// 10.4 assigns clipping to Container components and `min-width: 0`
+		// to layout primitives, and a grid is the second kind.
+		//
+		// The case is KEPT rather than retired. It measures the sticky
+		// contract under the real composition, and it is the assertion that
+		// would catch anyone re-adding an overflow to this grid for a third
+		// reason.
 		viewport: { width: 1280, height: 900 },
 		scroll: { y: 1200 },
 		html: `

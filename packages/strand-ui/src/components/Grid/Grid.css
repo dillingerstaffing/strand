@@ -4,20 +4,40 @@
 .strand-grid {
   display: grid;
 
-  /* `clip`, not `hidden`, and the difference is not cosmetic.
-     Both clip a child to the content box, which is what 10.4 Boundary
-     Integrity asks for. But `hidden` also makes the element a SCROLL
-     CONTAINER, and a `position: sticky` descendant sticks to its nearest
-     scroll container -- so a sticky rail inside this grid stuck to a box
-     that never scrolls and scrolled away with the page. Measured before
-     the change: the rail held its 24px offset for 24px and was at -1176
-     by scroll offset 1200. `clip` creates no scroll container, so the
-     clipping is identical and sticky descendants work.
+  /* THIS GRID DOES NOT CLIP, and the reason is a distinction 10.4 already
+     draws that this rule used to collapse.
 
-     Found by the sidebar grid's own first consumer composition, which is
-     a filter rail beside a result list -- the exact thing this variant
-     was added for. */
-  overflow: clip;
+     10.4 Boundary Integrity names two remedies for two different kinds of
+     thing: "Container components apply `overflow: hidden` and ensure
+     children cannot exceed the content box. Layout primitives apply
+     `min-width: 0` to their children so flex/grid items shrink correctly
+     rather than overflowing."
+
+     A grid is the SECOND kind. It has no padding, so it has no padding
+     zone to keep inviolable, and clipping it protects nothing while
+     costing the one thing Part XI mandates: a control's hover lift is
+     `translateY(-1px)` with a shadow, and a child sitting on the grid's
+     edge had both cut off. Measured on a consumer's calendar header at
+     1440: three secondary buttons at slackTop 0, one of them also at
+     slackRight 0, so the lift and the whole of `--elevation-1` were
+     clipped away on every hover.
+
+     This is the same call gap #102 made for Card and stated as a rule:
+     "Putting it on the base would instead change overflow behaviour for
+     every existing consumer that never asked for it; Card can clip
+     unconditionally only because Card always has [padding]." A grid never
+     has, so it never should have.
+
+     WHAT REPLACES THE CLIP, because the clip was also hiding something.
+     A bare `1fr` track floors at min-content, so one long unbroken string
+     could widen a fixed-column grid past its container and the clip hid
+     the result. `minmax(0, 1fr)` on every fixed track removes the floor,
+     which is the fix gap #372 landed for LabShell for exactly this
+     reason. The protection is now structural rather than painted over.
+
+     A consumer that genuinely needs a clipped box wants a Card or a
+     FeatureSurface, both of which clip because both own a padded,
+     rounded surface. */
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -26,10 +46,14 @@
   min-width: 0;
 }
 
-/* ── Fixed column utilities ── */
-.strand-grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
-.strand-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
-.strand-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+/* ── Fixed column utilities ──
+   `minmax(0, 1fr)` rather than `1fr`: see the base rule. A bare `1fr`
+   floors at the track's min-content width, and the base rule's
+   `min-width: 0` on CHILDREN does not reach it -- that handles the item,
+   this handles the TRACK, and they are different things. */
+.strand-grid--cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.strand-grid--cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.strand-grid--cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
 /* ── Responsive auto-fit (columns adjust to available width) ──
    Use the size that matches your card content width. The breakpoint

@@ -95,10 +95,16 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(
       ...(sidebar || split
         ? {}
         : {
+            // `minmax(0, 1fr)`, never a bare `1fr`: a bare one floors at the
+            // track's min-content width, so a single long unbroken string
+            // widens the grid past its container. The base rule's
+            // `min-width: 0` on children handles the ITEM; this handles the
+            // TRACK. The stylesheet's `--cols-*` utilities carry the same
+            // form, so the component and the class cannot disagree.
             gridTemplateColumns:
               minColWidth != null
                 ? `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`
-                : `repeat(${columns}, 1fr)`,
+                : `repeat(${columns}, minmax(0, 1fr))`,
           }),
       gap: `var(--strand-space-${gap})`,
     };

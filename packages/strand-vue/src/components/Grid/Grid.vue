@@ -76,10 +76,14 @@ const inlineStyle = computed(() => ({
   ...(props.sidebar || props.split
     ? {}
     : {
+        // `minmax(0, 1fr)`, never a bare `1fr`: a bare one floors at the
+        // track's min-content width, so a single long unbroken string widens
+        // the grid past its container. The base rule's `min-width: 0` on
+        // children handles the ITEM; this handles the TRACK.
         gridTemplateColumns:
           props.minColWidth != null
             ? `repeat(auto-fit, minmax(${props.minColWidth}px, 1fr))`
-            : `repeat(${props.columns}, 1fr)`,
+            : `repeat(${props.columns}, minmax(0, 1fr))`,
       }),
   gap: `var(--strand-space-${props.gap})`,
 }))

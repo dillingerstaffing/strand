@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/preact";
 import { Grid } from "./Grid.js";
@@ -35,19 +37,19 @@ describe("Grid", () => {
   it("defaults to 1 column in inline style", () => {
     const { container } = render(<Grid>content</Grid>);
     const el = container.firstElementChild as HTMLElement;
-    expect(el.style.gridTemplateColumns).toBe("repeat(1, 1fr)");
+    expect(el.style.gridTemplateColumns).toBe("repeat(1, minmax(0, 1fr))");
   });
 
   it("applies custom column count in inline style", () => {
     const { container } = render(<Grid columns={3}>content</Grid>);
     const el = container.firstElementChild as HTMLElement;
-    expect(el.style.gridTemplateColumns).toBe("repeat(3, 1fr)");
+    expect(el.style.gridTemplateColumns).toBe("repeat(3, minmax(0, 1fr))");
   });
 
   it("applies 4-column layout", () => {
     const { container } = render(<Grid columns={4}>content</Grid>);
     const el = container.firstElementChild as HTMLElement;
-    expect(el.style.gridTemplateColumns).toBe("repeat(4, 1fr)");
+    expect(el.style.gridTemplateColumns).toBe("repeat(4, minmax(0, 1fr))");
   });
 
   // ── Auto-fit (minColWidth) ──
@@ -157,7 +159,7 @@ describe("Grid", () => {
     const { container } = render(<Grid columns={2} />);
     const grid = container.querySelector(".strand-grid") as HTMLElement;
     expect(grid.classList.contains("strand-grid--sidebar")).toBe(false);
-    expect(grid.style.gridTemplateColumns).toBe("repeat(2, 1fr)");
+    expect(grid.style.gridTemplateColumns).toBe("repeat(2, minmax(0, 1fr))");
   });
 
   it("renders the split preset as a class, not an inline template", () => {
@@ -179,5 +181,64 @@ describe("Grid", () => {
     expect(
       container.querySelector(".strand-grid")?.classList.contains("strand-grid--split"),
     ).toBe(false);
+  });
+});
+
+// ── Gap #114: the grid was clipping its children's hover affordance ──
+//
+// THESE READ THE STYLESHEET, and that is the only tier that can see this.
+// Clipping is a PAINT operation: it changes no box, so `getBoundingClientRect`
+// is identical either way and the browser layout tier is as blind to it as
+// jsdom. The regression this guards against is a one-word edit, so the source
+// is where it has to be caught. Same instrument, same reason, as gap #113's
+// clipped-not-hidden label guard.
+describe("Grid CSS source", () => {
+  // COMMENTS ARE STRIPPED FIRST, and this is not tidiness. The first version
+  // of the no-clip guard below read the raw file and failed against its own
+  // explanatory comment, which contains the word "overflow" in prose. A source
+  // guard that matches commentary is measuring what a rule SAYS instead of
+  // what it DOES, and it fails and passes for the wrong reasons in both
+  // directions.
+  const css = readFileSync(resolve(__dirname, "Grid.css"), "utf8").replace(
+    /\/\*[\s\S]*?\*\//g,
+    "",
+  );
+  const ruleFor = (sel: string) =>
+    css.match(new RegExp(`\\${sel}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+
+  it("reads declarations rather than commentary", () => {
+    // The guard on the guard. If the comment stripper stops working, the
+    // no-clip assertion starts reading prose again, and it would have caught
+    // that on the day rather than the next time someone edits this file.
+    expect(css).not.toContain("/*");
+    expect(ruleFor(".strand-grid")).toContain("display: grid");
+  });
+
+  it("does not clip, because a layout primitive has no padding zone to protect", () => {
+    // 10.4 gives two remedies for two kinds of thing: Container components
+    // clip, layout primitives set `min-width: 0` on their children. A grid is
+    // the second. Clipping it protected nothing and cut the hover lift and
+    // shadow that Part XI mandates off any child sitting on its edge.
+    expect(ruleFor(".strand-grid")).not.toMatch(/overflow/);
+  });
+
+  it("still applies 10.4's actual remedy for a layout primitive", () => {
+    // The rule above removes a mechanism, so this pins the one that replaces
+    // it. Without this pair, deleting BOTH would pass the test above.
+    expect(css).toMatch(/\.strand-grid\s*>\s*\*\s*\{[^}]*min-width:\s*0/);
+  });
+
+  it("floors no fixed track at min-content, which is what the clip was hiding", () => {
+    // A bare `1fr` floors at min-content, so one long unbroken string widened
+    // the grid past its container and the clip painted over the result. Every
+    // fixed track now carries `minmax(0, 1fr)`, so the protection is
+    // structural. Asserted per-utility rather than by counting, so adding a
+    // `--cols-5` with a bare `1fr` fails rather than passing on a stale total.
+    for (const n of [2, 3, 4]) {
+      expect(
+        ruleFor(`.strand-grid--cols-${n}`),
+        `--cols-${n} must not floor at min-content`,
+      ).toContain(`repeat(${n}, minmax(0, 1fr))`);
+    }
   });
 });
