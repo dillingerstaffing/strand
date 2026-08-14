@@ -13,6 +13,8 @@ export interface BadgeProps
   count?: number;
   /** Maximum count before showing "N+" */
   maxCount?: number;
+  /** Pulse, to say the thing it marks is live rather than merely present */
+  live?: boolean;
   /** Wrapped content; when present badge is positioned at top-right */
   children?: ComponentChildren;
 }
@@ -28,6 +30,7 @@ export interface BadgeProps
  *   <button>Notifications</button>
  * </Badge>
  * <Badge variant="dot" status="teal" />
+ * <Badge variant="dot" status="teal" live />
  * ```
  */
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
@@ -37,6 +40,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       status = "default",
       count,
       maxCount = 99,
+      live = false,
       className = "",
       children,
       ...rest
@@ -63,6 +67,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       "strand-badge__indicator",
       `strand-badge--${variant}`,
       `strand-badge--${status}`,
+      live ? "strand-badge--live" : "",
     ]
       .filter(Boolean)
       .join(" ");

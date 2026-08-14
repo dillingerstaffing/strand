@@ -1,6 +1,6 @@
 {
   "name": "@dillingerstaffing/strand",
-  "version": "0.49.1",
+  "version": "0.50.0",
   "description": "Strand Design Language tokens - CSS custom properties and JS constants",
   "author": "Dillinger Staffing <engineering@dillingerstaffing.com> (https://dillingerstaffing.com)",
   "license": "MIT",

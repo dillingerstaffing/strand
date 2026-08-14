@@ -81,4 +81,39 @@ describe("FeatureSurface", () => {
     );
     expect(container.textContent).toContain("Next ship");
   });
+
+  // The guard the instrument viewport already has, mirrored here because this
+  // surface shipped without it and the alert cascade was the part that got
+  // missed. A variant covered nowhere renders its light-surface colour on a
+  // dark ground, which is how --success measured 1.52 on the viewport before
+  // its own fix; --success is the RSVP affirmation, so it is the most-seen.
+  it("every alert variant with a light-surface status colour has an on-dark rule", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    const read = (rel: string) => readFileSync(resolve(__dirname, rel), "utf8");
+
+    const alertCss = read("../Alert/Alert.css");
+    const surfaceCss = read("./FeatureSurface.css");
+
+    const lightVariants = [
+      ...alertCss.matchAll(/\.strand-alert--([a-z]+)\s+\.strand-alert__status\s*\{/g),
+    ].map((m) => m[1]);
+    const darkVariants = [
+      ...surfaceCss.matchAll(
+        /\.strand-feature-surface\s+\.strand-alert--([a-z]+)\s+\.strand-alert__status\s*[,{]/g,
+      ),
+    ].map((m) => m[1]);
+
+    // Guards the parse: without this, two empty lists would compare equal and
+    // the assertion would pass while checking nothing.
+    expect(lightVariants.length).toBeGreaterThanOrEqual(4);
+    expect([...new Set(darkVariants)].sort()).toEqual([...new Set(lightVariants)].sort());
+  });
+
+  it("washes the alert panel itself, not only its status prefix", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    const css = readFileSync(resolve(__dirname, "./FeatureSurface.css"), "utf8");
+    expect(css).toMatch(/\.strand-feature-surface\s+\.strand-alert\s*\{/);
+  });
 });

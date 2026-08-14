@@ -187,4 +187,16 @@ describe("Badge fills carry small white text at AA", () => {
       expect(contrast(text, tokenValue(rule.fill))).toBeGreaterThanOrEqual(4.5);
     });
   }
+
+  // A dot that is alive rather than merely present. The design language ships
+  // the alive signal as `.strand-pulse`, which APPENDS a trailing pseudo-dot,
+  // so a leading status dot could not be made live without re-implementing the
+  // keyframe at the call site.
+  it("pulses when live, and does not when it is not", () => {
+    const { container: live } = render(<Badge variant="dot" status="teal" live />);
+    expect(live.querySelector(".strand-badge--live")).not.toBeNull();
+
+    const { container: still } = render(<Badge variant="dot" status="teal" />);
+    expect(still.querySelector(".strand-badge--live")).toBeNull();
+  });
 });

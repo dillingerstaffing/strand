@@ -125,6 +125,10 @@
 					"description": "Pill indicator with number text."
 				},
 				{
+					"class": "strand-badge--live",
+					"description": "Pulses the indicator, to say the thing it marks is live rather than merely present. Composes with --dot and any colour. Honours prefers-reduced-motion."
+				},
+				{
 					"class": "strand-badge--default",
 					"description": "Default color."
 				},
@@ -199,7 +203,7 @@
 					"description": "Range separator. Quieter than the figures so the eye reads two times rather than one string, and aria-hidden so a screen reader is not read punctuation mid-time."
 				}
 			],
-			"example": "<time class=\"strand-big-mono-time\" datetime=\"2026-08-13T06:45\">06:45</time>\n\n<span class=\"strand-big-mono-time strand-big-mono-time--lg\">06:45<span class=\"strand-big-mono-time__sep\" aria-hidden=\"true\">\u2013</span>08:30</span>"
+			"example": "<time class=\"strand-big-mono-time\" datetime=\"2026-08-13T06:45\">06:45</time>\n\n<span class=\"strand-big-mono-time strand-big-mono-time--lg\">06:45<span class=\"strand-big-mono-time__sep\" aria-hidden=\"true\">–</span>08:30</span>"
 		},
 		{
 			"name": "Breadcrumb",
@@ -636,7 +640,7 @@
 		},
 		{
 			"name": "DataReadout",
-			"description": "Monospace metric display with label and value. Sizes are settable per instance via --strand-data-readout-label-size and --strand-data-readout-value-size (DL 11.2.1); the modifiers below are the sanctioned ladder.",
+			"description": "Monospace metric display with label and value. Sizes are settable per instance via --strand-data-readout-label-size, --strand-data-readout-label-weight and --strand-data-readout-value-size (DL 11.2.1); the modifiers below are the sanctioned ladder.",
 			"classes": [
 				{
 					"class": "strand-data-readout",
@@ -644,7 +648,7 @@
 				},
 				{
 					"class": "strand-data-readout__label",
-					"description": "Monospace uppercase label. Size from --strand-data-readout-label-size, default text-xs (11.1px); the ladder holds it there and only a consumer may move it."
+					"description": "Monospace uppercase label. Size from --strand-data-readout-label-size (default text-xs, 11.1px) and weight from --strand-data-readout-label-weight (default weight-medium); the ladder holds both and only a consumer may move them."
 				},
 				{
 					"class": "strand-data-readout__value",
@@ -758,9 +762,13 @@
 				{
 					"class": "strand-feature-surface--pad-xl",
 					"description": "Extra-large padding (40px)."
+				},
+				{
+					"class": "strand-feature-surface .strand-alert",
+					"description": "Alerts placed on this surface take the dark wash and an inverted per-variant status colour, mirroring the instrument viewport. Not a class you author; it is the cascade the surface guarantees."
 				}
 			],
-			"example": "<article class=\"strand-feature-surface\">\n  <span class=\"strand-overline\">Next ship</span>\n  <h2 class=\"strand-title\">Ship 042</h2>\n  <p class=\"strand-text-secondary\">Thursday, 6:30 PM ET</p>\n  <!-- The meter's fill is a graphical object, so blue-primary is right here. -->\n  <div class=\"strand-progress strand-progress--bar\"><div class=\"strand-progress__fill\" style=\"width:60%\"></div></div>\n</article>\n\n<!-- A split card: the panes carry the inset so the divider runs full height. -->\n<article class=\"strand-feature-surface strand-feature-surface--pad-none\">\n  <div class=\"my-split__lead\">\u2026</div>\n  <div class=\"my-split__rail\">\u2026</div>\n</article>"
+			"example": "<article class=\"strand-feature-surface\">\n  <span class=\"strand-overline\">Next ship</span>\n  <h2 class=\"strand-title\">Ship 042</h2>\n  <p class=\"strand-text-secondary\">Thursday, 6:30 PM ET</p>\n  <!-- The meter's fill is a graphical object, so blue-primary is right here. -->\n  <div class=\"strand-progress strand-progress--bar\"><div class=\"strand-progress__fill\" style=\"width:60%\"></div></div>\n</article>\n\n<!-- A split card: the panes carry the inset so the divider runs full height. -->\n<article class=\"strand-feature-surface strand-feature-surface--pad-none\">\n  <div class=\"my-split__lead\">…</div>\n  <div class=\"my-split__rail\">…</div>\n</article>"
 		},
 		{
 			"name": "FormField",

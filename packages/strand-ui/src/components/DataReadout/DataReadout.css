@@ -35,7 +35,7 @@
 .strand-data-readout__label {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-data-readout-label-size, var(--strand-text-xs));
-  font-weight: var(--strand-weight-medium);
+  font-weight: var(--strand-data-readout-label-weight, var(--strand-weight-medium));
   letter-spacing: var(--strand-tracking-ultra);
   text-transform: uppercase;
   color: var(--strand-gray-500);

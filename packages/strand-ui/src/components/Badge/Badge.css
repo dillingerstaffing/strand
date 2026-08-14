@@ -76,3 +76,28 @@
 .strand-badge--red {
   background: var(--strand-red-alert-deep);
 }
+
+/* ── Live variant ──
+   A status dot that is ALIVE rather than merely present.
+
+   The design language already has the alive signal (DL Principle 7) and ships
+   it as `.strand-pulse`, but only as a trailing `::after`: it APPENDS a dot at
+   `right: -6px` to whatever carries it. That is the right shape for a logo or a
+   title that wants a live marker after it, and it cannot express a dot that
+   LEADS a line of text, which is where a status indicator usually goes.
+
+   A consumer wanting one had to hand-build a dot and hand-write the animation,
+   which is a primitive plus a keyframe re-implemented at the call site.
+
+   So the existing keyframe is applied to the badge ITSELF. Composes with
+   `--dot` and with any colour variant, because "is it live" and "what colour is
+   it" are independent questions. */
+.strand-badge--live {
+  animation: strand-pulse-glow 3s var(--strand-ease-in-out-sine) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-badge--live {
+    animation: none;
+  }
+}

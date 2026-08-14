@@ -111,4 +111,13 @@ describe('Badge', () => {
     const { getByRole } = render(Badge, { props: { variant: 'dot' } })
     expect(getByRole('status')).toHaveAttribute('aria-label', 'Status indicator')
   })
+
+  it('pulses when live, and does not when it is not', () => {
+    const { container: live } = render(Badge, { props: { variant: 'dot', status: 'teal', live: true } })
+    expect(live.querySelector('.strand-badge--live')).not.toBeNull()
+
+    const { container: still } = render(Badge, { props: { variant: 'dot', status: 'teal' } })
+    expect(still.querySelector('.strand-badge--live')).toBeNull()
+  })
+
 })

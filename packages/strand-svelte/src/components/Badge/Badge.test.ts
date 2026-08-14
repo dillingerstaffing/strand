@@ -52,4 +52,13 @@ describe('Badge', () => {
     const indicator = container.querySelector('.strand-badge__indicator')
     expect(indicator).toHaveAttribute('aria-label', '7 notifications')
   })
+
+  it('pulses when live, and does not when it is not', () => {
+    const { container: live } = render(Badge, { props: { variant: 'dot', status: 'teal', live: true } })
+    expect(live.querySelector('.strand-badge--live')).not.toBeNull()
+
+    const { container: still } = render(Badge, { props: { variant: 'dot', status: 'teal' } })
+    expect(still.querySelector('.strand-badge--live')).toBeNull()
+  })
+
 })

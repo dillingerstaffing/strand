@@ -23,6 +23,8 @@
   export let count: number | undefined = undefined
   /** Maximum count before showing "N+" */
   export let maxCount: number = 99
+  /** Pulse, to say the thing it marks is live rather than merely present */
+  export let live: boolean = false
 
   $: displayValue = variant === 'count'
     ? (count != null && count > maxCount ? `${maxCount}+` : count)
@@ -38,6 +40,7 @@
     'strand-badge__indicator',
     `strand-badge--${variant}`,
     `strand-badge--${status}`,
+    live ? 'strand-badge--live' : '',
   ].filter(Boolean).join(' ')
 
   $: hasChildren = $$slots.default

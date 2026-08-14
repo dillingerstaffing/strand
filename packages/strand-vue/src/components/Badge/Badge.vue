@@ -13,6 +13,7 @@
       <button>Notifications</button>
     </Badge>
     <Badge variant="dot" status="teal" />
+    <Badge variant="dot" status="teal" live />
   </template>
   ```
 -->
@@ -28,6 +29,8 @@ interface Props {
   count?: number
   /** Maximum count before showing "N+" */
   maxCount?: number
+  /** Pulse, to say the thing it marks is live rather than merely present */
+  live?: boolean
   /** Additional CSS class */
   className?: string
 }
@@ -36,6 +39,7 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'count',
   status: 'default',
   maxCount: 99,
+  live: false,
   className: '',
 })
 
@@ -63,6 +67,7 @@ const badgeClasses = computed(() =>
     'strand-badge__indicator',
     `strand-badge--${props.variant}`,
     `strand-badge--${props.status}`,
+    props.live ? 'strand-badge--live' : '',
   ]
     .filter(Boolean)
     .join(' '),

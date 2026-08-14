@@ -1303,3 +1303,28 @@ That reframing is what made these three gaps visible. A consumer building a head
 ### Not a gap: the mobile geometry itself
 - The header's own layout (`.stg-mobile-top` and its parts, the 125px reserve, the desktop bar hidden below 768) stayed in the consumer. It is product composition: which block a product draws at which width, and how tall its own header is, is not something a design system can know. The three gaps above are the parts where the consumer was reaching INTO a Strand primitive; the rest is the consumer arranging its own boxes.
 - The reserve is worth recording even though it is consumer-side, because it is the mechanism that keeps the surface at CLS 0. The mount reserves `--stg-top-reserve` and the header binds its own `min-block-size` to the same variable, so the reservation cannot silently stop matching the thing it reserves for. Before it existed, every phone shifted 61px on hydrate, on every page load, because the mount fell back to the 64px nav-height token for a block that is 125px tall.
+
+### Gap #107
+- Type: **L2** (library). Tree: no primitive expresses it, no spec change needed.
+- Symptom: a member RSVPs on the product's lead card and the confirmation panel is barely readable. The affirmation is `Alert --success`, rendered inside `FeatureSurface`.
+- Root cause: **the surface's midnight cascade was written by mirroring the instrument viewport's, and the alert rules are the part that did not get mirrored.** `Alert.css` chooses each variant's status colour against that variant's LIGHT tint background; on a dark ground those colours are simply wrong, and nothing restated them.
+- The instrument viewport shipped this exact hole once and its own comment names the consequence: "--success is the RSVP affirmation, the panel a member sees the moment they commit, so it was the most-seen failure of the set." It is the most-seen failure here for the same reason. A design system that fixes a defect on one dark surface and leaves its sibling holding it has not fixed the defect, it has moved it.
+- Fix mirrors the viewport exactly: the translucent wash on the panel, an explicit content colour rather than an inherit, and a per-variant inversion for all four variants. Same values, because the two surfaces differ in shade and not in what a dark ground does to a panel designed for a light one.
+- **The completeness guard is mirrored too**, and that is the durable half. `InstrumentViewport.test.tsx` already asserts that every variant with a per-variant colour in `Alert.css` has an on-dark rule; `FeatureSurface.test.tsx` had no such assertion, which is precisely why it could ship covering none of them. Both tests guard the parse first, since two empty lists compare equal.
+
+### Gap #108
+- Type: **L2** (library). Tree: the design language already HAS the signal; no primitive exposes it in the position a consumer needs.
+- Symptom: a product wanted a small live dot leading an overline, the "active status" affordance its design draws. It could compose the dot (`Badge --dot --teal`) and it could not make it live.
+- Root cause: DL Principle 7's alive signal ships only as `.strand-pulse`, which APPENDS a `::after` at `right: -6px` to whatever carries it. That is the right shape for a logo or a title wanting a marker after it, and it cannot express a dot that LEADS a line. A consumer needing one had to hand-write a dot plus a copy of the keyframe at the call site, which is a primitive and an animation re-implemented downstream.
+- `.strand-badge--live`, applying the EXISTING `strand-pulse-glow` keyframe to the badge itself. Composes with `--dot` and with any colour variant, because "is it live" and "what colour is it" are independent questions, and a variant per pairing is how a modifier list doubles.
+- Honours `prefers-reduced-motion`. An indicator whose whole job is motion has to have an answer for a reader who has asked for none.
+
+### Gap #109
+- Type: **L2** (library). Tree: no primitive, no spec change. The sibling of #103.
+- Symptom: the readout labels on a dark card read heavier than the design draws them, and the only way down was restyling `.strand-data-readout__label`.
+- Root cause: **#103 made the label's SIZE settable and left its WEIGHT welded** to `--strand-weight-medium`. That is the same defect one property over, in the rule #103 edited, and it survived because the consumer that motivated #103 happened to want a size.
+- `--strand-data-readout-label-weight`, defaulting to `--strand-weight-medium`, so nothing changes for anyone who sets nothing. Identical shape to #103's variables, in the same declaration block.
+- Worth stating plainly: a fix that makes one property of a rule configurable should say why the neighbours are not. #103 did not, and this is the cost.
+
+### Not a gap: the featured card's own layout
+- The eyebrow's colour, the dot's placement before the text, and the facts block seeking the bottom of the lead pane are consumer compositions. Which token a product paints its overline in, and where in its own flex column a block sits, is not something a design system can know. The three gaps above are the places the consumer was reaching INTO a primitive.

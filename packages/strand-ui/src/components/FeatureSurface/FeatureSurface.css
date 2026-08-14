@@ -219,3 +219,42 @@
   color: var(--strand-gray-200);
   border: 1px solid color-mix(in srgb, var(--strand-gray-300) 22%, transparent);
 }
+
+/* ── Alerts on midnight ──
+   The cascade above was written by mirroring the instrument viewport's, and
+   the alert rules were the part that did not get mirrored. So a panel placed on
+   this surface kept the colours Alert.css chooses against that variant's LIGHT
+   tint background, on a dark ground.
+
+   The instrument viewport's own comment already names the consequence, having
+   shipped this exact hole once: "--success is the RSVP affirmation, the panel a
+   member sees the moment they commit, so it was the most-seen failure of the
+   set." It is the most-seen failure here too, and for the same reason: a
+   product's lead card is where a commitment is confirmed.
+
+   Same wash, same explicit content colour, same per-variant inversion, because
+   the two surfaces differ in shade and not in what a dark ground does to a
+   panel designed for a light one. */
+.strand-feature-surface .strand-alert {
+  background: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);
+  color: var(--strand-on-blue-primary);
+}
+
+/* Every variant that carries a per-variant colour in Alert.css needs one here.
+   Covering only the variant in front of you is how the instrument viewport
+   shipped --info alone and left the other three at 1.92, 1.52 and 1.67. */
+.strand-feature-surface .strand-alert--info .strand-alert__status {
+  color: var(--strand-blue-indicator);
+}
+
+.strand-feature-surface .strand-alert--success .strand-alert__status {
+  color: var(--strand-teal-tint);
+}
+
+.strand-feature-surface .strand-alert--warning .strand-alert__status {
+  color: var(--strand-amber-tint);
+}
+
+.strand-feature-surface .strand-alert--error .strand-alert__status {
+  color: var(--strand-red-tint);
+}

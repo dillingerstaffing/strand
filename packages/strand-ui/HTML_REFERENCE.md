@@ -341,11 +341,13 @@ Status or count indicator that wraps a child element.
 | `strand-badge__indicator` | child | The indicator element (dot or count pill). |
 | `strand-badge--dot` | modifier | 8px circle indicator, no text. |
 | `strand-badge--count` | modifier | Pill indicator with number text. |
+| `strand-badge--live` | modifier | Pulses the indicator, to say the thing it marks is live rather than merely present. Composes with --dot and any colour. Honours prefers-reduced-motion. |
 | `strand-badge--default` | modifier | Default color. |
 | `strand-badge--teal` | modifier | Teal color. |
 | `strand-badge--blue` | modifier | Blue color. |
 | `strand-badge--amber` | modifier | Amber color. |
 | `strand-badge--red` | modifier | Red color. |
+| `strand-pulse` | base | |
 
 **Usage:**
 
@@ -718,12 +720,12 @@ Container-width visualizer. Renders proportional horizontal bars (narrow / defau
 
 ### DataReadout
 
-Monospace metric display with label and value. Sizes are settable per instance via --strand-data-readout-label-size and --strand-data-readout-value-size (DL 11.2.1); the modifiers below are the sanctioned ladder.
+Monospace metric display with label and value. Sizes are settable per instance via --strand-data-readout-label-size, --strand-data-readout-label-weight and --strand-data-readout-value-size (DL 11.2.1); the modifiers below are the sanctioned ladder.
 
 | Class | Type | Description |
 |---|---|---|
 | `strand-data-readout` | base | Base readout element. |
-| `strand-data-readout__label` | child | Monospace uppercase label. Size from --strand-data-readout-label-size, default text-xs (11.1px); the ladder holds it there and only a consumer may move it. |
+| `strand-data-readout__label` | child | Monospace uppercase label. Size from --strand-data-readout-label-size (default text-xs, 11.1px) and weight from --strand-data-readout-label-weight (default weight-medium); the ladder holds both and only a consumer may move them. |
 | `strand-data-readout__value` | child | The displayed value. Size from --strand-data-readout-value-size, default text-3xl (39px). |
 | `strand-data-readout--sm` | modifier | Small size (value text-xl, 25px). The smallest rung on the ladder. |
 | `strand-data-readout--lg` | modifier | Large size (value text-4xl, 49px). |
@@ -812,6 +814,7 @@ The second dark surface role (design-language.md 9.3): a single element promoted
 | `strand-feature-surface--pad-md` | modifier | Medium padding (24px). The default, and the same value the base carries. |
 | `strand-feature-surface--pad-lg` | modifier | Large padding (32px). |
 | `strand-feature-surface--pad-xl` | modifier | Extra-large padding (40px). |
+| `strand-feature-surface .strand-alert` | base | Alerts placed on this surface take the dark wash and an inverted per-variant status colour, mirroring the instrument viewport. Not a class you author; it is the cascade the surface guarantees. |
 | `strand-headline` | base | |
 | `strand-title` | base | |
 | `strand-big-mono-time` | base | |
