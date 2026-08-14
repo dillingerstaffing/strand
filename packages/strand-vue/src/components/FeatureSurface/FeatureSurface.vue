@@ -17,12 +17,29 @@ import { computed } from 'vue'
 interface Props {
   /** Render as a different element, e.g. "article" or "section". */
   as?: 'div' | 'article' | 'section'
+  /**
+   * Inner padding. The same ladder Card ships. `none` also clips to the
+   * surface's radius, so panes laid against the corners cannot square them
+   * off — use it when the CHILDREN carry the inset, e.g. a two-pane card
+   * whose divider runs the full height.
+   */
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
   className?: string
 }
-const props = withDefaults(defineProps<Props>(), { as: 'div', className: '' })
+const props = withDefaults(defineProps<Props>(), {
+  as: 'div',
+  padding: 'md',
+  className: '',
+})
 defineOptions({ inheritAttrs: false })
 const classes = computed(() =>
-  ['strand-feature-surface', props.className].filter(Boolean).join(' '),
+  [
+    'strand-feature-surface',
+    `strand-feature-surface--pad-${props.padding}`,
+    props.className,
+  ]
+    .filter(Boolean)
+    .join(' '),
 )
 </script>
 

@@ -6,6 +6,13 @@ import { forwardRef } from "preact/compat";
 export interface FeatureSurfaceProps extends JSX.HTMLAttributes<HTMLDivElement> {
   /** Render as a different element, e.g. "article" or "section". */
   as?: "div" | "article" | "section";
+  /**
+   * Inner padding. The same ladder Card ships. `none` also clips to the
+   * surface's radius, so panes laid against the corners cannot square them
+   * off — use it when the CHILDREN carry the inset, e.g. a two-pane card
+   * whose divider runs the full height.
+   */
+  padding?: "none" | "sm" | "md" | "lg" | "xl";
   className?: string;
 }
 
@@ -35,9 +42,20 @@ export interface FeatureSurfaceProps extends JSX.HTMLAttributes<HTMLDivElement> 
  *   <p class="strand-text-secondary">Thursday, 6:30 PM ET</p>
  * </FeatureSurface>
  * ```
+ *
+ * @example
+ * ```tsx
+ * // A split card: the PANES carry the inset so the divider between them
+ * // runs the full height of the surface. `padding="none"` also clips, so
+ * // the right pane's wash cannot square off the rounded corners.
+ * <FeatureSurface as="article" padding="none" class="my-split">
+ *   <div class="my-split__lead">…</div>
+ *   <div class="my-split__rail">…</div>
+ * </FeatureSurface>
+ * ```
  */
 export const FeatureSurface = forwardRef<HTMLDivElement, FeatureSurfaceProps>(
-  ({ as = "div", className = "", children, ...rest }, ref) => {
+  ({ as = "div", padding = "md", className = "", children, ...rest }, ref) => {
     // Narrowed to one concrete tag for the type checker only. `as` is a
     // union, so no single ref type satisfies every branch, and typing the
     // ref as the union produces an intersection nothing can inhabit. The
@@ -45,7 +63,13 @@ export const FeatureSurface = forwardRef<HTMLDivElement, FeatureSurfaceProps>(
     // states that HTMLDivElement is the honest default for a consumer who
     // does not change `as`.
     const Tag = as as "div";
-    const classes = ["strand-feature-surface", className].filter(Boolean).join(" ");
+    const classes = [
+      "strand-feature-surface",
+      `strand-feature-surface--pad-${padding}`,
+      className,
+    ]
+      .filter(Boolean)
+      .join(" ");
     // The ref is cast because the element type is chosen by a prop, so no
     // single ref type is correct for every branch. HTMLDivElement is the
     // honest default for a consumer who does not change `as`.

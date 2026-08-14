@@ -133,6 +133,18 @@ All paths above make Bulma's own components look like Strand. You can ALSO use S
 
 Zero class collisions. Bulma's `section`, `container`, `columns` handle layout. Strand's `strand-card` and `strand-data-readout` handle the component. Both CSS files coexist.
 
+**If your type scale is not Strand's**, size a readout through its two custom properties rather than by restyling `strand-data-readout__label` / `__value`. A BEM-internal override is unversioned and breaks silently when the component's internals change; these are the supported contract:
+
+```html
+<div class="strand-data-readout"
+     style="--strand-data-readout-label-size: 10px; --strand-data-readout-value-size: 14px">
+  <span class="strand-data-readout__label">Channel</span>
+  <span class="strand-data-readout__value">Weekly Ship</span>
+</div>
+```
+
+They inherit, so setting them once on a wrapper sizes every readout in the group. The `--sm` / `--lg` / `--xl` modifiers remain the sanctioned ladder and still win, because they declare on the readout itself. See design-language.md 11.2.1.
+
 ---
 
 ## Naming Convention

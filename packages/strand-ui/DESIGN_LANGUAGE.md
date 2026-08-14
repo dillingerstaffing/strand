@@ -1446,7 +1446,28 @@ When displaying processed data (metrics, scores, status), the interface becomes 
 | `--lg` | `--strand-text-4xl` | 49px | Hero metrics, feature highlights, landing pages |
 | `--xl` | `clamp(4.5rem, 10vw, 7rem)` | 72-112px | Primary instrument readout. The single dominant number on the screen (Principle 2). |
 
-The overline label stays at `--strand-text-xs` across all sizes. The label-to-value ratio shifts from 44% (sm) to 14% (xl): in larger readouts, the number is the hero and the label is the caption. The default (no modifier) preserves the current behavior.
+The overline label stays at `--strand-text-xs` **across every modifier on this ladder**. The label-to-value ratio shifts from 44% (sm) to 14% (xl): in larger readouts, the number is the hero and the label is the caption. The default (no modifier) preserves the current behavior.
+
+#### 11.2.1 The readout serves two ends of a range, and the ladder only reaches one
+
+Every rung above scales the VALUE and holds the label, because the ladder describes the readout as an **instrument**: a number that is the hero, with a caption naming what it measures. That is the readout's primary job and the ladder is correct for it.
+
+The same stacked label-over-value pair is also the grammar's `inline-pair` (11.10), used as a **labelled fact**: `Channel / Weekly Ship`, `Meet at / Skyline Gate`. Here the value is not a number and the label is not a caption. The two are halves of one statement, which is exactly what 11.13's inline-pair test asserts: cover the value and you must still know what the row measures; cover the label and you must still be able to interpret the value. Both halves carry meaning, so both are set at caption scale and neither dominates.
+
+**The ladder cannot express that, and no rung can be added to make it.** Its smallest value is 25px, which is 56% larger than body text, and it holds the label at 11.1px by the rule stated above. A labelled fact needs both numbers smaller and needs them to move together. Adding an `--xs` rung would either break the label rule for every rung or ship a rung whose label is louder than its value.
+
+**So the sizes are a per-instance styling API, and the ladder stays the sanctioned set.**
+
+| Custom property | Default |
+|---|---|
+| `--strand-data-readout-label-size` | `--strand-text-xs` |
+| `--strand-data-readout-value-size` | `--strand-text-3xl` |
+
+Set them on the readout or on any ancestor; they inherit. A size modifier sets the value property on the readout itself, so a modifier always beats an ancestor's declaration, and the ladder therefore remains authoritative wherever it is used.
+
+**Why an API rather than more rungs.** A product with a type scale of its own is the case this exists for, and the alternative is not "the product uses the ladder" -- it is the product restyling `.strand-data-readout__label` and `.strand-data-readout__value` from its own stylesheet. That happened, in the consumer that produced this clause. A BEM-internal override is unversioned, unannounced, and silently breaks when this component's internals change, which is precisely the coupling a design system exists to prevent. A named property is the same capability with a contract attached.
+
+**This is a size API and nothing more.** Family, weight, tracking, tabular numerals and the on-dark cascades are not settable and are not negotiable: they are what makes a readout a readout (Principle 10). A consumer that needs to change those does not want this component.
 
 ### 11.3 Status Indicators
 

@@ -7,10 +7,34 @@
   gap: var(--strand-space-1);
 }
 
+/* ── The two sizes are a per-instance API (DL 11.2.1) ──
+   The ladder below scales the VALUE and holds the label, because it
+   describes the readout as an INSTRUMENT: a number that is the hero with a
+   caption naming it. The same pair is also the grammar's `inline-pair`
+   (11.10) used as a LABELLED FACT -- `Channel / Weekly Ship` -- where the
+   value is not a number, the label is not a caption, and both halves are set
+   at caption scale.
+
+   The ladder cannot reach that end and no rung can be added to make it: its
+   smallest value is 25px and it holds the label at 11.1px by spec, so an
+   `--xs` rung would ship a label louder than its value.
+
+   So the sizes are named properties with the ladder's defaults, and the
+   fallback lives INSIDE the var() rather than in a declaration of its own.
+   That is load-bearing: `__value` is used without a `.strand-data-readout`
+   ancestor in real consumer markup (composed with
+   `.strand-instrument-viewport__value`, among others). Declaring the custom
+   property on the block would leave those orphans resolving an unset
+   variable, which is invalid at computed-value time and makes an INHERITED
+   property inherit -- a readout silently taking its parent's font size.
+
+   Size only. Family, weight, tracking, tabular numerals and the on-dark
+   cascades are not settable: they are what makes a readout a readout. */
+
 /* ── Label (overline) ── */
 .strand-data-readout__label {
   font-family: var(--strand-font-mono);
-  font-size: var(--strand-text-xs);
+  font-size: var(--strand-data-readout-label-size, var(--strand-text-xs));
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-ultra);
   text-transform: uppercase;
@@ -21,7 +45,7 @@
 /* ── Value (instrument readout) ── */
 .strand-data-readout__value {
   font-family: var(--strand-font-mono);
-  font-size: var(--strand-text-3xl);
+  font-size: var(--strand-data-readout-value-size, var(--strand-text-3xl));
   font-weight: var(--strand-weight-light);
   letter-spacing: var(--strand-tracking-tighter);
   color: var(--strand-blue-midnight);
@@ -29,15 +53,19 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Size variants ── */
-.strand-data-readout--sm .strand-data-readout__value {
-  font-size: var(--strand-text-xl);
+/* ── Size variants ──
+   Set on the BLOCK, so a modifier always beats an ancestor's declaration:
+   custom-property resolution takes the nearest declaring ancestor, and the
+   modifier is on the readout itself. The ladder therefore stays
+   authoritative wherever it is used. */
+.strand-data-readout--sm {
+  --strand-data-readout-value-size: var(--strand-text-xl);
 }
 
-.strand-data-readout--lg .strand-data-readout__value {
-  font-size: var(--strand-text-4xl);
+.strand-data-readout--lg {
+  --strand-data-readout-value-size: var(--strand-text-4xl);
 }
 
-.strand-data-readout--xl .strand-data-readout__value {
-  font-size: clamp(4.5rem, 10vw, 7rem);
+.strand-data-readout--xl {
+  --strand-data-readout-value-size: clamp(4.5rem, 10vw, 7rem);
 }

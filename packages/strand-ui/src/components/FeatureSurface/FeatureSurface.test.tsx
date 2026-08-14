@@ -42,6 +42,37 @@ describe("FeatureSurface", () => {
     expect(el?.classList.contains("strand-feature-surface")).toBe(true);
   });
 
+  // ── Padding tiers (Gap #102) ──
+
+  it("pads itself by default, so an unchanged consumer is unchanged", () => {
+    const { container } = render(<FeatureSurface />);
+    expect(
+      container.querySelector(".strand-feature-surface")?.classList.contains(
+        "strand-feature-surface--pad-md",
+      ),
+    ).toBe(true);
+  });
+
+  it("hands the inset to its children when asked", () => {
+    // The case this exists for: a two-pane card whose divider runs the full
+    // height needs the PANES to pad, so the surface must not.
+    const { container } = render(<FeatureSurface padding="none" />);
+    const el = container.querySelector(".strand-feature-surface");
+    expect(el?.classList.contains("strand-feature-surface--pad-none")).toBe(true);
+    expect(el?.classList.contains("strand-feature-surface--pad-md")).toBe(false);
+  });
+
+  it("offers the same tiers as Card", () => {
+    // A tier present on one surface primitive and absent on the other is a
+    // hole rather than a distinction, and that is what this gap was.
+    for (const tier of ["none", "sm", "md", "lg", "xl"] as const) {
+      const { container } = render(<FeatureSurface padding={tier} />);
+      expect(
+        container.querySelector(`.strand-feature-surface--pad-${tier}`),
+      ).not.toBeNull();
+    }
+  });
+
   it("renders its children", () => {
     const { container } = render(
       <FeatureSurface>

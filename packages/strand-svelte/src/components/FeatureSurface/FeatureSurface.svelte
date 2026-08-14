@@ -15,10 +15,21 @@
 <script lang="ts">
   /** Render as a different element, e.g. "article" or "section". */
   export let as: 'div' | 'article' | 'section' = 'div'
+  /**
+   * Inner padding. The same ladder Card ships. `none` also clips to the
+   * surface's radius, so panes laid against the corners cannot square them
+   * off — use it when the CHILDREN carry the inset, e.g. a two-pane card
+   * whose divider runs the full height.
+   */
+  export let padding: 'none' | 'sm' | 'md' | 'lg' | 'xl' = 'md'
   /** Merged explicitly; $$restProps spreads after class and would replace it. */
   let className: string = ''
   export { className as class }
-  $: classes = ['strand-feature-surface', className].filter(Boolean).join(' ')
+  $: classes = [
+    'strand-feature-surface',
+    `strand-feature-surface--pad-${padding}`,
+    className,
+  ].filter(Boolean).join(' ')
 </script>
 
 <svelte:element this={as} class={classes} {...$$restProps}>

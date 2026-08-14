@@ -36,6 +36,47 @@
   padding: var(--strand-space-6);
 }
 
+/* ── Padding tiers ──
+   The SAME ladder Card ships (`--pad-none` through `--pad-xl`), because
+   these are the two surface primitives a consumer builds a card out of and
+   a capability present on one and absent on the other is a hole rather than
+   a distinction. The base keeps space-6 so a CSS-only consumer writing the
+   bare class is unaffected, and `--pad-md` restates it so the emitted class
+   never disagrees with the rendered box.
+
+   The gap was measured on a consumer: a two-pane feature card whose divider
+   has to run the full card height needs each PANE to carry the inset, so
+   the surface must carry none. With no modifier the only route was a
+   page-local rule overriding `.strand-feature-surface`'s own padding, which
+   is the workaround the strand-first gate exists to forbid. */
+.strand-feature-surface--pad-none {
+  padding: 0;
+  /* Clipping travels with the full-bleed tier rather than sitting on the
+     base, and that placement is the whole decision. A pane laid against
+     this surface's radius-lg corner squares them off unless the surface
+     clips, so `--pad-none` without it is a modifier that does not work out
+     of the box (Principle 8). On the base it would instead change overflow
+     behaviour for every existing consumer that never asked -- Card can clip
+     unconditionally because Card always has. */
+  overflow: hidden;
+}
+
+.strand-feature-surface--pad-sm {
+  padding: var(--strand-space-4);
+}
+
+.strand-feature-surface--pad-md {
+  padding: var(--strand-space-6);
+}
+
+.strand-feature-surface--pad-lg {
+  padding: var(--strand-space-8);
+}
+
+.strand-feature-surface--pad-xl {
+  padding: var(--strand-space-10);
+}
+
 /* ── Text cascade on midnight ──
    Mirrors the instrument viewport's cascade in structure and differs in
    every value that needed to. */

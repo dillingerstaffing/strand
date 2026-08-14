@@ -632,7 +632,7 @@
 		},
 		{
 			"name": "DataReadout",
-			"description": "Monospace metric display with label and value.",
+			"description": "Monospace metric display with label and value. Sizes are settable per instance via --strand-data-readout-label-size and --strand-data-readout-value-size (DL 11.2.1); the modifiers below are the sanctioned ladder.",
 			"classes": [
 				{
 					"class": "strand-data-readout",
@@ -640,26 +640,26 @@
 				},
 				{
 					"class": "strand-data-readout__label",
-					"description": "Monospace uppercase label."
+					"description": "Monospace uppercase label. Size from --strand-data-readout-label-size, default text-xs (11.1px); the ladder holds it there and only a consumer may move it."
 				},
 				{
 					"class": "strand-data-readout__value",
-					"description": "Large numeric value."
+					"description": "The displayed value. Size from --strand-data-readout-value-size, default text-3xl (39px)."
 				},
 				{
 					"class": "strand-data-readout--sm",
-					"description": "Small size (text-xl)."
+					"description": "Small size (value text-xl, 25px). The smallest rung on the ladder."
 				},
 				{
 					"class": "strand-data-readout--lg",
-					"description": "Large size (text-4xl)."
+					"description": "Large size (value text-4xl, 49px)."
 				},
 				{
 					"class": "strand-data-readout--xl",
-					"description": "Extra-large size (fluid 72-112px)."
+					"description": "Extra-large size (value fluid 72-112px)."
 				}
 			],
-			"example": "<div class=\"strand-data-readout\">\n  <span class=\"strand-data-readout__label\">Revenue</span>\n  <span class=\"strand-data-readout__value\">$142,800</span>\n</div>"
+			"example": "<div class=\"strand-data-readout\">\n  <span class=\"strand-data-readout__label\">Revenue</span>\n  <span class=\"strand-data-readout__value\">$142,800</span>\n</div>\n\n<!-- A labelled FACT rather than an instrument number: both halves at caption\n     scale, set on an ancestor so every readout in the group matches. -->\n<div class=\"my-facts\" style=\"--strand-data-readout-label-size:10px;--strand-data-readout-value-size:14px\">\n  <div class=\"strand-data-readout\">\n    <span class=\"strand-data-readout__label\">Channel</span>\n    <span class=\"strand-data-readout__value\">Weekly Ship</span>\n  </div>\n</div>"
 		},
 		{
 			"name": "Dialog",
@@ -734,9 +734,29 @@
 				{
 					"class": "strand-feature-surface",
 					"description": "Feature surface root. Paints blue-midnight with the instrument border and carries a text cascade one rung lighter than the instrument viewport's: overlines and the quiet tier take gray-300 (7.46), secondary text gray-200 (8.98), headlines and values white (11.00), accent overlines blue-indicator (6.44). A meter's fill stays blue-primary, which is a graphical object at 3:1 and correct at 3.34 where it would fail as a word."
+				},
+				{
+					"class": "strand-feature-surface--pad-none",
+					"description": "No padding, and clips to the surface radius. Use when the CHILDREN carry the inset: a two-pane card whose divider runs the full card height. Without the clip, a pane laid against a corner squares off the radius."
+				},
+				{
+					"class": "strand-feature-surface--pad-sm",
+					"description": "Small padding (16px)."
+				},
+				{
+					"class": "strand-feature-surface--pad-md",
+					"description": "Medium padding (24px). The default, and the same value the base carries."
+				},
+				{
+					"class": "strand-feature-surface--pad-lg",
+					"description": "Large padding (32px)."
+				},
+				{
+					"class": "strand-feature-surface--pad-xl",
+					"description": "Extra-large padding (40px)."
 				}
 			],
-			"example": "<article class=\"strand-feature-surface\">\n  <span class=\"strand-overline\">Next ship</span>\n  <h2 class=\"strand-title\">Ship 042</h2>\n  <p class=\"strand-text-secondary\">Thursday, 6:30 PM ET</p>\n  <!-- The meter's fill is a graphical object, so blue-primary is right here. -->\n  <div class=\"strand-progress strand-progress--bar\"><div class=\"strand-progress__fill\" style=\"width:60%\"></div></div>\n</article>"
+			"example": "<article class=\"strand-feature-surface\">\n  <span class=\"strand-overline\">Next ship</span>\n  <h2 class=\"strand-title\">Ship 042</h2>\n  <p class=\"strand-text-secondary\">Thursday, 6:30 PM ET</p>\n  <!-- The meter's fill is a graphical object, so blue-primary is right here. -->\n  <div class=\"strand-progress strand-progress--bar\"><div class=\"strand-progress__fill\" style=\"width:60%\"></div></div>\n</article>\n\n<!-- A split card: the panes carry the inset so the divider runs full height. -->\n<article class=\"strand-feature-surface strand-feature-surface--pad-none\">\n  <div class=\"my-split__lead\">…</div>\n  <div class=\"my-split__rail\">…</div>\n</article>"
 		},
 		{
 			"name": "FormField",

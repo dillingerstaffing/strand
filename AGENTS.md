@@ -139,3 +139,8 @@ existing neutral chip and ghost-button classes.
 5. **Skipping size modifiers.** Strand buttons need explicit size: `strand-btn--sm`, `strand-btn--md`, or `strand-btn--lg`.
 6. **Using Bootstrap/Bulma class patterns.** Strand uses its own BEM conventions. See the class mapping guides in `docs/migration/`.
 7. **Missing vanilla runtime for vanilla HTML consumers.** Without the runtime script, copy buttons, mobile nav hamburger, tab switching, and `:has()` fallbacks are missing. Framework consumers get these for free from their components.
+8. **Restyling a component's BEM internals to change a size or an inset.** Writing `.strand-data-readout__value { font-size: 14px }` or `.my-card.strand-feature-surface { padding: 0 }` in your own stylesheet is unversioned, wins only by source order at equal specificity, and breaks silently when the component's internals change. Reach for the API instead:
+   - **Inner padding** on `Card` and `FeatureSurface`: the `padding` prop, or `--pad-none` / `--pad-sm` / `--pad-md` / `--pad-lg` / `--pad-xl`. `--pad-none` also clips to the surface radius, for cards whose children carry the inset.
+   - **Readout sizes**: `--strand-data-readout-label-size` and `--strand-data-readout-value-size`, set on the readout or any ancestor. The `--sm` / `--lg` / `--xl` modifiers stay the sanctioned ladder (design-language.md 11.2.1).
+
+   If your case has no API, that is a library gap worth reporting, not a stylesheet to write around it.

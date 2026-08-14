@@ -717,16 +717,16 @@ Container-width visualizer. Renders proportional horizontal bars (narrow / defau
 
 ### DataReadout
 
-Monospace metric display with label and value.
+Monospace metric display with label and value. Sizes are settable per instance via --strand-data-readout-label-size and --strand-data-readout-value-size (DL 11.2.1); the modifiers below are the sanctioned ladder.
 
 | Class | Type | Description |
 |---|---|---|
 | `strand-data-readout` | base | Base readout element. |
-| `strand-data-readout__label` | child | Monospace uppercase label. |
-| `strand-data-readout__value` | child | Large numeric value. |
-| `strand-data-readout--sm` | modifier | Small size (text-xl). |
-| `strand-data-readout--lg` | modifier | Large size (text-4xl). |
-| `strand-data-readout--xl` | modifier | Extra-large size (fluid 72-112px). |
+| `strand-data-readout__label` | child | Monospace uppercase label. Size from --strand-data-readout-label-size, default text-xs (11.1px); the ladder holds it there and only a consumer may move it. |
+| `strand-data-readout__value` | child | The displayed value. Size from --strand-data-readout-value-size, default text-3xl (39px). |
+| `strand-data-readout--sm` | modifier | Small size (value text-xl, 25px). The smallest rung on the ladder. |
+| `strand-data-readout--lg` | modifier | Large size (value text-4xl, 49px). |
+| `strand-data-readout--xl` | modifier | Extra-large size (value fluid 72-112px). |
 
 **Usage:**
 
@@ -734,6 +734,15 @@ Monospace metric display with label and value.
 <div class="strand-data-readout">
   <span class="strand-data-readout__label">Revenue</span>
   <span class="strand-data-readout__value">$142,800</span>
+</div>
+
+<!-- A labelled FACT rather than an instrument number: both halves at caption
+     scale, set on an ancestor so every readout in the group matches. -->
+<div class="my-facts" style="--strand-data-readout-label-size:10px;--strand-data-readout-value-size:14px">
+  <div class="strand-data-readout">
+    <span class="strand-data-readout__label">Channel</span>
+    <span class="strand-data-readout__value">Weekly Ship</span>
+  </div>
 </div>
 ```
 
@@ -797,6 +806,11 @@ The second dark surface role (design-language.md 9.3): a single element promoted
 | Class | Type | Description |
 |---|---|---|
 | `strand-feature-surface` | base | Feature surface root. Paints blue-midnight with the instrument border and carries a text cascade one rung lighter than the instrument viewport's: overlines and the quiet tier take gray-300 (7.46), secondary text gray-200 (8.98), headlines and values white (11.00), accent overlines blue-indicator (6.44). A meter's fill stays blue-primary, which is a graphical object at 3:1 and correct at 3.34 where it would fail as a word. |
+| `strand-feature-surface--pad-none` | modifier | No padding, and clips to the surface radius. Use when the CHILDREN carry the inset: a two-pane card whose divider runs the full card height. Without the clip, a pane laid against a corner squares off the radius. |
+| `strand-feature-surface--pad-sm` | modifier | Small padding (16px). |
+| `strand-feature-surface--pad-md` | modifier | Medium padding (24px). The default, and the same value the base carries. |
+| `strand-feature-surface--pad-lg` | modifier | Large padding (32px). |
+| `strand-feature-surface--pad-xl` | modifier | Extra-large padding (40px). |
 | `strand-headline` | base | |
 | `strand-title` | base | |
 | `strand-big-mono-time` | base | |
@@ -828,6 +842,12 @@ The second dark surface role (design-language.md 9.3): a single element promoted
   <p class="strand-text-secondary">Thursday, 6:30 PM ET</p>
   <!-- The meter's fill is a graphical object, so blue-primary is right here. -->
   <div class="strand-progress strand-progress--bar"><div class="strand-progress__fill" style="width:60%"></div></div>
+</article>
+
+<!-- A split card: the panes carry the inset so the divider runs full height. -->
+<article class="strand-feature-surface strand-feature-surface--pad-none">
+  <div class="my-split__lead">…</div>
+  <div class="my-split__rail">…</div>
 </article>
 ```
 
@@ -937,6 +957,7 @@ Dark instrument panel container for data-dense content.
 | `strand-instrument-viewport` | base | Dark viewport surface. |
 | `strand-instrument-viewport--grid` | modifier | Grid overlay variant. |
 | `strand-instrument-viewport--full-bleed` | modifier | |
+| `strand-instrument-viewport__value` | child | |
 | `strand-body--instrument` | modifier | |
 | `strand-kv__label` | child | |
 | `strand-kv__value` | child | |
@@ -966,7 +987,6 @@ Dark instrument panel container for data-dense content.
 | `strand-detail-panel` | base | |
 | `strand-surface-light` | base | |
 | `strand-instrument-viewport__label` | child | |
-| `strand-instrument-viewport__value` | child | |
 | `strand-instrument-viewport__map` | child | |
 | `strand-scanline` | base | |
 | `strand-scanline--active` | modifier | |
