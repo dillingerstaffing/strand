@@ -20,6 +20,21 @@ export interface RadioProps
   name?: string;
   /** Radio value */
   value?: string;
+  /**
+   * Row density. `comfortable` is the default and is unchanged.
+   *
+   * `compact` drops the row's floor to 30px ON A FINE POINTER ONLY. DL 14.7
+   * makes the floor a property of the input modality (coarse 44, fine 24), and
+   * says in as many words that a rule which shrinks a control "must be written
+   * inside `@media (pointer: fine)` so that touch is untouched by construction
+   * rather than by care". Touch keeps 44 here whatever this prop says.
+   *
+   * OPT-IN, and that is 14.7 too: "44px remains the default everywhere ... no
+   * component changes size by inheriting this clause". Reach for it where
+   * density is the point and the region is pointer-driven, which is the filter
+   * rail this was written for. Do not reach for it to tidy a form.
+   */
+  density?: "comfortable" | "compact";
   /** Additional CSS class */
   className?: string;
 }
@@ -44,6 +59,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       label,
       name,
       value,
+      density = "comfortable",
       className = "",
       ...rest
     },
@@ -51,6 +67,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
   ) => {
     const classes = [
       "strand-radio",
+      density === "compact" && "strand-radio--compact",
       checked && "strand-radio--checked",
       disabled && "strand-radio--disabled",
       className,

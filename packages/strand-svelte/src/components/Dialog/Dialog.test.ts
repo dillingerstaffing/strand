@@ -115,4 +115,27 @@ describe('Dialog', () => {
     await fireEvent.keyDown(container.querySelector('.strand-dialog__backdrop')!, { key: 'Escape' })
     expect(onclose).toHaveBeenCalled()
   })
+
+  it('the accessible name lands on the panel, not on the backdrop', () => {
+    // Svelte forwards nothing to a component's DOM by default, so before
+    // `$$restProps` reached the panel this dropped the name entirely and every
+    // composed overlay announced as an unnamed dialog. Found by writing the
+    // Sheet's own test, not by a report.
+    const { container } = render(Dialog, { props: { open: true, 'aria-label': 'Filters' } })
+    expect(container.querySelector('[role="dialog"]')).toHaveAttribute('aria-label', 'Filters')
+    expect(container.querySelector('.strand-dialog__backdrop')).not.toHaveAttribute('aria-label')
+  })
+
+  it('anchors the panel to the bottom edge when aligned to end', () => {
+    const { container } = render(Dialog, { props: { open: true, align: 'end' } })
+    expect(container.querySelector('.strand-dialog__panel')).toHaveClass(
+      'strand-dialog__panel--align-end',
+    )
+  })
+
+  it('the default emits no alignment class, so an untouched consumer is unchanged', () => {
+    const { container } = render(Dialog, { props: { open: true } })
+    expect(container.querySelector('.strand-dialog__panel')?.className).not.toContain('--align-')
+  })
+
 })

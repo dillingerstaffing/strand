@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- the cell floor a full-screen month needs (v0.53.0), gap #116
 - the overlay a palette actually needs, and a stylesheet that was 72% prose (v0.51.0), gaps #110-#113
 - an alert on a feature surface, a live dot, and a label that can thin out (v0.50.0), gaps #107-#109
 - the tab bar owns its contrast, the field owns its width (v0.49.0, gaps #104-#106)

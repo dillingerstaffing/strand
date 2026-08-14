@@ -41,6 +41,7 @@ export { default as ToastProvider } from "./components/Toast/ToastProvider.vue";
 export { useToast } from "./components/Toast/useToast";
 export { default as Alert } from "./components/Alert/Alert.vue";
 export { default as Dialog } from "./components/Dialog/Dialog.vue";
+export { default as Sheet } from "./components/Sheet/Sheet.vue";
 export { default as Tooltip } from "./components/Tooltip/Tooltip.vue";
 export { default as Progress } from "./components/Progress/Progress.vue";
 export { default as Spinner } from "./components/Spinner/Spinner.vue";

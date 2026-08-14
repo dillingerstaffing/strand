@@ -26,8 +26,22 @@
 
   let inputEl: HTMLInputElement
 
+  /**
+   * Row density. `comfortable` is the default and is unchanged.
+   *
+   * `compact` drops the row's floor to 30px ON A FINE POINTER ONLY. DL 14.7
+   * makes the floor a property of the input modality (coarse 44, fine 24),
+   * and requires a shrink rule to be written inside `@media (pointer: fine)`
+   * so touch is untouched by construction rather than by care.
+   *
+   * OPT-IN, which is 14.7 too: 44px remains the default everywhere. Reach for
+   * it where density is the point and the region is pointer-driven.
+   */
+  export let density: 'comfortable' | 'compact' = 'comfortable'
+
   $: classes = [
     'strand-checkbox',
+    density === 'compact' && 'strand-checkbox--compact',
     checked && 'strand-checkbox--checked',
     indeterminate && 'strand-checkbox--indeterminate',
     disabled && 'strand-checkbox--disabled',

@@ -22,8 +22,16 @@ export interface DialogProps
    * a search or command overlay belongs: centred, a fixed-height panel
    * straddles the fold on a short viewport and its input is the last thing
    * the eye reaches.
+   *
+   * `end` anchors the panel to the bottom edge as a SHEET: full-bleed,
+   * top-only radius, slide-up entrance. This is not a margin tweak, it is
+   * the pattern DL 11.6 names, and it exists because 14.8 requires a touch
+   * view's primary action to reach the bottom third of the viewport, which
+   * a centred panel cannot do at any height. Prefer `Sheet`, which composes
+   * this with the grabber, the scrolling body and the drag gesture the
+   * pattern also owns.
    */
-  align?: "center" | "start";
+  align?: "center" | "start" | "end";
   /**
    * Inner padding. The same ladder `Card` carries, at the same values.
    * `none` also clips content to the panel's radius, for panels whose
@@ -229,7 +237,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
 
     const classes = [
       "strand-dialog__panel",
-      align === "start" ? "strand-dialog__panel--align-start" : "",
+      align === "center" ? "" : `strand-dialog__panel--align-${align}`,
       `strand-dialog__panel--pad-${padding}`,
       className,
     ]

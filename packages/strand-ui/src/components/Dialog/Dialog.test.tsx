@@ -349,6 +349,26 @@ describe("Dialog", () => {
     );
   });
 
+  it("anchors the panel to the bottom edge when aligned to end", () => {
+    const { container } = render(
+      <Dialog {...defaultProps} align="end">
+        Content
+      </Dialog>,
+    );
+    expect(panel(container as HTMLElement)?.classList.contains("strand-dialog__panel--align-end")).toBe(
+      true,
+    );
+  });
+
+  it("the default emits no alignment class at all, so an untouched consumer is unchanged", () => {
+    // The whole alignment axis is additive. If `center` ever started emitting
+    // a class, every existing consumer's markup would change on a patch
+    // release, which is a breaking change wearing a safe shape.
+    const { container } = render(<Dialog {...defaultProps}>Content</Dialog>);
+    const classes = panel(container as HTMLElement)?.className ?? "";
+    expect(classes).not.toContain("--align-");
+  });
+
   it("carries each rung of the padding ladder", () => {
     for (const padding of ["none", "sm", "md", "lg", "xl"] as const) {
       const { container } = render(

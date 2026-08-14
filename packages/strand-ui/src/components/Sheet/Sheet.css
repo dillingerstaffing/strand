@@ -1,0 +1,93 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── The sheet's anatomy ──
+   The panel's PLACEMENT lives on `.strand-dialog__panel--align-end`, because
+   that is a property of the dialog. What lives here is the anatomy the
+   pattern owns: three bands, of which exactly one scrolls. */
+
+.strand-sheet__panel {
+  display: flex;
+  flex-direction: column;
+
+  /* The same cap the panel carries, restated on the flex column inside it.
+     Without this the column has no height to divide, so `flex: 1` on the body
+     resolves against content and the foot leaves the viewport on a long list,
+     which is the one failure that makes a sheet unusable. */
+  max-block-size: var(--strand-dialog-block-size, 78vh);
+
+  /* The drag writes `transform` inline. Declaring the intent lets the
+     compositor promote the layer before the first move rather than during it,
+     which is the difference between a gesture that tracks the thumb and one
+     that catches up to it. */
+  will-change: transform;
+}
+
+/* ── The grabber ──
+   The drag TARGET as well as the affordance. Its row is 28px so a thumb finds
+   it without the 4px bar having to be the target, and `touch-action: none`
+   because the browser would otherwise claim the vertical drag for page
+   scrolling before a single pointermove is delivered. */
+.strand-sheet__grab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 28px;
+  flex: none;
+  cursor: grab;
+  touch-action: none;
+}
+
+.strand-sheet__grabber {
+  inline-size: 36px;
+  block-size: 4px;
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-gray-300);
+}
+
+/* ── Head ──
+   Outside the body's scroll, so whatever it holds stays reachable however far
+   the content runs. No padding-block-start: the grabber's row above it is
+   already the panel's top inset, and adding another puts a dead band under a
+   4px bar. */
+.strand-sheet__head {
+  flex: none;
+  padding: 0 var(--strand-space-5) var(--strand-space-3);
+  border-block-end: 1px solid var(--strand-gray-200);
+}
+
+/* ── Body ──
+   The only band that scrolls. `overscroll-behavior: contain` stops a flick
+   that reaches the end of this list from chaining into the page behind the
+   sheet, which on a partial-height sheet is content the reader can see and
+   did not ask to move. */
+.strand-sheet__body {
+  flex: 1;
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--strand-space-5);
+}
+
+/* ── Foot ──
+   Where the committing control lives, and the reason DL 14.8 accepts this
+   pattern: pinned to the panel's bottom edge, which is the viewport's, it sits
+   in the easy band at every viewport height.
+
+   `env(safe-area-inset-bottom)` under a `max()` so a device with a home
+   indicator does not draw it through the control, and a device without one
+   pays nothing (the inset resolves to 0). */
+.strand-sheet__foot {
+  flex: none;
+  display: flex;
+  padding: var(--strand-space-4) var(--strand-space-5);
+  padding-block-end: max(var(--strand-space-4), env(safe-area-inset-bottom));
+  border-block-start: 1px solid var(--strand-gray-200);
+  background: var(--strand-surface-elevated);
+}
+
+/* The action spans the foot. A primary control floating at its intrinsic
+   width on a full-bleed band reads as unfinished, and a full-width target is
+   the easiest thing on the screen to hit with a thumb. */
+.strand-sheet__foot > * {
+  inline-size: 100%;
+}

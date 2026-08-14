@@ -1450,3 +1450,51 @@ phone needs it.
 - Fix: `min-block-size: var(--strand-calendar-grid-day-size, var(--strand-space-20))`. Same shape as `--strand-tabbar-height` and `--strand-tabbar-item-size`: a consumer sets its geometry without overriding the class.
 - **The default is unchanged and a test asserts it separately from the property**, so swapping the default while keeping the knob fails. An additive diff that quietly moves a default is a breaking change wearing a safe shape, which #110 already recorded for Dialog.
 - `--compact` stays a modifier rather than folding into the knob: it changes padding as well as the floor, and one number is one property while two changes is a modifier. Pinned, so the knob cannot grow into a second density system.
+
+---
+
+## Production consumer: the Discover filter rail, and the one modal shape the language could not accept
+
+The consumer is a filter rail beside a results list: a tinted aside on desktop,
+and on a phone a control bar plus a bottom sheet holding the same controls. It
+was prototyped with every page-local override recorded beside the measurement
+that produced it, then handed to a separate session to propagate.
+
+**The handoff named three Strand gaps. One was already fixed, one was
+misclassified a layer too low, and a fourth nobody had named turned up in the
+cascade.** All four are below. The pattern worth keeping is that each was found
+by executing something rather than by reading the brief: a computed-style walk,
+a red-check on a new test, and a test written for one framework failing on
+another.
+
+### Gap #117
+- Type: **L3** (design language, not library), and the classification is the same shape as #96. Escalated to the founder before any code, per the protocol, and settled as L3.
+- Symptom: `Dialog`'s `align` was `"center" | "start"` with no `"end"`, so a bottom sheet meant overriding `strand-dialog__panel`, which the strand-first gate forbids. The consumer's prototype carried eleven rules standing in for it.
+- **The handoff classified this L2, and the L2 reading is available and wrong for exactly the reason #96 records.** There the spec was SILENT and a private answer would have been the second or third to an unasked question. Here **the spec is not silent, it says the other thing**: 11.6 answers "what is a Dialog" with "Centered". Shipping a bottom-anchored modal as a pure L2 would leave the language asserting something its flagship consumer contradicts on every phone, and no amount of library code fixes a spec that disagrees with reality.
+- **There was also a live contradiction between two sections, which is the part that made this worth the spec change rather than a wording tweak.** 14.8 requires that on a touch viewport the primary action of a view can occupy the bottom third. A centred panel puts its committing control in the stretch band at every viewport height, by construction. So the language specified a modal pattern that its own reach rule could not accept on a phone, and every consumer that noticed had to invent the resolution privately.
+- Fix, spec first: 11.6 gains a **Sheet** row and the three properties that follow from the anchor rather than from taste (full-bleed, top-only radius, partial height), plus what a Sheet is NOT for; 14.8 gains a clause stating that the reach rule reaches inside a modal, which is where it was being dropped. Then `align="end"` on Dialog and a `Sheet` component composing it across all consumer types.
+- **`Sheet` owns the drag, and that is a deliberate scope call.** The grabber is an affordance that promises a gesture, and shipping the affordance without the gesture guarantees the next consumer reimplements it. It also guarantees they reimplement its one non-obvious requirement: dismissing means dragging DOWN and away from a 28px strip, so without `setPointerCapture` the moves stop arriving almost immediately and the sheet springs back as though abandoned. The consumer measured exactly that before fixing it locally.
+- **The entrance is `--strand-duration-normal`, not the consumer's 220ms.** 6.2's scale has no 220; `normal` is 250 and is assigned to "cards, dropdowns". Both sit inside the 100-300ms band 6.2 calls responsive, so the difference is imperceptible, and the token is what keeps an arbitrary consumer number out of the language. Recorded rather than quietly rounded.
+
+### Gap #118 (reported, and already closed by #114)
+- Type: **none. No work.** Recorded because a gap that turns out to be already fixed is a finding, and because the measurement that settled it is worth keeping.
+- The handoff reported `.strand-grid--sidebar` clipping its children's focus rings, with a measured ancestor chain naming it alongside `.strand-app-shell`. That measurement was taken against **0.51.0**. #114 removed `.strand-grid`'s `overflow: clip` in 0.52.0, and at 0.53.0 the base rule declares no overflow at all.
+- Settled by measurement rather than by reading the changelog: the consumer's prototype carried an `overflow: visible` override on the grid, so a walk with it in place could not distinguish "Strand stopped clipping" from "the override is working". Removing that one block and re-walking showed the grid still not clipping. The override was inert and deleted with the file.
+- **The half that WAS real is a consumer problem no upstream release can fix**: a native `<select>` clips its own focus ring and nothing outside it can reach that. The consumer draws the ring on the label wrapper instead. Filed in the prototype under the UPSTREAM heading, which is precisely the trap `prototype-deletion-drops-consumer-rules` warns about; it moved to the consumer stylesheet rather than going out with the file.
+- `.strand-app-shell` still clips, deliberately, to hold the frame's rounded corners. The consumer answer there is a gutter, and the control bar's 20px is measured as ample for a 2px ring at 2px offset.
+
+### Gap #119
+- Type: **L2** (library). Tree: no spec change; 14.7 already states the rule the component did not implement. Same shape as #115.
+- Symptom: `.strand-radio` set `min-height: var(--strand-touch-target)` unconditionally, so rows rendered 44px where the design draws ~29. The founder reported the controls looking larger than the design's.
+- **14.7 already says both halves.** The floor is a property of the input modality (coarse 44, fine 24, the latter being SC 2.5.8 AA); and a rule that shrinks a control "must be written inside `@media (pointer: fine)` so that touch is untouched by construction rather than by care." The library had implemented neither.
+- Fix: a `density` prop emitting `--compact`, whose floor is 30px inside `@media (pointer: fine)`. 30 rather than 24 because 24 is the bare AA floor and 30 clears it with room while matching what the design draws.
+- **OPT-IN, and 14.7 is why**: "44px remains the default everywhere ... no component changes size by inheriting this clause." A base-rule change would resize every consumer's radios on a patch release, which is a breaking change wearing a safe shape.
+- **Shipped across the whole choice-control family**, Radio, Checkbox and Switch, not on Radio alone. The consumer that surfaced this puts radios and a switch in one column, and a design system answering density for one of three siblings gives that consumer a column of unequal rows, which is the defect the modifier exists to remove.
+- **The touch guarantee is now a test rather than a claim**, and buying it required a new dimension in the browser layout tier: pointer is a CONTEXT property in Chromium (`hasTouch` at `newContext()`) and cannot be changed on a live page, so a coarse case sharing a page with fine ones would run in a fine context, the rule under test would not match, and the case would pass having proven the opposite. Cases now group by viewport AND pointer, each group gets its own context, and the harness verifies the browser actually reports the pointer it asked for before measuring anything. Red-checked: moving the shrink outside the pointer query fails with "expected block-size at least 44, measured 30".
+
+### Gap #120
+- Type: **L2** (library). An accessibility defect in two consumer types, found by writing a test for a third.
+- Symptom: **`aria-label` on `Dialog` never reached the element with `role="dialog"`** in either the Svelte or the Vue build. Vue's attribute fallthrough targets a component's ROOT element, which here is the backdrop, so the label named the wrong box; Svelte forwards nothing to a component's DOM by default, so the label was dropped entirely.
+- **Measured on already-shipped code**: the Vue `CommandPalette` put its label on `.strand-dialog__backdrop` and left the panel with none, so a screen reader announced an unnamed dialog. It had been that way since the component shipped.
+- This is what `test:parity` is for and cannot yet see: it asserts every consumer type has a directory per component, not that the three render the same accessible tree. The gap surfaced only because the new `Sheet` suite asserts the accessible name in all three, and the same assertion passed in Preact and failed in the other two.
+- Fix: `$$restProps` onto the Svelte panel, `inheritAttrs: false` plus `v-bind="$attrs"` onto the Vue panel, so all three agree that the box carrying `role="dialog"` is the box carrying the name. Pinned by a test in each Dialog suite that asserts the name is on the panel AND absent from the backdrop, because only the pair distinguishes "named correctly" from "named twice".

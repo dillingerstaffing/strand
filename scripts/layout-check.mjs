@@ -716,6 +716,189 @@ export const LAYOUT_CASES = [
 			{ of: "rail", blockStartAtMost: 28 },
 		],
 	},
+
+	// ── Sheet ──
+	//
+	// Every claim this pattern makes is about WHERE the panel is, which is why
+	// it exists at all: 14.8 requires a touch view's primary action to be able
+	// to occupy the bottom third, and a centred modal cannot. If these cases
+	// fail the pattern is buying nothing and the L3 that added it to the
+	// language was wrong.
+	//
+	// Measured against the class layer rather than the component, per this
+	// file's contract, so one boot covers every consumer type.
+	{
+		name: "the sheet's committing action lands in the thumb zone",
+		primitive: "Sheet",
+		// THE case. Both bounds, per the ActionDock lesson: "below the zone's
+		// start" and "in the zone" are different claims and only a pair
+		// expresses the second. At 844px the zone starts at 2/3 * 844 = 562.67.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div class="strand-dialog__backdrop">
+				<div id="panel" class="strand-dialog__panel strand-dialog__panel--align-end strand-dialog__panel--pad-none">
+					<div class="strand-sheet__panel">
+						<div class="strand-sheet__grab"><span class="strand-sheet__grabber"></span></div>
+						<div class="strand-sheet__body"><div style="block-size: 2000px">controls</div></div>
+						<div class="strand-sheet__foot">
+							<button id="action" class="strand-btn strand-btn--primary" type="button">Show 6 events</button>
+						</div>
+					</div>
+				</div>
+			</div>`,
+		measure: { action: "#action", panel: "#panel" },
+		expect: [
+			{ of: "action", blockStartAtLeast: 562.67 },
+			{ of: "action", blockEndAtMost: 844 },
+			// THE ANCHORING CLAIM, and without it the two above are vacuous.
+			// Measured: with `align-self` broken from flex-end to center, a
+			// 78vh panel still puts its foot at blockStart ~695, inside the
+			// thumb zone, so both bounds passed on a sheet that was not a
+			// sheet. The pattern's whole promise is that the action reaches
+			// the easy band AT EVERY viewport height, and only a panel flush
+			// to the bottom edge delivers that.
+			{ of: "panel", blockEndAtLeast: 844 },
+		],
+	},
+	{
+		name: "the sheet leaves the content behind it visible",
+		primitive: "Sheet",
+		// PARTIAL HEIGHT is the design decision, not a limit. A sheet that
+		// fills the viewport hides the thing being filtered, which removes the
+		// reason to anchor it rather than centre it. 78vh of 844 is 658.32, so
+		// a correct panel starts no higher than that and leaves ~186px of the
+		// page legible above it.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div class="strand-dialog__backdrop">
+				<div id="panel" class="strand-dialog__panel strand-dialog__panel--align-end strand-dialog__panel--pad-none">
+					<div class="strand-sheet__panel">
+						<div class="strand-sheet__body"><div style="block-size: 4000px">controls</div></div>
+					</div>
+				</div>
+			</div>`,
+		measure: { panel: "#panel" },
+		expect: [{ of: "panel", blockSizeAtMost: 658.32 }],
+	},
+	{
+		name: "the sheet meets both edges, because an inset sheet is debris",
+		primitive: "Sheet",
+		// The base panel caps at min(560px, 100%) and carries a space-4 margin.
+		// A sheet that inherited either would float above the edge it claims to
+		// be anchored to. At 390 a full-bleed panel measures the viewport.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div class="strand-dialog__backdrop">
+				<div id="panel" class="strand-dialog__panel strand-dialog__panel--align-end strand-dialog__panel--pad-none">
+					<div class="strand-sheet__panel"><div class="strand-sheet__body">controls</div></div>
+				</div>
+			</div>`,
+		measure: { panel: "#panel" },
+		expect: [{ of: "panel", inlineSize: 390 }],
+	},
+	{
+		name: "a long list scrolls inside the sheet rather than pushing the action off it",
+		primitive: "Sheet",
+		// The failure this prevents is the one that makes a sheet unusable: if
+		// the flex column has no height to divide, `flex: 1` on the body
+		// resolves against content and the foot leaves the viewport entirely,
+		// so the reader can never commit. Asserting the foot is INSIDE the
+		// panel's box is the honest form of that claim.
+		viewport: { width: 390, height: 844 },
+		html: `
+			<div class="strand-dialog__backdrop">
+				<div id="panel" class="strand-dialog__panel strand-dialog__panel--align-end strand-dialog__panel--pad-none">
+					<div class="strand-sheet__panel">
+						<div class="strand-sheet__body"><div style="block-size: 4000px">controls</div></div>
+						<div id="foot" class="strand-sheet__foot">
+							<button class="strand-btn strand-btn--primary" type="button">Show 6 events</button>
+						</div>
+					</div>
+				</div>
+			</div>`,
+		measure: { foot: "#foot" },
+		expect: [{ of: "foot", blockEndAtMost: 844 }],
+	},
+
+	// ── Compact density (DL 14.7) ──
+	//
+	// The only tier that can evaluate these at all: the rule is a media query
+	// and jsdom has no matchMedia. Both halves are cases because only the pair
+	// expresses the contract. "Compact is smaller" alone would pass a rule that
+	// shrank the control at EVERY pointer, which is precisely what 14.7
+	// forbids and precisely the mistake the clause was written to prevent.
+	{
+		name: "a compact row is denser on a mouse",
+		primitive: "Radio",
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<label id="row" class="strand-radio strand-radio--compact">
+				<input type="radio" class="strand-radio__native">
+				<span class="strand-radio__control"></span>
+				<span class="strand-radio__label">This weekend</span>
+			</label>`,
+		measure: { row: "#row" },
+		expect: [{ of: "row", blockSizeAtMost: 30 }],
+	},
+	{
+		name: "a compact row is STILL 44px under a thumb",
+		primitive: "Radio",
+		// The accessibility guarantee, and the reason the pointer dimension was
+		// added to this harness. 14.7: "a rule that shrinks a control must be
+		// written inside `@media (pointer: fine)` so that touch is untouched by
+		// construction rather than by care." Without this case that claim rests
+		// on someone reading the stylesheet.
+		viewport: { width: 390, height: 844 },
+		pointer: "coarse",
+		html: `
+			<label id="row" class="strand-radio strand-radio--compact">
+				<input type="radio" class="strand-radio__native">
+				<span class="strand-radio__control"></span>
+				<span class="strand-radio__label">This weekend</span>
+			</label>`,
+		measure: { row: "#row" },
+		expect: [{ of: "row", blockSizeAtLeast: 44 }],
+	},
+	{
+		name: "an ordinary row is untouched by the modifier existing",
+		primitive: "Radio",
+		// 14.7: "44px remains the default everywhere ... no component changes
+		// size by inheriting this clause." A consumer that sets nothing must
+		// measure exactly what it measured before this shipped.
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<label id="row" class="strand-radio">
+				<input type="radio" class="strand-radio__native">
+				<span class="strand-radio__control"></span>
+				<span class="strand-radio__label">This weekend</span>
+			</label>`,
+		measure: { row: "#row" },
+		expect: [{ of: "row", blockSizeAtLeast: 44 }],
+	},
+	{
+		name: "the checkbox and switch answer density the same way the radio does",
+		primitive: "Checkbox",
+		// One case for the family rather than three near-identical ones. A
+		// design system that shipped density on one of three sibling controls
+		// would give a consumer mixing them a column of unequal rows, which is
+		// the defect this modifier exists to remove.
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<label id="check" class="strand-checkbox strand-checkbox--compact">
+				<input type="checkbox" class="strand-checkbox__native">
+				<span class="strand-checkbox__control"></span>
+				<span class="strand-checkbox__label">Hide full</span>
+			</label>
+			<label id="toggle" class="strand-switch strand-switch--compact">
+				<span class="strand-switch__track"></span>
+				<span class="strand-switch__label">Hide full</span>
+			</label>`,
+		measure: { check: "#check", toggle: "#toggle" },
+		expect: [
+			{ of: "check", blockSizeAtMost: 30 },
+			{ of: "toggle", blockSizeAtMost: 30 },
+		],
+	},
 ];
 
 // ── Pure decision layer ──
@@ -733,6 +916,14 @@ const ASSERTION_KINDS = [
 	"blockStartAtLeast",
 	"blockStartAtMost",
 	"blockEndAtMost",
+	// The pair to blockEndAtMost, and its absence made a real case pass
+	// vacuously. A bottom sheet capped at 78vh is tall enough that a CENTRED
+	// panel still lands its foot inside the thumb zone, so "the action is in
+	// the easy band" was true whether the panel was anchored to the bottom
+	// edge or floating in the middle. Breaking `align-self: flex-end` in the
+	// built stylesheet changed no assertion. Only "the panel REACHES the
+	// bottom edge" discriminates, and nothing here could say it.
+	"blockEndAtLeast",
 	"equalsBlockStart",
 	// Inline-axis kinds, added for the same reason the position kinds were.
 	// The rect was already measuring inlineSize and nothing could assert on
@@ -790,17 +981,31 @@ export function validateCases(cases) {
 /**
  * Groups cases so the page is resized once per viewport rather than once per
  * case. Ascending width, which also makes the output read in breakpoint order.
+ *
+ * POINTER IS PART OF THE KEY, and it has to be. In Chromium the pointer media
+ * features come from `hasTouch` at `newContext()` and cannot be changed on a
+ * live page, so a coarse case sharing a group with fine ones would run in a
+ * fine context, its `@media (pointer: coarse)` rule would simply not match, and
+ * the case would report a pass having tested the opposite of its claim. That is
+ * the exact shape of vacuous pass this tier exists to prevent.
+ *
+ * Unstated means `fine`, because a plain desktop context is what every case
+ * written before this dimension existed was measured in.
  */
 export function groupCasesByViewport(cases) {
 	const byKey = new Map();
 	for (const c of cases) {
 		const { width, height } = c.viewport;
-		const key = `${width}x${height}`;
-		if (!byKey.has(key)) byKey.set(key, { width, height, cases: [] });
+		const pointer = c.pointer === "coarse" ? "coarse" : "fine";
+		const key = `${width}x${height}/${pointer}`;
+		if (!byKey.has(key)) byKey.set(key, { width, height, pointer, cases: [] });
 		byKey.get(key).cases.push(c);
 	}
 	return [...byKey.values()].sort(
-		(a, b) => a.width - b.width || a.height - b.height,
+		(a, b) =>
+			a.width - b.width ||
+			a.height - b.height ||
+			a.pointer.localeCompare(b.pointer),
 	);
 }
 
@@ -824,6 +1029,7 @@ export function evaluateCase(caseDef, measurements) {
 		blockStartAtLeast: ["blockStart", "atLeast", "block-start at least"],
 		blockStartAtMost: ["blockStart", "atMost", "block-start at most"],
 		blockEndAtMost: ["blockEnd", "atMost", "block-end at most"],
+		blockEndAtLeast: ["blockEnd", "atLeast", "block-end at least"],
 		inlineSizeAtLeast: ["inlineSize", "atLeast", "inline-size at least"],
 		inlineSizeAtMost: ["inlineSize", "atMost", "inline-size at most"],
 	};
@@ -1055,10 +1261,42 @@ async function main() {
 
 	const started = Date.now();
 	const results = [];
-	const page = await browser.newPage();
 
 	for (const group of groupCasesByViewport(LAYOUT_CASES)) {
-		await page.setViewportSize({ width: group.width, height: group.height });
+		// A CONTEXT PER GROUP, not a page, because pointer is a context
+		// property in Chromium: `hasTouch` at newContext() is what makes
+		// `(pointer: coarse)` match, and nothing on a live page can change it.
+		// A shared page would run every coarse case in a fine context, where
+		// the rule under test does not apply and the case passes having proven
+		// the opposite of its claim.
+		//
+		// Verified rather than assumed, once per context: a probe that reports
+		// the wrong pointer fails the whole run rather than letting the group
+		// measure the other modality quietly.
+		const context = await browser.newContext({
+			viewport: { width: group.width, height: group.height },
+			hasTouch: group.pointer === "coarse",
+		});
+		const page = await context.newPage();
+		await page.setContent(buildFixture(css, "<div></div>"));
+		const actualPointer = await page.evaluate(() =>
+			matchMedia("(pointer: coarse)").matches ? "coarse" : "fine",
+		);
+		if (actualPointer !== group.pointer) {
+			results.push({
+				name: `pointer emulation for ${group.width}x${group.height}`,
+				primitive: "harness",
+				ok: false,
+				clearances: [],
+				assertionCount: 1,
+				failures: [
+					`harness: asked for a ${group.pointer} pointer and the browser reports ${actualPointer}, so every case in this group would have measured the wrong modality and passed`,
+				],
+			});
+			await context.close();
+			continue;
+		}
+
 		for (const c of group.cases) {
 			await page.setContent(buildFixture(css, c.html));
 
@@ -1108,6 +1346,7 @@ async function main() {
 			}, c.measure);
 			results.push(evaluateCase(c, measurements));
 		}
+		await context.close();
 	}
 
 	await browser.close();

@@ -97,3 +97,30 @@
     transition: none;
   }
 }
+
+/* ── Compact density ──
+   OPT-IN, and 14.7 is explicit about why it has to be: "44px remains the
+   default everywhere ... no component changes size by inheriting this
+   clause". A base-rule change would resize every consumer's radios on a
+   patch release, which is a breaking change wearing a safe shape.
+
+   INSIDE `@media (pointer: fine)`, and 14.7 is explicit about that too: "a
+   rule that shrinks a control must be written inside `@media (pointer:
+   fine)` so that touch is untouched by construction rather than by care."
+   Written any other way, a coarse pointer inherits the smaller floor the
+   first time someone edits this file without reading it.
+
+   30px, not 24. 24 is the bare AA floor of SC 2.5.8; 30 clears it with room
+   and is what a dense pointer-driven region actually reads as. MEASURED on
+   the consumer this came from: rows rendered 44 where the design draws ~29
+   (13px label plus 6px padding each side), which the founder reported as the
+   controls looking larger than the design's.
+
+   The control GLYPH is untouched. Only the ROW's floor moves: shrinking the
+   dot as well would put the hit area of the thing you actually aim at below
+   the fine-pointer floor, which is the opposite of the point. */
+@media (pointer: fine) {
+  .strand-radio--compact {
+    min-height: 30px;
+  }
+}

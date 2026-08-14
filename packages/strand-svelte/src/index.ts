@@ -42,6 +42,7 @@ export { createToastContext, getToastContext } from './components/Toast/useToast
 export type { ToastStatus, ToastOptions, ToastEntry, ToastContextValue } from './components/Toast/useToast'
 export { default as Alert } from './components/Alert/Alert.svelte'
 export { default as Dialog } from './components/Dialog/Dialog.svelte'
+export { default as Sheet } from './components/Sheet/Sheet.svelte'
 export { default as Tooltip } from './components/Tooltip/Tooltip.svelte'
 export { default as Progress } from './components/Progress/Progress.svelte'
 export { default as Spinner } from './components/Spinner/Spinner.svelte'

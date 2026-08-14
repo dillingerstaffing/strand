@@ -1549,9 +1549,20 @@ Diagnostic events use a **monospace status prefix** (INFO / COMPLETE / WARNING /
 | Toast (transient) | Monospace status prefix, surface-elevated background, Level 3 elevation, auto-dismisses, sr-only live region |
 | Alert (persistent) | Monospace status prefix, surface-recessed background, full-width within content flow, dismissible optional |
 | Banner (page-level) | Fixed to top of viewport, full-width, surface-elevated or tinted background. Communicates system-wide status (maintenance, announcements, warnings). Dismissible. Pushes page content down. Variants: info (blue-glow bg), warning (amber-tint bg), critical (red-tint bg). Uses instrument voice for the message. |
-| Dialog (modal) | Centered, focus-trapped, Level 3 elevation, backdrop overlay, escape-to-close |
+| Dialog (modal) | Centered by default, focus-trapped, Level 3 elevation, backdrop overlay, escape-to-close. `start` drops the panel under the reader's gaze for a search or command overlay. |
+| Sheet (modal, edge-anchored) | Anchored to the viewport's bottom edge, full-bleed width, top-only radius, slide-up entrance, partial height, Level 4 elevation. Inherits every Dialog behaviour: focus trap, scroll lock, escape-to-close, focus restoration. A grabber states the drag-to-dismiss gesture. |
 | Tooltip (contextual) | Small, positioned, delay on show (200ms), no delay on hide |
 | Progress (status) | Bar or ring, determinate or indeterminate, monospace percentage label |
+
+**Why a Sheet is a pattern and not a Dialog with different margins.** 14.8 requires that on a touch viewport the primary action of a view can occupy the bottom third. A centred modal cannot satisfy that: its action sits in the middle band by construction, which 14.8 classes as reachable but not comfortable. So the language, as it stood, specified a modal pattern that its own reach rule could not accept on a phone, and every consumer that noticed had to invent the resolution privately. The Sheet is that resolution, stated once.
+
+Three properties follow from the anchor rather than from taste, and none of them is negotiable:
+
+- **Full-bleed, not inset.** A bottom-anchored panel wearing side margins reads as debris that slid down the screen. Anchoring means meeting the edge.
+- **Top-only radius.** The bottom corners are off-screen. Rounding them spends radius on pixels nobody sees and makes the panel look like it is floating a few pixels above the edge it is anchored to.
+- **Partial height, not takeover.** A sheet that fills the viewport hides the thing being acted on, which removes the reason to anchor it rather than centre it. The content behind a sheet must stay visible, so the outcome of a control change is legible while the thumb is still on the control.
+
+**What a Sheet is NOT for.** A confirmation. A confirmation demands a decision before anything else proceeds and has nothing behind it worth seeing, so it is centred, which is what the Dialog row already says. Reach for a Sheet when the reader is adjusting something and needs to watch the result: filters over a list, a picker over a map, options over a preview.
 
 ### 11.7 Microcopy Voice
 
@@ -2051,6 +2062,8 @@ No sampling, no scroll sweep, no judgement call.
 The corollary is the one that catches teams out: **the top navigation bar is the worst place in the layout for a primary action.** It is fixed, so scrolling cannot improve it, and it is pinned in the hard band by design. A sign-in control that gates every capability on the site, placed there and nowhere else, is unreachable in this sense on every screen of the product.
 
 **Moving the control down the document is not a fix.** It answers the reach question at exactly one scroll offset, and it is fragile: a control clearing the band by a few pixels crosses back the next time the copy above it wraps differently or the viewport changes width. A viewport-anchored region answers the question at every offset. That is what `ActionDock` is for (Part XI).
+
+**The same rule reaches inside a modal, which is where it used to be dropped.** A modal is a view, so its primary action is subject to this section exactly as a page's is. A centred panel places that action in the stretch band by construction and no amount of internal layout recovers it, because the panel's own position is what fails. On a touch viewport the answer is the Sheet pattern in 11.6: anchoring the panel to the bottom edge puts its committing control in the easy band at every viewport height, and it is the only modal shape that does.
 
 **Thirds rather than a fitted radial arc, deliberately.** A radial model needs a handedness assumption and a hand size, and on a single-column phone layout every control spans most of the width, so the horizontal term does almost no work while the vertical term does all of it. Two invented parameters that change no decision are worse than a blunt model that changes several. This omission is a decision, not an oversight; do not "improve" it into a radial model without a case where it changes an outcome.
 

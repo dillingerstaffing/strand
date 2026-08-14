@@ -25,9 +25,22 @@ export interface SwitchProps {
   disabled?: boolean
   /** Inline label text */
   label?: string
+  /**
+   * Row density. `comfortable` is the default and is unchanged.
+   *
+   * `compact` drops the row's floor to 30px ON A FINE POINTER ONLY. DL 14.7
+   * makes the floor a property of the input modality (coarse 44, fine 24),
+   * and requires a shrink rule to be written inside `@media (pointer: fine)`
+   * so touch is untouched by construction rather than by care.
+   *
+   * OPT-IN, which is 14.7 too: 44px remains the default everywhere. Reach for
+   * it where density is the point and the region is pointer-driven.
+   */
+  density?: 'comfortable' | 'compact'
 }
 
 const props = withDefaults(defineProps<SwitchProps>(), {
+  density: 'comfortable',
   checked: false,
   disabled: false,
 })
@@ -39,6 +52,7 @@ const emit = defineEmits<{
 const classes = computed(() =>
   [
     'strand-switch',
+    props.density === 'compact' && 'strand-switch--compact',
     props.checked && 'strand-switch--checked',
     props.disabled && 'strand-switch--disabled',
   ]

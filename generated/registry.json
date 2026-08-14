@@ -724,6 +724,22 @@
       "registryDependencies": []
     },
     {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Sheet",
+      "files": [
+        {
+          "path": "components/Sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@dillingerstaffing/strand"
+      ],
+      "registryDependencies": []
+    },
+    {
       "name": "section",
       "type": "registry:ui",
       "title": "Section",

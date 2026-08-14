@@ -258,6 +258,34 @@ describe("groupCasesByViewport: the page resizes once per width, not once per ca
 		expect(groups.map((g) => g.width)).toEqual([390, 768, 1024]);
 	});
 
+	it("a coarse-pointer case never shares a group with a fine one at the same size", () => {
+		// Pointer is a CONTEXT property in Chromium, not a page one: it comes
+		// from `hasTouch` at newContext() and cannot be changed on a live page.
+		// Sharing a group would run the coarse case in a fine context and the
+		// media query under test would simply not match, which reads as a pass.
+		const groups = groupCasesByViewport([
+			{ name: "a", viewport: { width: 390, height: 844 } },
+			{ name: "b", viewport: { width: 390, height: 844 }, pointer: "coarse" },
+		]);
+		expect(groups).toHaveLength(2);
+		expect(groups.map((g) => g.pointer).sort()).toEqual(["coarse", "fine"]);
+	});
+
+	it("cases with no pointer stated default to fine, which is what a desktop context is", () => {
+		const groups = groupCasesByViewport([{ name: "a", viewport: { width: 390, height: 844 } }]);
+		expect(groups[0].pointer).toBe("fine");
+	});
+
+	it("coarse and fine cases at the same size stay one group each, not one per case", () => {
+		const groups = groupCasesByViewport([
+			{ name: "a", viewport: { width: 390, height: 844 }, pointer: "coarse" },
+			{ name: "b", viewport: { width: 390, height: 844 }, pointer: "coarse" },
+			{ name: "c", viewport: { width: 390, height: 844 } },
+		]);
+		expect(groups).toHaveLength(2);
+		expect(groups.find((g) => g.pointer === "coarse").cases).toHaveLength(2);
+	});
+
 	it("treats the same width at a different height as a separate group", () => {
 		const groups = groupCasesByViewport([
 			{ name: "a", viewport: { width: 390, height: 844 } },
@@ -346,6 +374,33 @@ describe("positional assertions: WHERE a box is, not only how big", () => {
 			{ dock: at(820, 900) },
 		);
 		expect(r.ok).toBe(false);
+	});
+
+	it("blockEndAtLeast catches a region that does not reach the edge it claims to be anchored to", () => {
+		// The pair to blockEndAtMost, and it exists because its absence made a
+		// real case pass vacuously. A bottom sheet capped at 78vh is tall
+		// enough that a CENTRED panel still puts its foot inside the thumb
+		// zone, so "the action is in the easy band" was true whether the panel
+		// was anchored or not. Only "the panel reaches the bottom edge"
+		// discriminates, and nothing could say it.
+		const r = evaluateCase(
+			{
+				name: "sheet meets the bottom edge",
+				primitive: "Sheet",
+				expect: [{ of: "panel", blockEndAtLeast: 844 }],
+			},
+			{ panel: at(92, 751) },
+		);
+		expect(r.ok).toBe(false);
+		expect(r.failures[0]).toContain("751");
+	});
+
+	it("blockEndAtLeast passes for a region flush to the edge", () => {
+		const r = evaluateCase(
+			{ name: "n", primitive: "P", expect: [{ of: "x", blockEndAtLeast: 844 }] },
+			{ x: at(185, 844) },
+		);
+		expect(r.ok).toBe(true);
 	});
 
 	it("blockStartAtMost pins a region to the top region of the viewport", () => {

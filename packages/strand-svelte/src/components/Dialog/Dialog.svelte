@@ -31,8 +31,15 @@
    * a search or command overlay belongs: centred, a fixed-height panel
    * straddles the fold on a short viewport and its input is the last thing
    * the eye reaches.
+   *
+   * `end` anchors the panel to the bottom edge as a SHEET: full-bleed,
+   * top-only radius, slide-up entrance. This is the pattern DL 11.6 names,
+   * and it exists because 14.8 requires a touch view's primary action to
+   * reach the bottom third of the viewport, which a centred panel cannot do
+   * at any height. Prefer `Sheet`, which composes this with the grabber, the
+   * scrolling body and the drag gesture the pattern also owns.
    */
-  export let align: 'center' | 'start' = 'center'
+  export let align: 'center' | 'start' | 'end' = 'center'
   /**
    * Inner padding. The same ladder `Card` carries, at the same values.
    * `none` also clips content to the panel's radius, for panels whose
@@ -50,7 +57,7 @@
 
   $: panelClasses = [
     'strand-dialog__panel',
-    align === 'start' ? 'strand-dialog__panel--align-start' : '',
+    align === 'center' ? '' : `strand-dialog__panel--align-${align}`,
     `strand-dialog__panel--pad-${padding}`,
   ]
     .filter(Boolean)
@@ -145,6 +152,13 @@
     on:click={handleBackdropClick}
     on:keydown={handleKeyDown}
   >
+    <!-- `$$restProps` lands on the PANEL, and it has to be said explicitly
+         because Svelte forwards nothing to a component's DOM by default.
+         Measured before this line existed: `<Dialog aria-label="Filters">`
+         dropped the name entirely, so every composed overlay in this consumer
+         announced as an unnamed dialog. The Preact build spreads `...rest`
+         here and the Vue build now binds `$attrs` here, so all three agree on
+         which box carries the accessible name: the one with role="dialog". -->
     <div
       bind:this={panelEl}
       class={panelClasses}
@@ -152,6 +166,7 @@
       aria-modal="true"
       aria-labelledby={title ? titleId : undefined}
       tabindex={-1}
+      {...$$restProps}
     >
       {#if title}
         <div class="strand-dialog__header">

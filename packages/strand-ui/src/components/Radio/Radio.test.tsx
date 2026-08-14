@@ -77,4 +77,30 @@ describe("Radio", () => {
       "custom",
     );
   });
+
+  // ── Density (DL 14.7) ──
+
+  it("the default emits no density class, so every existing consumer is unchanged", () => {
+    // 14.7: "44px remains the default everywhere ... no component changes size
+    // by inheriting this clause." An additive prop that moved the default
+    // would be a breaking change wearing a safe shape.
+    const { container } = render(<Radio label="x" />);
+    expect(container.querySelector(".strand-radio")?.className).not.toContain("--compact");
+  });
+
+  it("a compact radio carries the modifier the dense rail needs", () => {
+    const { container } = render(<Radio label="x" density="compact" />);
+    expect(container.querySelector(".strand-radio")?.className).toContain("strand-radio--compact");
+  });
+
+  it("compact is a CLASS, never an inline size, so touch can still be excluded by media query", () => {
+    // The load-bearing property of the whole design. If the shrink were
+    // written as a style attribute it would apply at every pointer type and
+    // there would be no way for a coarse pointer to opt out, which 14.7
+    // forbids in as many words.
+    const { container } = render(<Radio label="x" density="compact" />);
+    const el = container.querySelector(".strand-radio") as HTMLElement;
+    expect(el.getAttribute("style") || "").not.toContain("min-height");
+  });
+
 });

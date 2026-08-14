@@ -269,4 +269,32 @@ describe('Dialog', () => {
     })
     expect(emitted().close).toBeTruthy()
   })
+
+  it('the accessible name lands on the panel, not on the backdrop', () => {
+    // Vue's fallthrough targets a component's ROOT element, which here is the
+    // backdrop, so this named the wrong box. Measured on the shipped
+    // CommandPalette: the backdrop carried the label and the element with
+    // role="dialog" carried none. Found by writing the Sheet's own test.
+    const { container } = render(Dialog, {
+      props: { open: true },
+      attrs: { 'aria-label': 'Filters' },
+    })
+    expect(container.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('Filters')
+    expect(
+      container.querySelector('.strand-dialog__backdrop')?.getAttribute('aria-label'),
+    ).toBeNull()
+  })
+
+  it('anchors the panel to the bottom edge when aligned to end', () => {
+    const { container } = render(Dialog, { props: { open: true, align: 'end' } })
+    expect(container.querySelector('.strand-dialog__panel')?.className).toContain(
+      'strand-dialog__panel--align-end',
+    )
+  })
+
+  it('the default emits no alignment class, so an untouched consumer is unchanged', () => {
+    const { container } = render(Dialog, { props: { open: true } })
+    expect(container.querySelector('.strand-dialog__panel')?.className).not.toContain('--align-')
+  })
+
 })

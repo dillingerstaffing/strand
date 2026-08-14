@@ -89,6 +89,9 @@ export type { AlertProps } from "./components/Alert/index.js";
 export { Dialog } from "./components/Dialog/index.js";
 export type { DialogProps } from "./components/Dialog/index.js";
 
+export { Sheet } from "./components/Sheet/index.js";
+export type { SheetProps } from "./components/Sheet/index.js";
+
 export { Tooltip } from "./components/Tooltip/index.js";
 export type { TooltipProps } from "./components/Tooltip/index.js";
 

@@ -27,9 +27,22 @@ export interface CheckboxProps {
   disabled?: boolean
   /** Label text */
   label?: string
+  /**
+   * Row density. `comfortable` is the default and is unchanged.
+   *
+   * `compact` drops the row's floor to 30px ON A FINE POINTER ONLY. DL 14.7
+   * makes the floor a property of the input modality (coarse 44, fine 24),
+   * and requires a shrink rule to be written inside `@media (pointer: fine)`
+   * so touch is untouched by construction rather than by care.
+   *
+   * OPT-IN, which is 14.7 too: 44px remains the default everywhere. Reach for
+   * it where density is the point and the region is pointer-driven.
+   */
+  density?: 'comfortable' | 'compact'
 }
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
+  density: 'comfortable',
   checked: false,
   indeterminate: false,
   disabled: false,
@@ -56,6 +69,7 @@ watch(() => props.indeterminate, (val) => {
 const classes = computed(() =>
   [
     'strand-checkbox',
+    props.density === 'compact' && 'strand-checkbox--compact',
     props.checked && 'strand-checkbox--checked',
     props.indeterminate && 'strand-checkbox--indeterminate',
     props.disabled && 'strand-checkbox--disabled',
