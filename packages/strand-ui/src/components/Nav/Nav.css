@@ -115,11 +115,21 @@
    room. The old (pre-v0.5) "flex: 1" caused items to cluster against the
    logo, leaving the right edge empty. margin-left auto restores the
    space-between layout most navbars expect. */
+/* NO `margin-left: auto` HERE, and its removal is the fix rather than an
+   oversight.
+
+   `.strand-nav__actions` already carries one. Two auto margins in the same flex
+   row means the FIRST absorbs all the free space and everything after it packs
+   against it, so the destinations floated to the centre-right instead of
+   sitting beside the wordmark, and a consumer measuring the row found every
+   size correct while the layout was visibly wrong.
+
+   Links belong next to the brand they qualify; the actions belong at the far
+   edge. One auto margin, on the actions, expresses exactly that. */
 .strand-nav__items {
 	display: flex;
 	align-items: center;
 	gap: var(--strand-space-6);
-	margin-left: auto;
 	list-style: none;
 }
 
@@ -309,9 +319,19 @@
 		display: none;
 	}
 
-	.strand-nav__actions {
-		display: none;
-	}
+	/* `.strand-nav__actions` is NOT hidden here, and that is deliberate.
+
+	   It used to be, which meant a consumer putting its account control in the
+	   actions lost the only way to sign in on every phone. The rule immediately
+	   below already says the account must stay reachable from every viewport,
+	   so the component was contradicting its own documented intent.
+
+	   WHICH actions survive a narrow viewport is knowledge the CONSUMER has and
+	   this file does not: a search field can go, an account control cannot. So
+	   the primitive keeps them visible and the consumer hides what it chooses
+	   with `strand-hide-below-md`. Same division as the tab bar, where the
+	   decision to hide above a breakpoint belongs to the product that also has
+	   a desktop nav. */
 
 	/* The slot remains visible on mobile because it typically carries the
      account affordance (avatar + sign-in/out) which should stay reachable
