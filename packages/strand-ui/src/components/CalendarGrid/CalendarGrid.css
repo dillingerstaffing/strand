@@ -93,8 +93,20 @@
      size and the reader can compare by position, and no maximum, so a
      row can still grow if a consumer sets a taller capacity. What must
      NOT happen is one cell growing because of its own content, which is
-     why the content region below cannot expand. */
-  min-block-size: var(--strand-space-20);
+     why the content region below cannot expand.
+
+     THE FLOOR IS SETTABLE, and the default is unchanged. A month in a
+     panel and a month that IS the page are the same component at two
+     sizes: at full-screen, six rows of an 80px floor leave the grid
+     shorter than the viewport, and the consumer that hit this had reached
+     past the API into this very rule to say so. `--compact` is the other
+     direction and stays a modifier, because it changes padding too;
+     this is one number, so it is one property.
+
+     Same shape as `--strand-tabbar-height` and `--strand-tabbar-item-size`:
+     a consumer sets its geometry without overriding the class, which is
+     what keeps the cascade honest and a propagation diff readable. */
+  min-block-size: var(--strand-calendar-grid-day-size, var(--strand-space-20));
   padding: var(--strand-space-2);
 
   background: var(--strand-surface-elevated);

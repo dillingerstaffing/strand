@@ -176,6 +176,12 @@ const DAY_NAMES_LONG = [
  * with a roving `tabindex`; arrows move by day and week, Home and End
  * move within the week, PageUp and PageDown change month.
  *
+ * Set the cell floor with `--strand-calendar-grid-day-size` (default
+ * `--strand-space-20`) when the month IS the page rather than a panel
+ * inside one -- at full screen, six rows of the default leave the grid
+ * shorter than the viewport. Reach for `strand-calendar-grid--compact`
+ * instead when the whole density should drop: that changes padding too.
+ *
  * @example
  * ```tsx
  * import { CalendarGrid } from '@dillingerstaffing/strand-ui';
