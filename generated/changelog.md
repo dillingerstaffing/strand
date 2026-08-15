@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Fixed
+- a chip is one token and its parts do not separate, gap #121
 - a layout primitive stops clipping, and a thumb bar stops charging desktop (v0.52.0), gaps #114-#115
 - alerts on dark live in one place, not two (v0.50.1)
 - the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
