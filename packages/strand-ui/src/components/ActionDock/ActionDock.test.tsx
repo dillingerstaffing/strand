@@ -1,5 +1,5 @@
 import { render } from "@testing-library/preact";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { ActionDock } from "./ActionDock.js";
 
 // These assert MARKUP. The primitive's real contract is geometry -- that the
@@ -72,5 +72,95 @@ describe("ActionDock", () => {
     const dock = container.querySelector(".strand-actiondock");
     expect(dock?.children.length).toBe(1);
     expect(dock?.firstElementChild?.tagName).toBe("BUTTON");
+  });
+
+  // ── The dock driving itself (gap #122) ─────────────────────────────
+  //
+  // jsdom has no IntersectionObserver and no layout, so these assert the WIRING
+  // and the RULE: which element is observed, with what margin, and that the
+  // watched path ignores `visible`. The geometry (does the dock actually leave
+  // exactly as the control arrives) is a browser question and lives in the
+  // consumer's scroll sweep, which walks every position rather than sampling.
+
+  it("observes the element it is given, not its container", () => {
+    // The whole point of gap #122: watching the CARD hides the dock while the
+    // button inside it is still below the fold, leaving a band of scroll where
+    // neither can be pressed.
+    const observed: Element[] = [];
+    const spy = vi.fn();
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(_cb: unknown, opts: { rootMargin: string }) {
+          spy(opts.rootMargin);
+        }
+        observe(el: Element) {
+          observed.push(el);
+        }
+        disconnect() {}
+      },
+    );
+    const button = document.createElement("button");
+    document.body.appendChild(button);
+    render(<ActionDock watch={{ current: button }} />);
+    expect(observed).toEqual([button]);
+    vi.unstubAllGlobals();
+  });
+
+  it("trims the viewport by its own height, so it never overlaps the control", () => {
+    const margins: string[] = [];
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(_cb: unknown, opts: { rootMargin: string }) {
+          margins.push(opts.rootMargin);
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    const button = document.createElement("button");
+    document.body.appendChild(button);
+    render(<ActionDock watch={{ current: button }} />);
+    // jsdom reports 0 height, so the margin is 0 here; the shape is what is
+    // asserted. A regression that dropped the inset entirely would still emit
+    // this string, which is why the consumer's browser sweep is the other half.
+    expect(margins[0]).toMatch(/^0px 0px -\d+px 0px$/);
+    vi.unstubAllGlobals();
+  });
+
+  it("starts HIDDEN when watching, whatever `visible` says", () => {
+    // `visible` is the consumer-driven path. Letting it leak into the watched
+    // path would flash a dock on first paint before the observer reports.
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        observe() {}
+        disconnect() {}
+      },
+    );
+    const button = document.createElement("button");
+    document.body.appendChild(button);
+    const { container } = render(<ActionDock watch={{ current: button }} visible />);
+    expect(container.querySelector(".strand-actiondock")?.getAttribute("data-strand-actiondock")).toBe(
+      "hidden",
+    );
+    vi.unstubAllGlobals();
+  });
+
+  it("stays hidden when the watched target does not exist", () => {
+    // A dock that shows because it could not find what it stands in for is a
+    // second live control with nothing to reconcile against.
+    const { container } = render(<ActionDock watch="#nothing-here" />);
+    expect(container.querySelector(".strand-actiondock")?.getAttribute("data-strand-actiondock")).toBe(
+      "hidden",
+    );
+  });
+
+  it("leaves `visible` in charge when no target is being watched", () => {
+    const { container } = render(<ActionDock visible />);
+    expect(container.querySelector(".strand-actiondock")?.getAttribute("data-strand-actiondock")).toBe(
+      "visible",
+    );
   });
 });

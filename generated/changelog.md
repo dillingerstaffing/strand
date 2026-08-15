@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the tab bar owns its contrast, the field owns its width (v0.49.0, gaps #104-#106)
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
+### Changed
+- v0.54.1, gap #121
+
 ### Fixed
 - a chip is one token and its parts do not separate, gap #121
 - a layout primitive stops clipping, and a thumb bar stops charging desktop (v0.52.0), gaps #114-#115
@@ -22,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
 
 ### Documentation
+- three gaps from the event-screen parity build
 - #101, Dialog's Escape binding and the unit test that cannot see it
 
 ## [0.47.1] - 2026-08-13
