@@ -163,4 +163,28 @@ describe("ActionDock", () => {
       "visible",
     );
   });
+
+  it("treats a PARTIALLY visible control as not reachable", () => {
+    // threshold 1, not 0. At 0 a single intersecting pixel counts as on
+    // screen, so a control scrolled half off the top kept the dock hidden
+    // while only a sliver of the real button remained: measured in a consumer
+    // at 22px of a 44px target, under SC 2.5.8's floor, with no dock to fall
+    // back on.
+    const thresholds: unknown[] = [];
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(_cb: unknown, opts: { threshold: number }) {
+          thresholds.push(opts.threshold);
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    const button = document.createElement("button");
+    document.body.appendChild(button);
+    render(<ActionDock watch={{ current: button }} />);
+    expect(thresholds[0]).toBe(1);
+    vi.unstubAllGlobals();
+  });
 });

@@ -41,6 +41,17 @@ export interface ActionDockProps extends JSX.HTMLAttributes<HTMLDivElement> {
  * `inset` trims the viewport by the dock's own height so the dock never
  * appears while the control it replaces is still visible UNDERNEATH it, which
  * is the two-live-buttons state this component's contract forbids.
+ *
+ * THRESHOLD 1, NOT 0, AND THE DIFFERENCE IS A CONTROL YOU CANNOT PRESS.
+ * At 0 a single intersecting pixel counts as "on screen", so a control scrolled
+ * half off the TOP kept the dock hidden while only a sliver of the real button
+ * remained. Measured in a consumer: the button at top -22 / bottom 22, leaving
+ * 22px of a 44px target, under SC 2.5.8's 24px floor, with no dock to fall back
+ * on. The contract is that the dock stands in while the control is not
+ * REACHABLE, and a fraction of a target is not reachable.
+ *
+ * At 1 the control counts as present only while it is ENTIRELY inside the
+ * trimmed viewport, so the dock covers every partial state at both edges.
  */
 export function observeOffScreen(
   el: Element,
@@ -50,7 +61,7 @@ export function observeOffScreen(
   if (typeof IntersectionObserver !== "function") return () => {};
   const io = new IntersectionObserver(
     ([entry]) => onChange(!entry.isIntersecting),
-    { rootMargin: `0px 0px -${Math.max(0, Math.round(inset))}px 0px`, threshold: 0 },
+    { rootMargin: `0px 0px -${Math.max(0, Math.round(inset))}px 0px`, threshold: 1 },
   );
   io.observe(el);
   return () => io.disconnect();
