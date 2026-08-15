@@ -5690,6 +5690,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Breadcrumb renders as an instrument label (v0.56.0)
 - ActionDock owns its own reveal (v0.55.0)
 - the modal shape a thumb can reach, and the density the design draws (v0.54.0), gaps #117-#120
 - the cell floor a full-screen month needs (v0.53.0), gap #116
@@ -5703,6 +5704,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - v0.54.1, gap #121
 
 ### Fixed
+- the instrument separator keeps a text-tier colour
 - ActionDock reads the intersection ratio, not isIntersecting (v0.55.2)
 - ActionDock covers a partially visible control (v0.55.1)
 - a chip is one token and its parts do not separate, gap #121
