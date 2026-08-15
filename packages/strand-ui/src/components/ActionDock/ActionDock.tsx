@@ -50,8 +50,8 @@ export interface ActionDockProps extends JSX.HTMLAttributes<HTMLDivElement> {
  * on. The contract is that the dock stands in while the control is not
  * REACHABLE, and a fraction of a target is not reachable.
  *
- * At 1 the control counts as present only while it is ENTIRELY inside the
- * trimmed viewport, so the dock covers every partial state at both edges.
+ * The control counts as present only while it is ENTIRELY inside the trimmed
+ * viewport, so the dock covers every partial state at both edges.
  */
 export function observeOffScreen(
   el: Element,
@@ -60,8 +60,14 @@ export function observeOffScreen(
 ): () => void {
   if (typeof IntersectionObserver !== "function") return () => {};
   const io = new IntersectionObserver(
-    ([entry]) => onChange(!entry.isIntersecting),
-    { rootMargin: `0px 0px -${Math.max(0, Math.round(inset))}px 0px`, threshold: 1 },
+    // THE RATIO, NOT `isIntersecting`. With a threshold of 1 the callback fires
+    // when the ratio CROSSES 1.0, but `isIntersecting` still means "intersects
+    // at all", so reading it leaves the dock stale between crossings: measured
+    // showing while the control sat fully visible above it, which is the
+    // two-live-buttons state. Two thresholds so the callback fires at both
+    // boundaries, and the ratio decides.
+    ([entry]) => onChange(entry.intersectionRatio < 1),
+    { rootMargin: `0px 0px -${Math.max(0, Math.round(inset))}px 0px`, threshold: [0, 1] },
   );
   io.observe(el);
   return () => io.disconnect();

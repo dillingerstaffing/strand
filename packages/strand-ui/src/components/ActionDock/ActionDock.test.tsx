@@ -174,7 +174,7 @@ describe("ActionDock", () => {
     vi.stubGlobal(
       "IntersectionObserver",
       class {
-        constructor(_cb: unknown, opts: { threshold: number }) {
+        constructor(_cb: unknown, opts: { threshold: number[] }) {
           thresholds.push(opts.threshold);
         }
         observe() {}
@@ -184,7 +184,8 @@ describe("ActionDock", () => {
     const button = document.createElement("button");
     document.body.appendChild(button);
     render(<ActionDock watch={{ current: button }} />);
-    expect(thresholds[0]).toBe(1);
+    // Both boundaries, so the callback fires entering AND fully-entering.
+    expect(thresholds[0]).toEqual([0, 1]);
     vi.unstubAllGlobals();
   });
 });
