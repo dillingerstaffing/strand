@@ -1509,3 +1509,41 @@ another.
 - **`white-space: nowrap` was deliberately NOT added, and there is a test that fails if a later change reaches for it.** It would also have stopped the glyph separating, so it looks like the same fix. It is not: a flex container already defaults to `flex-wrap: nowrap`, which makes the glyph and label inseparable while leaving the LABEL free to wrap internally. Adding `nowrap` on top additionally forbids that, and a 90px-wide "Design Critique" chip goes from wrapping at 25px tall to **overflowing its container at 119px wide**. The consumer's own stand-in carried `nowrap`; upstreaming it verbatim would have shipped that overflow to every consumer.
 - **`flex: none` on the glyph is load-bearing, not defensive.** Making the chip a flex container makes the glyph a flex ITEM inheriting `flex-shrink: 1`, so under squeeze the browser distorts the icon rather than the text: measured **5.44px wide against its own 12px height** in a constrained chip row.
 - Covered in the browser layout tier (jsdom cannot see any of this), four cases, each mutation-checked to fail on its own defect: reverting to `inline-block` measures 42.3 against 30; dropping `flex: none` measures 5.44 against 12; adding `nowrap` measures 119.25 against 90. The equal-height case needed `align-items: flex-start` in its fixture to be non-vacuous, because a flex row's default `stretch` equalises the two boxes whatever the chips do inside them and the case stayed green against the broken rule until that was fixed.
+
+### Gap #122
+- Type: **L2** (library). Tree: no spec change. `ActionDock`'s own documentation already states the rule it gives consumers no way to implement.
+- Symptom: every consumer that wants the DOCUMENTED behaviour has to rebuild it. The component takes `visible` and nothing else, while its own doc comment says: *"Show it only while the in-flow control it stands in for is off screen. A dock competing with the real control is two live buttons for one action."*
+- **A primitive that specifies a rule and leaves each consumer to implement it will get as many implementations as it has consumers**, differing in the details that decide whether it is correct: which element is watched, what margin counts as off-screen, whether it re-measures when the dock's own height changes, and whether the duplicate control is hidden from the accessibility tree. Each is a chance to get it wrong once per consumer.
+- **Two defects found while writing the consumer's version, both of which the prop would prevent by construction:**
+  - **Watching the wrong element.** Watching the containing CARD rather than the control hid the dock the moment the card's top edge appeared, while the button inside it was still below the fold. Measured on a 393x780 viewport: a band of scroll where the dock was gone and the real control was not yet reachable, so the reader could press neither. Fixed by observing the actionable element itself.
+  - **A stale height.** `rootMargin` must trim the viewport by the dock's own height, and reading `offsetHeight` once at setup reads an EMPTY dock. When the dock later grew to carry its full content the margin was ~90px short, and at 25% scroll the real control and the dock were live at once, which is exactly the state the contract forbids. Fixed with a `ResizeObserver`, which also keeps it true when the control's label changes ("RSVP" to "Cancelling...").
+- Proposed API: `<ActionDock watch={ref|selector} revealWhen="hidden">`, with `visible` retained for consumers driving it themselves.
+- Consumer stand-in until then: `pages/event/EventDock.jsx` in the Weekly Ship consumer, whose observer is the change that should move here verbatim.
+- Verified in the consumer by scanning EVERY scroll position rather than sampling: 23 positions over 1322px, asserting both that no position leaves NEITHER control clickable and that no position leaves BOTH live. Those two are complementary, and only the pair distinguishes a correct handoff from a dock that never shows.
+
+### Gap #123
+- Type: **L3** (design language). The scale itself, not a component.
+- Symptom: the display range is too coarse to draw with. `docs/design-language.md` Part IV defines a PURE 1.25 geometric progression, one ratio top to bottom: `11.10 13.33 16 20 25 31.25 39.06 48.83 61.04 76.29 95.37`.
+- **A ratio tuned for body steps gets coarse at display sizes**, where the gaps widen geometrically while perceptual difference does not. The 48.83 -> 61.04 gap is **12.2px, the largest in the usable display range**, and it is exactly where page titles live.
+- **The evidence is not one value, it is five.** A single consumer design (the Weekly Ship event screen) needs five sizes the scale does not contain: **10** (the mono instrument label used on EVERY overline in the design; the scale's floor is 11.10, so every overline in that product renders ~11% larger than drawn, systematically), **14**, **18** (a hero lede), **22** (a stat value) and **52** (a hero headline). One off-scale value is a designer's whim; five is evidence about the scale.
+- **What is NOT claimed**: that the design's numbers are automatically right. It may have been drawn in a tool with no scale. The test is whether the RENDERING is better, and that test has now been run: the consumer prototyped at the design's numbers, the founder reviewed it against the snapped version, and the question was raised by the founder rather than inferred — *"is Strand's scale really discord-design-quality surpassing? Or is the new 52 actually an improvement to strand?"*
+- **The consumer SHIPPED SNAPPED TO THE SCALE**, deliberately: hard-coded pixels are a workaround and a workaround must not reach production. The prototype existed to make the judgement possible, not to ship the numbers.
+- Suggested shape: a non-uniform scale with tighter ratios above ~31px, and a step below the current floor for instrument labels. Both are breaking-ish and belong in a considered release, not a patch.
+
+### Gap #124
+- Type: **L2** (library). `Breadcrumb` has no size or tone API.
+- Symptom: it renders at body size in body colour, and a consumer placing one in a tinted page header wants a mono instrument label (10px, uppercase, `tracking-ultra`). With no prop for it, the only route is styling `.strand-breadcrumb__link`, `__separator` and `__list` from the consumer's stylesheet, which is a page-local override of design-system classes and is exactly what the consumer's own strand-first gate forbids.
+- **Resolved in the consumer by NOT using the component.** A breadcrumb is an ordered list, two spans and a separator; composing it from product-owned classes is legitimate consumer composition, while overriding a primitive's internals is a silent coupling to markup the consumer does not own. That is the right call for the consumer and the wrong outcome for the library: a component nobody can style in a header is a component consumers will keep re-implementing.
+- Suggested API: `size` and `tone` (or a `variant="instrument"`), matching the pattern `StatStrip` already has with `variant="bordered"`.
+- Related, same shape, filed here rather than as its own gap: the consumer's **tab bar publishes no height token**, so every fixed element on every page re-measures it by hand (`--stg-tabbar-h: 76px` in the event screen's stylesheet). That one is the consumer's own component and its own fix, noted here only because it is the same failure: a component with a geometry other elements must respect, and no published value for it.
+
+---
+
+**Publication note for #122, #123 and #124.** All three were identified during a
+consumer parity build that shipped on 2026-08-15. None is published: the session
+that filed them had no npm publish credentials (`npm whoami` returned E401), so
+the library changes are specified here rather than released. Gap #121 WAS
+already published as 0.54.1 and the consumer now depends on `^0.54.1` and has
+deleted its stand-in. The consumer shipped correct without #122-#124 by keeping
+every rule on product-owned classes; nothing is blocked, and the work here is
+additive whenever a session with credentials picks it up.
