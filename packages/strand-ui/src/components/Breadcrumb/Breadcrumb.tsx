@@ -14,6 +14,19 @@ export interface BreadcrumbProps
   items: BreadcrumbItem[];
   /** Separator character between items */
   separator?: string;
+  /**
+   * `instrument` renders the trail as a mono uppercase readout rather than
+   * body text, for a breadcrumb sitting in a tinted page header beside other
+   * instrument labels.
+   *
+   * Added because a consumer placing one in a hero band had no way to reach
+   * that treatment and could only get there by styling
+   * `.strand-breadcrumb__link` from its own stylesheet, which is the
+   * page-local override of a design-system class that the dogfood protocol
+   * exists to prevent. A component nobody can style in a header is a
+   * component consumers re-implement.
+   */
+  variant?: "default" | "instrument";
 }
 
 /**
@@ -33,8 +46,12 @@ export interface BreadcrumbProps
  * ```
  */
 export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
-  ({ items, separator = "/", className = "", ...rest }, ref) => {
-    const classes = ["strand-breadcrumb", className]
+  ({ items, separator = "/", variant = "default", className = "", ...rest }, ref) => {
+    const classes = [
+      "strand-breadcrumb",
+      variant !== "default" && `strand-breadcrumb--${variant}`,
+      className,
+    ]
       .filter(Boolean)
       .join(" ");
 

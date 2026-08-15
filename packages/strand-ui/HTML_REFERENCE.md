@@ -418,6 +418,7 @@ Hierarchical location indicator.
 | `strand-breadcrumb__link` | child | Clickable breadcrumb link. |
 | `strand-breadcrumb__separator` | child | Separator between items (aria-hidden). |
 | `strand-breadcrumb__current` | child | Current page indicator (aria-current). |
+| `strand-breadcrumb--instrument` | modifier | |
 
 **Usage:**
 

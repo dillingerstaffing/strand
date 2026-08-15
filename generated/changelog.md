@@ -17,9 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Changed
+- re-trigger the publish workflow for 0.55.2
 - v0.54.1, gap #121
 
 ### Fixed
+- ActionDock reads the intersection ratio, not isIntersecting (v0.55.2)
 - ActionDock covers a partially visible control (v0.55.1)
 - a chip is one token and its parts do not separate, gap #121
 - a layout primitive stops clipping, and a thumb bar stops charging desktop (v0.52.0), gaps #114-#115
@@ -27,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
 
 ### Documentation
+- tighten the wording of the type-scale note
 - three gaps from the event-screen parity build
 - #101, Dialog's Escape binding and the unit test that cannot see it
 

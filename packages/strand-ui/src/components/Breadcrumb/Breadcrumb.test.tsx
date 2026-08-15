@@ -104,4 +104,28 @@ describe("Breadcrumb", () => {
       expect(sep).toHaveAttribute("aria-hidden", "true");
     }
   });
+
+  // ── The instrument variant (gap #124) ──────────────────────────────
+  it("renders as body text by default", () => {
+    const { container } = render(<Breadcrumb items={[{ label: "Events", href: "/" }, { label: "Now" }]} />);
+    expect(container.querySelector(".strand-breadcrumb")?.className).not.toContain("--instrument");
+  });
+
+  it("carries the instrument modifier when asked", () => {
+    const { container } = render(
+      <Breadcrumb variant="instrument" items={[{ label: "Events", href: "/" }, { label: "Now" }]} />,
+    );
+    expect(container.querySelector(".strand-breadcrumb")?.className).toContain(
+      "strand-breadcrumb--instrument",
+    );
+  });
+
+  it("changes only the treatment, never the structure", () => {
+    // The variant is paint. A consumer switching to it must not find a
+    // different trail: same items, same links, same current-page element.
+    const items = [{ label: "Events", href: "/" }, { label: "Channel", href: "/c" }, { label: "Now" }];
+    const plain = render(<Breadcrumb items={items} />).container.innerHTML;
+    const instrument = render(<Breadcrumb variant="instrument" items={items} />).container.innerHTML;
+    expect(instrument.replace(" strand-breadcrumb--instrument", "")).toBe(plain);
+  });
 });
