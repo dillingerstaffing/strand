@@ -69,9 +69,11 @@
   color: var(--strand-blue-deep);
 }
 
-.strand-breadcrumb--instrument .strand-breadcrumb__separator {
-  color: var(--strand-gray-400);
-}
+/* NO SEPARATOR OVERRIDE. The base rule already uses `gray-500`, a TEXT-tier
+   value. This variant reached for `gray-400` to quiet the slashes and measured
+   2.52:1 against the 4.5 a small-text pairing needs: gray-400 is a FILL-tier
+   value calibrated for borders and focus rings at 3:1, not for text (DL Part
+   XIV.2). Quieting a separator is not worth a character the reader cannot see.
 
 /* The current page is the one item that is not a destination, so it reads as
    text rather than as a link that has stopped working. */
