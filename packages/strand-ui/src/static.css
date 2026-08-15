@@ -659,8 +659,26 @@
 /* ═══ STATUS CHIP (DL Part XVII: small classification label) ═══
    Inline pill for lab/product status. Mono uppercase, small tint.
    Pair with strand-card or header rows. */
+/* A CHIP IS ONE TOKEN AND ITS PARTS DO NOT SEPARATE.
+   `inline-block` made the glyph and the label two INDEPENDENT inline children,
+   so the only line-break opportunity in the whole chip sat between them.
+   Measured: below the chip's single-line width the glyph is orphaned onto its
+   own line and the chip's height jumps 25px to 41px, taking the baseline of
+   every sibling chip in the row with it. A flex container defaults to
+   `flex-wrap: nowrap`, so the two can no longer be placed on separate lines,
+   while the LABEL is still free to wrap internally -- which is why
+   `white-space: nowrap` is deliberately NOT set here: it would newly push long
+   text-only chips into overflow instead of letting them wrap (measured, a
+   90px-wide "Design Critique" chip goes from wrapping at 25px tall to
+   overflowing its container at 119px wide).
+
+   `.strand-badge` already declares `inline-flex`, and this rule was silently
+   undoing it for every chip carrying both classes. The gap was 0 as a result:
+   an icon sat flush against its label at EVERY width, not only narrow ones. */
 .strand-status-chip {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strand-space-1);
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
   font-weight: var(--strand-weight-medium);
@@ -669,6 +687,13 @@
   padding: var(--strand-space-1) var(--strand-space-2);
   border-radius: var(--strand-radius-sm);
   line-height: var(--strand-leading-normal);
+}
+
+/* The glyph never shrinks. As a flex item it inherits `flex-shrink: 1`, and
+   under squeeze that distorts it rather than the text: measured 5.44px wide
+   against its own 12px height in a constrained chip row. */
+.strand-status-chip > svg {
+  flex: none;
 }
 
 .strand-status-chip--live {

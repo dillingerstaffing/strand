@@ -570,6 +570,7 @@ Binary toggle for multiple selections with custom visual.
 | `strand-checkbox--checked` | modifier | Checked state. |
 | `strand-checkbox--indeterminate` | modifier | Indeterminate state. |
 | `strand-checkbox--disabled` | modifier | Disabled state. |
+| `strand-checkbox--compact` | modifier | |
 
 **Usage:**
 
@@ -769,6 +770,7 @@ Modal overlay with backdrop, panel, and focus trap.
 | `strand-dialog__title` | child | Dialog title text. |
 | `strand-dialog__close` | child | Close button. Omit the element entirely for overlays whose convention has no X (a palette, a command bar); it is absolutely positioned over the panel's top band, so content otherwise has to dodge a control the pattern does not use. Escape and backdrop dismissal are unaffected. |
 | `strand-dialog__body` | child | Dialog content area. |
+| `strand-dialog__panel--align-end` | child | |
 
 **Usage:**
 
@@ -1472,6 +1474,7 @@ Single selection from a set with custom dot indicator.
 | `strand-radio__label` | child | Text label. |
 | `strand-radio--checked` | modifier | Checked state. |
 | `strand-radio--disabled` | modifier | Disabled state. |
+| `strand-radio--compact` | modifier | |
 
 **Usage:**
 
@@ -1964,6 +1967,7 @@ Binary toggle (single) with track and thumb.
 | `strand-switch__label` | child | Text label. |
 | `strand-switch--checked` | modifier | Checked (on) state. |
 | `strand-switch--disabled` | modifier | Disabled state. |
+| `strand-switch--compact` | modifier | |
 
 **Usage:**
 
@@ -2318,7 +2322,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-pulse` | Pulsing alive indicator dot. |
 | `strand-auth-indicator` | Signed-in text indicator for nav. |
 | `strand-auth-avatar` | Small avatar circle for nav. |
-| `strand-status-chip` | Inline status classification pill. |
+| `strand-status-chip` | Inline status classification pill. A flex container, so an icon placed before the label can never break onto its own line and is spaced from it automatically; put the glyph first and the text after, with no wrapper and no utility classes. The label itself still wraps when the chip is narrow. |
 | `strand-status-chip--live` | Live status chip (teal tint). |
 | `strand-status-chip--neutral` | Neutral status chip (gray tint). |
 | `strand-status-chip--accent` | Accent status chip (blue tint). |

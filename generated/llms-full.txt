@@ -275,7 +275,7 @@ Own the source. No dependency lock-in.
 npx strand-ui init          # Set up tokens in your project
 npx strand-ui add button    # Copy Button source to your codebase
 npx strand-ui add dialog    # Copy Dialog source to your codebase
-npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->65<!-- COMPONENT-COUNT:END --> components
+npx strand-ui list          # See all <!-- COMPONENT-COUNT:START -->66<!-- COMPONENT-COUNT:END --> components
 ```
 
 After install, the CLI is available as `strand` (e.g., `strand add button`).
@@ -287,7 +287,7 @@ Copies the full TypeScript source (.tsx + .css) into your project. Modify freely
 
 ## Components
 
-<!-- COMPONENT-COUNT:START -->65<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
+<!-- COMPONENT-COUNT:START -->66<!-- COMPONENT-COUNT:END --> components across 7 categories. Every component includes: all interaction states, keyboard navigation, ARIA compliance, `prefers-reduced-motion` support, responsive behavior. Full prop documentation: [html-reference.md](./generated/html-reference.md).
 
 ### Input
 
@@ -2886,7 +2886,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-pulse` | Pulsing alive indicator dot. |
 | `strand-auth-indicator` | Signed-in text indicator for nav. |
 | `strand-auth-avatar` | Small avatar circle for nav. |
-| `strand-status-chip` | Inline status classification pill. |
+| `strand-status-chip` | Inline status classification pill. A flex container, so an icon placed before the label can never break onto its own line and is spaced from it automatically; put the glyph first and the text after, with no wrapper and no utility classes. The label itself still wraps when the chip is narrow. |
 | `strand-status-chip--live` | Live status chip (teal tint). |
 | `strand-status-chip--neutral` | Neutral status chip (gray tint). |
 | `strand-status-chip--accent` | Accent status chip (blue tint). |
@@ -5689,6 +5689,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- the modal shape a thumb can reach, and the density the design draws (v0.54.0), gaps #117-#120
 - the cell floor a full-screen month needs (v0.53.0), gap #116
 - the overlay a palette actually needs, and a stylesheet that was 72% prose (v0.51.0), gaps #110-#113
 - an alert on a feature surface, a live dot, and a label that can thin out (v0.50.0), gaps #107-#109

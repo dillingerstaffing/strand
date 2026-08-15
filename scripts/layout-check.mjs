@@ -899,6 +899,82 @@ export const LAYOUT_CASES = [
 			{ of: "toggle", blockSizeAtMost: 30 },
 		],
 	},
+	{
+		name: "an icon chip never breaks between its glyph and its label",
+		primitive: "StatusChip",
+		// Gap #121. A chip is one token and its parts do not separate. As
+		// `inline-block` the glyph and the label were two independent inline
+		// children, so the ONLY line-break opportunity in the chip sat between
+		// them: below the single-line width the glyph was orphaned onto its own
+		// line and the chip went 25px to 41px tall. The container here is
+		// narrower than the chip's content on purpose -- that is the condition
+		// that used to break it. Red-checked: restoring `inline-block` measures
+		// 41 against this 30.
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<div style="inline-size: 42px">
+				<span id="chip" class="strand-badge strand-status-chip strand-status-chip--neutral">
+					<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>Online</span>
+			</div>`,
+		measure: { chip: "#chip" },
+		expect: [{ of: "chip", blockSizeAtMost: 30 }],
+	},
+	{
+		name: "an icon chip is the same height as the text chips beside it",
+		primitive: "StatusChip",
+		// The founder-visible symptom, stated as the relationship rather than
+		// as a number: one chip growing a line drags the row's baseline and
+		// "throws off the perceived alignment of all the tags in the row".
+		// `align-items: flex-start` is LOAD-BEARING IN THE FIXTURE. A flex row
+		// defaults to `stretch`, which equalises the two boxes whatever the
+		// chips do inside them, so the case would pass on the broken rule and
+		// prove nothing. Verified by mutation: with stretch it stays green
+		// against `inline-block`; with flex-start it measures 42.3 against 25.
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<div style="display: flex; align-items: flex-start; gap: 8px; inline-size: 150px">
+				<span id="text" class="strand-badge strand-status-chip strand-status-chip--neutral">Upcoming</span>
+				<span id="icon" class="strand-badge strand-status-chip strand-status-chip--neutral">
+					<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>Online</span>
+			</div>`,
+		measure: { text: "#text", icon: "#icon" },
+		expect: [{ of: "icon", equals: "text" }],
+	},
+	{
+		name: "the glyph keeps its size when the chip is squeezed",
+		primitive: "StatusChip",
+		// The cost of making the chip a flex container: the glyph becomes a
+		// flex ITEM and inherits `flex-shrink: 1`, so under squeeze the browser
+		// distorts the icon rather than the text. Measured at 5.44px wide
+		// against its own 12px height before `flex: none`.
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<div style="display: flex; gap: 8px; inline-size: 150px">
+				<span class="strand-badge strand-status-chip strand-status-chip--neutral">Design Critique</span>
+				<span class="strand-badge strand-status-chip strand-status-chip--neutral">
+					<svg id="glyph" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>Online event happening</span>
+			</div>`,
+		measure: { glyph: "#glyph" },
+		expect: [{ of: "glyph", inlineSizeAtLeast: 12 }],
+	},
+	{
+		name: "a long text-only chip still wraps rather than overflowing",
+		primitive: "StatusChip",
+		// THE GUARD ON WHAT #121 DELIBERATELY DID NOT DO. `white-space: nowrap`
+		// would also have stopped the glyph separating, and it was rejected:
+		// flex's own `flex-wrap: nowrap` already guarantees that, while nowrap
+		// additionally forbids a LABEL from wrapping and pushes long text-only
+		// chips into overflow. Measured, this chip goes from 90px wide wrapping
+		// to 119px wide overflowing its 90px container the moment nowrap is
+		// added. This case fails if a later change reaches for it.
+		viewport: { width: 1280, height: 900 },
+		html: `
+			<div style="inline-size: 90px">
+				<span id="chip" class="strand-badge strand-status-chip strand-status-chip--neutral">Design Critique</span>
+			</div>`,
+		measure: { chip: "#chip" },
+		expect: [{ of: "chip", inlineSizeAtMost: 90 }],
+	},
 ];
 
 // ── Pure decision layer ──

@@ -2322,7 +2322,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-pulse` | Pulsing alive indicator dot. |
 | `strand-auth-indicator` | Signed-in text indicator for nav. |
 | `strand-auth-avatar` | Small avatar circle for nav. |
-| `strand-status-chip` | Inline status classification pill. |
+| `strand-status-chip` | Inline status classification pill. A flex container, so an icon placed before the label can never break onto its own line and is spaced from it automatically; put the glyph first and the text after, with no wrapper and no utility classes. The label itself still wraps when the chip is narrow. |
 | `strand-status-chip--live` | Live status chip (teal tint). |
 | `strand-status-chip--neutral` | Neutral status chip (gray tint). |
 | `strand-status-chip--accent` | Accent status chip (blue tint). |
