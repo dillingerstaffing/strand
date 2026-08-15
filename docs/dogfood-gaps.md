@@ -1549,3 +1549,75 @@ already published as 0.54.1 and the consumer now depends on `^0.54.1` and has
 deleted its stand-in. The consumer shipped correct without #122-#124 by keeping
 every rule on product-owned classes; nothing is blocked, and the work here is
 additive whenever a session with credentials picks it up.
+
+---
+
+## Production consumer: the channels index and a channel's own page
+
+Two surfaces that had never been built: `/channels` served a skeleton reading
+"Channels is being built", and `/channels/<slug>` served a pre-parity page
+built by string concatenation in a Function. Neither had a mockup screen and
+neither had an F-item, so unlike the surfaces before it this consumer was
+composing against the design language rather than against an approved
+rendering.
+
+Two gaps, and the first one had been silently costing five call sites.
+
+### Gap #122
+- Type: **L2** (library). Tree: no spec change. The fix is to HONOUR the
+  existing scale, not to extend it.
+- Symptom: **`Stack gap={7}` and `Grid gap={7}` render NO GAP AT ALL.** Two
+  primitives, two different mechanisms, one outcome. Stack emits
+  `strand-stack--gap-7`, a class with no rule, so `row-gap` computes to
+  `normal`. Grid writes `gap: var(--strand-space-7)` inline, the token is
+  undefined, and an undefined custom property invalidates the WHOLE
+  declaration.
+- **Neither degrades to a smaller value. Both degrade to nothing.** That is
+  what made it dangerous: the page renders, the HTML exists, every gate stays
+  green, and the defect is visible only to a human looking at the screen.
+- MEASURED across the consumer: five `gap={7}` call sites. Two had already been
+  worked around in page-local stylesheets by earlier sessions who hit this,
+  fixed their own screen and moved on (`Event.css` carries a comment naming the
+  exact cause). One is genuinely broken in production today: the Who's Coming
+  layout has four regions at `row-gap: normal`. One is invisible because its
+  container has a single child. The fifth is this consumer.
+- **Why not simply add a 7th rung.** DL Part V 5.1 ENUMERATES the ladder and it
+  is sparse on purpose: 7, 9, 11 are absent because it is a curated set, not
+  every multiple of 4. Adding a rung is a design-language change; making the
+  components respect the rungs that exist is a library one. That is the whole
+  L2-versus-L3 answer here, and it is the reason this did not go to the founder.
+- Fix: one owner, `src/spacing.ts`. `SPACING_STEPS` is the ladder, `SpacingStep`
+  types the prop so a TypeScript consumer cannot write `gap={7}` at all, and
+  `resolveGap` clamps at runtime for the JavaScript consumers a type cannot
+  reach. **Ties go DOWN** (7 becomes 6): a smaller gap can never cause an
+  overflow, so the clamp cannot itself break a layout that was fitting.
+- **It says so out loud.** A silent clamp would trade one invisible failure for
+  another, so `resolveGap` returns an `exact` flag and both components warn once
+  per offending value in development.
+- Red-checked: disabling the clamp fails 4 tests across the three files.
+  `Stack` additionally asserts that EVERY rung it can emit has a rule behind
+  it, which is what makes a dead class impossible rather than unlikely.
+
+### Gap #123
+- Type: **L2** (library). A pattern two consumers wrote in one session.
+- Symptom: a card whose whole surface should open one destination. Both
+  consumers reached the same three CSS rules independently, on an event row and
+  on a channel's archive card. Two consumers paying for one missing input is a
+  library gap rather than a misuse, which is the bar #110 set.
+- The two obvious alternatives are both defects, which is what makes it a gap:
+  wrapping the card in an anchor swallows anything interactive inside it and is
+  an invalid tree, and leaving the title as the only target is the thing a
+  reader complains about. The overlay is the third answer: the anchor is
+  unchanged, so the card keeps exactly ONE named link and ONE tab stop, and only
+  the hit area grows.
+- Fix: `.strand-stretch-link-host` + `.strand-stretch-link`.
+- **The refusal stays the consumer's, deliberately.** The overlay covers
+  everything in the host, so a card that also holds a button or a video player
+  must not use it. Both consumers DERIVE the flag from whether such a child
+  exists rather than trusting a call site. CSS cannot detect that, and a rule
+  that pretended to would be worse than one that states the constraint.
+- **It carries no browser-tier case, and that is deliberate rather than an
+  omission.** The claim is that a CLICK at the card's far edge reaches the
+  anchor, which is a hit test; the anchor's own rect stays the width of its text
+  whether or not the overlay exists, so a geometry assertion on it would pass
+  either way. The consumer's e2e drives the real thing.

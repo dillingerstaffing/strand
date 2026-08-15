@@ -18,6 +18,7 @@
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
+import { resolveGapStep } from '../../spacing'
 
 interface Props {
   /** Flex direction */
@@ -56,7 +57,7 @@ const classes = computed(() =>
 )
 
 const inlineStyle = computed(() => ({
-  gap: `var(--strand-space-${props.gap})`,
+  gap: `var(--strand-space-${resolveGapStep(props.gap)})`,
 }))
 </script>
 

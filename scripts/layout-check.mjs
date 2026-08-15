@@ -1010,6 +1010,7 @@ const ASSERTION_KINDS = [
 	"inlineSizeAtLeast",
 	"inlineSizeAtMost",
 	"equalsInlineSize",
+
 ];
 
 // Kinds that compare one subject against another measured subject rather than

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Breadcrumb renders as an instrument label (v0.56.1)
 - Breadcrumb renders as an instrument label (v0.56.0)
 - ActionDock owns its own reveal (v0.55.0)
 - the modal shape a thumb can reach, and the density the design draws (v0.54.0), gaps #117-#120

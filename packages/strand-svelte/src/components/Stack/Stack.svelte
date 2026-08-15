@@ -15,6 +15,7 @@
   ```
 -->
 <script lang="ts">
+  import { resolveGapStep } from '../../spacing.js'
   /** Flex direction */
   export let direction: 'vertical' | 'horizontal' = 'vertical'
   /** Gap between items, maps to --strand-space-{n} */
@@ -34,7 +35,11 @@
     wrap && 'strand-stack--wrap',
   ].filter(Boolean).join(' ')
 
-  $: inlineStyle = `gap: var(--strand-space-${gap});`
+  // THE LADDER IS THE CONTRACT (gap #122). An off-ladder gap wrote an
+  // undefined token, and an undefined custom property invalidates the
+  // whole declaration: the result was NO gap, not a smaller one.
+  $: gapStep = resolveGapStep(gap)
+  $: inlineStyle = `gap: var(--strand-space-${gapStep});`
 </script>
 
 <div class={classes} style={inlineStyle} {...$$restProps}>

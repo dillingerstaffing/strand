@@ -241,4 +241,23 @@ describe("Grid CSS source", () => {
       ).toContain(`repeat(${n}, minmax(0, 1fr))`);
     }
   });
+
+  // ── The spacing ladder (gap #122) ──
+
+  it("an off-ladder gap resolves to a real token instead of an undefined one", () => {
+    // The defect: `gap={7}` wrote `gap: var(--strand-space-7)` inline, the
+    // token does not exist, and an undefined custom property invalidates the
+    // WHOLE declaration. The grid rendered with no gap.
+    const { container } = render(<Grid gap={7}>x</Grid>);
+    const style = (container.firstElementChild as HTMLElement).getAttribute("style") || "";
+    expect(style).toContain("--strand-space-6");
+    expect(style).not.toContain("--strand-space-7");
+  });
+
+  it("an on-ladder gap is untouched, so no existing consumer moves", () => {
+    const { container } = render(<Grid gap={6}>x</Grid>);
+    const style = (container.firstElementChild as HTMLElement).getAttribute("style") || "";
+    expect(style).toContain("--strand-space-6");
+  });
+
 });

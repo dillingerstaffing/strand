@@ -150,4 +150,33 @@ describe("Stack", () => {
     expect(el?.tagName).toBe("UL");
     expect(el?.className).toContain("strand-stack");
   });
+
+  // ── The spacing ladder (gap #122) ──
+
+  it("an off-ladder gap renders a real rung instead of no gap at all", () => {
+    // The defect: `gap={7}` emitted `strand-stack--gap-7`, a class with no
+    // rule, so `row-gap` computed to `normal`. Five consumer call sites, two
+    // of them already worked around in page-local stylesheets by sessions who
+    // hit it and fixed only their own screen.
+    const { container } = render(<Stack gap={7}>x</Stack>);
+    const el = container.firstElementChild as HTMLElement;
+    expect(el.className).toContain("strand-stack--gap-6");
+    expect(el.className).not.toContain("strand-stack--gap-7");
+  });
+
+  it("every rung it can emit has a rule behind it", () => {
+    // The property that makes a dead class impossible rather than unlikely.
+    for (const gap of [0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48]) {
+      const { container } = render(<Stack gap={gap}>x</Stack>);
+      expect((container.firstElementChild as HTMLElement).className).toContain(
+        `strand-stack--gap-${gap}`,
+      );
+    }
+  });
+
+  it("an on-ladder gap is untouched, so no existing consumer moves", () => {
+    const { container } = render(<Stack gap={4}>x</Stack>);
+    expect((container.firstElementChild as HTMLElement).className).toContain("strand-stack--gap-4");
+  });
+
 });

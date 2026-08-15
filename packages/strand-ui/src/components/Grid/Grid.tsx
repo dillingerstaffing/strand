@@ -2,12 +2,20 @@
 
 import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
+import { type SpacingStep, resolveGap, warnOffLadderGap } from "../../spacing.js";
 
 export interface GridProps extends JSX.HTMLAttributes<HTMLDivElement> {
   /** Number of equal-width columns. Ignored when `minColWidth` is set. */
   columns?: number;
-  /** Gap between items, maps to --strand-space-{n} */
-  gap?: number;
+  /**
+   * Gap between items, a rung on the spacing ladder (DL Part V 5.1).
+   *
+   * Typed to the ladder for the reason `Stack` records: an off-ladder value
+   * wrote `gap: var(--strand-space-7)`, the token is undefined, and an
+   * undefined custom property invalidates the WHOLE declaration, so the grid
+   * rendered with no gap.
+   */
+  gap?: SpacingStep | number;
   /**
    * Minimum column width in px for a responsive auto-fit track. When set, the
    * grid renders `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`, so the
@@ -91,6 +99,13 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(
     // definition changes at a breakpoint, and an inline style cannot
     // carry a media query. So this branch emits no gridTemplateColumns at
     // all rather than emitting one the class would then have to fight.
+    // THE LADDER IS THE CONTRACT, same as `Stack`. An off-ladder gap wrote
+    // `var(--strand-space-7)`, which is undefined, and an undefined custom
+    // property invalidates the WHOLE declaration: the grid rendered with no
+    // gap rather than with a smaller one.
+    const resolved = resolveGap(gap);
+    if (!resolved.exact) warnOffLadderGap("Grid", gap as number, resolved.step);
+
     const inlineStyle: Record<string, string> = {
       ...(sidebar || split
         ? {}
@@ -106,7 +121,7 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(
                 ? `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`
                 : `repeat(${columns}, minmax(0, 1fr))`,
           }),
-      gap: `var(--strand-space-${gap})`,
+      gap: `var(--strand-space-${resolved.step})`,
     };
 
     return (

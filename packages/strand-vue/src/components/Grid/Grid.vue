@@ -19,6 +19,7 @@
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
+import { resolveGapStep } from '../../spacing'
 
 interface Props {
   /** Number of equal-width columns. Ignored when minColWidth is set. */
@@ -85,7 +86,7 @@ const inlineStyle = computed(() => ({
             ? `repeat(auto-fit, minmax(${props.minColWidth}px, 1fr))`
             : `repeat(${props.columns}, minmax(0, 1fr))`,
       }),
-  gap: `var(--strand-space-${props.gap})`,
+  gap: `var(--strand-space-${resolveGapStep(props.gap)})`,
 }))
 </script>
 

@@ -1364,3 +1364,56 @@
     display: none;
   }
 }
+
+/* ── The stretched link ──────────────────────────────────────────────
+   A card whose whole surface opens one destination, WITHOUT becoming a
+   control and without a second tab stop.
+
+   THE PROBLEM IT SOLVES. A design draws a clickable card; an implementation
+   either wraps the card in an anchor (which swallows anything interactive
+   inside it and is an invalid tree) or settles for the title being the only
+   target (which is what a reader complains about). The overlay is the third
+   answer: the anchor is unchanged, so the card keeps exactly ONE named link
+   and one tab stop, and only the HIT AREA grows.
+
+   TWO CONSUMERS WROTE THIS IN ONE SESSION, on an event row and on a channel's
+   archive card, with the same three rules and the same subtleties. Two
+   consumers paying for one missing input is a library gap rather than a
+   misuse, which is the bar gap #110 set.
+
+   THE REFUSAL IS THE HARD PART, and it is the consumer's to make: the overlay
+   covers EVERYTHING in the container, so a card that also holds a button, an
+   RSVP control or a video player must not use it. Both consumers derive the
+   flag from whether such a child exists rather than trusting a call site, and
+   that is the pattern to copy. This utility deliberately does not try to
+   detect it: CSS cannot, and a rule that pretended to would be worse than one
+   that states the constraint.
+
+   HOW THIS IS PROVEN, since it is not provable here. The claim is that a
+   CLICK at the card's far edge reaches the anchor, which is a hit test rather
+   than a box measurement: the anchor's own rect stays the width of its text
+   either way, so a geometry assertion on it passes whether or not the overlay
+   exists. The browser layout tier measures boxes and would report a vacuous
+   pass, so it deliberately carries no case for this. The consumer's e2e drives
+   the real thing, clicking each card away from its text and asserting the
+   navigation.
+
+   Usage:
+     <div class="strand-stretch-link-host">
+       <h3><a class="strand-stretch-link" href="...">Title</a></h3>
+       ...the rest of the card...
+     </div> */
+.strand-stretch-link-host {
+  position: relative;
+  cursor: pointer;
+}
+
+.strand-stretch-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Above the host's own content so the whole surface is the target. It sits
+     below nothing, because the consumer guarantees there is nothing else
+     interactive in the host. */
+  z-index: 1;
+}

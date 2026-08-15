@@ -16,6 +16,7 @@
   ```
 -->
 <script lang="ts">
+  import { resolveGapStep } from '../../spacing.js'
   /** Number of equal-width columns. Ignored when minColWidth is set. */
   export let columns: number = 1
   /** Gap between items, maps to --strand-space-{n} */
@@ -61,8 +62,8 @@
       ? `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`
       : `repeat(${columns}, minmax(0, 1fr))`
   $: inlineStyle = sidebar || split
-    ? `gap: var(--strand-space-${gap});`
-    : `grid-template-columns: ${gridTemplateColumns}; gap: var(--strand-space-${gap});`
+    ? `gap: var(--strand-space-${resolveGapStep(gap)});`
+    : `grid-template-columns: ${gridTemplateColumns}; gap: var(--strand-space-${resolveGapStep(gap)});`
 </script>
 
 <div class={classes} style={inlineStyle} {...$$restProps}>
