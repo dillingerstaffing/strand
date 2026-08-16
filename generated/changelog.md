@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- an off-ladder gap stops rendering as no gap at all (v0.57.0), gaps #122-#123
 - Breadcrumb renders as an instrument label (v0.56.1)
 - Breadcrumb renders as an instrument label (v0.56.0)
 - ActionDock owns its own reveal (v0.55.0)

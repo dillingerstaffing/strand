@@ -1,6 +1,12 @@
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/preact";
+import { SPACING_STEPS } from "../../spacing.js";
 import { Stack } from "./Stack.js";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe("Stack", () => {
   // ── Rendering ──
@@ -164,13 +170,16 @@ describe("Stack", () => {
     expect(el.className).not.toContain("strand-stack--gap-7");
   });
 
-  it("every rung it can emit has a rule behind it", () => {
-    // The property that makes a dead class impossible rather than unlikely.
-    for (const gap of [0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48]) {
-      const { container } = render(<Stack gap={gap}>x</Stack>);
-      expect((container.firstElementChild as HTMLElement).className).toContain(
-        `strand-stack--gap-${gap}`,
-      );
+  it("every rung it can emit has a RULE behind it, not just a class name", () => {
+    // THIS TEST USED TO BE VACUOUS, and it shipped a regression because of it:
+    // it asserted the class NAME appeared on the element, which is true of any
+    // number whatsoever. The stylesheet's utilities stopped at 8 while the
+    // token scale runs to 48, so `gap={10}` emitted `strand-stack--gap-10`,
+    // there was no such rule, and the stack rendered with no gap. The
+    // assertion has to read the SHEET.
+    const css = readFileSync(resolve(__dirname, "Stack.css"), "utf8");
+    for (const step of SPACING_STEPS) {
+      expect(css, `no rule for gap ${step}`).toContain(`.strand-stack--gap-${step}`);
     }
   });
 

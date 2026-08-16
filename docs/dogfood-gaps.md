@@ -1621,3 +1621,25 @@ Two gaps, and the first one had been silently costing five call sites.
   anchor, which is a hit test; the anchor's own rect stays the width of its text
   whether or not the overlay exists, so a geometry assertion on it would pass
   either way. The consumer's e2e drives the real thing.
+
+### Gap #124
+- Type: **L2** (library). A regression #122 shipped, found by the founder on a
+  dev server within minutes, and worth logging in full because the cause was a
+  test that could not fail.
+- Symptom: after #122, `Stack gap={10}` rendered NO GAP. The consumer had just
+  moved off a page-local workaround and onto the primitive, and the spacing it
+  had approved disappeared.
+- Cause: **there are TWO ladders and they did not agree.** The spacing TOKEN
+  scale runs to 48 (DL Part V 5.1); Stack's gap UTILITY CLASSES stopped at 8.
+  #122 clamped to the token ladder, so a caller asking for a gap the design
+  language plainly has got `strand-stack--gap-10`, a class with no rule. Grid
+  never had this problem because it writes the token inline and any real token
+  resolves; Stack emits a class, so every rung the scale defines needs one.
+- **The test that should have caught it was vacuous, and this is the lesson.**
+  #122 shipped "every rung it can emit has a rule behind it", which looped the
+  ladder and asserted the class NAME appeared on the element. That is true of
+  any number whatsoever. It read the markup when the claim was about the
+  STYLESHEET. It now reads `Stack.css` and asserts a rule exists per rung;
+  red-checked by deleting the gap-10 rule, which fails with the rung named.
+- Fix: `Stack.css` gains a rule for every rung on the token ladder, so the two
+  ladders are the same ladder.

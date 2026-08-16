@@ -2399,5 +2399,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid__line--18` | |
 | `strand-app-shell` | |
 | `strand-ref-shell__sidebar` | |
+| `strand-stretch-link-host` | |
+| `strand-stretch-link` | |
 
 <!-- GENERATED:COMPONENT-REFERENCE:END -->

@@ -1884,6 +1884,14 @@ Flex layout primitive with direction, gap, and alignment.
 | `strand-stack--gap-5` | modifier | Gap: space-5 (20px). |
 | `strand-stack--gap-6` | modifier | Gap: space-6 (24px). |
 | `strand-stack--gap-8` | modifier | Gap: space-8 (32px). |
+| `strand-stack--gap-10` | modifier | |
+| `strand-stack--gap-12` | modifier | |
+| `strand-stack--gap-16` | modifier | |
+| `strand-stack--gap-20` | modifier | |
+| `strand-stack--gap-24` | modifier | |
+| `strand-stack--gap-32` | modifier | |
+| `strand-stack--gap-40` | modifier | |
+| `strand-stack--gap-48` | modifier | |
 
 **Usage:**
 
