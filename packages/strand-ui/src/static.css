@@ -1075,6 +1075,24 @@
    shrinking. A flex item that must keep its content width (a count, a
    timestamp) pairs truncate with THIS. */
 .strand-flex-none { flex: none; }
+/* ── Layout-transparent wrapper ──
+   The element disappears from the box tree and its CHILDREN become the
+   parent's children for layout. Its purpose is a wrapper that has to
+   exist in the DOM but must not exist in the layout.
+
+   The case that earned it: a server-rendered page hydrates its
+   interactive parts by id, so each island needs a real element to mount
+   into. Put that mount inside a flex or grid parent and it becomes ONE
+   item holding N children, so the children stop wrapping independently
+   and stop taking the parent's gap. The alternatives are worse: mounting
+   onto the flex container itself makes hydration own markup it did not
+   render, and re-declaring the parent's flex rules on the wrapper
+   duplicates a layout the parent already owns.
+
+   NOT a general-purpose unwrapper. `display: contents` removes the box,
+   so any background, border, padding or size on the element is dropped
+   with it. Use it on a wrapper that carries nothing but an id. */
+.strand-contents { display: contents; }
 .strand-min-w-0 { min-width: 0; }
 .strand-full-width { width: 100%; }
 /* Single-line ellipsis. Pair with strand-min-w-0 on the flex child, or the

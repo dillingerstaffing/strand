@@ -9,13 +9,17 @@
 import { computed } from 'vue'
 interface Props {
   name: string
+  /** A second, subordinate label: a display name beside a username, a role
+   * beside a name. Inline rather than a second line, because the pill's own
+   * rule is that it stays one line tall in a wrapping strip. */
+  secondary?: string
   initials?: string
   /** Makes the chip a button. */
   selectable?: boolean
   className?: string
 }
 const props = withDefaults(defineProps<Props>(), {
-  initials: undefined, selectable: false, className: '',
+  secondary: undefined, initials: undefined, selectable: false, className: '',
 })
 defineOptions({ inheritAttrs: false })
 const emit = defineEmits<{ select: [] }>()
@@ -39,5 +43,6 @@ const classes = computed(() =>
   >
     <span class="strand-person-chip__avatar" aria-hidden="true">{{ initials ?? initialsFrom(name) }}</span>
     <span class="strand-person-chip__name">{{ name }}</span>
+    <span v-if="secondary" class="strand-person-chip__secondary">{{ secondary }}</span>
   </component>
 </template>

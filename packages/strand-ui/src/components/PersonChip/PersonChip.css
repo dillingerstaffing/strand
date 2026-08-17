@@ -58,6 +58,36 @@
   min-inline-size: 0;
 }
 
+/* ── The secondary label ──
+   A display name beside a username, a role beside a name. Same line as
+   the name, for the reason the name itself must not wrap: the strip's
+   rhythm depends on every pill being one line tall.
+
+   THE NAME YIELDS SPACE FIRST. Both strings shrink, but this one carries
+   `flex: none` up to a cap while the name carries `min-inline-size: 0`,
+   so a narrow pill truncates the primary identifier only after the
+   secondary has given up what it can. That ordering is deliberate: the
+   secondary is the optional half, so it is the half that goes. */
+.strand-person-chip__secondary {
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-inline-size: 0;
+  /* Capped rather than free: an unbounded secondary on a long display
+     name would push the name it qualifies out of the pill entirely. */
+  max-inline-size: 12ch;
+}
+
+/* Decoration, not content. A separator in the markup would be read aloud
+   between the two halves of one person's identity. */
+.strand-person-chip__secondary::before {
+  content: "\00b7";
+  margin-inline-end: var(--strand-space-1);
+  color: var(--strand-gray-400);
+}
+
 /* Interactive form, for a chip that opens a profile. A button rather than
    a div with a handler, so it is reachable and announced as actionable. */
 .strand-person-chip--action {

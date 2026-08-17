@@ -1987,6 +1987,7 @@ An initials avatar beside a name, in a pill. Shipped as ONE primitive rather tha
 | `strand-person-chip--action` | modifier | Interactive form: hover and focus affordances. |
 | `strand-person-chip__avatar` | child | Initials circle. aria-hidden. blue-deep on blue-wash, not blue-primary: these are letters, so 14.2b makes them text at 4.5:1 rather than a graphical object at 3:1. |
 | `strand-person-chip__name` | child | The name, and the accessible name. Truncates on one line: a two-line pill breaks a wrapping strip's rhythm. |
+| `strand-person-chip__secondary` | child | |
 
 **Usage:**
 
@@ -2970,6 +2971,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid__line--16` | |
 | `strand-hero-grid__line--17` | |
 | `strand-hero-grid__line--18` | |
+| `strand-contents` | |
 | `strand-command-palette__list` | |
 | `strand-detail-panel` | |
 | `strand-results-panel__items` | |
@@ -5707,6 +5709,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- a consumer can bound and scroll a long list vertically (v0.60.0)
 - a field can confirm a checked value, and its messages reach the control (v0.59.0)
 - a consumer can tint an avatar without overriding the class (v0.58.0)
 - an off-ladder gap stops rendering as no gap at all (v0.57.0), gaps #122-#123

@@ -61,4 +61,27 @@ describe("PersonChip", () => {
     fireEvent.click(el);
     expect(onSelect).toHaveBeenCalledTimes(1);
   });
+  // The secondary is the optional half of one person's identity, so it is
+  // part of the accessible name: announcing only the username names
+  // somebody the reader cannot match to what is on screen.
+  it("renders a secondary label beside the name, both readable", () => {
+    const { container } = render(<PersonChip name="steady-kestrel-865" secondary="Grace" />);
+    expect(container.querySelector(".strand-person-chip__name")?.textContent).toBe(
+      "steady-kestrel-865",
+    );
+    expect(container.querySelector(".strand-person-chip__secondary")?.textContent).toBe("Grace");
+    expect(container.querySelector(".strand-person-chip")?.textContent).toContain("Grace");
+  });
+
+  it("omits the secondary element entirely when there is none", () => {
+    const { container } = render(<PersonChip name="Maria Klein" />);
+    expect(container.querySelector(".strand-person-chip__secondary")).toBeNull();
+  });
+
+  // The separator is a CSS ::before, so it must not appear in the DOM text
+  // a screen reader walks.
+  it("keeps the separator out of the text content", () => {
+    const { container } = render(<PersonChip name="ada" secondary="Ada" />);
+    expect(container.querySelector(".strand-person-chip")?.textContent).not.toContain("\u00b7");
+  });
 });

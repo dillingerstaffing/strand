@@ -35,4 +35,14 @@ describe('PersonChip', () => {
     expect(el?.tagName).toBe('BUTTON')
     expect(el).toHaveAttribute('type', 'button')
   })
+  it('renders a secondary label beside the name, both readable', () => {
+    const { container } = render(PersonChip, { props: { name: 'steady-kestrel-865', secondary: 'Grace' } })
+    expect(container.querySelector('.strand-person-chip__name')?.textContent?.trim()).toBe('steady-kestrel-865')
+    expect(container.querySelector('.strand-person-chip__secondary')?.textContent?.trim()).toBe('Grace')
+  })
+
+  it('omits the secondary element entirely when there is none', () => {
+    const { container } = render(PersonChip, { props: { name: 'Maria Klein' } })
+    expect(container.querySelector('.strand-person-chip__secondary')).toBeNull()
+  })
 })

@@ -8,6 +8,22 @@ export interface PersonChipProps
   /** The person's name. This is the accessible name. */
   name: string;
   /**
+   * A second, subordinate label for the same person, rendered after the
+   * name in a quieter weight: a display name beside a username, a role
+   * beside a name, a team beside a handle.
+   *
+   * INLINE, NOT A SECOND LINE. The pill's own rule is that a name must not
+   * wrap, because a two-line pill in a wrapping strip breaks the row's
+   * rhythm; a second line would break the same rhythm on purpose. Both
+   * strings share the single line and the name yields space first, so the
+   * primary identifier is the last thing to be truncated.
+   *
+   * Part of the accessible name, deliberately: the two strings together
+   * are how the person is identified, and announcing only one of them
+   * names somebody the reader cannot match to what is on screen.
+   */
+  secondary?: string;
+  /**
    * Initials for the circle. Derived from `name` when omitted.
    * Decorative either way: the circle is aria-hidden.
    */
@@ -41,11 +57,12 @@ export function initialsFrom(name: string): string {
  * @example
  * ```tsx
  * <PersonChip name="Maria Klein" />
+ * <PersonChip name="steady-kestrel-865" secondary="Grace" />
  * <PersonChip name="Ana Ruiz" onSelect={() => open('ana')} />
  * ```
  */
 export const PersonChip = forwardRef<HTMLElement, PersonChipProps>(
-  ({ name, initials, onSelect, className = "", ...rest }, ref) => {
+  ({ name, secondary, initials, onSelect, className = "", ...rest }, ref) => {
     const classes = [
       "strand-person-chip",
       onSelect ? "strand-person-chip--action" : "",
@@ -60,6 +77,13 @@ export const PersonChip = forwardRef<HTMLElement, PersonChipProps>(
           {initials ?? initialsFrom(name)}
         </span>
         <span class="strand-person-chip__name">{name}</span>
+        {/* The separator is a CSS ::before on this span rather than a
+            character in the markup, so it is decoration a screen reader
+            never reads out. The text nodes stay exactly the two strings the
+            caller passed. */}
+        {secondary ? (
+          <span class="strand-person-chip__secondary">{secondary}</span>
+        ) : null}
       </>
     );
 

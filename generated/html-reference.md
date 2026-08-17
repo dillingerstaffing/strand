@@ -1423,6 +1423,7 @@ An initials avatar beside a name, in a pill. Shipped as ONE primitive rather tha
 | `strand-person-chip--action` | modifier | Interactive form: hover and focus affordances. |
 | `strand-person-chip__avatar` | child | Initials circle. aria-hidden. blue-deep on blue-wash, not blue-primary: these are letters, so 14.2b makes them text at 4.5:1 rather than a graphical object at 3:1. |
 | `strand-person-chip__name` | child | The name, and the accessible name. Truncates on one line: a two-line pill breaks a wrapping strip's rhythm. |
+| `strand-person-chip__secondary` | child | |
 
 **Usage:**
 
@@ -2406,6 +2407,7 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid__line--16` | |
 | `strand-hero-grid__line--17` | |
 | `strand-hero-grid__line--18` | |
+| `strand-contents` | |
 | `strand-command-palette__list` | |
 | `strand-detail-panel` | |
 | `strand-results-panel__items` | |
