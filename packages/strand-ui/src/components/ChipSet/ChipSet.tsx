@@ -26,6 +26,16 @@ export interface ChipSetProps
   mode?: "multi" | "single";
   /** `scroll` never wraps and scrolls sideways instead. */
   overflow?: "wrap" | "scroll";
+  /**
+   * Chip size. `md` is the default and is unchanged.
+   *
+   * `sm` exists because the chip's type and padding were constants: a filter
+   * strip above a dense list is drawn smaller than one that is the page's main
+   * control, and a consumer needing that had to override
+   * `.strand-chip-set__chip`, which is the workaround the dogfood protocol
+   * forbids. It is the same ladder Button and PersonChip already carry.
+   */
+  size?: "sm" | "md";
   /** Accessible name for the set. */
   label: string;
   /** Called with the ids selected after the interaction. */
@@ -60,6 +70,7 @@ export const ChipSet = forwardRef<HTMLDivElement, ChipSetProps>(
       selected = [],
       mode = "multi",
       overflow = "wrap",
+      size = "md",
       label,
       onSelectionChange,
       className = "",
@@ -71,6 +82,7 @@ export const ChipSet = forwardRef<HTMLDivElement, ChipSetProps>(
     const classes = [
       "strand-chip-set",
       scrolls ? "strand-chip-set--scroll" : "",
+      size === "sm" ? "strand-chip-set--sm" : "",
       // Composes the scroll-row contract rather than restating it, so a
       // chip strip and every other scrolling row share one definition.
       scrolls ? "strand-scroll-row" : "",

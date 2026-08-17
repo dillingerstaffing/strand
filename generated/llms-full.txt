@@ -1162,6 +1162,7 @@ A set of selectable chips that WRAPS in a rail and SCROLLS on a narrow viewport.
 | `strand-chip-set` | base | The set. role=group for multi-select, role=radiogroup for single. Wraps by default. |
 | `strand-chip-set--scroll` | modifier | Never wraps. Pair with strand-scroll-row, which owns everything else about scrolling sideways, so a chip strip and any other scrolling row share one definition. |
 | `strand-chip-set__chip` | child | One chip. Selected state is styled from aria-pressed / aria-checked, so the painted state and the announced state cannot drift. 44px minimum block size under a coarse pointer. |
+| `strand-chip-set--sm` | modifier | |
 
 **Usage:**
 
@@ -5729,6 +5730,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - v0.54.1, gap #121
 
 ### Fixed
+- Dialog locks scroll before paint, so a centred panel cannot re-centre (v0.61.2)
 - the PersonChip separator inherits its text colour (v0.61.1)
 - the gap class ladder matches the token ladder (v0.57.1), gap #124
 - the instrument separator keeps a text-tier colour

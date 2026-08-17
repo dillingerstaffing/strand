@@ -598,6 +598,7 @@ A set of selectable chips that WRAPS in a rail and SCROLLS on a narrow viewport.
 | `strand-chip-set` | base | The set. role=group for multi-select, role=radiogroup for single. Wraps by default. |
 | `strand-chip-set--scroll` | modifier | Never wraps. Pair with strand-scroll-row, which owns everything else about scrolling sideways, so a chip strip and any other scrolling row share one definition. |
 | `strand-chip-set__chip` | child | One chip. Selected state is styled from aria-pressed / aria-checked, so the painted state and the announced state cannot drift. 44px minimum block size under a coarse pointer. |
+| `strand-chip-set--sm` | modifier | |
 
 **Usage:**
 

@@ -9,6 +9,8 @@
   export let selected: string[] = []
   export let mode: 'multi' | 'single' = 'multi'
   export let overflow: 'wrap' | 'scroll' = 'wrap'
+  /** Chip size. `sm` is a denser strip; `md` is unchanged. */
+  export let size: 'sm' | 'md' = 'md'
   export let label: string
   export let onselectionchange: ((selected: string[]) => void) | undefined = undefined
   /** Merged explicitly; $$restProps spreads after class and would replace it. */
@@ -17,6 +19,7 @@
   $: classes = [
     'strand-chip-set',
     overflow === 'scroll' ? 'strand-chip-set--scroll' : '',
+    size === 'sm' ? 'strand-chip-set--sm' : '',
     overflow === 'scroll' ? 'strand-scroll-row' : '',
     className,
   ].filter(Boolean).join(' ')

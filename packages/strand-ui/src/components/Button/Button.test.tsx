@@ -1,5 +1,5 @@
-import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/preact";
 import { Button } from "./Button.js";
@@ -229,5 +229,15 @@ describe("Button", () => {
     expect(compact, "compact is horizontal noise, not a touch-target decision").not.toMatch(
       /min-height|min-block-size/,
     );
+  });
+  // The 44px floor used to be unconditional on every size, so a consumer
+  // needing the design's 34px secondary control could only override
+  // `.strand-btn`. The default is unchanged; what is new is that it can be
+  // answered without an override.
+  it("floors at the touch target by default, and lets a token lower it", () => {
+    const css = readFileSync(resolve(__dirname, "Button.css"), "utf8");
+    expect(css).toContain("var(--strand-btn-min-block-size, var(--strand-touch-target))");
+    // The bare floor is what made a compact control unreachable.
+    expect(css).not.toMatch(/min-height:\s*var\(--strand-touch-target\)\s*;/);
   });
 });

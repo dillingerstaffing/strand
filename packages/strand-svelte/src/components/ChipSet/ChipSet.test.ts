@@ -49,4 +49,11 @@ describe('ChipSet', () => {
     const { container: s } = render(ChipSet, { props: { label: 'I', items: ITEMS, overflow: 'scroll' } })
     expect(s.querySelector('.strand-chip-set')?.classList.contains('strand-scroll-row')).toBe(true)
   })
+  it('renders a compact strip when asked, and a default one otherwise', () => {
+    const items = [{ id: 'a', label: 'Outdoors' }]
+    const { container: sm } = render(ChipSet, { props: { items, label: 'F', size: 'sm' } })
+    expect(sm.querySelector('.strand-chip-set')?.classList.contains('strand-chip-set--sm')).toBe(true)
+    const { container: md } = render(ChipSet, { props: { items, label: 'F' } })
+    expect(md.querySelector('.strand-chip-set')?.classList.contains('strand-chip-set--sm')).toBe(false)
+  })
 })

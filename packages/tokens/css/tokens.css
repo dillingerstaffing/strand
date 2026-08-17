@@ -1,4 +1,4 @@
-/*! Strand v0.61.2 | MIT License | dillingerstaffing.com */
+/*! Strand v0.62.0 | MIT License | dillingerstaffing.com */
 
 :root {
   /* ═══════════════════════════════════════════
@@ -92,6 +92,15 @@
   --strand-on-red-tint: #991B1B;
 
   /* ── TYPE SCALE (Major Third, 1.250 ratio) ── */
+  /* DELIBERATELY OFF-RATIO, and the only rung that is.
+     The ratio's next step below xs is 0.694/1.25 = 0.555rem (8.9px), which is
+     too small to read as a label. This rung exists for the OVERLINE, the
+     specimen label DL 4.7 calls the language's most distinctive typographic
+     element: it is uppercase, mono and tracked, so it reads a size larger than
+     its box, and 10px is where it was drawn. Authorised as a design-language
+     change rather than adopted by convenience; a consumer that wants small
+     body copy still wants xs. */
+  --strand-text-2xs: 0.625rem;
   --strand-text-xs: 0.694rem;
   --strand-text-sm: 0.833rem;
   --strand-text-base: 1rem;

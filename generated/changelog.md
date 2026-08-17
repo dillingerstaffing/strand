@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - v0.54.1, gap #121
 
 ### Fixed
+- Dialog locks scroll before paint, so a centred panel cannot re-centre (v0.61.2)
 - the PersonChip separator inherits its text colour (v0.61.1)
 - the gap class ladder matches the token ladder (v0.57.1), gap #124
 - the instrument separator keeps a text-tier colour

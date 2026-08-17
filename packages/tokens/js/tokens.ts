@@ -99,6 +99,8 @@ export const onRedTint = "#991B1B" as const;
 
 // ── Type Scale (Major Third, 1.250 ratio) ──
 
+/** Off-ratio by design; see the note in tokens.css. For overlines. */
+export const text2xs = "0.625rem" as const;
 export const textXs = "0.694rem" as const;
 export const textSm = "0.833rem" as const;
 export const textBase = "1rem" as const;
@@ -219,7 +221,7 @@ export const colors = {
 
 export const typography = {
   fonts: { sans: fontSans, mono: fontMono },
-  scale: { xs: textXs, sm: textSm, base: textBase, lg: textLg, xl: textXl, "2xl": text2xl, "3xl": text3xl, "4xl": text4xl, "5xl": text5xl, "6xl": text6xl, "7xl": text7xl },
+  scale: { "2xs": text2xs, xs: textXs, sm: textSm, base: textBase, lg: textLg, xl: textXl, "2xl": text2xl, "3xl": text3xl, "4xl": text4xl, "5xl": text5xl, "6xl": text6xl, "7xl": text7xl },
   tracking: { tightest: trackingTightest, tighter: trackingTighter, tight: trackingTight, normal: trackingNormal, wide: trackingWide, wider: trackingWider, widest: trackingWidest, ultra: trackingUltra },
   leading: { none: leadingNone, tight: leadingTight, snug: leadingSnug, normal: leadingNormal, relaxed: leadingRelaxed, loose: leadingLoose },
   weight: { light: weightLight, regular: weightRegular, medium: weightMedium, semibold: weightSemibold },

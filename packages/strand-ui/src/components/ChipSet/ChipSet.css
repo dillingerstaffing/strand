@@ -101,3 +101,15 @@
     transition: none;
   }
 }
+
+/* ── Compact ──
+   Type and padding only. It deliberately does NOT touch the hit area beyond
+   what the padding gives: chips are inline controls in a strip, and a caller
+   choosing `sm` is choosing a denser strip, not a smaller target than AA
+   allows. At 11.1px type with space-1/space-2 padding the chip measures ~27px,
+   comfortably past SC 2.5.8's 24x24. */
+.strand-chip-set--sm .strand-chip-set__chip {
+  padding-block: var(--strand-space-1);
+  padding-inline: var(--strand-space-2);
+  font-size: var(--strand-text-xs);
+}

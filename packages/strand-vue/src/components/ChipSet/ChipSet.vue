@@ -12,11 +12,13 @@ interface Props {
   selected?: string[]
   mode?: 'multi' | 'single'
   overflow?: 'wrap' | 'scroll'
+  /** Chip size. `sm` is a denser strip; `md` is unchanged. */
+  size?: 'sm' | 'md'
   label: string
   className?: string
 }
 const props = withDefaults(defineProps<Props>(), {
-  selected: () => [], mode: 'multi', overflow: 'wrap', className: '',
+  selected: () => [], mode: 'multi', overflow: 'wrap', size: 'md', className: '',
 })
 defineOptions({ inheritAttrs: false })
 const emit = defineEmits<{ selectionChange: [selected: string[]] }>()
@@ -24,6 +26,7 @@ const classes = computed(() =>
   [
     'strand-chip-set',
     props.overflow === 'scroll' ? 'strand-chip-set--scroll' : '',
+    props.size === 'sm' ? 'strand-chip-set--sm' : '',
     // Composes the scroll-row contract rather than restating it.
     props.overflow === 'scroll' ? 'strand-scroll-row' : '',
     props.className,

@@ -34,22 +34,38 @@
 }
 
 /* ── Sizes ── */
+/* ── The touch-target floor is a KNOB, not a constant ──
+   Every size below floors at `--strand-touch-target` (44px), and until now that
+   floor was unconditional: a consumer needing a compact control had no way to
+   ask for one and could only override `.strand-btn`, which is the workaround
+   the dogfood protocol exists to prevent.
+
+   The floor's own rule is narrower than its implementation. The 44px house rule
+   is scoped to PRIMARY actions; WCAG 2.2 AA (SC 2.5.8) requires 24x24, and
+   SC 2.5.5's 44x44 is AAA. A 34px secondary control clears AA with margin, and
+   flattening every control to 44 erases a deliberate primary/secondary
+   distinction.
+
+   The default is unchanged, so no existing consumer moves. Setting the token is
+   design-system usage; overriding the class would not have been. A consumer who
+   sets it below 24px is outside AA, which is theirs to answer for and was
+   always reachable by overriding anyway. */
 .strand-btn--sm {
   padding: var(--strand-space-2) var(--strand-space-5);
   font-size: var(--strand-text-sm);
-  min-height: var(--strand-touch-target);
+  min-height: var(--strand-btn-min-block-size, var(--strand-touch-target));
 }
 
 .strand-btn--md {
   padding: var(--strand-space-3) var(--strand-space-8);
   font-size: var(--strand-text-sm);
-  min-height: var(--strand-touch-target);
+  min-height: var(--strand-btn-min-block-size, var(--strand-touch-target));
 }
 
 .strand-btn--lg {
   padding: var(--strand-space-3) var(--strand-space-10);
   font-size: var(--strand-text-base);
-  min-height: var(--strand-touch-target);
+  min-height: var(--strand-btn-min-block-size, var(--strand-touch-target));
 }
 
 /* ── Compact ──
@@ -77,7 +93,23 @@
 }
 
 /* ── Icon-only ── */
-.strand-btn--icon-only.strand-btn--sm {
+.strand-btn--icon-only/* ── The touch-target floor is a KNOB, not a constant ──
+   Every size below floors at `--strand-touch-target` (44px), and until now that
+   floor was unconditional: a consumer needing a compact control had no way to
+   ask for one and could only override `.strand-btn`, which is the workaround
+   the dogfood protocol exists to prevent.
+
+   The floor's own rule is narrower than its implementation. The 44px house rule
+   is scoped to PRIMARY actions; WCAG 2.2 AA (SC 2.5.8) requires 24x24, and
+   SC 2.5.5's 44x44 is AAA. A 34px secondary control clears AA with margin, and
+   flattening every control to 44 erases a deliberate primary/secondary
+   distinction.
+
+   The default is unchanged, so no existing consumer moves. Setting the token is
+   design-system usage; overriding the class would not have been. A consumer who
+   sets it below 24px is outside AA, which is theirs to answer for and was
+   always reachable by overriding anyway. */
+.strand-btn--sm {
   padding: var(--strand-space-1);
   min-width: var(--strand-touch-target);
 }
