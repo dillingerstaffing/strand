@@ -85,7 +85,11 @@
 .strand-person-chip__secondary::before {
   content: "\00b7";
   margin-inline-end: var(--strand-space-1);
-  color: var(--strand-gray-400);
+  /* NO COLOUR OF ITS OWN. `content` is text to a contrast checker whatever
+     the author intended it as, so a fill-tier grey here is a real 2.52:1
+     failure and not a false positive (DL Part XIV.2). Inheriting the
+     secondary's own text-tier grey keeps the separator quieter than the
+     name without dropping below 4.5:1. */
 }
 
 /* Interactive form, for a chip that opens a profile. A button rather than

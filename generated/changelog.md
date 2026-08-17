@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- PersonChip carries a secondary label, plus a layout-transparent wrapper (v0.61.0)
 - a consumer can bound and scroll a long list vertically (v0.60.0)
 - a field can confirm a checked value, and its messages reach the control (v0.59.0)
 - a consumer can tint an avatar without overriding the class (v0.58.0)

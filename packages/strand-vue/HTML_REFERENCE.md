@@ -879,6 +879,7 @@ Label + input + hint + error wrapper for form composition.
 | `strand-form-field__error` | child | Error message (replaces hint in error state). |
 | `strand-form-field__required` | child | Required indicator asterisk. |
 | `strand-form-field--error` | modifier | Error state modifier. |
+| `strand-form-field__success` | child | |
 
 **Usage:**
 
@@ -1422,6 +1423,7 @@ An initials avatar beside a name, in a pill. Shipped as ONE primitive rather tha
 | `strand-person-chip--action` | modifier | Interactive form: hover and focus affordances. |
 | `strand-person-chip__avatar` | child | Initials circle. aria-hidden. blue-deep on blue-wash, not blue-primary: these are letters, so 14.2b makes them text at 4.5:1 rather than a graphical object at 3:1. |
 | `strand-person-chip__name` | child | The name, and the accessible name. Truncates on one line: a two-line pill breaks a wrapping strip's rhythm. |
+| `strand-person-chip__secondary` | child | |
 
 **Usage:**
 
@@ -1884,6 +1886,14 @@ Flex layout primitive with direction, gap, and alignment.
 | `strand-stack--gap-5` | modifier | Gap: space-5 (20px). |
 | `strand-stack--gap-6` | modifier | Gap: space-6 (24px). |
 | `strand-stack--gap-8` | modifier | Gap: space-8 (32px). |
+| `strand-stack--gap-10` | modifier | |
+| `strand-stack--gap-12` | modifier | |
+| `strand-stack--gap-16` | modifier | |
+| `strand-stack--gap-20` | modifier | |
+| `strand-stack--gap-24` | modifier | |
+| `strand-stack--gap-32` | modifier | |
+| `strand-stack--gap-40` | modifier | |
+| `strand-stack--gap-48` | modifier | |
 
 **Usage:**
 
@@ -2397,6 +2407,13 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid__line--16` | |
 | `strand-hero-grid__line--17` | |
 | `strand-hero-grid__line--18` | |
+| `strand-contents` | |
+| `strand-command-palette__list` | |
+| `strand-detail-panel` | |
+| `strand-results-panel__items` | |
+| `strand-sheet__body` | |
+| `strand-ref-shell__sidebar-scroll` | |
+| `strand-scroll-col` | |
 | `strand-app-shell` | |
 | `strand-ref-shell__sidebar` | |
 | `strand-stretch-link-host` | |
