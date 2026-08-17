@@ -96,4 +96,84 @@ describe("FormField", () => {
     expect(wrapper?.className).toContain("strand-form-field");
     expect(wrapper?.className).toContain("custom");
   });
+  // ── Success: the third message state ──
+
+  it("confirms a checked value without shouting it", () => {
+    // Polite, not assertive: this arrives while the member is still typing, so
+    // an alert region would interrupt a screen reader to deliver good news.
+    const { container } = render(
+      <FormField label="Name" htmlFor="name" success="Available.">
+        <input id="name" />
+      </FormField>
+    );
+    const el = container.querySelector(".strand-form-field__success");
+    expect(el?.textContent).toBe("Available.");
+    expect(el?.getAttribute("role")).toBe("status");
+  });
+
+  it("shows the problem rather than the confirmation when both are set", () => {
+    // A field reading "taken" above "Available." argues with itself.
+    const { container } = render(
+      <FormField label="Name" htmlFor="name" error="Taken" success="Available." hint="2 to 30">
+        <input id="name" />
+      </FormField>
+    );
+    expect(container.querySelector(".strand-form-field__error")?.textContent).toBe("Taken");
+    expect(container.querySelector(".strand-form-field__success")).toBeNull();
+    expect(container.querySelector(".strand-form-field__hint")).toBeNull();
+  });
+
+  it("replaces the hint, so one input never carries two instructions", () => {
+    const { container } = render(
+      <FormField label="Name" htmlFor="name" success="Available." hint="2 to 30">
+        <input id="name" />
+      </FormField>
+    );
+    expect(container.querySelector(".strand-form-field__success")).toBeTruthy();
+    expect(container.querySelector(".strand-form-field__hint")).toBeNull();
+  });
+
+  // ── The control is actually described ──
+
+  it("points the control at whichever message is showing", () => {
+    // Every message this component has ever rendered was announced by nothing
+    // on focus: the ids existed and no control referenced them.
+    const hint = render(
+      <FormField label="Name" htmlFor="name" hint="2 to 30">
+        <input id="name" />
+      </FormField>
+    );
+    expect(
+      hint.container.querySelector("#name")?.getAttribute("aria-describedby")
+    ).toBe("name-hint");
+
+    const err = render(
+      <FormField label="Name" htmlFor="name" hint="2 to 30" error="Taken">
+        <input id="name" />
+      </FormField>
+    );
+    expect(
+      err.container.querySelector("#name")?.getAttribute("aria-describedby")
+    ).toBe("name-error");
+  });
+
+  it("keeps a description the caller set themselves", () => {
+    const { container } = render(
+      <FormField label="Name" htmlFor="name" hint="2 to 30">
+        <input id="name" aria-describedby="name-extra" />
+      </FormField>
+    );
+    expect(
+      container.querySelector("#name")?.getAttribute("aria-describedby")
+    ).toBe("name-extra name-hint");
+  });
+
+  it("describes nothing when there is no message", () => {
+    const { container } = render(
+      <FormField label="Name" htmlFor="name">
+        <input id="name" />
+      </FormField>
+    );
+    expect(container.querySelector("#name")?.getAttribute("aria-describedby")).toBeNull();
+  });
 });

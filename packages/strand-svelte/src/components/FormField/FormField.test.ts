@@ -55,4 +55,23 @@ describe('FormField', () => {
     const { container } = render(FormField, { props: { label: 'Name', htmlFor: 'name' } })
     expect(container.querySelector('.strand-form-field__control')).toBeInTheDocument()
   })
+  it('confirms a checked value without shouting it', () => {
+    const { container } = render(FormField, { props: { label: 'Name', htmlFor: 'name', success: 'Available.' } })
+    const el = container.querySelector('.strand-form-field__success')
+    expect(el).toHaveTextContent('Available.')
+    expect(el).toHaveAttribute('role', 'status')
+  })
+
+  it('shows the problem rather than the confirmation when both are set', () => {
+    const { container } = render(FormField, { props: { label: 'Name', htmlFor: 'name', error: 'Taken', success: 'Available.', hint: '2 to 30' } })
+    expect(container.querySelector('.strand-form-field__error')).toBeInTheDocument()
+    expect(container.querySelector('.strand-form-field__success')).not.toBeInTheDocument()
+    expect(container.querySelector('.strand-form-field__hint')).not.toBeInTheDocument()
+  })
+
+  it('replaces the hint, so one input never carries two instructions', () => {
+    const { container } = render(FormField, { props: { label: 'Name', htmlFor: 'name', success: 'Available.', hint: '2 to 30' } })
+    expect(container.querySelector('.strand-form-field__success')).toBeInTheDocument()
+    expect(container.querySelector('.strand-form-field__hint')).not.toBeInTheDocument()
+  })
 })

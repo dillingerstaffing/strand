@@ -95,4 +95,31 @@ describe('FormField', () => {
     })
     expect(container.querySelector('.strand-form-field')).not.toHaveClass('strand-form-field--error')
   })
+  it('confirms a checked value without shouting it', () => {
+    const { container } = render(FormField, {
+      props: { label: 'Email', htmlFor: 'email', success: 'Available.' },
+      slots: { default: '<input id="email" />' },
+    })
+    const el = container.querySelector('.strand-form-field__success')
+    expect(el).toHaveTextContent('Available.')
+    expect(el).toHaveAttribute('role', 'status')
+  })
+
+  it('shows the problem rather than the confirmation when both are set', () => {
+    const { container } = render(FormField, {
+      props: { label: 'Email', htmlFor: 'email', error: 'Taken', success: 'Available.', hint: '2 to 30' },
+      slots: { default: '<input id="email" />' },
+    })
+    expect(container.querySelector('.strand-form-field__error')).toBeInTheDocument()
+    expect(container.querySelector('.strand-form-field__success')).not.toBeInTheDocument()
+    expect(container.querySelector('.strand-form-field__hint')).not.toBeInTheDocument()
+  })
+
+  it('points the control at whichever message is showing', () => {
+    const { container } = render(FormField, {
+      props: { label: 'Email', htmlFor: 'email', hint: '2 to 30' },
+      slots: { default: '<input id="email" />' },
+    })
+    expect(container.querySelector('#email')).toHaveAttribute('aria-describedby', 'email-hint')
+  })
 })

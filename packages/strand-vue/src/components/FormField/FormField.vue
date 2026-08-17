@@ -16,7 +16,7 @@
   ```
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, cloneVNode, useSlots } from 'vue'
 
 export interface FormFieldProps {
   /** Label text */
@@ -27,6 +27,15 @@ export interface FormFieldProps {
   hint?: string
   /** Error text displayed below the input (replaces hint) */
   error?: string
+  /**
+   * Confirmation text displayed below the input (replaces hint, yields to error).
+   *
+   * For a value that has been CHECKED and found good: an available username, a
+   * verified address, a valid coupon. Announced politely where `error` is
+   * assertive, because success arrives while the member is still typing and an
+   * assertive region would interrupt a screen reader to deliver good news.
+   */
+  success?: string
   /** Show required indicator */
   required?: boolean
 }
@@ -39,10 +48,44 @@ const classes = computed(() =>
   [
     'strand-form-field',
     props.error && 'strand-form-field--error',
+    !props.error && props.success && 'strand-form-field--success',
   ]
     .filter(Boolean)
     .join(' '),
 )
+
+const messageId = computed(() =>
+  props.error
+    ? `${props.htmlFor}-error`
+    : props.success
+      ? `${props.htmlFor}-success`
+      : props.hint
+        ? `${props.htmlFor}-hint`
+        : undefined,
+)
+
+// Hand the wrapped control the id of whichever message is showing.
+//
+// cloneVNode, Vue's own equivalent of the Preact build's cloneElement, so this
+// is part of the render rather than a DOM write racing the renderer. The
+// field's contract is ONE control, so anything else passes through untouched.
+// A caller's own aria-describedby is preserved and this id appended.
+const slots = useSlots()
+
+const describedControl = computed(() => {
+  const nodes = slots.default?.() ?? []
+  const msg = messageId.value
+  if (!msg || nodes.length !== 1) return nodes
+  const only = nodes[0]
+  const existing = (only.props as Record<string, unknown> | null)?.[
+    'aria-describedby'
+  ] as string | undefined
+  return [
+    cloneVNode(only, {
+      'aria-describedby': existing ? `${existing} ${msg}` : msg,
+    }),
+  ]
+})
 </script>
 
 <template>
@@ -54,8 +97,11 @@ const classes = computed(() =>
       </span>
     </label>
     <div class="strand-form-field__control">
-      <slot />
+      <component :is="() => describedControl" />
     </div>
+    <!-- ONE message slot, precedence error > success > hint. A field showing
+         "that name is taken" above "Available." argues with itself, so the
+         states are exclusive here rather than at each call site. -->
     <p
       v-if="error"
       class="strand-form-field__error"
@@ -63,6 +109,14 @@ const classes = computed(() =>
       role="alert"
     >
       {{ error }}
+    </p>
+    <p
+      v-else-if="success"
+      class="strand-form-field__success"
+      :id="`${htmlFor}-success`"
+      role="status"
+    >
+      {{ success }}
     </p>
     <p
       v-else-if="hint"

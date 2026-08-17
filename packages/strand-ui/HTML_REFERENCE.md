@@ -879,6 +879,7 @@ Label + input + hint + error wrapper for form composition.
 | `strand-form-field__error` | child | Error message (replaces hint in error state). |
 | `strand-form-field__required` | child | Required indicator asterisk. |
 | `strand-form-field--error` | modifier | Error state modifier. |
+| `strand-form-field__success` | child | |
 
 **Usage:**
 
