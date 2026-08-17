@@ -1142,6 +1142,52 @@
 	scroll-snap-align: start;
 }
 
+/* ── Scroll column ──
+   A panel that holds a long list at a bounded height and scrolls it
+   vertically. The sibling of `strand-scroll-row`, and the axis a consumer
+   could not previously reach.
+
+   THE BEHAVIOUR EXISTED FIVE TIMES AND NO CONSUMER COULD REACH ANY OF THEM.
+   `.strand-command-palette__list`, `.strand-detail-panel`,
+   `.strand-results-panel__items`, `.strand-sheet__body` and
+   `.strand-ref-shell__sidebar-scroll` each declare their own
+   `overflow-y: auto` with their own height. Every one is element-scoped to
+   the inside of a component, so a consumer composing a panel out of Card and
+   Stack has no way to say "this part scrolls" except a page-local rule, which
+   is exactly the override the purity gate forbids. Same shape as the sidebar
+   grid and the tablist row before them: the library decided, then scoped the
+   decision where nobody could use it.
+
+   THE SCROLLBAR IS VISIBLE, which is the one place this deliberately differs
+   from `strand-scroll-row`. That row hides it because a scrollbar under a
+   32px chip strip is most of the strip, and the chips are reachable by drag,
+   wheel and focus regardless. In a vertical list of rows the scrollbar is the
+   PRIMARY affordance saying more exists below the fold, and a list that hides
+   it reads as a list that ends.
+
+   `--strand-scroll-col-h` is the knob rather than a fixed height, because how
+   much of a list is worth showing is a property of the list. The default is a
+   little under half a small viewport, which shows enough rows to read as a
+   list while leaving the panel's own surroundings on screen.
+
+   THE REGION IS FOCUSABLE BY THE CONSUMER, not here: axe's
+   `scrollable-region-focusable` fails a scrollport a keyboard cannot reach,
+   and the fix is `tabindex="0"` plus an accessible name on the element. CSS
+   cannot supply either, so this documents the obligation rather than pretending
+   to meet it. */
+.strand-scroll-col {
+	overflow-y: auto;
+	/* Horizontal stays visible so a focus ring on a child is not clipped by
+	   the scrollport. `overflow-y: auto` alone would compute the other axis
+	   to `auto` as well and produce a phantom horizontal scrollbar. */
+	overflow-x: visible;
+	max-height: var(--strand-scroll-col-h, 22rem);
+	/* The panel owns its own overscroll, so reaching the end does not then
+	   start scrolling the page behind it. */
+	overscroll-behavior-y: contain;
+	-webkit-overflow-scrolling: touch;
+}
+
 /* ── Clip ──
    Clips children to the container's own rounded corners. The mechanical
    consequence of sanctioning rounded surfaces at all: a square-cornered

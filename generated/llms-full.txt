@@ -2970,6 +2970,12 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid__line--16` | |
 | `strand-hero-grid__line--17` | |
 | `strand-hero-grid__line--18` | |
+| `strand-command-palette__list` | |
+| `strand-detail-panel` | |
+| `strand-results-panel__items` | |
+| `strand-sheet__body` | |
+| `strand-ref-shell__sidebar-scroll` | |
+| `strand-scroll-col` | |
 | `strand-app-shell` | |
 | `strand-ref-shell__sidebar` | |
 | `strand-stretch-link-host` | |
@@ -5701,6 +5707,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- a field can confirm a checked value, and its messages reach the control (v0.59.0)
 - a consumer can tint an avatar without overriding the class (v0.58.0)
 - an off-ladder gap stops rendering as no gap at all (v0.57.0), gaps #122-#123
 - Breadcrumb renders as an instrument label (v0.56.1)

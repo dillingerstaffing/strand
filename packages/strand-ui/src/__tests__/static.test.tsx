@@ -382,3 +382,49 @@ describe("strand-tabbar-offset (dogfood gap #115)", () => {
     expect(occurrences).toHaveLength(1);
   });
 });
+
+describe("strand-scroll-col (vertical scroll region)", () => {
+  // The dynamic import matches every other block in this file: node builtins
+  // are pulled in per test rather than at module scope, because this suite also
+  // renders components in a browser-shaped environment.
+  const rule = async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const staticPath = path.resolve(__dirname, "../../dist/css/strand-ui.css");
+    const css = fs.readFileSync(staticPath, "utf-8");
+    return css.match(/\.strand-scroll-col\s*\{([^}]*)\}/)?.[1] ?? "";
+  };
+
+  it("bounds its height and scrolls the overflow", async () => {
+    // A consumer composing a panel out of Card and Stack previously had no way
+    // to say "this part scrolls": all five vertical scrollports in the library
+    // are element-scoped inside a component.
+    expect(await rule()).toContain("overflow-y: auto");
+    expect(await rule()).toContain("max-height");
+  });
+
+  it("takes its height from a knob rather than fixing one", async () => {
+    // How much of a list is worth showing is a property of the list.
+    expect(await rule()).toContain("--strand-scroll-col-h");
+  });
+
+  it("keeps the scrollbar, unlike the horizontal row", async () => {
+    // In a vertical list the scrollbar is the primary affordance saying more
+    // exists below the fold. `strand-scroll-row` hides its own because a
+    // scrollbar under a 32px chip strip is most of the strip; copying that
+    // here would make a long list read as a list that ends.
+    expect(await rule()).not.toContain("scrollbar-width: none");
+  });
+
+  it("does not clip a focus ring on the other axis", async () => {
+    // `overflow-y: auto` alone computes the other axis to auto too, which both
+    // clips the ring and produces a phantom horizontal scrollbar.
+    expect(await rule()).toContain("overflow-x: visible");
+  });
+
+  it("contains its own overscroll", async () => {
+    // Reaching the end must not then start scrolling the page behind it.
+    expect(await rule()).toContain("overscroll-behavior-y: contain");
+  });
+});
+

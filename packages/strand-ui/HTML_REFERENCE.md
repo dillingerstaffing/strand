@@ -2406,6 +2406,12 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-hero-grid__line--16` | |
 | `strand-hero-grid__line--17` | |
 | `strand-hero-grid__line--18` | |
+| `strand-command-palette__list` | |
+| `strand-detail-panel` | |
+| `strand-results-panel__items` | |
+| `strand-sheet__body` | |
+| `strand-ref-shell__sidebar-scroll` | |
+| `strand-scroll-col` | |
 | `strand-app-shell` | |
 | `strand-ref-shell__sidebar` | |
 | `strand-stretch-link-host` | |
