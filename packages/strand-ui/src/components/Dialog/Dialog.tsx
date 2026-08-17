@@ -2,7 +2,7 @@
 
 import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
-import { useEffect, useRef, useCallback } from "preact/hooks";
+import { useEffect, useLayoutEffect, useRef, useCallback } from "preact/hooks";
 
 export interface DialogProps
   extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "title" | "open"> {
@@ -156,7 +156,28 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
     //   3. overflow: hidden on the BODY only. With the root's overflow left
     //      visible, body overflow propagates to the viewport, so this alone
     //      stops page scroll; the root's styles are never touched.
-    useEffect(() => {
+    //
+    // A LAYOUT EFFECT, NOT AN EFFECT, and the difference is visible.
+    //
+    // `useEffect` runs AFTER paint, so the panel's first painted frame is
+    // composed against a viewport that still has the scrollbar in it. The lock
+    // then removes the scrollbar, the viewport widens by the gap, and a
+    // centred panel re-centres by half that on the very next frame. Measured
+    // in a consumer, classic 8px scrollbar: the panel painted at left 396 and
+    // jumped to 400, one frame later, with no frames in between.
+    //
+    // The defect hid behind open animations. A panel that animates its width
+    // in absorbs the 4px into motion already on screen, so the same jump was
+    // invisible on one dialog and obvious on the small fixed-size one beside
+    // it, which reads as a difference between the two dialogs rather than as
+    // the shared bug it is.
+    //
+    // Running before paint makes the viewport width final BEFORE the panel is
+    // first composed, so there is no reposition to see, animated or not. It is
+    // also the correct tier for this work generally: every write here is a
+    // synchronous style mutation that layout depends on, which is precisely
+    // what the layout phase is for.
+    useLayoutEffect(() => {
       if (!open) return;
 
       const root = document.documentElement;
