@@ -24,11 +24,11 @@ describe('Spinner', () => {
     expect(ring?.getAttribute('aria-hidden')).toBe('true')
   })
 
-  it('renders sr-only loading text', () => {
+  it('reads Loading, or the given label, through the shared visually hidden utility', () => {
     const { container } = render(Spinner)
-    const srOnly = container.querySelector('.strand-spinner__sr-only')
-    expect(srOnly).toBeTruthy()
-    expect(srOnly?.textContent).toBe('Loading')
+    expect(container.querySelector('.strand-sr-only')?.textContent).toBe('Loading')
+    const named = render(Spinner, { props: { label: 'Loading events' } })
+    expect(named.container.querySelector('.strand-sr-only')?.textContent).toBe('Loading events')
   })
 
   // ── Sizes ──

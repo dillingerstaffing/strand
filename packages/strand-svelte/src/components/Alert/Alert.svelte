@@ -14,43 +14,33 @@
   ```
 -->
 <script lang="ts">
-  /** Visual status of the alert */
+  /** Severity; error and warning announce assertively. */
   export let status: 'info' | 'success' | 'warning' | 'error' = 'info'
-  /** Show dismiss button */
+  /** Show the dismiss control. */
   export let dismissible: boolean = false
-  /** Called when dismiss button is clicked */
+  /** Called when the dismiss control is pressed. */
   export let ondismiss: (() => void) | undefined = undefined
+  /** Accessible name of the dismiss control. */
+  export let dismissLabel: string = 'Dismiss'
+  /** Heading set above the message; the `title` slot takes markup. */
+  export let title: string | undefined = undefined
 
   $: role = status === 'error' || status === 'warning' ? 'alert' : 'status'
-
-  $: classes = [
-    'strand-alert',
-    `strand-alert--${status}`,
-  ].filter(Boolean).join(' ')
-
-  const statusLabels: Record<string, string> = {
-    info: 'INFO',
-    success: 'COMPLETE',
-    warning: 'WARNING',
-    error: 'ERROR',
-  }
-
-  $: statusLabel = statusLabels[status] ?? status.toUpperCase()
+  $: statusLabel = status === 'success' ? 'COMPLETE' : status.toUpperCase()
 </script>
 
-<div class={classes} {role} {...$$restProps}>
+<div class={`strand-alert strand-alert--${status}`} {role} {...$$restProps}>
   <span class="strand-alert__status">{statusLabel}</span>
   <div class="strand-alert__content">
+    {#if title || $$slots.title}
+      <div class="strand-alert__title"><slot name="title">{title}</slot></div>
+    {/if}
     <slot />
   </div>
+  {#if $$slots.action}
+    <div class="strand-alert__action"><slot name="action" /></div>
+  {/if}
   {#if dismissible}
-    <button
-      type="button"
-      class="strand-alert__dismiss"
-      aria-label="Dismiss"
-      on:click={() => ondismiss?.()}
-    >
-      &#215;
-    </button>
+    <button type="button" class="strand-alert__dismiss" aria-label={dismissLabel} on:click={() => ondismiss?.()}>&#215;</button>
   {/if}
 </div>

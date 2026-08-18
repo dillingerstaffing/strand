@@ -78,6 +78,40 @@ describe("ChipSet", () => {
   // A filter strip above a dense list is drawn smaller than one that is the
   // page's main control. Before `size`, a consumer wanting that had to override
   // `.strand-chip-set__chip`, which the dogfood protocol forbids.
+
+  it("in single-select, keeps only the selected chip (or the first) in the tab order and moves the selection with the arrows", () => {
+    const onSelectionChange = vi.fn();
+    const { getAllByRole } = render(<ChipSet label="Filter" mode="single" items={ITEMS} selected={["making"]} onSelectionChange={onSelectionChange} />);
+    const chips = getAllByRole("radio");
+    expect(chips.map((c) => c.tabIndex)).toEqual([-1, 0, -1]);
+    fireEvent.keyDown(chips[1], { key: "ArrowRight" });
+    expect(onSelectionChange).toHaveBeenLastCalledWith(["games"]);
+    expect(document.activeElement).toBe(chips[2]);
+    fireEvent.keyDown(chips[1], { key: "ArrowLeft" });
+    expect(onSelectionChange).toHaveBeenLastCalledWith(["outdoors"]);
+    fireEvent.keyDown(chips[1], { key: "End" });
+    expect(onSelectionChange).toHaveBeenLastCalledWith(["games"]);
+    fireEvent.keyDown(chips[1], { key: "Home" });
+    expect(onSelectionChange).toHaveBeenLastCalledWith(["outdoors"]);
+  });
+
+  it("in single-select, the arrows wrap around and nothing selected starts from the first chip", () => {
+    const onSelectionChange = vi.fn();
+    const { getAllByRole } = render(<ChipSet label="Filter" mode="single" items={ITEMS} onSelectionChange={onSelectionChange} />);
+    const chips = getAllByRole("radio");
+    expect(chips.map((c) => c.tabIndex)).toEqual([0, -1, -1]);
+    fireEvent.keyDown(chips[0], { key: "ArrowLeft" });
+    expect(onSelectionChange).toHaveBeenLastCalledWith(["games"]);
+  });
+
+  it("in multi-select, every chip stays in the tab order and the arrows do nothing", () => {
+    const onSelectionChange = vi.fn();
+    const { getAllByRole } = render(<ChipSet label="Interests" items={ITEMS} onSelectionChange={onSelectionChange} />);
+    const chips = getAllByRole("button");
+    expect(chips.map((c) => c.tabIndex)).toEqual([0, 0, 0]);
+    fireEvent.keyDown(chips[0], { key: "ArrowRight" });
+    expect(onSelectionChange).not.toHaveBeenCalled();
+  });
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";

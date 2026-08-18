@@ -31,7 +31,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       <input
         ref={ref}
         type="radio"
-        className="strand-radio__native"
+        className="strand-radio__native strand-sr-only"
         checked={checked}
         defaultChecked={defaultChecked}
         disabled={disabled}

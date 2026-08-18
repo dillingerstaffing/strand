@@ -29,10 +29,10 @@ describe('Spinner', () => {
     expect(ring).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('has screen reader text', () => {
+  it('reads Loading, or the given label, through the shared visually hidden utility', () => {
     const { container } = render(Spinner)
-    const srOnly = container.querySelector('.strand-spinner__sr-only')
-    expect(srOnly).toBeInTheDocument()
-    expect(srOnly).toHaveTextContent('Loading')
+    expect(container.querySelector('.strand-sr-only')).toHaveTextContent('Loading')
+    const named = render(Spinner, { props: { label: 'Loading events' } })
+    expect(named.container.querySelector('.strand-sr-only')).toHaveTextContent('Loading events')
   })
 })

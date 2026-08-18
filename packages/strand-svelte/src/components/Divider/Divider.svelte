@@ -12,37 +12,31 @@
   ```
 -->
 <script lang="ts">
-  /** Separator direction */
+  /** Separator direction. */
   export let direction: 'horizontal' | 'vertical' = 'horizontal'
-  /** Optional label text displayed in the middle of the line */
+  /** `gradient` fades the line out at both ends. */
+  export let variant: 'line' | 'gradient' = 'line'
+  /** Text set into the middle of a horizontal line; the default slot takes markup. */
   export let label: string | undefined = undefined
 
   $: isVertical = direction === 'vertical'
+  $: isLabeled = !isVertical && (!!label || !!$$slots.default)
+  $: classes = [
+    'strand-divider',
+    `strand-divider--${direction}`,
+    variant === 'gradient' && 'strand-divider--gradient',
+    isLabeled && 'strand-divider--labeled',
+  ].filter(Boolean).join(' ')
 </script>
 
 {#if isVertical}
-  <div
-    role="separator"
-    aria-orientation="vertical"
-    class={['strand-divider', 'strand-divider--vertical'].join(' ')}
-    {...$$restProps}
-  ></div>
-{:else if label}
-  <div
-    role="separator"
-    aria-orientation="horizontal"
-    class={['strand-divider', 'strand-divider--horizontal', 'strand-divider--labeled'].join(' ')}
-    {...$$restProps}
-  >
+  <div role="separator" aria-orientation="vertical" class={classes} {...$$restProps}></div>
+{:else if isLabeled}
+  <div role="separator" aria-orientation="horizontal" class={classes} {...$$restProps}>
     <span class="strand-divider__line"></span>
-    <span class="strand-divider__label">{label}</span>
+    <span class="strand-divider__label"><slot>{label}</slot></span>
     <span class="strand-divider__line"></span>
   </div>
 {:else}
-  <hr
-    role="separator"
-    aria-orientation="horizontal"
-    class={['strand-divider', 'strand-divider--horizontal'].join(' ')}
-    {...$$restProps}
-  />
+  <hr class={classes} {...$$restProps} />
 {/if}

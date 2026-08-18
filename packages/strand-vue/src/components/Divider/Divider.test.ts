@@ -15,14 +15,22 @@ describe('Divider', () => {
     expect(container.firstElementChild?.className).toContain('strand-divider--horizontal')
   })
 
-  it('has separator role', () => {
-    const { container } = render(Divider)
-    expect(container.firstElementChild?.getAttribute('role')).toBe('separator')
+  it('is a plain hr by default, which is a separator on its own, and takes any attribute', () => {
+    const { container } = render(Divider, { attrs: { 'data-testid': 'd' } })
+    const hr = container.firstElementChild as HTMLElement
+    expect(hr.tagName).toBe('HR')
+    expect(hr.getAttribute('data-testid')).toBe('d')
   })
 
-  it('has horizontal aria-orientation by default', () => {
-    const { container } = render(Divider)
-    expect(container.firstElementChild?.getAttribute('aria-orientation')).toBe('horizontal')
+  it('fades out at both ends as the gradient variant', () => {
+    const { container } = render(Divider, { props: { variant: 'gradient' } })
+    expect(container.firstElementChild).toHaveClass('strand-divider--gradient')
+  })
+
+  it('takes markup for the label through the default slot', () => {
+    const { container } = render(Divider, { slots: { default: '<em>or</em>' } })
+    expect(container.querySelector('.strand-divider__label em')).toHaveTextContent('or')
+    expect(container.firstElementChild).toHaveAttribute('aria-orientation', 'horizontal')
   })
 
   // ── Vertical ──

@@ -89,4 +89,10 @@ describe('Alert', () => {
     expect(status).toBeInTheDocument()
     expect(status).toHaveTextContent('ERROR')
   })
+
+  it('sets a title above the message and names the dismiss control from dismissLabel', () => {
+    const { getByRole, getByText } = render(Alert, { props: { title: 'Draft saved', dismissible: true, dismissLabel: 'Close notice' } })
+    expect(getByText('Draft saved')).toHaveClass('strand-alert__title')
+    expect(getByRole('button', { name: 'Close notice' })).toBeInTheDocument()
+  })
 })

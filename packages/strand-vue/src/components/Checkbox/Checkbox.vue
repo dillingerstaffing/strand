@@ -64,7 +64,7 @@ function onChange(event: Event) {
 
 <template>
   <label :class="['strand-checkbox', density === 'compact' && 'strand-checkbox--compact'].filter(Boolean).join(' ')">
-    <input ref="input" type="checkbox" class="strand-checkbox__native" v-bind="state" :disabled="disabled" @change="onChange" />
+    <input ref="input" type="checkbox" class="strand-checkbox__native strand-sr-only" v-bind="state" :disabled="disabled" @change="onChange" />
     <span class="strand-checkbox__control" aria-hidden="true">
       <svg class="strand-checkbox__icon strand-checkbox__icon--check" viewBox="0 0 16 16" fill="none">
         <path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

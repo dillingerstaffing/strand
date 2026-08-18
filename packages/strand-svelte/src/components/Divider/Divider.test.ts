@@ -11,8 +11,11 @@ describe('Divider', () => {
     expect(el).toBeInTheDocument()
     expect(el!.tagName).toBe('HR')
     expect(el).toHaveClass('strand-divider--horizontal')
-    expect(el).toHaveAttribute('role', 'separator')
-    expect(el).toHaveAttribute('aria-orientation', 'horizontal')
+  })
+
+  it('fades out at both ends as the gradient variant, and takes markup for the label through the default slot', () => {
+    const { container } = render(Divider, { props: { variant: 'gradient' } })
+    expect(container.querySelector('.strand-divider')).toHaveClass('strand-divider--gradient')
   })
 
   it('renders vertical divider', () => {

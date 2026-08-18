@@ -15,22 +15,6 @@
   color: var(--strand-alert-color, inherit);
 }
 
-.strand-alert--info {
-  background: var(--strand-alert-bg, var(--strand-surface-recessed));
-}
-
-.strand-alert--success {
-  background: var(--strand-alert-bg, var(--strand-surface-recessed));
-}
-
-.strand-alert--warning {
-  background: var(--strand-alert-bg, var(--strand-surface-recessed));
-}
-
-.strand-alert--error {
-  background: var(--strand-alert-bg, var(--strand-surface-recessed));
-}
-
 .strand-alert--stack {
   flex-direction: column;
   align-items: stretch;
@@ -68,6 +52,16 @@
 .strand-alert__content {
   flex: 1;
   min-width: 0;
+}
+
+.strand-alert__title {
+  font-weight: var(--strand-weight-semibold);
+  margin-bottom: var(--strand-space-1);
+}
+
+.strand-alert__action {
+  flex-shrink: 0;
+  margin-left: var(--strand-space-3);
 }
 
 /* ── Dismiss button ── */

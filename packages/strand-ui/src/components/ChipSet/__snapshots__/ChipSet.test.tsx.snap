@@ -4,7 +4,7 @@ exports[`renders > empty 1`] = `"<div aria-label="None" class="strand-chip-set" 
 
 exports[`renders > multi wrap 1`] = `"<div aria-label="Interests" class="strand-chip-set" role="group"><button aria-pressed="true" class="strand-chip-set__chip" type="button">Trails</button><button aria-pressed="false" class="strand-chip-set__chip" type="button">Chess</button></div>"`;
 
-exports[`renders > single scroll sm 1`] = `"<div aria-label="Filter" class="strand-chip-set strand-chip-set--scroll strand-chip-set--sm strand-scroll-row" role="radiogroup"><button aria-checked="true" class="strand-chip-set__chip" role="radio" type="button">All</button><button aria-checked="false" class="strand-chip-set__chip" role="radio" type="button">Mine</button></div>"`;
+exports[`renders > single scroll sm 1`] = `"<div aria-label="Filter" class="strand-chip-set strand-chip-set--scroll strand-chip-set--sm strand-scroll-row" role="radiogroup"><button aria-checked="true" class="strand-chip-set__chip" role="radio" tabindex="0" type="button">All</button><button aria-checked="false" class="strand-chip-set__chip" role="radio" tabindex="-1" type="button">Mine</button></div>"`;
 
 exports[`stylesheet > renders these rules 1`] = `
 ".strand-chip-set { display: flex; flex-wrap: wrap; gap: var(--strand-space-2) }

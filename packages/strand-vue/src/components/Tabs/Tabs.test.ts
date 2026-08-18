@@ -83,10 +83,38 @@ describe('Tabs', () => {
     expect(getByText('Content Three').closest('[role="tabpanel"]')).toHaveAttribute('hidden')
   })
 
-  it('tabpanel has aria-labelledby pointing to its tab', () => {
-    const { getAllByRole } = renderTabs()
-    const panels = getAllByRole('tabpanel', { hidden: true })
-    expect(panels[0]).toHaveAttribute('aria-labelledby', 'tab-one')
+  it('wires each panel to its tab with ids that do not collide across two sets', () => {
+    const { container } = render(
+      { components: { Tabs }, template: '<div><Tabs :tabs="tabs" active-tab="one" /><Tabs :tabs="tabs" active-tab="one" /></div>', data: () => ({ tabs: sampleTabs }) },
+    )
+    const tabs = Array.from(container.querySelectorAll('[role="tab"]'))
+    expect(new Set(tabs.map((t) => t.id)).size).toBe(tabs.length)
+    for (const tab of tabs) {
+      const panel = container.querySelector(`#${CSS.escape(tab.getAttribute('aria-controls') as string)}`)
+      expect(panel?.getAttribute('aria-labelledby')).toBe(tab.id)
+    }
+  })
+
+  it('owns the selection when uncontrolled and emits update:activeTab for v-model', async () => {
+    const { getAllByRole, emitted } = render(Tabs, { props: { tabs: sampleTabs, defaultActiveTab: 'two' } })
+    const tabs = getAllByRole('tab')
+    expect(tabs[1]).toHaveAttribute('aria-selected', 'true')
+    await fireEvent.click(tabs[0])
+    expect(tabs[0]).toHaveAttribute('aria-selected', 'true')
+    expect(emitted('update:activeTab')?.[0]).toEqual(['one'])
+  })
+
+  it('with manual activation the arrows move focus only', async () => {
+    const { getAllByRole, emitted } = render(Tabs, { props: { tabs: sampleTabs, activeTab: 'one', activation: 'manual' } })
+    const tabs = getAllByRole('tab')
+    await fireEvent.keyDown(tabs[0], { key: 'ArrowRight' })
+    expect(document.activeElement).toBe(tabs[1])
+    expect(emitted('change')).toBeUndefined()
+  })
+
+  it('the instrument variant is a class on the root', () => {
+    const { container } = render(Tabs, { props: { tabs: sampleTabs, variant: 'instrument' } })
+    expect(container.querySelector('.strand-tabs.strand-tabs--instrument')).toBeTruthy()
   })
 
   // -- Keyboard navigation --
@@ -129,10 +157,4 @@ describe('Tabs', () => {
 
   // -- Tab aria-controls --
 
-  it('tab has aria-controls pointing to panel', () => {
-    const { getAllByRole } = renderTabs()
-    const tabs = getAllByRole('tab')
-    expect(tabs[0]).toHaveAttribute('aria-controls', 'panel-one')
-    expect(tabs[1]).toHaveAttribute('aria-controls', 'panel-two')
-  })
 })

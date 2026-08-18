@@ -43,7 +43,7 @@
   color: var(--strand-tabs-tab-pressed-color, var(--strand-gray-700));
 }
 
-.strand-tabs__tab--active {
+.strand-tabs__tab[aria-selected="true"] {
   color: var(--strand-tabs-tab-active-color, var(--strand-blue-deep));
   border-bottom-color: var(--strand-tabs-tab-active-border-color, var(--strand-blue-primary));
 }
@@ -64,7 +64,7 @@
   padding: var(--strand-space-3) var(--strand-space-6);
 }
 
-.strand-tabs--instrument .strand-tabs__tab--active {
+.strand-tabs--instrument .strand-tabs__tab[aria-selected="true"] {
   color: var(--strand-tabs-tab-active-color, var(--strand-blue-midnight));
   border-bottom-color: var(--strand-tabs-tab-active-border-color, var(--strand-blue-primary));
 }

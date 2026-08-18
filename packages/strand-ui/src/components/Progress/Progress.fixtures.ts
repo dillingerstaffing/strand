@@ -6,4 +6,5 @@ export const fixtures: Fixture[] = [
   { name: "ring determinate lg", props: { variant: "ring", value: 62, size: "lg" } },
   { name: "ring indeterminate", props: { variant: "ring" } },
   { name: "ring sm", props: { variant: "ring", value: 10, size: "sm" } },
+  { name: "named with value text", props: { value: 30, label: "Upload", valueText: "3 of 10 files" } },
 ];

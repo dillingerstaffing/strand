@@ -4,11 +4,15 @@ import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
 import { cx } from "../../internal/index.js";
 
-export interface ProgressProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "size"> {
+export interface ProgressProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "size" | "label"> {
   variant?: "bar" | "ring";
   /** Percent complete, 0 to 100; omit for indeterminate. */
   value?: number;
   size?: "sm" | "md" | "lg";
+  /** Accessible name: what is progressing. */
+  label?: string;
+  /** Read in place of the percentage, such as "3 of 10 steps". */
+  valueText?: string;
 }
 
 const RING_SIZES: Record<string, number> = { sm: 24, md: 40, lg: 56 };
@@ -20,11 +24,17 @@ const RING_STROKE = 3;
  * @example
  * <Progress variant="ring" value={65} size="lg" />
  */
-export const Progress = forwardRef<HTMLDivElement, ProgressProps>(({ variant = "bar", value, size = "md", className = "", ...rest }, ref) => {
+export const Progress = forwardRef<HTMLDivElement, ProgressProps>(({ variant = "bar", value, size = "md", label, valueText, className = "", ...rest }, ref) => {
   const isDeterminate = value != null;
   const classes = cx("strand-progress", `strand-progress--${variant}`, `strand-progress--${size}`, !isDeterminate && "strand-progress--indeterminate", className);
-  const aria: Record<string, string | number | undefined> = { role: "progressbar", "aria-valuemin": 0, "aria-valuemax": 100 };
-  if (isDeterminate) aria["aria-valuenow"] = value;
+  const aria: Record<string, string | number | undefined> = {
+    role: "progressbar",
+    "aria-valuemin": 0,
+    "aria-valuemax": 100,
+    "aria-valuenow": isDeterminate ? value : undefined,
+    "aria-valuetext": valueText,
+    "aria-label": label,
+  };
   if (variant === "ring") {
     const dim = RING_SIZES[size] ?? RING_SIZES.md;
     const radius = (dim - RING_STROKE) / 2;

@@ -122,7 +122,7 @@ describe("Vanilla Runtime: Tabs enhancement", () => {
 		document.body.innerHTML = `
 			<div class="strand-tabs">
 				<div role="tablist">
-					<button role="tab" id="tab-a" aria-selected="true" aria-controls="panel-a" class="strand-tabs__tab strand-tabs__tab--active" tabindex="0">Tab A</button>
+					<button role="tab" id="tab-a" aria-selected="true" aria-controls="panel-a" class="strand-tabs__tab" tabindex="0">Tab A</button>
 					<button role="tab" id="tab-b" aria-selected="false" aria-controls="panel-b" class="strand-tabs__tab" tabindex="-1">Tab B</button>
 					<button role="tab" id="tab-c" aria-selected="false" aria-controls="panel-c" class="strand-tabs__tab" tabindex="-1">Tab C</button>
 				</div>
@@ -148,7 +148,6 @@ describe("Vanilla Runtime: Tabs enhancement", () => {
 			for (const t of tabs) {
 				const isActive = t === tab;
 				t.setAttribute("aria-selected", String(isActive));
-				t.classList.toggle("strand-tabs__tab--active", isActive);
 				t.tabIndex = isActive ? 0 : -1;
 				const pId = t.getAttribute("aria-controls");
 				if (pId) {
@@ -167,7 +166,6 @@ describe("Vanilla Runtime: Tabs enhancement", () => {
 
 		expect(tabs[0].getAttribute("aria-selected")).toBe("false");
 		expect(tabs[1].getAttribute("aria-selected")).toBe("true");
-		expect(tabs[1].classList.contains("strand-tabs__tab--active")).toBe(true);
 		expect(panels[0].hidden).toBe(true);
 		expect(panels[1].hidden).toBe(false);
 	});

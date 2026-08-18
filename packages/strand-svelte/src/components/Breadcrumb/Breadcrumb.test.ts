@@ -1,7 +1,7 @@
 /*! Strand Svelte | MIT License | dillingerstaffing.com */
 
-import { describe, it, expect } from 'vitest'
-import { render } from '@testing-library/svelte'
+import { describe, it, expect, vi } from 'vitest'
+import { render, fireEvent } from '@testing-library/svelte'
 import Breadcrumb from './Breadcrumb.svelte'
 
 const testItems = [
@@ -62,5 +62,13 @@ describe('Breadcrumb', () => {
     const firstItem = container.querySelector('.strand-breadcrumb__item')!
     const sep = firstItem.querySelector('.strand-breadcrumb__separator')
     expect(sep).not.toBeInTheDocument()
+  })
+
+  it('names the landmark from label and renders an item without an href as a button that calls onClick', async () => {
+    const onClick = vi.fn()
+    const { getByRole } = render(Breadcrumb, { props: { label: 'You are here', items: [{ label: 'Back', onClick }, { label: 'Here' }] } })
+    expect(getByRole('navigation', { name: 'You are here' })).toBeInTheDocument()
+    await fireEvent.click(getByRole('button', { name: 'Back' }))
+    expect(onClick).toHaveBeenCalledTimes(1)
   })
 })

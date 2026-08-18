@@ -1,6 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > horizontal 1`] = `"<hr aria-orientation="horizontal" class="strand-divider strand-divider--horizontal" role="separator">"`;
+exports[`renders > gradient 1`] = `"<hr class="strand-divider strand-divider--horizontal strand-divider--gradient">"`;
+
+exports[`renders > horizontal 1`] = `"<hr class="strand-divider strand-divider--horizontal">"`;
 
 exports[`renders > labeled 1`] = `"<div aria-orientation="horizontal" class="strand-divider strand-divider--horizontal strand-divider--labeled" role="separator"><span class="strand-divider__line"></span><span class="strand-divider__label">OR</span><span class="strand-divider__line"></span></div>"`;
 

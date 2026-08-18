@@ -15,6 +15,11 @@ describe("Tag", () => {
     fireEvent.click(getByRole("button", { name: "Remove" }));
     expect(onRemove).toHaveBeenCalledTimes(1);
   });
+
+  it("names the remove control from removeLabel", () => {
+    const { getByRole } = render(<Tag removable removeLabel="Remove Active">Active</Tag>);
+    expect(getByRole("button", { name: "Remove Active" })).toBeTruthy();
+  });
 });
 
 snapshotStylesheet(resolve(__dirname, "./Tag.css"));

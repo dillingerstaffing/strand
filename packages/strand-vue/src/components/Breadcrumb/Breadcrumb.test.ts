@@ -1,7 +1,7 @@
 /*! Strand Vue | MIT License | dillingerstaffing.com */
 
-import { describe, it, expect } from 'vitest'
-import { render } from '@testing-library/vue'
+import { describe, it, expect, vi } from 'vitest'
+import { render, fireEvent } from '@testing-library/vue'
 import Breadcrumb from './Breadcrumb.vue'
 
 const defaultItems = [
@@ -115,5 +115,17 @@ describe('Breadcrumb', () => {
     expect(current).toHaveTextContent('About')
     const separators = container.querySelectorAll('.strand-breadcrumb__separator')
     expect(separators).toHaveLength(1)
+  })
+
+  it('names the landmark from label, renders an item without an href as a button that calls onClick, and takes a separator slot', async () => {
+    const onClick = vi.fn()
+    const { getByRole, container } = render(Breadcrumb, {
+      props: { label: 'You are here', items: [{ label: 'Back', onClick }, { label: 'Here' }] },
+      slots: { separator: '<span data-sep></span>' },
+    })
+    expect(getByRole('navigation', { name: 'You are here' })).toBeTruthy()
+    await fireEvent.click(getByRole('button', { name: 'Back' }))
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(container.querySelector('.strand-breadcrumb__separator[aria-hidden="true"] [data-sep]')).toBeTruthy()
   })
 })

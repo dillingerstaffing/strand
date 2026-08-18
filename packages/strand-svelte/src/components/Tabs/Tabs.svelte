@@ -19,88 +19,74 @@
   </Tabs>
   ```
 -->
-<script lang="ts">
+<script lang="ts" context="module">
   export interface TabItem {
     id: string
     label: string
   }
+  let counter = 0
+</script>
 
-  /** Tab definitions */
+<script lang="ts">
   export let tabs: TabItem[] = []
-  /** Currently active tab id (controlled) */
-  export let activeTab: string
-  /** Called when active tab changes */
+  /** Active tab id; leave undefined to let the tabs own it. */
+  export let activeTab: string | undefined = undefined
+  /** Initial tab of uncontrolled tabs; the first tab by default. */
+  export let defaultActiveTab: string | undefined = undefined
   export let onchange: ((id: string) => void) | undefined = undefined
+  /** `automatic` selects as the arrows move focus; `manual` moves focus only and selects on Enter or Space. */
+  export let activation: 'automatic' | 'manual' = 'automatic'
+  /** `instrument` renders the strip as a mono uppercase readout. */
+  export let variant: 'default' | 'instrument' = 'default'
 
-  let tablistEl: HTMLDivElement
+  const base = `strand-tabs-${++counter}`
+  let buttons: HTMLButtonElement[] = []
+  let ownActive: string | undefined = defaultActiveTab ?? tabs[0]?.id
+  $: active = activeTab ?? ownActive
+  $: classes = ['strand-tabs', variant !== 'default' && `strand-tabs--${variant}`].filter(Boolean).join(' ')
 
-  function handleTabClick(id: string) {
+  function select(id: string) {
+    if (activeTab === undefined) ownActive = id
     onchange?.(id)
   }
-
-  function focusAndSelect(index: number) {
-    const tab = tabs[index]
-    if (tab) {
-      onchange?.(tab.id)
-      const buttons = tablistEl?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
-      buttons?.[index]?.focus()
-    }
-  }
-
   function handleKeyDown(e: KeyboardEvent) {
-    const currentIndex = tabs.findIndex((t) => t.id === activeTab)
-    let nextIndex: number | null = null
-
-    switch (e.key) {
-      case 'ArrowRight':
-        nextIndex = (currentIndex + 1) % tabs.length
-        break
-      case 'ArrowLeft':
-        nextIndex = (currentIndex - 1 + tabs.length) % tabs.length
-        break
-      case 'Home':
-        nextIndex = 0
-        break
-      case 'End':
-        nextIndex = tabs.length - 1
-        break
-      default:
-        return
-    }
-
+    const focused = buttons.findIndex((b) => b === e.target)
+    const current = focused >= 0 ? focused : tabs.findIndex((t) => t.id === active)
+    const n = tabs.length
+    const next: Record<string, number> = { ArrowRight: (current + 1) % n, ArrowLeft: (current - 1 + n) % n, Home: 0, End: n - 1 }
+    if (!(e.key in next)) return
     e.preventDefault()
-    focusAndSelect(nextIndex)
+    const index = next[e.key]
+    const tab = tabs[index]
+    if (!tab) return
+    if (activation === 'automatic') select(tab.id)
+    buttons[index]?.focus()
   }
 </script>
 
-<div class="strand-tabs" {...$$restProps}>
-  <div bind:this={tablistEl} role="tablist" on:keydown={handleKeyDown}>
-    {#each tabs as tab (tab.id)}
-      {@const isActive = tab.id === activeTab}
+<div class={classes} {...$$restProps}>
+  <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+  <div role="tablist" on:keydown={handleKeyDown}>
+    {#each tabs as tab, index (tab.id)}
+      {@const isActive = tab.id === active}
       <button
-        id={`tab-${tab.id}`}
+        bind:this={buttons[index]}
+        id={`${base}-tab-${tab.id}`}
         role="tab"
         type="button"
-        class={['strand-tabs__tab', isActive && 'strand-tabs__tab--active'].filter(Boolean).join(' ')}
+        class="strand-tabs__tab"
         aria-selected={isActive ? 'true' : 'false'}
-        aria-controls={`panel-${tab.id}`}
+        aria-controls={`${base}-panel-${tab.id}`}
         tabindex={isActive ? 0 : -1}
-        on:click={() => handleTabClick(tab.id)}
+        on:click={() => select(tab.id)}
       >
         {tab.label}
       </button>
     {/each}
   </div>
-
   {#each tabs as tab (tab.id)}
-    {@const isActive = tab.id === activeTab}
-    <div
-      id={`panel-${tab.id}`}
-      role="tabpanel"
-      aria-labelledby={`tab-${tab.id}`}
-      hidden={!isActive}
-      tabindex={0}
-    >
+    {@const isActive = tab.id === active}
+    <div id={`${base}-panel-${tab.id}`} role="tabpanel" aria-labelledby={`${base}-tab-${tab.id}`} hidden={!isActive} tabindex={0}>
       {#if isActive}
         <slot {tab} {isActive} />
       {/if}

@@ -60,7 +60,7 @@ function onChange(event: Event) {
 
 <template>
   <label :class="['strand-radio', density === 'compact' && 'strand-radio--compact'].filter(Boolean).join(' ')">
-    <input type="radio" class="strand-radio__native" v-bind="state" :disabled="disabled" :name="name" :value="value" @change="onChange" />
+    <input type="radio" class="strand-radio__native strand-sr-only" v-bind="state" :disabled="disabled" :name="name" :value="value" @change="onChange" />
     <span class="strand-radio__control" aria-hidden="true">
       <span class="strand-radio__dot" />
     </span>

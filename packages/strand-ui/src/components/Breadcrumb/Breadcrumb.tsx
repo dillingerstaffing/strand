@@ -1,21 +1,25 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-import type { JSX } from "preact";
+import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
 import { cx } from "../../internal/index.js";
 
 export interface BreadcrumbItem {
   label: string;
   href?: string;
+  /** Called when the item is activated; without an href the item renders as a button. */
+  onClick?: (e: MouseEvent) => void;
 }
 
-export interface BreadcrumbProps extends Omit<JSX.HTMLAttributes<HTMLElement>, "children"> {
+export interface BreadcrumbProps extends Omit<JSX.HTMLAttributes<HTMLElement>, "children" | "label"> {
   /** The path; the last item is the current page. */
   items: BreadcrumbItem[];
   /** Separator between items. */
-  separator?: string;
+  separator?: ComponentChildren;
   /** `instrument` renders the trail as a mono uppercase readout. */
   variant?: "default" | "instrument";
+  /** Accessible name of the navigation landmark. */
+  label?: string;
 }
 
 /**
@@ -25,13 +29,8 @@ export interface BreadcrumbProps extends Omit<JSX.HTMLAttributes<HTMLElement>, "
  * <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Profile" }]} />
  */
 export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
-  ({ items, separator = "/", variant = "default", className = "", ...rest }, ref) => (
-    <nav
-      ref={ref}
-      aria-label="Breadcrumb"
-      className={cx("strand-breadcrumb", variant !== "default" && `strand-breadcrumb--${variant}`, className)}
-      {...rest}
-    >
+  ({ items, separator = "/", variant = "default", label = "Breadcrumb", className = "", ...rest }, ref) => (
+    <nav ref={ref} aria-label={label} className={cx("strand-breadcrumb", variant !== "default" && `strand-breadcrumb--${variant}`, className)} {...rest}>
       <ol className="strand-breadcrumb__list">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
@@ -46,10 +45,14 @@ export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
                 <span className="strand-breadcrumb__current" aria-current="page">
                   {item.label}
                 </span>
-              ) : (
-                <a href={item.href} className="strand-breadcrumb__link">
+              ) : item.href ? (
+                <a href={item.href} className="strand-breadcrumb__link" onClick={item.onClick}>
                   {item.label}
                 </a>
+              ) : (
+                <button type="button" className="strand-breadcrumb__link" onClick={item.onClick}>
+                  {item.label}
+                </button>
               )}
             </li>
           );

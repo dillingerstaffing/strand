@@ -35,7 +35,7 @@ Strand and Bootstrap coexist without conflicts. All Strand classes are prefixed 
 | `nav-link` | `strand-nav__link` | Active state: `strand-nav__link--active` |
 | `navbar-toggler` | `strand-nav__hamburger` | Auto-shown below 768px. Omit it (or pass `mobileMenu={false}`) when the surface already carries its destinations in a persistent region: a bottom bar plus a hamburger is two answers to one question (DL 19.1.1). |
 | `navbar-collapse` | `strand-nav__mobile-menu` | Mobile links use `strand-nav__mobile-link` |
-| `nav-tabs` / `nav-link` | `strand-tabs` + `strand-tabs__tab` | Active: `strand-tabs__tab--active`. Uses `role="tablist"` / `role="tabpanel"` for accessibility |
+| `nav-tabs` / `nav-link` | `strand-tabs` + `strand-tabs__tab` | Active: `aria-selected="true"`. Uses `role="tablist"` / `role="tabpanel"` for accessibility |
 | `badge bg-primary` | `strand-tag strand-tag--solid strand-tag--blue` | Colors: `--default`, `--teal`, `--blue`, `--amber`, `--red`. Variants: `--solid`, `--outlined` |
 | `badge bg-success` | `strand-tag strand-tag--solid strand-tag--teal` | |
 | `badge bg-warning` | `strand-tag strand-tag--solid strand-tag--amber` | |

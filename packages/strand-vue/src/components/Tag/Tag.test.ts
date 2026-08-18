@@ -125,4 +125,9 @@ describe('Tag', () => {
     expect(el?.className).toContain('strand-tag')
     expect(el?.className).toContain('custom')
   })
+
+  it('names the remove control from removeLabel', () => {
+    const { getByRole } = render(Tag, { props: { removable: true, removeLabel: 'Remove Active' }, slots: { default: 'Active' } })
+    expect(getByRole('button', { name: 'Remove Active' })).toBeTruthy()
+  })
 })

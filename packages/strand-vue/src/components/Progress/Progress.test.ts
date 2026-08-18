@@ -100,4 +100,10 @@ describe('Progress', () => {
     expect(el.className).toContain('strand-progress')
     expect(el.className).toContain('custom')
   })
+
+  it('is named by label and reads valueText in place of the percentage', () => {
+    const { getByRole } = render(Progress, { props: { value: 30, label: 'Upload', valueText: '3 of 10 files' } })
+    const bar = getByRole('progressbar', { name: 'Upload' })
+    expect(bar).toHaveAttribute('aria-valuetext', '3 of 10 files')
+  })
 })

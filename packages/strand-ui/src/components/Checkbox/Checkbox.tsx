@@ -31,7 +31,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       <input
         ref={ref}
         type="checkbox"
-        className="strand-checkbox__native"
+        className="strand-checkbox__native strand-sr-only"
         checked={checked}
         defaultChecked={defaultChecked}
         indeterminate={indeterminate}

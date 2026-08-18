@@ -1,7 +1,7 @@
 /*! Strand svelte | MIT License | dillingerstaffing.com */
 // Mirrors the canonical Preact assertions so the ports cannot drift.
-import { describe, expect, it } from 'vitest'
-import { render } from '@testing-library/svelte'
+import { describe, expect, it, vi } from 'vitest'
+import { render, fireEvent } from '@testing-library/svelte'
 import ChipSet from './ChipSet.svelte'
 
 const ITEMS = [
@@ -55,5 +55,18 @@ describe('ChipSet', () => {
     expect(sm.querySelector('.strand-chip-set')?.classList.contains('strand-chip-set--sm')).toBe(true)
     const { container: md } = render(ChipSet, { props: { items, label: 'F' } })
     expect(md.querySelector('.strand-chip-set')?.classList.contains('strand-chip-set--sm')).toBe(false)
+  })
+
+  it('in single-select, keeps only the selected chip in the tab order and moves the selection with the arrows', async () => {
+    const onselectionchange = vi.fn()
+    const items = [{ id: 'a', label: 'A' }, { id: 'b', label: 'B' }, { id: 'c', label: 'C' }]
+    const { getAllByRole } = render(ChipSet, { props: { label: 'Filter', mode: 'single', items, selected: ['b'], onselectionchange } })
+    const chips = getAllByRole('radio')
+    expect(chips.map((c) => c.tabIndex)).toEqual([-1, 0, -1])
+    await fireEvent.keyDown(chips[1], { key: 'ArrowRight' })
+    expect(onselectionchange).toHaveBeenLastCalledWith(['c'])
+    expect(document.activeElement).toBe(chips[2])
+    await fireEvent.keyDown(chips[1], { key: 'Home' })
+    expect(onselectionchange).toHaveBeenLastCalledWith(['a'])
   })
 })

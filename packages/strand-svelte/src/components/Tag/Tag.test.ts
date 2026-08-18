@@ -60,4 +60,9 @@ describe('Tag', () => {
     const svg = container.querySelector('.strand-tag__remove svg')
     expect(svg).toHaveAttribute('aria-hidden', 'true')
   })
+
+  it('names the remove control from removeLabel', () => {
+    const { getByRole } = render(Tag, { props: { removable: true, removeLabel: 'Remove Active' } })
+    expect(getByRole('button', { name: 'Remove Active' })).toBeInTheDocument()
+  })
 })

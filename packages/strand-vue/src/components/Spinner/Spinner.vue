@@ -17,31 +17,24 @@
 import { computed } from 'vue'
 
 interface Props {
-  /** Size of the spinner */
   size?: 'sm' | 'md' | 'lg'
-  /** Additional CSS class */
+  /** What is loading, read to assistive tech. */
+  label?: string
   className?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: 'md',
+  label: 'Loading',
   className: '',
 })
 
-const classes = computed(() =>
-  [
-    'strand-spinner',
-    `strand-spinner--${props.size}`,
-    props.className,
-  ]
-    .filter(Boolean)
-    .join(' '),
-)
+const classes = computed(() => ['strand-spinner', `strand-spinner--${props.size}`, props.className].filter(Boolean).join(' '))
 </script>
 
 <template>
   <span :class="classes" role="status" v-bind="$attrs">
     <span class="strand-spinner__ring" aria-hidden="true" />
-    <span class="strand-spinner__sr-only">Loading</span>
+    <span class="strand-sr-only">{{ label }}</span>
   </span>
 </template>

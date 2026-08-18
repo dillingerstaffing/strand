@@ -33,7 +33,7 @@
 </script>
 
 <label class={['strand-radio', density === 'compact' && 'strand-radio--compact'].filter(Boolean).join(' ')}>
-  <input type="radio" class="strand-radio__native" {checked} {disabled} {name} {value} on:change={handleChange} {...$$restProps} />
+  <input type="radio" class="strand-radio__native strand-sr-only" {checked} {disabled} {name} {value} on:change={handleChange} {...$$restProps} />
   <span class="strand-radio__control" aria-hidden="true">
     <span class="strand-radio__dot"></span>
   </span>

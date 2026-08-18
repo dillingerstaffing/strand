@@ -1,10 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > lg 1`] = `"<span class="strand-spinner strand-spinner--lg" role="status"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-spinner__sr-only">Loading</span></span>"`;
+exports[`renders > labelled 1`] = `"<span class="strand-spinner strand-spinner--md" role="status"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-sr-only">Loading events</span></span>"`;
 
-exports[`renders > md 1`] = `"<span class="strand-spinner strand-spinner--md" role="status"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-spinner__sr-only">Loading</span></span>"`;
+exports[`renders > lg 1`] = `"<span class="strand-spinner strand-spinner--lg" role="status"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-sr-only">Loading</span></span>"`;
 
-exports[`renders > sm 1`] = `"<span class="strand-spinner strand-spinner--sm" role="status"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-spinner__sr-only">Loading</span></span>"`;
+exports[`renders > md 1`] = `"<span class="strand-spinner strand-spinner--md" role="status"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-sr-only">Loading</span></span>"`;
+
+exports[`renders > sm 1`] = `"<span class="strand-spinner strand-spinner--sm" role="status"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-sr-only">Loading</span></span>"`;
 
 exports[`stylesheet > renders these rules 1`] = `
 ".strand-spinner { display: inline-flex; align-items: center; justify-content: center }
@@ -15,7 +17,6 @@ exports[`stylesheet > renders these rules 1`] = `
 @keyframes strand-spinner-rotate {
   to { transform: rotate(360deg) }
 }
-.strand-spinner__sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0 }
 @media (prefers-reduced-motion: reduce) {
   .strand-spinner__ring { animation: none; border-style: dotted }
 }"

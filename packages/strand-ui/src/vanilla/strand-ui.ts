@@ -221,7 +221,6 @@
 			for (const t of tabs) {
 				const isActive = t === tab;
 				t.setAttribute("aria-selected", String(isActive));
-				t.classList.toggle("strand-tabs__tab--active", isActive);
 				t.tabIndex = isActive ? 0 : -1;
 
 				const pId = t.getAttribute("aria-controls");

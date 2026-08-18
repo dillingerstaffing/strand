@@ -18,19 +18,22 @@
 import { computed } from 'vue'
 
 interface Props {
-  /** Visual variant */
   variant?: 'bar' | 'ring'
-  /** Completion percentage (0-100). Omit for indeterminate. */
+  /** Percent complete, 0 to 100; omit for indeterminate. */
   value?: number
-  /** Size of the progress indicator */
   size?: 'sm' | 'md' | 'lg'
-  /** Additional CSS class */
+  /** Accessible name: what is progressing. */
+  label?: string
+  /** Read in place of the percentage, such as "3 of 10 steps". */
+  valueText?: string
   className?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'bar',
   size: 'md',
+  label: undefined,
+  valueText: undefined,
   className: '',
 })
 
@@ -68,6 +71,8 @@ const offset = computed(() =>
     :aria-valuemin="0"
     :aria-valuemax="100"
     :aria-valuenow="isDeterminate ? value : undefined"
+    :aria-valuetext="valueText"
+    :aria-label="label"
     v-bind="$attrs"
   >
     <!-- Ring variant -->

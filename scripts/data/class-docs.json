@@ -28,6 +28,14 @@
 					"description": "Alert message content."
 				},
 				{
+					"class": "strand-alert__title",
+					"description": "Heading set above the message."
+				},
+				{
+					"class": "strand-alert__action",
+					"description": "A control set after the message, such as an undo button."
+				},
+				{
 					"class": "strand-alert__dismiss",
 					"description": "Dismiss button."
 				},
@@ -431,7 +439,7 @@
 				},
 				{
 					"class": "strand-checkbox__native",
-					"description": "Hidden native checkbox input."
+					"description": "The native input, which carries the state; add strand-sr-only to hide it visually."
 				},
 				{
 					"class": "strand-checkbox__control",
@@ -454,7 +462,7 @@
 					"description": "Text label."
 				}
 			],
-			"example": "<label class=\"strand-checkbox\">\n  <input type=\"checkbox\" class=\"strand-checkbox__native\" checked>\n  <span class=\"strand-checkbox__control\" aria-hidden=\"true\">\n    <svg class=\"strand-checkbox__icon strand-checkbox__icon--check\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <path d=\"M3.5 8L6.5 11L12.5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n    <svg class=\"strand-checkbox__icon strand-checkbox__icon--mixed\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <line x1=\"4\" y1=\"8\" x2=\"12\" y2=\"8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"strand-checkbox__label\">Accept terms</span>\n</label>"
+			"example": "<label class=\"strand-checkbox\">\n  <input type=\"checkbox\" class=\"strand-checkbox__native strand-sr-only\" checked>\n  <span class=\"strand-checkbox__control\" aria-hidden=\"true\">\n    <svg class=\"strand-checkbox__icon strand-checkbox__icon--check\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <path d=\"M3.5 8L6.5 11L12.5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n    <svg class=\"strand-checkbox__icon strand-checkbox__icon--mixed\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <line x1=\"4\" y1=\"8\" x2=\"12\" y2=\"8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"strand-checkbox__label\">Accept terms</span>\n</label>"
 		},
 		{
 			"name": "ChipSet",
@@ -1551,7 +1559,7 @@
 				},
 				{
 					"class": "strand-radio__native",
-					"description": "Hidden native radio input."
+					"description": "The native input, which carries the state; add strand-sr-only to hide it visually."
 				},
 				{
 					"class": "strand-radio__control",
@@ -1566,7 +1574,7 @@
 					"description": "Text label."
 				}
 			],
-			"example": "<label class=\"strand-radio\">\n  <input type=\"radio\" class=\"strand-radio__native\" name=\"group\" checked>\n  <span class=\"strand-radio__control\" aria-hidden=\"true\">\n    <span class=\"strand-radio__dot\"></span>\n  </span>\n  <span class=\"strand-radio__label\">Option A</span>\n</label>"
+			"example": "<label class=\"strand-radio\">\n  <input type=\"radio\" class=\"strand-radio__native strand-sr-only\" name=\"group\" checked>\n  <span class=\"strand-radio__control\" aria-hidden=\"true\">\n    <span class=\"strand-radio__dot\"></span>\n  </span>\n  <span class=\"strand-radio__label\">Option A</span>\n</label>"
 		},
 		{
 			"name": "Reserve",
@@ -1882,10 +1890,6 @@
 					"description": "Spinning ring visual."
 				},
 				{
-					"class": "strand-spinner__sr-only",
-					"description": "Screen-reader-only loading text."
-				},
-				{
 					"class": "strand-spinner--sm",
 					"description": "Small size (16px)."
 				},
@@ -1898,7 +1902,7 @@
 					"description": "Large size (32px)."
 				}
 			],
-			"example": "<span class=\"strand-spinner strand-spinner--md\" role=\"status\">\n  <span class=\"strand-spinner__ring\" aria-hidden=\"true\"></span>\n  <span class=\"strand-spinner__sr-only\">Loading</span>\n</span>"
+			"example": "<span class=\"strand-spinner strand-spinner--md\" role=\"status\">\n  <span class=\"strand-spinner__ring\" aria-hidden=\"true\"></span>\n  <span class=\"strand-sr-only\">Loading</span>\n</span>"
 		},
 		{
 			"name": "Stack",
@@ -2144,11 +2148,7 @@
 				},
 				{
 					"class": "strand-tabs__tab",
-					"description": "Individual tab button."
-				},
-				{
-					"class": "strand-tabs__tab--active",
-					"description": "Active tab state."
+					"description": "Individual tab button; aria-selected=\"true\" paints the active one."
 				},
 				{
 					"class": "strand-tabs__panel--reveal",
@@ -2159,7 +2159,7 @@
 					"description": "Instrument viewport variant for tabs."
 				}
 			],
-			"example": "<div class=\"strand-tabs\">\n  <div role=\"tablist\">\n    <button role=\"tab\" class=\"strand-tabs__tab strand-tabs__tab--active\" aria-selected=\"true\">Tab 1</button>\n  </div>\n</div>"
+			"example": "<div class=\"strand-tabs\">\n  <div role=\"tablist\">\n    <button role=\"tab\" class=\"strand-tabs__tab\" aria-selected=\"true\">Tab 1</button>\n  </div>\n</div>"
 		},
 		{
 			"name": "Tag",

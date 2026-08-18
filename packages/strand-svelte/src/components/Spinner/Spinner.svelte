@@ -12,16 +12,12 @@
   ```
 -->
 <script lang="ts">
-  /** Size of the spinner */
   export let size: 'sm' | 'md' | 'lg' = 'md'
-
-  $: classes = [
-    'strand-spinner',
-    `strand-spinner--${size}`,
-  ].filter(Boolean).join(' ')
+  /** What is loading, read to assistive tech. */
+  export let label: string = 'Loading'
 </script>
 
-<span class={classes} role="status" {...$$restProps}>
+<span class={`strand-spinner strand-spinner--${size}`} role="status" {...$$restProps}>
   <span class="strand-spinner__ring" aria-hidden="true"></span>
-  <span class="strand-spinner__sr-only">Loading</span>
+  <span class="strand-sr-only">{label}</span>
 </span>

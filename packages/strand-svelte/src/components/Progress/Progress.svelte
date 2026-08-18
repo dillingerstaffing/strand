@@ -19,6 +19,10 @@
   export let value: number | undefined = undefined
   /** Size of the progress indicator */
   export let size: 'sm' | 'md' | 'lg' = 'md'
+  /** Accessible name: what is progressing. */
+  export let label: string | undefined = undefined
+  /** Read in place of the percentage, such as "3 of 10 steps". */
+  export let valueText: string | undefined = undefined
 
   const RING_SIZES: Record<string, number> = { sm: 24, md: 40, lg: 56 }
   const RING_STROKE = 3
@@ -44,6 +48,8 @@
     aria-valuemin={0}
     aria-valuemax={100}
     aria-valuenow={isDeterminate ? value : undefined}
+    aria-valuetext={valueText}
+    aria-label={label}
     {...$$restProps}
   >
     <svg
@@ -81,6 +87,8 @@
     aria-valuemin={0}
     aria-valuemax={100}
     aria-valuenow={isDeterminate ? value : undefined}
+    aria-valuetext={valueText}
+    aria-label={label}
     {...$$restProps}
   >
     <div

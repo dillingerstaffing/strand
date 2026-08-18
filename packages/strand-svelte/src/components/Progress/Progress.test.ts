@@ -55,4 +55,9 @@ describe('Progress', () => {
     expect(el).toHaveAttribute('aria-valuemin', '0')
     expect(el).toHaveAttribute('aria-valuemax', '100')
   })
+
+  it('is named by label and reads valueText in place of the percentage', () => {
+    const { getByRole } = render(Progress, { props: { value: 30, label: 'Upload', valueText: '3 of 10 files' } })
+    expect(getByRole('progressbar', { name: 'Upload' })).toHaveAttribute('aria-valuetext', '3 of 10 files')
+  })
 })

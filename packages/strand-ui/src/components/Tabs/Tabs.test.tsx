@@ -10,145 +10,82 @@ const sampleTabs = [
 ];
 
 describe("Tabs", () => {
-  // ── Structure ──
-
-  it("renders tablist role", () => {
-    const { getByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={() => {}} />,
-    );
+  it("renders a tablist whose selected tab is the only one in the tab order and whose panel is the only one shown", () => {
+    const { getAllByRole, getByRole } = render(<Tabs tabs={sampleTabs} activeTab="two" onChange={() => {}} />);
     expect(getByRole("tablist")).toBeTruthy();
-  });
-
-  it("renders tab buttons for each tab", () => {
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={() => {}} />,
-    );
-    expect(getAllByRole("tab")).toHaveLength(3);
-  });
-
-  // ── Active state ──
-
-  it("active tab has aria-selected true", () => {
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={() => {}} />,
-    );
     const tabs = getAllByRole("tab");
-    expect(tabs[0]).toHaveAttribute("aria-selected", "true");
+    expect(tabs.map((t) => t.getAttribute("aria-selected"))).toEqual(["false", "true", "false"]);
+    expect(tabs.map((t) => t.tabIndex)).toEqual([-1, 0, -1]);
+    const panels = getAllByRole("tabpanel", { hidden: true });
+    expect(panels.map((p) => p.hidden)).toEqual([true, false, true]);
   });
 
-  it("inactive tabs have aria-selected false", () => {
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={() => {}} />,
+  it("wires each panel to its tab with ids that do not collide across two sets", () => {
+    const { container } = render(
+      <div>
+        <Tabs tabs={sampleTabs} activeTab="one" onChange={() => {}} />
+        <Tabs tabs={sampleTabs} activeTab="one" onChange={() => {}} />
+      </div>,
     );
-    const tabs = getAllByRole("tab");
-    expect(tabs[1]).toHaveAttribute("aria-selected", "false");
-    expect(tabs[2]).toHaveAttribute("aria-selected", "false");
+    const tabs = Array.from(container.querySelectorAll('[role="tab"]'));
+    const ids = tabs.map((t) => t.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const tab of tabs) {
+      const panel = container.querySelector(`#${CSS.escape(tab.getAttribute("aria-controls") as string)}`);
+      expect(panel?.getAttribute("aria-labelledby")).toBe(tab.id);
+    }
   });
 
-  it("active tab has tabindex 0, inactive tabs have tabindex -1", () => {
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="two" onChange={() => {}} />,
-    );
-    const tabs = getAllByRole("tab");
-    expect(tabs[0]).toHaveAttribute("tabindex", "-1");
-    expect(tabs[1]).toHaveAttribute("tabindex", "0");
-    expect(tabs[2]).toHaveAttribute("tabindex", "-1");
-  });
-
-  // ── Interaction ──
-
-  it("clicking tab calls onChange with the tab id", () => {
+  it("clicking a tab calls onChange with its id", () => {
     const onChange = vi.fn();
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={onChange} />,
-    );
+    const { getAllByRole } = render(<Tabs tabs={sampleTabs} activeTab="one" onChange={onChange} />);
     fireEvent.click(getAllByRole("tab")[1]);
     expect(onChange).toHaveBeenCalledWith("two");
   });
 
-  // ── Panels ──
-
-  it("active panel is visible", () => {
-    const { getByText } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={() => {}} />,
-    );
-    expect(getByText("Content One").closest("[role='tabpanel']")).not.toHaveAttribute("hidden");
+  it("owns the selection when uncontrolled: the first tab, or defaultActiveTab, then whatever is clicked", () => {
+    const { getAllByRole } = render(<Tabs tabs={sampleTabs} defaultActiveTab="three" />);
+    const tabs = getAllByRole("tab");
+    expect(tabs[2]).toHaveAttribute("aria-selected", "true");
+    fireEvent.click(tabs[0]);
+    expect(tabs[0]).toHaveAttribute("aria-selected", "true");
+    expect(tabs[2]).toHaveAttribute("aria-selected", "false");
+    const first = render(<Tabs tabs={sampleTabs} />);
+    expect(first.getAllByRole("tab")[0]).toHaveAttribute("aria-selected", "true");
   });
 
-  it("inactive panels are hidden", () => {
-    const { getByText } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={() => {}} />,
-    );
-    expect(getByText("Content Two").closest("[role='tabpanel']")).toHaveAttribute("hidden");
-    expect(getByText("Content Three").closest("[role='tabpanel']")).toHaveAttribute("hidden");
-  });
-
-  it("tabpanel has aria-labelledby pointing to its tab", () => {
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={() => {}} />,
-    );
-    const panels = getAllByRole("tabpanel", { hidden: true });
-    expect(panels[0]).toHaveAttribute("aria-labelledby", "tab-one");
-  });
-
-  // ── Keyboard navigation ──
-
-  it("ArrowRight moves to next tab", () => {
+  it("the arrows, Home and End select and focus, wrapping at the ends", () => {
     const onChange = vi.fn();
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={onChange} />,
-    );
-    fireEvent.keyDown(getAllByRole("tab")[0], { key: "ArrowRight" });
-    expect(onChange).toHaveBeenCalledWith("two");
+    const { getAllByRole } = render(<Tabs tabs={sampleTabs} activeTab="one" onChange={onChange} />);
+    const tabs = getAllByRole("tab");
+    fireEvent.keyDown(tabs[0], { key: "ArrowRight" });
+    expect(onChange).toHaveBeenLastCalledWith("two");
+    expect(document.activeElement).toBe(tabs[1]);
+    fireEvent.keyDown(tabs[0], { key: "ArrowLeft" });
+    expect(onChange).toHaveBeenLastCalledWith("three");
+    fireEvent.keyDown(tabs[0], { key: "End" });
+    expect(onChange).toHaveBeenLastCalledWith("three");
+    fireEvent.keyDown(tabs[0], { key: "Home" });
+    expect(onChange).toHaveBeenLastCalledWith("one");
   });
 
-  it("ArrowLeft moves to previous tab", () => {
+  it("with manual activation the arrows move focus only, and Enter or Space (a click) selects", () => {
     const onChange = vi.fn();
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="two" onChange={onChange} />,
-    );
-    fireEvent.keyDown(getAllByRole("tab")[1], { key: "ArrowLeft" });
-    expect(onChange).toHaveBeenCalledWith("one");
-  });
-
-  it("ArrowRight wraps to first tab from last", () => {
-    const onChange = vi.fn();
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="three" onChange={onChange} />,
-    );
-    fireEvent.keyDown(getAllByRole("tab")[2], { key: "ArrowRight" });
-    expect(onChange).toHaveBeenCalledWith("one");
-  });
-
-  it("ArrowLeft wraps to last tab from first", () => {
-    const onChange = vi.fn();
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={onChange} />,
-    );
-    fireEvent.keyDown(getAllByRole("tab")[0], { key: "ArrowLeft" });
+    const { getAllByRole } = render(<Tabs tabs={sampleTabs} activeTab="one" onChange={onChange} activation="manual" />);
+    const tabs = getAllByRole("tab");
+    fireEvent.keyDown(tabs[0], { key: "ArrowRight" });
+    expect(document.activeElement).toBe(tabs[1]);
+    expect(onChange).not.toHaveBeenCalled();
+    fireEvent.keyDown(tabs[1], { key: "ArrowRight" });
+    expect(document.activeElement).toBe(tabs[2]);
+    fireEvent.click(tabs[2]);
     expect(onChange).toHaveBeenCalledWith("three");
   });
 
-  it("Home moves focus to first tab", () => {
-    const onChange = vi.fn();
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="three" onChange={onChange} />,
-    );
-    fireEvent.keyDown(getAllByRole("tab")[2], { key: "Home" });
-    expect(onChange).toHaveBeenCalledWith("one");
+  it("the instrument variant is a class on the root", () => {
+    const { container } = render(<Tabs tabs={sampleTabs} variant="instrument" />);
+    expect(container.querySelector(".strand-tabs.strand-tabs--instrument")).toBeTruthy();
   });
-
-  it("End moves focus to last tab", () => {
-    const onChange = vi.fn();
-    const { getAllByRole } = render(
-      <Tabs tabs={sampleTabs} activeTab="one" onChange={onChange} />,
-    );
-    fireEvent.keyDown(getAllByRole("tab")[0], { key: "End" });
-    expect(onChange).toHaveBeenCalledWith("three");
-  });
-
-  // ── Custom className ──
-
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
