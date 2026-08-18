@@ -85,4 +85,50 @@ describe('Table', () => {
     expect(container.querySelector('.strand-table__head')).toBeInTheDocument()
     expect(container.querySelector('.strand-table__body')).toBeInTheDocument()
   })
+
+  it('shows one full-width empty cell when data is empty', () => {
+    const { container } = render(Table, { props: { columns: testColumns, data: [], emptyLabel: 'Nothing yet' } })
+    const cell = container.querySelector('.strand-table__row--empty td') as HTMLTableCellElement
+    expect(cell.colSpan).toBe(testColumns.length)
+    expect(cell.textContent).toBe('Nothing yet')
+  })
+
+  it('names the table with a visually hidden caption from label, or a visible caption', async () => {
+    const { container, rerender } = render(Table, { props: { columns: testColumns, data: [], label: 'People' } })
+    const hidden = container.querySelector('caption') as HTMLElement
+    expect(hidden.textContent?.trim()).toBe('People')
+    expect(hidden.classList.contains('strand-sr-only')).toBe(true)
+    await rerender({ columns: testColumns, data: [], caption: 'People' })
+    expect((container.querySelector('caption') as HTMLElement).classList.contains('strand-sr-only')).toBe(false)
+  })
+
+  it('announces sort state through aria-sort on column headers', async () => {
+    const { container } = render(Table, { props: { columns: testColumns, data: testData } })
+    const th = container.querySelector('th[aria-sort]') as HTMLElement
+    expect(th.getAttribute('aria-sort')).toBe('none')
+    expect(th.getAttribute('scope')).toBe('col')
+    await fireEvent.click(th.querySelector('button') as HTMLElement)
+    expect(th.getAttribute('aria-sort')).toBe('ascending')
+    await fireEvent.click(th.querySelector('button') as HTMLElement)
+    expect(th.getAttribute('aria-sort')).toBe('descending')
+  })
+
+  it('follows a controlled sort prop and reports the next sort', async () => {
+    const onsort = vi.fn()
+    const { container } = render(Table, {
+      props: { columns: testColumns, data: testData, sort: { key: 'name', direction: 'desc' }, onsort },
+    })
+    const th = container.querySelector('th[aria-sort]') as HTMLElement
+    expect(th.getAttribute('aria-sort')).toBe('descending')
+    await fireEvent.click(th.querySelector('button') as HTMLElement)
+    expect(onsort).toHaveBeenCalledWith('name', 'asc')
+    expect(th.getAttribute('aria-sort')).toBe('descending')
+  })
+
+  it('renders a cell through the column render function', () => {
+    const { container } = render(Table, {
+      props: { columns: [{ key: 'name', header: 'Name', render: (row: Record<string, unknown>) => `Dr ${row.name}` }], data: testData },
+    })
+    expect(container.querySelector('td')?.textContent).toBe('Dr Alice')
+  })
 })

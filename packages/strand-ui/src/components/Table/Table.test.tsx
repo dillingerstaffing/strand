@@ -99,10 +99,57 @@ describe("Table", () => {
 
   // ── Empty state ──
 
-  it("renders empty tbody when data is empty", () => {
-    const { container } = render(<Table columns={columns} data={[]} />);
-    const rows = container.querySelectorAll(".strand-table__row");
-    expect(rows.length).toBe(0);
+  it("says so, in one full-width cell, when there are no rows", () => {
+    const { container, getByText } = render(<Table columns={columns} data={[]} emptyLabel="Nothing yet" />);
+    const cell = getByText("Nothing yet");
+    expect(cell.getAttribute("colspan")).toBe(String(columns.length));
+    expect(container.querySelectorAll(".strand-table__row").length).toBe(1);
+  });
+
+  it("names itself for assistive technology through a hidden caption, or shows a visible one", () => {
+    const { container, rerender } = render(<Table columns={columns} data={[]} label="People" />);
+    const caption = container.querySelector("caption")!;
+    expect(caption.textContent).toBe("People");
+    expect(caption.className).toContain("strand-sr-only");
+    rerender(<Table columns={columns} data={[]} caption={<span>Visible caption</span>} />);
+    expect(container.querySelector("caption")!.className).not.toContain("strand-sr-only");
+  });
+
+  it("announces the sorted column and direction on the header cell", () => {
+    const { container, getByLabelText } = render(<Table columns={columns} data={data} />);
+    const th = container.querySelector("th")!;
+    expect(th.getAttribute("aria-sort")).toBe("none");
+    fireEvent.click(getByLabelText("Sort by Name"));
+    expect(th.getAttribute("aria-sort")).toBe("ascending");
+    fireEvent.click(getByLabelText("Sort by Name"));
+    expect(th.getAttribute("aria-sort")).toBe("descending");
+    expect(container.querySelectorAll("th[aria-sort]").length).toBe(columns.filter((c) => c.sortable).length);
+  });
+
+  it("shows the sort its owner holds when the sort is controlled", () => {
+    const onSort = vi.fn();
+    const { container, getByLabelText, rerender } = render(<Table columns={columns} data={data} sort={{ key: "name", direction: "desc" }} onSort={onSort} />);
+    expect(container.querySelector("th")!.getAttribute("aria-sort")).toBe("descending");
+    fireEvent.click(getByLabelText("Sort by Name"));
+    expect(onSort).toHaveBeenCalledWith("name", "asc");
+    expect(container.querySelector("th")!.getAttribute("aria-sort")).toBe("descending");
+    rerender(<Table columns={columns} data={data} sort={null} onSort={onSort} />);
+    expect(container.querySelector("th")!.getAttribute("aria-sort")).toBe("none");
+  });
+
+  it("renders a cell from the whole row when the column asks", () => {
+    const cols = [{ key: "name", header: "Name", render: (row: Record<string, unknown>) => <strong>{String(row.name).toUpperCase()}</strong> }];
+    const { container } = render(<Table columns={cols} data={[{ name: "ada" }]} />);
+    expect(container.querySelector("td strong")!.textContent).toBe("ADA");
+  });
+
+  it("keys rows by the field or function it is given", () => {
+    const rows = [{ id: "b", name: "Bee" }, { id: "a", name: "Ay" }];
+    const { container, rerender } = render(<Table columns={[{ key: "name", header: "Name" }]} data={rows} rowKey="id" />);
+    const first = container.querySelector("tbody tr")!;
+    rerender(<Table columns={[{ key: "name", header: "Name" }]} data={[...rows].reverse()} rowKey="id" />);
+    // The node that was first is now second: keyed rows move rather than being rewritten in place.
+    expect(container.querySelectorAll("tbody tr")[1]).toBe(first);
   });
 
   // ── Column width ──

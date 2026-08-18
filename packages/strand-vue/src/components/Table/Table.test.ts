@@ -1,6 +1,6 @@
 /*! Strand Vue | MIT License | dillingerstaffing.com */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, fireEvent } from '@testing-library/vue'
 import Table from './Table.vue'
 
@@ -110,12 +110,53 @@ describe('Table', () => {
 
   // -- Empty state --
 
-  it('renders empty tbody when data is empty', () => {
+  it('shows one full-width empty cell when data is empty', () => {
     const { container } = render(Table, {
-      props: { columns, data: [] },
+      props: { columns, data: [], emptyLabel: 'Nothing yet' },
     })
-    const rows = container.querySelectorAll('.strand-table__row')
-    expect(rows.length).toBe(0)
+    const cell = container.querySelector('.strand-table__row--empty td') as HTMLTableCellElement
+    expect(cell.colSpan).toBe(columns.length)
+    expect(cell.textContent).toBe('Nothing yet')
+  })
+
+  it('names the table with a visually hidden caption from label, or a visible caption', async () => {
+    const { container, rerender } = render(Table, { props: { columns, data: [], label: 'People' } })
+    const hidden = container.querySelector('caption') as HTMLElement
+    expect(hidden.textContent?.trim()).toBe('People')
+    expect(hidden.classList.contains('strand-sr-only')).toBe(true)
+    await rerender({ columns, data: [], caption: 'People' })
+    const visible = container.querySelector('caption') as HTMLElement
+    expect(visible.classList.contains('strand-sr-only')).toBe(false)
+  })
+
+  it('announces sort state through aria-sort on column headers', async () => {
+    const { container } = render(Table, { props: { columns, data } })
+    const th = container.querySelector('th[aria-sort]') as HTMLElement
+    expect(th.getAttribute('aria-sort')).toBe('none')
+    await fireEvent.click(th.querySelector('button') as HTMLElement)
+    expect(th.getAttribute('aria-sort')).toBe('ascending')
+    await fireEvent.click(th.querySelector('button') as HTMLElement)
+    expect(th.getAttribute('aria-sort')).toBe('descending')
+    expect(th.getAttribute('scope')).toBe('col')
+  })
+
+  it('follows a controlled sort prop and reports the next sort', async () => {
+    const onUpdate = vi.fn()
+    const { container } = render(Table, {
+      props: { columns, data, sort: { key: 'name', direction: 'desc' }, 'onUpdate:sort': onUpdate },
+    })
+    const th = container.querySelector('th[aria-sort]') as HTMLElement
+    expect(th.getAttribute('aria-sort')).toBe('descending')
+    await fireEvent.click(th.querySelector('button') as HTMLElement)
+    expect(onUpdate).toHaveBeenCalledWith({ key: 'name', direction: 'asc' })
+    expect(th.getAttribute('aria-sort')).toBe('descending')
+  })
+
+  it('renders a cell through the column render function', () => {
+    const { container } = render(Table, {
+      props: { columns: [{ key: 'name', header: 'Name', render: (row: Record<string, unknown>) => `Dr ${row.name}` }], data },
+    })
+    expect(container.querySelector('td')?.textContent).toBe(`Dr ${data[0].name}`)
   })
 
   // -- Column width --
