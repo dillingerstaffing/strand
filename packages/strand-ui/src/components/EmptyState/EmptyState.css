@@ -17,7 +17,8 @@
   margin: 0;
 }
 
-.strand-empty-collection__action {
+/* Scoped to its block: composed on a .strand-link, the action's mono voice must not depend on bundle order */
+.strand-empty-collection .strand-empty-collection__action {
   margin-top: var(--strand-space-4);
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
@@ -33,7 +34,7 @@
   transition: background-size var(--strand-duration-normal) var(--strand-ease-out-expo);
 }
 
-.strand-empty-collection__action:hover {
+.strand-empty-collection .strand-empty-collection__action:hover {
   background-size: 100% 1px;
 }
 
