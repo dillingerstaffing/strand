@@ -33,13 +33,13 @@ function toVue(sfc: string, slotsOf: string[], props: Record<string, unknown>, c
 }
 
 describe("markup parity with the Preact fixtures", () => {
-  it("every port render matches its Preact snapshot, or is recorded in parity-manifest.json#/markupDrift/vue with a reason", async () => {
-    const actual: Record<string, string> = {};
-    for (const { name, fixturesPath, slots } of componentsWithFixtures()) {
-      const Component = (Vue as Record<string, unknown>)[name] as never;
-      if (!Component) continue;
+  for (const { name, fixturesPath, slots } of componentsWithFixtures()) {
+    const Component = (Vue as Record<string, unknown>)[name] as never;
+    if (!Component) continue;
+    it(`${name} renders every fixture as the Preact snapshot does, or the divergence is recorded in parity-manifest.json#/markupDrift/vue`, async () => {
       const sfc = readFileSync(resolve(__dirname, "components", name, `${name}.vue`), "utf8");
       const { fixtures } = await import(fixturesPath);
+      const actual: Record<string, string> = {};
       for (const f of fixtures) {
         const key = `${name} > ${f.name}`;
         try {
@@ -49,14 +49,12 @@ describe("markup parity with the Preact fixtures", () => {
           actual[key] = `THROWS: ${(e as Error).message.split("\n")[0]}`;
         }
       }
-    }
-    const { undeclared, stale, identical } = judge("vue", actual);
-    const report = [
-      `${identical} of ${Object.keys(actual).length} Vue renders match their Preact snapshot.`,
-      ...undeclared.map((u) => `  DRIFT   ${u}`),
-      ...stale.map((s) => `  STALE   ${s} is recorded in markupDrift.vue but now matches. Remove the entry.`),
-    ].join("\n");
-    console.info(report);
-    expect(undeclared.concat(stale), report).toEqual([]);
-  });
+      const { undeclared, stale } = judge("vue", actual);
+      const report = [
+        ...undeclared.map((u) => `  DRIFT   ${u}`),
+        ...stale.map((s) => `  STALE   ${s} is recorded in markupDrift.vue but now matches. Remove the entry.`),
+      ].join("\n");
+      expect(undeclared.concat(stale), report).toEqual([]);
+    });
+  }
 });

@@ -48,16 +48,17 @@ function toSvelte(name: string, index: number, sfc: string, slotsOf: string[], p
   return { props: svelteProps, wrapper: file };
 }
 
+rmSync(WRAPPERS, { recursive: true, force: true });
+mkdirSync(WRAPPERS, { recursive: true });
+
 describe("markup parity with the Preact fixtures", () => {
-  it("every port render matches its Preact snapshot, or is recorded in parity-manifest.json#/markupDrift/svelte with a reason", async () => {
-    rmSync(WRAPPERS, { recursive: true, force: true });
-    mkdirSync(WRAPPERS, { recursive: true });
-    const actual: Record<string, string> = {};
-    for (const { name, fixturesPath, slots } of componentsWithFixtures()) {
-      const Component = (Svelte as Record<string, unknown>)[name] as never;
-      if (!Component) continue;
+  for (const { name, fixturesPath, slots } of componentsWithFixtures()) {
+    const Component = (Svelte as Record<string, unknown>)[name] as never;
+    if (!Component) continue;
+    it(`${name} renders every fixture as the Preact snapshot does, or the divergence is recorded in parity-manifest.json#/markupDrift/svelte`, async () => {
       const sfc = readFileSync(resolve(__dirname, "components", name, `${name}.svelte`), "utf8");
       const { fixtures } = await import(fixturesPath);
+      const actual: Record<string, string> = {};
       let index = 0;
       for (const f of fixtures) {
         const key = `${name} > ${f.name}`;
@@ -70,14 +71,12 @@ describe("markup parity with the Preact fixtures", () => {
           actual[key] = `THROWS: ${(e as Error).message.split("\n")[0]}`;
         }
       }
-    }
-    const { undeclared, stale, identical } = judge("svelte", actual);
-    const report = [
-      `${identical} of ${Object.keys(actual).length} Svelte renders match their Preact snapshot.`,
-      ...undeclared.map((u) => `  DRIFT   ${u}`),
-      ...stale.map((s) => `  STALE   ${s} is recorded in markupDrift.svelte but now matches. Remove the entry.`),
-    ].join("\n");
-    console.info(report);
-    expect(undeclared.concat(stale), report).toEqual([]);
-  });
+      const { undeclared, stale } = judge("svelte", actual);
+      const report = [
+        ...undeclared.map((u) => `  DRIFT   ${u}`),
+        ...stale.map((s) => `  STALE   ${s} is recorded in markupDrift.svelte but now matches. Remove the entry.`),
+      ].join("\n");
+      expect(undeclared.concat(stale), report).toEqual([]);
+    });
+  }
 });
