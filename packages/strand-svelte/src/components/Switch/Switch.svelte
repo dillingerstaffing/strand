@@ -13,60 +13,25 @@
   ```
 -->
 <script lang="ts">
-  /** Controlled checked state */
+  /** On state; bindable, so the switch owns it unless the consumer does. */
   export let checked: boolean = false
-  /** Disabled state */
   export let disabled: boolean = false
   /** Inline label text */
   export let label: string | undefined = undefined
   /** Change handler */
   export let onchange: ((checked: boolean) => void) | undefined = undefined
-
-  /**
-   * Row density. `comfortable` is the default and is unchanged.
-   *
-   * `compact` drops the row's floor to 30px ON A FINE POINTER ONLY. DL 14.7
-   * makes the floor a property of the input modality (coarse 44, fine 24),
-   * and requires a shrink rule to be written inside `@media (pointer: fine)`
-   * so touch is untouched by construction rather than by care.
-   *
-   * OPT-IN, which is 14.7 too: 44px remains the default everywhere. Reach for
-   * it where density is the point and the region is pointer-driven.
-   */
+  /** `compact` drops the row to 30px on a fine pointer only (DL 14.7). */
   export let density: 'comfortable' | 'compact' = 'comfortable'
 
-  $: classes = [
-    'strand-switch',
-    density === 'compact' && 'strand-switch--compact',
-    checked && 'strand-switch--checked',
-    disabled && 'strand-switch--disabled',
-  ].filter(Boolean).join(' ')
-
-  function handleClick() {
-    if (!disabled) {
-      onchange?.(!checked)
-    }
-  }
-
-  function handleKeyDown(e: KeyboardEvent) {
-    if ((e.key === ' ' || e.key === 'Enter') && !disabled) {
-      e.preventDefault()
-      onchange?.(!checked)
-    }
+  function toggle() {
+    if (disabled) return
+    checked = !checked
+    onchange?.(checked)
   }
 </script>
 
-<label class={classes}>
-  <button
-    type="button"
-    role="switch"
-    class="strand-switch__track"
-    aria-checked={checked ? 'true' : 'false'}
-    {disabled}
-    on:click={handleClick}
-    on:keydown={handleKeyDown}
-    {...$$restProps}
-  >
+<label class={['strand-switch', density === 'compact' && 'strand-switch--compact'].filter(Boolean).join(' ')}>
+  <button type="button" role="switch" class="strand-switch__track" aria-checked={checked ? 'true' : 'false'} {disabled} on:click={toggle} {...$$restProps}>
     <span class="strand-switch__thumb" aria-hidden="true"></span>
   </button>
   {#if label}

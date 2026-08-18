@@ -1,67 +1,62 @@
 /*! Strand Svelte | MIT License | dillingerstaffing.com */
 
-import { describe, it, expect } from 'vitest'
-import { render } from '@testing-library/svelte'
+import { describe, it, expect, vi } from 'vitest'
+import { render, fireEvent } from '@testing-library/svelte'
 import Checkbox from './Checkbox.svelte'
 
 describe('Checkbox', () => {
-  it('renders with default classes', () => {
+  it('renders a native checkbox inside the label', () => {
     const { container } = render(Checkbox)
-    expect(container.querySelector('.strand-checkbox')).toBeInTheDocument()
-    const input = container.querySelector('.strand-checkbox__native')
-    expect(input).toBeInTheDocument()
+    const input = container.querySelector('.strand-checkbox .strand-checkbox__native') as HTMLInputElement
     expect(input).toHaveAttribute('type', 'checkbox')
-    expect(input).toHaveAttribute('role', 'checkbox')
+    expect(input).not.toBeChecked()
   })
 
-  it('applies checked class and aria-checked', () => {
+  it('is checked when checked, and mixed when indeterminate', () => {
+    const checked = render(Checkbox, { props: { checked: true } })
+    expect(checked.container.querySelector('input')).toBeChecked()
+    checked.unmount()
+    const mixed = render(Checkbox, { props: { indeterminate: true } })
+    expect(mixed.container.querySelector('input')).toBePartiallyChecked()
+  })
+
+  it('lets the input own its state: clicking toggles it', async () => {
     const { container } = render(Checkbox, { props: { checked: true } })
-    expect(container.querySelector('.strand-checkbox')).toHaveClass('strand-checkbox--checked')
-    expect(container.querySelector('.strand-checkbox__native')).toHaveAttribute('aria-checked', 'true')
+    const input = container.querySelector('input') as HTMLInputElement
+    await fireEvent.click(input)
+    expect(input).not.toBeChecked()
   })
 
-  it('shows checkmark icon when checked', () => {
-    const { container } = render(Checkbox, { props: { checked: true } })
-    expect(container.querySelector('.strand-checkbox__icon')).toBeInTheDocument()
+  it('calls onchange when clicked, and not when disabled', async () => {
+    const onchange = vi.fn()
+    const enabled = render(Checkbox, { props: { onchange } })
+    await fireEvent.click(enabled.container.querySelector('input') as HTMLInputElement)
+    expect(onchange).toHaveBeenCalledTimes(1)
+    enabled.unmount()
+    const blocked = vi.fn()
+    const disabled = render(Checkbox, { props: { disabled: true, onchange: blocked } })
+    const input = disabled.container.querySelector('input') as HTMLInputElement
+    expect(input).toBeDisabled()
+    await fireEvent.click(input)
+    expect(blocked).not.toHaveBeenCalled()
   })
 
-  it('applies indeterminate class and aria-checked mixed', () => {
-    const { container } = render(Checkbox, { props: { indeterminate: true } })
-    expect(container.querySelector('.strand-checkbox')).toHaveClass('strand-checkbox--indeterminate')
-    expect(container.querySelector('.strand-checkbox__native')).toHaveAttribute('aria-checked', 'mixed')
-  })
-
-  it('shows indeterminate icon', () => {
-    const { container } = render(Checkbox, { props: { indeterminate: true } })
-    expect(container.querySelector('.strand-checkbox__icon')).toBeInTheDocument()
-    expect(container.querySelector('.strand-checkbox__icon line')).toBeInTheDocument()
-  })
-
-  it('applies disabled class and attribute', () => {
-    const { container } = render(Checkbox, { props: { disabled: true } })
-    expect(container.querySelector('.strand-checkbox')).toHaveClass('strand-checkbox--disabled')
-    expect(container.querySelector('.strand-checkbox__native')).toBeDisabled()
-  })
-
-  it('renders label text', () => {
-    const { container } = render(Checkbox, { props: { label: 'Accept terms' } })
-    const labelEl = container.querySelector('.strand-checkbox__label')
-    expect(labelEl).toBeInTheDocument()
-    expect(labelEl).toHaveTextContent('Accept terms')
-  })
-
-  it('does not render label when not provided', () => {
+  it('renders both glyphs, hidden by the sheet until the input carries a state', () => {
     const { container } = render(Checkbox)
-    expect(container.querySelector('.strand-checkbox__label')).not.toBeInTheDocument()
+    expect(container.querySelector('.strand-checkbox__control[aria-hidden="true"] .strand-checkbox__icon--check')).toBeInTheDocument()
+    expect(container.querySelector('.strand-checkbox__control .strand-checkbox__icon--mixed')).toBeInTheDocument()
   })
 
-  it('control has aria-hidden', () => {
-    const { container } = render(Checkbox)
-    expect(container.querySelector('.strand-checkbox__control')).toHaveAttribute('aria-hidden', 'true')
+  it('renders label text only when given', () => {
+    const { getByText } = render(Checkbox, { props: { label: 'Accept terms' } })
+    expect(getByText('Accept terms')).toHaveClass('strand-checkbox__label')
+    expect(render(Checkbox).container.querySelector('.strand-checkbox__label')).toBeNull()
   })
 
-  it('unchecked state has aria-checked false', () => {
-    const { container } = render(Checkbox)
-    expect(container.querySelector('.strand-checkbox__native')).toHaveAttribute('aria-checked', 'false')
+  it('compact is a class, never an inline size', () => {
+    const { container } = render(Checkbox, { props: { density: 'compact' } })
+    const el = container.querySelector('.strand-checkbox') as HTMLElement
+    expect(el).toHaveClass('strand-checkbox--compact')
+    expect(el.getAttribute('style') || '').not.toContain('min-height')
   })
 })

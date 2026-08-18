@@ -48,6 +48,11 @@ describe("compare", () => {
     const svelte = { data: ["value", "size"], callbacks: ["change"], events: ["clear"] };
     expect(compare(preact, vue, svelte)).toEqual({ vue: [], svelte: [] });
   });
+  it("accepts a bindable Svelte prop for a Preact default value", () => {
+    const vue = { data: ["checked", "defaultChecked"], callbacks: [], emits: ["change"] };
+    const svelte = { data: ["checked"], callbacks: ["change"], events: [] };
+    expect(compare({ data: ["checked", "defaultChecked"], callbacks: ["change"] }, vue, svelte)).toEqual({ vue: [], svelte: [] });
+  });
   it("names what a port lacks", () => {
     const vue = { data: ["modelValue"], callbacks: [], emits: [] };
     const svelte = { data: ["value"], callbacks: [], events: [] };

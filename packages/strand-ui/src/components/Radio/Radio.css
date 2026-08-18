@@ -1,6 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
 /* cf: pointer-fine-density */
+/* cf: native-state-selectors */
 
 /* ── Base ── */
 .strand-radio {
@@ -61,22 +62,22 @@
   box-shadow: var(--strand-focus-ring);
 }
 
-/* ── Checked ── */
-.strand-radio--checked .strand-radio__control {
+/* ── Checked: the native input's state ── */
+.strand-radio__native:checked ~ .strand-radio__control {
   background: var(--strand-blue-primary);
   border-color: var(--strand-blue-primary);
 }
 
-.strand-radio--checked .strand-radio__dot {
+.strand-radio__native:checked ~ .strand-radio__control .strand-radio__dot {
   transform: scale(1);
 }
 
 /* ── Hover ── */
-.strand-radio:hover:not(.strand-radio--disabled) .strand-radio__control {
+.strand-radio:hover .strand-radio__native:enabled ~ .strand-radio__control {
   border-color: var(--strand-blue-indicator);
 }
 
-.strand-radio--checked:hover:not(.strand-radio--disabled) .strand-radio__control {
+.strand-radio:hover .strand-radio__native:enabled:checked ~ .strand-radio__control {
   background: var(--strand-blue-vivid);
   border-color: var(--strand-blue-vivid);
 }
@@ -87,7 +88,7 @@
 }
 
 /* ── Disabled ── */
-.strand-radio--disabled {
+.strand-radio:has(.strand-radio__native:disabled) {
   opacity: var(--strand-opacity-disabled);
   cursor: not-allowed;
 }

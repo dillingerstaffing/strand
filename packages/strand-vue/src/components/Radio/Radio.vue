@@ -20,69 +20,47 @@
 import { computed } from 'vue'
 
 export interface RadioProps {
-  /** Controlled checked state */
+  /** Controlled state; leave unset to let the input own it. */
   checked?: boolean
-  /** Disabled state */
+  /** Initial state of an uncontrolled radio. */
+  defaultChecked?: boolean
   disabled?: boolean
-  /** Label text */
   label?: string
   /** Radio group name */
   name?: string
   /** Radio value */
   value?: string
-  /**
-   * Row density. `comfortable` is the default and is unchanged.
-   *
-   * `compact` drops the row's floor to 30px ON A FINE POINTER ONLY. DL 14.7
-   * makes the floor a property of the input modality (coarse 44, fine 24),
-   * and requires a shrink rule to be written inside `@media (pointer: fine)`
-   * so touch is untouched by construction rather than by care.
-   *
-   * OPT-IN, which is 14.7 too: 44px remains the default everywhere. Reach for
-   * it where density is the point and the region is pointer-driven.
-   */
+  /** `compact` drops the row to 30px on a fine pointer only (DL 14.7). */
   density?: 'comfortable' | 'compact'
 }
 
 const props = withDefaults(defineProps<RadioProps>(), {
-  density: 'comfortable',
-  checked: false,
+  checked: undefined,
+  defaultChecked: undefined,
   disabled: false,
+  label: undefined,
+  name: undefined,
+  value: undefined,
+  density: 'comfortable',
 })
 
 const emit = defineEmits<{
   (e: 'change', event: Event): void
+  (e: 'update:checked', checked: boolean): void
 }>()
 
-const classes = computed(() =>
-  [
-    'strand-radio',
-    props.density === 'compact' && 'strand-radio--compact',
-    props.checked && 'strand-radio--checked',
-    props.disabled && 'strand-radio--disabled',
-  ]
-    .filter(Boolean)
-    .join(' '),
-)
+const state = computed(() => (props.checked === undefined ? { defaultChecked: props.defaultChecked } : { checked: props.checked }))
 
-function handleChange(event: Event) {
-  if (!props.disabled) {
-    emit('change', event)
-  }
+function onChange(event: Event) {
+  if (props.disabled) return
+  emit('change', event)
+  emit('update:checked', (event.target as HTMLInputElement).checked)
 }
 </script>
 
 <template>
-  <label :class="classes">
-    <input
-      type="radio"
-      class="strand-radio__native"
-      :checked="checked"
-      :disabled="disabled"
-      :name="name"
-      :value="value"
-      @change="handleChange"
-    />
+  <label :class="['strand-radio', density === 'compact' && 'strand-radio--compact'].filter(Boolean).join(' ')">
+    <input type="radio" class="strand-radio__native" v-bind="state" :disabled="disabled" :name="name" :value="value" @change="onChange" />
     <span class="strand-radio__control" aria-hidden="true">
       <span class="strand-radio__dot" />
     </span>

@@ -5,8 +5,11 @@ import { forwardRef } from "preact/compat";
 import { cx } from "../../internal/index.js";
 
 export interface CheckboxProps extends Omit<JSX.HTMLAttributes<HTMLInputElement>, "checked" | "onChange" | "label" | "type" | "role"> {
+  /** Controlled state; leave unset to let the input own it. */
   checked?: boolean;
-  /** Mixed state; announced as `aria-checked="mixed"`. */
+  /** Initial state of an uncontrolled checkbox. */
+  defaultChecked?: boolean;
+  /** Mixed state; the DOM property, so :indeterminate paints and announces it. */
   indeterminate?: boolean;
   onChange?: (e: Event) => void;
   disabled?: boolean;
@@ -17,46 +20,32 @@ export interface CheckboxProps extends Omit<JSX.HTMLAttributes<HTMLInputElement>
 }
 
 /**
- * Toggle for a boolean or mixed selection.
+ * Toggle for a boolean or mixed selection; the native input carries the state and the sheet reads it.
  *
  * @example
  * <Checkbox checked={agreed} onChange={() => setAgreed((a) => !a)} label="Accept terms" />
  */
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ checked = false, indeterminate = false, onChange, disabled = false, label, density = "comfortable", className = "", ...rest }, ref) => (
-    <label
-      className={cx(
-        "strand-checkbox",
-        density === "compact" && "strand-checkbox--compact",
-        checked && "strand-checkbox--checked",
-        indeterminate && "strand-checkbox--indeterminate",
-        disabled && "strand-checkbox--disabled",
-        className,
-      )}
-    >
+  ({ checked, defaultChecked, indeterminate = false, onChange, disabled = false, label, density = "comfortable", className = "", ...rest }, ref) => (
+    <label className={cx("strand-checkbox", density === "compact" && "strand-checkbox--compact", className)}>
       <input
         ref={ref}
         type="checkbox"
         className="strand-checkbox__native"
         checked={checked}
-        // A DOM property with no attribute; Preact assigns it directly.
-        {...({ indeterminate } as Record<string, unknown>)}
+        defaultChecked={defaultChecked}
+        indeterminate={indeterminate}
         disabled={disabled}
         onChange={disabled ? undefined : onChange}
-        aria-checked={indeterminate ? "mixed" : checked ? "true" : "false"}
-        role="checkbox"
         {...rest}
       />
       <span className="strand-checkbox__control" aria-hidden="true">
-        {indeterminate ? (
-          <svg className="strand-checkbox__icon" viewBox="0 0 16 16" fill="none">
-            <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        ) : checked ? (
-          <svg className="strand-checkbox__icon" viewBox="0 0 16 16" fill="none">
-            <path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        ) : null}
+        <svg className="strand-checkbox__icon strand-checkbox__icon--check" viewBox="0 0 16 16" fill="none">
+          <path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg className="strand-checkbox__icon strand-checkbox__icon--mixed" viewBox="0 0 16 16" fill="none">
+          <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
       </span>
       {label && <span className="strand-checkbox__label">{label}</span>}
     </label>

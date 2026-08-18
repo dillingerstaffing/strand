@@ -1,6 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
 /* cf: pointer-fine-density */
+/* cf: native-state-selectors */
 
 /* ── Base ── */
 .strand-checkbox {
@@ -48,6 +49,7 @@
 }
 
 .strand-checkbox__icon {
+  display: none;
   width: 14px;
   height: 14px;
 }
@@ -58,25 +60,25 @@
   box-shadow: var(--strand-focus-ring);
 }
 
-/* ── Checked ── */
-.strand-checkbox--checked .strand-checkbox__control {
+/* ── Checked, mixed: the native input's state ── */
+.strand-checkbox__native:checked ~ .strand-checkbox__control,
+.strand-checkbox__native:indeterminate ~ .strand-checkbox__control {
   background: var(--strand-blue-primary);
   border-color: var(--strand-blue-primary);
 }
 
-/* ── Indeterminate ── */
-.strand-checkbox--indeterminate .strand-checkbox__control {
-  background: var(--strand-blue-primary);
-  border-color: var(--strand-blue-primary);
+.strand-checkbox__native:checked:not(:indeterminate) ~ .strand-checkbox__control .strand-checkbox__icon--check,
+.strand-checkbox__native:indeterminate ~ .strand-checkbox__control .strand-checkbox__icon--mixed {
+  display: block;
 }
 
 /* ── Hover ── */
-.strand-checkbox:hover:not(.strand-checkbox--disabled) .strand-checkbox__control {
+.strand-checkbox:hover .strand-checkbox__native:enabled ~ .strand-checkbox__control {
   border-color: var(--strand-blue-indicator);
 }
 
-.strand-checkbox--checked:hover:not(.strand-checkbox--disabled) .strand-checkbox__control,
-.strand-checkbox--indeterminate:hover:not(.strand-checkbox--disabled) .strand-checkbox__control {
+.strand-checkbox:hover .strand-checkbox__native:enabled:checked ~ .strand-checkbox__control,
+.strand-checkbox:hover .strand-checkbox__native:enabled:indeterminate ~ .strand-checkbox__control {
   background: var(--strand-blue-vivid);
   border-color: var(--strand-blue-vivid);
 }
@@ -87,7 +89,7 @@
 }
 
 /* ── Disabled ── */
-.strand-checkbox--disabled {
+.strand-checkbox:has(.strand-checkbox__native:disabled) {
   opacity: var(--strand-opacity-disabled);
   cursor: not-allowed;
 }

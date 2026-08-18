@@ -423,7 +423,7 @@
 		},
 		{
 			"name": "Checkbox",
-			"description": "Binary toggle for multiple selections with custom visual.",
+			"description": "Binary or mixed toggle. The native input carries checked, mixed and disabled; the sheet reads them.",
 			"classes": [
 				{
 					"class": "strand-checkbox",
@@ -439,26 +439,22 @@
 				},
 				{
 					"class": "strand-checkbox__icon",
-					"description": "SVG check/dash icon inside control."
+					"description": "A glyph inside the control; the sheet shows one from the input's state."
+				},
+				{
+					"class": "strand-checkbox__icon--check",
+					"description": "Shown when the input is :checked."
+				},
+				{
+					"class": "strand-checkbox__icon--mixed",
+					"description": "Shown when the input is :indeterminate."
 				},
 				{
 					"class": "strand-checkbox__label",
 					"description": "Text label."
-				},
-				{
-					"class": "strand-checkbox--checked",
-					"description": "Checked state."
-				},
-				{
-					"class": "strand-checkbox--indeterminate",
-					"description": "Indeterminate state."
-				},
-				{
-					"class": "strand-checkbox--disabled",
-					"description": "Disabled state."
 				}
 			],
-			"example": "<label class=\"strand-checkbox strand-checkbox--checked\">\n  <input type=\"checkbox\" class=\"strand-checkbox__native\" checked>\n  <span class=\"strand-checkbox__control\" aria-hidden=\"true\">\n    <svg class=\"strand-checkbox__icon\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <path d=\"M3.5 8L6.5 11L12.5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"strand-checkbox__label\">Accept terms</span>\n</label>"
+			"example": "<label class=\"strand-checkbox\">\n  <input type=\"checkbox\" class=\"strand-checkbox__native\" checked>\n  <span class=\"strand-checkbox__control\" aria-hidden=\"true\">\n    <svg class=\"strand-checkbox__icon strand-checkbox__icon--check\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <path d=\"M3.5 8L6.5 11L12.5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n    <svg class=\"strand-checkbox__icon strand-checkbox__icon--mixed\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <line x1=\"4\" y1=\"8\" x2=\"12\" y2=\"8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"strand-checkbox__label\">Accept terms</span>\n</label>"
 		},
 		{
 			"name": "ChipSet",
@@ -1547,7 +1543,7 @@
 		},
 		{
 			"name": "Radio",
-			"description": "Single selection from a set with custom dot indicator.",
+			"description": "Single selection within a group. The native input carries checked and disabled; the sheet reads them.",
 			"classes": [
 				{
 					"class": "strand-radio",
@@ -1568,17 +1564,9 @@
 				{
 					"class": "strand-radio__label",
 					"description": "Text label."
-				},
-				{
-					"class": "strand-radio--checked",
-					"description": "Checked state."
-				},
-				{
-					"class": "strand-radio--disabled",
-					"description": "Disabled state."
 				}
 			],
-			"example": "<label class=\"strand-radio strand-radio--checked\">\n  <input type=\"radio\" class=\"strand-radio__native\" name=\"group\" checked>\n  <span class=\"strand-radio__control\" aria-hidden=\"true\">\n    <span class=\"strand-radio__dot\"></span>\n  </span>\n  <span class=\"strand-radio__label\">Option A</span>\n</label>"
+			"example": "<label class=\"strand-radio\">\n  <input type=\"radio\" class=\"strand-radio__native\" name=\"group\" checked>\n  <span class=\"strand-radio__control\" aria-hidden=\"true\">\n    <span class=\"strand-radio__dot\"></span>\n  </span>\n  <span class=\"strand-radio__label\">Option A</span>\n</label>"
 		},
 		{
 			"name": "Reserve",
@@ -2059,7 +2047,7 @@
 		},
 		{
 			"name": "Switch",
-			"description": "Binary toggle (single) with track and thumb.",
+			"description": "Binary toggle. aria-checked on the track carries the state; disabled on the track dims the row.",
 			"classes": [
 				{
 					"class": "strand-switch",
@@ -2076,17 +2064,9 @@
 				{
 					"class": "strand-switch__label",
 					"description": "Text label."
-				},
-				{
-					"class": "strand-switch--checked",
-					"description": "Checked (on) state."
-				},
-				{
-					"class": "strand-switch--disabled",
-					"description": "Disabled state."
 				}
 			],
-			"example": "<label class=\"strand-switch strand-switch--checked\">\n  <button type=\"button\" role=\"switch\" class=\"strand-switch__track\" aria-checked=\"true\">\n    <span class=\"strand-switch__thumb\" aria-hidden=\"true\"></span>\n  </button>\n  <span class=\"strand-switch__label\">Dark mode</span>\n</label>"
+			"example": "<label class=\"strand-switch\">\n  <button type=\"button\" role=\"switch\" class=\"strand-switch__track\" aria-checked=\"true\">\n    <span class=\"strand-switch__thumb\" aria-hidden=\"true\"></span>\n  </button>\n  <span class=\"strand-switch__label\">Dark mode</span>\n</label>"
 		},
 		{
 			"name": "TabBar",

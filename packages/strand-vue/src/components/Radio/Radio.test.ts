@@ -5,88 +5,53 @@ import { render, fireEvent } from '@testing-library/vue'
 import Radio from './Radio.vue'
 
 describe('Radio', () => {
-  it('renders with default props', () => {
-    const { container } = render(Radio)
-    const label = container.querySelector('.strand-radio')
-    expect(label).toBeInTheDocument()
-    const input = container.querySelector('.strand-radio__native') as HTMLInputElement
-    expect(input).toBeInTheDocument()
-    expect(input).toHaveAttribute('type', 'radio')
+  it('renders a native radio with its name and value', () => {
+    const { container } = render(Radio, { props: { name: 'plan', value: 'pro' } })
+    const input = container.querySelector('.strand-radio .strand-radio__native') as HTMLInputElement
+    expect(input.type).toBe('radio')
+    expect(input.name).toBe('plan')
+    expect(input.value).toBe('pro')
     expect(input).not.toBeChecked()
   })
 
-  it('applies checked state and class', () => {
-    const { container } = render(Radio, {
-      props: { checked: true },
-    })
-    const wrapper = container.querySelector('.strand-radio')
-    expect(wrapper).toHaveClass('strand-radio--checked')
-    const input = container.querySelector('.strand-radio__native') as HTMLInputElement
-    expect(input).toBeChecked()
+  it('is checked when checked', () => {
+    const { container } = render(Radio, { props: { checked: true } })
+    expect(container.querySelector('input')).toBeChecked()
   })
 
-  it('applies disabled state', () => {
-    const { container } = render(Radio, {
-      props: { disabled: true },
-    })
-    const wrapper = container.querySelector('.strand-radio')
-    expect(wrapper).toHaveClass('strand-radio--disabled')
-    const input = container.querySelector('.strand-radio__native')
+  it('owns its state when uncontrolled: defaultChecked', () => {
+    const { container } = render(Radio, { props: { defaultChecked: true } })
+    expect(container.querySelector('input')).toBeChecked()
+  })
+
+  it('emits change and update:checked when clicked, and nothing when disabled', async () => {
+    const enabled = render(Radio)
+    await fireEvent.click(enabled.container.querySelector('input') as HTMLInputElement)
+    expect(enabled.emitted('change')).toHaveLength(1)
+    expect(enabled.emitted('update:checked')?.[0]).toEqual([true])
+    enabled.unmount()
+    const disabled = render(Radio, { props: { disabled: true } })
+    const input = disabled.container.querySelector('input') as HTMLInputElement
     expect(input).toBeDisabled()
-  })
-
-  it('renders label text', () => {
-    const { container } = render(Radio, {
-      props: { label: 'Option 1' },
-    })
-    const labelSpan = container.querySelector('.strand-radio__label')
-    expect(labelSpan).toBeInTheDocument()
-    expect(labelSpan).toHaveTextContent('Option 1')
-  })
-
-  it('does not render label span without label prop', () => {
-    const { container } = render(Radio)
-    expect(container.querySelector('.strand-radio__label')).not.toBeInTheDocument()
-  })
-
-  it('passes name attribute', () => {
-    const { container } = render(Radio, {
-      props: { name: 'color' },
-    })
-    const input = container.querySelector('.strand-radio__native')
-    expect(input).toHaveAttribute('name', 'color')
-  })
-
-  it('passes value attribute', () => {
-    const { container } = render(Radio, {
-      props: { value: 'red' },
-    })
-    const input = container.querySelector('.strand-radio__native')
-    expect(input).toHaveAttribute('value', 'red')
-  })
-
-  it('renders control with dot and aria-hidden', () => {
-    const { container } = render(Radio)
-    const control = container.querySelector('.strand-radio__control')
-    expect(control).toBeInTheDocument()
-    expect(control).toHaveAttribute('aria-hidden', 'true')
-    const dot = container.querySelector('.strand-radio__dot')
-    expect(dot).toBeInTheDocument()
-  })
-
-  it('emits change event when clicked', async () => {
-    const { container, emitted } = render(Radio)
-    const input = container.querySelector('.strand-radio__native') as HTMLInputElement
     await fireEvent.click(input)
-    expect(emitted().change).toHaveLength(1)
+    expect(disabled.emitted('change')).toBeUndefined()
   })
 
-  it('does not emit change when disabled', async () => {
-    const { container, emitted } = render(Radio, {
-      props: { disabled: true },
-    })
-    const input = container.querySelector('.strand-radio__native') as HTMLInputElement
-    await fireEvent.click(input)
-    expect(emitted().change).toBeUndefined()
+  it('renders the control with its dot, hidden from assistive tech', () => {
+    const { container } = render(Radio)
+    expect(container.querySelector('.strand-radio__control[aria-hidden="true"] .strand-radio__dot')).toBeInTheDocument()
+  })
+
+  it('renders label text only when given', () => {
+    const { getByText } = render(Radio, { props: { label: 'Option A' } })
+    expect(getByText('Option A')).toHaveClass('strand-radio__label')
+    expect(render(Radio).container.querySelector('.strand-radio__label')).toBeNull()
+  })
+
+  it('compact is a class, never an inline size', () => {
+    const { container } = render(Radio, { props: { density: 'compact' } })
+    const el = container.querySelector('.strand-radio') as HTMLElement
+    expect(el).toHaveClass('strand-radio--compact')
+    expect(el.getAttribute('style') || '').not.toContain('min-height')
   })
 })

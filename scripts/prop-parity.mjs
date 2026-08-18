@@ -126,7 +126,9 @@ export function compare(preact, vue, svelte) {
   for (const p of preact.data) {
     const aliases = [p, ...(VUE_DATA_ALIASES[p] || [])].map(norm);
     if (!aliases.some((a) => vueHas.has(a))) missing.vue.push(p);
-    if (!svelteHas.has(norm(p))) missing.svelte.push(p);
+    // A bindable Svelte prop is both the initial value and the live one, so `x` stands in for `defaultX`.
+    const svelteAliases = (/^default[A-Z]/.test(p) ? [p, p.replace(/^default/, "")] : [p]).map(norm);
+    if (!svelteAliases.some((a) => svelteHas.has(a))) missing.svelte.push(p);
   }
   for (const c of preact.callbacks) {
     const n = norm(c);

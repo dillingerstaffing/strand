@@ -16,75 +16,47 @@
   ```
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export interface SwitchProps {
-  /** Controlled checked state */
+  /** Controlled state; leave unset to let the switch own it. */
   checked?: boolean
-  /** Disabled state */
+  /** Initial state of an uncontrolled switch. */
+  defaultChecked?: boolean
   disabled?: boolean
-  /** Inline label text */
   label?: string
-  /**
-   * Row density. `comfortable` is the default and is unchanged.
-   *
-   * `compact` drops the row's floor to 30px ON A FINE POINTER ONLY. DL 14.7
-   * makes the floor a property of the input modality (coarse 44, fine 24),
-   * and requires a shrink rule to be written inside `@media (pointer: fine)`
-   * so touch is untouched by construction rather than by care.
-   *
-   * OPT-IN, which is 14.7 too: 44px remains the default everywhere. Reach for
-   * it where density is the point and the region is pointer-driven.
-   */
+  /** `compact` drops the row to 30px on a fine pointer only (DL 14.7). */
   density?: 'comfortable' | 'compact'
 }
 
 const props = withDefaults(defineProps<SwitchProps>(), {
-  density: 'comfortable',
-  checked: false,
+  checked: undefined,
+  defaultChecked: false,
   disabled: false,
+  label: undefined,
+  density: 'comfortable',
 })
 
 const emit = defineEmits<{
   (e: 'change', checked: boolean): void
+  (e: 'update:checked', checked: boolean): void
 }>()
 
-const classes = computed(() =>
-  [
-    'strand-switch',
-    props.density === 'compact' && 'strand-switch--compact',
-    props.checked && 'strand-switch--checked',
-    props.disabled && 'strand-switch--disabled',
-  ]
-    .filter(Boolean)
-    .join(' '),
-)
+const ownChecked = ref(props.defaultChecked)
+const isOn = computed(() => props.checked ?? ownChecked.value)
 
-function handleClick() {
-  if (!props.disabled) {
-    emit('change', !props.checked)
-  }
-}
-
-function handleKeyDown(event: KeyboardEvent) {
-  if ((event.key === ' ' || event.key === 'Enter') && !props.disabled) {
-    event.preventDefault()
-    emit('change', !props.checked)
-  }
+function toggle() {
+  if (props.disabled) return
+  const next = !isOn.value
+  if (props.checked === undefined) ownChecked.value = next
+  emit('change', next)
+  emit('update:checked', next)
 }
 </script>
 
 <template>
-  <label :class="classes">
-    <button
-      type="button"
-      role="switch"
-      class="strand-switch__track"
-      :aria-checked="checked ? 'true' : 'false'"
-      :disabled="disabled"
-      @click="handleClick"
-      @keydown="handleKeyDown"
-    >
+  <label :class="['strand-switch', density === 'compact' && 'strand-switch--compact'].filter(Boolean).join(' ')">
+    <button type="button" role="switch" class="strand-switch__track" :aria-checked="isOn ? 'true' : 'false'" :disabled="disabled" @click="toggle">
       <span class="strand-switch__thumb" aria-hidden="true" />
     </button>
     <span v-if="label" class="strand-switch__label">{{ label }}</span>

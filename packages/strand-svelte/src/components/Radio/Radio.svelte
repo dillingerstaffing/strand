@@ -14,11 +14,9 @@
   ```
 -->
 <script lang="ts">
-  /** Controlled checked state */
+  /** Checked state; bindable, so the input owns it unless the consumer does. */
   export let checked: boolean = false
-  /** Disabled state */
   export let disabled: boolean = false
-  /** Label text */
   export let label: string | undefined = undefined
   /** Radio group name */
   export let name: string | undefined = undefined
@@ -26,45 +24,16 @@
   export let value: string | undefined = undefined
   /** Change handler */
   export let onchange: ((e: Event) => void) | undefined = undefined
-
-  /**
-   * Row density. `comfortable` is the default and is unchanged.
-   *
-   * `compact` drops the row's floor to 30px ON A FINE POINTER ONLY. DL 14.7
-   * makes the floor a property of the input modality (coarse 44, fine 24),
-   * and requires a shrink rule to be written inside `@media (pointer: fine)`
-   * so touch is untouched by construction rather than by care.
-   *
-   * OPT-IN, which is 14.7 too: 44px remains the default everywhere. Reach for
-   * it where density is the point and the region is pointer-driven.
-   */
+  /** `compact` drops the row to 30px on a fine pointer only (DL 14.7). */
   export let density: 'comfortable' | 'compact' = 'comfortable'
 
-  $: classes = [
-    'strand-radio',
-    density === 'compact' && 'strand-radio--compact',
-    checked && 'strand-radio--checked',
-    disabled && 'strand-radio--disabled',
-  ].filter(Boolean).join(' ')
-
   function handleChange(e: Event) {
-    if (!disabled) {
-      onchange?.(e)
-    }
+    if (!disabled) onchange?.(e)
   }
 </script>
 
-<label class={classes}>
-  <input
-    type="radio"
-    class="strand-radio__native"
-    {checked}
-    {disabled}
-    {name}
-    {value}
-    on:change={handleChange}
-    {...$$restProps}
-  />
+<label class={['strand-radio', density === 'compact' && 'strand-radio--compact'].filter(Boolean).join(' ')}>
+  <input type="radio" class="strand-radio__native" {checked} {disabled} {name} {value} on:change={handleChange} {...$$restProps} />
   <span class="strand-radio__control" aria-hidden="true">
     <span class="strand-radio__dot"></span>
   </span>

@@ -5,7 +5,10 @@ import { forwardRef } from "preact/compat";
 import { cx } from "../../internal/index.js";
 
 export interface RadioProps extends Omit<JSX.HTMLAttributes<HTMLInputElement>, "checked" | "onChange" | "label" | "type"> {
+  /** Controlled state; leave unset to let the input own it. */
   checked?: boolean;
+  /** Initial state of an uncontrolled radio. */
+  defaultChecked?: boolean;
   onChange?: (e: Event) => void;
   disabled?: boolean;
   label?: string;
@@ -17,27 +20,20 @@ export interface RadioProps extends Omit<JSX.HTMLAttributes<HTMLInputElement>, "
 }
 
 /**
- * Single-selection control for a radio group.
+ * Single-selection control for a radio group; the native input carries the state and the sheet reads it.
  *
  * @example
  * <Radio name="plan" value="pro" label="Pro" checked={plan === "pro"} onChange={() => setPlan("pro")} />
  */
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
-  ({ checked = false, onChange, disabled = false, label, name, value, density = "comfortable", className = "", ...rest }, ref) => (
-    <label
-      className={cx(
-        "strand-radio",
-        density === "compact" && "strand-radio--compact",
-        checked && "strand-radio--checked",
-        disabled && "strand-radio--disabled",
-        className,
-      )}
-    >
+  ({ checked, defaultChecked, onChange, disabled = false, label, name, value, density = "comfortable", className = "", ...rest }, ref) => (
+    <label className={cx("strand-radio", density === "compact" && "strand-radio--compact", className)}>
       <input
         ref={ref}
         type="radio"
         className="strand-radio__native"
         checked={checked}
+        defaultChecked={defaultChecked}
         disabled={disabled}
         onChange={disabled ? undefined : onChange}
         name={name}

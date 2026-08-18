@@ -16,130 +16,61 @@
   ```
 -->
 <script setup lang="ts">
-import { computed, ref, watch, onMounted } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 
 export interface CheckboxProps {
-  /** Controlled checked state */
+  /** Controlled state; leave unset to let the input own it. */
   checked?: boolean
-  /** Indeterminate visual state */
+  /** Initial state of an uncontrolled checkbox. */
+  defaultChecked?: boolean
+  /** Mixed state; the DOM property, so :indeterminate paints and announces it. */
   indeterminate?: boolean
-  /** Disabled state */
   disabled?: boolean
-  /** Label text */
   label?: string
-  /**
-   * Row density. `comfortable` is the default and is unchanged.
-   *
-   * `compact` drops the row's floor to 30px ON A FINE POINTER ONLY. DL 14.7
-   * makes the floor a property of the input modality (coarse 44, fine 24),
-   * and requires a shrink rule to be written inside `@media (pointer: fine)`
-   * so touch is untouched by construction rather than by care.
-   *
-   * OPT-IN, which is 14.7 too: 44px remains the default everywhere. Reach for
-   * it where density is the point and the region is pointer-driven.
-   */
+  /** `compact` drops the row to 30px on a fine pointer only (DL 14.7). */
   density?: 'comfortable' | 'compact'
 }
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
-  density: 'comfortable',
-  checked: false,
+  checked: undefined,
+  defaultChecked: undefined,
   indeterminate: false,
   disabled: false,
+  label: undefined,
+  density: 'comfortable',
 })
 
 const emit = defineEmits<{
   (e: 'change', event: Event): void
+  (e: 'update:checked', checked: boolean): void
 }>()
 
-const inputRef = ref<HTMLInputElement | null>(null)
-
-onMounted(() => {
-  if (inputRef.value) {
-    inputRef.value.indeterminate = props.indeterminate
-  }
-})
-
-watch(() => props.indeterminate, (val) => {
-  if (inputRef.value) {
-    inputRef.value.indeterminate = val
-  }
-})
-
-const classes = computed(() =>
-  [
-    'strand-checkbox',
-    props.density === 'compact' && 'strand-checkbox--compact',
-    props.checked && 'strand-checkbox--checked',
-    props.indeterminate && 'strand-checkbox--indeterminate',
-    props.disabled && 'strand-checkbox--disabled',
-  ]
-    .filter(Boolean)
-    .join(' '),
+const input = ref<HTMLInputElement | null>(null)
+watchEffect(
+  () => {
+    if (input.value) input.value.indeterminate = props.indeterminate
+  },
+  { flush: 'sync' },
 )
 
-const ariaChecked = computed(() =>
-  props.indeterminate ? 'mixed' : props.checked ? 'true' : 'false',
-)
+const state = computed(() => (props.checked === undefined ? { defaultChecked: props.defaultChecked } : { checked: props.checked }))
 
-function handleChange(event: Event) {
-  if (!props.disabled) {
-    emit('change', event)
-  }
-}
-
-function handleKeyDown(event: KeyboardEvent) {
-  if (event.key === ' ' && !props.disabled) {
-    event.preventDefault()
-    if (inputRef.value) {
-      inputRef.value.click()
-    }
-  }
+function onChange(event: Event) {
+  if (props.disabled) return
+  emit('change', event)
+  emit('update:checked', (event.target as HTMLInputElement).checked)
 }
 </script>
 
 <template>
-  <label :class="classes" @keydown="handleKeyDown">
-    <input
-      ref="inputRef"
-      type="checkbox"
-      class="strand-checkbox__native"
-      :checked="checked"
-      :disabled="disabled"
-      :aria-checked="ariaChecked"
-      role="checkbox"
-      @change="handleChange"
-    />
+  <label :class="['strand-checkbox', density === 'compact' && 'strand-checkbox--compact'].filter(Boolean).join(' ')">
+    <input ref="input" type="checkbox" class="strand-checkbox__native" v-bind="state" :disabled="disabled" @change="onChange" />
     <span class="strand-checkbox__control" aria-hidden="true">
-      <svg
-        v-if="indeterminate"
-        class="strand-checkbox__icon"
-        viewBox="0 0 16 16"
-        fill="none"
-      >
-        <line
-          x1="4"
-          y1="8"
-          x2="12"
-          y2="8"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
+      <svg class="strand-checkbox__icon strand-checkbox__icon--check" viewBox="0 0 16 16" fill="none">
+        <path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
-      <svg
-        v-else-if="checked"
-        class="strand-checkbox__icon"
-        viewBox="0 0 16 16"
-        fill="none"
-      >
-        <path
-          d="M3.5 8L6.5 11L12.5 5"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
+      <svg class="strand-checkbox__icon strand-checkbox__icon--mixed" viewBox="0 0 16 16" fill="none">
+        <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg>
     </span>
     <span v-if="label" class="strand-checkbox__label">{{ label }}</span>
