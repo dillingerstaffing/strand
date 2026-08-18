@@ -4,7 +4,7 @@ import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
 import { cx } from "../../internal/index.js";
 
-export interface AlertProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "status"> {
+export interface AlertProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "status" | "title"> {
   /** Severity; error and warning announce assertively. */
   status?: "info" | "success" | "warning" | "error";
   /** Show the dismiss control. */

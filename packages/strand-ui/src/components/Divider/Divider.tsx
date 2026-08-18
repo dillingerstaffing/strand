@@ -4,7 +4,7 @@ import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
 import { cx } from "../../internal/index.js";
 
-export interface DividerProps extends Omit<JSX.HTMLAttributes<HTMLElement>, "label"> {
+export interface DividerProps extends Omit<JSX.HTMLAttributes<HTMLElement>, "label" | "ref"> {
   /** Separator direction. */
   direction?: "horizontal" | "vertical";
   /** `gradient` fades the line out at both ends. */
