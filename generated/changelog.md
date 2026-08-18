@@ -8,23 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- the wave-2 bar-raises across Preact, Vue and Svelte
+- checkbox, radio and switch paint state from the platform and work uncontrolled
+- roving tabindex, arrow keys, count, allowClear, read-only image
+- caption, label, aria-sort, column render, rowKey, emptyLabel and controlled sort
+- urgent toasts are alerts, auto-dismiss pauses on hover, a provider caps its count, and toast() returns a dismissable id
+- controlled open, Escape dismissal, and the trigger itself is described
+
+### Changed
+- vue-tsc and svelte-check run in test:all, and both ports are clean
+- tag and release from the version, not from the last commit's diff
+
+### Fixed
+- Divider omits the inherited ref and Alert the inherited title
+
+## [0.63.0] - 2026-08-18
+
+### Added
 - every prop a component offers exists in all three ports, and a check keeps it so
 - shared internals (cx, mergeRefs, styled), a render helper for snapshots, and docs/cf with a pointer check
-- a 10px overline rung, a compact chip strip, and a touch-target floor that can be answered (v0.62.0)
-- PersonChip carries a secondary label, plus a layout-transparent wrapper (v0.61.0)
-- a consumer can bound and scroll a long list vertically (v0.60.0)
-- a field can confirm a checked value, and its messages reach the control (v0.59.0)
-- a consumer can tint an avatar without overriding the class (v0.58.0)
-- an off-ladder gap stops rendering as no gap at all (v0.57.0), gaps #122-#123
-- Breadcrumb renders as an instrument label (v0.56.1)
-- Breadcrumb renders as an instrument label (v0.56.0)
-- ActionDock owns its own reveal (v0.55.0)
-- the modal shape a thumb can reach, and the density the design draws (v0.54.0), gaps #117-#120
-- the cell floor a full-screen month needs (v0.53.0), gap #116
-- the overlay a palette actually needs, and a stylesheet that was 72% prose (v0.51.0), gaps #110-#113
-- an alert on a feature surface, a live dot, and a label that can thin out (v0.50.0), gaps #107-#109
-- the tab bar owns its contrast, the field owns its width (v0.49.0, gaps #104-#106)
-- a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Changed
 - v0.63.0
@@ -44,25 +46,144 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a CSS home audit that reports which file defines each block
 - the component audit counts verbose JSDoc as prose
 - a component audit that reports the facts behind a review
-- re-trigger the publish workflow for 0.55.2
-- v0.54.1, gap #121
 
 ### Fixed
-- Dialog locks scroll before paint, so a centred panel cannot re-centre (v0.61.2)
-- the PersonChip separator inherits its text colour (v0.61.1)
-- the gap class ladder matches the token ladder (v0.57.1), gap #124
-- the instrument separator keeps a text-tier colour
-- ActionDock reads the intersection ratio, not isIntersecting (v0.55.2)
-- ActionDock covers a partially visible control (v0.55.1)
-- a chip is one token and its parts do not separate, gap #121
-- a layout primitive stops clipping, and a thumb bar stops charging desktop (v0.52.0), gaps #114-#115
-- alerts on dark live in one place, not two (v0.50.1)
-- the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
+- the empty-collection action is scoped to its block
+- the reference shell's mobile trigger keeps its class name
 
 ### Documentation
 - css architecture and component patterns, and the docs that point at them
+
+## [0.62.0] - 2026-08-17
+
+### Added
+- a 10px overline rung, a compact chip strip, and a touch-target floor that can be answered (v0.62.0)
+
+## [0.61.2] - 2026-08-17
+
+### Fixed
+- Dialog locks scroll before paint, so a centred panel cannot re-centre (v0.61.2)
+
+## [0.61.1] - 2026-08-17
+
+### Added
+- PersonChip carries a secondary label, plus a layout-transparent wrapper (v0.61.0)
+
+### Fixed
+- the PersonChip separator inherits its text colour (v0.61.1)
+
+## [0.60.0] - 2026-08-17
+
+### Added
+- a consumer can bound and scroll a long list vertically (v0.60.0)
+
+## [0.59.0] - 2026-08-16
+
+### Added
+- a field can confirm a checked value, and its messages reach the control (v0.59.0)
+
+## [0.58.0] - 2026-08-16
+
+### Added
+- a consumer can tint an avatar without overriding the class (v0.58.0)
+
+## [0.57.1] - 2026-08-15
+
+### Fixed
+- the gap class ladder matches the token ladder (v0.57.1), gap #124
+
+## [0.57.0] - 2026-08-15
+
+### Added
+- an off-ladder gap stops rendering as no gap at all (v0.57.0), gaps #122-#123
+
+## [0.56.1] - 2026-08-15
+
+### Added
+- Breadcrumb renders as an instrument label (v0.56.1)
+- Breadcrumb renders as an instrument label (v0.56.0)
+
+### Changed
+- re-trigger the publish workflow for 0.55.2
+
+### Fixed
+- the instrument separator keeps a text-tier colour
+
+### Documentation
 - tighten the wording of the type-scale note
+
+## [0.55.2] - 2026-08-15
+
+### Fixed
+- ActionDock reads the intersection ratio, not isIntersecting (v0.55.2)
+
+## [0.55.1] - 2026-08-15
+
+### Fixed
+- ActionDock covers a partially visible control (v0.55.1)
+
+## [0.55.0] - 2026-08-15
+
+### Added
+- ActionDock owns its own reveal (v0.55.0)
+
+### Documentation
 - three gaps from the event-screen parity build
+
+## [0.54.1] - 2026-08-15
+
+### Changed
+- v0.54.1, gap #121
+
+### Fixed
+- a chip is one token and its parts do not separate, gap #121
+
+## [0.54.0] - 2026-08-14
+
+### Added
+- the modal shape a thumb can reach, and the density the design draws (v0.54.0), gaps #117-#120
+
+## [0.53.0] - 2026-08-14
+
+### Added
+- the cell floor a full-screen month needs (v0.53.0), gap #116
+
+## [0.52.0] - 2026-08-14
+
+### Fixed
+- a layout primitive stops clipping, and a thumb bar stops charging desktop (v0.52.0), gaps #114-#115
+
+## [0.51.0] - 2026-08-14
+
+### Added
+- the overlay a palette actually needs, and a stylesheet that was 72% prose (v0.51.0), gaps #110-#113
+
+## [0.50.1] - 2026-08-14
+
+### Fixed
+- alerts on dark live in one place, not two (v0.50.1)
+
+## [0.50.0] - 2026-08-14
+
+### Added
+- an alert on a feature surface, a live dot, and a label that can thin out (v0.50.0), gaps #107-#109
+
+## [0.49.1] - 2026-08-14
+
+### Fixed
+- the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
+
+## [0.49.0] - 2026-08-14
+
+### Added
+- the tab bar owns its contrast, the field owns its width (v0.49.0, gaps #104-#106)
+
+## [0.48.0] - 2026-08-14
+
+### Added
+- a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
+
+### Documentation
 - #101, Dialog's Escape binding and the unit test that cannot see it
 
 ## [0.47.1] - 2026-08-13
@@ -598,6 +719,173 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - comprehensive Bulma coexistence guide (v1 CSS vars, forms, dark mode, layout)
 - add strand-vue README, bump to 0.4.1
 - Quick Start leads with CLI init, shows both install paths
+- update CLI commands to npx strand-ui for first-touch discovery
+
+## [0.14.0] - 2026-04-04
+
+### Added
+- propagate all new variants to Preact, Vue, Svelte components
+- heading styles and code element mono in base.css (DL 4.2 + 4.5)
+
+### Changed
+- bump all packages to v0.14.0
+
+### Fixed
+- strand-text-secondary strong/a styles for natural content emphasis
+
+## [0.13.0] - 2026-04-04
+
+### Added
+- nav glass variant, text-center, code-name, viewport-flex, heading-sm, section-compact
+
+### Changed
+- bump all packages to v0.13.0
+
+## [0.12.0] - 2026-04-03
+
+### Added
+- sr-only, section-header, step-indicator, link variants, section border-top, scroll-reveal CSS-only fallback
+
+### Changed
+- bump all packages to v0.12.0
+
+## [0.11.0] - 2026-04-03
+
+### Added
+- DataReadout --xl + distributed card-section + example refactor
+
+### Changed
+- bump all packages to v0.11.0
+
+## [0.10.0] - 2026-04-03
+
+### Added
+- composition grammar + molecular CSS classes
+- examples/ folder with Coffee Supply Monitor showcase
+- STRAND.md output audit checklist (ship-time principle verification)
+- composition-time DL tripwires across all surfaces
+- strengthen Principle 2 and 9 tests for composition-time enforcement
+- Title text primitive (human voice display, DL Part IV.7)
+
+### Changed
+- bump all packages to v0.10.0
+
+### Fixed
+- STRAND.md references DL principles, doesn't duplicate them
+
+## [0.9.0] - 2026-04-03
+
+### Added
+- v0.9.0 -- first-principle text + surface + grid primitives
+
+## [0.8.0] - 2026-04-03
+
+### Added
+- v0.8.0 -- Overline/Headline/Lead utilities, border-subtle + shadow-inset tokens
+
+## [0.7.1] - 2026-04-03
+
+### Fixed
+- primary button uses blue-deep (darker, authoritative), generous padding on all sizes
+
+## [0.7.0] - 2026-04-03
+
+### Added
+- v0.7.0 -- full DL compliance
+
+## [0.6.0] - 2026-04-03
+
+### Added
+- v0.6.0 -- DL-aligned feedback components + FormField labels
+- CDN distribution -- zero-install path via jsdelivr
+
+### Documentation
+- Bulma theme aligned to official Bulma customization paths
+
+## [0.5.1] - 2026-04-03
+
+### Added
+- Bulma integration -- CSS compat layer + Sass vars + single-import
+
+### Documentation
+- READMEs for all packages + bump 0.5.1 (bulma compat ships)
+- complete public surface audit -- Svelte, Bulma compat, CodeBlock
+- comprehensive Bulma coexistence guide (v1 CSS vars, forms, dark mode, layout)
+
+## [0.5.0] - 2026-04-03
+
+### Added
+- v0.5.0 -- CodeBlock component, Svelte lib, Bulma adoption UX
+- Phase 16 -- CodeBlock + Svelte + Bulma adoption UX
+
+### Changed
+- add strand-svelte to publish workflow
+
+### Fixed
+- Svelte Tabs uses scoped slot props (static name required)
+
+## [0.4.1] - 2026-04-03
+
+### Added
+- Vue 3 component library + CSS-only path + CLI framework detection
+
+### Documentation
+- add strand-vue README, bump to 0.4.1
+
+## [0.4.0] - 2026-04-03
+
+### Added
+- bespoke palette -- 4-degree cyan shift, all values original
+- v0.3.0 -- fix publish workflow, bump all packages
+
+### Changed
+- Node 24 for npm trusted publishing (Node 20 npm lacks OIDC support)
+- OIDC trusted publishing -- no registry-url, .npmrc in repo, workspace dep resolution
+- OIDC trusted publishing without NODE_AUTH_TOKEN
+
+### Fixed
+- use workspace:^ + pnpm publish --provenance for all packages
+
+### Documentation
+- Quick Start leads with CLI init, shows both install paths
+
+## [0.2.5] - 2026-04-03
+
+### Changed
+- single workflow -- npm publish --provenance from package dirs
+
+## [0.2.4] - 2026-04-03
+
+### Added
+- BLUF init output -- lead with STRAND.md, end with agent-ready
+- HTML_REFERENCE.md tripwires to DESIGN_LANGUAGE.md
+- generate STRAND.md on init + ship HTML_REFERENCE.md in npm
+- DataReadout size variants (sm/lg) + composability guidance
+
+### Changed
+- bump strand-ui to 0.2.4 (test auto-release chain)
+- auto-release on push, publish on release (proven OIDC path)
+- bump tokens to 0.2.3 (verify scoped OIDC publish)
+- fix unscoped package.json generation (heredoc produced malformed JSON)
+- retrigger publish (npm OIDC propagation)
+- add --provenance to unscoped strand-ui publish
+- trigger publish after npm OIDC config
+- drop scoped CLI publish (consumers use unscoped strand-ui)
+- publish on push to main (skip if version already on npm)
+- add unscoped strand-ui to publish workflow
+- bump strand-ui to 0.2.3 (tripwired HTML_REFERENCE.md)
+- bump all packages to 0.2.1
+- Merge pull request #2 from Intymax/add-readme-website-link
+- Update README.md
+- Add official website link to README
+
+### Fixed
+- rename CLI package to strand-ui, single publish mechanism
+- remove broken npm upgrade, align Node to 20
+- update lockfile after workspace:* to semver change
+- resolve workspace:* dependency for npm consumers
+
+### Documentation
 - update CLI commands to npx strand-ui for first-touch discovery
 
 ## [0.2.0] - 2026-04-02

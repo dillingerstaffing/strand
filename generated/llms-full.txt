@@ -833,6 +833,8 @@ Persistent notification with status variants.
 | `strand-alert` | base | Base alert element. |
 | `strand-alert__status` | child | Status prefix label. |
 | `strand-alert__content` | child | Alert message content. |
+| `strand-alert__title` | child | Heading set above the message. |
+| `strand-alert__action` | child | A control set after the message, such as an undo button. |
 | `strand-alert__dismiss` | child | Dismiss button. |
 | `strand-alert--info` | modifier | Info status. |
 | `strand-alert--success` | modifier | Success status. |
@@ -1113,28 +1115,30 @@ Content container with elevation and padding variants.
 
 ### Checkbox
 
-Binary toggle for multiple selections with custom visual.
+Binary or mixed toggle. The native input carries checked, mixed and disabled; the sheet reads them.
 
 | Class | Type | Description |
 |---|---|---|
 | `strand-checkbox` | base | Label wrapper element. |
-| `strand-checkbox__native` | child | Hidden native checkbox input. |
+| `strand-checkbox__native` | child | The native input, which carries the state; add strand-sr-only to hide it visually. |
 | `strand-checkbox__control` | child | Custom visual control. |
-| `strand-checkbox__icon` | child | SVG check/dash icon inside control. |
+| `strand-checkbox__icon` | child | A glyph inside the control; the sheet shows one from the input's state. |
+| `strand-checkbox__icon--check` | child | Shown when the input is :checked. |
+| `strand-checkbox__icon--mixed` | child | Shown when the input is :indeterminate. |
 | `strand-checkbox__label` | child | Text label. |
-| `strand-checkbox--checked` | modifier | Checked state. |
-| `strand-checkbox--indeterminate` | modifier | Indeterminate state. |
-| `strand-checkbox--disabled` | modifier | Disabled state. |
 | `strand-checkbox--compact` | modifier | |
 
 **Usage:**
 
 ```html
-<label class="strand-checkbox strand-checkbox--checked">
-  <input type="checkbox" class="strand-checkbox__native" checked>
+<label class="strand-checkbox">
+  <input type="checkbox" class="strand-checkbox__native strand-sr-only" checked>
   <span class="strand-checkbox__control" aria-hidden="true">
-    <svg class="strand-checkbox__icon" viewBox="0 0 16 16" fill="none">
+    <svg class="strand-checkbox__icon strand-checkbox__icon--check" viewBox="0 0 16 16" fill="none">
       <path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="strand-checkbox__icon strand-checkbox__icon--mixed" viewBox="0 0 16 16" fill="none">
+      <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
     </svg>
   </span>
   <span class="strand-checkbox__label">Accept terms</span>
@@ -1939,24 +1943,22 @@ Completion indicator (bar or ring).
 
 ### Radio
 
-Single selection from a set with custom dot indicator.
+Single selection within a group. The native input carries checked and disabled; the sheet reads them.
 
 | Class | Type | Description |
 |---|---|---|
 | `strand-radio` | base | Label wrapper element. |
-| `strand-radio__native` | child | Hidden native radio input. |
+| `strand-radio__native` | child | The native input, which carries the state; add strand-sr-only to hide it visually. |
 | `strand-radio__control` | child | Custom visual control. |
 | `strand-radio__dot` | child | Inner dot indicator. |
 | `strand-radio__label` | child | Text label. |
-| `strand-radio--checked` | modifier | Checked state. |
-| `strand-radio--disabled` | modifier | Disabled state. |
 | `strand-radio--compact` | modifier | |
 
 **Usage:**
 
 ```html
-<label class="strand-radio strand-radio--checked">
-  <input type="radio" class="strand-radio__native" name="group" checked>
+<label class="strand-radio">
+  <input type="radio" class="strand-radio__native strand-sr-only" name="group" checked>
   <span class="strand-radio__control" aria-hidden="true">
     <span class="strand-radio__dot"></span>
   </span>
@@ -2310,7 +2312,6 @@ Loading indicator with accessible text.
 |---|---|---|
 | `strand-spinner` | base | Base spinner element. |
 | `strand-spinner__ring` | child | Spinning ring visual. |
-| `strand-spinner__sr-only` | child | Screen-reader-only loading text. |
 | `strand-spinner--sm` | modifier | Small size (16px). |
 | `strand-spinner--md` | modifier | Medium size (20px). |
 | `strand-spinner--lg` | modifier | Large size (32px). |
@@ -2320,7 +2321,7 @@ Loading indicator with accessible text.
 ```html
 <span class="strand-spinner strand-spinner--md" role="status">
   <span class="strand-spinner__ring" aria-hidden="true"></span>
-  <span class="strand-spinner__sr-only">Loading</span>
+  <span class="strand-sr-only">Loading</span>
 </span>
 ```
 
@@ -2436,7 +2437,7 @@ Color swatch specimen for design-token documentation. The swatch grid auto-fills
 
 ### Switch
 
-Binary toggle (single) with track and thumb.
+Binary toggle. aria-checked on the track carries the state; disabled on the track dims the row.
 
 | Class | Type | Description |
 |---|---|---|
@@ -2444,14 +2445,12 @@ Binary toggle (single) with track and thumb.
 | `strand-switch__track` | child | Track button element with role="switch". |
 | `strand-switch__thumb` | child | Sliding thumb indicator. |
 | `strand-switch__label` | child | Text label. |
-| `strand-switch--checked` | modifier | Checked (on) state. |
-| `strand-switch--disabled` | modifier | Disabled state. |
 | `strand-switch--compact` | modifier | |
 
 **Usage:**
 
 ```html
-<label class="strand-switch strand-switch--checked">
+<label class="strand-switch">
   <button type="button" role="switch" class="strand-switch__track" aria-checked="true">
     <span class="strand-switch__thumb" aria-hidden="true"></span>
   </button>
@@ -2509,6 +2508,8 @@ Tabular data display with sortable headers.
 | `strand-table__td` | child | Table data cell. |
 | `strand-table__sort-btn` | child | Sortable column header button. |
 | `strand-table__sort-indicator` | child | Sort direction indicator. |
+| `strand-table__caption` | child | |
+| `strand-table__row--empty` | child | |
 
 **Usage:**
 
@@ -2534,8 +2535,7 @@ Content switching with accessible tab pattern.
 | Class | Type | Description |
 |---|---|---|
 | `strand-tabs` | base | Tab container. |
-| `strand-tabs__tab` | child | Individual tab button. |
-| `strand-tabs__tab--active` | child | Active tab state. |
+| `strand-tabs__tab` | child | Individual tab button; aria-selected="true" paints the active one. |
 | `strand-tabs__panel--reveal` | child | Panel entrance animation. |
 | `strand-tabs--instrument` | modifier | Instrument viewport variant for tabs. |
 
@@ -2544,7 +2544,7 @@ Content switching with accessible tab pattern.
 ```html
 <div class="strand-tabs">
   <div role="tablist">
-    <button role="tab" class="strand-tabs__tab strand-tabs__tab--active" aria-selected="true">Tab 1</button>
+    <button role="tab" class="strand-tabs__tab" aria-selected="true">Tab 1</button>
   </div>
 </div>
 ```
@@ -5452,7 +5452,7 @@ Every component in `packages/strand-ui` is written the same way, so a reader who
 4. **Children pass-through and proxy.** A component that wraps content renders `{children}` where they belong; `FormField` clones its child control to attach `id`, `aria-describedby` and `aria-invalid` rather than asking the consumer to wire them.
 5. **Render props for per-item content.** `CalendarGrid` takes `renderDay(day)` so a consumer decides what a cell holds without the grid knowing.
 6. **Style components for a family of thin wrappers.** `styled(tag, baseClass, displayName)` produces the `Lab*` specimen family (`LabShell`, `LabSidebar`, `LabExample`, ...) as one-line declarations; each is a `forwardRef` function component that merges `className` and spreads the rest.
-7. **Controlled inputs and state hoisting.** `Checkbox`, `Switch`, `Radio`, `Select`, `Input`, `Textarea`, `Slider` and `StarRating` take `value`/`checked` and `onChange`; the component holds no copy of the value. `Tabs`, `ChipSet` and `Nav` hoist their selection to the consumer through the same shape.
+7. **Controlled inputs and state hoisting.** `Checkbox`, `Switch`, `Radio`, `Select`, `Input`, `Textarea`, `Slider` and `StarRating` take `value`/`checked` and `onChange`; the component holds no copy of the value. `Tabs`, `ChipSet` and `Nav` hoist their selection to the consumer through the same shape. Where the prop is left unset the component is uncontrolled: `Checkbox` and `Radio` let the native input own the state (`defaultChecked`) and paint it from `:checked`; `Switch`, `Tooltip`, `Table` and `Toast`, whose state has no native home, own it in `useState` and read `prop ?? own`. See `docs/cf/native-state-selectors.md`.
 8. **Ids from `useId`.** `Dialog` and `Tooltip` mint their `aria-labelledby` and `aria-describedby` ids with `useId`, so ids never depend on render order.
 9. **Effects for the platform, not for rendering.** State that decides markup lives in `useState` and renders as classes or attributes (`ScrollReveal` renders `--visible`; `Toast` renders its list). Effects exist only to subscribe to something the platform owns: an `IntersectionObserver`, a timer, `document.body` overflow for a scroll lock.
 10. **Refs last.** A ref is used only where the DOM has no declarative form: restoring focus when a dialog closes, measuring a textarea's `scrollHeight` to autosize it, moving focus between tabs and calendar cells (roving tabindex), scrolling an active command-palette option into view, and reading the dock's trigger position. Each is named in `docs/cf/` (`dialog-focus-restore`, `dialog-scroll-lock`, `calendar-grid-arithmetic`, `actiondock-reveal`, `sheet-pointer-capture`). Nothing sets a class or a style on a node it did not render.
@@ -5499,7 +5499,7 @@ The bundle order is explicit in `packages/strand-ui/vite.config.ts`: every compo
 1. **One block per file, one file per block.** A sheet defines only its own block. `.strand-card` does not style `.strand-btn`, and `Card.css` does not define `.strand-channel-grid`. `pnpm test:css-export-parity` fails an undeclared foreign block; the two recorded exceptions carry their reasons in the manifest.
 2. **A surface recolours through tokens, never by selector.** A dark surface (`.strand-instrument-viewport`, `.strand-body--instrument`, `.strand-feature-surface`) or a recessed one sets `--strand-<block>-<part>-<property>` custom properties on itself; the primitive reads them with its light value as the fallback (`color: var(--strand-overline-color, var(--strand-gray-500))`). A light island (`.strand-detail-panel`, `.strand-surface-light`) resets each token to `initial`. `.strand-instrument-viewport .strand-overline { color }` is the shape this replaces, because that shape wins by file order and specificity, and it is now a failing check in `pnpm audit-css-home`. See `docs/cf/surface-tokens.md`.
 3. **A geometry a consumer needs to set is a knob.** `--strand-search-field-inline-size`, `--strand-btn-min-block-size` and their siblings are custom properties whose fallback is exactly what shipped, read inside `var()`, never declared on the block. See `docs/cf/component-knobs.md`.
-4. **State is an attribute where the platform has one.** `[aria-current="page"]`, `[aria-pressed="true"]`, `[data-strand-reserve="ready"]`, `:checked`, `:disabled`. A class exists for a state only when no attribute carries it, so the painted state and the announced state cannot drift.
+4. **State is an attribute where the platform has one.** `[aria-current="page"]`, `[aria-pressed="true"]`, `[aria-checked="true"]`, `[data-strand-reserve="ready"]`, `:checked`, `:indeterminate`, `:disabled`. A wrapper with no state of its own reads its control through `:has()`. A class exists for a state only when no attribute carries it, so the painted state and the announced state cannot drift. See `docs/cf/native-state-selectors.md`.
 5. **Each declaration exists once.** The focus ring lives in `base.css`; reduced motion lives in `reset.css`; disabled opacity is `--strand-opacity-disabled`. A component restates none of them. `!important` appears only where the contract is that a composed utility wins (`.strand-value--positive`), where the presentation mode must beat everything (`.strand-static`), or to outrank a third-party stylesheet appended at runtime.
 6. **Every rule is used.** A rule stays only if a component renders it, a consumer emits it, a showcase demonstrates it, or the design language or a migration guide specifies it. `pnpm test:css-usage` judges every selector branch against the library's sources plus `consumer-usage.json`, which each consumer writes from inside its own checkout (`pnpm css-usage --export-consumer <name> --corpus <dir>...`), and fails on anything unreachable.
 7. **A sheet carries rules, not essays.** A stylesheet is the license banner, `/* cf: <slug> */` pointers, one-line section labels, and rules. Anything that would take a paragraph to justify is an article in `docs/cf/` that the sheet points at; `pnpm cf-check` fails a pointer without an article and an article nothing points at.
@@ -5664,23 +5664,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- the wave-2 bar-raises across Preact, Vue and Svelte
+- checkbox, radio and switch paint state from the platform and work uncontrolled
+- roving tabindex, arrow keys, count, allowClear, read-only image
+- caption, label, aria-sort, column render, rowKey, emptyLabel and controlled sort
+- urgent toasts are alerts, auto-dismiss pauses on hover, a provider caps its count, and toast() returns a dismissable id
+- controlled open, Escape dismissal, and the trigger itself is described
+
+### Changed
+- vue-tsc and svelte-check run in test:all, and both ports are clean
+- tag and release from the version, not from the last commit's diff
+
+### Fixed
+- Divider omits the inherited ref and Alert the inherited title
+
+## [0.63.0] - 2026-08-18
+
+### Added
 - every prop a component offers exists in all three ports, and a check keeps it so
 - shared internals (cx, mergeRefs, styled), a render helper for snapshots, and docs/cf with a pointer check
-- a 10px overline rung, a compact chip strip, and a touch-target floor that can be answered (v0.62.0)
-- PersonChip carries a secondary label, plus a layout-transparent wrapper (v0.61.0)
-- a consumer can bound and scroll a long list vertically (v0.60.0)
-- a field can confirm a checked value, and its messages reach the control (v0.59.0)
-- a consumer can tint an avatar without overriding the class (v0.58.0)
-- an off-ladder gap stops rendering as no gap at all (v0.57.0), gaps #122-#123
-- Breadcrumb renders as an instrument label (v0.56.1)
-- Breadcrumb renders as an instrument label (v0.56.0)
-- ActionDock owns its own reveal (v0.55.0)
-- the modal shape a thumb can reach, and the density the design draws (v0.54.0), gaps #117-#120
-- the cell floor a full-screen month needs (v0.53.0), gap #116
-- the overlay a palette actually needs, and a stylesheet that was 72% prose (v0.51.0), gaps #110-#113
-- an alert on a feature surface, a live dot, and a label that can thin out (v0.50.0), gaps #107-#109
-- the tab bar owns its contrast, the field owns its width (v0.49.0, gaps #104-#106)
-- a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Changed
 - v0.63.0
@@ -5700,25 +5702,144 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a CSS home audit that reports which file defines each block
 - the component audit counts verbose JSDoc as prose
 - a component audit that reports the facts behind a review
-- re-trigger the publish workflow for 0.55.2
-- v0.54.1, gap #121
 
 ### Fixed
-- Dialog locks scroll before paint, so a centred panel cannot re-centre (v0.61.2)
-- the PersonChip separator inherits its text colour (v0.61.1)
-- the gap class ladder matches the token ladder (v0.57.1), gap #124
-- the instrument separator keeps a text-tier colour
-- ActionDock reads the intersection ratio, not isIntersecting (v0.55.2)
-- ActionDock covers a partially visible control (v0.55.1)
-- a chip is one token and its parts do not separate, gap #121
-- a layout primitive stops clipping, and a thumb bar stops charging desktop (v0.52.0), gaps #114-#115
-- alerts on dark live in one place, not two (v0.50.1)
-- the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
+- the empty-collection action is scoped to its block
+- the reference shell's mobile trigger keeps its class name
 
 ### Documentation
 - css architecture and component patterns, and the docs that point at them
+
+## [0.62.0] - 2026-08-17
+
+### Added
+- a 10px overline rung, a compact chip strip, and a touch-target floor that can be answered (v0.62.0)
+
+## [0.61.2] - 2026-08-17
+
+### Fixed
+- Dialog locks scroll before paint, so a centred panel cannot re-centre (v0.61.2)
+
+## [0.61.1] - 2026-08-17
+
+### Added
+- PersonChip carries a secondary label, plus a layout-transparent wrapper (v0.61.0)
+
+### Fixed
+- the PersonChip separator inherits its text colour (v0.61.1)
+
+## [0.60.0] - 2026-08-17
+
+### Added
+- a consumer can bound and scroll a long list vertically (v0.60.0)
+
+## [0.59.0] - 2026-08-16
+
+### Added
+- a field can confirm a checked value, and its messages reach the control (v0.59.0)
+
+## [0.58.0] - 2026-08-16
+
+### Added
+- a consumer can tint an avatar without overriding the class (v0.58.0)
+
+## [0.57.1] - 2026-08-15
+
+### Fixed
+- the gap class ladder matches the token ladder (v0.57.1), gap #124
+
+## [0.57.0] - 2026-08-15
+
+### Added
+- an off-ladder gap stops rendering as no gap at all (v0.57.0), gaps #122-#123
+
+## [0.56.1] - 2026-08-15
+
+### Added
+- Breadcrumb renders as an instrument label (v0.56.1)
+- Breadcrumb renders as an instrument label (v0.56.0)
+
+### Changed
+- re-trigger the publish workflow for 0.55.2
+
+### Fixed
+- the instrument separator keeps a text-tier colour
+
+### Documentation
 - tighten the wording of the type-scale note
+
+## [0.55.2] - 2026-08-15
+
+### Fixed
+- ActionDock reads the intersection ratio, not isIntersecting (v0.55.2)
+
+## [0.55.1] - 2026-08-15
+
+### Fixed
+- ActionDock covers a partially visible control (v0.55.1)
+
+## [0.55.0] - 2026-08-15
+
+### Added
+- ActionDock owns its own reveal (v0.55.0)
+
+### Documentation
 - three gaps from the event-screen parity build
+
+## [0.54.1] - 2026-08-15
+
+### Changed
+- v0.54.1, gap #121
+
+### Fixed
+- a chip is one token and its parts do not separate, gap #121
+
+## [0.54.0] - 2026-08-14
+
+### Added
+- the modal shape a thumb can reach, and the density the design draws (v0.54.0), gaps #117-#120
+
+## [0.53.0] - 2026-08-14
+
+### Added
+- the cell floor a full-screen month needs (v0.53.0), gap #116
+
+## [0.52.0] - 2026-08-14
+
+### Fixed
+- a layout primitive stops clipping, and a thumb bar stops charging desktop (v0.52.0), gaps #114-#115
+
+## [0.51.0] - 2026-08-14
+
+### Added
+- the overlay a palette actually needs, and a stylesheet that was 72% prose (v0.51.0), gaps #110-#113
+
+## [0.50.1] - 2026-08-14
+
+### Fixed
+- alerts on dark live in one place, not two (v0.50.1)
+
+## [0.50.0] - 2026-08-14
+
+### Added
+- an alert on a feature surface, a live dot, and a label that can thin out (v0.50.0), gaps #107-#109
+
+## [0.49.1] - 2026-08-14
+
+### Fixed
+- the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
+
+## [0.49.0] - 2026-08-14
+
+### Added
+- the tab bar owns its contrast, the field owns its width (v0.49.0, gaps #104-#106)
+
+## [0.48.0] - 2026-08-14
+
+### Added
+- a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
+
+### Documentation
 - #101, Dialog's Escape binding and the unit test that cannot see it
 
 ## [0.47.1] - 2026-08-13
@@ -6256,6 +6377,173 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Quick Start leads with CLI init, shows both install paths
 - update CLI commands to npx strand-ui for first-touch discovery
 
+## [0.14.0] - 2026-04-04
+
+### Added
+- propagate all new variants to Preact, Vue, Svelte components
+- heading styles and code element mono in base.css (DL 4.2 + 4.5)
+
+### Changed
+- bump all packages to v0.14.0
+
+### Fixed
+- strand-text-secondary strong/a styles for natural content emphasis
+
+## [0.13.0] - 2026-04-04
+
+### Added
+- nav glass variant, text-center, code-name, viewport-flex, heading-sm, section-compact
+
+### Changed
+- bump all packages to v0.13.0
+
+## [0.12.0] - 2026-04-03
+
+### Added
+- sr-only, section-header, step-indicator, link variants, section border-top, scroll-reveal CSS-only fallback
+
+### Changed
+- bump all packages to v0.12.0
+
+## [0.11.0] - 2026-04-03
+
+### Added
+- DataReadout --xl + distributed card-section + example refactor
+
+### Changed
+- bump all packages to v0.11.0
+
+## [0.10.0] - 2026-04-03
+
+### Added
+- composition grammar + molecular CSS classes
+- examples/ folder with Coffee Supply Monitor showcase
+- STRAND.md output audit checklist (ship-time principle verification)
+- composition-time DL tripwires across all surfaces
+- strengthen Principle 2 and 9 tests for composition-time enforcement
+- Title text primitive (human voice display, DL Part IV.7)
+
+### Changed
+- bump all packages to v0.10.0
+
+### Fixed
+- STRAND.md references DL principles, doesn't duplicate them
+
+## [0.9.0] - 2026-04-03
+
+### Added
+- v0.9.0 -- first-principle text + surface + grid primitives
+
+## [0.8.0] - 2026-04-03
+
+### Added
+- v0.8.0 -- Overline/Headline/Lead utilities, border-subtle + shadow-inset tokens
+
+## [0.7.1] - 2026-04-03
+
+### Fixed
+- primary button uses blue-deep (darker, authoritative), generous padding on all sizes
+
+## [0.7.0] - 2026-04-03
+
+### Added
+- v0.7.0 -- full DL compliance
+
+## [0.6.0] - 2026-04-03
+
+### Added
+- v0.6.0 -- DL-aligned feedback components + FormField labels
+- CDN distribution -- zero-install path via jsdelivr
+
+### Documentation
+- Bulma theme aligned to official Bulma customization paths
+
+## [0.5.1] - 2026-04-03
+
+### Added
+- Bulma integration -- CSS compat layer + Sass vars + single-import
+
+### Documentation
+- READMEs for all packages + bump 0.5.1 (bulma compat ships)
+- complete public surface audit -- Svelte, Bulma compat, CodeBlock
+- comprehensive Bulma coexistence guide (v1 CSS vars, forms, dark mode, layout)
+
+## [0.5.0] - 2026-04-03
+
+### Added
+- v0.5.0 -- CodeBlock component, Svelte lib, Bulma adoption UX
+- Phase 16 -- CodeBlock + Svelte + Bulma adoption UX
+
+### Changed
+- add strand-svelte to publish workflow
+
+### Fixed
+- Svelte Tabs uses scoped slot props (static name required)
+
+## [0.4.1] - 2026-04-03
+
+### Added
+- Vue 3 component library + CSS-only path + CLI framework detection
+
+### Documentation
+- add strand-vue README, bump to 0.4.1
+
+## [0.4.0] - 2026-04-03
+
+### Added
+- bespoke palette -- 4-degree cyan shift, all values original
+- v0.3.0 -- fix publish workflow, bump all packages
+
+### Changed
+- Node 24 for npm trusted publishing (Node 20 npm lacks OIDC support)
+- OIDC trusted publishing -- no registry-url, .npmrc in repo, workspace dep resolution
+- OIDC trusted publishing without NODE_AUTH_TOKEN
+
+### Fixed
+- use workspace:^ + pnpm publish --provenance for all packages
+
+### Documentation
+- Quick Start leads with CLI init, shows both install paths
+
+## [0.2.5] - 2026-04-03
+
+### Changed
+- single workflow -- npm publish --provenance from package dirs
+
+## [0.2.4] - 2026-04-03
+
+### Added
+- BLUF init output -- lead with STRAND.md, end with agent-ready
+- HTML_REFERENCE.md tripwires to DESIGN_LANGUAGE.md
+- generate STRAND.md on init + ship HTML_REFERENCE.md in npm
+- DataReadout size variants (sm/lg) + composability guidance
+
+### Changed
+- bump strand-ui to 0.2.4 (test auto-release chain)
+- auto-release on push, publish on release (proven OIDC path)
+- bump tokens to 0.2.3 (verify scoped OIDC publish)
+- fix unscoped package.json generation (heredoc produced malformed JSON)
+- retrigger publish (npm OIDC propagation)
+- add --provenance to unscoped strand-ui publish
+- trigger publish after npm OIDC config
+- drop scoped CLI publish (consumers use unscoped strand-ui)
+- publish on push to main (skip if version already on npm)
+- add unscoped strand-ui to publish workflow
+- bump strand-ui to 0.2.3 (tripwired HTML_REFERENCE.md)
+- bump all packages to 0.2.1
+- Merge pull request #2 from Intymax/add-readme-website-link
+- Update README.md
+- Add official website link to README
+
+### Fixed
+- rename CLI package to strand-ui, single publish mechanism
+- remove broken npm upgrade, align Node to 20
+- update lockfile after workspace:* to semver change
+- resolve workspace:* dependency for npm consumers
+
+### Documentation
+- update CLI commands to npx strand-ui for first-touch discovery
+
 ## [0.2.0] - 2026-04-02
 
 ### Added
@@ -6366,7 +6654,7 @@ pnpm lint        # Lint all files
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |
-| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:css-usage && pnpm test:component-test-parity && pnpm test:parity && pnpm test:prop-parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion` |
+| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:typecheck && pnpm test:css-export-parity && pnpm test:css-usage && pnpm test:component-test-parity && pnpm test:parity && pnpm test:prop-parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion` |
 | `pnpm test:browser-preflight` | `node scripts/browser-preflight.mjs` |
 | `pnpm test:bundle-budget` | `node scripts/bundle-budget-check.mjs` |
 | `pnpm test:component-test-parity` | `node scripts/component-test-parity.mjs` |
@@ -6381,6 +6669,7 @@ pnpm lint        # Lint all files
 | `pnpm test:parity` | `node scripts/parity-check.mjs` |
 | `pnpm test:prop-parity` | `node scripts/prop-parity.mjs` |
 | `pnpm test:scripts` | `vitest run --config vitest.config.mjs` |
+| `pnpm test:typecheck` | `pnpm --filter @dillingerstaffing/strand-vue check && pnpm --filter @dillingerstaffing/strand-svelte check` |
 | `pnpm vendor-fonts` | `node scripts/vendor-fonts.mjs` |
 | `pnpm vendor-fonts:check` | `node scripts/vendor-fonts.mjs --check` |
 <!-- GENERATED:COMMANDS:END -->
@@ -6869,7 +7158,7 @@ Strand and Bootstrap coexist without conflicts. All Strand classes are prefixed 
 | `nav-link` | `strand-nav__link` | Active state: `strand-nav__link--active` |
 | `navbar-toggler` | `strand-nav__hamburger` | Auto-shown below 768px. Omit it (or pass `mobileMenu={false}`) when the surface already carries its destinations in a persistent region: a bottom bar plus a hamburger is two answers to one question (DL 19.1.1). |
 | `navbar-collapse` | `strand-nav__mobile-menu` | Mobile links use `strand-nav__mobile-link` |
-| `nav-tabs` / `nav-link` | `strand-tabs` + `strand-tabs__tab` | Active: `strand-tabs__tab--active`. Uses `role="tablist"` / `role="tabpanel"` for accessibility |
+| `nav-tabs` / `nav-link` | `strand-tabs` + `strand-tabs__tab` | Active: `aria-selected="true"`. Uses `role="tablist"` / `role="tabpanel"` for accessibility |
 | `badge bg-primary` | `strand-tag strand-tag--solid strand-tag--blue` | Colors: `--default`, `--teal`, `--blue`, `--amber`, `--red`. Variants: `--solid`, `--outlined` |
 | `badge bg-success` | `strand-tag strand-tag--solid strand-tag--teal` | |
 | `badge bg-warning` | `strand-tag strand-tag--solid strand-tag--amber` | |

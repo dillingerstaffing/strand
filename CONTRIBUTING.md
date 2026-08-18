@@ -58,7 +58,7 @@ pnpm lint        # Lint all files
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |
-| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:css-usage && pnpm test:component-test-parity && pnpm test:parity && pnpm test:prop-parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion` |
+| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:typecheck && pnpm test:css-export-parity && pnpm test:css-usage && pnpm test:component-test-parity && pnpm test:parity && pnpm test:prop-parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion` |
 | `pnpm test:browser-preflight` | `node scripts/browser-preflight.mjs` |
 | `pnpm test:bundle-budget` | `node scripts/bundle-budget-check.mjs` |
 | `pnpm test:component-test-parity` | `node scripts/component-test-parity.mjs` |
@@ -73,6 +73,7 @@ pnpm lint        # Lint all files
 | `pnpm test:parity` | `node scripts/parity-check.mjs` |
 | `pnpm test:prop-parity` | `node scripts/prop-parity.mjs` |
 | `pnpm test:scripts` | `vitest run --config vitest.config.mjs` |
+| `pnpm test:typecheck` | `pnpm --filter @dillingerstaffing/strand-vue check && pnpm --filter @dillingerstaffing/strand-svelte check` |
 | `pnpm vendor-fonts` | `node scripts/vendor-fonts.mjs` |
 | `pnpm vendor-fonts:check` | `node scripts/vendor-fonts.mjs --check` |
 <!-- GENERATED:COMMANDS:END -->
