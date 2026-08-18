@@ -267,6 +267,8 @@ Persistent notification with status variants.
 | `strand-alert` | base | Base alert element. |
 | `strand-alert__status` | child | Status prefix label. |
 | `strand-alert__content` | child | Alert message content. |
+| `strand-alert__title` | child | Heading set above the message. |
+| `strand-alert__action` | child | A control set after the message, such as an undo button. |
 | `strand-alert__dismiss` | child | Dismiss button. |
 | `strand-alert--info` | modifier | Info status. |
 | `strand-alert--success` | modifier | Success status. |
@@ -547,28 +549,30 @@ Content container with elevation and padding variants.
 
 ### Checkbox
 
-Binary toggle for multiple selections with custom visual.
+Binary or mixed toggle. The native input carries checked, mixed and disabled; the sheet reads them.
 
 | Class | Type | Description |
 |---|---|---|
 | `strand-checkbox` | base | Label wrapper element. |
-| `strand-checkbox__native` | child | Hidden native checkbox input. |
+| `strand-checkbox__native` | child | The native input, which carries the state; add strand-sr-only to hide it visually. |
 | `strand-checkbox__control` | child | Custom visual control. |
-| `strand-checkbox__icon` | child | SVG check/dash icon inside control. |
+| `strand-checkbox__icon` | child | A glyph inside the control; the sheet shows one from the input's state. |
+| `strand-checkbox__icon--check` | child | Shown when the input is :checked. |
+| `strand-checkbox__icon--mixed` | child | Shown when the input is :indeterminate. |
 | `strand-checkbox__label` | child | Text label. |
-| `strand-checkbox--checked` | modifier | Checked state. |
-| `strand-checkbox--indeterminate` | modifier | Indeterminate state. |
-| `strand-checkbox--disabled` | modifier | Disabled state. |
 | `strand-checkbox--compact` | modifier | |
 
 **Usage:**
 
 ```html
-<label class="strand-checkbox strand-checkbox--checked">
-  <input type="checkbox" class="strand-checkbox__native" checked>
+<label class="strand-checkbox">
+  <input type="checkbox" class="strand-checkbox__native strand-sr-only" checked>
   <span class="strand-checkbox__control" aria-hidden="true">
-    <svg class="strand-checkbox__icon" viewBox="0 0 16 16" fill="none">
+    <svg class="strand-checkbox__icon strand-checkbox__icon--check" viewBox="0 0 16 16" fill="none">
       <path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="strand-checkbox__icon strand-checkbox__icon--mixed" viewBox="0 0 16 16" fill="none">
+      <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
     </svg>
   </span>
   <span class="strand-checkbox__label">Accept terms</span>
@@ -1373,24 +1377,22 @@ Completion indicator (bar or ring).
 
 ### Radio
 
-Single selection from a set with custom dot indicator.
+Single selection within a group. The native input carries checked and disabled; the sheet reads them.
 
 | Class | Type | Description |
 |---|---|---|
 | `strand-radio` | base | Label wrapper element. |
-| `strand-radio__native` | child | Hidden native radio input. |
+| `strand-radio__native` | child | The native input, which carries the state; add strand-sr-only to hide it visually. |
 | `strand-radio__control` | child | Custom visual control. |
 | `strand-radio__dot` | child | Inner dot indicator. |
 | `strand-radio__label` | child | Text label. |
-| `strand-radio--checked` | modifier | Checked state. |
-| `strand-radio--disabled` | modifier | Disabled state. |
 | `strand-radio--compact` | modifier | |
 
 **Usage:**
 
 ```html
-<label class="strand-radio strand-radio--checked">
-  <input type="radio" class="strand-radio__native" name="group" checked>
+<label class="strand-radio">
+  <input type="radio" class="strand-radio__native strand-sr-only" name="group" checked>
   <span class="strand-radio__control" aria-hidden="true">
     <span class="strand-radio__dot"></span>
   </span>
@@ -1744,7 +1746,6 @@ Loading indicator with accessible text.
 |---|---|---|
 | `strand-spinner` | base | Base spinner element. |
 | `strand-spinner__ring` | child | Spinning ring visual. |
-| `strand-spinner__sr-only` | child | Screen-reader-only loading text. |
 | `strand-spinner--sm` | modifier | Small size (16px). |
 | `strand-spinner--md` | modifier | Medium size (20px). |
 | `strand-spinner--lg` | modifier | Large size (32px). |
@@ -1754,7 +1755,7 @@ Loading indicator with accessible text.
 ```html
 <span class="strand-spinner strand-spinner--md" role="status">
   <span class="strand-spinner__ring" aria-hidden="true"></span>
-  <span class="strand-spinner__sr-only">Loading</span>
+  <span class="strand-sr-only">Loading</span>
 </span>
 ```
 
@@ -1870,7 +1871,7 @@ Color swatch specimen for design-token documentation. The swatch grid auto-fills
 
 ### Switch
 
-Binary toggle (single) with track and thumb.
+Binary toggle. aria-checked on the track carries the state; disabled on the track dims the row.
 
 | Class | Type | Description |
 |---|---|---|
@@ -1878,14 +1879,12 @@ Binary toggle (single) with track and thumb.
 | `strand-switch__track` | child | Track button element with role="switch". |
 | `strand-switch__thumb` | child | Sliding thumb indicator. |
 | `strand-switch__label` | child | Text label. |
-| `strand-switch--checked` | modifier | Checked (on) state. |
-| `strand-switch--disabled` | modifier | Disabled state. |
 | `strand-switch--compact` | modifier | |
 
 **Usage:**
 
 ```html
-<label class="strand-switch strand-switch--checked">
+<label class="strand-switch">
   <button type="button" role="switch" class="strand-switch__track" aria-checked="true">
     <span class="strand-switch__thumb" aria-hidden="true"></span>
   </button>
@@ -1943,6 +1942,8 @@ Tabular data display with sortable headers.
 | `strand-table__td` | child | Table data cell. |
 | `strand-table__sort-btn` | child | Sortable column header button. |
 | `strand-table__sort-indicator` | child | Sort direction indicator. |
+| `strand-table__caption` | child | |
+| `strand-table__row--empty` | child | |
 
 **Usage:**
 
@@ -1968,8 +1969,7 @@ Content switching with accessible tab pattern.
 | Class | Type | Description |
 |---|---|---|
 | `strand-tabs` | base | Tab container. |
-| `strand-tabs__tab` | child | Individual tab button. |
-| `strand-tabs__tab--active` | child | Active tab state. |
+| `strand-tabs__tab` | child | Individual tab button; aria-selected="true" paints the active one. |
 | `strand-tabs__panel--reveal` | child | Panel entrance animation. |
 | `strand-tabs--instrument` | modifier | Instrument viewport variant for tabs. |
 
@@ -1978,7 +1978,7 @@ Content switching with accessible tab pattern.
 ```html
 <div class="strand-tabs">
   <div role="tablist">
-    <button role="tab" class="strand-tabs__tab strand-tabs__tab--active" aria-selected="true">Tab 1</button>
+    <button role="tab" class="strand-tabs__tab" aria-selected="true">Tab 1</button>
   </div>
 </div>
 ```

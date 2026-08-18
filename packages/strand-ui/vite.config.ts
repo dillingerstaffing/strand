@@ -26,7 +26,7 @@ function collectCss() {
         ["Static", resolve(src, "static.css")],
       ].filter(([, path]) => existsSync(path));
 
-      let allCss = "/*! Strand UI v0.63.0 | MIT License | dillingerstaffing.com */\n\n";
+      let allCss = "/*! Strand UI v0.64.0 | MIT License | dillingerstaffing.com */\n\n";
       for (const [name, path] of sheets) {
         allCss += `/* ${name} */\n${readFileSync(path, "utf-8")}\n\n`;
       }

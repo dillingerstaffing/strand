@@ -5676,7 +5676,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - tag and release from the version, not from the last commit's diff
 
 ### Fixed
+- Tooltip and FormField declare their default slot, so the declaration build types it
 - Divider omits the inherited ref and Alert the inherited title
+
+### Documentation
+- regenerate the reference, changelog and contributing table
 
 ## [0.63.0] - 2026-08-18
 
