@@ -180,6 +180,17 @@ describe("analyzeSource", () => {
     const f = analyzeSource(STATEFUL);
     expect(f.comments.prose).toBe(3);
     expect(f.comments.jsdoc).toBe(1);
+    expect(f.comments.verboseJsdoc).toBe(0);
+  });
+
+  it("a doc comment past its allowance is verbose jsdoc, and an @example block gets room", () => {
+    const f = analyzeSource(
+      `/**\n * one\n * two\n * three\n * four\n */\nexport const a = 1;\n/**\n * doc\n *\n * @example\n * <X />\n */\nexport const b = 2;\n`,
+    );
+    // The first block is 6 lines against an allowance of 2; the second is
+    // 6 lines with an @example, inside its allowance.
+    expect(f.comments.verboseJsdoc).toBe(4);
+    expect(f.comments.jsdoc).toBe(12);
   });
 
   it("a hook call with a type argument is still a call", () => {
@@ -256,6 +267,13 @@ describe("classify", () => {
         "class-assertions",
       ]),
     );
+  });
+
+  it("verbose jsdoc counts toward the prose ratio and is named as its own flag", () => {
+    const heavy = `/**\n * one\n * two\n * three\n * four\n * five\n * six\n * seven\n * eight\n * nine\n * ten\n * eleven\n */\nexport function X() { return null; }\n`;
+    const c = classify(analyzeSource(heavy), analyzeTest(null));
+    expect(c.flags).toContain("verbose-jsdoc");
+    expect(c.flags).toContain("prose");
   });
 
   it("prose above the threshold is flagged with the ratio", () => {

@@ -129,11 +129,21 @@ export function analyzeSource(src) {
       if (codeLines[ln].trim() === "" && lineKind[ln] === null) lineKind[ln] = c.kind;
     }
   }
-  const commentCounts = { banner: 0, jsdoc: 0, prose: 0 };
+  const commentCounts = { banner: 0, jsdoc: 0, prose: 0, verboseJsdoc: 0 };
   for (const k of lineKind) {
     if (k === "banner") commentCounts.banner++;
     else if (k === "jsdoc") commentCounts.jsdoc++;
     else if (k === "block" || k === "line") commentCounts.prose++;
+  }
+  // A JSDoc block is interface when it is short. A prop doc gets two lines;
+  // a block carrying an @example gets room for the example. Lines past
+  // that are prose that happens to sit inside a doc comment.
+  for (const c of comments) {
+    if (c.kind !== "jsdoc") continue;
+    const text = src.slice(c.start, c.end);
+    const n = text.split("\n").length;
+    const allowance = text.includes("@example") ? JSDOC_EXAMPLE_ALLOWANCE : JSDOC_ALLOWANCE;
+    if (n > allowance) commentCounts.verboseJsdoc += n - allowance;
   }
 
   const hooks = countMatches(code, HOOK_CALL);
@@ -199,6 +209,8 @@ export function analyzeTest(src) {
 }
 
 const PROSE_THRESHOLD = 0.1;
+const JSDOC_ALLOWANCE = 2;
+const JSDOC_EXAMPLE_ALLOWANCE = 16;
 
 /**
  * Mechanical verdict: booleans and named flags. No opinion about whether a
@@ -209,7 +221,8 @@ export function classify(facts, test) {
   const has = (o) => Object.keys(o).length > 0;
   const reachesDom =
     has(d.globals) || has(d.queries) || d.styleWrites > 0 || d.classListWrites > 0 || d.listeners > 0 || has(d.observers) || d.rawHtml > 0;
-  const proseRatio = facts.lines === 0 ? 0 : facts.comments.prose / facts.lines;
+  const proseRatio =
+    facts.lines === 0 ? 0 : (facts.comments.prose + facts.comments.verboseJsdoc) / facts.lines;
   const flags = [];
   if (facts.stateful) flags.push("stateful");
   if (facts.effects) flags.push("effects");
@@ -224,6 +237,7 @@ export function classify(facts, test) {
   if (facts.moduleState > 0) flags.push("module-state");
   if (facts.inlineStyleProps > 0) flags.push("inline-style");
   if (proseRatio > PROSE_THRESHOLD) flags.push("prose");
+  if (facts.comments.verboseJsdoc > 0) flags.push("verbose-jsdoc");
   if (test.tests === 0) flags.push("untested");
   else if (test.snapshots === 0) flags.push("no-snapshots");
   if (test.classAssertions > 0) flags.push("class-assertions");
@@ -260,9 +274,11 @@ export function summarize(rows) {
   const dom = rows.filter((r) => r.verdict.reachesDom).length;
   const snap = rows.filter((r) => r.verdict.snapshotted).length;
   const prose = rows.filter((r) => r.verdict.flags.includes("prose")).length;
+  const proseLines = rows.reduce((n, r) => n + r.facts.comments.prose, 0);
+  const verboseLines = rows.reduce((n, r) => n + r.facts.comments.verboseJsdoc, 0);
   lines.push("");
   lines.push(
-    `  ${rows.length} components: ${pure} pure (no hooks), ${stateless} stateless, ${dom} reach the DOM, ${snap} snapshot-tested, ${prose} over ${PROSE_THRESHOLD * 100}% prose.`,
+    `  ${rows.length} components: ${pure} pure (no hooks), ${stateless} stateless, ${dom} reach the DOM, ${snap} snapshot-tested, ${prose} over ${PROSE_THRESHOLD * 100}% prose (${proseLines} prose lines, ${verboseLines} verbose JSDoc lines).`,
   );
   return { ok: true, text: lines.join("\n") };
 }
