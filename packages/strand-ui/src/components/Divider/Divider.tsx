@@ -2,90 +2,54 @@
 
 import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
+import { cx } from "../../internal/index.js";
 
 export interface DividerProps {
-  /** Separator direction */
+  /** Separator direction. */
   direction?: "horizontal" | "vertical";
-  /** Optional label text displayed in the middle of the line */
+  /** Text set into the middle of a horizontal line. */
   label?: string;
-  /** Additional CSS class */
   className?: string;
 }
 
 /**
- * Visual separator line between content sections, horizontal or vertical.
+ * Separator line, horizontal or vertical, optionally labelled.
  *
  * @example
- * ```tsx
- * import { Divider } from '@dillingerstaffing/strand-ui';
- *
- * <Divider direction="horizontal" label="OR" />
- * ```
+ * <Divider label="OR" />
  */
-export const Divider = forwardRef<HTMLElement, DividerProps>(
-  ({ direction = "horizontal", label, className = "" }, ref) => {
-    const isVertical = direction === "vertical";
-
-    if (isVertical) {
-      const classes = [
-        "strand-divider",
-        "strand-divider--vertical",
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ");
-
-      return (
-        <div
-          ref={ref as preact.Ref<HTMLDivElement>}
-          role="separator"
-          aria-orientation="vertical"
-          className={classes}
-        />
-      );
-    }
-
-    if (label) {
-      const classes = [
-        "strand-divider",
-        "strand-divider--horizontal",
-        "strand-divider--labeled",
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ");
-
-      return (
-        <div
-          ref={ref as preact.Ref<HTMLDivElement>}
-          role="separator"
-          aria-orientation="horizontal"
-          className={classes}
-        >
-          <span className="strand-divider__line" />
-          <span className="strand-divider__label">{label}</span>
-          <span className="strand-divider__line" />
-        </div>
-      );
-    }
-
-    const classes = [
-      "strand-divider",
-      "strand-divider--horizontal",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
+export const Divider = forwardRef<HTMLElement, DividerProps>(({ direction = "horizontal", label, className = "" }, ref) => {
+  if (direction === "vertical") {
     return (
-      <hr
-        ref={ref as preact.Ref<HTMLHRElement>}
+      <div
+        ref={ref as JSX.HTMLAttributes<HTMLDivElement>["ref"]}
         role="separator"
-        aria-orientation="horizontal"
-        className={classes}
+        aria-orientation="vertical"
+        className={cx("strand-divider", "strand-divider--vertical", className)}
       />
     );
-  },
-);
-
+  }
+  if (label) {
+    return (
+      <div
+        ref={ref as JSX.HTMLAttributes<HTMLDivElement>["ref"]}
+        role="separator"
+        aria-orientation="horizontal"
+        className={cx("strand-divider", "strand-divider--horizontal", "strand-divider--labeled", className)}
+      >
+        <span className="strand-divider__line" />
+        <span className="strand-divider__label">{label}</span>
+        <span className="strand-divider__line" />
+      </div>
+    );
+  }
+  return (
+    <hr
+      ref={ref as JSX.HTMLAttributes<HTMLHRElement>["ref"]}
+      role="separator"
+      aria-orientation="horizontal"
+      className={cx("strand-divider", "strand-divider--horizontal", className)}
+    />
+  );
+});
 Divider.displayName = "Divider";

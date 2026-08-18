@@ -2,50 +2,33 @@
 
 import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
+import { cx } from "../../internal/index.js";
 
 export interface LinkProps extends JSX.HTMLAttributes<HTMLAnchorElement> {
-  /** URL destination */
   href: string;
-  /** Opens in new tab with rel="noopener noreferrer" */
+  /** Opens in a new tab with `rel="noopener noreferrer"`. */
   external?: boolean;
-  /**
-   * Style variant. `inherit` drops the link's own color and underline so it
-   * takes the surrounding text color (e.g. a title that is itself a link).
-   */
+  /** `inherit` takes the surrounding text colour, e.g. a title that is a link. */
   variant?: "default" | "cta" | "mono" | "inherit";
 }
 
 /**
- * Styled anchor element with external-link handling and visual variants.
+ * Styled anchor.
  *
  * @example
- * ```tsx
- * import { Link } from '@dillingerstaffing/strand-ui';
- *
  * <Link href="/docs" variant="cta">Read the docs</Link>
- * <Link href="https://example.com" external>External site</Link>
- * ```
  */
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ href, external = false, variant = "default", className = "", children, ...rest }, ref) => {
-    const classes = [
-      "strand-link",
-      variant !== "default" && `strand-link--${variant}`,
-      className,
-    ].filter(Boolean).join(" ");
-
-    return (
-      <a
-        ref={ref}
-        href={href}
-        className={classes}
-        {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-        {...rest}
-      >
-        {children}
-      </a>
-    );
-  },
+  ({ href, external = false, variant = "default", className = "", children, ...rest }, ref) => (
+    <a
+      ref={ref}
+      href={href}
+      className={cx("strand-link", variant !== "default" && `strand-link--${variant}`, className)}
+      {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+      {...rest}
+    >
+      {children}
+    </a>
+  ),
 );
-
 Link.displayName = "Link";

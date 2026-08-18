@@ -2,84 +2,36 @@
 
 import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
+import { cx } from "../../internal/index.js";
 
-export interface TagProps
-  extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, "children"> {
-  /** Visual style variant */
+export interface TagProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, "children"> {
   variant?: "solid" | "outlined";
-  /** Color status */
   status?: "default" | "teal" | "blue" | "amber" | "red";
-  /** Show remove button */
+  /** Show the remove control. */
   removable?: boolean;
-  /** Called when remove button is clicked */
+  /** Called when the remove control is pressed. */
   onRemove?: () => void;
-  /** Tag text content */
   children?: ComponentChildren;
 }
 
 /**
- * Compact label for categorization, filtering, or status display.
+ * Compact label for categorisation or status.
  *
  * @example
- * ```tsx
- * import { Tag } from '@dillingerstaffing/strand-ui';
- *
- * <Tag variant="solid" status="teal" removable onRemove={() => {}}>
- *   Active
- * </Tag>
- * ```
+ * <Tag status="teal" removable onRemove={remove}>Active</Tag>
  */
 export const Tag = forwardRef<HTMLSpanElement, TagProps>(
-  (
-    {
-      variant = "solid",
-      status = "default",
-      removable = false,
-      onRemove,
-      className = "",
-      children,
-      ...rest
-    },
-    ref,
-  ) => {
-    const classes = [
-      "strand-tag",
-      `strand-tag--${variant}`,
-      `strand-tag--${status}`,
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-    return (
-      <span ref={ref} className={classes} {...rest}>
-        <span className="strand-tag__text">{children}</span>
-        {removable && (
-          <button
-            type="button"
-            className="strand-tag__remove"
-            aria-label="Remove"
-            onClick={onRemove}
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M3 3l6 6M9 3l-6 6"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
-        )}
-      </span>
-    );
-  },
+  ({ variant = "solid", status = "default", removable = false, onRemove, className = "", children, ...rest }, ref) => (
+    <span ref={ref} className={cx("strand-tag", `strand-tag--${variant}`, `strand-tag--${status}`, className)} {...rest}>
+      <span className="strand-tag__text">{children}</span>
+      {removable && (
+        <button type="button" className="strand-tag__remove" aria-label="Remove" onClick={onRemove}>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </button>
+      )}
+    </span>
+  ),
 );
-
 Tag.displayName = "Tag";

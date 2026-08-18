@@ -2,92 +2,39 @@
 
 import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
+import { cx } from "../../internal/index.js";
 
-export interface ReserveProps
-  extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "placeholder"> {
-  /** Whether the real content has arrived. Drives the cross-fade. */
+export interface ReserveProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "placeholder"> {
+  /** The content has arrived. */
   ready?: boolean;
-  /**
-   * The answer arrived and there is nothing to show. Collapses the region
-   * by taking the placeholder out of flow, which `ready` alone cannot do:
-   * a hidden placeholder still occupies its grid cell, so a region whose
-   * content resolves to nothing would otherwise hold the placeholder's
-   * height forever. Wins over `ready`.
-   */
+  /** The answer arrived and there is nothing to show; collapses the region and wins over `ready`. */
   empty?: boolean;
-  /** What to show while waiting. Usually one or more `Skeleton`s. */
+  /** Shown while waiting, usually `Skeleton`s. */
   placeholder?: ComponentChildren;
-  /** Reserved minimum height, base breakpoint. Any CSS length. */
+  /** Reserved minimum height at the base breakpoint. */
   height?: string;
-  /** Reserved minimum height from 768px up. Falls back to `height`. */
+  /** From 768px up; falls back to `height`. */
   heightMd?: string;
-  /** Reserved minimum height from 1024px up. Falls back to `heightMd`. */
+  /** From 1024px up; falls back to `heightMd`. */
   heightLg?: string;
 }
 
 /**
- * A region that holds its box while data loads, then cross-fades the
- * placeholder to the content.
- *
- * Implements design-language.md 6.6.1 (the space contract) and 6.6.2
- * (placeholder to content). This is a thin wrapper over the
- * `.strand-reserve` classes; the CSS is the primitive, and a vanilla-HTML
- * consumer flipping `data-strand-reserve` by hand gets identical behaviour.
- *
- * Sizing: if the placeholder already matches the shape of the content, the
- * region sizes itself and you need no height at all. Supply `height` only
- * when the placeholder is genuinely smaller than what replaces it.
+ * Holds its box while data loads, then cross-fades placeholder to content (DL 6.6.1, 6.6.2).
  *
  * @example
- * ```tsx
- * import { Reserve, Skeleton } from '@dillingerstaffing/strand-ui';
- *
- * <Reserve ready={!!event} placeholder={<Skeleton variant="rectangle" height="42px" />}>
- *   {event ? <JoinLive event={event} /> : null}
- * </Reserve>
- *
- * // Resolve on EVERY path, including failure, or the region shimmers forever
- * // for content that is never coming.
- * <Reserve ready={settled} empty={settled && !rows?.length} placeholder={<Rows.Skeleton />}>
- *   <Rows data={rows} />
- * </Reserve>
- *
- * // Taller reservation on wider screens
- * <Reserve ready={!!rows} height="180px" heightMd="120px" placeholder={<Rows.Skeleton />}>
- *   <Rows data={rows} />
- * </Reserve>
- * ```
+ * <Reserve ready={!!rows} empty={settled && !rows?.length} placeholder={<Skeleton />}>{rows && <Rows data={rows} />}</Reserve>
  */
 export const Reserve = forwardRef<HTMLDivElement, ReserveProps>(
-  (
-    {
-      ready = false,
-      empty = false,
-      placeholder,
-      height,
-      heightMd,
-      heightLg,
-      className = "",
-      children,
-      style,
-      ...rest
-    },
-    ref,
-  ) => {
-    const classes = ["strand-reserve", className].filter(Boolean).join(" ");
-
-    // Custom properties are the only per-instance values, so they ride on
-    // style. Undefined keys are dropped rather than emitted empty, which
-    // keeps the attribute absent entirely when no height is supplied.
+  ({ ready = false, empty = false, placeholder, height, heightMd, heightLg, className = "", children, style, ...rest }, ref) => {
     const vars: Record<string, string> = {};
     if (height) vars["--strand-reserve-h"] = height;
     if (heightMd) vars["--strand-reserve-h-md"] = heightMd;
     if (heightLg) vars["--strand-reserve-h-lg"] = heightLg;
-
     return (
       <div
         ref={ref}
-        className={classes}
+        className={cx("strand-reserve", className)}
         data-strand-reserve={empty ? "empty" : ready ? "ready" : "pending"}
         style={{ ...vars, ...(style as object) }}
         {...rest}
@@ -100,5 +47,4 @@ export const Reserve = forwardRef<HTMLDivElement, ReserveProps>(
     );
   },
 );
-
 Reserve.displayName = "Reserve";
