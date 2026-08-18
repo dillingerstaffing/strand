@@ -399,15 +399,6 @@
   max-width: 560px;
 }
 
-/* Mobile-trigger FAB: hidden by default; shown only inside the responsive
-   breakpoint. Floats bottom-right and toggles the mobile drawer. The
-   consumer pairs this with toggling `.is-nav-open` on the shell mount
-   point. The button itself uses standard strand-btn primitives plus
-   this class for FAB positioning. */
-.strand-ref-shell__mobile-trigger {
-  display: none;
-}
-
 .strand-ref-shell__nav-scrim {
   display: none;
 }
@@ -457,15 +448,6 @@
   }
   .strand-ref-shell.is-nav-open .strand-ref-shell__nav-scrim {
     display: block;
-  }
-  .strand-ref-shell__mobile-trigger {
-    display: inline-flex;
-    position: fixed;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
-    right: 16px;
-    z-index: 85;
-    box-shadow: var(--strand-elevation-3, 0 8px 24px rgba(15, 23, 42, 0.2));
-    border-radius: var(--strand-radius-full, 9999px);
   }
   .strand-ref-shell__main {
     padding: var(--strand-space-8) var(--strand-space-6) var(--strand-space-16);

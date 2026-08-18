@@ -30,7 +30,7 @@
 		"test:browser-preflight": "node scripts/browser-preflight.mjs",
 		"test:layout": "node scripts/layout-check.mjs",
 		"test:motion": "node scripts/motion-check.mjs",
-		"test:all": "pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion",
+		"test:all": "pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:css-usage && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion",
 		"vendor-fonts": "node scripts/vendor-fonts.mjs",
 		"vendor-fonts:check": "node scripts/vendor-fonts.mjs --check",
 		"sync-versions": "node scripts/sync-versions.mjs",
@@ -48,7 +48,9 @@
 		"lint:fix": "biome check --write .",
 		"test:doc-contrast": "node scripts/doc-contrast-check.mjs",
 		"test:bundle-budget": "node scripts/bundle-budget-check.mjs",
-		"test:dark-composition": "node scripts/dark-composition-check.mjs"
+		"test:dark-composition": "node scripts/dark-composition-check.mjs",
+		"css-usage": "node scripts/css-usage.mjs",
+		"test:css-usage": "node scripts/css-usage.mjs"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.0",

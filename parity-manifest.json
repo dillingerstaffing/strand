@@ -176,7 +176,7 @@
 			"blocks": [
 				"strand-lab-surface"
 			],
-			"reason": "The body surface treatment applied to any element."
+			"reason": "The body surface treatment applied to any element (design language 9.1)."
 		},
 		{
 			"name": "Log",
@@ -198,13 +198,6 @@
 				"strand-metric-row"
 			],
 			"reason": "Row of metrics; a consumer composes it."
-		},
-		{
-			"name": "Pulse",
-			"blocks": [
-				"strand-pulse"
-			],
-			"reason": "Live-signal pulse dot; a consumer places it."
 		},
 		{
 			"name": "Scanline",
@@ -260,7 +253,7 @@
 			"blocks": [
 				"strand-viewport"
 			],
-			"reason": "Recessed and frosted showcase viewport for previews and documentation."
+			"reason": "The frosted viewport surface (design language 9.4)."
 		},
 		{
 			"name": "ViewportVignette",
@@ -301,16 +294,16 @@
 				"gzipped_bytes": 3718
 			},
 			"strand-ui.css": {
-				"raw_bytes": 189993,
-				"gzipped_bytes": 25034
+				"raw_bytes": 185244,
+				"gzipped_bytes": 24373
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 226519,
-		"total_gz_bytes": 37251,
+		"total_raw_bytes": 221770,
+		"total_gz_bytes": 36590,
 		"total_gz_kb": 36
 	},
 	"foreignBlocks": {

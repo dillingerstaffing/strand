@@ -48,6 +48,7 @@ pnpm lint        # Lint all files
 | `pnpm build:docs` | `node scripts/build-docs.mjs` |
 | `pnpm cf-check` | `node scripts/cf-refs-check.mjs` |
 | `pnpm css-move-guard` | `node scripts/css-move-guard.mjs` |
+| `pnpm css-usage` | `node scripts/css-usage.mjs` |
 | `pnpm dogfood` | `node scripts/dogfood-scaffold.mjs` |
 | `pnpm lint` | `biome check .` |
 | `pnpm lint:fix` | `biome check --write .` |
@@ -57,12 +58,13 @@ pnpm lint        # Lint all files
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |
-| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion` |
+| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:css-usage && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion` |
 | `pnpm test:browser-preflight` | `node scripts/browser-preflight.mjs` |
 | `pnpm test:bundle-budget` | `node scripts/bundle-budget-check.mjs` |
 | `pnpm test:component-test-parity` | `node scripts/component-test-parity.mjs` |
 | `pnpm test:contrast` | `node scripts/contrast-check.mjs` |
 | `pnpm test:css-export-parity` | `node scripts/css-export-parity.mjs` |
+| `pnpm test:css-usage` | `node scripts/css-usage.mjs` |
 | `pnpm test:dark-composition` | `node scripts/dark-composition-check.mjs` |
 | `pnpm test:doc-contrast` | `node scripts/doc-contrast-check.mjs` |
 | `pnpm test:layout` | `node scripts/layout-check.mjs` |

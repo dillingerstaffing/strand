@@ -48,4 +48,3 @@
 }
 /* ── Bar chart size modifiers ── */
 .strand-bar-chart--sm { height: var(--strand-space-24); }
-.strand-bar-chart--lg { height: var(--strand-space-48); }

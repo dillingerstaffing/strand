@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Changed
+- every block lives in the directory named for it
 - class-name assertions give way to the snapshots that subsume them; the audit counts the shared snapshot helper and ignores directives
 - overlays, chrome and data components on the shared internals; ids come from useId, Sheet ships no test hooks, Nav no longer writes to body, focus and scroll follow refs; five invariant articles
 - forms, layout and avatar on the shared internals; Checkbox sets indeterminate as a prop and Switch and Checkbox trust native key activation; Textarea autosize follows a controlled value

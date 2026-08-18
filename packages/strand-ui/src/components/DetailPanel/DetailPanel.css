@@ -31,7 +31,6 @@
   display: none;
 }
 .strand-detail-panel.is-open,
-.strand-detail-panel--open,
 .strand-detail-panel.open {
   transform: translateX(0);
 }
@@ -41,32 +40,26 @@
    alias kept for downstream consumers that already use it). All
    three trigger the same reveal sequence. */
 .strand-detail-panel.is-open > .strand-overline,
-.strand-detail-panel--open > .strand-overline,
 .strand-detail-panel.open > .strand-overline {
   animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.1s both;
 }
 .strand-detail-panel.is-open .strand-detail-panel__title,
-.strand-detail-panel--open .strand-detail-panel__title,
 .strand-detail-panel.open .strand-detail-panel__title {
   animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.18s both;
 }
 .strand-detail-panel.is-open .strand-detail-panel__meta,
-.strand-detail-panel--open .strand-detail-panel__meta,
 .strand-detail-panel.open .strand-detail-panel__meta {
   animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.26s both;
 }
 .strand-detail-panel.is-open .strand-detail-panel__salary,
-.strand-detail-panel--open .strand-detail-panel__salary,
 .strand-detail-panel.open .strand-detail-panel__salary {
   animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.34s both;
 }
 .strand-detail-panel.is-open .strand-detail-panel__cta,
-.strand-detail-panel--open .strand-detail-panel__cta,
 .strand-detail-panel.open .strand-detail-panel__cta {
   animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.42s both;
 }
 .strand-detail-panel.is-open .strand-detail-panel__source,
-.strand-detail-panel--open .strand-detail-panel__source,
 .strand-detail-panel.open .strand-detail-panel__source {
   animation: strand-detail-fade var(--strand-duration-slow) var(--strand-ease-out-expo) 0.48s both;
 }
@@ -174,8 +167,7 @@
     box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.2);
   }
   .strand-detail-panel.is-open,
-  .strand-detail-panel--open,
-  .strand-detail-panel.open {
+.strand-detail-panel.open {
     transform: translateY(0);
   }
   .strand-detail-panel__close {
@@ -222,23 +214,17 @@
     transition: none;
   }
   .strand-detail-panel.is-open > .strand-overline,
-  .strand-detail-panel--open > .strand-overline,
-  .strand-detail-panel.open > .strand-overline,
-  .strand-detail-panel.is-open .strand-detail-panel__title,
-  .strand-detail-panel--open .strand-detail-panel__title,
-  .strand-detail-panel.open .strand-detail-panel__title,
-  .strand-detail-panel.is-open .strand-detail-panel__meta,
-  .strand-detail-panel--open .strand-detail-panel__meta,
-  .strand-detail-panel.open .strand-detail-panel__meta,
-  .strand-detail-panel.is-open .strand-detail-panel__salary,
-  .strand-detail-panel--open .strand-detail-panel__salary,
-  .strand-detail-panel.open .strand-detail-panel__salary,
-  .strand-detail-panel.is-open .strand-detail-panel__cta,
-  .strand-detail-panel--open .strand-detail-panel__cta,
-  .strand-detail-panel.open .strand-detail-panel__cta,
-  .strand-detail-panel.is-open .strand-detail-panel__source,
-  .strand-detail-panel--open .strand-detail-panel__source,
-  .strand-detail-panel.open .strand-detail-panel__source {
+.strand-detail-panel.open > .strand-overline,
+.strand-detail-panel.is-open .strand-detail-panel__title,
+.strand-detail-panel.open .strand-detail-panel__title,
+.strand-detail-panel.is-open .strand-detail-panel__meta,
+.strand-detail-panel.open .strand-detail-panel__meta,
+.strand-detail-panel.is-open .strand-detail-panel__salary,
+.strand-detail-panel.open .strand-detail-panel__salary,
+.strand-detail-panel.is-open .strand-detail-panel__cta,
+.strand-detail-panel.open .strand-detail-panel__cta,
+.strand-detail-panel.is-open .strand-detail-panel__source,
+.strand-detail-panel.open .strand-detail-panel__source {
     animation: none;
   }
 }

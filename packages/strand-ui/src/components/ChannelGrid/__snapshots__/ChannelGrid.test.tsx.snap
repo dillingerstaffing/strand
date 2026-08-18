@@ -12,6 +12,5 @@ exports[`stylesheet > declares its selectors 1`] = `
   ".strand-channel-next__label",
   ".strand-channel-next__title",
   ".strand-channel-next__when",
-  ".strand-channel-signin-hint",
 ]
 `;

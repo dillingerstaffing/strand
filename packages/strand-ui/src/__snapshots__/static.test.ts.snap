@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-static",
+  ".strand-static [disabled], .strand-static [aria-disabled="true"]",
+  ".strand-static .strand-btn:disabled",
+  ".strand-static .strand-toast",
+  ".strand-static .strand-tooltip",
+  ".strand-static *, .strand-static *::before, .strand-static *::after",
+  ".strand-section--bg-recessed .strand-overline",
+  ".strand-section--bg-recessed .strand-overline--accent",
+  ".strand-section--bg-recessed .strand-lead",
+  ".strand-section--bg-recessed .strand-text-secondary",
+  ".strand-section--bg-recessed .strand-step-indicator",
+  ".strand-section--bg-recessed .strand-tabs__tab, .strand-section--bg-recessed .strand-form-field__label, .strand-section--bg-recessed .strand-form-field__hint, .strand-section--bg-recessed .strand-badge--default",
+  ".strand-section--bg-recessed .strand-tabs__tab--active",
+]
+`;

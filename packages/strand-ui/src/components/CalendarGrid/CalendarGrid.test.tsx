@@ -358,13 +358,6 @@ describe("CalendarGrid CSS source", () => {
     expect(ruleFor(".strand-calendar-grid__day")).toContain("var(--strand-space-20)");
   });
 
-  it("leaves the compact modifier alone, since it changes padding too", () => {
-    // One number is one property; two changes is a modifier. Pinned so the
-    // knob does not quietly grow into a second density system.
-    expect(css).toMatch(
-      /\.strand-calendar-grid--compact\s+\.strand-calendar-grid__day\s*\{[^}]*min-block-size:\s*var\(--strand-space-12\)/,
-    );
-  });
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";

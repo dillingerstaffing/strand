@@ -162,23 +162,6 @@
 	overscroll-behavior-y: contain;
 	-webkit-overflow-scrolling: touch;
 }
-/* ── Clip ──
-   Clips children to the container's own rounded corners. The mechanical
-   consequence of sanctioning rounded surfaces at all: a square-cornered
-   child flush against a rounded parent overhangs it, and the overhang is
-   at the corners, which is where a reader looks first.
-
-   `clip` rather than `hidden` deliberately. Both clip. But `hidden` also
-   makes the element a SCROLL CONTAINER, and a `position: sticky`
-   descendant sticks to its nearest scroll container rather than to the
-   viewport -- so adding this utility to a wrapper would silently break
-   every sticky element inside it. `clip` creates no scroll container,
-   which is exactly why `.strand-grid` and `.strand-app-shell` both use
-   it. If you need a genuinely scrolling region, that is `overflow: auto`
-   and a deliberate decision, not this. */
-.strand-clip {
-	overflow: clip;
-}
 /* ── Sticky ──
    A region that scrolls with the document until it reaches its offset,
    then holds. The filter rail beside a result list, the day rail beside
@@ -237,36 +220,7 @@
 		);
 	}
 }
-/* ── Responsive visibility ──
-   Both presentations of a control live in the markup and CSS chooses
-   between them. The alternative -- measuring the viewport in JS and
-   rendering one -- puts the control on screen a frame late, which is a
-   layout shift in whatever region it lands in, and it renders nothing at
-   all until hydration, which a server-rendered header cannot afford.
-
-   These are HIDE-only, deliberately. A matching `display: block` utility
-   would have to guess the element's natural display and would flatten a
-   flex or grid container into a block the moment it became visible. An
-   element is shown by NOT hiding it.
-
-   Named for the boundary rather than for a device: `below` is the range
-   under the breakpoint, `from` is the breakpoint and everything above.
-   The two are exact complements, so a pair covers every viewport exactly
-   once with no overlap and no gap.
-
-   The pixel values restate --strand-breakpoint-* (640/768/1024/1280).
-   They cannot reference the tokens: a media query is evaluated before
-   custom properties resolve, so `@media (min-width: var(...))` never
-   matches. This is the one sanctioned place in the library where a
-   breakpoint is written as a literal. */
-@media (max-width: 639.98px) { .strand-hide-below-sm { display: none; } }
-@media (min-width: 640px)    { .strand-hide-from-sm  { display: none; } }
-@media (max-width: 767.98px) { .strand-hide-below-md { display: none; } }
 @media (min-width: 768px)    { .strand-hide-from-md  { display: none; } }
-@media (max-width: 1023.98px) { .strand-hide-below-lg { display: none; } }
-@media (min-width: 1024px)    { .strand-hide-from-lg  { display: none; } }
-@media (max-width: 1279.98px) { .strand-hide-below-xl { display: none; } }
-@media (min-width: 1280px)    { .strand-hide-from-xl  { display: none; } }
 /* ── Margin top (token scale 1-8) ── */
 .strand-mt-1 { margin-top: var(--strand-space-1); }
 .strand-mt-2 { margin-top: var(--strand-space-2); }
@@ -290,35 +244,9 @@
    the gap) so a semantic element can sit flush without an inline style. The
    zero endpoint of the margin scale. */
 .strand-m-0 { margin: 0; }
-/* ── Padding (token scale 1-8) ──
-   Mirror of the margin utilities. Added so consumers never inline
-   `padding: var(--strand-space-N)` for list rows, section bands, or
-   border-offset spacing. */
-.strand-pt-1 { padding-top: var(--strand-space-1); }
-.strand-pt-2 { padding-top: var(--strand-space-2); }
 .strand-pt-3 { padding-top: var(--strand-space-3); }
-.strand-pt-4 { padding-top: var(--strand-space-4); }
-.strand-pt-5 { padding-top: var(--strand-space-5); }
-.strand-pt-6 { padding-top: var(--strand-space-6); }
-.strand-pt-8 { padding-top: var(--strand-space-8); }
-.strand-pb-1 { padding-bottom: var(--strand-space-1); }
-.strand-pb-2 { padding-bottom: var(--strand-space-2); }
-.strand-pb-3 { padding-bottom: var(--strand-space-3); }
-.strand-pb-4 { padding-bottom: var(--strand-space-4); }
-.strand-pb-5 { padding-bottom: var(--strand-space-5); }
-.strand-pb-6 { padding-bottom: var(--strand-space-6); }
-.strand-pb-8 { padding-bottom: var(--strand-space-8); }
-.strand-py-1 { padding-block: var(--strand-space-1); }
 .strand-py-2 { padding-block: var(--strand-space-2); }
 .strand-py-3 { padding-block: var(--strand-space-3); }
-.strand-py-4 { padding-block: var(--strand-space-4); }
-.strand-py-5 { padding-block: var(--strand-space-5); }
-.strand-py-6 { padding-block: var(--strand-space-6); }
-.strand-py-8 { padding-block: var(--strand-space-8); }
-/* ── Inline flex ──
-   Row layout for a small cluster (icon + label, nav slot) that should
-   size to content rather than fill like strand-stack. */
-.strand-inline-flex { display: inline-flex; align-items: center; gap: var(--strand-space-2); }
 /* ── Italic text ──
    Emphasis for a single run (e.g. an "(edited)" marker). */
 .strand-italic { font-style: italic; }
@@ -327,25 +255,12 @@
    strand-stack layout without browser bullets/indent. Replaces the
    repeated inline `list-style:none;margin:0;padding:0`. */
 .strand-list-reset { list-style: none; margin: 0; padding: 0; }
-/* ── Disabled state ──
-   Non-interactive visual for a control whose action is unavailable.
-   Pairs with aria-disabled/disabled; the utility owns only the look. */
-.strand-is-disabled { opacity: 0.35; pointer-events: none; }
 /* ── Responsive 16:9 embed ──
    Aspect-ratio media box for an iframe (video, map). The child fills the
    box absolutely so no intrinsic-size inline styles are needed. */
 .strand-embed-16x9 { position: relative; width: 100%; aspect-ratio: 16 / 9; }
 .strand-embed-16x9 > iframe,
 .strand-embed-16x9 > * { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-/* ── Centered page ──
-   Full-viewport single-card layout (token/confirmation pages: rate via
-   email, unsubscribe). Centers one card with no bespoke page CSS. */
-.strand-page--centered {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 /* ── The stretched link ──────────────────────────────────────────────
    A card whose whole surface opens one destination, WITHOUT becoming a
    control and without a second tab stop.

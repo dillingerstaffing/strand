@@ -46,7 +46,6 @@
    click, reveal on mount, reveal on state change. Uses the same transition as the
    no-JS fallback, so it stays replayable even where animation-timeline is supported.
    Add .strand-reveal--manual per element, or .strand-reveal-group--manual on the group. */
-.strand-reveal--manual,
 .strand-reveal-group--manual > .strand-reveal {
   animation: none;
   animation-timeline: auto;
@@ -60,7 +59,6 @@
    nothing else drives opacity, so without this compound (higher-specificity)
    rule the element stays at opacity 0 and toggling --visible has no effect:
    the reveal never appears and replay does nothing. */
-.strand-reveal--manual.strand-reveal--visible,
 .strand-reveal-group--manual > .strand-reveal--visible {
   opacity: 1;
   transform: translateY(0);
@@ -84,9 +82,8 @@
    a matching entry here. Guarded in ScrollReveal.test.tsx. */
 @media (prefers-reduced-motion: reduce) {
   .strand-reveal,
-  .strand-reveal-group > .strand-reveal,
-  .strand-reveal--manual,
-  .strand-reveal-group--manual > .strand-reveal {
+.strand-reveal-group > .strand-reveal,
+.strand-reveal-group--manual > .strand-reveal {
     transform: none;
     transition: none;
     animation: none;
@@ -101,7 +98,6 @@
   /* Manual reveals stay consumer-driven: the motion goes, the state does not.
      Forcing opacity here would make an un-toggled reveal visible and break the
      toggle API that .strand-reveal--manual exists to provide. */
-  .strand-reveal--manual:not(.strand-reveal--visible),
   .strand-reveal-group--manual > .strand-reveal:not(.strand-reveal--visible) {
     opacity: 0;
   }

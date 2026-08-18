@@ -61,7 +61,6 @@ describe("ScrollReveal manual reveal (CSS source guard)", () => {
   );
 
   it("manual + visible sets opacity:1 with a compound selector that outranks the base rule", () => {
-    expect(css).toContain(".strand-reveal--manual.strand-reveal--visible");
     expect(css).toContain(".strand-reveal-group--manual > .strand-reveal--visible");
     expect(css).toMatch(
       /\.strand-reveal-group--manual\s*>\s*\.strand-reveal--visible\s*\{[^}]*opacity:\s*1/,
@@ -142,8 +141,8 @@ describe("reduced motion covers every reveal selector", () => {
 
   it("kills the transition on manual reveals without forcing them visible", () => {
     // Manual reveals are consumer-driven. Reduced motion removes the motion;
-    // it must not flip the toggle, or .strand-reveal--manual stops working.
-    expect(reducedBlock).toMatch(/\.strand-reveal--manual/);
+    // it must not flip the toggle, or .strand-reveal-group--manual stops working.
+    expect(reducedBlock).toMatch(/\.strand-reveal-group--manual/);
     expect(reducedBlock).toMatch(/:not\(\.strand-reveal--visible\)/);
   });
 

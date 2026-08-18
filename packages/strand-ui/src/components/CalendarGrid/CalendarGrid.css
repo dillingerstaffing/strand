@@ -182,15 +182,3 @@
   font-size: var(--strand-text-xs);
   color: var(--strand-gray-500);
 }
-
-/* Compact density (Part XX) for a month in a sidebar or a narrow rail.
-   Padding and the cell floor shrink; type sizes and colors do not, per
-   20.1. */
-.strand-calendar-grid--compact .strand-calendar-grid__day {
-  min-block-size: var(--strand-space-12);
-  padding: var(--strand-space-1);
-}
-
-.strand-calendar-grid--compact .strand-calendar-grid__axis {
-  padding-block: var(--strand-space-1);
-}

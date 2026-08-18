@@ -45,12 +45,6 @@
 .strand-grid > * {
   min-width: 0;
 }
-
-/* ── Fixed column utilities ──
-   `minmax(0, 1fr)` rather than `1fr`: see the base rule. A bare `1fr`
-   floors at the track's min-content width, and the base rule's
-   `min-width: 0` on CHILDREN does not reach it -- that handles the item,
-   this handles the TRACK, and they are different things. */
 .strand-grid--cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .strand-grid--cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .strand-grid--cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -70,11 +64,6 @@
 .strand-grid--auto-220 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .strand-grid--auto-md { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 .strand-grid--auto-260 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.strand-grid--auto-lg { grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
-
-/* ── Gap utilities ── */
-.strand-grid--gap-1 { gap: var(--strand-space-1); }
-.strand-grid--gap-2 { gap: var(--strand-space-2); }
 .strand-grid--gap-3 { gap: var(--strand-space-3); }
 .strand-grid--gap-4 { gap: var(--strand-space-4); }
 .strand-grid--gap-5 { gap: var(--strand-space-5); }

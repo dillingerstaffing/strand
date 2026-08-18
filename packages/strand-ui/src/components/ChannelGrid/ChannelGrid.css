@@ -57,6 +57,3 @@
   color: var(--strand-gray-600);
   font-variant-numeric: tabular-nums;
 }
-.strand-channel-signin-hint {
-  grid-column: 1 / -1;
-}

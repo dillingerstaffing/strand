@@ -2,9 +2,6 @@
 
 exports[`stylesheet > declares its selectors 1`] = `
 [
-  ".strand-viewport",
   ".strand-viewport--frosted",
-  ".strand-viewport--flex",
-  ".strand-viewport--flex-col",
 ]
 `;
