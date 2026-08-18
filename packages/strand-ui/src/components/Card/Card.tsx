@@ -2,78 +2,47 @@
 
 import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
+import { cx } from "../../internal/index.js";
 
 export interface CardProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  /**
-   * Surface style. `interactive` is retained for backward compatibility but is
-   * really a state; prefer the `interactive` boolean with a surface variant.
-   */
+  /** Surface style; `interactive` is kept for compatibility, prefer the boolean. */
   variant?: "elevated" | "outlined" | "flat" | "warm" | "interactive";
-  /** Inner padding */
+  /** Inner padding. */
   padding?: "none" | "sm" | "md" | "lg" | "xl";
-  /** Hover/pointer affordance, orthogonal to the surface variant */
+  /** Hover and pointer affordance, orthogonal to the surface. */
   interactive?: boolean;
-  /** Pressed or currently-selected state */
+  /** Pressed or selected state. */
   active?: boolean;
-  /** Semantic element to render (e.g. "article" for a list card). Defaults to "div". */
+  /** Element to render, e.g. "article". */
   as?: keyof JSX.IntrinsicElements;
 }
 
 /**
- * Contained surface for grouping related content with elevation and padding options.
+ * Contained surface for grouping related content.
  *
  * @example
- * ```tsx
- * import { Card } from '@dillingerstaffing/strand-ui';
- *
- * <Card variant="elevated" padding="lg">
- *   <h3>Card Title</h3>
- *   <p>Card content goes here.</p>
- * </Card>
- * ```
+ * <Card variant="outlined" padding="lg"><h3>Title</h3></Card>
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  (
-    {
-      variant = "elevated",
-      padding = "md",
-      interactive = false,
-      active = false,
-      as = "div",
-      className = "",
-      children,
-      ...rest
-    },
-    ref,
-  ) => {
-    // A variable intrinsic tag can't be statically checked against the union
-    // of every element's props, so the tag is cast at the render boundary
-    // while the public `as` prop stays fully typed for consumers.
-    // biome-ignore lint/suspicious/noExplicitAny: polymorphic tag boundary
+  ({ variant = "elevated", padding = "md", interactive = false, active = false, as = "div", className = "", children, ...rest }, ref) => {
+    // biome-ignore lint/suspicious/noExplicitAny: polymorphic tag
     const Tag = as as any;
-    const classes = [
-      "strand-card",
-      // The base .strand-card is already the elevated surface (it carries the
-      // elevation-1 shadow), so "elevated" emits no modifier class; only the
-      // other surfaces add one.
-      variant !== "elevated" && `strand-card--${variant}`,
-      `strand-card--pad-${padding}`,
-      // State modifiers are orthogonal to the surface variant. Skip the
-      // interactive modifier when the variant already is interactive so the
-      // class is never emitted twice.
-      interactive && variant !== "interactive" && "strand-card--interactive",
-      active && "strand-card--active",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
     return (
-      <Tag ref={ref} className={classes} {...rest}>
+      <Tag
+        ref={ref}
+        className={cx(
+          "strand-card",
+          variant !== "elevated" && `strand-card--${variant}`,
+          `strand-card--pad-${padding}`,
+          interactive && variant !== "interactive" && "strand-card--interactive",
+          active && "strand-card--active",
+          className,
+        )}
+        {...rest}
+      >
         {children}
       </Tag>
     );
   },
 );
-
 Card.displayName = "Card";

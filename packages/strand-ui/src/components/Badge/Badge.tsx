@@ -2,109 +2,49 @@
 
 import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
+import { cx } from "../../internal/index.js";
 
-export interface BadgeProps
-  extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, "children"> {
-  /** Badge display mode */
+export interface BadgeProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, "children"> {
+  /** A count, or a dot. */
   variant?: "dot" | "count";
-  /** Color status */
+  /** Colour status. */
   status?: "default" | "teal" | "blue" | "amber" | "red";
-  /** Number to display (count variant only) */
+  /** The number shown by the count variant. */
   count?: number;
-  /** Maximum count before showing "N+" */
+  /** Counts above this render as "N+". */
   maxCount?: number;
-  /** Pulse, to say the thing it marks is live rather than merely present */
+  /** Pulse: the thing it marks is live. */
   live?: boolean;
-  /** Wrapped content; when present badge is positioned at top-right */
+  /** Content the badge overlays at its top-right corner. */
   children?: ComponentChildren;
 }
 
 /**
- * Small status indicator or notification count, displayed inline or overlaid on content.
+ * Small status indicator or notification count, inline or overlaid on content.
  *
  * @example
- * ```tsx
- * import { Badge } from '@dillingerstaffing/strand-ui';
- *
- * <Badge variant="count" status="red" count={5}>
- *   <button>Notifications</button>
- * </Badge>
- * <Badge variant="dot" status="teal" />
- * <Badge variant="dot" status="teal" live />
- * ```
+ * <Badge count={5} status="red"><button>Inbox</button></Badge>
  */
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
-  (
-    {
-      variant = "count",
-      status = "default",
-      count,
-      maxCount = 99,
-      live = false,
-      className = "",
-      children,
-      ...rest
-    },
-    ref,
-  ) => {
+  ({ variant = "count", status = "default", count, maxCount = 99, live = false, className = "", children, ...rest }, ref) => {
     const hasChildren = children != null && children !== false;
-
-    const displayValue =
-      variant === "count"
-        ? count != null && count > maxCount
-          ? `${maxCount}+`
-          : count
-        : null;
-
-    const ariaLabel =
-      variant === "dot"
-        ? "Status indicator"
-        : count != null
-          ? `${count} notifications`
-          : undefined;
-
-    const badgeClasses = [
-      "strand-badge__indicator",
-      `strand-badge--${variant}`,
-      `strand-badge--${status}`,
-      live ? "strand-badge--live" : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
-
+    const displayValue = variant === "count" ? (count != null && count > maxCount ? `${maxCount}+` : count) : null;
+    const ariaLabel = variant === "dot" ? "Status indicator" : count != null ? `${count} notifications` : undefined;
     const badge = (
-      <span className={badgeClasses} aria-label={ariaLabel} role="status">
+      <span
+        className={cx("strand-badge__indicator", `strand-badge--${variant}`, `strand-badge--${status}`, live && "strand-badge--live")}
+        aria-label={ariaLabel}
+        role="status"
+      >
         {displayValue}
       </span>
     );
-
-    if (!hasChildren) {
-      const inlineClasses = [
-        "strand-badge",
-        "strand-badge--inline",
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ");
-
-      return (
-        <span ref={ref} className={inlineClasses} {...rest}>
-          {badge}
-        </span>
-      );
-    }
-
-    const wrapperClasses = ["strand-badge", className]
-      .filter(Boolean)
-      .join(" ");
-
     return (
-      <span ref={ref} className={wrapperClasses} {...rest}>
-        {children}
+      <span ref={ref} className={cx("strand-badge", !hasChildren && "strand-badge--inline", className)} {...rest}>
+        {hasChildren && children}
         {badge}
       </span>
     );
   },
 );
-
 Badge.displayName = "Badge";
