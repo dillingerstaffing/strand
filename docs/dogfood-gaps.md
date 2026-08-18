@@ -1643,3 +1643,42 @@ Two gaps, and the first one had been silently costing five call sites.
   red-checked by deleting the gap-10 rule, which fails with the rung named.
 - Fix: `Stack.css` gains a rule for every rung on the token ladder, so the two
   ladders are the same ladder.
+
+## Library: the component and stylesheet audit
+Date: 2026-08-18
+Verdict: PASS after fixes (v0.63.0)
+
+Every component and every stylesheet was audited against one written standard for each: `docs/component-patterns.md` and `docs/css-architecture.md`. What follows is what the audit found and what closed it; each fix has a check that keeps it closed.
+
+### Gap #125
+- Type: **L2** (library). Rules lived where they had been written, not where they belonged.
+- Symptom: `static.css` held 250 rules across 26 blocks (typography, utilities, and whole class-only primitives such as the log, the status chip, the hero grid and the skip link); `InstrumentViewport.css` held the search bar, the detail panel, the map pins, the cluster marker and the coordinate readout; `Card.css` held the channel grid; `Tag.css` held the chip; the tokens package's `base.css` held nav offsets and a second definition of `.strand-container` and `.strand-section`.
+- Cause: nothing checked ownership. A rule added beside the rule its author was reading stayed there.
+- Fix: every block lives in the directory named for it; class-only primitives have directories declared in `parity-manifest.json#/cssOnlyComponents`; `pnpm audit-css-home` and `pnpm test:css-export-parity` share one definition of ownership and fail on a misplaced block; `pnpm css-move-guard` proved the moves lost no rule and swapped no colliding pair.
+
+### Gap #126
+- Type: **L2** (library). Rules nothing emitted shipped to every consumer.
+- Symptom: 66 selector branches (padding, hide, clip and page utilities, a manual reveal, a BEM open state no consumer toggled, a compact calendar, spare grid rungs) matched nothing any component, consumer, showcase, guide or the design language emits.
+- Cause: nothing measured usage across the sources that emit markup.
+- Fix: `pnpm test:css-usage` judges every branch against the library's own sources plus `consumer-usage.json`, which each consumer records from inside its own checkout; it runs in `test:all` and fails on anything unreachable.
+
+### Gap #127
+- Type: **L2** (library). The same declarations were written many times.
+- Symptom: 15 copies of the base focus ring, 47 reduced-motion rules restating what `reset.css` already does, eight literal `0.4` disabled opacities, `!important` flags fighting the library's own utilities.
+- Fix: the ring lives once in `base.css`, reduced motion once in `reset.css`, disabled opacity is `--strand-opacity-disabled`; a test asserts the copies are absent.
+
+### Gap #128
+- Type: **L2** (library). Surfaces recoloured primitives by descendant selector, so rendering depended on file order and specificity.
+- Symptom: the light detail panel inherited dark alert status colours; editorial kv values sat unreadable on the abyss; a badge in a recessed section painted gray on gray; whether the page-scale instrument body matched the viewport depended on which rules had been given both selectors.
+- Fix: 55 component tokens replace 98 descendant rules (`docs/cf/surface-tokens.md`); each surface is a flat token block on its own class, light islands reset to `initial`, and `pnpm audit-css-home` fails a surface that recolours by selector. Verified element by element in a real browser across every fixture under eleven surface nestings.
+
+### Gap #129
+- Type: **L2** (library). Stylesheets carried essays and tests asserted on their text.
+- Symptom: 3,100 comment lines across the sheets, and regex "source guards" that read stylesheets and matched prose as readily as rules; a comment spliced into `.strand-btn--icon-only.strand-btn--sm` upstream turned it into a descendant selector, and the small icon-only sizing had been dead in the shipped bundle.
+- Fix: sheets carry banner, `cf:` pointers, one-line labels and rules; 37 articles under `docs/cf/` carry the reasoning; every sheet has a rules snapshot; `pnpm cf-check` fails a pointer without an article.
+
+### Gap #130
+- Type: **L2** (library). The Vue and Svelte ports had drifted from the Preact API and nothing could see it.
+- Symptom: `Card` lacked `interactive`, `active` and `as`; `Button` could not render an anchor; `Container`, `Section` and `Stack` had no `as`; `Breadcrumb` had no instrument variant; `ActionDock` could not watch a control; `Dialog` had no `initialFocus`; `Nav` had no controlled menu; the Svelte `Textarea` reported no input.
+- Cause: the parity gate checked that directories exist, not what they offer.
+- Fix: `pnpm test:prop-parity` compares props under each framework's idiom and runs in `test:all`; the drift is closed and `propDrift` is empty.

@@ -32,6 +32,8 @@
 | [AGENTS.md](./AGENTS.md) | AI coding agent usage instructions |
 | [HTML Reference](./generated/html-reference.md) | CSS class API for every component |
 | [Design Language](./docs/design-language.md) | Complete design specification |
+| [Component Patterns](./docs/component-patterns.md) | How every component is written and tested |
+| [CSS Architecture](./docs/css-architecture.md) | Where a rule lives, how it is written, and the checks that prove it |
 | [Consumers](./generated/consumers.md) | Consumer types and framework parity |
 | [Changelog](./generated/changelog.md) | Version history |
 | [Contributing](./CONTRIBUTING.md) | How to contribute |
@@ -5662,6 +5664,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- every prop a component offers exists in all three ports, and a check keeps it so
 - shared internals (cx, mergeRefs, styled), a render helper for snapshots, and docs/cf with a pointer check
 - a 10px overline rung, a compact chip strip, and a touch-target floor that can be answered (v0.62.0)
 - PersonChip carries a secondary label, plus a layout-transparent wrapper (v0.61.0)
@@ -5712,6 +5715,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
 
 ### Documentation
+- css architecture and component patterns, and the docs that point at them
 - tighten the wording of the type-scale note
 - three gaps from the event-screen parity build
 - #101, Dialog's Escape binding and the unit test that cannot see it
@@ -6361,7 +6365,7 @@ pnpm lint        # Lint all files
 | `pnpm sync-versions` | `node scripts/sync-versions.mjs` |
 | `pnpm sync-versions:check` | `node scripts/sync-versions.mjs --check` |
 | `pnpm test` | `pnpm -r test` |
-| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:css-usage && pnpm test:component-test-parity && pnpm test:parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion` |
+| `pnpm test:all` | `pnpm test:browser-preflight && pnpm test && pnpm test:css-export-parity && pnpm test:css-usage && pnpm test:component-test-parity && pnpm test:parity && pnpm test:prop-parity && pnpm test:migration-staleness && pnpm test:contrast && pnpm test:doc-contrast && pnpm test:bundle-budget && pnpm test:layout && pnpm test:dark-composition && pnpm test:motion` |
 | `pnpm test:browser-preflight` | `node scripts/browser-preflight.mjs` |
 | `pnpm test:bundle-budget` | `node scripts/bundle-budget-check.mjs` |
 | `pnpm test:component-test-parity` | `node scripts/component-test-parity.mjs` |
@@ -6374,6 +6378,7 @@ pnpm lint        # Lint all files
 | `pnpm test:migration-staleness` | `node scripts/migration-staleness.mjs` |
 | `pnpm test:motion` | `node scripts/motion-check.mjs` |
 | `pnpm test:parity` | `node scripts/parity-check.mjs` |
+| `pnpm test:prop-parity` | `node scripts/prop-parity.mjs` |
 | `pnpm test:scripts` | `vitest run --config vitest.config.mjs` |
 | `pnpm vendor-fonts` | `node scripts/vendor-fonts.mjs` |
 | `pnpm vendor-fonts:check` | `node scripts/vendor-fonts.mjs --check` |

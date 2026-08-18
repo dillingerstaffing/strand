@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- every prop a component offers exists in all three ports, and a check keeps it so
 - shared internals (cx, mergeRefs, styled), a render helper for snapshots, and docs/cf with a pointer check
 - a 10px overline rung, a compact chip strip, and a touch-target floor that can be answered (v0.62.0)
 - PersonChip carries a secondary label, plus a layout-transparent wrapper (v0.61.0)
@@ -58,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the opaque background fell back to a token that does not exist (v0.49.1, gap #104)
 
 ### Documentation
+- css architecture and component patterns, and the docs that point at them
 - tighten the wording of the type-scale note
 - three gaps from the event-screen parity build
 - #101, Dialog's Escape binding and the unit test that cannot see it
