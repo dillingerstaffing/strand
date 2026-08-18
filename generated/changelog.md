@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Changed
+- the component audit counts verbose JSDoc as prose
+- a component audit that reports the facts behind a review
 - re-trigger the publish workflow for 0.55.2
 - v0.54.1, gap #121
 
