@@ -91,8 +91,7 @@
           <th scope="col" class="strand-table__th" style={col.width ? `width: ${col.width}` : undefined} aria-sort={ariaSort(col, current)}>
             {#if col.sortable}
               <button type="button" class="strand-table__sort-btn" aria-label={`Sort by ${col.header}`} on:click={() => handleSort(col.key)}>
-                {col.header}
-                <span class="strand-table__sort-indicator" aria-hidden="true">{indicator(col, current)}</span>
+                {col.header}<span class="strand-table__sort-indicator" aria-hidden="true">{indicator(col, current)}</span>
               </button>
             {:else}
               {col.header}

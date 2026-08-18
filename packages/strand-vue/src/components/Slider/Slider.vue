@@ -37,6 +37,7 @@ const props = withDefaults(defineProps<SliderProps>(), {
   step: 1,
   disabled: false,
 })
+defineOptions({ inheritAttrs: false })
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number): void
@@ -59,7 +60,7 @@ function handleInput(event: Event) {
 
 <template>
   <div :class="wrapperClasses">
-    <input
+    <input v-bind="$attrs"
       type="range"
       class="strand-slider__field"
       :min="min"

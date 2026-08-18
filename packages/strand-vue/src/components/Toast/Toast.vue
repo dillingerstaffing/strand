@@ -14,7 +14,7 @@
   ```
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, getCurrentInstance } from 'vue'
 import type { ToastStatus } from './useToast'
 
 export interface ToastProps {
@@ -32,9 +32,10 @@ const emit = defineEmits<{
   (e: 'dismiss'): void
 }>()
 
-const isUrgent = computed(
-  () => props.status === 'error' || props.status === 'warning',
-)
+const isUrgent = computed(() => props.status === 'error' || props.status === 'warning')
+// The dismiss control renders only for a parent that listens, as the Preact port renders it only with onDismiss.
+const instance = getCurrentInstance()
+const dismissible = computed(() => !!instance?.vnode.props?.onDismiss)
 
 const classes = computed(() =>
   ['strand-toast', `strand-toast--${props.status}`]
@@ -60,13 +61,6 @@ const statusLabel = computed(() => statusLabels[props.status] ?? props.status.to
   >
     <span class="strand-toast__status">{{ statusLabel }}</span>
     <span class="strand-toast__message">{{ message }}</span>
-    <button
-      type="button"
-      class="strand-toast__dismiss"
-      aria-label="Dismiss"
-      @click="emit('dismiss')"
-    >
-      &#215;
-    </button>
+    <button v-if="dismissible" type="button" class="strand-toast__dismiss" aria-label="Dismiss" @click="emit('dismiss')">&#215;</button>
   </div>
 </template>

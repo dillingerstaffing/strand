@@ -35,22 +35,7 @@ describe('Input', () => {
     }
   })
 
-  it('shows leading addon area when hasLeading', () => {
-    const { container } = render(Input, { props: { hasLeading: true } })
-    expect(container.querySelector('.strand-input--has-leading')).toBeInTheDocument()
-    const leading = container.querySelector('.strand-input__leading')
-    expect(leading).toBeInTheDocument()
-    expect(leading).toHaveAttribute('aria-hidden', 'true')
-  })
-
-  it('shows trailing addon area when hasTrailing', () => {
-    const { container } = render(Input, { props: { hasTrailing: true } })
-    expect(container.querySelector('.strand-input--has-trailing')).toBeInTheDocument()
-    const trailing = container.querySelector('.strand-input__trailing')
-    expect(trailing).toBeInTheDocument()
-    expect(trailing).toHaveAttribute('aria-hidden', 'true')
-  })
-
+  // The leadingAddon and trailingAddon slots render their areas; the markup-parity test covers them from the Preact fixtures.
   it('does not show addons by default', () => {
     const { container } = render(Input)
     expect(container.querySelector('.strand-input__leading')).not.toBeInTheDocument()

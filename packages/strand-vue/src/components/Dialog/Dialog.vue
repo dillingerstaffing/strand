@@ -194,15 +194,7 @@ onUnmounted(() => {
           {{ title }}
         </h2>
       </div>
-      <button
-        v-if="dismissible"
-        type="button"
-        class="strand-dialog__close"
-        aria-label="Close"
-        @click="emit('close')"
-      >
-        &#215;
-      </button>
+      <button v-if="dismissible" type="button" class="strand-dialog__close" aria-label="Close" @click="emit('close')">&#215;</button>
       <div class="strand-dialog__body">
         <slot />
       </div>

@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<SwitchProps>(), {
   label: undefined,
   density: 'comfortable',
 })
+defineOptions({ inheritAttrs: false })
 
 const emit = defineEmits<{
   (e: 'change', checked: boolean): void
@@ -56,7 +57,7 @@ function toggle() {
 
 <template>
   <label :class="['strand-switch', density === 'compact' && 'strand-switch--compact'].filter(Boolean).join(' ')">
-    <button type="button" role="switch" class="strand-switch__track" :aria-checked="isOn ? 'true' : 'false'" :disabled="disabled" @click="toggle">
+    <button type="button" role="switch" v-bind="$attrs" class="strand-switch__track" :aria-checked="isOn ? 'true' : 'false'" :disabled="disabled" @click="toggle">
       <span class="strand-switch__thumb" aria-hidden="true" />
     </button>
     <span v-if="label" class="strand-switch__label">{{ label }}</span>

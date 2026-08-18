@@ -82,8 +82,5 @@
   aria-describedby={tooltipId}
   {...$$restProps}
 >
-  <slot />
-  <span id={tooltipId} class={tooltipClasses} role="tooltip" aria-hidden={!isOpen}>
-    {content}
-  </span>
+  <slot /><span id={tooltipId} class={tooltipClasses} role="tooltip" aria-hidden={!isOpen}>{content}</span>
 </span>

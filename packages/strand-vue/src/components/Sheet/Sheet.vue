@@ -131,7 +131,6 @@ watch(
       <div
         v-if="draggable"
         class="strand-sheet__grab"
-        data-testid="sheet-grab"
         @pointerdown="handlePointerDown"
         @pointermove="handlePointerMove"
         @pointerup="handlePointerUp"
@@ -140,7 +139,7 @@ watch(
         <span class="strand-sheet__grabber" aria-hidden="true" />
       </div>
 
-      <div v-if="$slots.head" class="strand-sheet__head" data-testid="sheet-head">
+      <div v-if="$slots.head" class="strand-sheet__head">
         <slot name="head" />
       </div>
 
@@ -148,7 +147,7 @@ watch(
         <slot />
       </div>
 
-      <div v-if="$slots.action" class="strand-sheet__foot" data-testid="sheet-foot">
+      <div v-if="$slots.action" class="strand-sheet__foot">
         <slot name="action" />
       </div>
     </div>

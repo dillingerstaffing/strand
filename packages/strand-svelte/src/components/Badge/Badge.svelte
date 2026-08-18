@@ -50,10 +50,7 @@
 </script>
 
 <span class={wrapperClasses} {...$$restProps}>
-  {#if hasChildren}
-    <slot />
-  {/if}
-  <span class={badgeClasses} aria-label={ariaLabel} role="status">
+  {#if hasChildren}<slot />{/if}<span class={badgeClasses} aria-label={ariaLabel} role="status">
     {#if displayValue != null}{displayValue}{/if}
   </span>
 </span>

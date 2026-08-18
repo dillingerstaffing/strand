@@ -29,13 +29,11 @@
   {#each items as item (item.category)}
     {#if item.selectable}
       <button type="button" class="strand-map-legend__item" on:click={() => onselect?.(item.category)}>
-        <span class="strand-map-legend__dot strand-map-legend__dot--{item.category}" aria-hidden="true"></span>
-        {item.label}
+        <span class="strand-map-legend__dot strand-map-legend__dot--{item.category}" aria-hidden="true"></span>{item.label}
       </button>
     {:else}
       <div class="strand-map-legend__item">
-        <span class="strand-map-legend__dot strand-map-legend__dot--{item.category}" aria-hidden="true"></span>
-        {item.label}
+        <span class="strand-map-legend__dot strand-map-legend__dot--{item.category}" aria-hidden="true"></span>{item.label}
       </div>
     {/if}
   {/each}

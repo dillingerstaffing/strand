@@ -32,6 +32,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   error: false,
   disabled: false,
 })
+defineOptions({ inheritAttrs: false })
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
@@ -44,8 +45,8 @@ const wrapperClasses = computed(() =>
     'strand-input',
     props.error && 'strand-input--error',
     props.disabled && 'strand-input--disabled',
-    !!slots.leading && 'strand-input--has-leading',
-    !!slots.trailing && 'strand-input--has-trailing',
+    !!slots.leadingAddon && 'strand-input--has-leading',
+    !!slots.trailingAddon && 'strand-input--has-trailing',
   ]
     .filter(Boolean)
     .join(' '),
@@ -59,10 +60,10 @@ function handleInput(event: Event) {
 
 <template>
   <div :class="wrapperClasses">
-    <span v-if="$slots.leading" class="strand-input__leading" aria-hidden="true">
-      <slot name="leading" />
+    <span v-if="$slots.leadingAddon" class="strand-input__leading" aria-hidden="true">
+      <slot name="leadingAddon" />
     </span>
-    <input
+    <input v-bind="$attrs"
       :type="type"
       class="strand-input__field"
       :disabled="disabled"
@@ -70,8 +71,8 @@ function handleInput(event: Event) {
       :value="modelValue"
       @input="handleInput"
     />
-    <span v-if="$slots.trailing" class="strand-input__trailing" aria-hidden="true">
-      <slot name="trailing" />
+    <span v-if="$slots.trailingAddon" class="strand-input__trailing" aria-hidden="true">
+      <slot name="trailingAddon" />
     </span>
   </div>
 </template>

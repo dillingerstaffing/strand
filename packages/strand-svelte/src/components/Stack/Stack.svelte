@@ -30,21 +30,17 @@
   /** Root element */
   export let as: string = 'div'
 
+  // cf: spacing-ladder
   $: classes = [
     'strand-stack',
     `strand-stack--${direction}`,
+    `strand-stack--gap-${resolveGapStep(gap)}`,
     align !== 'stretch' && `strand-stack--align-${align}`,
     justify && `strand-stack--justify-${justify}`,
     wrap && 'strand-stack--wrap',
   ].filter(Boolean).join(' ')
-
-  // THE LADDER IS THE CONTRACT (gap #122). An off-ladder gap wrote an
-  // undefined token, and an undefined custom property invalidates the
-  // whole declaration: the result was NO gap, not a smaller one.
-  $: gapStep = resolveGapStep(gap)
-  $: inlineStyle = `gap: var(--strand-space-${gapStep});`
 </script>
 
-<svelte:element this={as} class={classes} style={inlineStyle} {...$$restProps}>
+<svelte:element this={as} class={classes} {...$$restProps}>
   <slot />
 </svelte:element>

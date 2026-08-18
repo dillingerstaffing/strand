@@ -38,7 +38,13 @@ defineOptions({ inheritAttrs: false })
 
 const emit = defineEmits<{ selectionChange: [selected: string[]] }>()
 
-const chips = ref<HTMLButtonElement[]>([])
+const chips = new Map<string, HTMLButtonElement>()
+function chipRef(id: string) {
+  return (el: unknown) => {
+    if (el) chips.set(id, el as HTMLButtonElement)
+    else chips.delete(id)
+  }
+}
 const single = computed(() => props.mode === 'single')
 const classes = computed(() =>
   [
@@ -69,7 +75,7 @@ function onKeyDown(e: KeyboardEvent) {
   e.preventDefault()
   const id = props.items[next[e.key]].id
   emit('selectionChange', [id])
-  chips.value.find((el) => el.dataset.chipId === id)?.focus()
+  chips.get(id)?.focus()
 }
 </script>
 
@@ -78,10 +84,9 @@ function onKeyDown(e: KeyboardEvent) {
     <button
       v-for="item in items"
       :key="item.id"
-      ref="chips"
+      :ref="chipRef(item.id)"
       type="button"
       class="strand-chip-set__chip"
-      :data-chip-id="item.id"
       :role="single ? 'radio' : undefined"
       :aria-pressed="single ? undefined : selected.includes(item.id)"
       :aria-checked="single ? selected.includes(item.id) : undefined"

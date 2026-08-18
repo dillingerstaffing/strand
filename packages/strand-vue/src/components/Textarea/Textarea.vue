@@ -40,6 +40,7 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   disabled: false,
   modelValue: '',
 })
+defineOptions({ inheritAttrs: false })
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
@@ -62,11 +63,16 @@ const currentLength = computed(() =>
   typeof props.modelValue === 'string' ? props.modelValue.length : 0,
 )
 
+/** Fits the textarea to its content; a zero scrollHeight means no layout engine is running, so the element is left as it was. */
 function resize() {
-  if (props.autoResize && textareaRef.value) {
-    textareaRef.value.style.height = 'auto'
-    textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`
-  }
+  const el = textareaRef.value
+  if (!props.autoResize || !el) return
+  const previous = el.style.height
+  el.style.height = 'auto'
+  const content = el.scrollHeight
+  if (content > 0) el.style.height = `${content}px`
+  else if (previous) el.style.height = previous
+  else if (el.style.length === 0 || (el.style.length === 1 && el.style.height === 'auto')) el.removeAttribute('style')
 }
 
 function handleInput(event: Event) {
@@ -86,7 +92,7 @@ onMounted(() => {
 
 <template>
   <div :class="wrapperClasses">
-    <textarea
+    <textarea v-bind="$attrs"
       ref="textareaRef"
       class="strand-textarea__field"
       :disabled="disabled"

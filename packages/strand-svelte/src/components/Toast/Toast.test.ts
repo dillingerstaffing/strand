@@ -44,11 +44,12 @@ describe('Toast', () => {
     }
   })
 
-  it('has dismiss button with aria-label', () => {
-    const { container } = render(Toast, { props: { message: 'Test' } })
-    const btn = container.querySelector('.strand-toast__dismiss')
-    expect(btn).toBeInTheDocument()
-    expect(btn).toHaveAttribute('aria-label', 'Dismiss')
+  it('renders the dismiss control only when ondismiss is given', () => {
+    const silent = render(Toast, { props: { message: 'Test' } })
+    expect(silent.container.querySelector('.strand-toast__dismiss')).not.toBeInTheDocument()
+    silent.unmount()
+    const { container } = render(Toast, { props: { message: 'Test', ondismiss: () => {} } })
+    expect(container.querySelector('.strand-toast__dismiss')).toHaveAttribute('aria-label', 'Dismiss')
   })
 
   it('fires ondismiss callback', async () => {

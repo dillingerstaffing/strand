@@ -32,19 +32,16 @@ describe('Stack', () => {
 
   // ── Gap ──
 
-  it('sets gap with default space-4', () => {
+  it('sets the gap as a ladder class, 4 by default, never an inline style', () => {
     const { container } = render(Stack, { slots: { default: '<div>Item</div>' } })
     const el = container.firstElementChild as HTMLElement
-    expect(el.style.gap).toBe('var(--strand-space-4)')
+    expect(el).toHaveClass('strand-stack--gap-4')
+    expect(el.getAttribute('style')).toBeNull()
   })
 
-  it('sets gap to match gap prop', () => {
-    const { container } = render(Stack, {
-      props: { gap: 8 },
-      slots: { default: '<div>Item</div>' },
-    })
-    const el = container.firstElementChild as HTMLElement
-    expect(el.style.gap).toBe('var(--strand-space-8)')
+  it('sets the gap class from the gap prop', () => {
+    const { container } = render(Stack, { props: { gap: 8 }, slots: { default: '<div>Item</div>' } })
+    expect(container.firstElementChild).toHaveClass('strand-stack--gap-8')
   })
 
   // ── Align ──
@@ -141,14 +138,13 @@ describe('Stack', () => {
   it('an off-ladder gap renders a real rung instead of no gap at all (gap #122)', () => {
     const { container } = render(Stack, { props: { gap: 7 } })
     const el = container.querySelector('.strand-stack') as HTMLElement
-    expect(el.getAttribute('style')).toContain('--strand-space-6')
-    expect(el.getAttribute('style')).not.toContain('--strand-space-7')
+    expect(el).toHaveClass('strand-stack--gap-6')
+    expect(el.className).not.toContain('gap-7')
   })
 
   it('an on-ladder gap is untouched, so no existing consumer moves', () => {
     const { container } = render(Stack, { props: { gap: 6 } })
-    const el = container.querySelector('.strand-stack') as HTMLElement
-    expect(el.getAttribute('style')).toContain('--strand-space-6')
+    expect(container.querySelector('.strand-stack')).toHaveClass('strand-stack--gap-6')
   })
 
 })

@@ -39,11 +39,7 @@ const classes = computed(() =>
       :type="item.selectable ? 'button' : undefined"
       @click="item.selectable && emit('select', item.category)"
     >
-      <span
-        :class="`strand-map-legend__dot strand-map-legend__dot--${item.category}`"
-        aria-hidden="true"
-      />
-      {{ item.label }}
+      <span :class="`strand-map-legend__dot strand-map-legend__dot--${item.category}`" aria-hidden="true" />{{ item.label }}
     </component>
   </div>
 </template>

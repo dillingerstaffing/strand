@@ -90,12 +90,7 @@ const describedControl = computed(() => {
 
 <template>
   <div :class="classes">
-    <label class="strand-form-field__label" :for="htmlFor">
-      {{ label }}
-      <span v-if="required" class="strand-form-field__required" aria-hidden="true">
-        *
-      </span>
-    </label>
+    <label class="strand-form-field__label" :for="htmlFor">{{ label }}<span v-if="required" class="strand-form-field__required" aria-hidden="true">*</span></label>
     <div class="strand-form-field__control">
       <component :is="() => describedControl" />
     </div>

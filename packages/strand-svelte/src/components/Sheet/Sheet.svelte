@@ -111,7 +111,6 @@
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
         class="strand-sheet__grab"
-        data-testid="sheet-grab"
         on:pointerdown={handlePointerDown}
         on:pointermove={handlePointerMove}
         on:pointerup={handlePointerUp}
@@ -122,7 +121,7 @@
     {/if}
 
     {#if $$slots.head}
-      <div class="strand-sheet__head" data-testid="sheet-head">
+      <div class="strand-sheet__head">
         <slot name="head" />
       </div>
     {/if}
@@ -132,7 +131,7 @@
     </div>
 
     {#if $$slots.action}
-      <div class="strand-sheet__foot" data-testid="sheet-foot">
+      <div class="strand-sheet__foot">
         <slot name="action" />
       </div>
     {/if}

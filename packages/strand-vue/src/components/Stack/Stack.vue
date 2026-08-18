@@ -50,6 +50,7 @@ const classes = computed(() =>
   [
     'strand-stack',
     `strand-stack--${props.direction}`,
+    `strand-stack--gap-${resolveGapStep(props.gap)}`,
     props.align !== 'stretch' && `strand-stack--align-${props.align}`,
     props.justify && `strand-stack--justify-${props.justify}`,
     props.wrap && 'strand-stack--wrap',
@@ -59,13 +60,10 @@ const classes = computed(() =>
     .join(' '),
 )
 
-const inlineStyle = computed(() => ({
-  gap: `var(--strand-space-${resolveGapStep(props.gap)})`,
-}))
 </script>
 
 <template>
-  <component :is="as" :class="classes" :style="inlineStyle" v-bind="$attrs">
+  <component :is="as" :class="classes" v-bind="$attrs">
     <slot />
   </component>
 </template>

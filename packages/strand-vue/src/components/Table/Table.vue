@@ -117,8 +117,7 @@ const Cell = (p: { col: TableColumn; row: TableRow; index: number }) => (p.col.r
             :aria-sort="ariaSort(col)"
           >
             <button v-if="col.sortable" type="button" class="strand-table__sort-btn" :aria-label="`Sort by ${col.header}`" @click="handleSort(col.key)">
-              {{ col.header }}
-              <span class="strand-table__sort-indicator" aria-hidden="true">{{ sortIndicator(col.key) }}</span>
+              {{ col.header }}<span class="strand-table__sort-indicator" aria-hidden="true">{{ sortIndicator(col.key) }}</span>
             </button>
             <template v-else>{{ col.header }}</template>
           </th>

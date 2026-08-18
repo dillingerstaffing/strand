@@ -34,9 +34,7 @@
   <div class="strand-alert__content">
     {#if title || $$slots.title}
       <div class="strand-alert__title"><slot name="title">{title}</slot></div>
-    {/if}
-    <slot />
-  </div>
+    {/if}<slot /></div>
   {#if $$slots.action}
     <div class="strand-alert__action"><slot name="action" /></div>
   {/if}

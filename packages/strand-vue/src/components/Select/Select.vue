@@ -44,6 +44,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   disabled: false,
   error: false,
 })
+defineOptions({ inheritAttrs: false })
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
@@ -67,7 +68,7 @@ function handleChange(event: Event) {
 
 <template>
   <div :class="wrapperClasses">
-    <select
+    <select v-bind="$attrs"
       class="strand-select__field"
       :value="modelValue"
       :disabled="disabled"

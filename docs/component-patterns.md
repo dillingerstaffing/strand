@@ -25,5 +25,6 @@ Every component in `packages/strand-ui` is written the same way, so a reader who
 ## How a component is tested
 
 - `Component.fixtures.ts` names the prop sets worth rendering; `snapshotFixtures` renders each and snapshots the HTML.
+- The same fixtures are the cross-port contract: the Vue and Svelte suites render every fixture through their port (children and slot-typed props become slots, `value`/`checked` become `modelValue` where Vue declares it) and compare the normalized markup (`src/test/serialize.ts`: attributes in name order, comment nodes and generated ids neutralised) against the Preact snapshot. A deliberate divergence is recorded in `parity-manifest.json#/markupDrift` with a reason; anything else fails the port's suite.
 - `snapshotStylesheet` snapshots the component's rules.
 - Behaviour tests read as what a user sees: "clicking the hamburger opens the menu and updates aria-expanded", never "has class strand-nav--open".

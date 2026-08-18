@@ -39,13 +39,23 @@
 
   $: currentLength = typeof value === 'string' ? value.length : 0
 
+  /** Fits the textarea to its content; a zero scrollHeight means no layout engine is running, so the element is left as it was. */
+  function fit() {
+    const el = textareaEl
+    if (!autoResize || !el) return
+    const previous = el.style.height
+    el.style.height = 'auto'
+    const content = el.scrollHeight
+    if (content > 0) el.style.height = `${content}px`
+    else if (previous) el.style.height = previous
+    else if (el.style.length === 0 || (el.style.length === 1 && el.style.height === 'auto')) el.removeAttribute('style')
+  }
+  $: if (textareaEl && value !== undefined) fit()
+
   function handleInput(e: Event) {
     const target = e.target as HTMLTextAreaElement
     value = target.value
-    if (autoResize && textareaEl) {
-      textareaEl.style.height = 'auto'
-      textareaEl.style.height = `${textareaEl.scrollHeight}px`
-    }
+    fit()
     oninput?.(e)
   }
 </script>

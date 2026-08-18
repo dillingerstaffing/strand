@@ -40,12 +40,7 @@
 <div class={classes} role={isUrgent ? 'alert' : 'status'} aria-live={isUrgent ? 'assertive' : 'polite'} {...$$restProps}>
   <span class="strand-toast__status">{statusLabel}</span>
   <span class="strand-toast__message">{message}</span>
-  <button
-    type="button"
-    class="strand-toast__dismiss"
-    aria-label="Dismiss"
-    on:click={() => ondismiss?.()}
-  >
-    &#215;
-  </button>
+  {#if ondismiss}
+    <button type="button" class="strand-toast__dismiss" aria-label="Dismiss" on:click={ondismiss}>&#215;</button>
+  {/if}
 </div>

@@ -23,6 +23,8 @@
   export interface TabItem {
     id: string
     label: string
+    /** Text for the panel when the slot does not render one. */
+    content?: string
   }
   let counter = 0
 </script>
@@ -87,9 +89,7 @@
   {#each tabs as tab (tab.id)}
     {@const isActive = tab.id === active}
     <div id={`${base}-panel-${tab.id}`} role="tabpanel" aria-labelledby={`${base}-tab-${tab.id}`} hidden={!isActive} tabindex={0}>
-      {#if isActive}
-        <slot {tab} {isActive} />
-      {/if}
+      <slot {tab} {isActive}>{tab.content ?? ''}</slot>
     </div>
   {/each}
 </div>

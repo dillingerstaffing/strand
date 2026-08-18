@@ -67,7 +67,7 @@
   {#if copyable}
     <button
       type="button"
-      class="strand-code-block__copy {copied ? 'strand-code-block__copy--copied' : ''}"
+      class={['strand-code-block__copy', copied && 'strand-code-block__copy--copied'].filter(Boolean).join(' ')}
       aria-label={copied ? 'Copied' : 'Copy code to clipboard'}
       on:click={handleCopy}
     >

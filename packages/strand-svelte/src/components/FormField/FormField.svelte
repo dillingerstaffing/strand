@@ -88,12 +88,7 @@
 </script>
 
 <div class={classes} bind:this={fieldEl} {...$$restProps}>
-  <label class="strand-form-field__label" for={htmlFor}>
-    {label}
-    {#if required}
-      <span class="strand-form-field__required" aria-hidden="true">*</span>
-    {/if}
-  </label>
+  <label class="strand-form-field__label" for={htmlFor}>{label}{#if required}<span class="strand-form-field__required" aria-hidden="true">*</span>{/if}</label>
   <div class="strand-form-field__control">
     <slot />
   </div>

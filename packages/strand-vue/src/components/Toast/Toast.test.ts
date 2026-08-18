@@ -81,10 +81,11 @@ describe('Toast', () => {
     expect(getByRole('alert')).toHaveAttribute('aria-live', 'assertive')
   })
 
-  it('emits dismiss when dismiss button is clicked', async () => {
-    const { getByLabelText, emitted } = render(Toast, {
-      props: { message: 'Bye' },
-    })
+  it('renders the dismiss control only for a listener, and emits dismiss when it is clicked', async () => {
+    const silent = render(Toast, { props: { message: 'Bye' } })
+    expect(silent.queryByLabelText('Dismiss')).toBeNull()
+    silent.unmount()
+    const { getByLabelText, emitted } = render(Toast, { props: { message: 'Bye', onDismiss: () => {} } })
     await fireEvent.click(getByLabelText('Dismiss'))
     expect(emitted().dismiss).toHaveLength(1)
   })

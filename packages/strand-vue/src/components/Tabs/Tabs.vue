@@ -28,6 +28,8 @@ import { computed, ref, useId } from 'vue'
 export interface TabItem {
   id: string
   label: string
+  /** Text for the panel when no `panel-<id>` slot is given. */
+  content?: string
 }
 
 export interface TabsProps {
@@ -55,7 +57,13 @@ const emit = defineEmits<{
 }>()
 
 const base = useId()
-const buttons = ref<HTMLButtonElement[]>([])
+const buttons = new Map<string, HTMLButtonElement>()
+function tabRef(id: string) {
+  return (el: unknown) => {
+    if (el) buttons.set(id, el as HTMLButtonElement)
+    else buttons.delete(id)
+  }
+}
 const ownActive = ref(props.defaultActiveTab ?? props.tabs[0]?.id)
 const active = computed(() => props.activeTab ?? ownActive.value)
 const classes = computed(() => ['strand-tabs', props.variant !== 'default' && `strand-tabs--${props.variant}`].filter(Boolean).join(' '))
@@ -65,11 +73,8 @@ function select(id: string) {
   emit('change', id)
   emit('update:activeTab', id)
 }
-function buttonFor(id: string) {
-  return buttons.value.find((b) => b.dataset.tabId === id)
-}
 function onKeyDown(event: KeyboardEvent) {
-  const focused = props.tabs.findIndex((t) => buttonFor(t.id) === event.target)
+  const focused = props.tabs.findIndex((t) => buttons.get(t.id) === event.target)
   const current = focused >= 0 ? focused : props.tabs.findIndex((t) => t.id === active.value)
   const n = props.tabs.length
   const next: Record<string, number> = { ArrowRight: (current + 1) % n, ArrowLeft: (current - 1 + n) % n, Home: 0, End: n - 1 }
@@ -78,7 +83,7 @@ function onKeyDown(event: KeyboardEvent) {
   const tab = props.tabs[next[event.key]]
   if (!tab) return
   if (props.activation === 'automatic') select(tab.id)
-  buttonFor(tab.id)?.focus()
+  buttons.get(tab.id)?.focus()
 }
 </script>
 
@@ -89,11 +94,10 @@ function onKeyDown(event: KeyboardEvent) {
         v-for="tab in tabs"
         :id="`${base}-tab-${tab.id}`"
         :key="tab.id"
-        ref="buttons"
+        :ref="tabRef(tab.id)"
         role="tab"
         type="button"
         class="strand-tabs__tab"
-        :data-tab-id="tab.id"
         :aria-selected="tab.id === active ? 'true' : 'false'"
         :aria-controls="`${base}-panel-${tab.id}`"
         :tabindex="tab.id === active ? 0 : -1"
@@ -103,7 +107,7 @@ function onKeyDown(event: KeyboardEvent) {
       </button>
     </div>
     <div v-for="tab in tabs" :id="`${base}-panel-${tab.id}`" :key="tab.id" role="tabpanel" :aria-labelledby="`${base}-tab-${tab.id}`" :hidden="tab.id !== active || undefined" :tabindex="0">
-      <slot :name="`panel-${tab.id}`" />
+      <slot :name="`panel-${tab.id}`">{{ tab.content }}</slot>
     </div>
   </div>
 </template>

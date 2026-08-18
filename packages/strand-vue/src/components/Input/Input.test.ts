@@ -63,7 +63,7 @@ describe('Input', () => {
 
   it('renders leading addon slot with has-leading class', () => {
     const { container } = render(Input, {
-      slots: { leading: '<span>$</span>' },
+      slots: { leadingAddon: '<span>$</span>' },
     })
     const wrapper = container.querySelector('.strand-input')
     expect(wrapper).toHaveClass('strand-input--has-leading')
@@ -74,7 +74,7 @@ describe('Input', () => {
 
   it('renders trailing addon slot with has-trailing class', () => {
     const { container } = render(Input, {
-      slots: { trailing: '<span>%</span>' },
+      slots: { trailingAddon: '<span>%</span>' },
     })
     const wrapper = container.querySelector('.strand-input')
     expect(wrapper).toHaveClass('strand-input--has-trailing')

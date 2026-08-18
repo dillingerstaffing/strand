@@ -57,10 +57,14 @@
   /** The element to focus when the dialog opens; the first focusable child by default */
   export let initialFocus: HTMLElement | null = null
 
+  let className: string = ''
+  export { className as class }
+
   $: panelClasses = [
     'strand-dialog__panel',
     align === 'center' ? '' : `strand-dialog__panel--align-${align}`,
     `strand-dialog__panel--pad-${padding}`,
+    className,
   ]
     .filter(Boolean)
     .join(' ')

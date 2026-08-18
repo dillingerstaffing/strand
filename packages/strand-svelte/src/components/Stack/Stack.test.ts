@@ -17,10 +17,11 @@ describe('Stack', () => {
     expect(container.querySelector('.strand-stack')).toHaveClass('strand-stack--horizontal')
   })
 
-  it('sets gap via inline style', () => {
+  it('sets the gap as a ladder class, never an inline style', () => {
     const { container } = render(Stack, { props: { gap: 6 } })
     const el = container.querySelector('.strand-stack') as HTMLElement
-    expect(el.style.gap).toBe('var(--strand-space-6)')
+    expect(el).toHaveClass('strand-stack--gap-6')
+    expect(el.getAttribute('style')).toBeNull()
   })
 
   it('applies align class when not stretch', () => {
@@ -45,19 +46,15 @@ describe('Stack', () => {
   })
 
   it('an off-ladder gap renders a real rung instead of no gap at all (gap #122)', () => {
-    // `gap={7}` wrote `var(--strand-space-7)`, an undefined token, and an
-    // undefined custom property invalidates the WHOLE declaration: the result
-    // was no gap, not a smaller one.
     const { container } = render(Stack, { props: { gap: 7 } })
     const el = container.querySelector('.strand-stack') as HTMLElement
-    expect(el.getAttribute('style')).toContain('--strand-space-6')
-    expect(el.getAttribute('style')).not.toContain('--strand-space-7')
+    expect(el).toHaveClass('strand-stack--gap-6')
+    expect(el.className).not.toContain('gap-7')
   })
 
   it('an on-ladder gap is untouched, so no existing consumer moves', () => {
     const { container } = render(Stack, { props: { gap: 6 } })
-    const el = container.querySelector('.strand-stack') as HTMLElement
-    expect(el.getAttribute('style')).toContain('--strand-space-6')
+    expect(container.querySelector('.strand-stack')).toHaveClass('strand-stack--gap-6')
   })
 
 })
