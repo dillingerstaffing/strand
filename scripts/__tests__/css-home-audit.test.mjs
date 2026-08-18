@@ -94,11 +94,47 @@ describe("auditFiles", () => {
 });
 
 describe("summarize", () => {
-  it("totals the misplaced and homeless rules and fails an empty run", () => {
+  it("totals the misplaced and homeless rules, fails on either, and fails an empty run", () => {
     const r = auditFiles([{ name: "static.css", dir: null, css: ".strand-btn { } .strand-mt-4 { }" }], ["Button"], { Button: "strand-btn" });
     const out = summarize(r);
-    expect(out.ok).toBe(true);
+    expect(out.ok).toBe(false);
     expect(out.text).toMatch(/1 rules define a block another component owns, 1 rules define blocks no component owns/);
     expect(summarize({ rows: [], split: [] }).ok).toBe(false);
+    const clean = auditFiles([{ name: "Button.css", dir: "Button", css: ".strand-btn { }" }], ["Button"], { Button: `<button className="strand-btn" />` });
+    expect(summarize(clean).ok).toBe(true);
+  });
+});
+
+describe("open and owning global sheets", () => {
+  it("an open sheet is the home for standalone classes, even ones a component renders", () => {
+    const files = [{ name: "utilities.css", dir: null, open: true, css: ".strand-sr-only { } .strand-mt-4 { }" }];
+    const { rows } = auditFiles(files, ["CalendarGrid"], { CalendarGrid: `<span className="strand-sr-only" />` });
+    expect(rows[0].own).toEqual({ "strand-sr-only": 1, "strand-mt-4": 1 });
+    expect(rows[0].foreignHomed).toEqual({});
+  });
+  it("an open sheet still may not define a block a component owns by name, by declaration, or by rendering what its own sheet defines", () => {
+    const files = [
+      { name: "Button.css", dir: "Button", css: ".strand-btn { }" },
+      { name: "utilities.css", dir: null, open: true, css: ".strand-btn { } .strand-hero-bg { } .strand-card { }" },
+    ];
+    const { rows } = auditFiles(files, ["Button", "Card", "Hero"], { Button: `<button className="strand-btn" />` }, { Hero: ["strand-hero-bg"] });
+    expect(rows[1].foreignHomed).toEqual({ "strand-btn -> Button": 1, "strand-hero-bg -> Hero": 1, "strand-card -> Card": 1 });
+  });
+  it("a sheet with `owns` owns exactly those blocks, and a class on body is a document mode", () => {
+    const files = [{ name: "base.css", dir: null, owns: ["strand-prose"], css: ".strand-prose p { } .strand-prose { } body.strand-grain-wood::after { } .strand-x { }" }];
+    const { rows } = auditFiles(files, [], {});
+    expect(rows[0].own).toEqual({ "strand-prose": 1 });
+    expect(rows[0].homeless).toEqual({ "strand-x": 1 });
+    expect(rows[0].global).toBe(1);
+    expect(rows[0].context).toBe(1);
+  });
+  it("a declared css-only block and a recorded foreign block are strong ownership", () => {
+    const { rows } = auditFiles(
+      [{ name: "InstrumentViewport.css", dir: "InstrumentViewport", css: ".strand-body--instrument { }" }],
+      ["InstrumentViewport"],
+      {},
+      { InstrumentViewport: ["strand-body"] },
+    );
+    expect(rows[0].own).toEqual({ "strand-body": 1 });
   });
 });

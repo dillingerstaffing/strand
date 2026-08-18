@@ -1,0 +1,51 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Bar Chart ──
+   Derivation: column-array (DL 11.10).
+   column(amount? + bar + label)* with equal flex + flex-end alignment.
+   Blue Discipline: one color (--strand-blue-indicator). Part XIII viz rules. */
+.strand-bar-chart {
+  display: flex;
+  gap: var(--strand-space-2);
+  align-items: flex-end;
+  height: var(--strand-space-40);
+  padding: var(--strand-space-4);
+}
+.strand-bar-chart__col {
+  flex: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: end;
+  justify-items: center;
+  gap: var(--strand-space-1);
+  height: 100%;
+}
+.strand-bar-chart__bar {
+  width: 100%;
+  background: var(--strand-blue-indicator);
+  border-radius: var(--strand-radius-sm) var(--strand-radius-sm) 0 0;
+  min-height: var(--strand-space-1);
+}
+/* gray-300 is the disabled-state tier and reads at 1.47:1 as text on a light
+   surface. The amount is the datum the chart exists to communicate, so it
+   takes the secondary-text color. */
+.strand-bar-chart__amount {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+  font-variant-numeric: tabular-nums;
+}
+.strand-bar-chart__label {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+}
+/* ── Bar chart size modifiers ── */
+.strand-bar-chart--sm { height: var(--strand-space-24); }
+.strand-bar-chart--lg { height: var(--strand-space-48); }

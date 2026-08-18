@@ -135,80 +135,11 @@
   gap: var(--strand-space-4);
 }
 
-/* ── Channel grid helpers ──
-   Equal-height card row with a natural top-to-bottom stack inside each
-   card and the final horizontal row (the CTA) anchored to the card's
-   bottom edge. Cards in the same row align to the tallest card's
-   height; an uneven content mix never produces the ragged-bottom look
-   where some cards end tall and others stop short. Useful for channel
-   listings, membership grids, and any layout where cards carry a
-   primary CTA that must read as the shared affordance across the row. */
-.strand-channel-grid {
-  align-items: stretch;
-}
-.strand-channel-grid > .strand-card {
-  display: flex;
-  flex-direction: column;
-}
-.strand-channel-grid > .strand-card > .strand-stack--vertical {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.strand-channel-grid > .strand-card > .strand-stack--vertical > .strand-stack--horizontal:last-child {
-  margin-top: auto;
-}
-
-.strand-channel-title {
-  margin: 0;
-  line-height: var(--strand-leading-snug);
-}
-
-.strand-channel-description {
-  margin: 0;
-}
-
-.strand-channel-next {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: var(--strand-space-2);
-  margin-top: var(--strand-space-1);
-  padding-top: var(--strand-space-2);
-  border-top: 1px dashed var(--strand-gray-200);
-  font-size: var(--strand-text-xs);
-  line-height: var(--strand-leading-snug);
-}
-
-.strand-channel-next__label {
-  font-family: var(--strand-font-mono);
-  font-size: var(--strand-text-xs);
-  font-weight: var(--strand-weight-medium);
-  letter-spacing: var(--strand-tracking-widest);
-  text-transform: uppercase;
-  color: var(--strand-gray-500);
-}
-
-.strand-channel-next__title {
-  color: var(--strand-gray-900);
-  font-weight: var(--strand-weight-medium);
-}
-
-.strand-channel-next__when {
-  color: var(--strand-gray-600);
-  font-variant-numeric: tabular-nums;
-}
-
-.strand-channel-signin-hint {
-  grid-column: 1 / -1;
-}
-
 /* CF-REF: reduced-motion.md [9] */
 @media (prefers-reduced-motion: reduce) {
   .strand-card--interactive {
     transition: none;
   }
-
   .strand-card--interactive:hover {
     transform: none;
   }

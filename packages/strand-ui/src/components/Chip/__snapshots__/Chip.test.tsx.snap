@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-chip--joined",
+  ".strand-chip--joined:hover:not(:disabled)",
+  ".strand-chip--joined:focus-visible",
+  ".strand-chip--joined:disabled",
+  ".strand-chip--joined__check",
+  "@media (prefers-reduced-motion: reduce)",
+  "  .strand-chip--joined",
+]
+`;

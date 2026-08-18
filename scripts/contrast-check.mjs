@@ -219,8 +219,11 @@ export function auditRule(rule, palette, darkClasses = new Set()) {
 	// entirely is how gray-500 shipped at 3.36:1 across 30 nodes on the abyss:
 	// the text tier was derived against white and nothing ever checked the
 	// other side. A hue needs two values; so does a check.
+	// The instrument nav variant and its mono title accessories are painted
+	// on the cabinet too; the title's own colour is an instrument token and
+	// the tag beside it is dark-context by the same design.
 	const onDark =
-		/body--instrument|instrument-viewport/.test(rule.selector) &&
+		/body--instrument|instrument-viewport|nav--instrument|nav__title/.test(rule.selector) &&
 		!LIGHT_ISLANDS.test(rule.selector);
 	const surfaces = onDark ? DARK_SURFACES : LIGHT_SURFACES;
 

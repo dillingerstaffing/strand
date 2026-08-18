@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-form-grid",
+  ".strand-form-row",
+  "@media (max-width: 639px)",
+  "  .strand-form-row",
+  ".strand-honeypot",
+]
+`;

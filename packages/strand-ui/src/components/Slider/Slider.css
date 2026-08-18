@@ -133,7 +133,6 @@
   .strand-slider__field::-webkit-slider-thumb {
     transition: none;
   }
-
   .strand-slider__field::-moz-range-thumb {
     transition: none;
   }

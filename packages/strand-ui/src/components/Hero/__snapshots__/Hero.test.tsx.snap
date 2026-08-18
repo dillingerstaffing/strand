@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-hero-bg",
+  ".strand-hero-bg > *",
+  ".strand-hero-grid",
+  ".strand-hero-grid svg",
+  ".strand-hero-grid__nodes",
+  ".strand-hero-grid__lines",
+  ".strand-hero-grid__line",
+  ".strand-hero-grid__line--1",
+  ".strand-hero-grid__line--2",
+  ".strand-hero-grid__line--3",
+  ".strand-hero-grid__line--4",
+  ".strand-hero-grid__line--5",
+  ".strand-hero-grid__line--6",
+  ".strand-hero-grid__line--7",
+  ".strand-hero-grid__line--8",
+  ".strand-hero-grid__line--9",
+  ".strand-hero-grid__line--10",
+  ".strand-hero-grid__line--11",
+  ".strand-hero-grid__line--12",
+  ".strand-hero-grid__line--13",
+  ".strand-hero-grid__line--14",
+  ".strand-hero-grid__line--15",
+  ".strand-hero-grid__line--16",
+  ".strand-hero-grid__line--17",
+  ".strand-hero-grid__line--18",
+  "@keyframes strand-hero-grid-glow",
+  "  0%, 100%",
+  "  50%",
+  "@media (prefers-reduced-motion: reduce)",
+  "  .strand-hero-bg",
+]
+`;

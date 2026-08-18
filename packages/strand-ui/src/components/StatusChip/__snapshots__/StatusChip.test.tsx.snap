@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-status-chip",
+  ".strand-status-chip > svg",
+  ".strand-status-chip--live",
+  ".strand-status-chip--neutral",
+  ".strand-status-chip--accent",
+  ".strand-status-chip--caution",
+  ".strand-status-chip--committed",
+]
+`;

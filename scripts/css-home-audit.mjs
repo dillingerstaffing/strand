@@ -14,9 +14,15 @@ import { splitComments } from "./component-audit.mjs";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const UI = join(ROOT, "packages/strand-ui/src");
 const COMPONENTS = join(UI, "components");
+const MANIFEST = join(ROOT, "parity-manifest.json");
+// The sheets outside components/, and what each may define. `open` means the
+// sheet is the home for standalone classes no component owns (typography and
+// utilities are exactly that); a listed block is the sheet's own.
 const GLOBAL_FILES = [
-  { name: "strand-ui/src/static.css", path: join(UI, "static.css") },
-  { name: "tokens/css/base.css", path: join(ROOT, "packages/tokens/css/base.css") },
+  { name: "strand-ui/src/typography.css", path: join(UI, "typography.css"), open: true },
+  { name: "strand-ui/src/utilities.css", path: join(UI, "utilities.css"), open: true },
+  { name: "strand-ui/src/static.css", path: join(UI, "static.css"), owns: ["strand-static"] },
+  { name: "tokens/css/base.css", path: join(ROOT, "packages/tokens/css/base.css"), owns: ["strand-prose"] },
 ];
 
 // ── Pure decision layer ─────────────────────────────────────────────────
@@ -106,7 +112,8 @@ export function classifySelector(selector) {
   // A class inside :has()/:not()/:is()/:where() is a condition, not the
   // element being defined: `body:has(.strand-nav--glass)` styles body.
   const defining = compound.replace(/:(?:has|not|is|where)\([^)]*\)/g, "");
-  const firstClass = defining.match(/\.(strand-[A-Za-z0-9_-]+)/);
+  // A class on html or body is a document mode, not a block: `body.strand-grain-wood::after`.
+  const firstClass = /^(?:html|body)[.:\[]/.test(defining) ? null : defining.match(/\.(strand-[A-Za-z0-9_-]+)/);
   const targets = [];
   for (const m of first.matchAll(/\.(strand-[A-Za-z0-9_-]+)/g)) {
     const b = blockOf(m[1]);
@@ -134,15 +141,31 @@ export function ownedBlocks(dirName, componentSource = "") {
   return owned;
 }
 
-/** Name-based ownership first, then what each component renders. */
-export function ownerIndex(dirs, sourcesByDir = {}) {
+/**
+ * block -> owning directory. Ownership by name, by declaration (a css-only
+ * primitive's `blocks`, a recorded `foreignBlocks` entry), or by rendering a
+ * block the directory's own sheet defines is strong. Ownership by rendering
+ * alone is weak: a component that renders `strand-sr-only` is using the
+ * utility, not defining it. `strong(block)` tells the two apart.
+ */
+export function ownerIndex(dirs, sourcesByDir = {}, declaredByDir = {}, cssByDir = {}) {
   const dirByBlock = new Map();
-  for (const d of dirs) for (const b of ownedBlocks(d)) dirByBlock.set(b, d);
+  const strongBlocks = new Set();
+  const claim = (b, d, strong) => {
+    if (dirByBlock.has(b)) return;
+    dirByBlock.set(b, d);
+    if (strong) strongBlocks.add(b);
+  };
+  for (const d of dirs) for (const b of ownedBlocks(d)) claim(b, d, true);
+  for (const d of dirs) for (const b of declaredByDir[d] || []) claim(b, d, true);
   for (const d of dirs) {
-    for (const b of ownedBlocks(d, sourcesByDir[d] || "")) {
-      if (!dirByBlock.has(b)) dirByBlock.set(b, d);
-    }
+    // Rendered and defined in the directory's own sheet: the component's block
+    // under another name (Button renders and styles `strand-btn`). Rendered
+    // only: the component uses a class someone else defines.
+    const defined = new Set(parseRules(cssByDir[d] || "").map((r) => classifySelector(r.selector).defines).filter(Boolean));
+    for (const b of ownedBlocks(d, sourcesByDir[d] || "")) claim(b, d, defined.has(b));
   }
+  dirByBlock.strong = (b) => strongBlocks.has(b);
   return dirByBlock;
 }
 
@@ -150,12 +173,15 @@ export function ownerIndex(dirs, sourcesByDir = {}) {
  * Per file: every block it defines with a rule count, split into own,
  * foreign-with-a-home (a component directory owns that block), and
  * homeless (no directory owns it). Context rules are counted separately.
+ * A global sheet marked `open` is the home for standalone blocks, so it
+ * has no homeless rules; one with `owns` owns exactly those blocks.
  *
- * @param {{name: string, dir: string|null, css: string}[]} files
+ * @param {{name: string, dir: string|null, css: string, open?: boolean, owns?: string[]}[]} files
  * @param {string[]} dirs component directory names
  */
-export function auditFiles(files, dirs, sourcesByDir = {}) {
-  const dirByBlock = ownerIndex(dirs, sourcesByDir);
+export function auditFiles(files, dirs, sourcesByDir = {}, declaredByDir = {}) {
+  const cssByDir = Object.fromEntries(files.filter((f) => f.dir).map((f) => [f.dir, f.css]));
+  const dirByBlock = ownerIndex(dirs, sourcesByDir, declaredByDir, cssByDir);
 
   const rows = [];
   const definers = new Map(); // block -> Set(file)
@@ -178,7 +204,9 @@ export function auditFiles(files, dirs, sourcesByDir = {}) {
       const owner = dirByBlock.get(c.defines) ?? null;
       const bump = (m, k) => m.set(k, (m.get(k) || 0) + 1);
       if (f.dir && owner === f.dir) bump(own, c.defines);
+      else if (f.open && !(owner && dirByBlock.strong(c.defines))) bump(own, c.defines);
       else if (owner) bump(foreignHomed, `${c.defines} -> ${owner}`);
+      else if ((f.owns || []).includes(c.defines)) bump(own, c.defines);
       else bump(homeless, c.defines);
     }
     rows.push({
@@ -228,7 +256,7 @@ export function summarize({ rows, split }) {
   lines.push(
     `  ${rows.length} stylesheets: ${misplacedRules} rules define a block another component owns, ${homelessRules} rules define blocks no component owns, ${split.length} blocks are split across files.`,
   );
-  return { ok: true, text: lines.join("\n") };
+  return { ok: misplacedRules === 0 && homelessRules === 0 && split.length === 0, text: lines.join("\n") };
 }
 
 // ── Impure shell ────────────────────────────────────────────────────────
@@ -247,17 +275,21 @@ function collect() {
     if (existsSync(t)) sourcesByDir[d] = readFileSync(t, "utf-8");
   }
   for (const g of GLOBAL_FILES) {
-    if (existsSync(g.path)) files.push({ name: g.name, dir: null, css: readFileSync(g.path, "utf-8") });
+    if (existsSync(g.path)) files.push({ ...g, dir: null, css: readFileSync(g.path, "utf-8") });
   }
-  return { dirs, files, sourcesByDir };
+  const manifest = JSON.parse(readFileSync(MANIFEST, "utf-8"));
+  const declaredByDir = {};
+  for (const e of manifest.cssOnlyComponents || []) if (typeof e !== "string") declaredByDir[e.name] = e.blocks || [];
+  for (const [d, blocks] of Object.entries(manifest.foreignBlocks || {})) declaredByDir[d] = [...(declaredByDir[d] || []), ...blocks];
+  return { dirs, files, sourcesByDir, declaredByDir };
 }
 
 function main() {
   const args = process.argv.slice(2);
   const jsonAt = args.indexOf("--json");
-  const { dirs, files, sourcesByDir } = collect();
+  const { dirs, files, sourcesByDir, declaredByDir } = collect();
   console.log("\n── CSS home audit ──\n");
-  const result = auditFiles(files, dirs, sourcesByDir);
+  const result = auditFiles(files, dirs, sourcesByDir, declaredByDir);
   const { ok, text } = summarize(result);
   console.log(text);
   if (jsonAt !== -1) {

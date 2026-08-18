@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-log",
+  ".strand-log + .strand-log",
+  ".strand-log__time",
+  ".strand-log__status",
+  ".strand-log__status--complete",
+  ".strand-log__status--process",
+  ".strand-log__status--warning",
+  ".strand-log__status--error",
+  ".strand-log__text",
+  ".strand-log__text strong",
+]
+`;

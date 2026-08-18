@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-steps-connected",
+  ".strand-steps-connected::before",
+  ".strand-steps-connected > *",
+  "@media (max-width: 767px)",
+  "  .strand-steps-connected::before",
+]
+`;

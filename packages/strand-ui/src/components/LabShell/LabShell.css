@@ -404,7 +404,7 @@
    consumer pairs this with toggling `.is-nav-open` on the shell mount
    point. The button itself uses standard strand-btn primitives plus
    this class for FAB positioning. */
-.strand-ref-mobile-trigger {
+.strand-ref-shell__mobile-trigger {
   display: none;
 }
 
@@ -414,7 +414,7 @@
 
 /* Responsive: at <=1040px the sidebar becomes a slide-over drawer.
    Consumer toggles `.is-nav-open` on the shell mount point to open the
-   drawer. The trigger button (.strand-ref-mobile-trigger) sits as a FAB
+   drawer. The trigger button (.strand-ref-shell__mobile-trigger) sits as a FAB
    bottom-right, and the scrim (.strand-ref-shell__nav-scrim) closes it
    on tap. */
 @media (max-width: 1040px) {
@@ -423,7 +423,6 @@
        shrink below its content's min-content width (see the base rule). */
     grid-template-columns: minmax(0, 1fr);
   }
-
   .strand-ref-shell__sidebar {
     position: fixed;
     top: var(--strand-ref-sticky-top, 0);
@@ -443,12 +442,10 @@
     border-right: 0;
     border-bottom: 0;
   }
-
   .strand-ref-shell.is-nav-open .strand-ref-shell__sidebar {
     transform: translateX(0);
     visibility: visible;
   }
-
   .strand-ref-shell__nav-scrim {
     position: fixed;
     top: var(--strand-ref-sticky-top, 0);
@@ -458,12 +455,10 @@
     z-index: 75;
     background: rgba(15, 23, 42, 0.4);
   }
-
   .strand-ref-shell.is-nav-open .strand-ref-shell__nav-scrim {
     display: block;
   }
-
-  .strand-ref-mobile-trigger {
+  .strand-ref-shell__mobile-trigger {
     display: inline-flex;
     position: fixed;
     bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
@@ -472,15 +467,12 @@
     box-shadow: var(--strand-elevation-3, 0 8px 24px rgba(15, 23, 42, 0.2));
     border-radius: var(--strand-radius-full, 9999px);
   }
-
   .strand-ref-shell__main {
     padding: var(--strand-space-8) var(--strand-space-6) var(--strand-space-16);
   }
-
   .strand-ref-example {
     grid-template-columns: minmax(0, 1fr);
   }
-
   .strand-ref-header__meta {
     grid-template-columns: 1fr 1fr;
     gap: var(--strand-space-6) var(--strand-space-8);

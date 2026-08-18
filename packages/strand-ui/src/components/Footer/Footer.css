@@ -1,0 +1,36 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ═══ FOOTER (DL Part XIX.5) ═══
+   Compact closing panel. Border-top, centered, quiet. */
+.strand-footer {
+  padding: var(--strand-space-12) 0;
+  border-top: 1px solid var(--strand-gray-200);
+  text-align: center;
+}
+.strand-footer__nav {
+  display: flex;
+  justify-content: center;
+  gap: var(--strand-space-6);
+  flex-wrap: wrap;
+  margin-bottom: var(--strand-space-6);
+}
+.strand-footer__link {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  letter-spacing: var(--strand-tracking-wider);
+  color: var(--strand-gray-500);
+  text-decoration: none;
+  transition: color var(--strand-duration-fast) ease;
+}
+.strand-footer__link:hover {
+  color: var(--strand-blue-deep);
+}
+.strand-footer__copy {
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-500);
+}
+@media (prefers-reduced-motion: reduce) {
+  .strand-footer__link {
+    transition: none;
+  }
+}

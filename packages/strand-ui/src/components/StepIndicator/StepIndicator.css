@@ -1,0 +1,18 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Step indicator ──
+   Numbered position indicator for sequential steps. */
+.strand-step-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--strand-space-8);
+  height: var(--strand-space-8);
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-blue-glow);
+  color: var(--strand-blue-deep);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-semibold);
+  margin-bottom: var(--strand-space-3);
+}

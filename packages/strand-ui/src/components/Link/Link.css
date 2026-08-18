@@ -59,3 +59,9 @@
     transition: none;
   }
 }
+
+/* ── Link: inherit color ──
+   A link that should read as body/heading text, not the accent link
+   color (e.g. a whole card title wrapped in <a>). Replaces inline
+   `color:inherit;background-image:none`. */
+.strand-link--inherit { color: inherit; background-image: none; }

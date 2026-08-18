@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-scanline",
+  ".strand-scanline--active",
+  "@keyframes strand-scan",
+  "  0%",
+  "  5%",
+  "  90%",
+  "  100%",
+  ".strand-scanline--ambient",
+  "@keyframes strand-scan-slow",
+  "  0%",
+  "  100%",
+  "@media (prefers-reduced-motion: reduce)",
+  "  .strand-scanline, .strand-scanline--ambient",
+]
+`;

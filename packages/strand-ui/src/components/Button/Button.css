@@ -273,11 +273,9 @@
   .strand-btn {
     transition: none;
   }
-
   .strand-btn:hover:not(:disabled) {
     transform: none;
   }
-
   .strand-btn__spinner {
     animation: none;
     border-style: dotted;

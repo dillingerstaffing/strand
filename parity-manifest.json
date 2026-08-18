@@ -72,8 +72,202 @@
 	],
 	"cssOnlyComponents": [
 		{
+			"name": "AuthIndicator",
+			"blocks": [
+				"strand-auth-indicator",
+				"strand-auth-avatar"
+			],
+			"reason": "Signed-in indicator with avatar; a consumer composes the markup."
+		},
+		{
 			"name": "Banner",
-			"reason": "Deliberately class-only. Its consumer injects the markup server-side (an HTMLRewriter writing .strand-banner before first paint) and never mounts a component, so the classes are the whole API. For the CSS-only and Bulma/Bootstrap consumer types that is the normal case rather than an exception."
+			"blocks": [
+				"strand-banner"
+			],
+			"reason": "Its consumer injects the markup server-side (an HTMLRewriter writing .strand-banner before first paint) and never mounts a component, so the classes are the whole API."
+		},
+		{
+			"name": "BarChart",
+			"blocks": [
+				"strand-bar-chart"
+			],
+			"reason": "Bars are data-driven markup a consumer emits."
+		},
+		{
+			"name": "ChannelGrid",
+			"blocks": [
+				"strand-channel-grid",
+				"strand-channel-title",
+				"strand-channel-description",
+				"strand-channel-next",
+				"strand-channel-signin-hint"
+			],
+			"reason": "Channel index grid; a consumer emits the cards."
+		},
+		{
+			"name": "Chip",
+			"blocks": [
+				"strand-chip"
+			],
+			"reason": "Filter chip; consumers render it inside their own controls."
+		},
+		{
+			"name": "ClusterMarker",
+			"blocks": [
+				"strand-cluster-marker"
+			],
+			"reason": "Map cluster marker; a map library owns the element."
+		},
+		{
+			"name": "CoordReadout",
+			"blocks": [
+				"strand-coord-readout"
+			],
+			"reason": "Instrument coordinate readout; a map library drives its text."
+		},
+		{
+			"name": "DetailPanel",
+			"blocks": [
+				"strand-detail-panel"
+			],
+			"reason": "Slide-in detail panel over an instrument viewport; a consumer owns its lifecycle."
+		},
+		{
+			"name": "EmptyState",
+			"blocks": [
+				"strand-empty-collection",
+				"strand-empty-search"
+			],
+			"reason": "Empty collection and empty search states; a consumer composes them."
+		},
+		{
+			"name": "Footer",
+			"blocks": [
+				"strand-footer"
+			],
+			"reason": "Site footer; a consumer composes the markup."
+		},
+		{
+			"name": "FormLayout",
+			"blocks": [
+				"strand-form-grid",
+				"strand-form-row",
+				"strand-honeypot"
+			],
+			"reason": "Form grid, row and honeypot field; consumers lay their own forms out."
+		},
+		{
+			"name": "GlassSurface",
+			"blocks": [
+				"strand-glass-surface"
+			],
+			"reason": "Frosted surface treatment applied to any element."
+		},
+		{
+			"name": "Hero",
+			"blocks": [
+				"strand-hero-bg",
+				"strand-hero-grid"
+			],
+			"reason": "Hero background and animated node grid; a consumer supplies the SVG."
+		},
+		{
+			"name": "LabSurface",
+			"blocks": [
+				"strand-lab-surface"
+			],
+			"reason": "The body surface treatment applied to any element."
+		},
+		{
+			"name": "Log",
+			"blocks": [
+				"strand-log"
+			],
+			"reason": "Event log list; a consumer emits the entries."
+		},
+		{
+			"name": "MapPin",
+			"blocks": [
+				"strand-map-pin"
+			],
+			"reason": "Map pin marker; a map library owns the element."
+		},
+		{
+			"name": "MetricRow",
+			"blocks": [
+				"strand-metric-row"
+			],
+			"reason": "Row of metrics; a consumer composes it."
+		},
+		{
+			"name": "Pulse",
+			"blocks": [
+				"strand-pulse"
+			],
+			"reason": "Live-signal pulse dot; a consumer places it."
+		},
+		{
+			"name": "Scanline",
+			"blocks": [
+				"strand-scanline"
+			],
+			"reason": "Instrument scanline overlay; a consumer places it inside a viewport."
+		},
+		{
+			"name": "SearchBar",
+			"blocks": [
+				"strand-search-bar"
+			],
+			"reason": "Instrument search overlay; a consumer owns the input and its actions."
+		},
+		{
+			"name": "SectionHeader",
+			"blocks": [
+				"strand-section-header"
+			],
+			"reason": "Section header row; a consumer composes it."
+		},
+		{
+			"name": "SkipLink",
+			"blocks": [
+				"strand-skip-link"
+			],
+			"reason": "Bypass-blocks link; a consumer places it first in the body."
+		},
+		{
+			"name": "StatusChip",
+			"blocks": [
+				"strand-status-chip"
+			],
+			"reason": "Status chip; consumers render it from their own data."
+		},
+		{
+			"name": "StepIndicator",
+			"blocks": [
+				"strand-step-indicator"
+			],
+			"reason": "Numbered step indicator; a consumer composes it."
+		},
+		{
+			"name": "StepsConnected",
+			"blocks": [
+				"strand-steps-connected"
+			],
+			"reason": "Connected step list; a consumer composes it."
+		},
+		{
+			"name": "Viewport",
+			"blocks": [
+				"strand-viewport"
+			],
+			"reason": "Recessed and frosted showcase viewport for previews and documentation."
+		},
+		{
+			"name": "ViewportVignette",
+			"blocks": [
+				"strand-viewport-vignette"
+			],
+			"reason": "Cursor-following vignette over an instrument viewport; a consumer sets its custom properties."
 		}
 	],
 	"knownDrift": {
@@ -103,97 +297,45 @@
 				"gzipped_bytes": 876
 			},
 			"base.css": {
-				"raw_bytes": 14166,
-				"gzipped_bytes": 4582
+				"raw_bytes": 10302,
+				"gzipped_bytes": 3718
 			},
 			"strand-ui.css": {
-				"raw_bytes": 186565,
-				"gzipped_bytes": 24553
+				"raw_bytes": 189993,
+				"gzipped_bytes": 25034
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 226955,
-		"total_gz_bytes": 37634,
-		"total_gz_kb": 37
+		"total_raw_bytes": 226519,
+		"total_gz_bytes": 37251,
+		"total_gz_kb": 36
 	},
 	"foreignBlocks": {
-		"Button": [
-			"strand-btn"
-		],
-		"Card": [
-			"strand-channel-grid",
-			"strand-channel-title",
-			"strand-channel-description",
-			"strand-channel-next",
-			"strand-channel-signin-hint"
-		],
-		"CodeBlock": [
-			"strand-code-inline"
-		],
 		"InstrumentViewport": [
-			"strand-body",
-			"strand-nav",
-			"strand-scanline",
-			"strand-viewport-vignette",
-			"strand-coord-readout",
-			"strand-search-bar",
-			"strand-detail-panel",
-			"strand-map-pin",
-			"strand-cluster-marker"
+			"strand-body"
 		],
-		"LabFrame": [
-			"strand-ref-frame"
-		],
-		"LabGlassStage": [
-			"strand-ref-glass-stage",
-			"strand-ref-glass-panel"
-		],
-		"LabRevealStage": [
-			"strand-ref-reveal-stage",
-			"strand-ref-reveal-line"
-		],
-		"LabShell": [
-			"strand-ref-shell",
-			"strand-ref-header",
-			"strand-ref-taxonomy",
-			"strand-ref-section",
-			"strand-ref-example",
-			"strand-ref-mobile-trigger"
-		],
-		"LabTip": [
-			"strand-ref-tip"
-		],
-		"LabUtilCell": [
-			"strand-ref-util-row",
-			"strand-ref-util-cell"
-		],
-		"ScrollReveal": [
-			"strand-reveal"
-		],
-		"Swatch": [
-			"strand-swatch-grid"
-		],
-		"Table": [
-			"strand-table-wrapper"
-		],
-		"Tag": [
-			"strand-chip"
-		],
-		"TokenSpecimen": [
-			"strand-token-specimen-grid"
+		"Nav": [
+			"strand-glass-nav-active",
+			"strand-banner-active"
 		]
 	},
-	"foreignBlocksNote": "Blocks a component stylesheet defines that are not its own, recorded so the debt is legible and cannot grow silently. Seeded 2026-08-12 from the sweep that added this invariant; every entry predates it. Three kinds are mixed here and they are not equally benign. (1) A component whose class name simply differs from its directory name -- Button/strand-btn, Tag/strand-chip, ScrollReveal/strand-reveal -- which is cosmetic. (2) A helper block that plainly belongs to its component, such as Table/strand-table-wrapper. (3) INDEPENDENT PRIMITIVES hiding in a neighbour: InstrumentViewport.css defines the search overlay, the results panel, the result card, the detail panel, the map pins, the cluster marker and the map legend, none of which has a component in any of the eight consumer types, a parity-manifest entry, or a test. Card.css defines five strand-channel-* blocks, which is consumer-specific markup in the library. Kind 3 is real work; kinds 1 and 2 may simply be recorded forever.",
+	"foreignBlocksNote": "Blocks a component stylesheet defines that are neither its own name, nor rendered by its component, nor declared under cssOnlyComponents. Recorded so the exception is legible and cannot grow silently; every entry carries its reason here. InstrumentViewport defines .strand-body--instrument, the page-scale form of the same dark surface: one token set, two scopes. Nav defines the body classes .strand-glass-nav-active and .strand-banner-active, which the vanilla runtime toggles for browsers without :has() so the fixed nav can reserve its height.",
 	"darkCabinetComponents": [
 		"InstrumentViewport",
 		"MapLegend",
 		"MapLoading",
 		"ResultCard",
 		"ResultsPanel",
-		"FeatureSurface"
+		"FeatureSurface",
+		"SearchBar",
+		"MapPin",
+		"ClusterMarker",
+		"CoordReadout",
+		"Scanline",
+		"ViewportVignette"
 	],
-	"darkCabinetComponentsNote": "The dark instrument cabinet (DL 9.3). Text in these components is painted on the abyss, never on a light surface, so contrast-check judges them against the dark surface. This was derived from InstrumentViewport.css alone until four primitives were given their own component directories; the derivation broke silently and reported six findings about colours that were correct. Membership is a decision, so it is declared rather than inferred from a file boundary. Add a component here only if its text genuinely never appears on a light surface."
+	"darkCabinetComponentsNote": "The dark instrument cabinet (DL 9.3). Text in these components is painted on the abyss, never on a light surface, so contrast-check judges them against the dark surface. Membership is a decision, so it is declared rather than inferred from a file boundary; the instrument furniture (search bar, map pins, cluster marker, coordinate readout, scanline, vignette) joined when it moved out of InstrumentViewport.css into its own directories. Add a component here only if its text genuinely never appears on a light surface. DetailPanel is a light island and stays out."
 }

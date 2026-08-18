@@ -69,3 +69,16 @@
 .strand-data-readout--xl {
   --strand-data-readout-value-size: clamp(4.5rem, 10vw, 7rem);
 }
+
+/* ── Idle Readout (DL Part 21.1) ──
+   A DataReadout with no value. Shows -- in the value
+   position, with the label still visible. Apply alongside
+   .strand-data-readout. */
+.strand-idle-readout .strand-data-readout__value::before {
+  content: "--";
+  color: var(--strand-gray-300);
+  font-variant-numeric: tabular-nums;
+}
+.strand-idle-readout .strand-data-readout__value > * {
+  display: none;
+}

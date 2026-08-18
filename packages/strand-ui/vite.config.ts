@@ -1,36 +1,34 @@
 import { defineConfig } from "vite";
 import { resolve } from "node:path";
-import { readdirSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { stripComments } from "./build/strip-comments.mjs";
 
-// Collect all component CSS into a single file after build
+/**
+ * Assemble dist/css/strand-ui.css. Order is the cascade, so it is explicit:
+ * every components/<Dir>/<Dir>.css in code-point order, then the sheets that
+ * intentionally sit after components. See docs/css-architecture.md.
+ */
 function collectCss() {
   return {
     name: "collect-css",
     closeBundle() {
-      const componentsDir = resolve(__dirname, "src/components");
+      const src = resolve(__dirname, "src");
+      const componentsDir = resolve(src, "components");
       const dirs = readdirSync(componentsDir, { withFileTypes: true })
         .filter((d) => d.isDirectory())
-        .map((d) => d.name);
+        .map((d) => d.name)
+        .sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+
+      const sheets = [
+        ...dirs.map((dir) => [dir, resolve(componentsDir, dir, `${dir}.css`)]),
+        ["Typography", resolve(src, "typography.css")],
+        ["Utilities", resolve(src, "utilities.css")],
+        ["Static", resolve(src, "static.css")],
+      ].filter(([, path]) => existsSync(path));
 
       let allCss = "/*! Strand UI v0.62.0 | MIT License | dillingerstaffing.com */\n\n";
-
-      for (const dir of dirs) {
-        try {
-          const cssPath = resolve(componentsDir, dir, `${dir}.css`);
-          const css = readFileSync(cssPath, "utf-8");
-          allCss += `/* ${dir} */\n${css}\n\n`;
-        } catch {
-          // Component has no CSS file, skip
-        }
-      }
-
-      // Append static presentation mode CSS
-      try {
-        const staticCss = readFileSync(resolve(__dirname, "src/static.css"), "utf-8");
-        allCss += `/* Static */\n${staticCss}\n\n`;
-      } catch {
-        // static.css not found, skip
+      for (const [name, path] of sheets) {
+        allCss += `/* ${name} */\n${readFileSync(path, "utf-8")}\n\n`;
       }
 
       mkdirSync(resolve(__dirname, "dist/css"), { recursive: true });

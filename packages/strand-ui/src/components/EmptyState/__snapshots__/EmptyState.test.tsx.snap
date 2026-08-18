@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-empty-collection",
+  ".strand-empty-collection__message",
+  ".strand-empty-collection__action",
+  ".strand-empty-collection__action:hover",
+  ".strand-empty-search",
+  ".strand-empty-search__count",
+  ".strand-empty-search__suggestion",
+]
+`;

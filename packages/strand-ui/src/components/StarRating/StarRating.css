@@ -105,7 +105,6 @@
   .strand-star-rating__glyph {
     transition: none;
   }
-
   .strand-star-rating__star:not(:disabled):hover .strand-star-rating__glyph,
   .strand-star-rating__star:not(:disabled):focus-visible .strand-star-rating__glyph {
     transform: none;

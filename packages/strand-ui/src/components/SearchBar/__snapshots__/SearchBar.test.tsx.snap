@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-search-bar",
+  ".strand-search-bar--shifted",
+  ".strand-search-bar__inner",
+  ".strand-search-bar__inner:focus-within",
+  ".strand-search-bar__input",
+  ".strand-search-bar__input::placeholder",
+  ".strand-search-bar__action",
+  ".strand-search-bar__action:hover",
+  ".strand-search-bar__action:hover svg",
+  ".strand-search-bar__action:active",
+  ".strand-search-bar__action--danger",
+  ".strand-search-bar__action--danger:hover",
+  ".strand-search-bar__action[hidden]",
+  ".strand-search-bar__action--locating",
+  "@keyframes strand-search-bar-pulse",
+  "  0%, 100%",
+  "  50%",
+  "@media (max-width: 768px)",
+  "  .strand-search-bar, .strand-search-bar--shifted",
+  "  .strand-search-bar__action",
+  "@media (max-width: 640px)",
+  "  .strand-search-bar__input",
+  "@media (prefers-reduced-motion: reduce)",
+  "  .strand-search-bar__action--locating",
+]
+`;

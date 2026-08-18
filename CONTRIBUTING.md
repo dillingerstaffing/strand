@@ -46,6 +46,8 @@ pnpm lint        # Lint all files
 | `pnpm audit-dogfood` | `node scripts/dogfood-audit.mjs` |
 | `pnpm build` | `pnpm -r build && node scripts/measure-bundle.mjs` |
 | `pnpm build:docs` | `node scripts/build-docs.mjs` |
+| `pnpm cf-check` | `node scripts/cf-refs-check.mjs` |
+| `pnpm css-move-guard` | `node scripts/css-move-guard.mjs` |
 | `pnpm dogfood` | `node scripts/dogfood-scaffold.mjs` |
 | `pnpm lint` | `biome check .` |
 | `pnpm lint:fix` | `biome check --write .` |

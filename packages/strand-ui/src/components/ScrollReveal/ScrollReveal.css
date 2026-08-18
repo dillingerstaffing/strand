@@ -30,13 +30,11 @@
     animation-timeline: view();
     animation-range: entry 0% entry 100%;
   }
-
   .strand-reveal-group > .strand-reveal {
     animation: strand-reveal-up linear both;
     animation-timeline: view();
     animation-range: entry 0% entry 100%;
   }
-
   @keyframes strand-reveal-up {
     from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
@@ -94,14 +92,12 @@
     animation: none;
     animation-timeline: auto;
   }
-
   /* Scroll-driven reveals have no trigger left once the animation is gone, so
      they show immediately. */
   .strand-reveal,
   .strand-reveal-group > .strand-reveal {
     opacity: 1;
   }
-
   /* Manual reveals stay consumer-driven: the motion goes, the state does not.
      Forcing opacity here would make an un-toggled reveal visible and break the
      toggle API that .strand-reveal--manual exists to provide. */

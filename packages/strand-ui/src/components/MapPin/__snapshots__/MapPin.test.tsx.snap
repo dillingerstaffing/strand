@@ -1,0 +1,38 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-map-pin",
+  ".strand-map-pin::before",
+  ".strand-map-pin::after",
+  ".strand-map-pin:hover",
+  ".strand-map-pin:hover::before",
+  ".strand-map-pin:hover::after",
+  ".strand-map-pin--tech",
+  ".strand-map-pin--health",
+  ".strand-map-pin--trades",
+  ".strand-map-pin--finance",
+  ".strand-map-pin.is-highlighted, .strand-map-pin--highlighted",
+  ".strand-map-pin.is-dimmed, .strand-map-pin--dimmed",
+  "@keyframes strand-map-pin-pulse",
+  "  0%",
+  "  100%",
+  "@keyframes strand-map-pin-spawn",
+  "  0%",
+  "  50%",
+  "  100%",
+  "@keyframes strand-map-pin-beacon",
+  "  0%",
+  "  100%",
+  "@keyframes strand-map-pin-breathe",
+  "  0%, 100%",
+  "  50%",
+  "@media (prefers-reduced-motion: reduce)",
+  "  .strand-map-pin",
+  "  .strand-map-pin::before, .strand-map-pin::after",
+  "  .strand-map-pin:hover",
+  "  .strand-map-pin:hover::before, .strand-map-pin:hover::after",
+  "@media (max-width: 768px)",
+  "  .strand-map-pin",
+]
+`;

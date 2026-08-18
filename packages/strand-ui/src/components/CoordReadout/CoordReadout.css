@@ -1,0 +1,68 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ──────────────────────────────────────────────
+   FUI: COORDINATE READOUT
+   ──────────────────────────────────────────────
+   A small mono panel in the bottom-left corner that displays the
+   instrument's current coordinate (latitude/longitude, or any
+   tabular numeric pair). The blinking cursor before the values
+   is the alive signal -- the system is reading position right
+   now. */
+
+.strand-coord-readout {
+  position: absolute;
+  bottom: var(--strand-space-4);
+  left: var(--strand-space-4);
+  z-index: 10;
+  font-family: var(--strand-font-mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strand-tracking-widest);
+  color: rgba(148, 163, 184, 0.65);
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-4);
+  background: var(--strand-instrument-bg-overlay);
+  border: 1px solid var(--strand-instrument-border);
+  border-radius: var(--strand-radius-sm);
+  padding: var(--strand-space-2) var(--strand-space-3);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+}
+.strand-coord-readout::before {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 12px;
+  background: var(--strand-instrument-glow-strong);
+  border-radius: var(--strand-radius-sm);
+  animation: strand-coord-blink 1.2s steps(2) infinite;
+}
+@keyframes strand-coord-blink {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.strand-coord-readout__lat,
+.strand-coord-readout__lng {
+  display: inline-block;
+}
+/* The other half of the legend's narrow-viewport rule. Both primitives
+   hide below 640px; the selector is split because they live in separate
+   files, so neither file appears to define the other. */
+@media (max-width: 640px) {
+  .strand-coord-readout {
+    display: none;
+  }
+}
+
+/* ──────────────────────────────────────────────
+   REDUCED MOTION
+   ──────────────────────────────────────────────
+   Strip every animation and transition from the FUI primitives
+   when the user has prefers-reduced-motion. The instrument is
+   still readable, just static. */
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-coord-readout::before {
+    animation: none;
+  }
+}

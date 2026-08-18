@@ -1,0 +1,21 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ══════════════════════════════════════════════════
+   COMPOSITION MOLECULES (DL Part XI-B Grammar)
+   Named derivations of DL composition primitives.
+   Each molecule is a convenience class for a common
+   derivation chain. See DL 11.10 Productions for the
+   grammar rules; DL 11.12 Derivation for verification.
+   ══════════════════════════════════════════════════ */
+
+/* ── Card Section ──
+   Derivation: section-boundary production (DL 11.10).
+   OVERLINE + border-bottom + margin-bottom + padding-bottom */
+.strand-card-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--strand-space-3);
+  padding-bottom: var(--strand-space-2);
+  border-bottom: 1px solid var(--strand-gray-200);
+}

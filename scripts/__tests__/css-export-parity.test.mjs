@@ -246,7 +246,7 @@ describe("findForeignBlocks", () => {
       .strand-card__title { font-weight: 500; }
       .strand-card--outlined { border: 1px solid; }
     `;
-    expect(findForeignBlocks("Card", css, new Set())).toEqual([]);
+    expect(findForeignBlocks("Card", css, expectedBlocksFor("Card"))).toEqual([]);
   });
 
   it("catches a primitive defined inside a neighbour's stylesheet", () => {
@@ -255,7 +255,7 @@ describe("findForeignBlocks", () => {
       .strand-search-bar { position: absolute; }
       .strand-search-bar__inner { display: flex; }
     `;
-    expect(findForeignBlocks("InstrumentViewport", css, new Set())).toEqual([
+    expect(findForeignBlocks("InstrumentViewport", css, expectedBlocksFor("InstrumentViewport"))).toEqual([
       "strand-search-bar",
     ]);
   });
@@ -266,14 +266,18 @@ describe("findForeignBlocks", () => {
       .strand-instrument-viewport .strand-progress--bar { background: red; }
       .strand-body--instrument .strand-kv__label { color: blue; }
     `;
-    expect(findForeignBlocks("InstrumentViewport", css, new Set())).toEqual([]);
+    expect(findForeignBlocks("InstrumentViewport", css, expectedBlocksFor("InstrumentViewport"))).toEqual([]);
   });
 
-  it("accepts a foreign block that is declared, so a deliberate grouping can stay", () => {
-    const css = `.strand-map-pin { width: 12px; }`;
-    expect(findForeignBlocks("InstrumentViewport", css, new Set(["strand-map-pin"]))).toEqual(
-      [],
-    );
+  it("accepts a block the component renders, and a block a css-only primitive declares", () => {
+    const rendered = `export const Button = () => <button className="strand-btn" />;`;
+    expect(findForeignBlocks("Button", ".strand-btn { padding: 0; }", expectedBlocksFor("Button", rendered))).toEqual([]);
+    expect(findForeignBlocks("Hero", ".strand-hero-bg { inset: 0; }", expectedBlocksFor("Hero", "", ["strand-hero-bg"]))).toEqual([]);
+  });
+
+  it("does not read a class inside :has() as a definition", () => {
+    const css = `body:has(.strand-nav--glass) { padding-top: 64px; }`;
+    expect(findForeignBlocks("Nav", css, expectedBlocksFor("Nav"))).toEqual([]);
   });
 
   it("reports each foreign block once however many rules it has", () => {
@@ -282,7 +286,7 @@ describe("findForeignBlocks", () => {
       .strand-result-card__title { font-weight: 500; }
       .strand-result-card--active { border-color: blue; }
     `;
-    expect(findForeignBlocks("InstrumentViewport", css, new Set())).toEqual([
+    expect(findForeignBlocks("InstrumentViewport", css, expectedBlocksFor("InstrumentViewport"))).toEqual([
       "strand-result-card",
     ]);
   });
@@ -291,7 +295,7 @@ describe("findForeignBlocks", () => {
   // file exists to prevent in others, so an unparseable stylesheet must not
   // read as a clean one.
   it("finds nothing in an empty stylesheet rather than throwing", () => {
-    expect(findForeignBlocks("Card", "", new Set())).toEqual([]);
+    expect(findForeignBlocks("Card", "", expectedBlocksFor("Card"))).toEqual([]);
   });
 
   it("is not fooled by a class name inside a comment or a media query", () => {
@@ -301,7 +305,7 @@ describe("findForeignBlocks", () => {
         .strand-card { padding: 2rem; }
       }
     `;
-    expect(findForeignBlocks("Card", css, new Set())).toEqual([]);
+    expect(findForeignBlocks("Card", css, expectedBlocksFor("Card"))).toEqual([]);
   });
 });
 

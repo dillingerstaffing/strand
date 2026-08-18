@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-bar-chart",
+  ".strand-bar-chart__col",
+  ".strand-bar-chart__bar",
+  ".strand-bar-chart__amount",
+  ".strand-bar-chart__label",
+  ".strand-bar-chart--sm",
+  ".strand-bar-chart--lg",
+]
+`;

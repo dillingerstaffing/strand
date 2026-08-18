@@ -35,6 +35,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { gzipSync } from "node:zlib";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { ownedBlocks } from "./css-home-audit.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const COMPONENTS_DIR = join(ROOT, "packages/strand-ui/src/components");
@@ -108,7 +109,9 @@ export function classifyCssComponents(cssComponents, exported, declaredCssOnly) 
 export function selectorBlocks(selector) {
   const out = [];
   for (const branch of selector.split(",")) {
-    const trimmed = branch.trim();
+    // A class inside :has()/:not()/:is()/:where() is a condition on the
+    // subject, not the subject: `body:has(.strand-nav--glass)` styles body.
+    const trimmed = branch.trim().replace(/:(?:has|not|is|where)\([^)]*\)/g, "");
     if (!trimmed) continue;
     // Any descendant, child, sibling or adjacent combinator means the
     // leading compound is context rather than a definition.
@@ -122,32 +125,30 @@ export function selectorBlocks(selector) {
 }
 
 /**
- * The block names a component directory is allowed to define.
- *
- * Two forms, because the library ships both. `InstrumentViewport` kebabs to
- * `strand-instrument-viewport`, but `ActionDock` ships `strand-actiondock`.
- * Tolerating both beats renaming a published class to satisfy a checker.
+ * The block names a component directory is allowed to define: its own name in
+ * both spellings (`InstrumentViewport` kebabs to `strand-instrument-viewport`,
+ * `ActionDock` ships `strand-actiondock`), every block its component renders,
+ * and, for a css-only primitive, the blocks it declares in the manifest.
  */
-export function expectedBlocksFor(dirName) {
-  const kebab = dirName.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
-  return [`strand-${kebab}`, `strand-${dirName.toLowerCase()}`];
+export function expectedBlocksFor(dirName, componentSource = "", declaredBlocks = []) {
+  return [...ownedBlocks(dirName, componentSource), ...declaredBlocks];
 }
 
 /**
- * Blocks a stylesheet defines that do not belong to it and are not declared.
+ * Blocks a stylesheet defines that it does not own.
  *
  * Comments are stripped first so a class named in prose does not count as a
- * definition, and at-rule preludes (`@media (min-width: 768px)`) never match
- * the class pattern, so nesting is transparent here.
+ * definition; nesting is transparent because at-rule preludes are skipped.
  */
-export function findForeignBlocks(dirName, cssSource, declaredBlocks) {
+export function findForeignBlocks(dirName, cssSource, ownBlocks) {
   const withoutComments = cssSource.replace(/\/\*[\s\S]*?\*\//g, "");
-  const own = new Set(expectedBlocksFor(dirName));
+  const own = new Set(ownBlocks);
   const foreign = [];
   for (const rule of withoutComments.matchAll(/([^{}]+)\{/g)) {
+    // An at-rule prelude is not a selector.
+    if (rule[1].trim().startsWith("@")) continue;
     for (const block of selectorBlocks(rule[1])) {
       if (own.has(block)) continue;
-      if (declaredBlocks.has(block)) continue;
       if (!foreign.includes(block)) foreign.push(block);
     }
   }
@@ -156,19 +157,9 @@ export function findForeignBlocks(dirName, cssSource, declaredBlocks) {
 
 /**
  * Compare the foreign blocks a stylesheet actually defines against the ones
- * it is recorded as defining.
- *
- * A RATCHET rather than a clean gate, deliberately and visibly. The sweep
- * that introduced this found 39 pre-existing foreign blocks across 15
- * stylesheets, and most are benign: Button defines `strand-btn`, Tag defines
- * `strand-chip`, ScrollReveal defines `strand-reveal`. Failing the build on
- * all 39 would mean either 39 renames of published classes in one change, or
- * -- far likelier -- somebody switching the check off. Recording them makes
- * the debt legible and stops it growing, which is the property that matters.
- *
- * A STALE entry fails for the same reason a stale css-only declaration does:
- * an entry that outlives its need would keep a future orphan of the same name
- * invisible.
+ * it is recorded as defining. Every recorded entry carries its reason in the
+ * manifest note; a STALE entry fails so an outdated exception cannot hide a
+ * future misplacement of the same name.
  */
 export function classifyForeignBlocks(actualByComponent, recordedByComponent) {
   const undeclared = [];
@@ -269,10 +260,15 @@ function main() {
 
   // ── Second invariant: a class lives in its own component's stylesheet ──
   const recorded = manifest.foreignBlocks || {};
+  const declaredBlocks = new Map(
+    (manifest.cssOnlyComponents || []).map((e) => [typeof e === "string" ? e : e.name, (typeof e === "string" ? [] : e.blocks) || []]),
+  );
   const actual = {};
   for (const { name } of cssComponents) {
     const css = readFileSync(join(COMPONENTS_DIR, name, `${name}.css`), "utf-8");
-    const foreign = findForeignBlocks(name, css, new Set());
+    const tsxPath = join(COMPONENTS_DIR, name, `${name}.tsx`);
+    const source = existsSync(tsxPath) ? readFileSync(tsxPath, "utf-8") : "";
+    const foreign = findForeignBlocks(name, css, expectedBlocksFor(name, source, declaredBlocks.get(name) || []));
     if (foreign.length) actual[name] = foreign;
   }
   const { undeclared, stale } = classifyForeignBlocks(actual, recorded);

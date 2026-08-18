@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-pulse",
+  ".strand-pulse::after",
+  "@keyframes strand-pulse-glow",
+  "  0%, 100%",
+  "  50%",
+  "@media (prefers-reduced-motion: reduce)",
+  "  .strand-pulse::after",
+]
+`;

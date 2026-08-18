@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`stylesheet > declares its selectors 1`] = `
+[
+  ".strand-viewport",
+  ".strand-viewport--frosted",
+  ".strand-viewport--flex",
+  ".strand-viewport--flex-col",
+]
+`;

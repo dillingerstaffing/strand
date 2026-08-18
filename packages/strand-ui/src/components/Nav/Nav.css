@@ -120,7 +120,6 @@
 	.strand-nav__logo {
 		transition: none;
 	}
-
 	.strand-nav__logo--pulse::after {
 		animation: none;
 		opacity: 0.6;
@@ -375,7 +374,6 @@
 	.strand-nav__items {
 		display: none;
 	}
-
 	/* `.strand-nav__actions` is NOT hidden here, and that is deliberate.
 
 	   It used to be, which meant a consumer putting its account control in the
@@ -398,7 +396,6 @@
 	.strand-nav__slot {
 		margin-left: auto;
 	}
-
 	/* A reserved slot drops to a tighter default here. The desktop
 	   reservation would crowd the logo and any back affordance at phone
 	   widths, and the mobile nav hides .strand-nav__actions anyway, so the
@@ -406,11 +403,9 @@
 	.strand-nav__slot--reserve {
 		min-width: var(--strand-nav-slot-reserve-sm, 11.75rem);
 	}
-
 	.strand-nav__hamburger {
 		display: inline-flex;
 	}
-
 	.strand-nav {
 		height: auto;
 		min-height: var(--strand-nav-height);
@@ -458,7 +453,6 @@
 		padding-block: 0;
 		padding-inline: var(--strand-space-3);
 	}
-
 	/* AN ICON-ONLY CONTROL IS A SHAPE, NOT A WORD, and the rule above is written
 	   for a word. `padding-inline: var(--strand-space-3)` is correct either side
 	   of "Sign in" and wrong either side of a 32px circle: it measured 58x34, a
@@ -529,4 +523,91 @@
 	.strand-nav--glass {
 		transition: none;
 	}
+}
+
+/* ──────────────────────────────────────────────
+   NAV: instrument variant (dark glassmorphic)
+   ──────────────────────────────────────────────
+   When the body is in instrument mode, the nav must also be
+   dark + glassmorphic to match the cabinet aesthetic. Apply
+   .strand-nav--instrument alongside .strand-nav for a dark
+   blurred bar with blue-tinted hairline.
+
+   The selectors compose .strand-nav with .strand-nav--instrument
+   so they outweigh the bare .strand-nav rules even though Nav.css
+   is bundled later than InstrumentViewport.css. Without the
+   compound selector, the white surface from Nav.css would win
+   on source order. */
+
+.strand-nav.strand-nav--instrument {
+  background: var(--strand-instrument-bg-translucent);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--strand-instrument-border);
+}
+.strand-nav.strand-nav--instrument .strand-nav__logo {
+  color: var(--strand-blue-primary);
+  text-shadow: 0 0 12px rgba(59, 142, 246, 0.3);
+}
+.strand-nav.strand-nav--instrument .strand-nav__link {
+  color: var(--strand-instrument-text-secondary);
+}
+.strand-nav.strand-nav--instrument .strand-nav__link:hover {
+  color: var(--strand-instrument-text-primary);
+}
+/* ──────────────────────────────────────────────
+   NAV ACCESSORIES (mono titles + ghost CTAs)
+   ──────────────────────────────────────────────
+   Lab pages render a small mono title between the logo and the
+   primary CTA. The accessories live in the nav__inner container,
+   between logo and actions. */
+
+.strand-nav__title {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-semibold);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-instrument-text-primary);
+  text-shadow: 0 0 16px rgba(59, 142, 246, 0.15);
+  margin-right: auto;
+}
+.strand-nav__title-tag {
+  font-weight: var(--strand-weight-regular);
+  color: var(--strand-gray-400);
+  margin-left: var(--strand-space-1);
+}
+
+/* ── Body offset for fixed nav + optional banner ──
+   When a page uses .strand-nav--glass, the nav is position: fixed and
+   removed from document flow, so the first content element would
+   otherwise render behind the nav. When a banner is also present, the
+   banner pushes the nav down and both cover even more of the first
+   content element.
+
+   These rules reserve body padding-top equal to the stack height (nav
+   plus optional banner) so the first content element clears the stack
+   on every viewport. Pages with in-flow navs (not position: fixed) are
+   unaffected because the selector only matches when the document has
+   a .strand-nav--glass element.
+
+   The --strand-banner-height custom property is set by the Banner
+   component when mounted; defaults to 0px when no banner is present. */
+body:has(.strand-nav--glass) {
+  padding-top: var(--strand-nav-height);
+}
+body:has(.strand-nav--glass):has(.strand-banner) {
+  padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
+}
+/* ── JS-managed body class fallback for browsers without :has() ──
+   Framework Nav components (Preact/Vue/Svelte) and the vanilla runtime
+   add strand-glass-nav-active to body when a glass nav is present.
+   These rules mirror the :has() rules above so both mechanisms coexist.
+   On modern browsers both match and produce the same result. On older
+   browsers (Firefox <121) only the class-based rules fire. */
+body.strand-glass-nav-active {
+  padding-top: var(--strand-nav-height);
+}
+body.strand-glass-nav-active.strand-banner-active {
+  padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
 }

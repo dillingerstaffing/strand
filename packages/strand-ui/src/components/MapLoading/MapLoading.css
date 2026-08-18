@@ -75,7 +75,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .strand-map-loading__spinner {
     animation: none;
     border-color: rgba(59, 142, 246, 0.4);

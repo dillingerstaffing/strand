@@ -177,13 +177,3 @@
     transform: none;
   }
 }
-
-/* ── Inline code ── */
-.strand-code-inline {
-  font-family: var(--strand-font-mono);
-  font-size: 0.875em;
-  color: var(--strand-blue-deep);
-  background: var(--strand-surface-recessed);
-  padding: 0.125em 0.375em;
-  border-radius: var(--strand-radius-sm);
-}

@@ -1,0 +1,51 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Diagnostic Log Entry ──
+   Derivation: inline-sequence + ranked-sequence (DL 11.10).
+   time(OVERLINE) + status(OVERLINE+COLOR_SEMANTIC) + text(SECONDARY) + RANK_BORDER */
+.strand-log {
+  display: flex;
+  align-items: baseline;
+  gap: var(--strand-space-3);
+  padding: var(--strand-space-2) var(--strand-space-4);
+}
+.strand-log + .strand-log {
+  border-top: 1px solid var(--strand-border-subtle);
+}
+.strand-log__time {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-medium);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  color: var(--strand-gray-500);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.strand-log__status {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  font-weight: var(--strand-weight-semibold);
+  letter-spacing: var(--strand-tracking-wider);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.strand-log__status--complete { color: var(--strand-on-teal-tint); }
+.strand-log__status--process { color: var(--strand-blue-deep); }
+.strand-log__status--warning { color: var(--strand-on-amber-tint); }
+.strand-log__status--error { color: var(--strand-red-alert-deep); }
+/* DL 11.10 calls this text SECONDARY, so it takes the secondary-text color.
+   It previously used gray-300, and its strong runs gray-100, which are
+   on-dark values: on a light surface they measured 1.47:1 and 1.09:1, the
+   latter being effectively invisible. The dark cabinet recolors both through
+   the InstrumentViewport cascade, so the on-dark reading is unaffected. */
+.strand-log__text {
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-xs);
+  color: var(--strand-gray-500);
+  line-height: var(--strand-leading-normal);
+}
+.strand-log__text strong {
+  font-weight: var(--strand-weight-semibold);
+  color: var(--strand-gray-700);
+}

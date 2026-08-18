@@ -1097,14 +1097,6 @@ Content container with elevation and padding variants.
 | `strand-card__section` | child | BEM element: card-internal row with a top hairline. First child suppresses the top border. Stack inside strand-card--pad-none to compose rows. |
 | `strand-card__section--header` | child | BEM modifier: header row layout (baseline, space-between, gap). |
 | `strand-card-section` | base | |
-| `strand-channel-grid` | base | |
-| `strand-channel-title` | base | |
-| `strand-channel-description` | base | |
-| `strand-channel-next` | base | |
-| `strand-channel-next__label` | child | |
-| `strand-channel-next__title` | child | |
-| `strand-channel-next__when` | child | |
-| `strand-channel-signin-hint` | base | |
 
 **Usage:**
 
@@ -1297,6 +1289,7 @@ Monospace metric display with label and value. Sizes are settable per instance v
 | `strand-data-readout--sm` | modifier | Small size (value text-xl, 25px). The smallest rung on the ladder. |
 | `strand-data-readout--lg` | modifier | Large size (value text-4xl, 49px). |
 | `strand-data-readout--xl` | modifier | Extra-large size (value fluid 72-112px). |
+| `strand-idle-readout` | base | |
 
 **Usage:**
 
@@ -1564,43 +1557,10 @@ Dark instrument panel container for data-dense content.
 | `strand-bar-chart__amount` | child | |
 | `strand-kv__value--status` | child | |
 | `strand-feature-surface` | base | |
-| `strand-detail-panel` | base | |
-| `strand-surface-light` | base | |
 | `strand-instrument-viewport__label` | child | |
 | `strand-instrument-viewport__map` | child | |
-| `strand-scanline` | base | |
-| `strand-scanline--active` | modifier | |
-| `strand-scanline--ambient` | modifier | |
-| `strand-viewport-vignette` | base | |
-| `strand-coord-readout` | base | |
-| `strand-coord-readout__lat` | child | |
-| `strand-coord-readout__lng` | child | |
-| `strand-search-bar` | base | |
-| `strand-search-bar--shifted` | modifier | |
-| `strand-search-bar__inner` | child | |
-| `strand-search-bar__input` | child | |
-| `strand-search-bar__action` | child | |
-| `strand-search-bar__action--danger` | child | |
-| `strand-search-bar__action--locating` | child | |
-| `strand-detail-panel--open` | modifier | |
-| `strand-detail-panel__title` | child | |
-| `strand-detail-panel__meta` | child | |
-| `strand-detail-panel__salary` | child | |
-| `strand-detail-panel__cta` | child | |
-| `strand-detail-panel__source` | child | |
-| `strand-detail-panel__close` | child | |
-| `strand-detail-panel__close-text` | child | |
-| `strand-detail-panel__close-icon` | child | |
-| `strand-detail-panel__company` | child | |
-| `strand-detail-panel__location` | child | |
-| `strand-map-pin` | base | |
-| `strand-map-pin--tech` | modifier | |
-| `strand-map-pin--health` | modifier | |
-| `strand-map-pin--trades` | modifier | |
-| `strand-map-pin--finance` | modifier | |
-| `strand-map-pin--highlighted` | modifier | |
-| `strand-map-pin--dimmed` | modifier | |
-| `strand-cluster-marker` | base | |
+| `strand-detail-panel` | base | |
+| `strand-surface-light` | base | |
 | `strand-status-chip--committed` | modifier | |
 
 **Usage:**
@@ -1620,6 +1580,10 @@ Editorial modifier on the strand-kv molecule. Use inside card-metadata contexts 
 | Class | Type | Description |
 |---|---|---|
 | `strand-kv--editorial` | modifier | Editorial modifier on a strand-kv row (card-metadata rendering). |
+| `strand-kv` | base | |
+| `strand-kv__label` | child | |
+| `strand-kv__value` | child | |
+| `strand-kv__value--status` | child | |
 
 **Usage:**
 
@@ -1769,6 +1733,7 @@ Component-reference page chrome. Named primitive family for a docs-site layout: 
 | `strand-ref-mobile-trigger` | base | Mobile FAB toggle for the sidebar drawer. Use on a strand-btn (icon-only + circular). Hidden by default; shown only at <=1040px breakpoint. |
 | `is-nav-open` | base | State class on the .strand-ref-shell mount; consumer toggles to open the mobile drawer. |
 | `strand-handoff-render` | base | |
+| `strand-ref-shell__mobile-trigger` | child | |
 
 **Usage:**
 
@@ -1962,6 +1927,8 @@ Site/app navigation with an optional mobile menu and a glass variant. The bar sp
 | `strand-nav--glass` | modifier | Fixed glassmorphic nav with frosted backdrop. |
 | `strand-nav--scrolled` | modifier | Scrolled state with subtle shadow. |
 | `strand-nav--instrument` | modifier | Instrument viewport nav variant. |
+| `strand-glass-nav-active` | base | |
+| `strand-banner-active` | base | |
 
 **Usage:**
 
@@ -2665,8 +2632,6 @@ Categorization label with optional remove button.
 | `strand-tag--blue` | modifier | Blue color. |
 | `strand-tag--amber` | modifier | Amber color. |
 | `strand-tag--red` | modifier | Red color. |
-| `strand-chip--joined` | modifier | |
-| `strand-chip--joined__check` | child | |
 
 **Usage:**
 
@@ -2949,40 +2914,6 @@ Utilities, molecules, typography, and empty states from static.css.
 | `strand-sticky` | A region that scrolls with the document until it reaches its offset, then holds: a filter rail beside a result list, a day rail beside a schedule, a commitment rail beside a long detail page. Offset is --strand-sticky-top (default space-6), a custom property rather than a set of utilities because the value a consumer needs is whatever their fixed chrome occupies. CAUTION: a sticky element is positioned against its nearest scrollport, and ANY ancestor with overflow: hidden becomes one, so the element sticks to a box that never scrolls and looks exactly like sticky being ignored. strand-grid uses overflow: clip for this reason; clip clips identically and creates no scrollport. |
 | `strand-scroll-row` | A single row that scrolls sideways instead of wrapping: a mobile filter strip, a chip rail, any horizontal set that must stay one line at 390px. strand-stack--horizontal plus strand-stack--wrap is the obvious composition and the wrong one, because wrapping is precisely what this must not do. It SCROLLS rather than clipping, which is a deliberate divergence from any mockup specifying overflow: hidden with nowrap: a filter the reader cannot reach is not a filter. Children get flex-shrink: 0 and scroll-snap-align automatically, so they keep their label width and the row scrolls instead of squeezing. Scrollbar hidden; content stays reachable by drag, wheel and keyboard focus. |
 | `strand-clip` | Clips children to the container's own rounded corners: the mechanical consequence of sanctioning rounded surfaces, since a square-cornered child flush against a rounded parent overhangs it exactly at the corners. Uses overflow: clip rather than hidden, because hidden also makes the element a SCROLL CONTAINER and would silently break every position:sticky element inside it. A genuinely scrolling region is overflow: auto and a deliberate decision, not this. |
-| `strand-log__text` | |
-| `strand-hero-grid__line--N` | |
-| `strand-hero-grid__nodes` | |
-| `strand-hero-grid__lines` | |
-| `strand-hero-grid__line` | |
-| `strand-hero-grid__line--1` | |
-| `strand-hero-grid__line--2` | |
-| `strand-hero-grid__line--3` | |
-| `strand-hero-grid__line--4` | |
-| `strand-hero-grid__line--5` | |
-| `strand-hero-grid__line--6` | |
-| `strand-hero-grid__line--7` | |
-| `strand-hero-grid__line--8` | |
-| `strand-hero-grid__line--9` | |
-| `strand-hero-grid__line--10` | |
-| `strand-hero-grid__line--11` | |
-| `strand-hero-grid__line--12` | |
-| `strand-hero-grid__line--13` | |
-| `strand-hero-grid__line--14` | |
-| `strand-hero-grid__line--15` | |
-| `strand-hero-grid__line--16` | |
-| `strand-hero-grid__line--17` | |
-| `strand-hero-grid__line--18` | |
-| `strand-contents` | |
-| `strand-command-palette__list` | |
-| `strand-detail-panel` | |
-| `strand-results-panel__items` | |
-| `strand-sheet__body` | |
-| `strand-ref-shell__sidebar-scroll` | |
-| `strand-scroll-col` | |
-| `strand-app-shell` | |
-| `strand-ref-shell__sidebar` | |
-| `strand-stretch-link-host` | |
-| `strand-stretch-link` | |
 
 <!-- GENERATED:COMPONENT-REFERENCE:END -->
 
@@ -5710,6 +5641,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- shared internals (cx, mergeRefs, styled), a render helper for snapshots, and docs/cf with a pointer check
 - a 10px overline rung, a compact chip strip, and a touch-target floor that can be answered (v0.62.0)
 - PersonChip carries a secondary label, plus a layout-transparent wrapper (v0.61.0)
 - a consumer can bound and scroll a long list vertically (v0.60.0)
@@ -5727,6 +5659,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Changed
+- class-name assertions give way to the snapshots that subsume them; the audit counts the shared snapshot helper and ignores directives
+- overlays, chrome and data components on the shared internals; ids come from useId, Sheet ships no test hooks, Nav no longer writes to body, focus and scroll follow refs; five invariant articles
+- forms, layout and avatar on the shared internals; Checkbox sets indeterminate as a prop and Switch and Checkbox trust native key activation; Textarea autosize follows a controlled value
+- twenty display, layout and instrument components on the shared internals, markup identical; TabBar's click rule is an invariant article
+- Alert, AppShell, Badge, BigMonoTime, Breadcrumb, Card, CardSection, Container on the shared internals, markup identical
+- the specimen families are one-line style components; markup proven identical by snapshots recorded first
+- snapshots serialize attributes in name order, so a rewrite that reorders JSX cannot fake a change
+- snapshot every component's rendered markup, recorded on the 0.62.0 output
+- a CSS home audit that reports which file defines each block
 - the component audit counts verbose JSDoc as prose
 - a component audit that reports the facts behind a review
 - re-trigger the publish workflow for 0.55.2
@@ -6382,6 +6323,8 @@ pnpm lint        # Lint all files
 | `pnpm audit-dogfood` | `node scripts/dogfood-audit.mjs` |
 | `pnpm build` | `pnpm -r build && node scripts/measure-bundle.mjs` |
 | `pnpm build:docs` | `node scripts/build-docs.mjs` |
+| `pnpm cf-check` | `node scripts/cf-refs-check.mjs` |
+| `pnpm css-move-guard` | `node scripts/css-move-guard.mjs` |
 | `pnpm dogfood` | `node scripts/dogfood-scaffold.mjs` |
 | `pnpm lint` | `biome check .` |
 | `pnpm lint:fix` | `biome check --write .` |

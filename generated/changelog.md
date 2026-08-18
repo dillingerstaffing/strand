@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- shared internals (cx, mergeRefs, styled), a render helper for snapshots, and docs/cf with a pointer check
 - a 10px overline rung, a compact chip strip, and a touch-target floor that can be answered (v0.62.0)
 - PersonChip carries a secondary label, plus a layout-transparent wrapper (v0.61.0)
 - a consumer can bound and scroll a long list vertically (v0.60.0)
@@ -25,6 +26,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Changed
+- class-name assertions give way to the snapshots that subsume them; the audit counts the shared snapshot helper and ignores directives
+- overlays, chrome and data components on the shared internals; ids come from useId, Sheet ships no test hooks, Nav no longer writes to body, focus and scroll follow refs; five invariant articles
+- forms, layout and avatar on the shared internals; Checkbox sets indeterminate as a prop and Switch and Checkbox trust native key activation; Textarea autosize follows a controlled value
+- twenty display, layout and instrument components on the shared internals, markup identical; TabBar's click rule is an invariant article
+- Alert, AppShell, Badge, BigMonoTime, Breadcrumb, Card, CardSection, Container on the shared internals, markup identical
+- the specimen families are one-line style components; markup proven identical by snapshots recorded first
+- snapshots serialize attributes in name order, so a rewrite that reorders JSX cannot fake a change
+- snapshot every component's rendered markup, recorded on the 0.62.0 output
+- a CSS home audit that reports which file defines each block
 - the component audit counts verbose JSDoc as prose
 - a component audit that reports the facts behind a review
 - re-trigger the publish workflow for 0.55.2

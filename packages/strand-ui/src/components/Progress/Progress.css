@@ -80,13 +80,11 @@
   .strand-progress--bar .strand-progress__fill {
     transition: none;
   }
-
   .strand-progress--bar.strand-progress--indeterminate .strand-progress__fill {
     animation: none;
     width: 100%;
     opacity: 0.4;
   }
-
   .strand-progress--ring.strand-progress--indeterminate .strand-progress__ring {
     animation: none;
   }

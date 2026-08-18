@@ -1,0 +1,49 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ── Skip link (SC 2.4.1 Bypass Blocks, for sighted keyboard users) ──
+   .strand-sr-only alone cannot build one: it has no focus reveal, so a skip
+   link composed from it stays invisible when focused, which defeats it for
+   exactly the users it exists for. Landmarks already satisfy 2.4.1 as a
+   technique, but landmarks only serve assistive tech; a sighted keyboard user
+   has no bypass at all without this.
+
+   The need is not theoretical. Measured on the Weekly Ship list at 250 events
+   -- about five years at a weekly cadence -- the page carries 1,260 tab stops
+   and 46 phone screens between the top and the footer. One skip link
+   collapses that to two.
+
+   Parked off-screen with a transform rather than clipped, so the control
+   keeps its real size and simply moves into view on focus. It stays in the
+   accessibility tree and in the tab order throughout, which is the point.
+   position: fixed rather than absolute so it lands in the VIEWPORT wherever
+   the reader has scrolled to. z-index clears the banner (101) and both nav
+   layers (99/100).
+
+   Deliberately not animated. The design language reduces all motion to
+   instant state change, and a transition here would need a matching
+   reduced-motion reset at matching specificity -- a rule with no upside and a
+   documented way to get subtly wrong (see ScrollReveal.css). */
+.strand-skip-link {
+  position: fixed;
+  top: var(--strand-space-4);
+  left: var(--strand-space-4);
+  z-index: 200;
+  transform: translateY(calc(-100% - var(--strand-space-8)));
+  display: inline-block;
+  padding: var(--strand-space-2) var(--strand-space-4);
+  background: var(--strand-surface-elevated);
+  color: var(--strand-blue-deep);
+  border: 1px solid var(--strand-blue-primary);
+  border-radius: var(--strand-radius-md);
+  box-shadow: var(--strand-shadow-md, 0 4px 12px rgba(15, 25, 42, 0.12));
+  font-family: var(--strand-font-sans);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-medium);
+  line-height: var(--strand-leading-normal);
+  text-decoration: none;
+}
+.strand-skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--strand-blue-primary);
+  outline-offset: 2px;
+}

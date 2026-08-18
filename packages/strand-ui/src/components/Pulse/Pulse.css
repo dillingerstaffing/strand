@@ -1,0 +1,31 @@
+/*! Strand UI | MIT License | dillingerstaffing.com */
+
+/* ═══ PULSE INDICATOR (DL Principle 7: alive signal) ═══
+   Small pulsing dot. Indicates "this element is live/active."
+   Same concept as strand-card--active but as a point indicator.
+   Use as ::after on logos, status dots, live badges. */
+.strand-pulse {
+  position: relative;
+}
+.strand-pulse::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -6px;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--strand-radius-full);
+  background: var(--strand-teal-vital);
+  animation: strand-pulse-glow 3s var(--strand-ease-in-out-sine) infinite;
+}
+@keyframes strand-pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strand-pulse::after {
+    animation: none;
+    opacity: 0.6;
+  }
+}
