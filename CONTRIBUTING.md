@@ -41,6 +41,7 @@ pnpm lint        # Lint all files
 <!-- GENERATED:COMMANDS:START -->
 | Command | Script |
 |---|---|
+| `pnpm audit-components` | `node scripts/component-audit.mjs` |
 | `pnpm audit-dogfood` | `node scripts/dogfood-audit.mjs` |
 | `pnpm build` | `pnpm -r build && node scripts/measure-bundle.mjs` |
 | `pnpm build:docs` | `node scripts/build-docs.mjs` |

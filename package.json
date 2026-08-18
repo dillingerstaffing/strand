@@ -37,6 +37,7 @@
 		"sync-versions:check": "node scripts/sync-versions.mjs --check",
 		"dogfood": "node scripts/dogfood-scaffold.mjs",
 		"audit-dogfood": "node scripts/dogfood-audit.mjs",
+		"audit-components": "node scripts/component-audit.mjs",
 		"purity-scan": "node scripts/purity-scan.mjs",
 		"build:docs": "node scripts/build-docs.mjs",
 		"test:scripts": "vitest run --config vitest.config.mjs",
