@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/preact";
 import { Switch } from "./Switch.js";
@@ -86,6 +87,9 @@ describe("Switch", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Switch.fixtures.js";
 
 snapshotFixtures(Switch, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Switch.css"));

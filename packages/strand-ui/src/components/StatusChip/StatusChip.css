@@ -1,24 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ═══ STATUS CHIP (DL Part XVII: small classification label) ═══
-   Inline pill for lab/product status. Mono uppercase, small tint.
-   Pair with strand-card or header rows. */
-/* A CHIP IS ONE TOKEN AND ITS PARTS DO NOT SEPARATE.
-   `inline-block` made the glyph and the label two INDEPENDENT inline children,
-   so the only line-break opportunity in the whole chip sat between them.
-   Measured: below the chip's single-line width the glyph is orphaned onto its
-   own line and the chip's height jumps 25px to 41px, taking the baseline of
-   every sibling chip in the row with it. A flex container defaults to
-   `flex-wrap: nowrap`, so the two can no longer be placed on separate lines,
-   while the LABEL is still free to wrap internally -- which is why
-   `white-space: nowrap` is deliberately NOT set here: it would newly push long
-   text-only chips into overflow instead of letting them wrap (measured, a
-   90px-wide "Design Critique" chip goes from wrapping at 25px tall to
-   overflowing its container at 119px wide).
+/* cf: status-chip */
 
-   `.strand-badge` already declares `inline-flex`, and this rule was silently
-   undoing it for every chip carrying both classes. The gap was 0 as a result:
-   an icon sat flush against its label at EVERY width, not only narrow ones. */
 .strand-status-chip {
   display: inline-flex;
   align-items: center;
@@ -32,42 +15,32 @@
   border-radius: var(--strand-radius-sm);
   line-height: var(--strand-leading-normal);
 }
-/* The glyph never shrinks. As a flex item it inherits `flex-shrink: 1`, and
-   under squeeze that distorts it rather than the text: measured 5.44px wide
-   against its own 12px height in a constrained chip row. */
+
 .strand-status-chip > svg {
   flex: none;
 }
+
 .strand-status-chip--live {
   color: var(--strand-on-teal-tint);
   background: var(--strand-teal-tint);
 }
+
 .strand-status-chip--neutral {
   color: var(--strand-status-chip-neutral-color, var(--strand-gray-600));
   background: var(--strand-status-chip-neutral-bg, var(--strand-gray-tint));
   border: var(--strand-status-chip-neutral-border, none);
 }
+
 .strand-status-chip--accent {
   color: var(--strand-blue-deep);
   background: var(--strand-blue-tint);
 }
+
 .strand-status-chip--caution {
   color: var(--strand-on-amber-tint);
   background: var(--strand-amber-tint);
 }
-/* COMMITTED variant: post-RSVP confirmation. Vital teal on translucent fill
-   and 30% alpha border signals earned state (DL Principle 5: Earned
-   Elevation) without stealing focus from the event title.
 
-   The translucent composition does let the chip sit on both dark and light
-   surfaces -- but its TEXT cannot be one value, and the single definition
-   here claimed otherwise. Teal at 16% over white composites to #D9F4F1, and
-   teal-vital on that is 2.15:1, the worst pairing in the library. Over the
-   abyss the same fill composites dark and teal-vital is 5.45:1, which is
-   correct. So the light default takes the text tier (on-teal-tint, 4.86:1)
-   and the cabinet keeps teal-vital, unchanged, below.
-
-   Same split as the kv status value in InstrumentViewport.css. */
 .strand-status-chip--committed {
   color: var(--strand-status-chip-committed-color, var(--strand-on-teal-tint));
   background: color-mix(in srgb, var(--strand-teal-vital) 16%, transparent);

@@ -1,13 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ──────────────────────────────────────────────
-   FUI: MAP LEGEND (sector classification HUD)
-   ──────────────────────────────────────────────
-   A small HUD panel listing the sector classifications used by
-   the instrument. The colored dots are the connector between
-   the legend and the map pins. Hovering an item dims unrelated
-   pins so the user can scan one sector at a time. */
-
 .strand-map-legend {
   position: absolute;
   bottom: calc(var(--strand-space-6) + 6rem);
@@ -71,7 +63,8 @@
   width: 8px;
   height: 8px;
   border-radius: var(--strand-radius-full);
-  transition: transform var(--strand-duration-fast) var(--strand-ease-out-expo),
+  transition:
+    transform var(--strand-duration-fast) var(--strand-ease-out-expo),
     filter var(--strand-duration-fast) ease;
 }
 
@@ -95,11 +88,6 @@
   box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
 }
 
-/* The legend and the coordinate readout shared one rule here. They are
-   separate primitives living in separate files now, so the selector is
-   split rather than kept whole in whichever file happened to be scanned
-   first -- a grouped selector spanning two components makes each file
-   look like it defines the other. */
 @media (max-width: 640px) {
   .strand-map-legend {
     display: none;

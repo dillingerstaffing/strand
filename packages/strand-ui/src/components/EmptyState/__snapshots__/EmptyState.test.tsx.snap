@@ -1,13 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-empty-collection",
-  ".strand-empty-collection__message",
-  ".strand-empty-collection__action",
-  ".strand-empty-collection__action:hover",
-  ".strand-empty-search",
-  ".strand-empty-search__count",
-  ".strand-empty-search__suggestion",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-empty-collection { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: var(--strand-space-16) var(--strand-space-6); text-align: center; color: var(--strand-gray-500); font-family: var(--strand-font-sans) }
+.strand-empty-collection__message { font-size: var(--strand-text-base); color: var(--strand-gray-500); margin: 0 }
+.strand-empty-collection__action { margin-top: var(--strand-space-4); font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-widest); text-transform: uppercase; color: var(--strand-blue-deep); text-decoration: none; background-image: linear-gradient(var(--strand-blue-primary), var(--strand-blue-primary)); background-size: 0% 1px; background-position: left bottom; background-repeat: no-repeat; transition: background-size var(--strand-duration-normal) var(--strand-ease-out-expo) }
+.strand-empty-collection__action:hover { background-size: 100% 1px }
+.strand-empty-search { display: flex; flex-direction: column; align-items: center; padding: var(--strand-space-12) var(--strand-space-6); text-align: center }
+.strand-empty-search__count { font-family: var(--strand-font-mono); font-size: var(--strand-text-sm); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-wider); text-transform: uppercase; color: var(--strand-gray-500); margin-bottom: var(--strand-space-2) }
+.strand-empty-search__suggestion { font-size: var(--strand-text-sm); color: var(--strand-gray-500); line-height: var(--strand-leading-relaxed); max-width: 50ch }"
 `;

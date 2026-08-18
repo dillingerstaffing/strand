@@ -3,3 +3,14 @@
 exports[`renders > bordered 1`] = `"<dl class="strand-stat-strip strand-stat-strip--bordered"><div class="strand-stat-strip__cell"><dt class="strand-stat-strip__label">A</dt><dd class="strand-stat-strip__value">1</dd></div></dl>"`;
 
 exports[`renders > plain 1`] = `"<dl class="strand-stat-strip"><div class="strand-stat-strip__cell"><dt class="strand-stat-strip__label">Group</dt><dd class="strand-stat-strip__value">East Bay</dd></div><div class="strand-stat-strip__cell"><dt class="strand-stat-strip__label">Meet at</dt><dd class="strand-stat-strip__value">Skyline Gate</dd></div></dl>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-stat-strip { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--strand-space-6) }
+.strand-stat-strip--bordered { gap: 0; border: 1px solid var(--strand-stat-strip-border-color, var(--strand-gray-200)); border-radius: var(--strand-radius-lg); overflow: clip }
+.strand-stat-strip--bordered .strand-stat-strip__cell { padding: var(--strand-space-5); border-inline-start: 1px solid var(--strand-stat-strip-border-color, var(--strand-gray-200)) }
+.strand-stat-strip--bordered .strand-stat-strip__cell:first-child { border-inline-start: none }
+.strand-stat-strip__cell { display: flex; flex-direction: column; gap: var(--strand-space-2); min-inline-size: 0 }
+.strand-stat-strip__label { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-widest); text-transform: uppercase; color: var(--strand-stat-strip-label-color, var(--strand-gray-500)); line-height: var(--strand-leading-normal) }
+.strand-stat-strip__value { font-family: var(--strand-font-mono); font-size: var(--strand-text-base); font-weight: var(--strand-weight-semibold); font-variant-numeric: tabular-nums; color: var(--strand-stat-strip-value-color, var(--strand-blue-midnight)); overflow-wrap: anywhere }
+.strand-stat-strip--bordered .strand-stat-strip__value { font-size: var(--strand-text-xl) }"
+`;

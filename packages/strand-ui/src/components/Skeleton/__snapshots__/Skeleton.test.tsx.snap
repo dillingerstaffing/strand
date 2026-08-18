@@ -5,3 +5,18 @@ exports[`renders > circle 1`] = `"<div aria-hidden="true" class="strand-skeleton
 exports[`renders > rectangle 1`] = `"<div aria-hidden="true" class="strand-skeleton strand-skeleton--rectangle strand-skeleton--shimmer" style="width: 100%; height: 200px;"></div>"`;
 
 exports[`renders > text 1`] = `"<div aria-hidden="true" class="strand-skeleton strand-skeleton--text strand-skeleton--shimmer" style="width: 100%;"></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-skeleton { display: block; background: var(--strand-gray-100) }
+.strand-skeleton--shimmer { background: linear-gradient( 90deg, var(--strand-gray-100) 25%, var(--strand-gray-50) 50%, var(--strand-gray-100) 75% ); background-size: 200% 100%; animation: strand-skeleton-shimmer 1.8s var(--strand-ease-in-out-sine) infinite }
+@keyframes strand-skeleton-shimmer {
+  0% { background-position: 200% 0 }
+  100% { background-position: -200% 0 }
+}
+.strand-skeleton--text { height: 1em; border-radius: var(--strand-radius-sm) }
+.strand-skeleton--rectangle { border-radius: var(--strand-radius-md) }
+.strand-skeleton--circle { border-radius: var(--strand-radius-full) }
+@media (prefers-reduced-motion: reduce) {
+  .strand-skeleton--shimmer { animation: none; background: var(--strand-gray-100) }
+}"
+`;

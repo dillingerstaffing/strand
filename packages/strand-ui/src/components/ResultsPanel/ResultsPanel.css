@@ -1,13 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ──────────────────────────────────────────────
-   RESULTS PANEL (instrument left sidebar)
-   ──────────────────────────────────────────────
-   The list of items returned by an instrument query. Glass-
-   morphic dark surface, fixed left side on desktop, bottom
-   sheet on mobile. Holds count, scrollable items, empty/error
-   states. */
-
 .strand-results-panel {
   position: absolute;
   top: var(--strand-space-4);
@@ -94,6 +86,7 @@
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
   }
+
   .strand-results-panel__items {
     max-height: none;
     overflow-y: visible;

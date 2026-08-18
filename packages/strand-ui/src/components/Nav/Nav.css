@@ -1,517 +1,284 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: nav-bar */
+/* cf: pointer-fine-density */
+
 /* ── Nav bar ── */
 .strand-nav {
-	position: relative;
-	width: 100%;
-	height: var(--strand-nav-height);
-	background: var(--strand-surface-elevated);
-	border-bottom: 1px solid var(--strand-gray-200);
-	font-family: var(--strand-font-sans);
+  position: relative;
+  width: 100%;
+  height: var(--strand-nav-height);
+  background: var(--strand-surface-elevated);
+  border-bottom: 1px solid var(--strand-gray-200);
+  font-family: var(--strand-font-sans);
 }
 
-/* ── Inner layout ──
-   min-height: inherit picks up the nav's own min-height (the
-   --strand-nav-height token). On mobile the nav switches to
-   height: auto + min-height: var(--strand-nav-height); without this
-   inherit the inner only takes its content height (~40px from the
-   hamburger), and the nav's extra ~24px appears as empty space below,
-   which reads as "logo squished upward". With min-height: inherit the
-   inner is always at least token-tall and align-items: center
-   distributes content vertically through that full height. */
-/* NO `max-width` AND NO `margin: 0 auto` HERE, and their removal is the fix
-   rather than an oversight.
-
-   The bar used to cap at 1280 and centre itself. Inside a 1440 application
-   frame that put 80px of dead space either side, so the wordmark measured 104px
-   in from the frame edge at >=1280 viewport and 24px below it. An inset that is
-   a function of the VIEWPORT rather than of the design is why narrowing the
-   window appeared to "fix" it.
-
-   1280 is a CONTENT measure (10.3 Full tier), and 10.2 assigns it to
-   `.container`, which owns centring and fluid padding. A bar is not content: it
-   spans its parent and insets by its own padding. A bar that wants a reading
-   measure is a bar placed inside a Container, which is the consumer's
-   composition to make and not this component's to assume. Baking the container
-   into the bar meant a consumer who wanted a full-bleed bar had no way to ask
-   for one except by overriding a design-system class. */
 .strand-nav__inner {
-	display: flex;
-	align-items: center;
-	height: 100%;
-	min-height: inherit;
-	/* 32px. The bar now spans its parent, so its padding is the only thing
-	   setting the brand's inset, and 24 read as tight against a full-bleed
-	   edge. */
-	padding: 0 var(--strand-space-8);
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: inherit;
+  padding: 0 var(--strand-space-8);
 }
 
-/* ── Logo ──
-   DL Part IV.5 brand identifier: mono uppercase wide letter-spacing,
-   semibold weight, blue-midnight color. The logo is the only typographic
-   identity on the page, so it carries the brand even at this small size. */
 .strand-nav__logo {
-	flex-shrink: 0;
-	display: inline-flex;
-	align-items: center;
-	margin-right: var(--strand-space-8);
-	font-family: var(--strand-font-mono);
-	font-size: var(--strand-text-sm);
-	font-weight: var(--strand-weight-semibold);
-	letter-spacing: var(--strand-tracking-widest);
-	text-transform: uppercase;
-	color: var(--strand-blue-midnight);
-	text-decoration: none;
-	position: relative;
-	transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  margin-right: var(--strand-space-8);
+  font-family: var(--strand-font-mono);
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-semibold);
+  letter-spacing: var(--strand-tracking-widest);
+  text-transform: uppercase;
+  color: var(--strand-blue-midnight);
+  text-decoration: none;
+  position: relative;
+  transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
-/* ── Wordmark states ──
-   The wordmark is a link, and on a graduated domain it is the ONLY way home,
-   yet it had no hover and no pressed state: measured on production with
-   :hover asserted as matching, not one computed property changed. A control
-   that is the primary navigation affordance and gives no feedback reads as
-   decoration rather than as something you can click.
-
-   Colour only, deliberately. The wordmark's size, weight and tracking are
-   specified by the design language, so a hover must not touch its metrics --
-   and a shift in metrics would reflow the nav besides. Contrast is measured
-   at every state on the page background: midnight 10.70:1 at rest, deep
-   5.83:1 on hover, abyss 17.13:1 pressed, so no state trades legibility for
-   feedback. Pressed goes DARKER than rest rather than lighter, which is the
-   same direction .strand-btn--primary takes into blue-abyss. */
 .strand-nav__logo:hover {
-	color: var(--strand-blue-deep);
+  color: var(--strand-blue-deep);
 }
 
 .strand-nav__logo:active {
-	color: var(--strand-blue-abyss);
+  color: var(--strand-blue-abyss);
 }
 
-/* ── Logo with animated pulse underline (DL Principle 7: alive signal) ──
-   A 2px blue underline that pulses in slow rhythm. Use on the brand
-   identifier for the active site to signal "this is the live system." */
 .strand-nav__logo--pulse::after {
-	content: "";
-	position: absolute;
-	bottom: -4px;
-	left: 0;
-	right: 0;
-	height: 2px;
-	background: var(--strand-blue-primary);
-	border-radius: var(--strand-radius-sm);
-	animation: strand-nav-logo-pulse 2s var(--strand-ease-in-out-sine) infinite;
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--strand-blue-primary);
+  border-radius: var(--strand-radius-sm);
+  animation: strand-nav-logo-pulse 2s var(--strand-ease-in-out-sine) infinite;
 }
 
 @keyframes strand-nav-logo-pulse {
-	0%,
-	100% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0.4;
-	}
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.strand-nav__logo--pulse::after {
-		animation: none;
-		opacity: 0.6;
-	}
+  .strand-nav__logo--pulse::after {
+    animation: none;
+    opacity: 0.6;
+  }
 }
 
-/* ── Desktop items ──
-   Pushed to the right edge so logo and primary nav have visual breathing
-   room. The old (pre-v0.5) "flex: 1" caused items to cluster against the
-   logo, leaving the right edge empty. margin-left auto restores the
-   space-between layout most navbars expect. */
-/* NO `margin-left: auto` HERE, and its removal is the fix rather than an
-   oversight.
-
-   `.strand-nav__actions` already carries one. Two auto margins in the same flex
-   row means the FIRST absorbs all the free space and everything after it packs
-   against it, so the destinations floated to the centre-right instead of
-   sitting beside the wordmark, and a consumer measuring the row found every
-   size correct while the layout was visibly wrong.
-
-   Links belong next to the brand they qualify; the actions belong at the far
-   edge. One auto margin, on the actions, expresses exactly that. */
-/* `flex: none` because the destinations are not the part of the row that
-   yields. As an ordinary flex item this box was `0 1 auto` and shrank: between
-   roughly 770 and 850 the labels crunched, measured "My groups" going 68px to
-   58 to 45, and then broke onto two lines mid-label. That reads as a rendering
-   fault rather than as a layout out of room.
-
-   A bar either fits its destinations or hands them to the mobile menu. There is
-   no correct intermediate state in which it shows half of one. */
 .strand-nav__items {
-	display: flex;
-	align-items: center;
-	gap: var(--strand-space-6);
-	list-style: none;
-	flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-6);
+  list-style: none;
+  flex: none;
 }
 
-/* ── Nav slot ──
-   A content slot that lives in the nav. Typical uses: an account/auth
-   affordance, a utility button, a search field. Position behavior is
-   context-aware:
-   - If the slot follows .strand-nav__items (which already absorbs free
-     space via margin-left: auto), the slot sits 24px to its right so
-     it does not visually crash into the last nav link.
-   - If the slot stands alone (no items list before it, as on simpler
-     nav bars), the slot pushes itself to the right edge with
-     margin-left: auto.
-   This keeps a single class usable across both long and short navs
-   without modifiers. */
 .strand-nav__slot {
-	display: flex;
-	align-items: center;
-	margin-left: auto;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }
 
 .strand-nav__items + .strand-nav__slot {
-	margin-left: var(--strand-space-8);
+  margin-left: var(--strand-space-8);
 }
 
-/* ── Reserved slot ──
-   A slot whose contents swap identity at runtime carries a hidden cost.
-   An auth affordance is the common case: signed out it is one short
-   button, signed in it is an avatar plus a sign-out button and often a
-   profile link, and the two states are nowhere near the same width. When
-   the swap happens the slot resizes, which moves the slot's own box and
-   redistributes the free space every auto-margined sibling in the nav is
-   sharing. The result is a header that visibly jumps on load, on sign-in,
-   and on sign-out, on a surface that is otherwise completely static.
-
-   --reserve pins the slot's inline size so the swap cannot change it.
-   Neither the slot nor its siblings move. Contents align to the end so
-   the affordance stays pinned to the nav's right edge at every width and
-   in every state.
-
-   Set --strand-nav-slot-reserve to the widest state you actually render.
-   The defaults fit an avatar plus two short controls, and drop at the
-   mobile breakpoint where the nav has far less room to give. Reserving
-   less than the widest state reintroduces the shift; reserving more only
-   costs empty space. */
 .strand-nav__slot--reserve {
-	min-width: var(--strand-nav-slot-reserve, 14rem);
-	justify-content: flex-end;
+  min-width: var(--strand-nav-slot-reserve, 14rem);
+  justify-content: flex-end;
 }
 
 /* ── Links ── */
 .strand-nav__link {
-	color: var(--strand-gray-600);
-	text-decoration: none;
-	font-size: var(--strand-text-sm);
-	font-weight: var(--strand-weight-medium);
-	/* A destination's label is a name, and half a name is not a shorter name.
-	   Wrapping is the failure mode this prevents; the row giving up and handing
-	   its destinations to the mobile menu is the intended one. */
-	white-space: nowrap;
-	transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
+  color: var(--strand-gray-600);
+  text-decoration: none;
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-medium);
+  white-space: nowrap;
+  transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-nav__link:hover {
-	color: var(--strand-gray-900);
+  color: var(--strand-gray-900);
 }
 
 .strand-nav__link--active {
-	color: var(--strand-blue-deep);
-	font-weight: var(--strand-weight-medium);
+  color: var(--strand-blue-deep);
+  font-weight: var(--strand-weight-medium);
 }
 
-/* ── Actions ──
-   THIS BOX WAS SMALLER THAN THE THINGS INSIDE IT, and 10.4 Boundary Integrity
-   says that is the component's failure to prevent, not the consumer's.
-
-   Measured on a consumer whose actions hold a 300px search field and an account
-   control: the box resolved to 299 while holding 384px of children, so the
-   account hung 85px outside its own parent. An application shell clips
-   (`overflow: clip`), so the Sign in button was simply cut off, and it read as
-   "the button disappears when I open DevTools" because the overhang varied with
-   viewport.
-
-   Two causes, both fixed here:
-
-   1. `margin-left: auto` takes the free space, and the box then shrink-to-fits.
-      As an ordinary flex item it was `0 1 auto` and shrank below its contents.
-      `flex: none` makes it size to what it holds, which is what a
-      right-anchored action group is for.
-
-   2. A PERCENTAGE contributes nothing to a parent's intrinsic size. A field
-      sized `min(300px, 100%)` (SearchField does exactly this, correctly, so it
-      cannot breach a narrow parent) therefore offered the shrink-to-fit
-      calculation nothing, and the parent measured itself from the rest alone.
-      `min-inline-size: max-content` restores the floor the percentage removed.
-
-   The second is the one worth remembering: every child can be individually
-   correct and the parent still measure short. */
 .strand-nav__actions {
-	display: flex;
-	align-items: center;
-	gap: var(--strand-space-3);
-	margin-left: auto;
-	flex: none;
-	min-inline-size: max-content;
+  display: flex;
+  align-items: center;
+  gap: var(--strand-space-3);
+  margin-left: auto;
+  flex: none;
+  min-inline-size: max-content;
 }
 
 /* ── Hamburger ── */
 .strand-nav__hamburger {
-	display: none;
-	align-items: center;
-	justify-content: center;
-	width: 40px;
-	height: 40px;
-	margin-left: auto;
-	padding: 0;
-	border: none;
-	border-radius: var(--strand-radius-md);
-	background: transparent;
-	color: var(--strand-gray-600);
-	cursor: pointer;
-	transition: background var(--strand-duration-fast)
-		var(--strand-ease-out-quart);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--strand-radius-md);
+  background: transparent;
+  color: var(--strand-gray-600);
+  cursor: pointer;
+  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-nav__hamburger:hover {
-	background: var(--strand-gray-200);
+  background: var(--strand-gray-200);
 }
 
 .strand-nav__hamburger-icon {
-	display: block;
-	width: 20px;
-	height: 2px;
-	background: currentColor;
-	position: relative;
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  position: relative;
 }
 
 .strand-nav__hamburger-icon::before,
 .strand-nav__hamburger-icon::after {
-	content: "";
-	position: absolute;
-	left: 0;
-	width: 100%;
-	height: 2px;
-	background: currentColor;
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
 }
 
 .strand-nav__hamburger-icon::before {
-	top: -6px;
+  top: -6px;
 }
 
 .strand-nav__hamburger-icon::after {
-	top: 6px;
+  top: 6px;
 }
 
-/* ── Mobile menu ──
-   Docks immediately below its parent .strand-nav as an overlay (the
-   parent has position: relative, so absolute positions against it).
-   For .strand-nav--glass the parent is position: fixed, so the menu
-   still anchors right under the fixed bar at viewport top. For inline
-   specimens or any non-glass placement the menu drops below the nav
-   in flow rather than jumping to viewport top. Hidden by default;
-   show via JS by adding strand-nav__mobile-menu--open. */
 .strand-nav__mobile-menu {
-	display: none;
-	position: absolute;
-	top: 100%;
-	left: 0;
-	right: 0;
-	flex-direction: column;
-	width: 100%;
-	padding: var(--strand-space-4) var(--strand-space-6);
-	background: var(--strand-surface-elevated);
-	border-bottom: 1px solid var(--strand-gray-200);
-	box-shadow: var(--strand-elevation-2);
-	z-index: 99;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--strand-space-4) var(--strand-space-6);
+  background: var(--strand-surface-elevated);
+  border-bottom: 1px solid var(--strand-gray-200);
+  box-shadow: var(--strand-elevation-2);
+  z-index: 99;
 }
 
 .strand-nav__mobile-menu--open {
-	display: flex;
+  display: flex;
 }
 
 .strand-nav__mobile-link {
-	display: block;
-	padding: var(--strand-space-3) 0;
-	color: var(--strand-gray-600);
-	text-decoration: none;
-	font-size: var(--strand-text-sm);
-	font-weight: var(--strand-weight-medium);
-	transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
+  display: block;
+  padding: var(--strand-space-3) 0;
+  color: var(--strand-gray-600);
+  text-decoration: none;
+  font-size: var(--strand-text-sm);
+  font-weight: var(--strand-weight-medium);
+  transition: color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
 .strand-nav__mobile-link:hover {
-	color: var(--strand-gray-900);
+  color: var(--strand-gray-900);
 }
 
 .strand-nav__mobile-link--active {
-	color: var(--strand-blue-deep);
-	font-weight: var(--strand-weight-semibold);
+  color: var(--strand-blue-deep);
+  font-weight: var(--strand-weight-semibold);
 }
 
-/* ── Responsive ──
-   At mobile widths the desktop items + actions hide and the
-   hamburger button shows. The mobile menu stays display:none until
-   JS toggles strand-nav__mobile-menu--open on click. */
 @media (max-width: 767px) {
-	.strand-nav__items {
-		display: none;
-	}
-	/* `.strand-nav__actions` is NOT hidden here, and that is deliberate.
+  .strand-nav__items {
+    display: none;
+  }
 
-	   It used to be, which meant a consumer putting its account control in the
-	   actions lost the only way to sign in on every phone. The rule immediately
-	   below already says the account must stay reachable from every viewport,
-	   so the component was contradicting its own documented intent.
+  .strand-nav__slot {
+    margin-left: auto;
+  }
 
-	   WHICH actions survive a narrow viewport is knowledge the CONSUMER has and
-	   this file does not: a search field can go, an account control cannot. So
-	   the primitive keeps them visible and the consumer hides what it chooses
-	   with `strand-hide-below-md`. Same division as the tab bar, where the
-	   decision to hide above a breakpoint belongs to the product that also has
-	   a desktop nav. */
+  .strand-nav__slot--reserve {
+    min-width: var(--strand-nav-slot-reserve-sm, 11.75rem);
+  }
 
-	/* The slot remains visible on mobile because it typically carries the
-     account affordance (avatar + sign-in/out) which should stay reachable
-     from every viewport. Its margin-left collapses on mobile because
-     the only remaining siblings are the logo (left) and the hamburger
-     (right), and margin-left:auto on one of them handles the layout. */
-	.strand-nav__slot {
-		margin-left: auto;
-	}
-	/* A reserved slot drops to a tighter default here. The desktop
-	   reservation would crowd the logo and any back affordance at phone
-	   widths, and the mobile nav hides .strand-nav__actions anyway, so the
-	   slot's widest state is correspondingly smaller. */
-	.strand-nav__slot--reserve {
-		min-width: var(--strand-nav-slot-reserve-sm, 11.75rem);
-	}
-	.strand-nav__hamburger {
-		display: inline-flex;
-	}
-	.strand-nav {
-		height: auto;
-		min-height: var(--strand-nav-height);
-	}
+  .strand-nav__hamburger {
+    display: inline-flex;
+  }
+
+  .strand-nav {
+    height: auto;
+    min-height: var(--strand-nav-height);
+  }
 }
 
-/* ── Phone gutter ──
-   A 32px gutter is a desktop measure. Arithmetic rather than mystery: a 136px
-   wordmark and an 85px account control need 285px of row before anything wraps
-   when each side spends 32, so below that width the gutter is the only thing
-   left to give and it gave. Measured 32px of clearance down to 320, then 15px
-   at 300 and -5px at 280, the control pushing through the gutter and out of the
-   bar.
-
-   Phones conventionally use 16, and at 16 the same row needs 253, which is
-   comfortable at 280. Nothing truncates and nothing is hidden; the bar simply
-   stops spending desktop padding on a phone. */
 @media (max-width: 479.98px) {
-	.strand-nav__inner {
-		padding-inline: var(--strand-space-4);
-	}
+  .strand-nav__inner {
+    padding-inline: var(--strand-space-4);
+  }
 }
 
-/* ── Nav chrome density on a pointer-driven viewport (14.7) ──
-   ONLY under `pointer: fine`, and the guard is the whole point. 44px is the
-   touch floor and it is correct on touch; 14.7's fine-pointer floor is 24, and
-   nav chrome is the region that clause was written for.
-
-   Two reasons this is not merely tidiness. Visually a 44px control reads heavy
-   in a 64px bar, especially on the account corner where it sits alone beside
-   the wordmark. Structurally an auth affordance is ONE SLOT rendering two
-   states, and a signed-out button 10px taller than the avatar that replaces it
-   is a layout shift the moment auth resolves, on every page load, for every
-   member. Matching the boxes removes the shift by construction rather than by
-   reserving a size that neither state actually is.
-
-   34px rather than a spacing token for the same reason SearchField states its
-   36px directly: the scale has no rung here, and inventing one to express a
-   control height would put a value in the spacing system that is not spacing.
-   It is the avatar's rendered box, which is what the button has to match. */
 @media (pointer: fine) {
-	.strand-nav__actions .strand-btn,
-	.strand-nav__slot .strand-btn {
-		min-height: 34px;
-		padding-block: 0;
-		padding-inline: var(--strand-space-3);
-	}
-	/* AN ICON-ONLY CONTROL IS A SHAPE, NOT A WORD, and the rule above is written
-	   for a word. `padding-inline: var(--strand-space-3)` is correct either side
-	   of "Sign in" and wrong either side of a 32px circle: it measured 58x34, a
-	   pill, on every signed-in desktop session. Same rule, same premise that the
-	   avatar gets the same treatment, and the treatment was wrong for it.
+  .strand-nav__actions .strand-btn,
+  .strand-nav__slot .strand-btn {
+    min-height: 34px;
+    padding-block: 0;
+    padding-inline: var(--strand-space-3);
+  }
 
-	   Padding is 0 rather than 1px because `.strand-btn` carries a 1px
-	   transparent border and the box is border-box, so a 32px avatar plus two
-	   borders is exactly the 34 the design draws, and the two auth states match
-	   without either being nudged.
-
-	   THE `.strand-btn` IN THIS SELECTOR IS LOAD-BEARING. Button's own
-	   `.strand-btn--icon-only.strand-btn--sm` is (0,2,0), so a selector that ties
-	   at (0,2,0) is decided by source order between two stylesheets, which is not
-	   a thing to depend on. Doubling up here makes this (0,3,0) and the outcome
-	   is a property of the selector rather than of the bundler. */
-	.strand-nav__actions .strand-btn.strand-btn--icon-only,
-	.strand-nav__slot .strand-btn.strand-btn--icon-only {
-		padding: 0;
-		min-width: 34px;
-		min-height: 34px;
-	}
+  .strand-nav__actions .strand-btn.strand-btn--icon-only,
+  .strand-nav__slot .strand-btn.strand-btn--icon-only {
+    padding: 0;
+    min-width: 34px;
+    min-height: 34px;
+  }
 }
 
-/* ── Glassmorphic variant (DL 11.5: "white or glassmorphic") ──
-   The glass nav's rendered height is the token. Previous versions set
-   `height: auto; padding: var(--strand-space-4) 0` which produced a
-   ~77px render (token is 64px), so `body:has(.strand-nav--glass) {
-   padding-top: var(--strand-nav-height) }` left content behind the nav.
-   Pinning height to the token keeps the body offset rule honest across
-   every consumer. */
 .strand-nav--glass {
-	position: fixed;
-	top: 0;
-	left: 0;
-	/* Not a bare 0. Fixed boxes size against the viewport, so when Dialog's
-	   scroll lock removes the scrollbar and pads the body, a right: 0 bar
-	   would still widen and shift its right-aligned content. Dialog publishes
-	   the removed scrollbar's width as --strand-scrollbar-gap while locked;
-	   consuming it here keeps the bar's right edge aligned with the padded
-	   content. Unset, the var is 0px and this IS right: 0. */
-	right: var(--strand-scrollbar-gap, 0px);
-	z-index: 100;
-	height: var(--strand-nav-height);
-	background: var(--strand-glass-bg);
-	-webkit-backdrop-filter: blur(var(--strand-glass-blur));
-	backdrop-filter: blur(var(--strand-glass-blur));
-	border-bottom: 1px solid var(--strand-glass-border);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: var(--strand-scrollbar-gap, 0px);
+  z-index: 100;
+  height: var(--strand-nav-height);
+  background: var(--strand-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strand-glass-blur));
+  backdrop-filter: blur(var(--strand-glass-blur));
+  border-bottom: 1px solid var(--strand-glass-border);
 }
 
-/* ── Scrolled state (DL Part XIX.1) ──
-   Apply via JS scroll listener. Adds shadow + blue-shifted border. */
 .strand-nav--scrolled {
-	box-shadow: var(--strand-elevation-1);
-	border-bottom-color: var(--strand-nav-scrolled-border);
+  box-shadow: var(--strand-elevation-1);
+  border-bottom-color: var(--strand-nav-scrolled-border);
 }
 
 .strand-nav--glass {
-	transition: box-shadow var(--strand-duration-normal) ease, border-color
-		var(--strand-duration-normal) ease;
+  transition:
+    box-shadow var(--strand-duration-normal) ease,
+    border-color var(--strand-duration-normal) ease;
 }
-
-/* ──────────────────────────────────────────────
-   NAV: instrument variant (dark glassmorphic)
-   ──────────────────────────────────────────────
-   When the body is in instrument mode, the nav must also be
-   dark + glassmorphic to match the cabinet aesthetic. Apply
-   .strand-nav--instrument alongside .strand-nav for a dark
-   blurred bar with blue-tinted hairline.
-
-   The selectors compose .strand-nav with .strand-nav--instrument
-   so they outweigh the bare .strand-nav rules even though Nav.css
-   is bundled later than InstrumentViewport.css. Without the
-   compound selector, the white surface from Nav.css would win
-   on source order. */
 
 .strand-nav.strand-nav--instrument {
   background: var(--strand-instrument-bg-translucent);
@@ -519,22 +286,19 @@
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--strand-instrument-border);
 }
+
 .strand-nav.strand-nav--instrument .strand-nav__logo {
   color: var(--strand-blue-primary);
   text-shadow: 0 0 12px rgba(59, 142, 246, 0.3);
 }
+
 .strand-nav.strand-nav--instrument .strand-nav__link {
   color: var(--strand-instrument-text-secondary);
 }
+
 .strand-nav.strand-nav--instrument .strand-nav__link:hover {
   color: var(--strand-instrument-text-primary);
 }
-/* ──────────────────────────────────────────────
-   NAV ACCESSORIES (mono titles + ghost CTAs)
-   ──────────────────────────────────────────────
-   Lab pages render a small mono title between the logo and the
-   primary CTA. The accessories live in the nav__inner container,
-   between logo and actions. */
 
 .strand-nav__title {
   font-family: var(--strand-font-mono);
@@ -546,42 +310,25 @@
   text-shadow: 0 0 16px rgba(59, 142, 246, 0.15);
   margin-right: auto;
 }
+
 .strand-nav__title-tag {
   font-weight: var(--strand-weight-regular);
   color: var(--strand-gray-400);
   margin-left: var(--strand-space-1);
 }
 
-/* ── Body offset for fixed nav + optional banner ──
-   When a page uses .strand-nav--glass, the nav is position: fixed and
-   removed from document flow, so the first content element would
-   otherwise render behind the nav. When a banner is also present, the
-   banner pushes the nav down and both cover even more of the first
-   content element.
-
-   These rules reserve body padding-top equal to the stack height (nav
-   plus optional banner) so the first content element clears the stack
-   on every viewport. Pages with in-flow navs (not position: fixed) are
-   unaffected because the selector only matches when the document has
-   a .strand-nav--glass element.
-
-   The --strand-banner-height custom property is set by the Banner
-   component when mounted; defaults to 0px when no banner is present. */
 body:has(.strand-nav--glass) {
   padding-top: var(--strand-nav-height);
 }
+
 body:has(.strand-nav--glass):has(.strand-banner) {
   padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
 }
-/* ── JS-managed body class fallback for browsers without :has() ──
-   Framework Nav components (Preact/Vue/Svelte) and the vanilla runtime
-   add strand-glass-nav-active to body when a glass nav is present.
-   These rules mirror the :has() rules above so both mechanisms coexist.
-   On modern browsers both match and produce the same result. On older
-   browsers (Firefox <121) only the class-based rules fire. */
+
 body.strand-glass-nav-active {
   padding-top: var(--strand-nav-height);
 }
+
 body.strand-glass-nav-active.strand-banner-active {
   padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
 }

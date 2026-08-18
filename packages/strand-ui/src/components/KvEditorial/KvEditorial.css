@@ -1,17 +1,16 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Key-Value Row ──
-   Derivation: inline-pair + ranked-sequence (DL 11.10).
-   identifier(OVERLINE) + quantifier(MONO_VALUE) + RANK_BORDER */
 .strand-kv {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: var(--strand-space-2) var(--strand-space-4);
 }
+
 .strand-kv + .strand-kv {
   border-top: 1px solid var(--strand-border-subtle);
 }
+
 .strand-kv__label {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
@@ -20,6 +19,7 @@
   text-transform: uppercase;
   color: var(--strand-kv-label-color, var(--strand-gray-500));
 }
+
 .strand-kv__value {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
@@ -27,32 +27,27 @@
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
-/* teal-vital is the fill tier (2.49:1 as text on white). on-teal-tint is the
-   same hue at the text tier, which is what a status VALUE needs since the
-   word itself carries the meaning here rather than a glyph beside it. */
+
 .strand-kv__value--status {
   color: var(--strand-kv-value-status-color, var(--strand-on-teal-tint));
 }
-/* ── Key-Value Row: editorial modifier ──
-   Additive modifier on .strand-kv for card-metadata contexts
-   (composed cards, editorial specimens) where values should
-   read as soft sans-serif Blue-midnight rather than the default
-   mono-gray instrument readout. Dashed divider between rows.
-   Use inside .strand-card__section content blocks. The base
-   .strand-kv default stays mono-tabular for instrument surfaces. */
+
 .strand-kv--editorial {
   padding: 6px 0;
   font-size: var(--strand-text-sm);
   line-height: 1.4;
 }
+
 .strand-kv--editorial + .strand-kv--editorial {
   border-top: 1px dashed var(--strand-gray-200);
 }
+
 .strand-kv--editorial .strand-kv__label {
   letter-spacing: var(--strand-tracking-ultra);
   flex: none;
   white-space: nowrap;
 }
+
 .strand-kv--editorial .strand-kv__value {
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-sm);

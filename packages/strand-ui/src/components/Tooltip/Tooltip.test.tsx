@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { render, fireEvent, act } from "@testing-library/preact";
 import { Tooltip } from "./Tooltip.js";
@@ -146,6 +147,9 @@ describe("Tooltip", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Tooltip.fixtures.js";
 
 snapshotFixtures(Tooltip, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Tooltip.css"));

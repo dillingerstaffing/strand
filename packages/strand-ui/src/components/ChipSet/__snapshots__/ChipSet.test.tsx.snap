@@ -5,3 +5,16 @@ exports[`renders > empty 1`] = `"<div aria-label="None" class="strand-chip-set" 
 exports[`renders > multi wrap 1`] = `"<div aria-label="Interests" class="strand-chip-set" role="group"><button aria-pressed="true" class="strand-chip-set__chip" type="button">Trails</button><button aria-pressed="false" class="strand-chip-set__chip" type="button">Chess</button></div>"`;
 
 exports[`renders > single scroll sm 1`] = `"<div aria-label="Filter" class="strand-chip-set strand-chip-set--scroll strand-chip-set--sm strand-scroll-row" role="radiogroup"><button aria-checked="true" class="strand-chip-set__chip" role="radio" type="button">All</button><button aria-checked="false" class="strand-chip-set__chip" role="radio" type="button">Mine</button></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-chip-set { display: flex; flex-wrap: wrap; gap: var(--strand-space-2) }
+.strand-chip-set--scroll { flex-wrap: nowrap }
+.strand-chip-set__chip { flex: none; display: inline-flex; align-items: center; gap: var(--strand-space-1); padding-block: var(--strand-space-1); padding-inline: var(--strand-space-3); font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); color: var(--strand-gray-600); background: var(--strand-surface-elevated); border: 1px solid var(--strand-gray-300); border-radius: var(--strand-radius-full); cursor: pointer; white-space: nowrap; transition: background-color var(--strand-duration-fast) ease, border-color var(--strand-duration-fast) ease, color var(--strand-duration-fast) ease }
+@media (pointer: coarse) {
+  .strand-chip-set__chip { min-block-size: 44px }
+}
+.strand-chip-set__chip:hover { border-color: var(--strand-gray-400); color: var(--strand-gray-800) }
+.strand-chip-set__chip[aria-pressed="true"], .strand-chip-set__chip[aria-checked="true"] { background: var(--strand-blue-midnight); border-color: var(--strand-blue-midnight); color: var(--strand-on-blue-primary) }
+.strand-chip-set__chip[aria-pressed="true"]:hover, .strand-chip-set__chip[aria-checked="true"]:hover { background: var(--strand-blue-abyss); border-color: var(--strand-blue-abyss); color: var(--strand-on-blue-primary) }
+.strand-chip-set--sm .strand-chip-set__chip { padding-block: var(--strand-space-1); padding-inline: var(--strand-space-2); font-size: var(--strand-text-xs) }"
+`;

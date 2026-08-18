@@ -1,5 +1,8 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: dialog-panel */
+/* cf: component-knobs */
+
 /* ── Backdrop ── */
 .strand-dialog__backdrop {
   position: fixed;
@@ -14,85 +17,22 @@
 /* ── Panel ── */
 .strand-dialog__panel {
   position: relative;
-
-  /* A custom property rather than a size ladder, because the answer is a
-     WIDTH and consumers want different ones; a modifier would have to grow
-     a variant per width. Setting a token is design-system usage, overriding
-     the class is a workaround, and the difference is what the dogfood gate
-     is looking for. Same idiom as `--strand-search-field-inline-size`.
-
-     The default resolves exactly as the previous `width: 100%` +
-     `max-width: 560px` pair did, at every viewport: the panel is a flex
-     item carrying margins, so it shrinks to `min(560px, 100vw - 2 * margin)`
-     either way. The pair is gone rather than kept alongside because a
-     consumer raising the width past 560 would otherwise have to clear a cap
-     it cannot see, which is two overrides for one intention. */
   inline-size: var(--strand-dialog-inline-size, min(560px, 100%));
-
   margin: var(--strand-space-4);
   padding: var(--strand-space-8);
   background: var(--strand-surface-elevated);
-
-  /* Shape and edge are tokenised for the same reason the width is: a
-     consumer whose panel is a composed surface rather than a prose card
-     wants a different radius and a hairline edge, and both are values the
-     design language already scales. Defaults are exactly what shipped
-     before, so an untouched consumer renders unchanged. */
   border: var(--strand-dialog-border, none);
   border-radius: var(--strand-dialog-radius, var(--strand-radius-xl));
-
   box-shadow: var(--strand-elevation-4);
   font-family: var(--strand-font-sans);
   outline: none;
 }
 
-/* ── Alignment ──
-   The backdrop centres its panel, which is right for a confirmation and
-   wrong for a search overlay. A panel of fixed height, centred, puts its
-   results across the fold on a short viewport and makes the query row the
-   LAST thing the eye reaches rather than the first, so a palette belongs
-   under the reader's gaze instead. */
 .strand-dialog__panel--align-start {
   align-self: flex-start;
   margin-block-start: var(--strand-dialog-inset-block-start, 12vh);
 }
 
-/* ── The sheet (DL 11.6) ──
-   Anchored to the bottom edge, and every value below follows from the
-   anchor rather than from taste.
-
-   WHY THIS IS A PATTERN AND NOT A MARGIN TWEAK. 14.8 requires a touch
-   view's primary action to be able to occupy the bottom third of the
-   viewport. A centred panel puts its committing control in the stretch
-   band at every viewport height, so the language specified a modal shape
-   its own reach rule could not accept on a phone. This is the resolution.
-
-   FULL BLEED, because a bottom-anchored panel wearing side margins reads
-   as debris that slid down the screen; `margin: 0` and `max-inline-size:
-   none` are BOTH needed, since the base rule caps at 560px and a cap the
-   consumer cannot see is the override this exists to remove.
-
-   TOP-ONLY RADIUS, because the bottom corners are off-screen. Rounding
-   them makes the panel look like it is floating above the edge it is
-   anchored to.
-
-   PARTIAL HEIGHT, because a sheet that fills the viewport hides the thing
-   being acted on, which removes the whole reason to anchor rather than
-   centre. `--strand-dialog-block-size` is a custom property for the same
-   reason the width is: the right fraction depends on how much of the
-   content behind must stay legible, and that is the consumer's judgement.
-
-   LEVEL 4, not 3. A sheet is the one modal whose backdrop is deliberately
-   see-past, so it has to read as detached from content that stays legible
-   behind it; level 3 is the elevation of a panel over a dimmed page.
-
-   THE ENTRANCE IS `--strand-duration-normal`, and this is the one value
-   here that is NOT the consumer's. The approved prototype ran 220ms, which
-   is off 6.2's scale entirely; 6.2 assigns `normal` (250ms) to "cards,
-   dropdowns" and both numbers sit inside the 100-300ms band it calls
-   responsive, so the difference is imperceptible and the token is what
-   keeps an arbitrary consumer number out of the language. Recorded rather
-   than quietly rounded. */
 .strand-dialog__panel--align-end {
   align-self: flex-end;
   inline-size: 100%;
@@ -106,37 +46,24 @@
   max-block-size: var(--strand-dialog-block-size, 78vh);
   overflow: hidden;
   box-shadow: var(--strand-elevation-4);
-  animation: strand-dialog-sheet-in var(--strand-duration-normal)
-    var(--strand-ease-out-quart);
+  animation: strand-dialog-sheet-in var(--strand-duration-normal) var(--strand-ease-out-quart);
 }
 
 @keyframes strand-dialog-sheet-in {
   from {
     transform: translateY(100%);
   }
+
   to {
     transform: none;
   }
 }
 
-/* ── Padding modifiers ──
-   The same five-rung ladder `.strand-card` carries, at the same values, so
-   the two surface primitives do not disagree about what "lg" means. The
-   base above is `--pad-lg`, which is what shipped, so the default emits a
-   class that changes nothing.
-
-   `--pad-none` also clips to the panel's radius, exactly as
-   `.strand-card--pad-none` does: a panel whose children carry the inset is
-   a panel whose children reach the corners, and a scrolling region inside
-   one would otherwise square them off. */
 .strand-dialog__panel--pad-none {
   padding: 0;
   overflow: hidden;
 }
 
-/* The body's own pad is a separator between a header and its content. With
-   no padding on the panel there is no header band to separate from, and the
-   pad becomes a dead band above whatever the consumer put first. */
 .strand-dialog__panel--pad-none .strand-dialog__body {
   padding: 0;
 }
@@ -189,7 +116,8 @@
   color: var(--strand-gray-500);
   font-size: var(--strand-text-lg);
   cursor: pointer;
-  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart),
+  transition:
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
     color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 

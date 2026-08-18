@@ -1,9 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Frosted viewport (DL Part 9.4) ──
-   Light data-dense context with frosted-glass character. The
-   "frosted instrument panel embedded in the lab bench" feel,
-   without going dark. Backdrop-filter requires content behind it. */
 .strand-viewport--frosted {
   background: var(--strand-glass-bg);
   -webkit-backdrop-filter: blur(var(--strand-glass-blur));

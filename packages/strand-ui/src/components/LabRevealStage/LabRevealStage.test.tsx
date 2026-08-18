@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { html } from "../../test/render.js";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./LabRevealStage.fixtures.js";
 import * as family from "./LabRevealStage.js";
 
@@ -13,3 +15,5 @@ describe("every export renders its element and class", () => {
     });
   }
 });
+
+snapshotStylesheet(resolve(__dirname, "./LabRevealStage.css"));

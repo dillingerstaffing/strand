@@ -8,12 +8,7 @@
 
 /* ── Shimmer ── */
 .strand-skeleton--shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--strand-gray-100) 25%,
-    var(--strand-gray-50) 50%,
-    var(--strand-gray-100) 75%
-  );
+  background: linear-gradient( 90deg, var(--strand-gray-100) 25%, var(--strand-gray-50) 50%, var(--strand-gray-100) 75% );
   background-size: 200% 100%;
   animation: strand-skeleton-shimmer 1.8s var(--strand-ease-in-out-sine) infinite;
 }
@@ -22,6 +17,7 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }

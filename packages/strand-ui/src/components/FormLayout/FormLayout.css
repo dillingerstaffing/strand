@@ -1,24 +1,24 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ═══ FORM LAYOUT (DL Part XVIII.1: Specimen Collection Room) ═══ */
+/* cf: honeypot */
+
 .strand-form-grid {
   display: grid;
   gap: var(--strand-space-6);
 }
+
 .strand-form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--strand-space-6);
 }
+
 @media (max-width: 639px) {
   .strand-form-row {
     grid-template-columns: 1fr;
   }
 }
-/* ═══ HONEYPOT (DL Part XI.1: form security) ═══
-   Hidden field that bots fill but humans never see.
-   NOT display:none (some bots skip those).
-   Positioned offscreen with aria-hidden and tabindex=-1. */
+
 .strand-honeypot {
   position: absolute;
   left: -9999px;

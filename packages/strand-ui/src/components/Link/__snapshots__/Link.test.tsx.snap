@@ -7,3 +7,12 @@ exports[`renders > default 1`] = `"<a class="strand-link" href="/docs">Docs</a>"
 exports[`renders > inherit 1`] = `"<a class="strand-link strand-link--inherit" href="/x">Title</a>"`;
 
 exports[`renders > mono external 1`] = `"<a class="strand-link strand-link--mono" href="https://example.com" rel="noopener noreferrer" target="_blank">Site</a>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-link { color: var(--strand-link-color, var(--strand-blue-deep)); text-decoration: none; font-family: var(--strand-font-sans); background-image: var(--strand-link-underline, linear-gradient(currentColor, currentColor)); background-position: 0% 100%; background-repeat: no-repeat; background-size: 0% 1px; transition: background-size var(--strand-duration-normal) var(--strand-ease-out-expo); cursor: pointer }
+.strand-link:hover { background-size: 100% 1px }
+.strand-link--cta { display: inline-flex; align-items: center; min-height: var(--strand-touch-target); padding-block: var(--strand-space-2); font-size: var(--strand-text-sm) }
+.strand-link--mono { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); letter-spacing: var(--strand-tracking-wider); color: var(--strand-link-mono-color, var(--strand-gray-500)); background-image: var(--strand-link-underline, none) }
+.strand-link--mono:hover { color: var(--strand-link-mono-hover-color, var(--strand-blue-deep)) }
+.strand-link--inherit { color: var(--strand-link-color, inherit); background-image: var(--strand-link-underline, none) }"
+`;

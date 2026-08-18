@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { html } from "../../test/render.js";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./TokenSpecimen.fixtures.js";
 import * as family from "./TokenSpecimen.js";
 
@@ -18,3 +20,5 @@ describe("every export renders its element and class", () => {
     expect(html(<family.TokenSpecimenBox radius="8px" shadow="0 1px 2px black" />)).toMatchSnapshot();
   });
 });
+
+snapshotStylesheet(resolve(__dirname, "./TokenSpecimen.css"));

@@ -1,11 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-form-grid",
-  ".strand-form-row",
-  "@media (max-width: 639px)",
-  "  .strand-form-row",
-  ".strand-honeypot",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-form-grid { display: grid; gap: var(--strand-space-6) }
+.strand-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--strand-space-6) }
+@media (max-width: 639px) {
+  .strand-form-row { grid-template-columns: 1fr }
+}
+.strand-honeypot { position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none }"
 `;

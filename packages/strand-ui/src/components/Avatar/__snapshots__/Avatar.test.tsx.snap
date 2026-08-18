@@ -11,3 +11,13 @@ exports[`renders > initials md 1`] = `"<div aria-label="AB" class="strand-avatar
 exports[`renders > initials sm 1`] = `"<div aria-label="AD" class="strand-avatar strand-avatar--sm" role="img"><span aria-hidden="true" class="strand-avatar__initials">AD</span></div>"`;
 
 exports[`renders > initials xl 1`] = `"<div aria-label="AL" class="strand-avatar strand-avatar--xl" role="img"><span aria-hidden="true" class="strand-avatar__initials">AL</span></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-avatar { display: inline-flex; align-items: center; justify-content: center; border-radius: var(--strand-radius-full); background: var(--strand-avatar-bg, var(--strand-surface-recessed)); overflow: hidden; flex-shrink: 0; font-family: var(--strand-font-sans); font-weight: var(--strand-weight-medium); color: var(--strand-avatar-fg, var(--strand-gray-600)); user-select: none }
+.strand-avatar__img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--strand-radius-full) }
+.strand-avatar__initials { text-transform: uppercase; line-height: 1 }
+.strand-avatar--sm { width: 32px; height: 32px; font-size: var(--strand-text-xs) }
+.strand-avatar--md { width: 40px; height: 40px; font-size: var(--strand-text-sm) }
+.strand-avatar--lg { width: 48px; height: 48px; font-size: var(--strand-text-base) }
+.strand-avatar--xl { width: var(--strand-space-16); height: var(--strand-space-16); font-size: var(--strand-text-lg) }"
+`;

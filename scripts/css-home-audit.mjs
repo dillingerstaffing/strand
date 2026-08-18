@@ -179,6 +179,27 @@ export function ownerIndex(dirs, sourcesByDir = {}, declaredByDir = {}, cssByDir
  * @param {{name: string, dir: string|null, css: string, open?: boolean, owns?: string[]}[]} files
  * @param {string[]} dirs component directory names
  */
+/**
+ * A surface (a block whose stylesheet sets tokens on itself for the primitives
+ * inside it) recolours those primitives through the tokens, never by
+ * descendant selector: `.strand-instrument-viewport .strand-overline { color }`
+ * is the shape that made rendering depend on file order. cf: surface-tokens
+ */
+export function surfaceReaches(files) {
+  const out = [];
+  for (const f of files) {
+    const rules = parseRules(f.css);
+    const surfaces = new Set(rules.filter((r) => /--strand-[a-z0-9-]+-(?:color|bg|border-color|border|underline)\s*:/.test(r.declarations)).map((r) => classifySelector(r.selector).defines).filter(Boolean));
+    for (const r of rules) {
+      const c = classifySelector(r.selector);
+      if (!c.context || !surfaces.has(c.context)) continue;
+      if (c.targets.length < 2 || c.targets[1] === c.context) continue;
+      if (/(^|;)\s*(color|background|background-color|border[a-z-]*|stroke|fill)\s*:/.test(` ;${r.declarations}`)) out.push({ file: f.name, selector: r.selector });
+    }
+  }
+  return out;
+}
+
 export function auditFiles(files, dirs, sourcesByDir = {}, declaredByDir = {}) {
   const cssByDir = Object.fromEntries(files.filter((f) => f.dir).map((f) => [f.dir, f.css]));
   const dirByBlock = ownerIndex(dirs, sourcesByDir, declaredByDir, cssByDir);
@@ -222,7 +243,7 @@ export function auditFiles(files, dirs, sourcesByDir = {}, declaredByDir = {}) {
   const split = [...definers.entries()]
     .filter(([, set]) => set.size > 1)
     .map(([block, set]) => ({ block, files: [...set] }));
-  return { rows, split };
+  return { rows, split, reaches: surfaceReaches(files) };
 }
 
 const pad = (s, w) => String(s).padEnd(w);
@@ -232,7 +253,7 @@ const fmt = (o) =>
     .join(" ");
 
 /** Human-readable report. An empty audit fails. */
-export function summarize({ rows, split }) {
+export function summarize({ rows, split, reaches = [] }) {
   if (rows.length === 0) return { ok: false, text: "  FAIL  audited zero stylesheets." };
   const lines = [];
   let misplacedRules = 0;
@@ -252,11 +273,16 @@ export function summarize({ rows, split }) {
     lines.push("  blocks defined in more than one file:");
     for (const s of split) lines.push(`      ${pad(s.block, 32)} ${s.files.join(", ")}`);
   }
+  if (reaches.length) {
+    lines.push("");
+    lines.push("  surfaces recolouring another primitive by selector instead of through its tokens (cf: surface-tokens):");
+    for (const r of reaches) lines.push(`      ${pad(r.file, 44)} ${r.selector}`);
+  }
   lines.push("");
   lines.push(
-    `  ${rows.length} stylesheets: ${misplacedRules} rules define a block another component owns, ${homelessRules} rules define blocks no component owns, ${split.length} blocks are split across files.`,
+    `  ${rows.length} stylesheets: ${misplacedRules} rules define a block another component owns, ${homelessRules} rules define blocks no component owns, ${split.length} blocks are split across files, ${reaches.length} surface rules recolour by selector.`,
   );
-  return { ok: misplacedRules === 0 && homelessRules === 0 && split.length === 0, text: lines.join("\n") };
+  return { ok: misplacedRules === 0 && homelessRules === 0 && split.length === 0 && reaches.length === 0, text: lines.join("\n") };
 }
 
 // ── Impure shell ────────────────────────────────────────────────────────

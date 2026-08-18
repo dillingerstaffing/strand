@@ -15,7 +15,6 @@
   color: var(--strand-alert-color, inherit);
 }
 
-/* ── Status variants (neutral background, status color on prefix only) ── */
 .strand-alert--info {
   background: var(--strand-alert-bg, var(--strand-surface-recessed));
 }
@@ -32,13 +31,6 @@
   background: var(--strand-alert-bg, var(--strand-surface-recessed));
 }
 
-/* ── Stacked layout ──
-   Column layout for a multi-line alert body (e.g. a confirmation that pairs
-   a status line with a peer-count line and an action) that should read
-   top-to-bottom rather than the default single row. Only the axis and
-   cross-alignment change; the neutral background and prefix-only status
-   color (DL 11.6) are untouched. Replaces a consumer's inline
-   flex-direction:column;align-items:stretch override. */
 .strand-alert--stack {
   flex-direction: column;
   align-items: stretch;
@@ -56,10 +48,21 @@
   flex-shrink: 0;
 }
 
-.strand-alert--info .strand-alert__status { color: var(--strand-alert-info-status-color, var(--strand-blue-deep)); }
-.strand-alert--success .strand-alert__status { color: var(--strand-alert-success-status-color, var(--strand-on-teal-tint)); }
-.strand-alert--warning .strand-alert__status { color: var(--strand-alert-warning-status-color, var(--strand-on-amber-tint)); }
-.strand-alert--error .strand-alert__status { color: var(--strand-alert-error-status-color, var(--strand-red-alert-deep)); }
+.strand-alert--info .strand-alert__status {
+  color: var(--strand-alert-info-status-color, var(--strand-blue-deep));
+}
+
+.strand-alert--success .strand-alert__status {
+  color: var(--strand-alert-success-status-color, var(--strand-on-teal-tint));
+}
+
+.strand-alert--warning .strand-alert__status {
+  color: var(--strand-alert-warning-status-color, var(--strand-on-amber-tint));
+}
+
+.strand-alert--error .strand-alert__status {
+  color: var(--strand-alert-error-status-color, var(--strand-red-alert-deep));
+}
 
 /* ── Content ── */
 .strand-alert__content {
@@ -83,7 +86,8 @@
   color: var(--strand-alert-dismiss-color, var(--strand-gray-500));
   font-size: var(--strand-text-base);
   cursor: pointer;
-  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart),
+  transition:
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
     color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 

@@ -11,17 +11,14 @@
   font-weight: var(--strand-weight-semibold);
   color: var(--strand-instrument-text-primary);
   border: 2px solid rgba(59, 142, 246, 0.6);
-  box-shadow:
-    0 0 20px rgba(59, 142, 246, 0.4),
-    0 0 40px rgba(59, 142, 246, 0.15);
+  box-shadow: 0 0 20px rgba(59, 142, 246, 0.4), 0 0 40px rgba(59, 142, 246, 0.15);
   cursor: pointer;
   transition:
     transform var(--strand-duration-fast) var(--strand-ease-out-expo),
     box-shadow var(--strand-duration-fast) ease;
 }
+
 .strand-cluster-marker:hover {
   transform: scale(1.15);
-  box-shadow:
-    0 0 28px rgba(59, 142, 246, 0.6),
-    0 0 56px rgba(59, 142, 246, 0.25);
+  box-shadow: 0 0 28px rgba(59, 142, 246, 0.6), 0 0 56px rgba(59, 142, 246, 0.25);
 }

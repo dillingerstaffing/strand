@@ -1,14 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ══════════════════════════════════════════════════
-   SWATCH (color specimen for docs surfaces)
-   ══════════════════════════════════════════════════
-   A single color tile rendered in a grid of swatches on a
-   design-token documentation page. Background and text colors
-   are applied inline via the consumer (because tone varies per
-   swatch). Base chrome (border, min-height, internal layout)
-   is CSS-driven. Grid container is a sibling primitive. */
-
 .strand-swatch-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -19,7 +10,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--strand-space-1);
-  /* 14px 14px 12px: specimen chrome literal, no token scale match */
   padding: 14px 14px 12px;
   border-radius: var(--strand-radius-md);
   border: 1px solid var(--strand-gray-200);

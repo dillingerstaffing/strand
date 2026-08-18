@@ -1,133 +1,33 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── SearchField ──
-   A search input for page chrome: a header field on a wide viewport, a
-   full-width bar on a narrow one.
-
-   NOT to be confused with `.strand-search-bar`, which is the search
-   overlay that floats ON an instrument viewport (dark, absolutely
-   positioned, backdrop-blurred, sized against the map beneath it). That
-   one belongs to the viewport composition and answers a different
-   question: where does a control sit ON an instrument. This one is
-   ordinary page furniture and sits IN the document flow. Two primitives,
-   two surfaces, deliberately not one with a mode flag -- the only
-   properties they share are `display: flex` and an input reset, and a
-   single class carrying both would spend half its declarations undoing
-   the other half.
-
-   The class layer is the real primitive. The framework components are
-   thin wrappers over exactly these classes, so a vanilla-HTML consumer
-   and a Preact consumer get identical behaviour and identical bytes.
-
-   Markup contract:
-
-     <form class="strand-search-field" role="search">
-       <svg class="strand-search-field__icon" aria-hidden="true">...</svg>
-       <input class="strand-search-field__input" type="search"
-              placeholder="Search events">
-     </form>
-
-   THE BOX IS RESERVED FROM FIRST PAINT. Every dimension here is
-   declared, none is derived from content, and nothing about the resting
-   state waits on JavaScript. A consumer can server-render the markup
-   above and the field occupies its final geometry in the first frame.
-   This is 6.6.1's space contract applied to a control rather than to a
-   loading region, and it is load-bearing: this primitive's first
-   consumer puts it in a fixed header, which is the one place in a layout
-   where a late-appearing box pushes every pixel of the page. */
+/* cf: search-field */
+/* cf: component-knobs */
 
 .strand-search-field {
   display: flex;
   align-items: center;
   gap: var(--strand-space-2);
-
-  /* min() rather than a bare 300px so the field cannot breach a narrower
-     parent's padding (10.4 Boundary Integrity). A fixed width is a
-     promise about the field; it is not a promise about every container
-     the field will ever be put in.
-
-     THE DEFAULT IS A DEFAULT NOW, not a decree. Two consumers on one
-     product both had to override this declaration to place the same
-     primitive: a header field wanted a flat 300 (the percentage makes the
-     field unmeasurable to an intrinsically sized parent, gap #95), and a
-     phone header wanted the full row. Neither is exotic, and a primitive
-     that has to be overridden to be positioned is missing an input rather
-     than being used wrongly.
-
-     A custom property rather than a --fluid modifier because the answer is
-     a WIDTH and consumers wanted different ones; a modifier would have to
-     grow a variant per width. Setting a token is design-system usage,
-     overriding a class is a workaround, and the difference is what the
-     strand-first gate is looking for. */
   inline-size: var(--strand-search-field-inline-size, min(300px, 100%));
-
-  /* 36px. Not a spacing token because the scale has no 9 rung, and
-     inventing one to express a control height would put a value in the
-     spacing system that is not spacing. `.strand-search-bar__action`
-     sets its 36px the same way. */
   block-size: 36px;
   padding-inline: var(--strand-space-3);
-
   background: var(--strand-surface-recessed);
   border: 1px solid var(--strand-gray-200);
   border-radius: var(--strand-radius-lg);
-
   transition:
     border-color var(--strand-duration-fast) ease,
     box-shadow var(--strand-duration-fast) ease;
 }
 
-/* Full-width bar. The narrow-viewport presentation, and a prop rather
-   than a second component, because the two differ in exactly one
-   property and every other line above is shared. */
 .strand-search-field--full {
   inline-size: 100%;
 }
 
-/* 14.7 Touch Targets: 44x44 minimum. 36px is correct under a mouse and
-   too small under a thumb, so the floor is raised where the pointer is
-   coarse rather than at a width breakpoint -- a narrow window on a
-   desktop is still a mouse, and a wide tablet is still a thumb. Width is
-   not raised with it: the field already spans its container on the
-   surfaces that get a coarse pointer, and 14.7 asks for 44 in each
-   dimension of the TARGET, which the full-bleed bar satisfies. */
 @media (pointer: coarse) {
   .strand-search-field {
     block-size: 44px;
   }
 }
 
-/* 11.1's focused-field treatment: the border takes the brand blue and a
-   ring grows outside it. Applied with :focus-within because the focusable
-   element is the input and the styled element is its wrapper.
-
-   This is deliberately NOT :focus-visible. That distinction exists so a
-   MOUSE user does not see a keyboard affordance on a control they just
-   clicked, and it is right for a button. A text field is different: a
-   focused input is accepting keystrokes, and the user needs to know
-   that whichever way they got there.
-
-   THE RING IS SOLID, AND 2px, AND THAT IS THE SPECIFICATION RATHER THAN A
-   PREFERENCE. It shipped as `0 0 0 3px rgb(59 142 246 / 10%)`, which over
-   white blends to about #ebf1ff: roughly 1.1:1 against the surrounding
-   surface, where 12.3 and 14.3 both call for `2px solid
-   --strand-blue-primary` and SC 1.4.11 wants 3:1. blue-primary is
-   3.29:1 on white, which is the fill-tier value 14.2b lists for exactly
-   this use.
-
-   Read alongside Gap #60, which examined all nine users of
-   `--strand-focus-ring` and deliberately left the token alone: six of them
-   pair a soft ring with a border that IS the indicator, and raising the
-   shared token would make those six heavy. That reasoning still holds and
-   the token is still untouched. This rule is changed on its own evidence,
-   from a consumer whose overlay puts a focused field at the top of the
-   panel as its first pixel row: at 10% alpha the ring and the blue border
-   read as two concentric edges, a hard line floating outside a soft glow.
-   At full strength they merge into ONE thickened edge, which is what the
-   border going blue was always trying to say.
-
-   3px drops to 2px for the same reason: at full opacity the old width
-   reads as a slab rather than as an edge. */
 .strand-search-field:focus-within {
   border-color: var(--strand-blue-primary);
   box-shadow: 0 0 0 2px var(--strand-blue-primary);
@@ -137,32 +37,16 @@
   flex: none;
   inline-size: 16px;
   block-size: 16px;
-
-  /* gray-500, not the gray-400 a mockup will usually specify here.
-     14.2b: gray-400 is a FILL-tier value at 2.52:1, which fails the 3:1
-     that SC 1.4.11 asks of a graphical object, let alone the 4.5:1 the
-     placeholder beside it owes as text. gray-500 clears both on every
-     light surface the language sanctions, including the recessed one
-     this field sits on (4.77:1). The icon and the placeholder take the
-     SAME value because they read as one muted layer; splitting them
-     would make the magnifier darker than the words it introduces. */
   color: var(--strand-gray-500);
 }
 
 .strand-search-field__input {
-  /* min-inline-size: 0 because a flex item's automatic minimum size is
-     its content, so without this the input refuses to shrink below its
-     placeholder and pushes the field wider than its declared box --
-     which would break the reservation promised above. 10.4 names this
-     exact mechanism. */
   flex: 1;
   min-inline-size: 0;
-
   background: transparent;
   border: none;
   outline: none;
   padding: 0;
-
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-sm);
   color: var(--strand-gray-800);
@@ -170,17 +54,9 @@
 
 .strand-search-field__input::placeholder {
   color: var(--strand-gray-500);
-
-  /* Some engines apply a UA opacity to placeholders, which would
-     composite the value above toward the surface and undo the contrast
-     the token was chosen for. 14.2b: opacity multiplies against every
-     ratio, and no palette value defends against it. */
   opacity: 1;
 }
 
-/* type="search" draws a proprietary clear affordance in WebKit that
-   ignores every token in this file. The primitive supplies its own
-   clear control so the field looks the same in every engine. */
 .strand-search-field__input::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
@@ -190,17 +66,14 @@
   flex: none;
   display: grid;
   place-items: center;
-
   inline-size: 24px;
   block-size: 24px;
   padding: 0;
-
   background: transparent;
   border: none;
   border-radius: var(--strand-radius-full);
   color: var(--strand-gray-500);
   cursor: pointer;
-
   transition:
     color var(--strand-duration-fast) ease,
     background-color var(--strand-duration-fast) ease;
@@ -211,25 +84,14 @@
   color: var(--strand-gray-700);
 }
 
-/* 14.7 again, and it applies to the clear control on its own terms: 24px
-   is a comfortable glyph under a mouse and an unhittable one under a
-   thumb. At 44 the button is exactly flush with the coarse-pointer field
-   height set above, which is why that height is 44 and not larger. */
 @media (pointer: coarse) {
   .strand-search-field__clear {
     inline-size: 44px;
     block-size: 44px;
-
-    /* The visible circle would otherwise grow with the target. Pull the
-       hit area out past the field's inline padding instead, so the
-       control reads at its drawn size and is touched at its required
-       one. */
     margin-inline-end: calc(var(--strand-space-3) * -1);
   }
 }
 
-/* Absent, not merely invisible: an empty field has nothing to clear, and
-   a button that does nothing is still a tab stop and still announced. */
 .strand-search-field__clear[hidden] {
   display: none;
 }

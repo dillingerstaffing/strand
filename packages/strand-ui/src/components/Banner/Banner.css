@@ -1,8 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Banner (DL Part XI.6: page-level persistent alert) ──
-   Fixed to top of viewport. Pushes page content down.
-   System-wide status: maintenance, announcements, warnings. */
+/* cf: banner */
+
 .strand-banner {
   position: fixed;
   top: 0;
@@ -17,13 +16,6 @@
   border-bottom: 1px solid transparent;
 }
 
-/* Push nav down when banner is present.
-   Two cases handled here:
-   - .strand-nav--glass is position:fixed, so it must be offset via top.
-   - All other nav variants (default, --instrument) are in document flow,
-     so they shift via margin-top instead. The fixed-positioning rule above
-     wins for --glass because top is meaningful only when position:fixed,
-     and margin-top has no effect on a fixed element. */
 .strand-banner ~ .strand-nav--glass {
   top: var(--strand-banner-height, 0px);
 }
@@ -32,11 +24,6 @@
   margin-top: var(--strand-banner-height, 0px);
 }
 
-/* When the page hosts a full-bleed instrument viewport AND a banner is
-   present, the viewport height calculation must subtract the banner
-   height as well as the nav height. The viewport is a descendant of body,
-   not a sibling of .strand-banner, so :has() is required to scope this
-   rule to "any document containing a banner". */
 body:has(.strand-banner) .strand-instrument-viewport--full-bleed {
   height: calc(100vh - var(--strand-nav-height) - var(--strand-banner-height, 0px));
   height: calc(100dvh - var(--strand-nav-height) - var(--strand-banner-height, 0px));
@@ -67,18 +54,6 @@ body.strand-banner-active .strand-instrument-viewport--full-bleed {
   border-bottom-color: var(--strand-red-alert);
 }
 
-/* ── Content ──
-   The banner is the only full-bleed text in the language: it spans the
-   viewport by design, so without a cap its line length is whatever the
-   viewport happens to be. Measured at 1440 it ran ~1408px / ~211 characters,
-   against DL 4.6's "60-75 characters per line. Non-negotiable." -- and it is
-   the first text above the fold on every page carrying one.
-   A consumer cannot fix that without a page-local override, which makes the
-   missing cap a library gap rather than a misuse.
-   65ch matches DL 4.6's own worked example and the cap .strand-prose already
-   uses, so the number has one owner rather than two. The auto side margins
-   keep it centred under the existing text-align, and the cap is inert on the
-   short strings a banner usually carries. */
 .strand-banner__text {
   margin: 0 auto;
   max-width: 65ch;

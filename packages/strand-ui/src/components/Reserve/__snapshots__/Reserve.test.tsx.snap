@@ -5,3 +5,22 @@ exports[`renders > empty 1`] = `"<div class="strand-reserve" data-strand-reserve
 exports[`renders > pending 1`] = `"<div class="strand-reserve" data-strand-reserve="pending"><div aria-hidden="true" class="strand-reserve__placeholder">...</div><div class="strand-reserve__content">content</div></div>"`;
 
 exports[`renders > ready with heights 1`] = `"<div class="strand-reserve" data-strand-reserve="ready" style="--strand-reserve-h: 42px; --strand-reserve-h-md: 60px; --strand-reserve-h-lg: 80px;"><div aria-hidden="true" class="strand-reserve__placeholder">...</div><div class="strand-reserve__content">content</div></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-reserve { display: grid; min-block-size: var(--strand-reserve-h, auto) }
+.strand-reserve > * { grid-area: 1 / 1 }
+@media (min-width: 768px) {
+  .strand-reserve { min-block-size: var(--strand-reserve-h-md, var(--strand-reserve-h, auto)) }
+}
+@media (min-width: 1024px) {
+  .strand-reserve { min-block-size: var( --strand-reserve-h-lg, var(--strand-reserve-h-md, var(--strand-reserve-h, auto)) ) }
+}
+.strand-reserve__placeholder, .strand-reserve__content { transition: opacity var(--strand-duration-normal) var(--strand-ease-out-quart), visibility var(--strand-duration-normal) var(--strand-ease-out-quart) }
+.strand-reserve[data-strand-reserve="pending"] > .strand-reserve__content { opacity: 0; visibility: hidden }
+.strand-reserve[data-strand-reserve="pending"] > .strand-reserve__placeholder { opacity: 1; visibility: visible }
+.strand-reserve[data-strand-reserve="ready"] > .strand-reserve__placeholder { opacity: 0; visibility: hidden }
+.strand-reserve[data-strand-reserve="ready"] > .strand-reserve__content { opacity: 1; visibility: visible }
+.strand-reserve[data-strand-reserve="empty"] > .strand-reserve__placeholder { display: none }
+.strand-reserve[data-strand-reserve="empty"] > .strand-reserve__content { opacity: 1; visibility: visible }
+.strand-reserve:not([data-strand-reserve]) > .strand-reserve__placeholder { display: none }"
+`;

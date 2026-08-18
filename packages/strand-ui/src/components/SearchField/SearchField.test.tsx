@@ -1,5 +1,4 @@
 import { fireEvent, render } from "@testing-library/preact";
-import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { SearchField } from "./SearchField.js";
@@ -122,44 +121,12 @@ describe("SearchField", () => {
       "BUTTON",
     ]);
   });
-
-  // ── Gap #105: the field could not be asked for a width ──
-
-  it("takes its width from a token, defaulting to the reserved box", () => {
-    // Two consumers on one product both had to override this declaration to
-    // place the same primitive: a header field wanting a flat 300 (a
-    // percentage is invisible to an intrinsically sized parent, #95) and a
-    // phone header wanting the full row. A primitive that must be overridden
-    // to be positioned is missing an input.
-    const sf = readFileSync(resolve(__dirname, "SearchField.css"), "utf8");
-    expect(sf).toMatch(
-      /inline-size:\s*var\(--strand-search-field-inline-size,\s*min\(300px,\s*100%\)\)/,
-    );
-  });
-
-  it("rings a focused field strongly enough to be a focus indicator", () => {
-    // SC 1.4.11 wants 3:1 for a focus indicator, and 12.3 / 14.3 both specify
-    // 2px of --strand-blue-primary, which is 3.29:1 on white (14.2b's fill
-    // tier). This shipped as `0 0 0 3px rgb(59 142 246 / 10%)`, which blends
-    // to about #ebf1ff over white: roughly 1.1:1, and not an indicator.
-    //
-    // NO AXE RULE COVERS THIS. Focus appearance is not automatable that way,
-    // which is how the weak ring survived eight consumer suites and why the
-    // guard is a stylesheet assertion rather than a browser one. Gap #60
-    // recorded the same blind spot.
-    //
-    // Asserted as "solid", not as an exact string: the failure being prevented
-    // is a return to a transparent ring, and pinning the literal would fail on
-    // a harmless reformat while a re-alpha'd colour slipped through.
-    const sf = readFileSync(resolve(__dirname, "SearchField.css"), "utf8");
-    const rule = sf.slice(sf.indexOf(".strand-search-field:focus-within"));
-    const body = rule.slice(rule.indexOf("{"), rule.indexOf("}"));
-    expect(body).toMatch(/box-shadow:\s*0 0 0 2px var\(--strand-blue-primary\)/);
-    expect(body).not.toMatch(/rgba?\([^)]*[/,]\s*(0?\.\d+|\d+%)\s*\)/);
-  });
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./SearchField.fixtures.js";
 
 snapshotFixtures(SearchField, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./SearchField.css"));

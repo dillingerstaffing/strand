@@ -3,3 +3,14 @@
 exports[`renders > div 1`] = `"<div class="strand-settle">6 people</div>"`;
 
 exports[`renders > span keyed 1`] = `"<span class="strand-settle">7 people</span>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+"@keyframes strand-settle-in {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+.strand-settle { animation: strand-settle-in var(--strand-duration-fast) var(--strand-ease-out-expo) both }
+@media (prefers-reduced-motion: reduce) {
+  .strand-settle { animation: none }
+}"
+`;

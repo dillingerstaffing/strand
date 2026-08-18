@@ -1,28 +1,12 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ──────────────────────────────────────────────
-   FUI: SCANLINE
-   ──────────────────────────────────────────────
-   A horizontal pulse that sweeps the viewport from top to bottom
-   on every scan trigger. Uses Principle 7 (alive signal) at the
-   highest visibility tier: an event the user can perceive when
-   the system is actively processing. Combine with .scanline-
-   ambient for the slow continuous baseline pulse. */
-
 .strand-scanline {
   position: absolute;
   left: 0;
   right: 0;
   height: 2px;
   top: -2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(59, 142, 246, 0.2) 15%,
-    var(--strand-instrument-glow-strong) 50%,
-    rgba(59, 142, 246, 0.2) 85%,
-    transparent 100%
-  );
+  background: linear-gradient( 90deg, transparent 0%, rgba(59, 142, 246, 0.2) 15%, var(--strand-instrument-glow-strong) 50%, rgba(59, 142, 246, 0.2) 85%, transparent 100% );
   box-shadow:
     0 0 16px rgba(59, 142, 246, 0.3),
     0 0 48px rgba(59, 142, 246, 0.1),
@@ -31,15 +15,31 @@
   z-index: 5;
   opacity: 0;
 }
+
 .strand-scanline--active {
   animation: strand-scan 2s var(--strand-ease-out-quart) forwards;
 }
+
 @keyframes strand-scan {
-  0%   { top: -2px; opacity: 0; }
-  5%   { opacity: 0.5; }
-  90%  { opacity: 0.5; }
-  100% { top: 100%; opacity: 0; }
+  0% {
+    top: -2px;
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 0.5;
+  }
+
+  90% {
+    opacity: 0.5;
+  }
+
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
 }
+
 /* ── Ambient continuous scan (slow breathing baseline) ── */
 .strand-scanline--ambient {
   position: absolute;
@@ -47,29 +47,22 @@
   right: 0;
   height: 1px;
   top: -1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(59, 142, 246, 0.08) 30%,
-    var(--strand-instrument-glow-medium) 50%,
-    rgba(59, 142, 246, 0.08) 70%,
-    transparent 100%
-  );
+  background: linear-gradient( 90deg, transparent 0%, rgba(59, 142, 246, 0.08) 30%, var(--strand-instrument-glow-medium) 50%, rgba(59, 142, 246, 0.08) 70%, transparent 100% );
   pointer-events: none;
   z-index: 5;
   opacity: 1;
   animation: strand-scan-slow 6s linear infinite;
 }
+
 @keyframes strand-scan-slow {
-  0%   { top: -1px; }
-  100% { top: 100%; }
+  0% {
+    top: -1px;
+  }
+
+  100% {
+    top: 100%;
+  }
 }
-/* ──────────────────────────────────────────────
-   REDUCED MOTION
-   ──────────────────────────────────────────────
-   Strip every animation and transition from the FUI primitives
-   when the user has prefers-reduced-motion. The instrument is
-   still readable, just static. */
 
 @media (prefers-reduced-motion: reduce) {
   .strand-scanline,

@@ -7,3 +7,25 @@ exports[`renders > end aligned sm 1`] = `"<div class="strand-dialog__backdrop"><
 exports[`renders > open with title 1`] = `"<div class="strand-dialog__backdrop"><div aria-labelledby="P0-0" aria-modal="true" class="strand-dialog__panel strand-dialog__panel--pad-lg" role="dialog" tabindex="-1"><div class="strand-dialog__header"><h2 class="strand-dialog__title" id="P0-0">Confirm</h2></div><button aria-label="Close" class="strand-dialog__close" type="button">×</button><div class="strand-dialog__body">Are you sure?</div></div></div>"`;
 
 exports[`renders > start aligned no padding not dismissible 1`] = `"<div class="strand-dialog__backdrop"><div aria-label="Palette" aria-modal="true" class="strand-dialog__panel strand-dialog__panel--align-start strand-dialog__panel--pad-none" role="dialog" tabindex="-1"><div class="strand-dialog__body">Body</div></div></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-dialog__backdrop { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; background: var(--strand-backdrop) }
+.strand-dialog__panel { position: relative; inline-size: var(--strand-dialog-inline-size, min(560px, 100%)); margin: var(--strand-space-4); padding: var(--strand-space-8); background: var(--strand-surface-elevated); border: var(--strand-dialog-border, none); border-radius: var(--strand-dialog-radius, var(--strand-radius-xl)); box-shadow: var(--strand-elevation-4); font-family: var(--strand-font-sans); outline: none }
+.strand-dialog__panel--align-start { align-self: flex-start; margin-block-start: var(--strand-dialog-inset-block-start, 12vh) }
+.strand-dialog__panel--align-end { align-self: flex-end; inline-size: 100%; max-inline-size: none; margin: 0; border: none; border-start-start-radius: var(--strand-dialog-radius, var(--strand-radius-xl)); border-start-end-radius: var(--strand-dialog-radius, var(--strand-radius-xl)); border-end-start-radius: 0; border-end-end-radius: 0; max-block-size: var(--strand-dialog-block-size, 78vh); overflow: hidden; box-shadow: var(--strand-elevation-4); animation: strand-dialog-sheet-in var(--strand-duration-normal) var(--strand-ease-out-quart) }
+@keyframes strand-dialog-sheet-in {
+  from { transform: translateY(100%) }
+  to { transform: none }
+}
+.strand-dialog__panel--pad-none { padding: 0; overflow: hidden }
+.strand-dialog__panel--pad-none .strand-dialog__body { padding: 0 }
+.strand-dialog__panel--pad-sm { padding: var(--strand-space-4) }
+.strand-dialog__panel--pad-md { padding: var(--strand-space-6) }
+.strand-dialog__panel--pad-lg { padding: var(--strand-space-8) }
+.strand-dialog__panel--pad-xl { padding: var(--strand-space-10) }
+.strand-dialog__header { margin-bottom: var(--strand-space-4); padding-right: var(--strand-space-8) }
+.strand-dialog__title { margin: 0; font-size: var(--strand-text-lg); font-weight: var(--strand-weight-semibold); color: var(--strand-blue-midnight); line-height: var(--strand-leading-snug) }
+.strand-dialog__close { position: absolute; top: var(--strand-space-6); right: var(--strand-space-6); display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: none; border-radius: var(--strand-radius-md); background: transparent; color: var(--strand-gray-500); font-size: var(--strand-text-lg); cursor: pointer; transition: background var(--strand-duration-fast) var(--strand-ease-out-quart), color var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-dialog__close:hover { background: var(--strand-gray-200); color: var(--strand-gray-900) }
+.strand-dialog__body { padding-top: var(--strand-space-6); color: var(--strand-gray-600); font-size: var(--strand-text-sm) }"
+`;

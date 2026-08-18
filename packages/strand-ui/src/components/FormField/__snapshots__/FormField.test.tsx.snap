@@ -7,3 +7,13 @@ exports[`renders > hint required 1`] = `"<div class="strand-form-field"><label c
 exports[`renders > label only 1`] = `"<div class="strand-form-field"><label class="strand-form-field__label" for="email">Email</label><div class="strand-form-field__control">control</div></div>"`;
 
 exports[`renders > success 1`] = `"<div class="strand-form-field strand-form-field--success"><label class="strand-form-field__label" for="name">Name</label><div class="strand-form-field__control">control</div><p class="strand-form-field__success" id="name-success" role="status">Available</p></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-form-field { display: flex; flex-direction: column; gap: var(--strand-space-2) }
+.strand-form-field__label { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-widest); text-transform: uppercase; color: var(--strand-form-field-label-color, var(--strand-gray-500)); line-height: var(--strand-leading-snug) }
+.strand-form-field__required { color: var(--strand-blue-deep); margin-left: var(--strand-space-1) }
+.strand-form-field__control { display: flex; flex-direction: column }
+.strand-form-field__hint { margin: 0; font-family: var(--strand-font-sans); font-size: var(--strand-text-xs); color: var(--strand-form-field-hint-color, var(--strand-gray-500)); line-height: var(--strand-leading-normal) }
+.strand-form-field__error { margin: 0; font-family: var(--strand-font-sans); font-size: var(--strand-text-xs); color: var(--strand-red-alert-deep); line-height: var(--strand-leading-normal) }
+.strand-form-field__success { margin: 0; font-family: var(--strand-font-sans); font-size: var(--strand-text-xs); color: var(--strand-green-positive-deep); line-height: var(--strand-leading-normal) }"
+`;

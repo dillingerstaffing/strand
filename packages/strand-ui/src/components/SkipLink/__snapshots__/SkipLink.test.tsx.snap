@@ -1,8 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-skip-link",
-  ".strand-skip-link:focus-visible",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-skip-link { position: fixed; top: var(--strand-space-4); left: var(--strand-space-4); z-index: 200; transform: translateY(calc(-100% - var(--strand-space-8))); display: inline-block; padding: var(--strand-space-2) var(--strand-space-4); background: var(--strand-surface-elevated); color: var(--strand-blue-deep); border: 1px solid var(--strand-blue-primary); border-radius: var(--strand-radius-md); box-shadow: var(--strand-shadow-md, 0 4px 12px rgba(15, 25, 42, 0.12)); font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); font-weight: var(--strand-weight-medium); line-height: var(--strand-leading-normal); text-decoration: none }
+.strand-skip-link:focus-visible { transform: translateY(0); outline: 2px solid var(--strand-blue-primary); outline-offset: 2px }"
 `;

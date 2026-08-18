@@ -3,3 +3,15 @@
 exports[`renders > options 1`] = `"<div class="strand-select"><select class="strand-select__field"><option value="eng">Engineer</option><option value="design">Designer</option></select><span aria-hidden="true" class="strand-select__arrow"></span></div>"`;
 
 exports[`renders > placeholder error disabled 1`] = `"<div class="strand-select strand-select--error strand-select--disabled"><select aria-invalid="true" class="strand-select__field" disabled=""><option disabled="" value="">Choose</option><option value="a">A</option></select><span aria-hidden="true" class="strand-select__arrow"></span></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-select { position: relative; display: inline-flex; align-items: center; background: var(--strand-surface-elevated); border: 1px solid var(--strand-gray-200); border-radius: var(--strand-radius-md); transition: border-color var(--strand-duration-fast) var(--strand-ease-out-quart), box-shadow var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-select:focus-within { border-color: var(--strand-blue-primary); box-shadow: var(--strand-focus-ring) }
+.strand-select__field { flex: 1; width: 100%; padding: var(--strand-space-3) var(--strand-space-8) var(--strand-space-3) var(--strand-space-4); background: transparent; border: none; font-family: var(--strand-font-sans); font-size: var(--strand-text-base); color: var(--strand-gray-900); outline: none; appearance: none; cursor: pointer }
+.strand-select::after { content: ""; position: absolute; right: var(--strand-space-3); top: 50%; width: 0; height: 0; margin-top: -2px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--strand-gray-500); pointer-events: none }
+.strand-select__arrow { position: absolute; right: var(--strand-space-3); top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--strand-gray-500); pointer-events: none }
+.strand-select--error { border-color: var(--strand-red-alert) }
+.strand-select--error:focus-within { border-color: var(--strand-red-alert); box-shadow: var(--strand-focus-ring-error) }
+.strand-select--disabled { opacity: var(--strand-opacity-disabled); cursor: not-allowed }
+.strand-select--disabled .strand-select__field { cursor: not-allowed }"
+`;

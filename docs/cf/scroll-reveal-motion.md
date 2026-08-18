@@ -1,0 +1,5 @@
+# Reduced motion must out-specify every reveal selector, and a manual reveal keeps its toggle
+
+`.strand-reveal` is driven by a scroll timeline under `@supports (animation-timeline: view())`. `.strand-reveal-group--manual` opts a group out of the timeline so a consumer can drive it by toggling `--visible` (replay, reveal on mount); the toggled rule is a compound selector so it outranks the `@supports` rule that re-declares opacity 0 at equal specificity later in the file. The reduced-motion block is the only reason reduced motion does anything to a reveal, and its selectors must out-specify the ones they undo: `.strand-reveal` alone is (0,1,0) and lost to `.strand-reveal-group > .strand-reveal`, leaving grouped reveals parked at opacity 0 as a stable state that every contrast measurement then composited against. Scroll-driven reveals show immediately under reduced motion; manual reveals lose the motion but keep the toggle, because forcing opacity there would make an un-toggled reveal visible.
+
+Where: `packages/strand-ui/src/components/ScrollReveal/ScrollReveal.css`

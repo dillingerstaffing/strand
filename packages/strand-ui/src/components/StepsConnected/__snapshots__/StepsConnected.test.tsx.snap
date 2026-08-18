@@ -1,11 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-steps-connected",
-  ".strand-steps-connected::before",
-  ".strand-steps-connected > *",
-  "@media (max-width: 767px)",
-  "  .strand-steps-connected::before",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-steps-connected { position: relative }
+.strand-steps-connected::before { content: ""; position: absolute; top: 50%; left: var(--strand-space-8); right: var(--strand-space-8); height: 1px; background: linear-gradient(90deg, transparent 0%, var(--strand-blue-indicator) 20%, var(--strand-blue-indicator) 80%, transparent 100%); z-index: 0; pointer-events: none }
+.strand-steps-connected > * { position: relative; z-index: 1 }
+@media (max-width: 767px) {
+  .strand-steps-connected::before { display: none }
+}"
 `;

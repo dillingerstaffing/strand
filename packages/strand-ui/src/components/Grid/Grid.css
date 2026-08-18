@@ -1,43 +1,11 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: grid-tracks */
+/* cf: component-knobs */
+
 /* ── Base ── */
 .strand-grid {
   display: grid;
-
-  /* THIS GRID DOES NOT CLIP, and the reason is a distinction 10.4 already
-     draws that this rule used to collapse.
-
-     10.4 Boundary Integrity names two remedies for two different kinds of
-     thing: "Container components apply `overflow: hidden` and ensure
-     children cannot exceed the content box. Layout primitives apply
-     `min-width: 0` to their children so flex/grid items shrink correctly
-     rather than overflowing."
-
-     A grid is the SECOND kind. It has no padding, so it has no padding
-     zone to keep inviolable, and clipping it protects nothing while
-     costing the one thing Part XI mandates: a control's hover lift is
-     `translateY(-1px)` with a shadow, and a child sitting on the grid's
-     edge had both cut off. Measured on a consumer's calendar header at
-     1440: three secondary buttons at slackTop 0, one of them also at
-     slackRight 0, so the lift and the whole of `--elevation-1` were
-     clipped away on every hover.
-
-     This is the same call gap #102 made for Card and stated as a rule:
-     "Putting it on the base would instead change overflow behaviour for
-     every existing consumer that never asked for it; Card can clip
-     unconditionally only because Card always has [padding]." A grid never
-     has, so it never should have.
-
-     WHAT REPLACES THE CLIP, because the clip was also hiding something.
-     A bare `1fr` track floors at min-content, so one long unbroken string
-     could widen a fixed-column grid past its container and the clip hid
-     the result. `minmax(0, 1fr)` on every fixed track removes the floor,
-     which is the fix gap #372 landed for LabShell for exactly this
-     reason. The protection is now structural rather than painted over.
-
-     A consumer that genuinely needs a clipped box wants a Card or a
-     FeatureSurface, both of which clip because both own a padded,
-     rounded surface. */
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -45,97 +13,65 @@
 .strand-grid > * {
   min-width: 0;
 }
-.strand-grid--cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.strand-grid--cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.strand-grid--cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
-/* ── Responsive auto-fit (columns adjust to available width) ──
-   Use the size that matches your card content width. The breakpoint
-   behavior is determined entirely by the minmax() value:
-   - auto-sm  (200px): 1col <410, 2col 410-640, 3col 640-870, 4col 870+
-   - auto-220 (220px): 1col <450, 2col 450-700, 3col 700-940, 4col 940+
-   - auto-md  (280px): 1col <570, 2col 570-880, 3col 880-1190, 4col 1190+
-   - auto-260 (260px): 1col <530, 2col 530-820, 3col 820-1100, 4col 1100+
-   - auto-lg  (360px): 1col <730, 2col 730-1120, 3col 1120-1500, 4col 1500+
-   The auto-220 and auto-260 presets exist for card layouts that need
-   4 columns at 1280 desktop, 2 columns at tablet portrait, and 1 column
-   at phone widths. */
-.strand-grid--auto-sm { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-.strand-grid--auto-220 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-.strand-grid--auto-md { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-.strand-grid--auto-260 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.strand-grid--gap-3 { gap: var(--strand-space-3); }
-.strand-grid--gap-4 { gap: var(--strand-space-4); }
-.strand-grid--gap-5 { gap: var(--strand-space-5); }
-.strand-grid--gap-6 { gap: var(--strand-space-6); }
-.strand-grid--gap-8 { gap: var(--strand-space-8); }
+.strand-grid--cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 
-/* ── Sidebar: a fixed rail beside a flexible main track ──
-   The library made this exact decision three times privately before
-   publishing it: `.strand-ref-shell` at 256px, `.strand-ref-example` at
-   200px and `.strand-ref-taxonomy__list` at 160px, all in the reference
-   site's own shell where no consumer can reach them. Three private
-   answers to one question is the dogfood signal, and the fix is to ship
-   the answer rather than to write a fourth.
+.strand-grid--cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 
-   Why a preset and not `--cols-2`: a filter rail beside a results area
-   is not two equal halves, and `auto-fit` is the wrong tool because the
-   column COUNT is not what should vary -- the rail is one fixed thing
-   and the main track absorbs the remainder.
+.strand-grid--cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
 
-   Why `minmax(0, 1fr)` and not `1fr`: a bare `1fr` floors at the track's
-   min-content width, so one long unbroken string in the main area widens
-   the whole grid and pushes the rail off screen. The base rule above
-   sets `min-width: 0` on children, which handles the item; this handles
-   the TRACK, and they are different things. `.strand-ref-shell` already
-   carries this form for the same reason.
+.strand-grid--auto-sm {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
 
-   Below the md breakpoint the rail stops being a rail. A 264px column
-   beside anything at 390px leaves the main track unusable, so the grid
-   becomes a single column and the two regions stack in source order --
-   which is why the rail should come FIRST in the markup, since a filter
-   the reader meets after the results it filters is a filter they have
-   already scrolled past. */
+.strand-grid--auto-220 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.strand-grid--auto-md {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.strand-grid--auto-260 {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.strand-grid--gap-3 {
+  gap: var(--strand-space-3);
+}
+
+.strand-grid--gap-4 {
+  gap: var(--strand-space-4);
+}
+
+.strand-grid--gap-5 {
+  gap: var(--strand-space-5);
+}
+
+.strand-grid--gap-6 {
+  gap: var(--strand-space-6);
+}
+
+.strand-grid--gap-8 {
+  gap: var(--strand-space-8);
+}
+
 .strand-grid--sidebar {
-	grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 @media (min-width: 768px) {
-	.strand-grid--sidebar {
-		grid-template-columns: 264px minmax(0, 1fr);
-	}
+  .strand-grid--sidebar {
+    grid-template-columns: 264px minmax(0, 1fr);
+  }
 }
 
-/* ── Split: a flexible main track beside a fixed panel ──
-   `--sidebar` mirrored. There the fixed track is on the left and narrow
-   (a filter rail); here it is on the right and wide (a map, a detail
-   panel, a commitment rail).
-
-   Measured against every other preset, which is why it is a preset
-   rather than a composition: at 1280 `--cols-2` gives two equal columns,
-   `--auto-lg` gives three, and `--sidebar` gives a 264px right-hand
-   track. At 390 only `--sidebar` and `--auto-lg` collapse correctly.
-   Nothing shipped produces "one flexible track and one fixed wide one".
-
-   AND `--cols-2` IS WRONG ON DESKTOP TOO, which is the part worth
-   stating because it would have shipped silently: a 1fr/600px split at
-   1440 gives 840 and 600, where two equal columns give 720 and 720. That
-   is a map 20% wider and a list 14% narrower than designed -- a parity
-   divergence that looks like a layout choice rather than a defect.
-
-   The panel width is a custom property because the two known consumers
-   want different numbers (600px for a map, 380px for a rail) and the
-   shape is identical. A second preset for a second number would be two
-   names for one idea.
-
-   `minmax(0, 1fr)` on the main track for the reason `--sidebar`
-   documents: a bare `1fr` floors at min-content, so one long unbroken
-   string widens the track and pushes the panel off screen.
-
-   Below md the panel stops being a panel and the two regions stack in
-   source order. The main track comes FIRST here, which is the opposite
-   of `--sidebar`: a map or a detail panel is what the list is ABOUT, so
-   it follows the thing it illustrates rather than preceding it. */
 .strand-grid--split {
   grid-template-columns: minmax(0, 1fr);
 }

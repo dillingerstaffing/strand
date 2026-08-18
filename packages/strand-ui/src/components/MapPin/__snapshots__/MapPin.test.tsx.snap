@@ -1,35 +1,39 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-map-pin",
-  ".strand-map-pin::before",
-  ".strand-map-pin::after",
-  ".strand-map-pin:hover",
-  ".strand-map-pin:hover::before",
-  ".strand-map-pin:hover::after",
-  ".strand-map-pin--tech",
-  ".strand-map-pin--health",
-  ".strand-map-pin--trades",
-  ".strand-map-pin--finance",
-  ".strand-map-pin.is-highlighted, .strand-map-pin--highlighted",
-  ".strand-map-pin.is-dimmed, .strand-map-pin--dimmed",
-  "@keyframes strand-map-pin-pulse",
-  "  0%",
-  "  100%",
-  "@keyframes strand-map-pin-spawn",
-  "  0%",
-  "  50%",
-  "  100%",
-  "@keyframes strand-map-pin-beacon",
-  "  0%",
-  "  100%",
-  "@keyframes strand-map-pin-breathe",
-  "  0%, 100%",
-  "  50%",
-  "@media (prefers-reduced-motion: reduce)",
-  "  .strand-map-pin",
-  "@media (max-width: 768px)",
-  "  .strand-map-pin",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-map-pin { width: 24px; height: 24px; border-radius: var(--strand-radius-full); border: 2.5px solid rgba(255, 255, 255, 0.85); cursor: pointer; animation: strand-map-pin-spawn var(--strand-duration-slow) var(--strand-ease-spring) both; transition: scale var(--strand-duration-fast) var(--strand-ease-out-expo), background var(--strand-duration-fast) var(--strand-ease-out-quart); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15), 0 0 12px currentColor, 0 0 28px currentColor, 0 0 56px currentColor; position: relative }
+.strand-map-pin::before { content: ""; position: absolute; inset: -8px; border-radius: var(--strand-radius-full); border: 1.5px solid currentColor; animation: strand-map-pin-breathe var(--strand-duration-cinematic-slow) var(--strand-ease-in-out-sine) infinite; animation-delay: inherit; pointer-events: none }
+.strand-map-pin::after { content: ""; position: absolute; inset: -4px; border-radius: var(--strand-radius-full); border: 2px solid rgba(255, 255, 255, 0.5); opacity: 0; animation: strand-map-pin-beacon var(--strand-duration-cinematic) var(--strand-ease-out-quart) forwards; animation-delay: inherit; pointer-events: none }
+.strand-map-pin:hover { scale: 1.6; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3), 0 0 16px currentColor, 0 0 40px currentColor, 0 0 72px currentColor }
+.strand-map-pin:hover::before { animation: none; opacity: 0 }
+.strand-map-pin:hover::after { animation: strand-map-pin-pulse 1s var(--strand-ease-out-expo) infinite }
+.strand-map-pin--tech { background: var(--strand-sector-tech); color: var(--strand-sector-tech) }
+.strand-map-pin--health { background: var(--strand-sector-health); border-color: rgba(20, 184, 166, 0.7); color: var(--strand-sector-health) }
+.strand-map-pin--trades { background: var(--strand-sector-trades); border-color: rgba(34, 211, 238, 0.7); color: var(--strand-sector-trades) }
+.strand-map-pin--finance { background: var(--strand-sector-finance); border-color: rgba(139, 92, 246, 0.7); color: var(--strand-sector-finance) }
+.strand-map-pin.is-highlighted, .strand-map-pin--highlighted { scale: 1.6; box-shadow: 0 0 16px currentColor, 0 0 36px currentColor, 0 0 64px rgba(59, 142, 246, 0.4); z-index: 10 }
+.strand-map-pin.is-dimmed, .strand-map-pin--dimmed { opacity: 0.15; transition: opacity var(--strand-duration-fast) ease }
+@keyframes strand-map-pin-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(59, 142, 246, 0.6) }
+  100% { box-shadow: 0 0 0 18px rgba(59, 142, 246, 0) }
+}
+@keyframes strand-map-pin-spawn {
+  0% { scale: 0; opacity: 0 }
+  50% { opacity: 1 }
+  100% { scale: 1 }
+}
+@keyframes strand-map-pin-beacon {
+  0% { scale: 1; opacity: 0.7 }
+  100% { scale: 3; opacity: 0 }
+}
+@keyframes strand-map-pin-breathe {
+  0%, 100% { opacity: 0.25; scale: 1 }
+  50% { opacity: 0.55; scale: 1.5 }
+}
+@media (prefers-reduced-motion: reduce) {
+  .strand-map-pin { animation: none }
+}
+@media (max-width: 768px) {
+  .strand-map-pin { width: 24px; height: 24px }
+}"
 `;

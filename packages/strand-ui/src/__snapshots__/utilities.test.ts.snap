@@ -1,50 +1,50 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-nav-offset",
-  ".strand-sr-only",
-  ".strand-block",
-  ".strand-flex-1",
-  ".strand-flex-none",
-  ".strand-contents",
-  ".strand-min-w-0",
-  ".strand-full-width",
-  ".strand-truncate",
-  ".strand-scroll-row",
-  ".strand-scroll-row::-webkit-scrollbar",
-  ".strand-scroll-row > *",
-  ".strand-scroll-col",
-  ".strand-sticky",
-  "@media (max-width: 767.98px)",
-  "  .strand-tabbar-offset",
-  "@media (min-width: 768px)",
-  "  .strand-hide-from-md",
-  ".strand-mt-1",
-  ".strand-mt-2",
-  ".strand-mt-3",
-  ".strand-mt-4",
-  ".strand-mt-5",
-  ".strand-mt-6",
-  ".strand-mt-8",
-  ".strand-mb-1",
-  ".strand-mb-2",
-  ".strand-mb-3",
-  ".strand-mb-4",
-  ".strand-mb-5",
-  ".strand-mb-6",
-  ".strand-mb-8",
-  ".strand-mx-auto",
-  ".strand-m-0",
-  ".strand-pt-3",
-  ".strand-py-2",
-  ".strand-py-3",
-  ".strand-italic",
-  ".strand-list-reset",
-  ".strand-embed-16x9",
-  ".strand-embed-16x9 > iframe, .strand-embed-16x9 > *",
-  ".strand-stretch-link-host",
-  ".strand-stretch-link::after",
-  ".strand-surface-light",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-nav-offset { padding-top: var(--strand-space-16) }
+.strand-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0 }
+.strand-block { display: block }
+.strand-flex-1 { flex: 1 }
+.strand-flex-none { flex: none }
+.strand-contents { display: contents }
+.strand-min-w-0 { min-width: 0 }
+.strand-full-width { width: 100% }
+.strand-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.strand-scroll-row { display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: visible; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; scrollbar-width: none; -ms-overflow-style: none }
+.strand-scroll-row::-webkit-scrollbar { display: none }
+.strand-scroll-row > * { flex-shrink: 0; scroll-snap-align: start }
+.strand-scroll-col { overflow-y: auto; overflow-x: visible; max-height: var(--strand-scroll-col-h, 22rem); overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch }
+.strand-sticky { position: sticky; inset-block-start: var(--strand-sticky-top, var(--strand-space-6)); z-index: 1 }
+@media (max-width: 767.98px) {
+  .strand-tabbar-offset { padding-block-end: calc( var(--strand-tabbar-height) + env(safe-area-inset-bottom, 0px) ) }
+}
+@media (min-width: 768px) {
+  .strand-hide-from-md { display: none }
+}
+.strand-mt-1 { margin-top: var(--strand-space-1) }
+.strand-mt-2 { margin-top: var(--strand-space-2) }
+.strand-mt-3 { margin-top: var(--strand-space-3) }
+.strand-mt-4 { margin-top: var(--strand-space-4) }
+.strand-mt-5 { margin-top: var(--strand-space-5) }
+.strand-mt-6 { margin-top: var(--strand-space-6) }
+.strand-mt-8 { margin-top: var(--strand-space-8) }
+.strand-mb-1 { margin-bottom: var(--strand-space-1) }
+.strand-mb-2 { margin-bottom: var(--strand-space-2) }
+.strand-mb-3 { margin-bottom: var(--strand-space-3) }
+.strand-mb-4 { margin-bottom: var(--strand-space-4) }
+.strand-mb-5 { margin-bottom: var(--strand-space-5) }
+.strand-mb-6 { margin-bottom: var(--strand-space-6) }
+.strand-mb-8 { margin-bottom: var(--strand-space-8) }
+.strand-mx-auto { margin-inline: auto }
+.strand-m-0 { margin: 0 }
+.strand-pt-3 { padding-top: var(--strand-space-3) }
+.strand-py-2 { padding-block: var(--strand-space-2) }
+.strand-py-3 { padding-block: var(--strand-space-3) }
+.strand-italic { font-style: italic }
+.strand-list-reset { list-style: none; margin: 0; padding: 0 }
+.strand-embed-16x9 { position: relative; width: 100%; aspect-ratio: 16 / 9 }
+.strand-embed-16x9 > iframe, .strand-embed-16x9 > * { position: absolute; inset: 0; width: 100%; height: 100%; border: 0 }
+.strand-stretch-link-host { position: relative; cursor: pointer }
+.strand-stretch-link::after { content: ""; position: absolute; inset: 0; z-index: 1 }
+.strand-surface-light { --strand-alert-bg: initial; --strand-alert-color: var(--strand-gray-700); --strand-alert-dismiss-color: initial; --strand-alert-dismiss-hover-bg: initial; --strand-alert-dismiss-hover-color: var(--strand-gray-500); --strand-alert-error-status-color: initial; --strand-alert-info-status-color: initial; --strand-alert-success-status-color: initial; --strand-alert-warning-status-color: initial; --strand-bar-chart-amount-color: initial; --strand-bar-chart-label-color: initial; --strand-big-mono-time-color: initial; --strand-big-mono-time-sep-color: initial; --strand-btn-ghost-border-color: initial; --strand-btn-ghost-color: initial; --strand-checkbox-label-color: initial; --strand-data-readout-label-color: initial; --strand-data-readout-value-color: initial; --strand-form-field-hint-color: initial; --strand-form-field-label-color: initial; --strand-heading-sm-color: initial; --strand-headline-color: initial; --strand-kv-label-color: initial; --strand-kv-value-color: initial; --strand-kv-value-status-color: var(--strand-gray-700); --strand-lead-color: initial; --strand-link-color: initial; --strand-link-mono-color: var(--strand-blue-deep); --strand-link-mono-hover-color: initial; --strand-link-underline: initial; --strand-log-text-color: initial; --strand-log-text-strong-color: initial; --strand-log-time-color: initial; --strand-overline-accent-color: initial; --strand-overline-color: initial; --strand-progress-track-color: initial; --strand-radio-label-color: initial; --strand-stat-strip-border-color: initial; --strand-stat-strip-label-color: initial; --strand-stat-strip-value-color: initial; --strand-status-chip-committed-color: initial; --strand-status-chip-neutral-bg: initial; --strand-status-chip-neutral-border: initial; --strand-status-chip-neutral-color: initial; --strand-switch-label-color: initial; --strand-text-secondary-color: initial; --strand-text-secondary-xs-color: var(--strand-gray-500); --strand-title-color: initial; --strand-value-negative-color: initial; --strand-value-positive-color: initial }"
 `;

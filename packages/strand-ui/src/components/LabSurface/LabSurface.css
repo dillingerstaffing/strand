@@ -1,8 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Lab Surface as opt-in utility (DL Part 9.1) ──
-   Same treatment as body, applied to any element. Use on nested
-   showcase containers, hero containers, etc. */
 .strand-lab-surface {
   background:
     radial-gradient(circle, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
@@ -11,10 +8,7 @@
   background-size: 24px 24px, 100% 100%, 100% 100%;
   background-color: var(--strand-surface-primary);
 }
-/* ── Lab Surface Warm Variant (DL Part 9.1) ──
-   Adds a fourth layer: a very subtle warm radial at the bottom edge
-   echoing "warm wood underfoot, controlled daylight overhead." Use
-   on hero/showcase contexts. The warm radial alpha is capped at 0.02. */
+
 .strand-lab-surface--warm {
   background:
     radial-gradient(circle, rgba(148, 163, 184, 0.07) 1px, transparent 1px),

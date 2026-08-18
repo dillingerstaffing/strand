@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render } from "@testing-library/preact";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { Alert } from "./Alert.js";
 import { fixtures } from "./Alert.fixtures.js";
 
@@ -14,3 +16,5 @@ describe("Alert", () => {
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
 });
+
+snapshotStylesheet(resolve(__dirname, "./Alert.css"));

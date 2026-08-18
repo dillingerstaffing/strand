@@ -1,14 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ══════════════════════════════════════════════════
-   LAB FRAME (fake in-page window hosting a modal demo)
-   ══════════════════════════════════════════════════
-   Doc-specific framing primitive. Real Strand Dialog steals
-   the whole viewport; this frame hosts a dialog-style demo
-   inline so docs can show the open state without replacing
-   the page. Uses macOS-style traffic-light chrome with dot
-   colors set inline per dot. */
-
 .strand-ref-frame {
   background: var(--strand-surface-recessed);
   border-radius: var(--strand-radius-lg);
@@ -52,8 +43,7 @@
   justify-content: space-between;
   gap: var(--strand-space-5);
   padding: var(--strand-space-8) 36px;
-  transition: filter 180ms var(--strand-ease-out-quart),
-    opacity 180ms var(--strand-ease-out-quart);
+  transition: filter 180ms var(--strand-ease-out-quart), opacity 180ms var(--strand-ease-out-quart);
 }
 
 .strand-ref-frame__content[aria-hidden="true"] {
@@ -63,7 +53,7 @@
 }
 
 .strand-ref-frame__content-head {
-  /* container for overline + heading; no explicit styles */
+
 }
 
 .strand-ref-frame__actions {
@@ -83,15 +73,19 @@
 }
 
 @keyframes strand-ref-frame-overlay-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .strand-ref-frame__panel {
   background: var(--strand-surface-elevated);
   border-radius: var(--strand-radius-lg);
-  box-shadow: 0 20px 50px rgba(15, 25, 42, 0.25),
-    0 2px 6px rgba(15, 25, 42, 0.12);
+  box-shadow: 0 20px 50px rgba(15, 25, 42, 0.25), 0 2px 6px rgba(15, 25, 42, 0.12);
   width: min(440px, 100%);
   overflow: hidden;
   animation: strand-ref-frame-panel-in 180ms var(--strand-ease-out-expo) forwards;
@@ -99,8 +93,15 @@
 }
 
 @keyframes strand-ref-frame-panel-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .strand-ref-frame__panel-header {
@@ -134,7 +135,8 @@
   color: var(--strand-gray-500);
   cursor: pointer;
   flex: none;
-  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart),
+  transition:
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
     color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 

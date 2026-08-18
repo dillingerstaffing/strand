@@ -1,44 +1,24 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* Sits near the top of the viewport rather than centred. A search overlay
-   belongs under the reader's gaze and above the content it filters; centring
-   puts the results where the fold is, and makes the panel jump vertically as
-   the result count changes while the user types. The backdrop is already a
-   flex container, so aligning to its start is the whole change. */
+/* cf: command-palette */
+
 .strand-command-palette {
   align-self: flex-start;
   margin-top: 12vh;
-  /* 30rem, down from the launch 34rem. Width is perceived padding: at 34rem
-     the short labels left a wide quiet field trailing every row, which read
-     as slack rather than air. 30rem keeps the longest sublabels one line and
-     pulls the badge column close enough to scan in one fixation. */
   max-width: 30rem;
   padding: 0;
   overflow: hidden;
 }
 
-/* The palette IS its content: the search row is the panel's first pixel row.
-   Dialog's body ships a space-6 top pad sized for prose dialogs, which here
-   reads as a dead band over the search row and was most of the remaining
-   "clunky" after two spacing passes. */
 .strand-command-palette .strand-dialog__body {
   padding: 0;
 }
 
-/* No X. Every palette convention closes by Escape, backdrop, or picking a
-   result, and this component already routes focus straight to the search
-   field past the close button. The X earned nothing and cost the panel's
-   whole top band: an absolutely positioned control the content must dodge. */
 .strand-command-palette .strand-dialog__close {
   display: none;
 }
 
 /* ── Search row ── */
-/* space-2/space-3, second reduction from the launch space-4/space-5. A
-   palette is an instrument the user summons mid-thought; any header taller
-   than the rows it filters reads as a form. At space-2 block the row is the
-   same height class as an option row, which is the point: the QUERY is a row
-   among rows, not a header over them. */
 .strand-command-palette__search {
   display: flex;
   align-items: center;
@@ -59,11 +39,6 @@
   background: transparent;
   border: none;
   font-family: var(--strand-font-sans);
-  /* text-sm, second step down from the launch text-lg (via text-base). One
-     size across input and labels stays the rule; the size itself drops
-     because type is the biggest lever on perceived padding: at 16px the rows
-     needed their padding to breathe, at 14px the same information density
-     reads as instrument-compact instead of cramped. */
   font-size: var(--strand-text-sm);
   color: var(--strand-gray-900);
   outline: none;
@@ -74,20 +49,12 @@
 }
 
 /* ── Results ── */
-/* Bounded so a long list scrolls inside the panel rather than growing it past
-   the viewport, which would put the last results off screen with no way to
-   reach them. */
 .strand-command-palette__list {
   max-height: min(24rem, 50vh);
   overflow-y: auto;
   padding: var(--strand-space-2);
 }
 
-/* space-2/space-3 rows. Density is what makes a palette scannable: the eye
-   ranks a column of candidates, and launch-height rows put four options where
-   six fit. The outer list gutter (space-2 above) stays: it is what gives the
-   rounded active highlight air on all four sides instead of clipping against
-   the panel edge. */
 .strand-command-palette__option {
   display: flex;
   align-items: baseline;
@@ -98,34 +65,24 @@
   transition: background-color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
-/* Touch keeps its 44px. The tightened rows are a pointer-precision economy;
-   a thumb is not precise, and DL 14.7's target floor does not bend for
-   density. */
 @media (pointer: coarse) {
   .strand-command-palette__option {
     padding-block: var(--strand-space-3);
   }
 }
 
-/* One highlight, driven by both pointer and keyboard, so the two can never
-   disagree about which row Enter will act on. There is deliberately no
-   separate :hover rule: hovering moves this same selection. */
 .strand-command-palette__option--active {
   background: var(--strand-blue-wash);
 }
 
 .strand-command-palette__label {
   flex: none;
-  /* text-sm with the input above; one size, one column, see the input's
-     comment for why the size dropped. */
   font-size: var(--strand-text-sm);
   font-weight: var(--strand-weight-medium);
   color: var(--strand-gray-900);
   line-height: var(--strand-leading-snug);
 }
 
-/* Truncates rather than wraps. A wrapping secondary line changes the row
-   height, so the list would reflow under the user as they arrow through it. */
 .strand-command-palette__sublabel {
   flex: 1;
   min-width: 0;
@@ -133,21 +90,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: var(--strand-text-sm);
-  /* gray-600 rather than gray-500, because this text sits on TWO surfaces and
-     only one of them was ever checked. On white, gray-500 is 5.23:1 and fine.
-     On the highlighted row it sits on --strand-blue-wash and measures 4.34:1,
-     under the 4.5:1 AA floor -- so the secondary text failed exactly on the row
-     the user is looking at. gray-600 is 7.41:1 on white and 6.15:1 on the wash.
-     Measured with axe on a real browser, constant across runs rather than an
-     animation artifact. */
   color: var(--strand-gray-600);
 }
 
 .strand-command-palette__badge {
   flex: none;
   font-size: var(--strand-text-xs);
-  /* Same two-surface problem as the sublabel above, and worse here because the
-     badge is smaller. */
   color: var(--strand-gray-600);
   text-transform: uppercase;
   letter-spacing: 0.06em;

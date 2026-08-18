@@ -15,3 +15,12 @@ exports[`every export renders its element and class > spacer width and box radiu
 exports[`every export renders its element and class > spacer width and box radius and shadow 3`] = `"<span class="strand-token-specimen__box" style="border-radius: 8px; box-shadow: 0 1px 2px black;"></span>"`;
 
 exports[`renders > specimen 1`] = `"<div class="strand-token-specimen">visual</div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-token-specimen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: var(--strand-space-5) }
+.strand-token-specimen { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; font-family: var(--strand-font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--strand-gray-500); line-height: 1.5 }
+.strand-token-specimen b { display: block; font-weight: var(--strand-weight-medium); color: var(--strand-blue-midnight); letter-spacing: 0.06em; text-transform: uppercase; font-size: 10px }
+.strand-token-specimen > span { display: block; line-height: 1.5 }
+.strand-token-specimen__spacer { display: block; height: 16px; background: var(--strand-blue-primary); border-radius: var(--strand-radius-sm); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15) }
+.strand-token-specimen__box { width: 64px; height: 64px; background: var(--strand-surface-elevated); border: 1px solid var(--strand-gray-200) }"
+`;

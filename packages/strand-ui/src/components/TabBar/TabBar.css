@@ -1,105 +1,20 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── TabBar ──
-   The persistent viewport-anchored navigation an application shell takes
-   on a touch viewport. Implements design-language.md 19.1.1.
-
-   19.1.1 is the condition; this is one implementation of it. Read that
-   section before reaching for this class, because the commonest misuse is
-   putting a tab bar on a CONTENT surface, where the hamburger in 19.1 is
-   correct and this is furniture that costs 76px of every screen.
-
-   NOT `.strand-tabs`, which is a horizontal strip switching content
-   panels inside one view (19.3). Tabs change what a region shows; this
-   changes which top-level destination the user is on. They look alike and
-   answer different questions.
-
-   NOT `.strand-actiondock` either, and the boundary is stated in that
-   primitive's own guidance: a dock carries the ONE action a view exists
-   to produce, this carries DESTINATIONS. 19.1.1 does NOT forbid the two
-   coexisting -- it forbids stacking them into a wall and requires a
-   surface wanting both to DECIDE which belongs nearer the thumb.
-   Mutually exclusive by state is a legal answer: destinations at rest,
-   the dock taking the band only while a commitment is live.
-
-   Markup contract:
-
-     <nav class="strand-tabbar" aria-label="Primary">
-       <a class="strand-tabbar__item" href="/discover" aria-current="page">
-         <svg class="strand-tabbar__icon" aria-hidden="true">...</svg>
-         <span class="strand-tabbar__label">Discover</span>
-       </a>
-       ...
-     </nav>
-
-   The current destination is marked with `aria-current="page"`, which is
-   both the accessible answer and the styling hook. One attribute, so a
-   vanilla-HTML consumer cannot get the two out of step by setting a class
-   and forgetting the attribute. */
+/* cf: tab-bar */
+/* cf: component-knobs */
 
 .strand-tabbar {
-  /* Fixed rather than sticky, for 14.8's reason: sticky is relative to a
-     scroll container and stops at that container's end, so it leaves the
-     thumb zone exactly when the reader reaches the bottom of a list. The
-     whole contract is that position is a function of the VIEWPORT. */
   position: fixed;
   inset-inline: 0;
   inset-block-end: 0;
   z-index: 100;
-
   display: flex;
   align-items: flex-start;
-  /* space-around is the default and it is the wrong answer for a bar whose
-     items should line up with the page gutter above them: it leaves uneven
-     air at the ends, so the outer tabs never agree with the content margin.
-     Tokenised rather than changed, because a bar of two or three items
-     genuinely reads better distributed. */
   justify-content: var(--strand-tabbar-justify, space-around);
-
-  /* min rather than fixed, so a wrapped label grows the bar instead of
-     spilling out of it. The token is shared with the offset below, which
-     is what stops the two from drifting apart. */
   min-block-size: var(--strand-tabbar-height);
-
   padding-block-start: var(--strand-tabbar-pad-block-start, var(--strand-space-2));
   padding-inline: var(--strand-tabbar-pad-inline, var(--strand-space-4));
-
-  /* THE INSET IS WHY THIS IS A PRIMITIVE RATHER THAN FOUR LINES EACH
-     CONSUMER WRITES. On a notched phone the home indicator overlaps the
-     bottom of the viewport, and every headless browser resolves
-     env(safe-area-inset-bottom) to 0, so a consumer testing locally never
-     sees the bug they shipped. The fallback keeps the bar correct on
-     every device that has no inset to report. */
   padding-block-end: env(safe-area-inset-bottom, 0px);
-
-  /* OPAQUE, and this is an accessibility correction rather than a taste
-     change. It replaces a glass treatment.
-
-     9.5 says a sticky toolbar MAY use glass; it does not say this one must,
-     and glass is wrong here for a reason specific to this primitive. The
-     labels are small text and owe 4.5:1 (14.2c / WCAG 1.4.3). Behind a
-     translucent bar the effective background is WHATEVER HAPPENS TO BE
-     SCROLLED UNDER IT, so the ratio is a function of scroll position.
-     Measured on a consumer at 96% white: the active label 4.49 and the
-     three inactive ones 3.92 once real content passed beneath, while the
-     identical bar passed comfortably over an empty page.
-
-     A contrast ratio that changes as the reader scrolls is not a contrast
-     ratio, and a primitive cannot promise 4.5:1 on a ground it does not
-     own. The 4% of translucency bought nothing a reader can name and cost
-     the only property that makes the labels legible.
-
-     This is the same lesson as gap #90, arriving from the other direction:
-     there a pairing created by COMPOSITION was invisible to a declaration
-     audit; here a pairing created by TRANSPARENCY is invisible to one,
-     because the failing background appears in no stylesheet at all. */
-  /* surface-ELEVATED, and the name matters more than it looks. An earlier
-     draft of this rule fell back to `--strand-surface-raised`, which does not
-     exist: a var() whose fallback is itself an undefined var() resolves to
-     nothing, and `background: <nothing>` is TRANSPARENT. The bar measured
-     rgba(0,0,0,0), which is strictly worse than the glass it replaced, and it
-     looked plausible in review because the token name reads like a real one.
-     A test below asserts this fallback names a token the token file defines. */
   background: var(--strand-tabbar-bg, var(--strand-surface-elevated));
   border-block-start: 1px solid var(--strand-gray-200);
 }
@@ -110,50 +25,26 @@
   align-items: center;
   justify-content: center;
   gap: var(--strand-tabbar-item-gap, var(--strand-space-1));
-
-  /* 14.7: 44x44 minimum. This is the floor and not the drawn size -- the
-     items distribute across the bar and will usually be wider. Height is
-     min not fixed so a label that wraps grows the target rather than
-     spilling out of it. */
   min-inline-size: var(--strand-tabbar-item-size, 44px);
   min-block-size: 44px;
   padding-block: var(--strand-space-2);
   padding-inline: var(--strand-space-1);
-
   text-decoration: none;
   color: var(--strand-gray-500);
-
   transition: color var(--strand-duration-fast) ease;
 }
 
-/* The current destination. Styled from the ARIA attribute rather than a
-   class so the visual state and the announced state cannot disagree:
-   there is no way to paint this item without also telling a screen reader
-   which one it is. */
 .strand-tabbar__item[aria-current="page"] {
-  /* blue-DEEP, not the blue-primary a mockup specifies here and not the
-     blue-primary DL 19.3 specifies for an active tab. 14.2b: blue-primary
-     is a FILL-tier value at 3.29:1, correct behind a white label or under
-     a focused input and wrong as text on a light surface. This label is a
-     word, so it is text and owes 4.5:1; blue-deep measures 5.99:1.
-     Caught by test:contrast rather than by review. */
   color: var(--strand-blue-deep);
 }
 
 .strand-tabbar__item:hover {
-  /* A neutral darkening rather than the accent, so hover and "you are
-     here" stay distinguishable. Matches 19.3's hover treatment. */
   color: var(--strand-gray-700);
 }
 
 .strand-tabbar__item:focus-visible {
   outline: 2px solid var(--strand-blue-primary);
   outline-offset: -2px;
-
-  /* Negative offset, uniquely here. 14.3 asks for a 2px offset and 14.3
-     also says the ring must not be obscured; on an item flush against the
-     viewport's bottom edge an outward ring is clipped by the edge itself,
-     so it is drawn inside the item where all four sides are visible. */
   border-radius: var(--strand-radius-md);
 }
 
@@ -165,34 +56,12 @@
 
 .strand-tabbar__label {
   font-family: var(--strand-font-mono);
-
-  /* text-xs (11.1px) is the smallest step in the type scale (4.2). A
-     mockup will usually specify 9px here, which is off the scale
-     entirely; adding a rung to the scale to hold one label would be a
-     specification change made to fit a widget. The tracking below is what
-     recovers the intended density. */
-  /* THE TOKEN DOES NOT ADD A RUNG TO THE TYPE SCALE, and the distinction is
-     the whole reason it is safe. The comment above is still right: a mockup
-     asking for 9px is asking for something the scale does not have, and
-     amending 4.2 to hold one widget's label would be a specification change
-     made to fit a widget. A consumer setting this property is making a
-     local decision about one bar, which is theirs to make; the scale is
-     unchanged and every other consumer still gets text-xs. */
   font-size: var(--strand-tabbar-label-size, var(--strand-text-xs));
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tabbar-label-tracking, var(--strand-tracking-wider));
   text-transform: uppercase;
-  /* A label that wraps changes the bar's height, and the bar's height is a
-     token other layouts reserve against. Failing visibly at the end of the
-     row is better than folding in half quietly. */
   white-space: nowrap;
   line-height: var(--strand-leading-none);
-
-  /* A destination the user cannot read is not a destination. If a label
-     does not fit, the surface has too many top-level destinations, which
-     19.1.1's count test already refuses -- so this wraps rather than
-     truncating, and the overflow is visible as a taller bar instead of
-     hidden as an ellipsis. */
   text-align: center;
   overflow-wrap: anywhere;
 }

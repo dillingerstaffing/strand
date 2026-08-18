@@ -1,5 +1,4 @@
 import { fireEvent, render } from "@testing-library/preact";
-import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { SearchTrigger } from "./SearchTrigger.js";
@@ -130,18 +129,6 @@ describe("SearchTrigger", () => {
     expect(container.querySelector(".strand-search-trigger__label")).not.toBeNull();
   });
 
-  it("clips the icon variant's label rather than removing it from the tree", () => {
-    // The assertion above proves the label is PRESENT. This one proves the
-    // stylesheet hides it by a technique that keeps it announced: any rule
-    // reaching for `display: none` here re-opens the same defect while leaving
-    // every markup assertion above green.
-    const css = readFileSync(resolve(__dirname, "SearchTrigger.css"), "utf8");
-    const rule = css.slice(css.indexOf(".strand-search-trigger--icon .strand-search-trigger__label"));
-    const body = rule.slice(rule.indexOf("{"), rule.indexOf("}"));
-    expect(body).toMatch(/clip-path:\s*inset\(50%\)/);
-    expect(body).not.toMatch(/display:\s*none/);
-  });
-
   it("is not full-width, which would defeat a square icon", () => {
     const { container } = render(<SearchTrigger variant="icon" />);
     expect(
@@ -164,6 +151,9 @@ describe("SearchTrigger", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./SearchTrigger.fixtures.js";
 
 snapshotFixtures(SearchTrigger, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./SearchTrigger.css"));

@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { render, fireEvent, waitFor } from "@testing-library/preact";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CommandPalette } from "./CommandPalette.js";
@@ -169,6 +170,9 @@ describe("CommandPalette", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./CommandPalette.fixtures.js";
 
 snapshotFixtures(CommandPalette, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./CommandPalette.css"));

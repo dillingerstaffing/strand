@@ -1,12 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-bar-chart",
-  ".strand-bar-chart__col",
-  ".strand-bar-chart__bar",
-  ".strand-bar-chart__amount",
-  ".strand-bar-chart__label",
-  ".strand-bar-chart--sm",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-bar-chart { display: flex; gap: var(--strand-space-2); align-items: flex-end; height: var(--strand-space-40); padding: var(--strand-space-4) }
+.strand-bar-chart__col { flex: 1; display: grid; grid-template-rows: auto 1fr auto; align-items: end; justify-items: center; gap: var(--strand-space-1); height: 100% }
+.strand-bar-chart__bar { width: 100%; background: var(--strand-blue-indicator); border-radius: var(--strand-radius-sm) var(--strand-radius-sm) 0 0; min-height: var(--strand-space-1) }
+.strand-bar-chart__amount { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-wider); text-transform: uppercase; color: var(--strand-bar-chart-amount-color, var(--strand-gray-500)); font-variant-numeric: tabular-nums }
+.strand-bar-chart__label { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-wider); text-transform: uppercase; color: var(--strand-bar-chart-label-color, var(--strand-gray-500)) }
+.strand-bar-chart--sm { height: var(--strand-space-24) }"
 `;

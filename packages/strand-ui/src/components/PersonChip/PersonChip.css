@@ -1,19 +1,6 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── PersonChip ──
-   An initials avatar beside a name, in a pill. Used in a wrapping strip,
-   in a grid, and beside an organiser block.
-
-   NOT `Avatar` + `Tag` composed by hand, which was the obvious answer and
-   is wrong for one reason: the pill has to align the circle's optical
-   centre with the name's baseline box, and a consumer composing two
-   primitives gets that alignment right only by accident. Shipping it as
-   one primitive is what makes the alignment a property of the library
-   rather than of each call site.
-
-   The initials are DECORATIVE. The name beside them is the accessible
-   name, so the circle is aria-hidden: a screen reader announcing "MK,
-   Maria Klein" reads the same person twice. */
+/* cf: person-chip */
 
 .strand-person-chip {
   display: inline-flex;
@@ -35,39 +22,22 @@
   block-size: 24px;
   border-radius: var(--strand-radius-full);
   background: var(--strand-blue-wash);
-
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
   font-weight: var(--strand-weight-semibold);
-  /* blue-deep, not blue-primary: these are letters, so 14.2b makes them
-     text at 4.5:1 rather than a graphical object at 3:1. */
   color: var(--strand-blue-deep);
-  /* Mono caps sit high in their box; the optical centre of two capitals
-     is above the geometric one, so the grid centring is nudged back. */
   line-height: 1;
 }
 
 .strand-person-chip__name {
   font-size: var(--strand-text-sm);
   color: var(--strand-gray-700);
-  /* A name is the one string that must not wrap inside a pill: a
-     two-line pill in a wrapping strip breaks the row's rhythm. */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   min-inline-size: 0;
 }
 
-/* ── The secondary label ──
-   A display name beside a username, a role beside a name. Same line as
-   the name, for the reason the name itself must not wrap: the strip's
-   rhythm depends on every pill being one line tall.
-
-   THE NAME YIELDS SPACE FIRST. Both strings shrink, but this one carries
-   `flex: none` up to a cap while the name carries `min-inline-size: 0`,
-   so a narrow pill truncates the primary identifier only after the
-   secondary has given up what it can. That ordering is deliberate: the
-   secondary is the optional half, so it is the half that goes. */
 .strand-person-chip__secondary {
   font-size: var(--strand-text-xs);
   color: var(--strand-gray-500);
@@ -75,25 +45,14 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   min-inline-size: 0;
-  /* Capped rather than free: an unbounded secondary on a long display
-     name would push the name it qualifies out of the pill entirely. */
   max-inline-size: 12ch;
 }
 
-/* Decoration, not content. A separator in the markup would be read aloud
-   between the two halves of one person's identity. */
 .strand-person-chip__secondary::before {
   content: "\00b7";
   margin-inline-end: var(--strand-space-1);
-  /* NO COLOUR OF ITS OWN. `content` is text to a contrast checker whatever
-     the author intended it as, so a fill-tier grey here is a real 2.52:1
-     failure and not a false positive (DL Part XIV.2). Inheriting the
-     secondary's own text-tier grey keeps the separator quieter than the
-     name without dropping below 4.5:1. */
 }
 
-/* Interactive form, for a chip that opens a profile. A button rather than
-   a div with a handler, so it is reachable and announced as actionable. */
 .strand-person-chip--action {
   cursor: pointer;
   font: inherit;

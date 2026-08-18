@@ -1,0 +1,5 @@
+# Compact tightens a word, never a floor, and never an icon-only button
+
+`.strand-btn` floors every size at `--strand-btn-min-block-size`, defaulting to `--strand-touch-target` (44px, the house rule for primary actions; WCAG 2.2 AA is 24). `.strand-btn--compact` changes padding only and deliberately never `min-height`, because the floor is a function of the input modality (design language 14.7), not of how dense a row looks. Its selector excludes `--icon-only` (`.strand-btn--compact:not(.strand-btn--icon-only)`) rather than relying on source order, because an icon button's padding is what makes it square and the declaration that tightens a word deforms a circle into a pill. `--ghost` uses blue-midnight because it has no surface of its own and must clear 4.5:1 on any page surface; `--danger` starts one rung deeper (red-alert-vivid, then deep, then abyss) because white on red-alert is a fill-tier 3.76:1 and this is the label a reader checks before deleting something. The loading state hides the label with `visibility`, not `display`, so the button keeps its width and the spinner does not jump.
+
+Where: `packages/strand-ui/src/components/Button/Button.css`

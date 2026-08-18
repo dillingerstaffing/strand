@@ -1,9 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* Text tier, not fill tier (DL Part XIV.2). A link is body-sized text, so it
-   needs 4.5:1, and blue-primary reaches only 3.29:1 on white. blue-primary
-   remains correct where it is a fill, a border or a focus ring, all of which
-   sit at the 3:1 threshold -- see the focus ring below, which keeps it. */
 .strand-link {
   color: var(--strand-link-color, var(--strand-blue-deep));
   text-decoration: none;
@@ -29,11 +25,6 @@
   font-size: var(--strand-text-sm);
 }
 
-/* No color change on hover. It used to brighten to blue-vivid, but a hover
-   state has to meet contrast too, and blue-vivid is 4.45:1 on the page
-   background. The growing underline inherited from .strand-link:hover already
-   carries the affordance, so the color shift was redundant as well as unsafe. */
-
 /* ── Monospace link variant (footer, overline-style) ── */
 .strand-link--mono {
   font-family: var(--strand-font-mono);
@@ -47,8 +38,7 @@
   color: var(--strand-link-mono-hover-color, var(--strand-blue-deep));
 }
 
-/* ── Link: inherit color ──
-   A link that should read as body/heading text, not the accent link
-   color (e.g. a whole card title wrapped in <a>). Replaces inline
-   `color:inherit;background-image:none`. */
-.strand-link--inherit { color: var(--strand-link-color, inherit); background-image: var(--strand-link-underline, none); }
+.strand-link--inherit {
+  color: var(--strand-link-color, inherit);
+  background-image: var(--strand-link-underline, none);
+}

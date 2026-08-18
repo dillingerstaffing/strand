@@ -1,16 +1,13 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* CF-REF: craft-test.md [17]
-   DL Principle 8 (Default Philosophy): A card at default settings must look
-   like a glass instrument panel, not a blank rectangle. The base includes
-   elevation, border, and padding so zero-customization output is premium.
-   Craft test: place next to a Bootstrap/Material card. Must be visibly more refined. */
+/* cf: card-active-no-chrome */
+
 .strand-card {
-  border-radius: var(--strand-radius-lg); /* CF-REF: radius-range.md [1] */
+  border-radius: var(--strand-radius-lg);
   background: var(--strand-surface-elevated);
   border: 1px solid var(--strand-border-subtle, rgba(148, 163, 184, 0.12));
-  box-shadow: var(--strand-elevation-1); /* CF-REF: earned-elevation.md [1] */
-  padding: var(--strand-space-6); /* CF-REF: padding-tiers.md [1] */
+  box-shadow: var(--strand-elevation-1);
+  padding: var(--strand-space-6);
   font-family: var(--strand-font-sans);
   overflow: hidden;
   box-sizing: border-box;
@@ -28,12 +25,6 @@
   border: none;
 }
 
-/* ── Warm variant (DL Part 7.1b) ──
-   Showcase contexts where the warm wood / controlled daylight
-   spatial signature should be felt. Adds the warm shadow tint
-   alongside the existing cool layers. Default cool variant
-   stays the default. Use on hero/landing/gallery cards, never
-   on dashboard or readout cards. */
 .strand-card--warm {
   box-shadow: var(--strand-elevation-1-warm);
 }
@@ -42,10 +33,6 @@
   box-shadow: var(--strand-elevation-2-warm);
 }
 
-/* CF-REF: motion-quality-signal.md [14]
-   DL Part VI.5: Card hover uses duration-normal (250ms), not fast (150ms).
-   Cards are content containers -- smoother transition than buttons.
-   Framerate test: play at 30fps, must feel broken. */
 .strand-card--interactive {
   cursor: pointer;
   text-decoration: none;
@@ -59,25 +46,11 @@
 
 .strand-card--interactive:hover {
   transform: translateY(-2px);
-  box-shadow: var(--strand-elevation-2); /* CF-REF: five-level-shadow.md [1] */
+  box-shadow: var(--strand-elevation-2);
 }
 
-/* The "alive" signal for live/active cards has been through many
-   iterations and each one was wrong: conic-gradient radar sweep
-   (too animated), blue-indicator halo plus top edge accent (too
-   loud, read as AI-workspace chrome), left-edge accent bar
-   (banned, copied by every agentic coding tool as lowest-effort
-   default), and finally a blue-glow tinted background (still
-   too heavy, reads as "blue borders" on lab/channel grids).
-
-   The active state has NO card-chrome treatment at all. Inline
-   affordances (a "Joined" pill, a status-chip--live, a lifecycle
-   overline like "Live" or "Early Access", a StatusIndicator) carry
-   the entire signal. The class is kept as a no-op semantic hook
-   so consumers can still mark active cards for data-attr selectors
-   or future treatments, but it paints nothing by default. */
 .strand-card--active {
-  /* intentionally empty */
+
 }
 
 /* ── Padding modifiers ── */
@@ -101,17 +74,6 @@
   padding: var(--strand-space-10);
 }
 
-/* ── Card section (BEM element, stacked rows inside a card) ──
-   A horizontal row inside a composed card. Use multiple
-   .strand-card__section children inside a .strand-card--pad-none
-   to stack header / body / cta rows separated by horizontal rules.
-   First child renders without the top border so the top edge of
-   the card is clean. The --header modifier turns a section into a
-   top-row header with baseline space-between layout for title
-   plus trailing chrome (e.g., overline + chip). This is distinct
-   from the standalone .strand-card-section molecule (DL 11.10
-   section-boundary production), which is a same-named BEM block
-   used outside cards. */
 .strand-card__section {
   display: block;
   padding: var(--strand-space-5) var(--strand-space-6);
@@ -129,7 +91,6 @@
   gap: var(--strand-space-4);
 }
 
-/* CF-REF: reduced-motion.md [9] */
 @media (prefers-reduced-motion: reduce) {
   .strand-card--interactive:hover {
     transform: none;

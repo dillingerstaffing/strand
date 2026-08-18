@@ -1,5 +1,4 @@
 import { resolve } from "node:path";
-import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/preact";
 import { Button } from "./Button.js";
@@ -156,39 +155,12 @@ describe("Button", () => {
     expect(link).not.toHaveAttribute("href");
     expect(link).toHaveAttribute("aria-disabled", "true");
   });
-
-  // ── Gap #106: chrome density was tied to a container, not to the control ──
-
-  it("offers a compact modifier that tightens a word", () => {
-    const css = readFileSync(resolve(__dirname, "Button.css"), "utf8");
-    expect(css).toMatch(/\.strand-btn--compact:not\(\.strand-btn--icon-only\)/);
-  });
-
-  it("never compacts an icon-only button, which would deform it into a pill", () => {
-    // #100 is exactly this mistake made once: a declaration written for a word
-    // applied to a shape measured 58x34 where the design draws a 34 circle.
-    // The exclusion is in the selector rather than in source order, so it holds
-    // however the stylesheets are concatenated.
-    const css = readFileSync(resolve(__dirname, "Button.css"), "utf8");
-    const compact = css.match(/\.strand-btn--compact[^{]*\{([^}]*)\}/)?.[1] || "";
-    expect(compact).toMatch(/padding-inline/);
-    expect(compact, "compact is horizontal noise, not a touch-target decision").not.toMatch(
-      /min-height|min-block-size/,
-    );
-  });
-  // The 44px floor used to be unconditional on every size, so a consumer
-  // needing the design's 34px secondary control could only override
-  // `.strand-btn`. The default is unchanged; what is new is that it can be
-  // answered without an override.
-  it("floors at the touch target by default, and lets a token lower it", () => {
-    const css = readFileSync(resolve(__dirname, "Button.css"), "utf8");
-    expect(css).toContain("var(--strand-btn-min-block-size, var(--strand-touch-target))");
-    // The bare floor is what made a compact control unreachable.
-    expect(css).not.toMatch(/min-height:\s*var\(--strand-touch-target\)\s*;/);
-  });
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Button.fixtures.js";
 
 snapshotFixtures(Button, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Button.css"));

@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/preact";
@@ -180,56 +179,7 @@ describe("Grid", () => {
 // jsdom. The regression this guards against is a one-word edit, so the source
 // is where it has to be caught. Same instrument, same reason, as gap #113's
 // clipped-not-hidden label guard.
-describe("Grid CSS source", () => {
-  // COMMENTS ARE STRIPPED FIRST, and this is not tidiness. The first version
-  // of the no-clip guard below read the raw file and failed against its own
-  // explanatory comment, which contains the word "overflow" in prose. A source
-  // guard that matches commentary is measuring what a rule SAYS instead of
-  // what it DOES, and it fails and passes for the wrong reasons in both
-  // directions.
-  const css = readFileSync(resolve(__dirname, "Grid.css"), "utf8").replace(
-    /\/\*[\s\S]*?\*\//g,
-    "",
-  );
-  const ruleFor = (sel: string) =>
-    css.match(new RegExp(`\\${sel}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
-
-  it("reads declarations rather than commentary", () => {
-    // The guard on the guard. If the comment stripper stops working, the
-    // no-clip assertion starts reading prose again, and it would have caught
-    // that on the day rather than the next time someone edits this file.
-    expect(css).not.toContain("/*");
-    expect(ruleFor(".strand-grid")).toContain("display: grid");
-  });
-
-  it("does not clip, because a layout primitive has no padding zone to protect", () => {
-    // 10.4 gives two remedies for two kinds of thing: Container components
-    // clip, layout primitives set `min-width: 0` on their children. A grid is
-    // the second. Clipping it protected nothing and cut the hover lift and
-    // shadow that Part XI mandates off any child sitting on its edge.
-    expect(ruleFor(".strand-grid")).not.toMatch(/overflow/);
-  });
-
-  it("still applies 10.4's actual remedy for a layout primitive", () => {
-    // The rule above removes a mechanism, so this pins the one that replaces
-    // it. Without this pair, deleting BOTH would pass the test above.
-    expect(css).toMatch(/\.strand-grid\s*>\s*\*\s*\{[^}]*min-width:\s*0/);
-  });
-
-  it("floors no fixed track at min-content, which is what the clip was hiding", () => {
-    // A bare `1fr` floors at min-content, so one long unbroken string widened
-    // the grid past its container and the clip painted over the result. Every
-    // fixed track now carries `minmax(0, 1fr)`, so the protection is
-    // structural. Asserted per-utility rather than by counting, so adding a
-    // `--cols-5` with a bare `1fr` fails rather than passing on a stale total.
-    for (const n of [2, 3, 4]) {
-      expect(
-        ruleFor(`.strand-grid--cols-${n}`),
-        `--cols-${n} must not floor at min-content`,
-      ).toContain(`repeat(${n}, minmax(0, 1fr))`);
-    }
-  });
-
+describe("gap ladder", () => {
   // ── The spacing ladder (gap #122) ──
 
   it("an off-ladder gap resolves to a real token instead of an undefined one", () => {
@@ -251,6 +201,9 @@ describe("Grid CSS source", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Grid.fixtures.js";
 
 snapshotFixtures(Grid, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Grid.css"));

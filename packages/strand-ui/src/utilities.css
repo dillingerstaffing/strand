@@ -1,10 +1,15 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: scroll-row */
+/* cf: sticky */
+/* cf: stretched-link */
+/* cf: tab-bar */
+/* cf: surface-tokens */
+
 /* ── Nav offset for glass (fixed) nav ── */
-.strand-nav-offset { padding-top: var(--strand-space-16); }
-/* ══════════════════════════════════════════════════
-   UTILITIES
-   ══════════════════════════════════════════════════ */
+.strand-nav-offset {
+  padding-top: var(--strand-space-16);
+}
 
 /* ── Screen reader only ── */
 .strand-sr-only {
@@ -18,302 +23,202 @@
   white-space: nowrap;
   border: 0;
 }
-/* ═══ UTILITY CLASSES ══════════════════════════════
-   Atomic, single-property helpers. Token-only values.
-   Use sparingly: prefer named primitives and molecules
-   when a coherent concept exists. These exist to absorb
-   the long tail of one-off layout glue without forcing
-   consumers to ship inline styles or per-page CSS files.
-   ═══════════════════════════════════════════════════ */
 
 /* ── Display ── */
-.strand-block { display: block; }
+.strand-block {
+  display: block;
+}
+
 /* ── Flex / sizing ── */
-.strand-flex-1 { flex: 1; }
-/* The shrink-proof pair of strand-flex-1. Note that strand-truncate alone
-   does NOT protect a flex item from shrinking: its overflow: hidden resets
-   the item's min-width: auto to 0, which is exactly what re-enables
-   shrinking. A flex item that must keep its content width (a count, a
-   timestamp) pairs truncate with THIS. */
-.strand-flex-none { flex: none; }
-/* ── Layout-transparent wrapper ──
-   The element disappears from the box tree and its CHILDREN become the
-   parent's children for layout. Its purpose is a wrapper that has to
-   exist in the DOM but must not exist in the layout.
+.strand-flex-1 {
+  flex: 1;
+}
 
-   The case that earned it: a server-rendered page hydrates its
-   interactive parts by id, so each island needs a real element to mount
-   into. Put that mount inside a flex or grid parent and it becomes ONE
-   item holding N children, so the children stop wrapping independently
-   and stop taking the parent's gap. The alternatives are worse: mounting
-   onto the flex container itself makes hydration own markup it did not
-   render, and re-declaring the parent's flex rules on the wrapper
-   duplicates a layout the parent already owns.
+.strand-flex-none {
+  flex: none;
+}
 
-   NOT a general-purpose unwrapper. `display: contents` removes the box,
-   so any background, border, padding or size on the element is dropped
-   with it. Use it on a wrapper that carries nothing but an id. */
-.strand-contents { display: contents; }
-.strand-min-w-0 { min-width: 0; }
-.strand-full-width { width: 100%; }
-/* Single-line ellipsis. Pair with strand-min-w-0 on the flex child, or the
-   line never shrinks enough to truncate. */
+.strand-contents {
+  display: contents;
+}
+
+.strand-min-w-0 {
+  min-width: 0;
+}
+
+.strand-full-width {
+  width: 100%;
+}
+
 .strand-truncate {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-/* ── Scroll row ──
-   A single row that scrolls sideways instead of wrapping. The mobile
-   filter strip, a chip rail, any horizontal set that must stay one line
-   at 390px.
 
-   `strand-stack--horizontal` + `strand-stack--wrap` is the obvious
-   composition and it is the wrong one: wrapping is precisely what this
-   must not do, because a filter strip that wraps to three lines pushes
-   the content it filters off the screen.
-
-   THE BEHAVIOUR ALREADY EXISTED AND NO CONSUMER COULD REACH IT.
-   `.strand-tabs [role="tablist"]` has carried exactly this since it was
-   written, with the reasoning in its own comment: keep the overflow
-   local so a wide row does not hand the whole document a horizontal
-   scrollbar, keep every child focusable in order, and scroll-snap for
-   the tactile feel. But it is selector-scoped to a role, so reaching it
-   from a filter strip means declaring `role="tablist"` on something that
-   is not a tablist -- announcing "tab 3 of 7" for a filter and promising
-   arrow-key panel switching that does not exist. Same shape as the
-   sidebar grid: the library decided, then scoped the decision where
-   nobody could use it.
-
-   IT SCROLLS RATHER THAN CLIPPING, and that is a deliberate divergence
-   from any mockup that specifies `overflow: hidden` with `nowrap`. A
-   filter the reader cannot reach is not a filter, and clipping hides
-   them with no affordance at all. Accessibility beats fidelity here.
-
-   Children must set `flex-shrink: 0` (or use `strand-flex-none`), or
-   they squeeze to fit and the row never scrolls. */
 .strand-scroll-row {
-	display: flex;
-	flex-wrap: nowrap;
-	overflow-x: auto;
-	/* Vertical overflow stays visible so a focus ring on a child is not
-	   clipped by the scrollport. `overflow-x: auto` alone would compute
-	   the other axis to `auto` as well. */
-	overflow-y: visible;
-	/* The row owns its own overscroll, so flicking to the end does not
-	   then drag the page behind it. */
-	overscroll-behavior-x: contain;
-	-webkit-overflow-scrolling: touch;
-	scroll-snap-type: x proximity;
-	/* A scrollbar under a 32px chip row is most of the row. The content
-	   is reachable by drag, wheel, and keyboard focus regardless. */
-	scrollbar-width: none;
-	-ms-overflow-style: none;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: visible;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+
 .strand-scroll-row::-webkit-scrollbar {
-	display: none;
+  display: none;
 }
+
 .strand-scroll-row > * {
-	flex-shrink: 0;
-	scroll-snap-align: start;
+  flex-shrink: 0;
+  scroll-snap-align: start;
 }
-/* ── Scroll column ──
-   A panel that holds a long list at a bounded height and scrolls it
-   vertically. The sibling of `strand-scroll-row`, and the axis a consumer
-   could not previously reach.
 
-   THE BEHAVIOUR EXISTED FIVE TIMES AND NO CONSUMER COULD REACH ANY OF THEM.
-   `.strand-command-palette__list`, `.strand-detail-panel`,
-   `.strand-results-panel__items`, `.strand-sheet__body` and
-   `.strand-ref-shell__sidebar-scroll` each declare their own
-   `overflow-y: auto` with their own height. Every one is element-scoped to
-   the inside of a component, so a consumer composing a panel out of Card and
-   Stack has no way to say "this part scrolls" except a page-local rule, which
-   is exactly the override the purity gate forbids. Same shape as the sidebar
-   grid and the tablist row before them: the library decided, then scoped the
-   decision where nobody could use it.
-
-   THE SCROLLBAR IS VISIBLE, which is the one place this deliberately differs
-   from `strand-scroll-row`. That row hides it because a scrollbar under a
-   32px chip strip is most of the strip, and the chips are reachable by drag,
-   wheel and focus regardless. In a vertical list of rows the scrollbar is the
-   PRIMARY affordance saying more exists below the fold, and a list that hides
-   it reads as a list that ends.
-
-   `--strand-scroll-col-h` is the knob rather than a fixed height, because how
-   much of a list is worth showing is a property of the list. The default is a
-   little under half a small viewport, which shows enough rows to read as a
-   list while leaving the panel's own surroundings on screen.
-
-   THE REGION IS FOCUSABLE BY THE CONSUMER, not here: axe's
-   `scrollable-region-focusable` fails a scrollport a keyboard cannot reach,
-   and the fix is `tabindex="0"` plus an accessible name on the element. CSS
-   cannot supply either, so this documents the obligation rather than pretending
-   to meet it. */
 .strand-scroll-col {
-	overflow-y: auto;
-	/* Horizontal stays visible so a focus ring on a child is not clipped by
-	   the scrollport. `overflow-y: auto` alone would compute the other axis
-	   to `auto` as well and produce a phantom horizontal scrollbar. */
-	overflow-x: visible;
-	max-height: var(--strand-scroll-col-h, 22rem);
-	/* The panel owns its own overscroll, so reaching the end does not then
-	   start scrolling the page behind it. */
-	overscroll-behavior-y: contain;
-	-webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overflow-x: visible;
+  max-height: var(--strand-scroll-col-h, 22rem);
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
 }
-/* ── Sticky ──
-   A region that scrolls with the document until it reaches its offset,
-   then holds. The filter rail beside a result list, the day rail beside
-   a schedule, the commitment rail beside a long detail page.
 
-   The library had made this decision once, privately:
-   `.strand-ref-shell__sidebar` is `position: sticky` inside the
-   reference site's own shell, where no consumer can reach it. Publishing
-   it is the same move as the sidebar grid.
-
-   THE OFFSET IS A CUSTOM PROPERTY, not a set of utilities, because the
-   value a consumer needs is whatever their fixed chrome occupies, and
-   that is a number the library cannot know. It defaults to space-6.
-
-   READ THE NOTE ON `.strand-grid` BEFORE COMPOSING THESE. A sticky
-   element is positioned against its nearest scrollport, and any ancestor
-   with `overflow: hidden` becomes one. Inside such an ancestor the
-   element sticks to a box that never scrolls, which looks exactly like
-   sticky being ignored. This is the single commonest way the property
-   fails, and it fails silently. */
 .strand-sticky {
-	position: sticky;
-	inset-block-start: var(--strand-sticky-top, var(--strand-space-6));
-	/* Above ordinary content it scrolls past, below any fixed chrome. */
-	z-index: 1;
+  position: sticky;
+  inset-block-start: var(--strand-sticky-top, var(--strand-space-6));
+  z-index: 1;
 }
-/* Reserves the space a fixed bottom tab bar occupies, so the last item of
-   a list is not permanently underneath the navigation -- the defect every
-   fixed bottom bar ships with. Applied to the SCROLLING CONTENT, not to
-   the bar, which is why it lives here beside strand-nav-offset rather
-   than in the component's own stylesheet. Shares one token with the bar
-   so a taller bar cannot outgrow its reservation.
 
-   THE RESERVATION IS SCOPED TO THE VIEWPORT THE BAR EXISTS ON, and this
-   used to be unconditional. 19.1.1 answers mobile primary navigation with
-   this bar and closes with "Desktop is unchanged. Reach is a property of a
-   touch viewport" -- so a bar that is not there above the breakpoint was
-   still charging every consumer for its height. Measured on a consumer's
-   calendar at 1440: 76px of padding-block-end under a bar computing
-   `display: none`, on the one screen whose whole design is that a month is
-   legible without scrolling.
-
-   767.98px is the exact complement of `strand-hide-from-md`, which is the
-   composition this bar documents for hiding itself, so the two thresholds
-   are restated here TOGETHER rather than left to drift into a gap (no
-   reservation under a visible bar) or an overlap (padding under no bar).
-
-   A consumer that hides the bar at a DIFFERENT width owns both halves of
-   that decision and sets `--strand-tabbar-height: 0px` at its own
-   breakpoint; the reservation follows the token, which is the same
-   single-token contract that stops a taller bar outgrowing its space. */
 @media (max-width: 767.98px) {
-	.strand-tabbar-offset {
-		padding-block-end: calc(
-			var(--strand-tabbar-height) + env(safe-area-inset-bottom, 0px)
-		);
-	}
+  .strand-tabbar-offset {
+    padding-block-end: calc( var(--strand-tabbar-height) + env(safe-area-inset-bottom, 0px) );
+  }
 }
-@media (min-width: 768px)    { .strand-hide-from-md  { display: none; } }
+
+@media (min-width: 768px) {
+  .strand-hide-from-md {
+    display: none;
+  }
+}
+
 /* ── Margin top (token scale 1-8) ── */
-.strand-mt-1 { margin-top: var(--strand-space-1); }
-.strand-mt-2 { margin-top: var(--strand-space-2); }
-.strand-mt-3 { margin-top: var(--strand-space-3); }
-.strand-mt-4 { margin-top: var(--strand-space-4); }
-.strand-mt-5 { margin-top: var(--strand-space-5); }
-.strand-mt-6 { margin-top: var(--strand-space-6); }
-.strand-mt-8 { margin-top: var(--strand-space-8); }
+.strand-mt-1 {
+  margin-top: var(--strand-space-1);
+}
+
+.strand-mt-2 {
+  margin-top: var(--strand-space-2);
+}
+
+.strand-mt-3 {
+  margin-top: var(--strand-space-3);
+}
+
+.strand-mt-4 {
+  margin-top: var(--strand-space-4);
+}
+
+.strand-mt-5 {
+  margin-top: var(--strand-space-5);
+}
+
+.strand-mt-6 {
+  margin-top: var(--strand-space-6);
+}
+
+.strand-mt-8 {
+  margin-top: var(--strand-space-8);
+}
+
 /* ── Margin bottom (token scale 1-8) ── */
-.strand-mb-1 { margin-bottom: var(--strand-space-1); }
-.strand-mb-2 { margin-bottom: var(--strand-space-2); }
-.strand-mb-3 { margin-bottom: var(--strand-space-3); }
-.strand-mb-4 { margin-bottom: var(--strand-space-4); }
-.strand-mb-5 { margin-bottom: var(--strand-space-5); }
-.strand-mb-6 { margin-bottom: var(--strand-space-6); }
-.strand-mb-8 { margin-bottom: var(--strand-space-8); }
+.strand-mb-1 {
+  margin-bottom: var(--strand-space-1);
+}
+
+.strand-mb-2 {
+  margin-bottom: var(--strand-space-2);
+}
+
+.strand-mb-3 {
+  margin-bottom: var(--strand-space-3);
+}
+
+.strand-mb-4 {
+  margin-bottom: var(--strand-space-4);
+}
+
+.strand-mb-5 {
+  margin-bottom: var(--strand-space-5);
+}
+
+.strand-mb-6 {
+  margin-bottom: var(--strand-space-6);
+}
+
+.strand-mb-8 {
+  margin-bottom: var(--strand-space-8);
+}
+
 /* ── Margin auto (centering) ── */
-.strand-mx-auto { margin-inline: auto; }
-/* ── Margin zero ──
-   Strip a browser default margin (e.g. a <p> whose parent stack already owns
-   the gap) so a semantic element can sit flush without an inline style. The
-   zero endpoint of the margin scale. */
-.strand-m-0 { margin: 0; }
-.strand-pt-3 { padding-top: var(--strand-space-3); }
-.strand-py-2 { padding-block: var(--strand-space-2); }
-.strand-py-3 { padding-block: var(--strand-space-3); }
-/* ── Italic text ──
-   Emphasis for a single run (e.g. an "(edited)" marker). */
-.strand-italic { font-style: italic; }
-/* ── List reset ──
-   Strip default list chrome so a semantic <ul>/<ol> can carry
-   strand-stack layout without browser bullets/indent. Replaces the
-   repeated inline `list-style:none;margin:0;padding:0`. */
-.strand-list-reset { list-style: none; margin: 0; padding: 0; }
-/* ── Responsive 16:9 embed ──
-   Aspect-ratio media box for an iframe (video, map). The child fills the
-   box absolutely so no intrinsic-size inline styles are needed. */
-.strand-embed-16x9 { position: relative; width: 100%; aspect-ratio: 16 / 9; }
+.strand-mx-auto {
+  margin-inline: auto;
+}
+
+.strand-m-0 {
+  margin: 0;
+}
+
+.strand-pt-3 {
+  padding-top: var(--strand-space-3);
+}
+
+.strand-py-2 {
+  padding-block: var(--strand-space-2);
+}
+
+.strand-py-3 {
+  padding-block: var(--strand-space-3);
+}
+
+.strand-italic {
+  font-style: italic;
+}
+
+.strand-list-reset {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.strand-embed-16x9 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
 .strand-embed-16x9 > iframe,
-.strand-embed-16x9 > * { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-/* ── The stretched link ──────────────────────────────────────────────
-   A card whose whole surface opens one destination, WITHOUT becoming a
-   control and without a second tab stop.
+.strand-embed-16x9 > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 
-   THE PROBLEM IT SOLVES. A design draws a clickable card; an implementation
-   either wraps the card in an anchor (which swallows anything interactive
-   inside it and is an invalid tree) or settles for the title being the only
-   target (which is what a reader complains about). The overlay is the third
-   answer: the anchor is unchanged, so the card keeps exactly ONE named link
-   and one tab stop, and only the HIT AREA grows.
-
-   TWO CONSUMERS WROTE THIS IN ONE SESSION, on an event row and on a channel's
-   archive card, with the same three rules and the same subtleties. Two
-   consumers paying for one missing input is a library gap rather than a
-   misuse, which is the bar gap #110 set.
-
-   THE REFUSAL IS THE HARD PART, and it is the consumer's to make: the overlay
-   covers EVERYTHING in the container, so a card that also holds a button, an
-   RSVP control or a video player must not use it. Both consumers derive the
-   flag from whether such a child exists rather than trusting a call site, and
-   that is the pattern to copy. This utility deliberately does not try to
-   detect it: CSS cannot, and a rule that pretended to would be worse than one
-   that states the constraint.
-
-   HOW THIS IS PROVEN, since it is not provable here. The claim is that a
-   CLICK at the card's far edge reaches the anchor, which is a hit test rather
-   than a box measurement: the anchor's own rect stays the width of its text
-   either way, so a geometry assertion on it passes whether or not the overlay
-   exists. The browser layout tier measures boxes and would report a vacuous
-   pass, so it deliberately carries no case for this. The consumer's e2e drives
-   the real thing, clicking each card away from its text and asserting the
-   navigation.
-
-   Usage:
-     <div class="strand-stretch-link-host">
-       <h3><a class="strand-stretch-link" href="...">Title</a></h3>
-       ...the rest of the card...
-     </div> */
 .strand-stretch-link-host {
   position: relative;
   cursor: pointer;
 }
+
 .strand-stretch-link::after {
   content: "";
   position: absolute;
   inset: 0;
-  /* Above the host's own content so the whole surface is the target. It sits
-     below nothing, because the consumer guarantees there is nothing else
-     interactive in the host. */
   z-index: 1;
 }
 
-/* Light island: primitives inside return to their light values. cf: surface-tokens */
 .strand-surface-light {
   --strand-alert-bg: initial;
   --strand-alert-color: var(--strand-gray-700);

@@ -1,7 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ═══ AUTH INDICATOR (nav utility) ═══
-   Small text indicator for signed-in state in nav. */
 .strand-auth-indicator {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
@@ -9,6 +7,7 @@
   letter-spacing: var(--strand-tracking-wide);
   white-space: nowrap;
 }
+
 .strand-auth-avatar {
   width: 28px;
   height: 28px;

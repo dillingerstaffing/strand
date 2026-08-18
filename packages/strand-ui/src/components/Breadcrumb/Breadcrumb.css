@@ -37,14 +37,6 @@
   font-weight: var(--strand-weight-medium);
 }
 
-/* The instrument treatment: a trail read as a readout rather than as prose.
-   Mono, uppercase and tracked to match the overline and status-chip labels a
-   tinted page header puts beside it, so the trail belongs to the header rather
-   than arriving from the body copy.
-
-   The LINK keeps `blue-deep` rather than dropping to `blue-primary`: at this
-   size 1.4.3 governs, and blue-deep measures 5.99:1 on the light ground these
-   headers use against blue-primary's 3.29:1. */
 .strand-breadcrumb--instrument .strand-breadcrumb__list {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
@@ -57,14 +49,6 @@
   color: var(--strand-blue-deep);
 }
 
-/* NO SEPARATOR OVERRIDE. The base rule already uses `gray-500`, a TEXT-tier
-   value. This variant reached for `gray-400` to quiet the slashes and measured
-   2.52:1 against the 4.5 a small-text pairing needs: gray-400 is a FILL-tier
-   value calibrated for borders and focus rings at 3:1, not for text (DL Part
-   XIV.2). Quieting a separator is not worth a character the reader cannot see.
-
-/* The current page is the one item that is not a destination, so it reads as
-   text rather than as a link that has stopped working. */
 .strand-breadcrumb--instrument .strand-breadcrumb__current {
   color: var(--strand-gray-700);
 }

@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/preact";
 import { Slider } from "./Slider.js";
@@ -78,6 +79,9 @@ describe("Slider", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Slider.fixtures.js";
 
 snapshotFixtures(Slider, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Slider.css"));

@@ -1,5 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: card-active-no-chrome */
+
 /* ── Result card ── */
 .strand-result-card {
   display: block;
@@ -13,9 +15,6 @@
   background: rgba(59, 142, 246, 0.08);
 }
 
-/* Selection state for a master-detail list row. Uses background
-   tint only. No left-edge accent bar (banned pattern, see
-   Card.css comment above .strand-card--active). */
 .strand-result-card.is-active,
 .strand-result-card--active {
   background: rgba(59, 142, 246, 0.12);

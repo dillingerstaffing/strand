@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import {
   auditFiles,
   classifySelector,
+  surfaceReaches,
   ownedBlocks,
   ownerIndex,
   parseRules,
@@ -136,5 +137,15 @@ describe("open and owning global sheets", () => {
       { InstrumentViewport: ["strand-body"] },
     );
     expect(rows[0].own).toEqual({ "strand-body": 1 });
+  });
+});
+
+describe("surfaceReaches", () => {
+  it("names a surface rule that recolours another primitive by descendant selector, and accepts the token form", () => {
+    const files = [
+      { name: "IV.css", dir: "IV", css: ".strand-instrument-viewport { --strand-overline-color: red; }\n.strand-instrument-viewport .strand-overline { color: red; }\n.strand-instrument-viewport .strand-instrument-viewport__map { position: absolute; }\n.strand-instrument-viewport .maplibregl-marker { z-index: 6; }" },
+    ];
+    expect(surfaceReaches(files)).toEqual([{ file: "IV.css", selector: ".strand-instrument-viewport .strand-overline" }]);
+    expect(surfaceReaches([{ name: "Card.css", dir: "Card", css: ".strand-card .strand-btn { color: red; }" }])).toEqual([]);
   });
 });

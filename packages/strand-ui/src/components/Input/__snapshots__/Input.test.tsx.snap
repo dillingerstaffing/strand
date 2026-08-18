@@ -9,3 +9,19 @@ exports[`renders > email error 1`] = `"<div class="strand-input strand-input--er
 exports[`renders > search 1`] = `"<div class="strand-input"><input class="strand-input__field" type="search"></div>"`;
 
 exports[`renders > text 1`] = `"<div class="strand-input"><input class="strand-input__field" placeholder="Name" type="text"></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-input { position: relative; display: flex; align-items: center; background: var(--strand-surface-elevated); border: 1px solid var(--strand-gray-200); border-radius: var(--strand-radius-md); transition: border-color var(--strand-duration-fast) var(--strand-ease-out-quart), box-shadow var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-input:focus-within { border-color: var(--strand-blue-primary); box-shadow: var(--strand-focus-ring) }
+.strand-input__field { flex: 1; width: 100%; padding: var(--strand-space-3) var(--strand-space-4); background: transparent; border: none; font-family: var(--strand-font-sans); font-size: var(--strand-text-base); color: var(--strand-gray-900); outline: none }
+.strand-input__field::placeholder { color: var(--strand-gray-500) }
+.strand-input__leading, .strand-input__trailing { display: flex; align-items: center; color: var(--strand-gray-500); font-size: var(--strand-text-sm) }
+.strand-input__leading { padding-left: var(--strand-space-3) }
+.strand-input__trailing { padding-right: var(--strand-space-3) }
+.strand-input--has-leading .strand-input__field { padding-left: var(--strand-space-2) }
+.strand-input--has-trailing .strand-input__field { padding-right: var(--strand-space-2) }
+.strand-input--error { border-color: var(--strand-red-alert) }
+.strand-input--error:focus-within { border-color: var(--strand-red-alert); box-shadow: var(--strand-focus-ring-error) }
+.strand-input--disabled { opacity: var(--strand-opacity-disabled); cursor: not-allowed }
+.strand-input--disabled .strand-input__field { cursor: not-allowed }"
+`;

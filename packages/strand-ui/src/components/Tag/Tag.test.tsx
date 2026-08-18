@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render } from "@testing-library/preact";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { Tag } from "./Tag.js";
 import { fixtures } from "./Tag.fixtures.js";
 
@@ -14,3 +16,5 @@ describe("Tag", () => {
     expect(onRemove).toHaveBeenCalledTimes(1);
   });
 });
+
+snapshotStylesheet(resolve(__dirname, "./Tag.css"));

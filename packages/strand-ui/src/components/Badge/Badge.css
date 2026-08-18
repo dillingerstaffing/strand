@@ -1,5 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: badge-fills */
+
 /* ── Wrapper ── */
 .strand-badge {
   position: relative;
@@ -49,13 +51,6 @@
   line-height: 20px;
 }
 
-/* ── Status colors ──
-   The indicator paints white at --strand-text-xs (11px), which is SMALL text
-   and answers to 4.5:1, not the 3:1 that fill-tier accents are tuned for.
-   Reaching for the base rungs put teal (2.49:1), blue (3.29:1) and red
-   (3.76:1) count badges below AA. Each variant therefore uses the DEEP rung
-   of its accent, which is the same move .strand-btn--primary already makes by
-   using blue-deep rather than blue-primary. Guarded in Badge.test.tsx. */
 .strand-badge--default {
   background: var(--strand-gray-500);
 }
@@ -77,21 +72,6 @@
   background: var(--strand-red-alert-deep);
 }
 
-/* ── Live variant ──
-   A status dot that is ALIVE rather than merely present.
-
-   The design language already has the alive signal (DL Principle 7) and ships
-   it as `.strand-pulse`, but only as a trailing `::after`: it APPENDS a dot at
-   `right: -6px` to whatever carries it. That is the right shape for a logo or a
-   title that wants a live marker after it, and it cannot express a dot that
-   LEADS a line of text, which is where a status indicator usually goes.
-
-   A consumer wanting one had to hand-build a dot and hand-write the animation,
-   which is a primitive plus a keyframe re-implemented at the call site.
-
-   So the existing keyframe is applied to the badge ITSELF. Composes with
-   `--dot` and with any colour variant, because "is it live" and "what colour is
-   it" are independent questions. */
 .strand-badge--live {
   animation: strand-pulse-glow 3s var(--strand-ease-in-out-sine) infinite;
 }

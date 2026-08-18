@@ -71,3 +71,66 @@ exports[`every export renders its element and class > LabTaxonomyList 1`] = `"<d
 exports[`every export renders its element and class > LabTaxonomyTitle 1`] = `"<span class="strand-ref-taxonomy__title custom">x</span>"`;
 
 exports[`renders > shell 1`] = `"<div class="strand-ref-shell">main</div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-ref-shell { display: grid; grid-template-columns: 256px minmax(0, 1fr); min-height: 100vh }
+.strand-ref-shell__sidebar { position: sticky; top: var(--strand-ref-sticky-top, 0); height: calc(100vh - var(--strand-ref-sticky-top, 0px)); height: calc(100dvh - var(--strand-ref-sticky-top, 0px)); max-height: calc(100vh - var(--strand-ref-sticky-top, 0px)); max-height: calc(100dvh - var(--strand-ref-sticky-top, 0px)); background: var(--strand-surface-elevated); border-right: 1px solid var(--strand-gray-200); display: flex; flex-direction: column; overflow: hidden }
+.strand-ref-shell__sidebar-head { padding: var(--strand-space-6) var(--strand-space-5) 18px; border-bottom: 1px solid var(--strand-gray-100); flex: none; background: var(--strand-surface-elevated) }
+.strand-ref-shell__sidebar-scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-anchor: none; overscroll-behavior: contain; padding: var(--strand-space-4) var(--strand-space-5) var(--strand-space-6); display: flex; flex-direction: column; gap: 18px }
+.strand-ref-shell__brand { display: flex; align-items: center; gap: var(--strand-space-3) }
+.strand-ref-shell__brand-mark { width: 36px; height: 36px; border-radius: var(--strand-radius-md); background: var(--strand-blue-midnight); color: var(--strand-on-blue-primary); display: grid; place-items: center; font-family: var(--strand-font-mono); font-weight: var(--strand-weight-semibold); font-size: 13px; letter-spacing: 0.04em }
+.strand-ref-shell__brand-title { font-family: var(--strand-font-mono); font-weight: var(--strand-weight-medium); color: var(--strand-blue-midnight); font-size: 15px }
+.strand-ref-shell__brand-sub { font-family: var(--strand-font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: var(--strand-tracking-ultra); color: var(--strand-gray-500) }
+.strand-ref-shell__group { display: flex; flex-direction: column; gap: var(--strand-space-1); padding-top: 10px; border-top: 1px solid var(--strand-gray-100) }
+.strand-ref-shell__group:first-of-type { border-top: 0; padding-top: 0 }
+.strand-ref-shell__group-label { font-family: var(--strand-font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--strand-blue-midnight); font-weight: var(--strand-weight-semibold); padding: 6px 10px 8px }
+.strand-ref-shell__group-list { display: flex; flex-direction: column; gap: 1px }
+.strand-ref-shell__group-link { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: var(--strand-radius-md); font-family: var(--strand-font-sans); font-size: 13px; color: var(--strand-gray-700); text-decoration: none; transition: background var(--strand-duration-fast) var(--strand-ease-out-quart), color var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-ref-shell__group-link:hover { background: var(--strand-surface-recessed); color: var(--strand-blue-midnight) }
+.strand-ref-shell__group-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--strand-gray-300); flex: none }
+.strand-ref-shell__group-link:hover .strand-ref-shell__group-dot { background: var(--strand-blue-primary) }
+.strand-ref-shell__main { padding: 56px var(--strand-space-16) 96px; max-width: 1120px; min-width: 0 }
+.strand-ref-header { padding-bottom: var(--strand-space-10); border-bottom: 1px solid var(--strand-gray-200); margin-bottom: var(--strand-space-8) }
+.strand-ref-header__title { font-family: var(--strand-font-sans); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tight); color: var(--strand-blue-midnight); font-size: 40px; margin: var(--strand-space-3) 0 0 }
+.strand-ref-header__lead { max-width: 620px; margin: var(--strand-space-4) 0 0; font-family: var(--strand-font-sans); font-size: 20px; color: var(--strand-gray-500); line-height: 1.5 }
+.strand-ref-header__meta { display: grid; grid-template-columns: repeat(4, minmax(0, auto)); gap: 48px; margin: var(--strand-space-8) 0 0; justify-content: start }
+.strand-ref-header__meta-item { display: flex; flex-direction: column; gap: var(--strand-space-2); margin: 0 }
+.strand-ref-header__meta-label { font-family: var(--strand-font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--strand-gray-500); margin: 0 }
+.strand-ref-header__meta-value { font-family: var(--strand-font-sans); font-size: 22px; font-weight: var(--strand-weight-light); letter-spacing: -0.01em; color: var(--strand-blue-midnight); margin: 0; line-height: 1.2 }
+.strand-ref-taxonomy { margin-top: var(--strand-space-6); padding: var(--strand-space-5) 22px; background: var(--strand-surface-recessed); border: 1px solid var(--strand-gray-200); border-radius: var(--strand-radius-lg); max-width: 720px }
+.strand-ref-taxonomy__title { font-family: var(--strand-font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--strand-blue-midnight); font-weight: var(--strand-weight-semibold); margin-bottom: 10px }
+.strand-ref-taxonomy__list { margin: 0; display: grid; grid-template-columns: 1fr; gap: var(--strand-space-2) }
+.strand-ref-taxonomy__list > div { display: grid; grid-template-columns: 160px 1fr; gap: 14px; align-items: baseline }
+.strand-ref-taxonomy__list dt { font-family: var(--strand-font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--strand-blue-deep); font-weight: var(--strand-weight-semibold); margin: 0 }
+.strand-ref-taxonomy__list dd { margin: 0; font-size: 13px; color: var(--strand-gray-700); line-height: 1.5 }
+.strand-ref-taxonomy__list em { font-style: italic; color: var(--strand-blue-midnight) }
+.strand-ref-section { padding: var(--strand-space-12) 0; border-bottom: 1px solid var(--strand-gray-200); scroll-margin-top: var(--strand-space-4) }
+.strand-ref-section:last-child { border-bottom: 0 }
+.strand-ref-section__head { margin-bottom: var(--strand-space-8); display: flex; align-items: baseline; justify-content: space-between; gap: var(--strand-space-6); flex-wrap: wrap }
+.strand-ref-section__head h2 { margin: var(--strand-space-2) 0 0; font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tight); color: var(--strand-blue-midnight); font-size: 28px }
+.strand-ref-section__head-note { font-family: var(--strand-font-mono); font-size: 10px; letter-spacing: var(--strand-tracking-ultra); text-transform: uppercase; color: var(--strand-gray-500) }
+.strand-ref-section__body { display: flex; flex-direction: column; gap: var(--strand-space-8) }
+.strand-ref-example { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 28px; align-items: start }
+.strand-ref-example > * { min-width: 0 }
+.strand-ref-example__meta { padding-top: 6px }
+.strand-ref-example__label { font-family: var(--strand-font-sans); font-size: 13px; font-weight: var(--strand-weight-medium); color: var(--strand-blue-midnight); margin-bottom: 6px }
+.strand-ref-example__code { font-family: var(--strand-font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--strand-gray-500); display: block; line-height: 1.5 }
+.strand-ref-example__demo { background: var(--strand-surface-elevated); border: 1px solid var(--strand-gray-200); border-radius: var(--strand-radius-lg); padding: var(--strand-space-6) 28px; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) }
+.strand-ref-example__demo--pad-none { padding: 0; overflow: hidden }
+.strand-ref-example__demo--recessed { background: var(--strand-surface-recessed) }
+.strand-ref-example__caption { margin-top: var(--strand-space-2); font-size: 12px; line-height: 1.55; color: var(--strand-gray-500); max-width: 560px }
+.strand-ref-shell__nav-scrim { display: none }
+@media (max-width: 1040px) {
+  .strand-ref-shell { grid-template-columns: minmax(0, 1fr) }
+  .strand-ref-shell__sidebar { position: fixed; top: var(--strand-ref-sticky-top, 0); left: 0; right: 0; bottom: 0; height: auto; max-height: none; width: 100%; z-index: 80; background: var(--strand-surface-elevated); box-shadow: var(--strand-elevation-3, 0 8px 28px rgba(15, 23, 42, 0.18)); transform: translateX(-100%); transition: transform var(--strand-duration-normal, 200ms) var(--strand-ease-out-quart, ease-out); visibility: hidden; border-right: 0; border-bottom: 0 }
+  .strand-ref-shell.is-nav-open .strand-ref-shell__sidebar { transform: translateX(0); visibility: visible }
+  .strand-ref-shell__nav-scrim { position: fixed; top: var(--strand-ref-sticky-top, 0); left: 0; right: 0; bottom: 0; z-index: 75; background: rgba(15, 23, 42, 0.4) }
+  .strand-ref-shell.is-nav-open .strand-ref-shell__nav-scrim { display: block }
+  .strand-ref-shell__main { padding: var(--strand-space-8) var(--strand-space-6) var(--strand-space-16) }
+  .strand-ref-example { grid-template-columns: minmax(0, 1fr) }
+  .strand-ref-header__meta { grid-template-columns: 1fr 1fr; gap: var(--strand-space-6) var(--strand-space-8) }
+}
+@media (max-width: 560px) {
+  .strand-ref-header__meta { grid-template-columns: 1fr; gap: 18px }
+}"
+`;

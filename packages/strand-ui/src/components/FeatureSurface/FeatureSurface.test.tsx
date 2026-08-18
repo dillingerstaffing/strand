@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
 // The CASCADE is this primitive's contract, and jsdom cannot evaluate a
@@ -65,25 +66,12 @@ describe("FeatureSurface", () => {
     );
     expect(container.textContent).toContain("Next ship");
   });
-
-  // The surface recolours the primitives inside it through their tokens
-  // (cf: surface-tokens); this guards the set for the alert family, the
-  // part that was missed when the surface first shipped.
-  it("sets the alert wash and every alert status colour on dark", async () => {
-    const { readFileSync } = await import("node:fs");
-    const { resolve } = await import("node:path");
-    const read = (rel: string) => readFileSync(resolve(__dirname, rel), "utf8");
-    const blocks = [...read("./FeatureSurface.css").matchAll(/\.strand-feature-surface\s*\{([^}]*)\}/g)].map((m) => m[1]);
-    const block = blocks.find((b) => b.includes("--strand-alert-bg")) ?? "";
-    expect(block).toMatch(/--strand-alert-bg:/);
-    expect(block).toMatch(/--strand-alert-color:/);
-    const variants = [...read("../Alert/Alert.css").matchAll(/var\((--strand-alert-[a-z]+-status-color),/g)].map((m) => m[1]);
-    expect(variants.length).toBeGreaterThanOrEqual(4);
-    for (const v of variants) expect(block, `${v} is not set on the feature surface`).toMatch(new RegExp(`${v}:`));
-  });
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./FeatureSurface.fixtures.js";
 
 snapshotFixtures(FeatureSurface, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./FeatureSurface.css"));

@@ -1,8 +1,10 @@
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { fireEvent, render } from "@testing-library/preact";
 import { vi } from "vitest";
 import { html } from "../../test/render.js";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./LabFrame.fixtures.js";
 import * as family from "./LabFrame.js";
 
@@ -27,3 +29,5 @@ describe("every export renders its element and class", () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 });
+
+snapshotStylesheet(resolve(__dirname, "./LabFrame.css"));

@@ -1,8 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-auth-indicator",
-  ".strand-auth-avatar",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-auth-indicator { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); color: var(--strand-gray-500); letter-spacing: var(--strand-tracking-wide); white-space: nowrap }
+.strand-auth-avatar { width: 28px; height: 28px; border-radius: var(--strand-radius-full); background: var(--strand-blue-glow); color: var(--strand-blue-deep); font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-semibold); display: inline-flex; align-items: center; justify-content: center; text-decoration: none }"
 `;

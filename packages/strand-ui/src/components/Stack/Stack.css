@@ -1,5 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: spacing-ladder */
+
 /* ── Base ── */
 .strand-stack {
   display: flex;
@@ -34,7 +36,6 @@
 }
 
 /* Default stretch handled by flexbox default */
-
 /* ── Justification ── */
 .strand-stack--justify-start {
   justify-content: flex-start;
@@ -61,16 +62,12 @@
   flex-wrap: wrap;
 }
 
-/* ── Responsive direction (DL Part XV: small-screen reflow) ──
-   Combine with strand-stack--horizontal: at <=768px the stack
-   collapses to a vertical column, alignment recenters, and
-   children are allowed to grow to a comfortable max-width via
-   strand-stack__item--responsive (sets max-width 280px width 100%). */
 @media (max-width: 768px) {
   .strand-stack--horizontal.strand-stack--responsive {
     flex-direction: column;
     align-items: center;
   }
+
   .strand-stack--responsive > .strand-btn {
     width: 100%;
     max-width: 280px;
@@ -78,29 +75,66 @@
 }
 
 /* ── Gap utilities ── */
-.strand-stack--gap-0 { gap: 0; }
-.strand-stack--gap-1 { gap: var(--strand-space-1); }
-.strand-stack--gap-2 { gap: var(--strand-space-2); }
-.strand-stack--gap-3 { gap: var(--strand-space-3); }
-.strand-stack--gap-4 { gap: var(--strand-space-4); }
-.strand-stack--gap-5 { gap: var(--strand-space-5); }
-.strand-stack--gap-6 { gap: var(--strand-space-6); }
-.strand-stack--gap-8 { gap: var(--strand-space-8); }
-/* THE CLASS LADDER NOW MATCHES THE TOKEN LADDER, and until 0.57.1 it did not.
-   The utilities stopped at 8 while the spacing scale runs to 48, so a caller
-   asking for a gap the design language plainly HAS got a class with no rule
-   and therefore no gap at all. That is the same failure `gap={7}` produced,
-   from the opposite direction: there the value was off the scale, here the
-   value was on it and the stylesheet had not caught up.
+.strand-stack--gap-0 {
+  gap: 0;
+}
 
-   Grid never had this problem because it writes `var(--strand-space-{n})`
-   inline and any real token resolves. Stack emits a class, so every rung the
-   scale defines needs one. DL Part V 5.1 is the list. */
-.strand-stack--gap-10 { gap: var(--strand-space-10); }
-.strand-stack--gap-12 { gap: var(--strand-space-12); }
-.strand-stack--gap-16 { gap: var(--strand-space-16); }
-.strand-stack--gap-20 { gap: var(--strand-space-20); }
-.strand-stack--gap-24 { gap: var(--strand-space-24); }
-.strand-stack--gap-32 { gap: var(--strand-space-32); }
-.strand-stack--gap-40 { gap: var(--strand-space-40); }
-.strand-stack--gap-48 { gap: var(--strand-space-48); }
+.strand-stack--gap-1 {
+  gap: var(--strand-space-1);
+}
+
+.strand-stack--gap-2 {
+  gap: var(--strand-space-2);
+}
+
+.strand-stack--gap-3 {
+  gap: var(--strand-space-3);
+}
+
+.strand-stack--gap-4 {
+  gap: var(--strand-space-4);
+}
+
+.strand-stack--gap-5 {
+  gap: var(--strand-space-5);
+}
+
+.strand-stack--gap-6 {
+  gap: var(--strand-space-6);
+}
+
+.strand-stack--gap-8 {
+  gap: var(--strand-space-8);
+}
+
+.strand-stack--gap-10 {
+  gap: var(--strand-space-10);
+}
+
+.strand-stack--gap-12 {
+  gap: var(--strand-space-12);
+}
+
+.strand-stack--gap-16 {
+  gap: var(--strand-space-16);
+}
+
+.strand-stack--gap-20 {
+  gap: var(--strand-space-20);
+}
+
+.strand-stack--gap-24 {
+  gap: var(--strand-space-24);
+}
+
+.strand-stack--gap-32 {
+  gap: var(--strand-space-32);
+}
+
+.strand-stack--gap-40 {
+  gap: var(--strand-space-40);
+}
+
+.strand-stack--gap-48 {
+  gap: var(--strand-space-48);
+}

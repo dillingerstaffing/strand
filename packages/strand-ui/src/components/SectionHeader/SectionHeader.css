@@ -1,8 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Section header ──
-   Derivation: section-boundary production (DL 11.10).
-   Centered heading group with bottom margin. */
 .strand-section-header {
   margin-bottom: clamp(2rem, 4vw, 4rem);
 }

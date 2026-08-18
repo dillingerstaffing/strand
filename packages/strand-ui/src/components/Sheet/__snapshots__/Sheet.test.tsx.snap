@@ -5,3 +5,13 @@ exports[`renders > closed 1`] = `""`;
 exports[`renders > open not draggable 1`] = `"<div class="strand-dialog__backdrop"><div aria-label="Filters" aria-modal="true" class="strand-dialog__panel strand-dialog__panel--align-end strand-dialog__panel--pad-none" role="dialog" tabindex="-1"><div class="strand-dialog__body"><div class="strand-sheet__panel"><div class="strand-sheet__body">Body</div></div></div></div></div>"`;
 
 exports[`renders > open with head and action 1`] = `"<div class="strand-dialog__backdrop"><div aria-label="Filters" aria-modal="true" class="strand-dialog__panel strand-dialog__panel--align-end strand-dialog__panel--pad-none" role="dialog" tabindex="-1"><div class="strand-dialog__body"><div class="strand-sheet__panel"><div class="strand-sheet__grab"><span aria-hidden="true" class="strand-sheet__grabber"></span></div><div class="strand-sheet__head">Head</div><div class="strand-sheet__body">Body</div><div class="strand-sheet__foot">Show 6</div></div></div></div></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-sheet__panel { display: flex; flex-direction: column; max-block-size: var(--strand-dialog-block-size, 78vh); will-change: transform }
+.strand-sheet__grab { display: flex; align-items: center; justify-content: center; block-size: 28px; flex: none; cursor: grab; touch-action: none }
+.strand-sheet__grabber { inline-size: 36px; block-size: 4px; border-radius: var(--strand-radius-full); background: var(--strand-gray-300) }
+.strand-sheet__head { flex: none; padding: 0 var(--strand-space-5) var(--strand-space-3); border-block-end: 1px solid var(--strand-gray-200) }
+.strand-sheet__body { flex: 1; min-block-size: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--strand-space-5) }
+.strand-sheet__foot { flex: none; display: flex; padding: var(--strand-space-4) var(--strand-space-5); padding-block-end: max(var(--strand-space-4), env(safe-area-inset-bottom)); border-block-start: 1px solid var(--strand-gray-200); background: var(--strand-surface-elevated) }
+.strand-sheet__foot > * { inline-size: 100% }"
+`;

@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { render, fireEvent, act } from "@testing-library/preact";
 import { Toast, ToastProvider, useToast } from "./Toast.js";
@@ -239,6 +240,9 @@ describe("ToastProvider + useToast", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Toast.fixtures.js";
 
 snapshotFixtures(Toast, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Toast.css"));

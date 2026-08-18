@@ -1,3 +1,24 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`renders > two tabs 1`] = `"<div class="strand-tabs"><div role="tablist"><button aria-controls="panel-one" aria-selected="false" class="strand-tabs__tab" id="tab-one" role="tab" tabindex="-1" type="button">One</button><button aria-controls="panel-two" aria-selected="true" class="strand-tabs__tab strand-tabs__tab--active" id="tab-two" role="tab" tabindex="0" type="button">Two</button></div><div aria-labelledby="tab-one" hidden="" id="panel-one" role="tabpanel" tabindex="0">First</div><div aria-labelledby="tab-two" id="panel-two" role="tabpanel" tabindex="0">Second</div></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-tabs [role="tablist"] { display: flex; gap: var(--strand-space-1); border-bottom: 1px solid var(--strand-gray-200); overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; scroll-snap-type: x proximity; flex-wrap: nowrap }
+.strand-tabs [role="tablist"]::-webkit-scrollbar { display: none }
+.strand-tabs__tab { position: relative; flex-shrink: 0; scroll-snap-align: start; padding: var(--strand-space-2) var(--strand-space-4); border: none; border-bottom: 2px solid transparent; background: none; font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); font-weight: var(--strand-weight-medium); color: var(--strand-tabs-tab-color, var(--strand-gray-500)); cursor: pointer; transition: color var(--strand-duration-fast) var(--strand-ease-out-quart), border-color var(--strand-duration-fast) var(--strand-ease-out-expo) }
+.strand-tabs__tab:hover { color: var(--strand-tabs-tab-hover-color, var(--strand-gray-600)) }
+.strand-tabs__tab:active { color: var(--strand-tabs-tab-pressed-color, var(--strand-gray-700)) }
+.strand-tabs__tab--active { color: var(--strand-tabs-tab-active-color, var(--strand-blue-deep)); border-bottom-color: var(--strand-tabs-tab-active-border-color, var(--strand-blue-primary)) }
+.strand-tabs--instrument [role="tablist"] { justify-content: safe center; gap: 0; border-bottom: 1px solid var(--strand-surface-subtle) }
+.strand-tabs--instrument .strand-tabs__tab { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-widest); text-transform: uppercase; color: var(--strand-tabs-tab-color, var(--strand-gray-600)); padding: var(--strand-space-3) var(--strand-space-6) }
+.strand-tabs--instrument .strand-tabs__tab--active { color: var(--strand-tabs-tab-active-color, var(--strand-blue-midnight)); border-bottom-color: var(--strand-tabs-tab-active-border-color, var(--strand-blue-primary)) }
+.strand-tabs [role="tabpanel"] { padding: var(--strand-space-4) 0 }
+@keyframes strand-tabs-reveal {
+  from { opacity: 0; transform: translateY(8px) }
+  to { opacity: 1; transform: translateY(0) }
+}
+.strand-tabs__panel--reveal { animation: strand-tabs-reveal var(--strand-duration-normal) var(--strand-ease-out-expo) both }
+@media (prefers-reduced-motion: reduce) {
+  .strand-tabs__panel--reveal { animation: none }
+}"
+`;

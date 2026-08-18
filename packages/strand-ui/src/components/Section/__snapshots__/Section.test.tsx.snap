@@ -5,3 +5,18 @@ exports[`renders > compact elevated border as footer 1`] = `"<footer class="stra
 exports[`renders > hero recessed 1`] = `"<section class="strand-section strand-section--hero strand-section--bg-recessed">Body</section>"`;
 
 exports[`renders > standard 1`] = `"<section class="strand-section strand-section--standard strand-section--bg-primary">Body</section>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-section { width: 100%; padding-block: clamp(4rem, 8vw, 8rem) }
+.strand-section--standard { padding-block: clamp(4rem, 8vw, 8rem) }
+.strand-section--hero { padding-block: clamp(6rem, 12vw, 12rem); text-align: center; position: relative; overflow: hidden }
+.strand-section--hero-compact { padding-block: clamp(3.5rem, 6vw, 6rem); text-align: center; position: relative; overflow: hidden }
+.strand-section--hero-xl { padding-block: clamp(8rem, 15vw, 14rem); text-align: center; position: relative; overflow: hidden }
+.strand-section--bg-primary { background-color: var(--strand-surface-primary) }
+.strand-section--bg-elevated { background-color: var(--strand-surface-elevated) }
+.strand-section--bg-recessed { background-color: var(--strand-surface-recessed) }
+.strand-section--compact { padding-block: var(--strand-space-12) }
+.strand-section--border-top { border-top: 1px solid var(--strand-gray-200) }
+.strand-section--scroll-target { scroll-margin-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px)) }
+.strand-section--bg-recessed { --strand-form-field-hint-color: var(--strand-gray-600); --strand-form-field-label-color: var(--strand-gray-600); --strand-lead-color: var(--strand-gray-600); --strand-overline-accent-color: var(--strand-blue-deep); --strand-overline-color: var(--strand-gray-600); --strand-step-indicator-color: var(--strand-blue-deep); --strand-tabs-tab-active-border-color: var(--strand-blue-deep); --strand-tabs-tab-active-color: var(--strand-blue-deep); --strand-tabs-tab-color: var(--strand-gray-600); --strand-tabs-tab-hover-color: var(--strand-gray-600); --strand-tabs-tab-pressed-color: var(--strand-gray-600); --strand-text-secondary-color: var(--strand-gray-600) }"
+`;

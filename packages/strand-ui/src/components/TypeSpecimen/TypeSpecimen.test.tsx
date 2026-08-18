@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { html } from "../../test/render.js";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./TypeSpecimen.fixtures.js";
 import * as family from "./TypeSpecimen.js";
 
@@ -16,3 +18,5 @@ describe("every export renders its element and class", () => {
     expect(html(<family.TypeSpecimenMeta>Inter <b>48px</b></family.TypeSpecimenMeta>)).toMatchSnapshot();
   });
 });
+
+snapshotStylesheet(resolve(__dirname, "./TypeSpecimen.css"));

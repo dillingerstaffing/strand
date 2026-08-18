@@ -1,7 +1,3 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-glass-surface",
-]
-`;
+exports[`stylesheet > renders these rules 1`] = `".strand-glass-surface { background: var(--strand-glass-bg); -webkit-backdrop-filter: blur(var(--strand-glass-blur)); backdrop-filter: blur(var(--strand-glass-blur)); border: 1px solid var(--strand-glass-border) }"`;

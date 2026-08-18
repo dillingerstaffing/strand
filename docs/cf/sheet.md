@@ -1,0 +1,5 @@
+# A sheet is three bands of which one scrolls, with the grabber as the drag target and the action pinned to the thumb
+
+`.strand-sheet__panel` restates the dialog's height cap on its flex column so `flex: 1` on the body has a height to divide; without it the foot leaves the viewport on a long list. `__grab` is a 28px row (a thumb finds it without the 4px bar being the target) with `touch-action: none`, because the browser would otherwise claim the vertical drag for scrolling before a pointermove is delivered, and `will-change: transform` so the drag's inline transform tracks the thumb rather than catching up to it. `__head` sits outside the scroll and adds no block-start padding under the grabber's row. `__body` is the only scrolling band, with `overscroll-behavior: contain`. `__foot` pins the committing control to the panel's bottom edge, which is the viewport's (design language 14.8), pads by `max(space, env(safe-area-inset-bottom))`, and its child spans the band. Placement itself lives on `.strand-dialog__panel--align-end`.
+
+Where: `packages/strand-ui/src/components/Sheet/Sheet.css`; `docs/cf/dialog-panel.md`, `docs/cf/sheet-pointer-capture.md`

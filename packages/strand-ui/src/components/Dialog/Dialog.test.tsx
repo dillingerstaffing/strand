@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { render, fireEvent } from "@testing-library/preact";
 import { Dialog } from "./Dialog.js";
@@ -396,6 +397,9 @@ describe("Dialog", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Dialog.fixtures.js";
 
 snapshotFixtures(Dialog, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Dialog.css"));

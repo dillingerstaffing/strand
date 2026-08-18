@@ -1,16 +1,8 @@
-import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fireEvent, render } from "@testing-library/preact";
 import { describe, expect, it, vi } from "vitest";
 import { TabBar } from "./TabBar.js";
 
-// The stylesheet is the primitive; the wrapper is a thin component over it, so
-// the declarations below are read from the source rather than from a rendered
-// node. jsdom applies no author stylesheet, so asserting a computed style here
-// would assert nothing (docs/testing-tiers.md).
-const css = readFileSync(resolve(__dirname, "TabBar.css"), "utf8");
-const ruleFor = (sel: string) =>
-  css.match(new RegExp(`${sel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\{([^}]*)\\}`))?.[1];
 
 // The POSITIONING is this primitive's real contract -- fixed to the viewport,
 // in 14.8's easy band, clearing the safe-area inset -- and jsdom cannot lay
@@ -166,60 +158,12 @@ describe("TabBar", () => {
       "shell-nav",
     );
   });
-
-  // ── Gap #104: the labels had no contrast ratio ──
-
-  it("paints an opaque ground rather than glass", () => {
-    // Small text owes 4.5:1, and behind a translucent bar the effective
-    // background is whatever is scrolled underneath, so the ratio moves with
-    // the reader. Measured on a consumer: 3.92:1 with content behind, passing
-    // over an empty page. A ratio that depends on scroll position is not one.
-    const bar = ruleFor(".strand-tabbar") || "";
-    expect(bar).toMatch(/background:\s*var\(--strand-tabbar-bg,\s*var\(--strand-surface-[a-z]+\)\)/);
-    expect(bar, "glass is what made the ratio undefined").not.toMatch(/backdrop-filter/);
-    expect(bar, "glass is what made the ratio undefined").not.toMatch(/--strand-glass-bg/);
-  });
-
-  it("never lets a label wrap, because the bar's height is a reserved token", () => {
-    expect(ruleFor(".strand-tabbar__label")).toMatch(/white-space:\s*nowrap/);
-  });
-
-  it("lets a consumer set its geometry without overriding the class", () => {
-    const bar = ruleFor(".strand-tabbar") || "";
-    expect(bar).toMatch(/justify-content:\s*var\(--strand-tabbar-justify/);
-    expect(bar).toMatch(/padding-block-start:\s*var\(--strand-tabbar-pad-block-start/);
-    expect(bar).toMatch(/padding-inline:\s*var\(--strand-tabbar-pad-inline/);
-    expect(ruleFor(".strand-tabbar__item")).toMatch(/min-inline-size:\s*var\(--strand-tabbar-item-size/);
-    expect(ruleFor(".strand-tabbar__item")).toMatch(/gap:\s*var\(--strand-tabbar-item-gap/);
-  });
-
-  it("keeps text-xs as the label default, so the type scale is unchanged", () => {
-    // The token lets one consumer size one bar. It does not add a rung: every
-    // consumer that sets nothing still gets the smallest step in the scale.
-    expect(ruleFor(".strand-tabbar__label")).toMatch(
-      /font-size:\s*var\(--strand-tabbar-label-size,\s*var\(--strand-text-xs\)\)/,
-    );
-  });
-
-  it("falls back to a token that actually exists", () => {
-    // A var() whose fallback is itself an UNDEFINED var() resolves to nothing,
-    // and `background: <nothing>` is transparent. That shipped once in a draft
-    // of the rule above, naming --strand-surface-raised, which does not exist:
-    // the bar measured rgba(0,0,0,0), worse than the glass it replaced, and it
-    // read as correct because the name looks like a real token.
-    const tokens = readFileSync(
-      resolve(__dirname, "../../../../tokens/css/tokens.css"),
-      "utf8",
-    );
-    const fallback = (ruleFor(".strand-tabbar") || "").match(
-      /background:\s*var\(--strand-tabbar-bg,\s*var\((--strand-[a-z-]+)\)\)/,
-    )?.[1];
-    expect(fallback, "no token fallback found on the tab bar background").toBeTruthy();
-    expect(tokens, `${fallback} is not defined in tokens.css`).toContain(`${fallback}:`);
-  });
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./TabBar.fixtures.js";
 
 snapshotFixtures(TabBar, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./TabBar.css"));

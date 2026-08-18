@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/preact";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { Settle } from "./Settle.js";
 import { fixtures } from "./Settle.fixtures.js";
 
@@ -34,3 +36,5 @@ describe("Settle identity", () => {
     expect(b.container.firstElementChild).not.toBe(one);
   });
 });
+
+snapshotStylesheet(resolve(__dirname, "./Settle.css"));

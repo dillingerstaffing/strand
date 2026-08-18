@@ -3,3 +3,17 @@
 exports[`renders > full 1`] = `"<article class="strand-result-card"><div class="strand-result-card__title">Systems Engineer</div><div class="strand-result-card__company">Acme</div><div class="strand-result-card__meta"><span class="strand-result-card__location">Oakland</span><span class="strand-result-card__salary">$100k</span><span class="strand-result-card__badge strand-result-card__badge--remote">Remote</span><span class="strand-result-card__badge strand-result-card__badge--source">Board</span><span class="strand-result-card__badge">Plain</span></div></article>"`;
 
 exports[`renders > title only active 1`] = `"<article aria-current="true" class="strand-result-card strand-result-card--active"><div class="strand-result-card__title">Only</div></article>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-result-card { display: block; padding: var(--strand-space-3) var(--strand-space-4); border-bottom: 1px solid rgba(59, 142, 246, 0.06); cursor: pointer; transition: background var(--strand-duration-fast) ease }
+.strand-result-card:hover { background: rgba(59, 142, 246, 0.08) }
+.strand-result-card.is-active, .strand-result-card--active { background: rgba(59, 142, 246, 0.12) }
+.strand-result-card__title { font-size: var(--strand-text-sm); font-weight: var(--strand-weight-medium); color: var(--strand-instrument-text-primary); margin-bottom: 2px; line-height: 1.3 }
+.strand-result-card__company { font-size: var(--strand-text-xs); color: rgba(148, 163, 184, 0.7); margin-bottom: 4px }
+.strand-result-card__meta { display: flex; align-items: center; gap: var(--strand-space-2); flex-wrap: wrap }
+.strand-result-card__location { font-family: var(--strand-font-mono); font-size: 10px; letter-spacing: var(--strand-tracking-wide); color: var(--strand-instrument-text-tertiary) }
+.strand-result-card__salary { font-family: var(--strand-font-mono); font-size: 10px; color: var(--strand-blue-indicator) }
+.strand-result-card__badge { font-family: var(--strand-font-mono); font-size: 9px; letter-spacing: var(--strand-tracking-wide); text-transform: uppercase; padding: 1px 6px; border-radius: var(--strand-radius-sm) }
+.strand-result-card__badge--remote { color: var(--strand-teal-vital); background: rgba(20, 184, 166, 0.12) }
+.strand-result-card__badge--source { color: rgba(148, 163, 184, 0.4); background: rgba(148, 163, 184, 0.06) }"
+`;

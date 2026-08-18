@@ -1,5 +1,8 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: button-density */
+/* cf: component-knobs */
+
 /* ── Base ── */
 .strand-btn {
   position: relative;
@@ -34,22 +37,6 @@
 }
 
 /* ── Sizes ── */
-/* ── The touch-target floor is a KNOB, not a constant ──
-   Every size below floors at `--strand-touch-target` (44px), and until now that
-   floor was unconditional: a consumer needing a compact control had no way to
-   ask for one and could only override `.strand-btn`, which is the workaround
-   the dogfood protocol exists to prevent.
-
-   The floor's own rule is narrower than its implementation. The 44px house rule
-   is scoped to PRIMARY actions; WCAG 2.2 AA (SC 2.5.8) requires 24x24, and
-   SC 2.5.5's 44x44 is AAA. A 34px secondary control clears AA with margin, and
-   flattening every control to 44 erases a deliberate primary/secondary
-   distinction.
-
-   The default is unchanged, so no existing consumer moves. Setting the token is
-   design-system usage; overriding the class would not have been. A consumer who
-   sets it below 24px is outside AA, which is theirs to answer for and was
-   always reachable by overriding anyway. */
 .strand-btn--sm {
   padding: var(--strand-space-2) var(--strand-space-5);
   font-size: var(--strand-text-sm);
@@ -68,48 +55,12 @@
   min-height: var(--strand-btn-min-block-size, var(--strand-touch-target));
 }
 
-/* ── Compact ──
-   A text button at chrome density, for a header row rather than a page.
-
-   THE GAP THIS CLOSES. #98 gave nav chrome a compact treatment, correctly
-   scoped to `.strand-nav__actions` and `.strand-nav__slot` so it could not
-   leak into page content. A consumer then built its phone header as a plain
-   header block rather than as a `Nav`, which is the right composition for
-   it, and had no way to reach that density: an 85px sign-in button beside a
-   26px title read as the loudest thing on the screen. The treatment was
-   tied to a CONTAINER when it is a property of the CONTROL.
-
-   Padding only. It deliberately does NOT touch min-height, because that is
-   the touch-target floor and 14.7 makes it a function of the input
-   modality, not of how dense a row looks. Compact is about horizontal
-   noise; shrinking a target is a different decision with a different rule.
-
-   Not applied to `--icon-only`: an icon button's padding is what makes it
-   square, and the same declaration that tightens a word deforms a circle
-   into a pill. #100 is that mistake; this is the guard against repeating
-   it, which is why the selector excludes it rather than relying on order. */
 .strand-btn--compact:not(.strand-btn--icon-only) {
   padding-inline: var(--strand-space-3);
 }
 
 /* ── Icon-only ── */
-.strand-btn--icon-only/* ── The touch-target floor is a KNOB, not a constant ──
-   Every size below floors at `--strand-touch-target` (44px), and until now that
-   floor was unconditional: a consumer needing a compact control had no way to
-   ask for one and could only override `.strand-btn`, which is the workaround
-   the dogfood protocol exists to prevent.
-
-   The floor's own rule is narrower than its implementation. The 44px house rule
-   is scoped to PRIMARY actions; WCAG 2.2 AA (SC 2.5.8) requires 24x24, and
-   SC 2.5.5's 44x44 is AAA. A 34px secondary control clears AA with margin, and
-   flattening every control to 44 erases a deliberate primary/secondary
-   distinction.
-
-   The default is unchanged, so no existing consumer moves. Setting the token is
-   design-system usage; overriding the class would not have been. A consumer who
-   sets it below 24px is outside AA, which is theirs to answer for and was
-   always reachable by overriding anyway. */
-.strand-btn--sm {
+.strand-btn--icon-only.strand-btn--sm {
   padding: var(--strand-space-1);
   min-width: var(--strand-touch-target);
 }
@@ -124,11 +75,6 @@
   min-width: 48px;
 }
 
-/* ── Circular modifier (icon-only only) ──
-   Combine with strand-btn--icon-only + a size modifier for a
-   pill/circle button. Use for inline rating stars, avatar
-   actions, or reaction chips where a square outline would
-   feel harsh. */
 .strand-btn--circular {
   border-radius: var(--strand-radius-full);
   aspect-ratio: 1;
@@ -173,15 +119,6 @@
   background: var(--strand-blue-wash);
 }
 
-/* ── Ghost variant ──
-   Uses blue-midnight rather than blue-primary because the ghost
-   variant has no solid surface underneath, so its text must
-   contrast against whatever page surface the button sits on.
-   blue-primary (#3b8ef6) only reaches ~2.8:1 against surface-primary
-   and blue-deep (#1d5ad8) still borderlines on glass-nav backdrops
-   (~4.27:1 when composited over section content). blue-midnight
-   (#1e3e5f) reaches ~7.5:1 against those same surfaces, clears
-   WCAG 2.2 AA 4.5:1 comfortably, and preserves the blue identity. */
 .strand-btn--ghost {
   background: transparent;
   color: var(--strand-btn-ghost-color, var(--strand-blue-midnight));
@@ -197,16 +134,6 @@
   background: var(--strand-blue-wash);
 }
 
-/* ── Danger variant ──
-   The whole ladder moved one rung deeper. White on red-alert is 3.76:1, which
-   is a fill-tier pairing: fine behind large text, below AA for a button label.
-   This is the confirm button on destructive actions, so its label is the last
-   thing a reader checks before deleting something, and it was the least
-   legible text in the set.
-
-   Base is now red-alert-vivid (4.83:1), hover red-alert-deep (6.47:1) and
-   active red-alert-abyss (10.02:1), which mirrors how primary descends
-   blue-deep -> midnight -> abyss rather than starting at the base rung. */
 .strand-btn--danger {
   background: var(--strand-red-alert-vivid);
   color: var(--strand-on-red-alert-vivid);
@@ -227,9 +154,6 @@
   pointer-events: none;
 }
 
-/* When the loading spinner is active, hide the label so only
-   the spinner is visible. We use visibility (not display) to
-   keep the button width stable so the spinner does not jump. */
 .strand-btn--loading .strand-btn__content {
   visibility: hidden;
 }
@@ -268,6 +192,7 @@
   .strand-btn:hover:not(:disabled) {
     transform: none;
   }
+
   .strand-btn__spinner {
     animation: none;
     border-style: dotted;

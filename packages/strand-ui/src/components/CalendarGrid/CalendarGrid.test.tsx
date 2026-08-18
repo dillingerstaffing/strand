@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fireEvent, render } from "@testing-library/preact";
 import { describe, expect, it, vi } from "vitest";
@@ -332,35 +331,10 @@ describe("CalendarGrid", () => {
 
 });
 
-// ── Gap #116: the cell floor was reachable only by overriding the class ──
-describe("CalendarGrid CSS source", () => {
-  // Comments stripped first, for the reason Grid.test.tsx records: a source
-  // guard that matches commentary measures what a rule says, not what it does.
-  const css = readFileSync(resolve(__dirname, "CalendarGrid.css"), "utf8").replace(
-    /\/\*[\s\S]*?\*\//g,
-    "",
-  );
-  const ruleFor = (sel: string) =>
-    css.match(new RegExp(`\\${sel}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
-
-  it("lets a consumer set the cell floor without overriding the class", () => {
-    // A month in a panel and a month that IS the page are the same component
-    // at two sizes. Without a knob, the second reaches past the API into
-    // `.strand-calendar-grid__day` -- which is what the consumer did.
-    expect(ruleFor(".strand-calendar-grid__day")).toContain(
-      "min-block-size: var(--strand-calendar-grid-day-size, var(--strand-space-20))",
-    );
-  });
-
-  it("changes no default, because an additive knob that moves a default is a break", () => {
-    // The fallback IS today's value. Asserted separately from the property
-    // above so that swapping the default while keeping the property fails.
-    expect(ruleFor(".strand-calendar-grid__day")).toContain("var(--strand-space-20)");
-  });
-
-});
-
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./CalendarGrid.fixtures.js";
 
 snapshotFixtures(CalendarGrid, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./CalendarGrid.css"));

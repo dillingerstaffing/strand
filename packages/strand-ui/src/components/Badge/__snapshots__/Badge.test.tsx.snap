@@ -13,3 +13,18 @@ exports[`renders > count red wrapping content 1`] = `"<span class="strand-badge"
 exports[`renders > dot 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="Status indicator" class="strand-badge__indicator strand-badge--dot strand-badge--default" role="status"></span></span>"`;
 
 exports[`renders > dot live teal 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="Status indicator" class="strand-badge__indicator strand-badge--dot strand-badge--teal strand-badge--live" role="status"></span></span>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-badge { position: relative; display: inline-flex; vertical-align: middle }
+.strand-badge--inline { display: inline-flex }
+.strand-badge__indicator { display: inline-flex; align-items: center; justify-content: center; font-family: var(--strand-font-sans); font-weight: var(--strand-weight-semibold); color: var(--strand-on-blue-primary) }
+.strand-badge:not(.strand-badge--inline) > .strand-badge__indicator { position: absolute; top: 0; right: 0; transform: translate(50%, -50%); z-index: 1 }
+.strand-badge--dot { width: 8px; height: 8px; border-radius: var(--strand-radius-full); font-size: 0; padding: 0 }
+.strand-badge--count { min-width: 20px; height: 20px; padding: 0 var(--strand-space-1); border-radius: var(--strand-radius-full); font-size: var(--strand-text-xs); line-height: 20px }
+.strand-badge--default { background: var(--strand-gray-500) }
+.strand-badge--teal { background: var(--strand-teal-deep) }
+.strand-badge--blue { background: var(--strand-blue-deep) }
+.strand-badge--amber { background: var(--strand-amber-caution); color: var(--strand-blue-midnight) }
+.strand-badge--red { background: var(--strand-red-alert-deep) }
+.strand-badge--live { animation: strand-pulse-glow 3s var(--strand-ease-in-out-sine) infinite }"
+`;

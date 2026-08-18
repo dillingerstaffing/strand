@@ -1,5 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: code-block-copy */
+
 /* ── Layout ── */
 .strand-code-block {
   position: relative;
@@ -17,12 +19,6 @@
   margin-bottom: var(--strand-space-2);
 }
 
-/* ── Code area ──
-   Both <pre> and the nested <code> get explicit color AND background
-   so axe-core never has to walk inheritance or composite the
-   inset box-shadow. Without explicit color/background on the code
-   element, axe-core can compute a false-positive contrast violation
-   by blending the inset shadow against the surface. */
 .strand-code-block__pre,
 .strand-code-block__pre code {
   font-family: var(--strand-font-mono);
@@ -40,41 +36,13 @@
   tab-size: 2;
   margin: 0;
   border: 1px solid var(--strand-gray-200);
-  /* Floor the pre at touch-target so that even a theoretical empty
-     code block leaves room for the copy affordance. Single-line
-     snippets naturally exceed this (padding + line-height + border
-     ≈ 47.66px) so this is defensive rather than active. */
   min-height: var(--strand-touch-target);
 }
 
-/* ── Copy button ──
-   Injected by consumer JS (strand-copy-buttons.js in dillinger) onto any
-   .strand-code-block wrapper. The button sits at the top-right of the
-   wrapper. The host wrapper carries [data-strand-copy] so the inner
-   <pre> can reserve right-side padding for the icon without shifting
-   code blocks that have no copy button.
-   Default state is low-ink so it does not compete with the code. On
-   hover, focus, or parent hover it gains full contrast. Success state
-   swaps the icon to a check and flips the label to "Copied" for 1.5s. */
 .strand-code-block[data-strand-copy] > .strand-code-block__pre {
   padding-right: var(--strand-space-10);
 }
 
-/* Geometry derivation (why these exact values):
-   - <pre> for a 1-line snippet: 12 + 21.66 + 12 + 2 = ~47.66px tall
-     (padding-top + line-height + padding-bottom + 2×border).
-   - Button MUST fit inside the pre or its white surface bleeds out
-     the bottom. With top=8 and a 44x44 button, the bottom lands at
-     54px which overflows the 47.66 pre by ~6px (the bleed the
-     previous fix tried to mask).
-   - Visible button is therefore 32×32 (+ 2×1 border = 34×34). With
-     top=6 the box occupies y ∈ [6, 40], inside the 47.66 pre with
-     ~7.66px of breathing room.
-   - First code line center = padding-top (12) + ½ line-height
-     (~10.83) = ~22.83px from pre top. Button center = top (6) + 17
-     = 23px. Delta = 0.17px, well under the 2px test slop.
-   - A `::before` pseudo-element expands the hit area to 44×44
-     (WCAG 2.5.8 touch target) without affecting the visible box. */
 .strand-code-block__copy {
   position: absolute;
   top: calc(var(--strand-space-2) - 2px);
@@ -99,12 +67,6 @@
     transform var(--strand-duration-fast) var(--strand-ease-out-expo);
 }
 
-/* Expanded hit area: the visible button is 32x32 so it fits in a
-   1-line code block, but WCAG 2.5.8 (Target Size Minimum) prefers a
-   larger touch target. This invisible pseudo-element extends the
-   click area to 44x44 without shifting any pixels. The halo is
-   contained within the reserved right-padding on the pre so it never
-   overlaps code text. */
 .strand-code-block__copy::before {
   content: "";
   position: absolute;
@@ -128,10 +90,6 @@
   transition-duration: 75ms;
 }
 
-/* Success state: check icon, green accent, pinned opacity. */
-/* green-positive is the fill tier (2.54:1 as text). The label reads "Copied",
-   so the confirmation is carried by words and needs the text tier; the border
-   keeps the brighter value, which is correct at the 3:1 non-text threshold. */
 .strand-code-block__copy--copied,
 .strand-code-block__copy--copied:hover {
   opacity: 1;
@@ -140,10 +98,6 @@
   transform: translateY(0);
 }
 
-/* Icon swap. Both icons stack in the same cell; the active one has
-   display:inline, the inactive one has display:none. No opacity or
-   transform animation on the swap so reduced-motion users get the
-   same instant visual feedback. */
 .strand-code-block__copy-icon {
   width: 16px;
   height: 16px;

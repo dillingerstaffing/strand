@@ -1,8 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-lab-surface",
-  ".strand-lab-surface--warm",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-lab-surface { background: radial-gradient(circle, rgba(148, 163, 184, 0.07) 1px, transparent 1px), radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 130, 246, 0.03) 0%, transparent 100%), linear-gradient(180deg, var(--strand-surface-primary) 0%, var(--strand-surface-elevated) 40%, var(--strand-surface-recessed) 100%); background-size: 24px 24px, 100% 100%, 100% 100%; background-color: var(--strand-surface-primary) }
+.strand-lab-surface--warm { background: radial-gradient(circle, rgba(148, 163, 184, 0.07) 1px, transparent 1px), radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 130, 246, 0.03) 0%, transparent 100%), radial-gradient(ellipse 80% 40% at 50% 100%, var(--strand-warm-radial) 0%, transparent 100%), linear-gradient(180deg, var(--strand-surface-primary) 0%, var(--strand-surface-elevated) 40%, var(--strand-surface-recessed) 100%); background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%; background-color: var(--strand-surface-primary) }"
 `;

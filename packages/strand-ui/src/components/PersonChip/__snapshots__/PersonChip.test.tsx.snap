@@ -5,3 +5,13 @@ exports[`renders > explicit initials 1`] = `"<span class="strand-person-chip"><s
 exports[`renders > name 1`] = `"<span class="strand-person-chip"><span aria-hidden="true" class="strand-person-chip__avatar">MK</span><span class="strand-person-chip__name">Maria Klein</span></span>"`;
 
 exports[`renders > secondary 1`] = `"<span class="strand-person-chip"><span aria-hidden="true" class="strand-person-chip__avatar">S</span><span class="strand-person-chip__name">steady-kestrel-865</span><span class="strand-person-chip__secondary">Grace</span></span>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-person-chip { display: inline-flex; align-items: center; gap: var(--strand-space-2); padding-block: var(--strand-space-1); padding-inline: var(--strand-space-1) var(--strand-space-3); background: var(--strand-surface-recessed); border: 1px solid var(--strand-gray-200); border-radius: var(--strand-radius-full); max-inline-size: 100% }
+.strand-person-chip__avatar { flex: none; display: grid; place-items: center; inline-size: 24px; block-size: 24px; border-radius: var(--strand-radius-full); background: var(--strand-blue-wash); font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-semibold); color: var(--strand-blue-deep); line-height: 1 }
+.strand-person-chip__name { font-size: var(--strand-text-sm); color: var(--strand-gray-700); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-inline-size: 0 }
+.strand-person-chip__secondary { font-size: var(--strand-text-xs); color: var(--strand-gray-500); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-inline-size: 0; max-inline-size: 12ch }
+.strand-person-chip__secondary::before { content: "\\00b7"; margin-inline-end: var(--strand-space-1) }
+.strand-person-chip--action { cursor: pointer; font: inherit; transition: border-color var(--strand-duration-fast) ease, background-color var(--strand-duration-fast) ease }
+.strand-person-chip--action:hover { background: var(--strand-blue-glow); border-color: var(--strand-blue-indicator) }"
+`;

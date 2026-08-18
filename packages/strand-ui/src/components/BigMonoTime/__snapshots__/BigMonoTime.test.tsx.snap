@@ -7,3 +7,10 @@ exports[`renders > range lg 1`] = `"<span class="strand-big-mono-time strand-big
 exports[`renders > single 1`] = `"<span class="strand-big-mono-time">06:45</span>"`;
 
 exports[`renders > sm with datetime 1`] = `"<time class="strand-big-mono-time strand-big-mono-time--sm" datetime="2026-08-13T06:45">06:45</time>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-big-mono-time { display: block; font-family: var(--strand-font-mono); font-size: var(--strand-text-2xl); font-weight: var(--strand-weight-semibold); font-variant-numeric: tabular-nums; letter-spacing: var(--strand-tracking-tight); line-height: var(--strand-leading-none); color: var(--strand-big-mono-time-color, var(--strand-blue-midnight)) }
+.strand-big-mono-time--lg { font-size: var(--strand-text-3xl) }
+.strand-big-mono-time--sm { font-size: var(--strand-text-xl) }
+.strand-big-mono-time__sep { color: var(--strand-big-mono-time-sep-color, var(--strand-gray-500)); padding-inline: var(--strand-space-1) }"
+`;

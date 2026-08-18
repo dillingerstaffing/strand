@@ -7,3 +7,10 @@ exports[`every export renders its element and class > TypeSpecimenMeta 1`] = `"<
 exports[`every export renders its element and class > meta keeps nested markup 1`] = `"<span class="strand-type-specimen__meta">Inter <b>48px</b></span>"`;
 
 exports[`renders > specimen 1`] = `"<div class="strand-type-specimen">display</div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-type-specimen { display: grid; grid-template-columns: 1fr; gap: var(--strand-space-3); padding: var(--strand-space-5) 0; border-top: 1px dashed var(--strand-gray-200) }
+.strand-type-specimen:first-child { border-top: 0; padding-top: 0 }
+.strand-type-specimen__meta { display: block; font-family: var(--strand-font-mono); font-size: 10px; letter-spacing: 0.06em; color: var(--strand-gray-500); line-height: 1.5 }
+.strand-type-specimen__meta b { color: var(--strand-blue-deep); font-weight: var(--strand-weight-medium) }"
+`;

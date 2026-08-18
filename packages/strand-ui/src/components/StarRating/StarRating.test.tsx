@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/preact";
@@ -135,29 +134,10 @@ describe("StarRating", () => {
   });
 });
 
-// ── Focus appearance (SC 2.4.11) ──
-//
-// The focus style was `outline: none` plus --strand-focus-ring, which is
-// rgba(59,130,246,0.1). Over white that paints rgb(235,243,254): measured
-// 1.12:1 against the unfocused star, where 2.4.11 asks 3:1. A keyboard user
-// could not see which star they were on, and this composes into the product's
-// rating flow, not just the showcase.
-//
-// No axe rule covers 2.4.11 -- focus appearance is not automatable that way --
-// so every contrast suite in the project was blind to it. Hence a guard here.
-describe("StarRating focus is visible (SC 2.4.11)", () => {
-  // The base stylesheet draws the ring on every :focus-visible; a star must
-  // not suppress it, and must not lean on the low-alpha focus-ring token as its
-  // only indicator.
-  const css = readFileSync(resolve(__dirname, "StarRating.css"), "utf8");
-  it("neither suppresses the base ring nor replaces it with the low-alpha glow", () => {
-    const rule = css.match(/\.strand-star-rating__star:focus-visible\s*\{([^}]*)\}/)?.[1] ?? "";
-    expect(rule).not.toMatch(/outline:\s*none/);
-    expect(rule).not.toContain("--strand-focus-ring");
-  });
-});
-
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./StarRating.fixtures.js";
 
 snapshotFixtures(StarRating, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./StarRating.css"));

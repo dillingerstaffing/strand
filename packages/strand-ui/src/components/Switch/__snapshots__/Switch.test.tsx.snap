@@ -5,3 +5,20 @@ exports[`renders > disabled compact 1`] = `"<label class="strand-switch strand-s
 exports[`renders > off 1`] = `"<label class="strand-switch"><button aria-checked="false" class="strand-switch__track" role="switch" type="button"><span aria-hidden="true" class="strand-switch__thumb"></span></button><span class="strand-switch__label">Dark mode</span></label>"`;
 
 exports[`renders > on 1`] = `"<label class="strand-switch strand-switch--checked"><button aria-checked="true" class="strand-switch__track" role="switch" type="button"><span aria-hidden="true" class="strand-switch__thumb"></span></button><span class="strand-switch__label">Dark mode</span></label>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-switch { display: inline-flex; align-items: center; gap: var(--strand-space-2); min-height: var(--strand-touch-target); cursor: pointer; user-select: none; font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); color: var(--strand-gray-900); line-height: var(--strand-leading-snug) }
+.strand-switch__track { position: relative; display: inline-flex; align-items: center; width: 40px; height: 22px; padding: 0; border: 1px solid var(--strand-gray-200); border-radius: var(--strand-radius-full); background: var(--strand-gray-200); cursor: pointer; flex-shrink: 0; transition: background var(--strand-duration-fast) var(--strand-ease-out-quart), border-color var(--strand-duration-fast) var(--strand-ease-out-quart), box-shadow var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-switch__track:focus-visible { border-color: var(--strand-blue-primary); box-shadow: var(--strand-focus-ring); outline: none }
+.strand-switch__thumb { position: absolute; left: 2px; width: 16px; height: 16px; border-radius: var(--strand-radius-full); background: var(--strand-surface-elevated); box-shadow: var(--strand-elevation-1); transition: transform var(--strand-duration-fast) var(--strand-ease-out-expo) }
+.strand-switch--checked .strand-switch__track { background: var(--strand-blue-primary); border-color: var(--strand-blue-primary) }
+.strand-switch--checked .strand-switch__thumb { transform: translateX(18px) }
+.strand-switch:hover:not(.strand-switch--disabled) .strand-switch__track { border-color: var(--strand-blue-indicator) }
+.strand-switch--checked:hover:not(.strand-switch--disabled) .strand-switch__track { background: var(--strand-blue-vivid); border-color: var(--strand-blue-vivid) }
+.strand-switch__label { color: var(--strand-switch-label-color, var(--strand-gray-900)) }
+.strand-switch--disabled { opacity: var(--strand-opacity-disabled); cursor: not-allowed }
+.strand-switch--disabled .strand-switch__track { cursor: not-allowed }
+@media (pointer: fine) {
+  .strand-switch--compact { min-height: 30px }
+}"
+`;

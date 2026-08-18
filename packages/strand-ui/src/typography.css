@@ -1,6 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Overline (specimen label pattern, DL Part IV.5) ── */
+/* cf: value-tone */
+
 .strand-overline {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
@@ -10,29 +11,17 @@
   color: var(--strand-overline-color, var(--strand-gray-500));
   line-height: var(--strand-leading-normal);
 }
-/* ── Overline accent variant (blue instead of gray) ──
-   Uses blue-deep so the small uppercase text meets WCAG AA 4.5:1
-   contrast on the default white surface. blue-primary (#3b82f6)
-   only scores 3.28:1 at 10.4px mono. blue-deep stays vibrant
-   without violating contrast. */
+
 .strand-overline--accent {
   color: var(--strand-overline-accent-color, var(--strand-blue-deep));
 }
-/* ── Overline with pulse dot (DL Part 7: alive signal) ──
-   Adds an animated dot prefix that pulses in a slow rhythm. Use on
-   the primary hero overline to signal "this is a living system."
-   Combine with strand-overline--accent for the blue brand color.
-   The dot uses blue-primary; on dark backgrounds use teal-vital.
 
-   The display: inline-block + relative positioning shrinks the
-   overline to its text width so the absolutely-positioned dot
-   sits immediately to the LEFT of the text -- not to the left of
-   a full-width parent container. */
 .strand-overline--pulse {
   position: relative;
   padding-left: var(--strand-space-4);
   display: inline-block;
 }
+
 .strand-overline--pulse::before {
   content: "";
   position: absolute;
@@ -45,11 +34,18 @@
   background: var(--strand-blue-primary);
   animation: strand-overline-pulse 2s var(--strand-ease-in-out-sine) infinite;
 }
+
 @keyframes strand-overline-pulse {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
-/* ── Headline (display heading, DL Part IV.5) ── */
+
 .strand-headline {
   font-family: var(--strand-font-mono);
   font-weight: var(--strand-weight-light);
@@ -58,14 +54,17 @@
   color: var(--strand-headline-color, var(--strand-blue-midnight));
   line-height: var(--strand-leading-tight);
 }
+
 .strand-headline--xl {
   font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
   letter-spacing: 0.35em;
 }
+
 .strand-headline--lg {
   font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
   letter-spacing: var(--strand-tracking-tighter);
 }
+
 /* ── Gradient text effect (premium hero headlines) ── */
 .strand-headline--gradient {
   background: linear-gradient(180deg, var(--strand-gray-900) 0%, var(--strand-blue-midnight) 100%);
@@ -73,7 +72,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-/* ── Title (human voice display, DL Part IV.7) ── */
+
 .strand-title {
   font-family: var(--strand-font-sans);
   font-weight: var(--strand-weight-light);
@@ -82,100 +81,75 @@
   font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
   line-height: var(--strand-leading-snug);
 }
-/* ── Lead (intro paragraph, DL Part IV.6) ── */
+
 .strand-lead {
   font-size: var(--strand-text-lg);
   color: var(--strand-lead-color, var(--strand-gray-500));
   max-width: 50ch;
   line-height: var(--strand-leading-relaxed);
 }
-/* ── Secondary text (caption/description, DL Part III.8 Color Roles) ── */
+
 .strand-text-secondary {
   font-size: var(--strand-text-sm);
   color: var(--strand-text-secondary-color, var(--strand-gray-500));
   line-height: var(--strand-leading-relaxed);
 }
+
 .strand-text-secondary strong {
   color: var(--strand-gray-700);
 }
+
 .strand-text-secondary a {
   color: var(--strand-blue-deep);
   text-decoration: none;
 }
-/* Underline on hover rather than a color shift. The previous brighten to
-   blue-vivid does not meet 4.5:1 on the page background, and a hover state
-   carries the same contrast obligation as the resting one. */
+
 .strand-text-secondary a:hover {
   text-decoration: underline;
 }
+
 .strand-text-secondary--xs {
   font-size: var(--strand-text-xs);
   color: var(--strand-text-secondary-xs-color, var(--strand-text-secondary-color, var(--strand-gray-500)));
 }
-/* ── Typographic utilities ──
-   Pure single-property utilities for composing text styles when
-   the full .strand-overline / .strand-kv / .strand-data-readout
-   component semantics are too heavy. Use on inline meta rows,
-   cadence lines, and data-adjacent body copy that should read
-   as instrument output without inheriting the overline's letter
-   spacing and weight.
-   The size utilities map 1:1 onto the type scale tokens and carry
-   no color. That is the difference from .strand-text-secondary,
-   which also recolors to gray-500: use a size utility to shrink a
-   value (a long URL, code, or id) in place while it stays primary
-   colored; use .strand-text-secondary to demote text to metadata. */
+
 .strand-font-mono {
   font-family: var(--strand-font-mono);
 }
+
 .strand-text-sm {
   font-size: var(--strand-text-sm);
 }
+
 .strand-text-xs {
   font-size: var(--strand-text-xs);
 }
-/* Break a long unbreakable string (URL, hash, id, token) so it wraps
-   inside a constrained box instead of overflowing. overflow-wrap:
-   anywhere also lets a flex item shrink below the string's intrinsic
-   width, which is what a readonly URL field needs in order to wrap. */
+
 .strand-break-anywhere {
   overflow-wrap: anywhere;
 }
-/* Keep a short data atom (a date, an amount, an id) on one line so a
-   squeezed table column or flex row wraps its prose neighbors
-   instead. The inverse of .strand-break-anywhere: compose nowrap onto
-   the cells that must never break mid-figure and break-anywhere onto
-   the column that should absorb the wrapping. */
+
 .strand-nowrap {
   white-space: nowrap;
 }
-/* ── Value tone (financial sign) ──
-   Color a numeric readout by its financial meaning: money coming in
-   (a credit, a surplus, money kept back) reads positive/green; money
-   going out (a debit, an overage, a shortfall) reads negative/red.
-   The deep shades are chosen for WCAG AA contrast as text on light
-   surfaces (the pure accents are too light to read as small figures).
-   font-variant-numeric keeps figures aligned in tables and readouts.
-   Compose onto any text node - a table cell, a data-readout value, a
-   kv value: the utility sets only color + numeric alignment, so it
-   layers on top of the host component's own typography. The color
-   carries !important because the contract is that the tone wins
-   wherever it is composed: component rules such as
-   .strand-kv--editorial .strand-kv__value set color at higher
-   specificity and later source order, and without the marker the
-   composed tone silently loses the cascade (Gap #44). */
+
 .strand-value {
   font-variant-numeric: tabular-nums;
 }
+
 .strand-value--positive {
   color: var(--strand-value-positive-color, var(--strand-green-positive-deep)) !important;
 }
+
 .strand-value--negative {
   color: var(--strand-value-negative-color, var(--strand-red-alert-deep)) !important;
 }
+
 /* ── Text center ── */
 .strand-text-center {
   text-align: center;
 }
+
 /* ── Code name (mono identifier heading) ── */
 .strand-code-name {
   font-family: var(--strand-font-mono);
@@ -184,6 +158,7 @@
   color: var(--strand-blue-midnight);
   margin: 0;
 }
+
 /* ── Heading small (section heading inside cards) ── */
 .strand-heading--sm {
   font-size: var(--strand-text-lg);
@@ -191,18 +166,14 @@
   color: var(--strand-heading-sm-color, var(--strand-gray-800));
   margin: 0;
 }
-/* ═══ HEADLINE MONO VARIANT (DL Part IV.5) ═══
-   Mono-family headline with medium weight, tight tracking,
-   and sentence case (NOT uppercase). Use for product/lab
-   titles where the brand identity is typed in lowercase or
-   mixed case ("trust" vs "TRUST"). Composes with
-   strand-headline--sm/md/lg for size. */
+
 .strand-headline--mono {
   font-family: var(--strand-font-mono);
   font-weight: var(--strand-weight-medium);
   text-transform: none;
   letter-spacing: var(--strand-tracking-tight);
 }
+
 .strand-headline--md {
   font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
   letter-spacing: var(--strand-tracking-tight);

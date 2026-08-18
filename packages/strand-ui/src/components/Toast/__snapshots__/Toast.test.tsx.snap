@@ -7,3 +7,20 @@ exports[`renders > info 1`] = `"<div aria-live="polite" class="strand-toast stra
 exports[`renders > success 1`] = `"<div aria-live="polite" class="strand-toast strand-toast--success" role="status"><span class="strand-toast__status">COMPLETE</span><span class="strand-toast__message">Done</span></div>"`;
 
 exports[`renders > warning 1`] = `"<div aria-live="assertive" class="strand-toast strand-toast--warning" role="status"><span class="strand-toast__status">WARNING</span><span class="strand-toast__message">Careful</span></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-toast__container { position: fixed; right: var(--strand-space-6); bottom: var(--strand-space-6); z-index: 1100; display: flex; flex-direction: column-reverse; gap: var(--strand-space-3); pointer-events: none }
+.strand-toast { display: flex; align-items: center; justify-content: space-between; min-width: 280px; max-width: 420px; padding: var(--strand-space-4) var(--strand-space-5); background: var(--strand-surface-elevated); border-radius: var(--strand-radius-lg); box-shadow: var(--strand-elevation-3); font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); pointer-events: auto; animation: strand-toast-in var(--strand-duration-normal) var(--strand-ease-out-expo) }
+.strand-toast__status { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-semibold); letter-spacing: var(--strand-tracking-wider); text-transform: uppercase; margin-right: var(--strand-space-3); flex-shrink: 0 }
+.strand-toast--info .strand-toast__status { color: var(--strand-blue-deep) }
+.strand-toast--success .strand-toast__status { color: var(--strand-on-teal-tint) }
+.strand-toast--warning .strand-toast__status { color: var(--strand-on-amber-tint) }
+.strand-toast--error .strand-toast__status { color: var(--strand-red-alert-deep) }
+.strand-toast__message { flex: 1; min-width: 0; color: var(--strand-gray-900) }
+.strand-toast__dismiss { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: var(--strand-space-6); height: var(--strand-space-6); margin-left: var(--strand-space-3); padding: 0; border: none; border-radius: var(--strand-radius-md); background: transparent; color: var(--strand-gray-500); font-size: var(--strand-text-base); cursor: pointer; transition: background var(--strand-duration-fast) var(--strand-ease-out-quart), color var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-toast__dismiss:hover { background: var(--strand-gray-200); color: var(--strand-gray-600) }
+@keyframes strand-toast-in {
+  from { opacity: 0; transform: translateY(8px) }
+  to { opacity: 1; transform: translateY(0) }
+}"
+`;

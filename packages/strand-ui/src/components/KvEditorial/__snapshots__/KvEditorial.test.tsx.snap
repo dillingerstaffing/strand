@@ -3,3 +3,15 @@
 exports[`renders > plain 1`] = `"<div class="strand-kv strand-kv--editorial"><span class="strand-kv__label">Owner</span><span class="strand-kv__value">Ada</span></div>"`;
 
 exports[`renders > status 1`] = `"<div class="strand-kv strand-kv--editorial"><span class="strand-kv__label">Status</span><span class="strand-kv__value strand-kv__value--status">Live</span></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-kv { display: flex; justify-content: space-between; align-items: center; padding: var(--strand-space-2) var(--strand-space-4) }
+.strand-kv + .strand-kv { border-top: 1px solid var(--strand-border-subtle) }
+.strand-kv__label { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-wider); text-transform: uppercase; color: var(--strand-kv-label-color, var(--strand-gray-500)) }
+.strand-kv__value { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); color: var(--strand-kv-value-color, var(--strand-gray-700)); font-variant-numeric: tabular-nums; text-align: right }
+.strand-kv__value--status { color: var(--strand-kv-value-status-color, var(--strand-on-teal-tint)) }
+.strand-kv--editorial { padding: 6px 0; font-size: var(--strand-text-sm); line-height: 1.4 }
+.strand-kv--editorial + .strand-kv--editorial { border-top: 1px dashed var(--strand-gray-200) }
+.strand-kv--editorial .strand-kv__label { letter-spacing: var(--strand-tracking-ultra); flex: none; white-space: nowrap }
+.strand-kv--editorial .strand-kv__value { font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); color: var(--strand-kv-value-color, var(--strand-blue-midnight)); font-weight: var(--strand-weight-medium); font-variant-numeric: normal }"
+`;

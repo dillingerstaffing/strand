@@ -1,83 +1,24 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── ActionDock ──
-   A bottom-anchored region carrying the primary action of a view, placed
-   where a thumb rests. Implements design-language.md 14.8 (target
-   position).
-
-   14.7 makes a target hittable. 14.8 makes it reachable. Size without
-   position is half the constraint: a 44px button pinned in the top third
-   of a phone screen passes 14.7 and is still the hardest place on the
-   device to touch.
-
-   The class layer is the real primitive. The framework components are
-   thin wrappers over exactly these classes, so a vanilla-HTML consumer
-   and a Preact consumer get identical behaviour and identical bytes.
-
-   Markup contract:
-
-     <div class="strand-actiondock" data-strand-actiondock="hidden">
-       <button class="strand-btn strand-btn--primary">RSVP</button>
-     </div>
-
-   Flip data-strand-actiondock to "visible" when the in-flow control the
-   dock stands in for has scrolled out of view. That single attribute is
-   the whole runtime; there is no JS in this primitive.
-
-   WHEN NOT TO USE IT. A dock is for the ONE action a view exists to
-   produce. Two docked actions is a bottom toolbar, which is a different
-   pattern with a different affordance, and stacking a dock on every view
-   turns a signal into furniture. If a view has no single primary action,
-   it does not want a dock. */
+/* cf: action-dock */
 
 .strand-actiondock {
-  /* Fixed, not sticky. Sticky is relative to a scroll container and stops
-     at that container's end, so a sticky dock leaves the thumb zone
-     exactly when the reader reaches the bottom of the list -- which is
-     where they are most likely to act. Fixed is the whole contract:
-     the dock's position is a function of the VIEWPORT and of nothing
-     else, so no amount of scrolling can move it out of reach. */
   position: fixed;
   inset-inline: 0;
   bottom: 0;
-
-  /* Above content, below the nav's mobile menu (100) and far below toast
-     (1100). A dock that covered a toast would hide the confirmation of
-     the very action it just triggered. */
   z-index: 90;
-
   background: var(--strand-surface-elevated);
   border-block-start: 1px solid var(--strand-border-subtle);
   box-shadow: var(--strand-elevation-3, 0 -8px 28px rgba(15, 23, 42, 0.12));
   padding: var(--strand-space-4);
-
-  /* The safe-area inset is the reason this is a primitive rather than
-     four lines a consumer writes for themselves. On a notched phone the
-     home indicator overlaps the bottom of the viewport, so a dock that
-     stops at bottom:0 puts its control underneath the one piece of
-     system chrome the user cannot move. Headless browsers resolve this
-     to 0, which is exactly why a consumer testing locally would never
-     see the bug they shipped. */
-  padding-block-end: calc(
-    var(--strand-space-4) + env(safe-area-inset-bottom, 0px)
-  );
-
-  /* Translated fully out of the viewport rather than merely faded, so a
-     dock a consumer has not activated cannot occlude the content beneath
-     it. Visibility rides the transition so the hidden dock also leaves
-     the accessibility tree and stops taking pointer events, rather than
-     sitting invisible over the thing the reader is trying to touch. */
+  padding-block-end: calc( var(--strand-space-4) + env(safe-area-inset-bottom, 0px) );
   transform: translateY(100%);
   visibility: hidden;
   transition:
-    transform var(--strand-duration-normal, 200ms)
-      var(--strand-ease-out-quart, ease-out),
+    transform var(--strand-duration-normal, 200ms) var(--strand-ease-out-quart, ease-out),
     visibility var(--strand-duration-normal, 200ms);
 }
 
-/* Absent attribute means hidden, deliberately. A server-rendered consumer
-   that never flips the attribute gets a dock that occludes nothing, rather
-   than one welded across the content it was meant to help with. */
 .strand-actiondock[data-strand-actiondock="visible"] {
   transform: translateY(0);
   visibility: visible;

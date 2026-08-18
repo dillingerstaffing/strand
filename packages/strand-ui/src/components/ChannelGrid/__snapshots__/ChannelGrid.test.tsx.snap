@@ -1,16 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-channel-grid",
-  ".strand-channel-grid > .strand-card",
-  ".strand-channel-grid > .strand-card > .strand-stack--vertical",
-  ".strand-channel-grid > .strand-card > .strand-stack--vertical > .strand-stack--horizontal:last-child",
-  ".strand-channel-title",
-  ".strand-channel-description",
-  ".strand-channel-next",
-  ".strand-channel-next__label",
-  ".strand-channel-next__title",
-  ".strand-channel-next__when",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-channel-grid { align-items: stretch }
+.strand-channel-grid > .strand-card { display: flex; flex-direction: column }
+.strand-channel-grid > .strand-card > .strand-stack--vertical { flex: 1; display: flex; flex-direction: column }
+.strand-channel-grid > .strand-card > .strand-stack--vertical > .strand-stack--horizontal:last-child { margin-top: auto }
+.strand-channel-title { margin: 0; line-height: var(--strand-leading-snug) }
+.strand-channel-description { margin: 0 }
+.strand-channel-next { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--strand-space-2); margin-top: var(--strand-space-1); padding-top: var(--strand-space-2); border-top: 1px dashed var(--strand-gray-200); font-size: var(--strand-text-xs); line-height: var(--strand-leading-snug) }
+.strand-channel-next__label { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-widest); text-transform: uppercase; color: var(--strand-gray-500) }
+.strand-channel-next__title { color: var(--strand-gray-900); font-weight: var(--strand-weight-medium) }
+.strand-channel-next__when { color: var(--strand-gray-600); font-variant-numeric: tabular-nums }"
 `;

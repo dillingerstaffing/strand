@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render } from "@testing-library/preact";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { ResultsPanel } from "./ResultsPanel.js";
 import { fixtures } from "./ResultsPanel.fixtures.js";
 
@@ -16,3 +18,5 @@ describe("ResultsPanel", () => {
     expect(queryByRole("button")).toBeNull();
   });
 });
+
+snapshotStylesheet(resolve(__dirname, "./ResultsPanel.css"));

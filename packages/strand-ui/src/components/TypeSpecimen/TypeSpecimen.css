@@ -1,12 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ══════════════════════════════════════════════════
-   TYPE SPECIMEN (docs-site typography tile)
-   ══════════════════════════════════════════════════
-   A stacked specimen: large display text on top, mono meta
-   line below. Use inside a section body on a typography
-   documentation page. Dashed divider between siblings. */
-
 .strand-type-specimen {
   display: grid;
   grid-template-columns: 1fr;

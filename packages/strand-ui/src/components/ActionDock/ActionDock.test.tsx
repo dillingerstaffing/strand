@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { render } from "@testing-library/preact";
 import { describe, expect, it, vi } from "vitest";
 import { ActionDock } from "./ActionDock.js";
@@ -185,6 +186,9 @@ describe("ActionDock", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./ActionDock.fixtures.js";
 
 snapshotFixtures(ActionDock, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./ActionDock.css"));

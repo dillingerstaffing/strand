@@ -1,14 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-coord-readout",
-  ".strand-coord-readout::before",
-  "@keyframes strand-coord-blink",
-  "  0%, 49%",
-  "  50%, 100%",
-  ".strand-coord-readout__lat, .strand-coord-readout__lng",
-  "@media (max-width: 640px)",
-  "  .strand-coord-readout",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-coord-readout { position: absolute; bottom: var(--strand-space-4); left: var(--strand-space-4); z-index: 10; font-family: var(--strand-font-mono); font-size: 13px; font-variant-numeric: tabular-nums; letter-spacing: var(--strand-tracking-widest); color: rgba(148, 163, 184, 0.65); display: flex; align-items: center; gap: var(--strand-space-4); background: var(--strand-instrument-bg-overlay); border: 1px solid var(--strand-instrument-border); border-radius: var(--strand-radius-sm); padding: var(--strand-space-2) var(--strand-space-3); box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3) }
+.strand-coord-readout::before { content: ""; display: inline-block; width: 2px; height: 12px; background: var(--strand-instrument-glow-strong); border-radius: var(--strand-radius-sm); animation: strand-coord-blink 1.2s steps(2) infinite }
+@keyframes strand-coord-blink {
+  0%, 49% { opacity: 1 }
+  50%, 100% { opacity: 0 }
+}
+.strand-coord-readout__lat, .strand-coord-readout__lng { display: inline-block }
+@media (max-width: 640px) {
+  .strand-coord-readout { display: none }
+}"
 `;

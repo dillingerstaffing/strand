@@ -1,51 +1,11 @@
-/*! Strand v0.62.0 | MIT License | dillingerstaffing.com */
+/*! Strand UI | MIT License | dillingerstaffing.com */
 
-/*
- * Strand Base Styles
- * Global styles applied after reset. Establishes the lab surface,
- * typography defaults, focus indicators, and grain texture.
- * Requires tokens.css to be loaded first.
- */
+/* cf: metric-fallback-fonts */
+/* cf: anchor-scroll-offset */
 
-/* ── Metric-matched fallback faces ──
-   Strand ships no font binaries; consumers load Inter and JetBrains Mono
-   themselves, typically from a font CDN with font-display: swap. Between
-   first paint and the webfont arriving, text renders in a system fallback
-   whose advances and vertical metrics differ from the real face, so the
-   swap reflows every line on the page. It lands late enough to be plainly
-   visible and, on a text-heavy surface, it is the single largest source of
-   layout shift.
-
-   These faces override the fallback's metrics to match the real face, so
-   the swap changes glyph shapes without changing glyph size. Text lands in
-   its final position on first paint and never moves.
-
-   The values are measured, not copied. size-adjust is the advance-width
-   ratio of a representative sample string rendered in both faces. The
-   vertical overrides are the real face's ascent and descent as a fraction
-   of em, each divided by size-adjust, because size-adjust also scales the
-   fallback's metrics and the authored value has to compensate. The mono
-   pair resolves to JetBrains Mono's true published metrics (1020/1000
-   ascender, 300/1000 descender), which is exactly the expected result for
-   two monospace faces with identical 0.6em advances, and is a good check
-   that the derivation is right.
-
-   src is local() only: nothing is downloaded. Where the named system font
-   is absent the face fails to load and the next family in the stack
-   applies unadjusted, which is the behavior consumers had before. */
 @font-face {
   font-family: 'Inter Fallback';
   src: local('Arial');
-  /* Load-bearing for first paint, not a style choice. font-display defaults
-     to auto, which Chrome treats as block: text using the face stays
-     INVISIBLE for up to 3s while the face resolves. A local() src normally
-     resolves instantly, but when the named system font is absent the face
-     fails and the block period runs in full before the stack falls through.
-     Measured on a consumer whose environment lacks Arial: first contentful
-     paint went from ~0.4s to 2.9s against a 1.2s budget, on every page that
-     loads these tokens. swap makes the fallback purely additive: text paints
-     immediately in whatever the system offers, and the metric-matched face
-     takes over the instant it resolves. */
   font-display: swap;
   size-adjust: 105.59%;
   ascent-override: 91.86%;
@@ -56,8 +16,6 @@
 @font-face {
   font-family: 'JetBrains Mono Fallback';
   src: local('Courier New');
-  /* See the note on Inter Fallback: without this the face can block first
-     paint for up to 3s wherever Courier New is absent. */
   font-display: swap;
   size-adjust: 99.98%;
   ascent-override: 102.02%;
@@ -65,25 +23,6 @@
   line-gap-override: 0%;
 }
 
-/* ── Smooth anchor scrolling + nav offset ──
-   When users click an in-page anchor (e.g. nav link to #section),
-   the browser smoothly scrolls there instead of hopping. Honors
-   prefers-reduced-motion via the rule below.
-
-   scroll-padding-top reserves space at the top of the scroll
-   container equal to the fixed-nav stack (glass nav + optional
-   banner). Every anchor scroll (nav click, direct URL fragment,
-   focus-scroll from keyboard navigation) auto-offsets by this
-   value, so the target element's top sits strictly below the nav
-   after the scroll settles.
-
-   The value tracks --strand-nav-height + --strand-banner-height so
-   it stays correct as the stack height changes at runtime (the
-   Banner component sets --strand-banner-height on mount; default
-   0px when no banner). A page without a fixed nav still honors
-   this value, which just produces an invisible offset equal to
-   the nav height. That never causes harm because the anchor
-   target would already be visible without any offset. */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
@@ -95,10 +34,6 @@ html {
   }
 }
 
-/* ── Lab Surface (DL Part 9.1) ──
-   Default body background: dot grid + overhead LED glow + vertical
-   gradient. Three layers, each invisible alone, together producing
-   "this feels designed." */
 body {
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-base);
@@ -106,18 +41,13 @@ body {
   line-height: var(--strand-leading-normal);
   color: var(--strand-on-surface-primary);
   background:
-    /* Layer 1: Dot grid (graph paper / cleanroom floor) */
     radial-gradient(circle, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
-    /* Layer 2: Overhead LED glow */
     radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 130, 246, 0.03) 0%, transparent 100%),
-    /* Layer 3: Gentle vertical gradient */
     linear-gradient(180deg, var(--strand-surface-primary) 0%, var(--strand-surface-elevated) 40%, var(--strand-surface-recessed) 100%);
   background-size: 24px 24px, 100% 100%, 100% 100%;
   background-color: var(--strand-surface-primary);
 }
 
-/* ── Grain Texture Overlay (DL Part 9.2) ──
-   Default uniform fractal noise at 0.012 opacity. Felt, not seen. */
 body::after {
   content: '';
   position: fixed;
@@ -128,24 +58,19 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ── Grain Variant: Concrete (DL Part 9.2) ──
-   Coarser baseFrequency (0.65 vs 0.9). Evokes brushed aluminum /
-   poured concrete. Apply as body modifier class. */
 body.strand-grain-concrete::after {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ── Grain Variant: Wood (DL Part 9.2) ──
-   Directional turbulence (asymmetric baseFrequency 0.9 0.3). Evokes
-   brushed wood grain. Slightly lower opacity (0.010) because
-   directional patterns are more visible than uniform noise. */
 body.strand-grain-wood::after {
   opacity: 0.010;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9 0.3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ── Headings (DL 4.2 Type Scale + 4.5 Weight Hierarchy) ── */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   color: var(--strand-gray-800);
   margin: 0;
 }
@@ -180,7 +105,8 @@ h4 {
 }
 
 /* ── Code elements ── */
-code, pre {
+code,
+pre {
   font-family: var(--strand-font-mono);
 }
 
@@ -197,51 +123,58 @@ code, pre {
 }
 
 /* ── Prose ── */
-/* Formatted long-form / user-generated content (comments, descriptions,
-   editorial copy). The global reset strips list markers and element
-   margins, so prose restores readable block + inline rhythm using design
-   tokens. Apply to a container whose children are p / ul / ol / li /
-   strong / em / a / code / pre / headings. */
 .strand-prose {
   max-width: 65ch;
 }
+
 .strand-prose > :first-child {
   margin-top: 0;
 }
+
 .strand-prose > :last-child {
   margin-bottom: 0;
 }
+
 .strand-prose p {
   margin: 0 0 var(--strand-space-3);
   line-height: 1.6;
 }
+
 .strand-prose ul,
 .strand-prose ol {
   margin: 0 0 var(--strand-space-3);
   padding-left: 1.5rem;
 }
+
 .strand-prose ul {
   list-style: disc;
 }
+
 .strand-prose ol {
   list-style: decimal;
 }
+
 .strand-prose li {
   margin: var(--strand-space-1) 0;
 }
+
 .strand-prose li::marker {
   color: var(--strand-gray-400);
 }
+
 .strand-prose strong {
   font-weight: 600;
 }
+
 .strand-prose em {
   font-style: italic;
 }
+
 .strand-prose a {
   color: var(--strand-blue-primary);
   text-decoration: underline;
 }
+
 .strand-prose code {
   font-family: var(--strand-font-mono);
   font-size: 0.9em;
@@ -249,16 +182,19 @@ code, pre {
   padding: 0.1em 0.35em;
   border-radius: 0.25rem;
 }
+
 .strand-prose pre {
   background: var(--strand-surface-recessed);
   padding: var(--strand-space-3);
   border-radius: 0.5rem;
   overflow-x: auto;
 }
+
 .strand-prose pre code {
   background: none;
   padding: 0;
 }
+
 .strand-prose h1,
 .strand-prose h2,
 .strand-prose h3,

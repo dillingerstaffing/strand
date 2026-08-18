@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/preact";
 import { Checkbox } from "./Checkbox.js";
@@ -88,6 +89,9 @@ describe("Checkbox", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Checkbox.fixtures.js";
 
 snapshotFixtures(Checkbox, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Checkbox.css"));

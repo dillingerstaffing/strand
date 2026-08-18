@@ -292,7 +292,6 @@ The card the whole application sits inside: a bounded frame on the page ground, 
 | Class | Type | Description |
 |---|---|---|
 | `strand-app-shell` | base | Application frame. Max width --strand-frame-max (1440px), a chrome dimension declared beside the nav and tab-bar heights rather than among the content tiers. Uses overflow: clip, NOT hidden: hidden would make the outermost container in the product a scroll container and break every position:sticky element beneath it at once. |
-| `strand-tabbar` | base | |
 
 **Usage:**
 
@@ -347,7 +346,6 @@ Status or count indicator that wraps a child element.
 | `strand-badge--blue` | modifier | Blue color. |
 | `strand-badge--amber` | modifier | Amber color. |
 | `strand-badge--red` | modifier | Red color. |
-| `strand-pulse` | base | |
 
 **Usage:**
 
@@ -372,7 +370,6 @@ Top-of-page notification banner.
 | `strand-banner--warning` | modifier | Warning variant (amber). |
 | `strand-banner--critical` | modifier | Critical variant (red). |
 | `strand-banner-active` | base | |
-| `strand-prose` | base | |
 
 **Usage:**
 
@@ -532,7 +529,6 @@ Content container with elevation and padding variants.
 | `strand-card--pad-xl` | modifier | Extra-large padding (40px). |
 | `strand-card__section` | child | BEM element: card-internal row with a top hairline. First child suppresses the top border. Stack inside strand-card--pad-none to compose rows. |
 | `strand-card__section--header` | child | BEM modifier: header row layout (baseline, space-between, gap). |
-| `strand-card-section` | base | |
 
 **Usage:**
 
@@ -818,27 +814,6 @@ The second dark surface role (design-language.md 9.3): a single element promoted
 | `strand-feature-surface--pad-lg` | modifier | Large padding (32px). |
 | `strand-feature-surface--pad-xl` | modifier | Extra-large padding (40px). |
 | `strand-feature-surface .strand-alert` | base | Alerts placed on this surface take the dark wash and an inverted per-variant status colour, mirroring the instrument viewport. Not a class you author; it is the cascade the surface guarantees. |
-| `strand-headline` | base | |
-| `strand-title` | base | |
-| `strand-big-mono-time` | base | |
-| `strand-stat-strip__value` | child | |
-| `strand-big-mono-time__sep` | child | |
-| `strand-stat-strip__label` | child | |
-| `strand-stat-strip--bordered` | modifier | |
-| `strand-stat-strip__cell` | child | |
-| `strand-heading--sm` | modifier | |
-| `strand-lead` | base | |
-| `strand-heading` | base | |
-| `strand-value--positive` | modifier | |
-| `strand-value--negative` | modifier | |
-| `strand-overline` | base | |
-| `strand-overline--accent` | modifier | |
-| `strand-text-secondary` | base | |
-| `strand-text-secondary--xs` | modifier | |
-| `strand-kv__label` | child | |
-| `strand-kv__value` | child | |
-| `strand-kv__value--status` | child | |
-| `strand-status-chip--neutral` | modifier | |
 
 **Usage:**
 
@@ -915,9 +890,6 @@ CSS Grid layout primitive with column and gap utilities.
 | `strand-grid--gap-8` | modifier | Gap: space-8 (32px). |
 | `strand-grid--sidebar` | modifier | A fixed 264px rail beside a flexible main track, collapsing to one column below the md breakpoint. Use for a filter rail beside a results area: it is not two equal halves, so --cols-2 is wrong, and the column COUNT is not what should vary, so auto-fit is wrong. The main track is minmax(0, 1fr) rather than 1fr, because a bare 1fr floors at the track's min-content width and one long unbroken string would widen the grid and push the rail off screen; the base rule's min-width:0 handles the ITEM, this handles the TRACK. Put the rail FIRST in the markup: below the breakpoint the regions stack in source order, and a filter met after the results it filters is one the reader has already scrolled past. |
 | `strand-grid--split` | modifier | A flexible main track beside a fixed-width panel, collapsing to one column below md. strand-grid--sidebar mirrored: there the fixed track is narrow and on the left, here it is wide and on the right. Panel width is --strand-split-panel (default 600px), a custom property because the known consumers want 600 for a map and 380 for a rail and the shape is identical. Do NOT reach for --cols-2 instead: at 1440 it gives 720/720 where a 1fr/600px split gives 840/600, making the panel 20% wider and the main track 14% narrower than designed. Put the MAIN track first: below the breakpoint the regions stack in source order, and a map or detail panel is what the list is about. |
-| `strand-ref-shell` | base | |
-| `strand-ref-example` | base | |
-| `strand-ref-taxonomy__list` | child | |
 
 **Usage:**
 
@@ -965,39 +937,10 @@ Dark instrument panel container for data-dense content.
 | `strand-instrument-viewport` | base | Dark viewport surface. |
 | `strand-instrument-viewport--grid` | modifier | Grid overlay variant. |
 | `strand-instrument-viewport--full-bleed` | modifier | |
-| `strand-instrument-viewport__value` | child | |
-| `strand-body--instrument` | modifier | |
-| `strand-kv__label` | child | |
-| `strand-kv__value` | child | |
-| `strand-status-chip--neutral` | modifier | |
-| `strand-headline` | base | |
-| `strand-text-secondary` | base | |
-| `strand-text-secondary--xs` | modifier | |
-| `strand-overline` | base | |
-| `strand-overline--accent` | modifier | |
-| `strand-heading` | base | |
-| `strand-heading--sm` | modifier | |
-| `strand-title` | base | |
-| `strand-lead` | base | |
-| `strand-value--positive` | modifier | |
-| `strand-value--negative` | modifier | |
-| `strand-big-mono-time` | base | |
-| `strand-stat-strip__value` | child | |
-| `strand-big-mono-time__sep` | child | |
-| `strand-stat-strip__label` | child | |
-| `strand-stat-strip--bordered` | modifier | |
-| `strand-stat-strip__cell` | child | |
-| `strand-log__time` | child | |
-| `strand-bar-chart__label` | child | |
-| `strand-log__text` | child | |
-| `strand-bar-chart__amount` | child | |
-| `strand-kv__value--status` | child | |
-| `strand-feature-surface` | base | |
 | `strand-instrument-viewport__label` | child | |
+| `strand-instrument-viewport__value` | child | |
 | `strand-instrument-viewport__map` | child | |
-| `strand-detail-panel` | base | |
-| `strand-surface-light` | base | |
-| `strand-status-chip--committed` | modifier | |
+| `strand-body--instrument` | modifier | |
 
 **Usage:**
 
@@ -1168,8 +1111,6 @@ Component-reference page chrome. Named primitive family for a docs-site layout: 
 | `strand-ref-shell__nav-scrim` | child | Mobile drawer scrim (covers main, dismisses drawer on tap). Hidden until parent has .is-nav-open at <=1040px. |
 | `strand-ref-mobile-trigger` | base | Mobile FAB toggle for the sidebar drawer. Use on a strand-btn (icon-only + circular). Hidden by default; shown only at <=1040px breakpoint. |
 | `is-nav-open` | base | State class on the .strand-ref-shell mount; consumer toggles to open the mobile drawer. |
-| `strand-handoff-render` | base | |
-| `strand-ref-shell__mobile-trigger` | child | |
 
 **Usage:**
 
@@ -1236,8 +1177,6 @@ Utility-class demo tiles. A row of cells each pairing a class name + demo + capt
 | `strand-ref-util-cell__caption` | child | Caption under the demo (mono 10px gray). |
 | `strand-ref-util-cell__demo` | child | Dashed demo area that hosts the content being measured. |
 | `strand-ref-util-cell__block` | child | Blue-midnight pill block used inside the demo (shows the effect of the utility). |
-| `strand-mt-4` | base | |
-| `strand-mx-auto` | base | |
 
 **Usage:**
 
@@ -1586,7 +1525,6 @@ Scroll-triggered entrance animation.
 | `strand-reveal` | base | Element with scroll-triggered fade-up. |
 | `strand-reveal--visible` | modifier | Visible state after scroll trigger. |
 | `strand-reveal-group` | base | Group container for staggered reveals. |
-| `strand-reveal--manual` | modifier | |
 | `strand-reveal-group--manual` | modifier | |
 
 **Usage:**
@@ -1613,8 +1551,6 @@ A search input for page chrome: a fixed-width field on a wide viewport, a full-w
 | `strand-search-field__icon` | child | Leading magnifier, 16px, decorative (aria-hidden). Uses gray-500 rather than the gray-400 a mockup usually specifies: 14.2b puts gray-400 in the fill tier at 2.52:1, below the 3:1 SC 1.4.11 asks of a graphical object. |
 | `strand-search-field__input` | child | The control. Transparent and borderless because the wrapper draws the box; min-inline-size 0 so it shrinks inside the flex row rather than pushing the field past its declared width. Give it an accessible name: a placeholder is a hint, not a label. |
 | `strand-search-field__clear` | child | Optional clear control. Hidden with the hidden attribute while the field is empty, so it is absent from the accessibility tree and the tab order rather than merely invisible. 24px drawn, 44px hit area under a coarse pointer. |
-| `strand-search-bar` | base | |
-| `strand-search-bar__action` | child | |
 
 **Usage:**
 
@@ -1650,7 +1586,6 @@ A control that LOOKS like a search field and behaves like a button: it opens a s
 | `strand-search-trigger` | base | Trigger root, a button. Applied ALONGSIDE strand-search-field, which supplies the box; this class adds only the button resets a field's box does not expect. Carries aria-haspopup="dialog". |
 | `strand-search-trigger--icon` | modifier | Square icon presentation at --strand-touch-target, for the band of widths where a header has stopped having room for a field but has not yet handed over to a phone layout. The label stays IN the accessibility tree, clipped rather than display:none, because it is the control's accessible name and WCAG 2.5.3 requires it to survive. Reach for this rather than a strand-btn--icon-only, which is not a SearchTrigger and so drops aria-haspopup="dialog" and the shared field identity. |
 | `strand-search-trigger__label` | child | Visible standing text, styled as a placeholder and taking the same token as the field's real placeholder. This is ALSO the accessible name: no aria-label override, because WCAG 2.5.3 (Label in Name) requires the accessible name to contain the visible text so a speech-input user saying what they see activates the control. Truncates on one line, since a wrapping label would change the control's height. |
-| `strand-search-field` | base | |
 | `strand-search-field__icon` | child | |
 
 **Usage:**
@@ -1733,7 +1668,6 @@ Fades a region's new state in when the model changes, instead of cutting to it. 
 | Class | Type | Description |
 |---|---|---|
 | `strand-settle` | base | Fades the element in over --strand-duration-fast when it is inserted. Opacity only, and it declares no size of any kind. Under prefers-reduced-motion the animation is removed and the change is immediate. |
-| `strand-settle--modifier` | modifier | |
 
 **Usage:**
 
@@ -1971,7 +1905,6 @@ The persistent viewport-anchored navigation an application shell takes on a touc
 | `strand-tabbar__item` | child | One destination. A link when it has a href, so middle-click and open-in-new-tab keep working; a button only when there is genuinely no URL. Minimum 44x44 per 14.7, measured on the item rather than inferred from the bar's height. |
 | `strand-tabbar__icon` | child | Decorative glyph, 20px. aria-hidden: the label already names the destination. |
 | `strand-tabbar__label` | child | Destination name. text-xs with wider tracking, uppercase mono. Wraps rather than truncating, because a destination the user cannot read is not a destination; if a label does not fit, the surface has too many destinations and 19.1.1's count test already refuses it. |
-| `strand-actiondock` | base | |
 
 **Usage:**
 

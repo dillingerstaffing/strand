@@ -1,16 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ══════════════════════════════════════════════════
-   LAB TIP (pure-CSS tooltip specimen)
-   ══════════════════════════════════════════════════
-   A hover/focus-driven tooltip for QA specimens on docs
-   pages. This is NOT the production Strand Tooltip (which is
-   JS-driven with collision detection); it is a static
-   specimen showing four fixed positions simultaneously.
-
-   Use the --pinned modifier to show the bubble without
-   hover/focus (useful for before/after screenshots). */
-
 .strand-ref-tip {
   position: relative;
   display: inline-flex;
@@ -29,7 +18,8 @@
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--strand-duration-fast) var(--strand-ease-out-quart),
+  transition:
+    opacity var(--strand-duration-fast) var(--strand-ease-out-quart),
     transform var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 

@@ -1,0 +1,5 @@
+# Settle fades opacity only, keeps its hands off layout, and reduced motion removes the animation outright
+
+`.strand-settle` runs `strand-settle-in` when the element enters the DOM: opacity only (a translate would describe a journey the content never took), `--strand-duration-fast` because this is an answer to a press rather than an introduction, `--strand-ease-out-expo`, and fill `both` so the element is at opacity 0 before the first frame paints. It never controls height: two states of different sizes are a space problem for Reserve, and a motion primitive that absorbs a size change ends up animating layout. Under reduced motion the rule is `animation: none` at matching specificity, not a zeroed duration, because with fill `both` a 0.01ms animation still applies its `from` frame and can park the element at opacity 0. There is no modifier or descendant form, precisely so nothing can out-specify that reset. A count patching a text node fires nothing; the element needs an identity that changes with the value (a key), which the framework wrappers supply from `on`.
+
+Where: `packages/strand-ui/src/components/Settle/Settle.css`

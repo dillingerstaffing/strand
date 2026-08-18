@@ -1,11 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Glass surface utility (DL Part 9.5) ──
-   Frosted-glass treatment for any element that wants the
-   "glass walls with controlled daylight" character. Apply to
-   nav, sticky toolbars, modal headers, surfaces above content.
-   backdrop-filter only renders meaningfully when there is
-   something behind the element. */
 .strand-glass-surface {
   background: var(--strand-glass-bg);
   -webkit-backdrop-filter: blur(var(--strand-glass-blur));

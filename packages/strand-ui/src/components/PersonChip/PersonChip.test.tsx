@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render } from "@testing-library/preact";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { PersonChip, initialsFrom } from "./PersonChip.js";
 import { fixtures } from "./PersonChip.fixtures.js";
 
@@ -26,3 +28,5 @@ describe("PersonChip", () => {
     expect(onSelect).toHaveBeenCalledTimes(1);
   });
 });
+
+snapshotStylesheet(resolve(__dirname, "./PersonChip.css"));

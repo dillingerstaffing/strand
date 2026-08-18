@@ -1,0 +1,5 @@
+# A rule that shrinks a control lives inside `@media (pointer: fine)` and is opt-in
+
+Design language 14.7: 44px stays the default everywhere and no component changes size by inheriting a density clause, so a compact density is a modifier a consumer asks for, never a base-rule change, and it is written inside `@media (pointer: fine)` so touch is untouched by construction rather than by care. The fine-pointer floor is 30px, not the bare 24 of SC 2.5.8, and only the row's floor moves: the control glyph keeps its size, because shrinking the thing the pointer aims at is the opposite of the point. Nav chrome under a fine pointer sits at 34px, the avatar's rendered box, so a signed-out button and the avatar that replaces it are the same height and auth resolving is not a layout shift; an icon-only control there keeps zero inline padding so it stays square, and its selector doubles `.strand-btn` to reach (0,3,0) because Button's own icon-only rule is (0,2,0) and a tie would be decided by bundle order.
+
+Where: `Checkbox.css`, `Radio.css`, `Switch.css`, `Nav.css`, `ChipSet.css`, `SearchField.css` under `packages/strand-ui/src/components/`

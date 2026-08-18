@@ -9,3 +9,39 @@ exports[`renders > horizontal center between wrap 1`] = `"<div class="strand-sta
 exports[`renders > off ladder gap 1`] = `"<div class="strand-stack strand-stack--vertical strand-stack--gap-6">items</div>"`;
 
 exports[`renders > vertical 1`] = `"<div class="strand-stack strand-stack--vertical strand-stack--gap-4">items</div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-stack { display: flex; max-width: 100%; box-sizing: border-box }
+.strand-stack > * { min-width: 0 }
+.strand-stack--vertical { flex-direction: column }
+.strand-stack--horizontal { flex-direction: row }
+.strand-stack--align-start { align-items: flex-start }
+.strand-stack--align-center { align-items: center }
+.strand-stack--align-end { align-items: flex-end }
+.strand-stack--justify-start { justify-content: flex-start }
+.strand-stack--justify-center { justify-content: center }
+.strand-stack--justify-end { justify-content: flex-end }
+.strand-stack--justify-between { justify-content: space-between }
+.strand-stack--justify-around { justify-content: space-around }
+.strand-stack--wrap { flex-wrap: wrap }
+@media (max-width: 768px) {
+  .strand-stack--horizontal.strand-stack--responsive { flex-direction: column; align-items: center }
+  .strand-stack--responsive > .strand-btn { width: 100%; max-width: 280px }
+}
+.strand-stack--gap-0 { gap: 0 }
+.strand-stack--gap-1 { gap: var(--strand-space-1) }
+.strand-stack--gap-2 { gap: var(--strand-space-2) }
+.strand-stack--gap-3 { gap: var(--strand-space-3) }
+.strand-stack--gap-4 { gap: var(--strand-space-4) }
+.strand-stack--gap-5 { gap: var(--strand-space-5) }
+.strand-stack--gap-6 { gap: var(--strand-space-6) }
+.strand-stack--gap-8 { gap: var(--strand-space-8) }
+.strand-stack--gap-10 { gap: var(--strand-space-10) }
+.strand-stack--gap-12 { gap: var(--strand-space-12) }
+.strand-stack--gap-16 { gap: var(--strand-space-16) }
+.strand-stack--gap-20 { gap: var(--strand-space-20) }
+.strand-stack--gap-24 { gap: var(--strand-space-24) }
+.strand-stack--gap-32 { gap: var(--strand-space-32) }
+.strand-stack--gap-40 { gap: var(--strand-space-40) }
+.strand-stack--gap-48 { gap: var(--strand-space-48) }"
+`;

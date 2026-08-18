@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/preact";
 import { Radio } from "./Radio.js";
@@ -86,6 +87,9 @@ describe("Radio", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Radio.fixtures.js";
 
 snapshotFixtures(Radio, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Radio.css"));

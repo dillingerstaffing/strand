@@ -1,16 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-log",
-  ".strand-log + .strand-log",
-  ".strand-log__time",
-  ".strand-log__status",
-  ".strand-log__status--complete",
-  ".strand-log__status--process",
-  ".strand-log__status--warning",
-  ".strand-log__status--error",
-  ".strand-log__text",
-  ".strand-log__text strong",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-log { display: flex; align-items: baseline; gap: var(--strand-space-3); padding: var(--strand-space-2) var(--strand-space-4) }
+.strand-log + .strand-log { border-top: 1px solid var(--strand-border-subtle) }
+.strand-log__time { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-wider); text-transform: uppercase; color: var(--strand-log-time-color, var(--strand-gray-500)); font-variant-numeric: tabular-nums; white-space: nowrap }
+.strand-log__status { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-semibold); letter-spacing: var(--strand-tracking-wider); text-transform: uppercase; white-space: nowrap }
+.strand-log__status--complete { color: var(--strand-on-teal-tint) }
+.strand-log__status--process { color: var(--strand-blue-deep) }
+.strand-log__status--warning { color: var(--strand-on-amber-tint) }
+.strand-log__status--error { color: var(--strand-red-alert-deep) }
+.strand-log__text { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); color: var(--strand-log-text-color, var(--strand-gray-500)); line-height: var(--strand-leading-normal) }
+.strand-log__text strong { font-weight: var(--strand-weight-semibold); color: var(--strand-log-text-strong-color, var(--strand-gray-700)) }"
 `;

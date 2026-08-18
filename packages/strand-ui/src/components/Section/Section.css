@@ -1,78 +1,67 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: anchor-scroll-offset */
+/* cf: surface-tokens */
+
 /* ── Base ── */
 .strand-section {
-	width: 100%;
-	padding-block: clamp(4rem, 8vw, 8rem);
+  width: 100%;
+  padding-block: clamp(4rem, 8vw, 8rem);
 }
 
 /* ── Variants ── */
 .strand-section--standard {
-	padding-block: clamp(4rem, 8vw, 8rem);
+  padding-block: clamp(4rem, 8vw, 8rem);
 }
 
 .strand-section--hero {
-	padding-block: clamp(6rem, 12vw, 12rem);
-	text-align: center;
-	position: relative;
-	overflow: hidden;
+  padding-block: clamp(6rem, 12vw, 12rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* ── Compact hero ──
-   A tighter hero variant for pages where a secondary CTA (install tabs,
-   pricing, signup) sits directly below the hero and must be at least
-   partially visible in the default viewport on desktop. Keeps the hero
-   treatment (center text, positioning, overflow handling) but trims the
-   vertical padding so the fold sits later in the page. */
 .strand-section--hero-compact {
-	padding-block: clamp(3.5rem, 6vw, 6rem);
-	text-align: center;
-	position: relative;
-	overflow: hidden;
+  padding-block: clamp(3.5rem, 6vw, 6rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .strand-section--hero-xl {
-	padding-block: clamp(8rem, 15vw, 14rem);
-	text-align: center;
-	position: relative;
-	overflow: hidden;
+  padding-block: clamp(8rem, 15vw, 14rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 /* ── Backgrounds ── */
 .strand-section--bg-primary {
-	background-color: var(--strand-surface-primary);
+  background-color: var(--strand-surface-primary);
 }
 
 .strand-section--bg-elevated {
-	background-color: var(--strand-surface-elevated);
+  background-color: var(--strand-surface-elevated);
 }
 
 .strand-section--bg-recessed {
-	background-color: var(--strand-surface-recessed);
+  background-color: var(--strand-surface-recessed);
 }
 
 /* ── Compact variant ── */
 .strand-section--compact {
-	padding-block: var(--strand-space-12);
+  padding-block: var(--strand-space-12);
 }
 
 /* ── Border variant ── */
 .strand-section--border-top {
-	border-top: 1px solid var(--strand-gray-200);
+  border-top: 1px solid var(--strand-gray-200);
 }
 
-/* ── Scroll target (anchored section with nav offset) ──
-   Global scroll-padding-top on html already offsets anchor scrolls
-   by the nav+banner stack height (see packages/tokens/css/base.css).
-   This modifier is retained as an explicit per-section opt-in for
-   consumers who want to reinforce the contract locally, and it
-   tracks the same tokens so a nav-height change propagates without
-   hunting. */
 .strand-section--scroll-target {
-	scroll-margin-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
+  scroll-margin-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
 }
 
-/* Recessed surface: the primitives inside read these. cf: surface-tokens */
 .strand-section--bg-recessed {
   --strand-form-field-hint-color: var(--strand-gray-600);
   --strand-form-field-label-color: var(--strand-gray-600);

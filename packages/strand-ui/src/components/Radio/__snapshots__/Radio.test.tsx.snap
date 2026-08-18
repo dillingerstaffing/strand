@@ -5,3 +5,20 @@ exports[`renders > checked 1`] = `"<label class="strand-radio strand-radio--chec
 exports[`renders > disabled compact 1`] = `"<label class="strand-radio strand-radio--compact strand-radio--disabled"><input class="strand-radio__native" disabled="" name="plan" type="radio" value="x"><span aria-hidden="true" class="strand-radio__control"><span class="strand-radio__dot"></span></span></label>"`;
 
 exports[`renders > unchecked 1`] = `"<label class="strand-radio"><input class="strand-radio__native" name="plan" type="radio" value="free"><span aria-hidden="true" class="strand-radio__control"><span class="strand-radio__dot"></span></span><span class="strand-radio__label">Free</span></label>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-radio { display: inline-flex; align-items: center; gap: var(--strand-space-2); min-height: var(--strand-touch-target); cursor: pointer; user-select: none; font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); color: var(--strand-gray-900); line-height: var(--strand-leading-snug) }
+.strand-radio__native { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0 }
+.strand-radio__control { display: flex; align-items: center; justify-content: center; width: var(--strand-control-size); height: var(--strand-control-size); border: 1px solid var(--strand-gray-200); border-radius: var(--strand-radius-full); background: var(--strand-surface-elevated); flex-shrink: 0; transition: background var(--strand-duration-fast) var(--strand-ease-out-quart), border-color var(--strand-duration-fast) var(--strand-ease-out-quart), box-shadow var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-radio__dot { width: 8px; height: 8px; border-radius: var(--strand-radius-full); background: var(--strand-on-blue-primary); transform: scale(0); transition: transform var(--strand-duration-fast) var(--strand-ease-out-expo) }
+.strand-radio__native:focus-visible ~ .strand-radio__control { border-color: var(--strand-blue-primary); box-shadow: var(--strand-focus-ring) }
+.strand-radio--checked .strand-radio__control { background: var(--strand-blue-primary); border-color: var(--strand-blue-primary) }
+.strand-radio--checked .strand-radio__dot { transform: scale(1) }
+.strand-radio:hover:not(.strand-radio--disabled) .strand-radio__control { border-color: var(--strand-blue-indicator) }
+.strand-radio--checked:hover:not(.strand-radio--disabled) .strand-radio__control { background: var(--strand-blue-vivid); border-color: var(--strand-blue-vivid) }
+.strand-radio__label { color: var(--strand-radio-label-color, var(--strand-gray-900)) }
+.strand-radio--disabled { opacity: var(--strand-opacity-disabled); cursor: not-allowed }
+@media (pointer: fine) {
+  .strand-radio--compact { min-height: 30px }
+}"
+`;

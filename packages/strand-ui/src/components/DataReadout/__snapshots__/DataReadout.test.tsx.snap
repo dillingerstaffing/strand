@@ -7,3 +7,14 @@ exports[`renders > md 1`] = `"<div class="strand-data-readout"><span class="stra
 exports[`renders > sm 1`] = `"<div class="strand-data-readout strand-data-readout--sm"><span class="strand-data-readout__label">Uptime</span><span class="strand-data-readout__value">42</span></div>"`;
 
 exports[`renders > xl 1`] = `"<div class="strand-data-readout strand-data-readout--xl"><span class="strand-data-readout__label">Uptime</span><span class="strand-data-readout__value">1</span></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-data-readout { display: flex; flex-direction: column; gap: var(--strand-space-1) }
+.strand-data-readout__label { font-family: var(--strand-font-mono); font-size: var(--strand-data-readout-label-size, var(--strand-text-xs)); font-weight: var(--strand-data-readout-label-weight, var(--strand-weight-medium)); letter-spacing: var(--strand-tracking-ultra); text-transform: uppercase; color: var(--strand-data-readout-label-color, var(--strand-gray-500)); line-height: var(--strand-leading-normal) }
+.strand-data-readout__value { font-family: var(--strand-font-mono); font-size: var(--strand-data-readout-value-size, var(--strand-text-3xl)); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tighter); color: var(--strand-data-readout-value-color, var(--strand-blue-midnight)); line-height: var(--strand-leading-tight); font-variant-numeric: tabular-nums }
+.strand-data-readout--sm { --strand-data-readout-value-size: var(--strand-text-xl) }
+.strand-data-readout--lg { --strand-data-readout-value-size: var(--strand-text-4xl) }
+.strand-data-readout--xl { --strand-data-readout-value-size: clamp(4.5rem, 10vw, 7rem) }
+.strand-idle-readout .strand-data-readout__value::before { content: "--"; color: var(--strand-gray-300); font-variant-numeric: tabular-nums }
+.strand-idle-readout .strand-data-readout__value > * { display: none }"
+`;

@@ -1,42 +1,14 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ══════════════════════════════════════════════════
-   LAB SHELL / COMPONENT-REFERENCE PAGE CHROME
-   ══════════════════════════════════════════════════
-   A named primitive family for a component-reference page
-   layout: sticky sidebar + scrollable main + header + section
-   + example. Used by the Strand docs site itself, by any
-   consumer building a component showcase, and by the DS Strand
-   lab. 40+ classes map 1:1 to the handoff's showcase-* chrome.
+/* cf: grid-tracks */
+/* cf: component-knobs */
 
-   Computed styles match the baseline at viewport 1440 per
-   `.strand-handoff-render/ledger/focused.json`.
-
-   The sidebar sticky-top offset is set via the CSS custom
-   property `--strand-ref-sticky-top` (default 0) so consumers
-   can push the sidebar below fixed page chrome (e.g. a glass
-   nav) without hardcoding any DS-specific value. Set on the
-   shell root: `<div class="strand-ref-shell"
-   style="--strand-ref-sticky-top: var(--strand-nav-height);">`.
-   ══════════════════════════════════════════════════ */
-
-/* Shell root: two-column grid, sidebar left, main right. */
 .strand-ref-shell {
   display: grid;
-  /* minmax(0, 1fr) on the main track, not a bare 1fr. A bare 1fr keeps an
-     implicit min-content floor, so a wide child (a long heading, the metrics
-     row) forces the track wider than the viewport. Paired with the shell's
-     overflow-x clip below, that surplus is cut off on the right while the
-     left gutter renders correctly: asymmetric clipping on narrow viewports.
-     minmax(0, ...) lets the track shrink to the available width so content
-     reflows instead. Boundary Integrity: the container owns its width. */
   grid-template-columns: 256px minmax(0, 1fr);
   min-height: 100vh;
 }
 
-/* Sidebar: sticky column. Height fills viewport from sticky-top to
-   bottom so its bottom never falls below the viewport edge. dvh tracks
-   mobile browser-chrome changes; vh fallback for older browsers. */
 .strand-ref-shell__sidebar {
   position: sticky;
   top: var(--strand-ref-sticky-top, 0);
@@ -51,7 +23,6 @@
   overflow: hidden;
 }
 
-/* Sidebar head: fixed top block with brand and hairline bottom. */
 .strand-ref-shell__sidebar-head {
   padding: var(--strand-space-6) var(--strand-space-5) 18px;
   border-bottom: 1px solid var(--strand-gray-100);
@@ -59,7 +30,6 @@
   background: var(--strand-surface-elevated);
 }
 
-/* Sidebar scroll region: groups of nav links, overflow-y auto. */
 .strand-ref-shell__sidebar-scroll {
   flex: 1;
   min-height: 0;
@@ -72,7 +42,6 @@
   gap: 18px;
 }
 
-/* Brand row: mark + title + sub stacked horizontally. */
 .strand-ref-shell__brand {
   display: flex;
   align-items: center;
@@ -108,7 +77,6 @@
   color: var(--strand-gray-500);
 }
 
-/* Sidebar nav group: divider between groups, label + list. */
 .strand-ref-shell__group {
   display: flex;
   flex-direction: column;
@@ -148,7 +116,8 @@
   font-size: 13px;
   color: var(--strand-gray-700);
   text-decoration: none;
-  transition: background var(--strand-duration-fast) var(--strand-ease-out-quart),
+  transition:
+    background var(--strand-duration-fast) var(--strand-ease-out-quart),
     color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
 
@@ -169,17 +138,12 @@
   background: var(--strand-blue-primary);
 }
 
-/* Main: scrolling column, padding 56px 64px 96px, clamped width. */
 .strand-ref-shell__main {
   padding: 56px var(--strand-space-16) 96px;
   max-width: 1120px;
-  /* min-width: 0 lets this grid item shrink below its content's min-content
-     width so content reflows within the track rather than overflowing the
-     viewport and being clipped on the right (Boundary Integrity). */
   min-width: 0;
 }
 
-/* Header: h1 + lead + metrics row, bottom hairline. */
 .strand-ref-header {
   padding-bottom: var(--strand-space-10);
   border-bottom: 1px solid var(--strand-gray-200);
@@ -238,7 +202,6 @@
   line-height: 1.2;
 }
 
-/* Taxonomy explainer block: overline + definition list of terms. */
 .strand-ref-taxonomy {
   margin-top: var(--strand-space-6);
   padding: var(--strand-space-5) 22px;
@@ -294,7 +257,6 @@
   color: var(--strand-blue-midnight);
 }
 
-/* Section: vertical block with hairline bottom. */
 .strand-ref-section {
   padding: var(--strand-space-12) 0;
   border-bottom: 1px solid var(--strand-gray-200);
@@ -336,11 +298,6 @@
   gap: var(--strand-space-8);
 }
 
-/* Example: a single component specimen with meta column + demo panel.
-   minmax(0, 1fr) + min-width: 0 on children: a code block or table inside
-   the demo (or a consumer-composed wrapper) must not set a min-content
-   floor wider than the viewport (Boundary Integrity; same regression
-   class as the shell main track). */
 .strand-ref-example {
   display: grid;
   grid-template-columns: 200px minmax(0, 1fr);
@@ -377,7 +334,6 @@
   background: var(--strand-surface-elevated);
   border: 1px solid var(--strand-gray-200);
   border-radius: var(--strand-radius-lg);
-  /* 24px 28px: token 24px (space-6) + literal 28px chrome value (no token match) */
   padding: var(--strand-space-6) 28px;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
 }
@@ -403,17 +359,11 @@
   display: none;
 }
 
-/* Responsive: at <=1040px the sidebar becomes a slide-over drawer.
-   Consumer toggles `.is-nav-open` on the shell mount point to open the
-   drawer. The trigger button (.strand-ref-shell__mobile-trigger) sits as a FAB
-   bottom-right, and the scrim (.strand-ref-shell__nav-scrim) closes it
-   on tap. */
 @media (max-width: 1040px) {
   .strand-ref-shell {
-    /* Single column at mobile, but still minmax(0, ...) so the lone track can
-       shrink below its content's min-content width (see the base rule). */
     grid-template-columns: minmax(0, 1fr);
   }
+
   .strand-ref-shell__sidebar {
     position: fixed;
     top: var(--strand-ref-sticky-top, 0);
@@ -427,16 +377,17 @@
     background: var(--strand-surface-elevated);
     box-shadow: var(--strand-elevation-3, 0 8px 28px rgba(15, 23, 42, 0.18));
     transform: translateX(-100%);
-    transition: transform var(--strand-duration-normal, 200ms)
-      var(--strand-ease-out-quart, ease-out);
+    transition: transform var(--strand-duration-normal, 200ms) var(--strand-ease-out-quart, ease-out);
     visibility: hidden;
     border-right: 0;
     border-bottom: 0;
   }
+
   .strand-ref-shell.is-nav-open .strand-ref-shell__sidebar {
     transform: translateX(0);
     visibility: visible;
   }
+
   .strand-ref-shell__nav-scrim {
     position: fixed;
     top: var(--strand-ref-sticky-top, 0);
@@ -446,15 +397,19 @@
     z-index: 75;
     background: rgba(15, 23, 42, 0.4);
   }
+
   .strand-ref-shell.is-nav-open .strand-ref-shell__nav-scrim {
     display: block;
   }
+
   .strand-ref-shell__main {
     padding: var(--strand-space-8) var(--strand-space-6) var(--strand-space-16);
   }
+
   .strand-ref-example {
     grid-template-columns: minmax(0, 1fr);
   }
+
   .strand-ref-header__meta {
     grid-template-columns: 1fr 1fr;
     gap: var(--strand-space-6) var(--strand-space-8);

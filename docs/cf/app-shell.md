@@ -1,0 +1,5 @@
+# The app shell clips with `overflow: clip`, and its width is chrome, not a reading measure
+
+`.strand-app-shell` uses `overflow: clip`, never `hidden`. Both clip children to the rounded frame, but `hidden` also makes the element a scroll container, and a `position: sticky` descendant sticks to its nearest scroll container; inside a shell that never scrolls, every sticky rail beneath it would hold for a few pixels and then scroll away with the page. The shell is the outermost container in a product, so `hidden` would break every sticky element at once. Its width is application chrome, a different axis from the `--strand-content-*` reading measures (640 for prose, 1024 at the widest, set by how far an eye tracks a line); a consumer reaching for a reading measure must not find the shell, and one building a shell must not find 1024. At narrow widths the frame drops its border and radius: chrome around content that already fills the viewport is chrome drawing attention to itself.
+
+Where: `packages/strand-ui/src/components/AppShell/AppShell.css`

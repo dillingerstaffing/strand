@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { Badge } from "./Badge.js";
 import { fixtures } from "./Badge.fixtures.js";
 
@@ -50,3 +51,5 @@ describe("Badge fills carry small text at AA", () => {
     });
   }
 });
+
+snapshotStylesheet(resolve(__dirname, "./Badge.css"));

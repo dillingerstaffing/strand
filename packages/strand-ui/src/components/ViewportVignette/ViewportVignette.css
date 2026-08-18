@@ -1,23 +1,10 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ──────────────────────────────────────────────
-   FUI: VIEWPORT VIGNETTE (cursor-following spotlight)
-   ──────────────────────────────────────────────
-   A radial gradient that follows the user's cursor (via JS that
-   sets --mouse-x / --mouse-y custom properties on the viewport),
-   darkening the edges so the user's eye is drawn toward whatever
-   they are pointing at. The "instrument focus" effect from
-   cinematic FUI work. */
-
 .strand-viewport-vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 4;
-  background: radial-gradient(
-    ellipse 70% 60% at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    transparent 45%,
-    rgba(15, 25, 42, 0.35) 100%
-  );
+  background: radial-gradient( ellipse 70% 60% at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 45%, rgba(15, 25, 42, 0.35) 100% );
   transition: background-position 0.15s ease;
 }

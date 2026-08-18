@@ -1,8 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Metric Row ──
-   Derivation: centered-group (DL 11.10).
-   self-contained(atom)* with center distribution + responsive gap */
 .strand-metric-row {
   display: flex;
   justify-content: center;

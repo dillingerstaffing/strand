@@ -1,11 +1,9 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ═══ CONNECTED STEPS (DL Part XI-B: connected-sequence production) ═══
-   Sequential process steps with a visual connector line between cards.
-   Use with a grid of strand-card elements inside. */
 .strand-steps-connected {
   position: relative;
 }
+
 .strand-steps-connected::before {
   content: "";
   position: absolute;
@@ -17,10 +15,12 @@
   z-index: 0;
   pointer-events: none;
 }
+
 .strand-steps-connected > * {
   position: relative;
   z-index: 1;
 }
+
 @media (max-width: 767px) {
   .strand-steps-connected::before {
     display: none;

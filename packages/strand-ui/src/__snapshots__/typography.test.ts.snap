@@ -1,38 +1,37 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-overline",
-  ".strand-overline--accent",
-  ".strand-overline--pulse",
-  ".strand-overline--pulse::before",
-  "@keyframes strand-overline-pulse",
-  "  0%, 100%",
-  "  50%",
-  ".strand-headline",
-  ".strand-headline--xl",
-  ".strand-headline--lg",
-  ".strand-headline--gradient",
-  ".strand-title",
-  ".strand-lead",
-  ".strand-text-secondary",
-  ".strand-text-secondary strong",
-  ".strand-text-secondary a",
-  ".strand-text-secondary a:hover",
-  ".strand-text-secondary--xs",
-  ".strand-font-mono",
-  ".strand-text-sm",
-  ".strand-text-xs",
-  ".strand-break-anywhere",
-  ".strand-nowrap",
-  ".strand-value",
-  ".strand-value--positive",
-  ".strand-value--negative",
-  ".strand-text-center",
-  ".strand-code-name",
-  ".strand-heading--sm",
-  ".strand-headline--mono",
-  ".strand-headline--md",
-  ".strand-code-inline",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-overline { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-ultra); text-transform: uppercase; color: var(--strand-overline-color, var(--strand-gray-500)); line-height: var(--strand-leading-normal) }
+.strand-overline--accent { color: var(--strand-overline-accent-color, var(--strand-blue-deep)) }
+.strand-overline--pulse { position: relative; padding-left: var(--strand-space-4); display: inline-block }
+.strand-overline--pulse::before { content: ""; position: absolute; left: 0; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: var(--strand-radius-full); background: var(--strand-blue-primary); animation: strand-overline-pulse 2s var(--strand-ease-in-out-sine) infinite }
+@keyframes strand-overline-pulse {
+  0%, 100% { opacity: 1 }
+  50% { opacity: 0.4 }
+}
+.strand-headline { font-family: var(--strand-font-mono); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-widest); text-transform: uppercase; color: var(--strand-headline-color, var(--strand-blue-midnight)); line-height: var(--strand-leading-tight) }
+.strand-headline--xl { font-size: clamp(2.5rem, 5vw + 1rem, 5rem); letter-spacing: 0.35em }
+.strand-headline--lg { font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem); letter-spacing: var(--strand-tracking-tighter) }
+.strand-headline--gradient { background: linear-gradient(180deg, var(--strand-gray-900) 0%, var(--strand-blue-midnight) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent }
+.strand-title { font-family: var(--strand-font-sans); font-weight: var(--strand-weight-light); letter-spacing: var(--strand-tracking-tighter); color: var(--strand-title-color, var(--strand-blue-midnight)); font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem); line-height: var(--strand-leading-snug) }
+.strand-lead { font-size: var(--strand-text-lg); color: var(--strand-lead-color, var(--strand-gray-500)); max-width: 50ch; line-height: var(--strand-leading-relaxed) }
+.strand-text-secondary { font-size: var(--strand-text-sm); color: var(--strand-text-secondary-color, var(--strand-gray-500)); line-height: var(--strand-leading-relaxed) }
+.strand-text-secondary strong { color: var(--strand-gray-700) }
+.strand-text-secondary a { color: var(--strand-blue-deep); text-decoration: none }
+.strand-text-secondary a:hover { text-decoration: underline }
+.strand-text-secondary--xs { font-size: var(--strand-text-xs); color: var(--strand-text-secondary-xs-color, var(--strand-text-secondary-color, var(--strand-gray-500))) }
+.strand-font-mono { font-family: var(--strand-font-mono) }
+.strand-text-sm { font-size: var(--strand-text-sm) }
+.strand-text-xs { font-size: var(--strand-text-xs) }
+.strand-break-anywhere { overflow-wrap: anywhere }
+.strand-nowrap { white-space: nowrap }
+.strand-value { font-variant-numeric: tabular-nums }
+.strand-value--positive { color: var(--strand-value-positive-color, var(--strand-green-positive-deep)) !important }
+.strand-value--negative { color: var(--strand-value-negative-color, var(--strand-red-alert-deep)) !important }
+.strand-text-center { text-align: center }
+.strand-code-name { font-family: var(--strand-font-mono); font-size: var(--strand-text-base); font-weight: var(--strand-weight-semibold); color: var(--strand-blue-midnight); margin: 0 }
+.strand-heading--sm { font-size: var(--strand-text-lg); font-weight: var(--strand-weight-medium); color: var(--strand-heading-sm-color, var(--strand-gray-800)); margin: 0 }
+.strand-headline--mono { font-family: var(--strand-font-mono); font-weight: var(--strand-weight-medium); text-transform: none; letter-spacing: var(--strand-tracking-tight) }
+.strand-headline--md { font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem); letter-spacing: var(--strand-tracking-tight) }
+.strand-code-inline { font-family: var(--strand-font-mono); font-size: 0.875em; color: var(--strand-blue-deep); background: var(--strand-surface-recessed); padding: 0.125em 0.375em; border-radius: var(--strand-radius-sm) }"
 `;

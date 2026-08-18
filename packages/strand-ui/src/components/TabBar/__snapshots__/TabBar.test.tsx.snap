@@ -3,3 +3,13 @@
 exports[`renders > buttons 1`] = `"<nav aria-label="Sections" class="strand-tabbar"><button class="strand-tabbar__item" type="button"><span class="strand-tabbar__label">One</span></button><button class="strand-tabbar__item" type="button"><span class="strand-tabbar__label">Two</span></button></nav>"`;
 
 exports[`renders > links with current 1`] = `"<nav aria-label="Primary" class="strand-tabbar"><a class="strand-tabbar__item" href="/"><span class="strand-tabbar__label">Discover</span></a><a aria-current="page" class="strand-tabbar__item" href="/calendar"><span class="strand-tabbar__label">Calendar</span></a></nav>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-tabbar { position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 100; display: flex; align-items: flex-start; justify-content: var(--strand-tabbar-justify, space-around); min-block-size: var(--strand-tabbar-height); padding-block-start: var(--strand-tabbar-pad-block-start, var(--strand-space-2)); padding-inline: var(--strand-tabbar-pad-inline, var(--strand-space-4)); padding-block-end: env(safe-area-inset-bottom, 0px); background: var(--strand-tabbar-bg, var(--strand-surface-elevated)); border-block-start: 1px solid var(--strand-gray-200) }
+.strand-tabbar__item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--strand-tabbar-item-gap, var(--strand-space-1)); min-inline-size: var(--strand-tabbar-item-size, 44px); min-block-size: 44px; padding-block: var(--strand-space-2); padding-inline: var(--strand-space-1); text-decoration: none; color: var(--strand-gray-500); transition: color var(--strand-duration-fast) ease }
+.strand-tabbar__item[aria-current="page"] { color: var(--strand-blue-deep) }
+.strand-tabbar__item:hover { color: var(--strand-gray-700) }
+.strand-tabbar__item:focus-visible { outline: 2px solid var(--strand-blue-primary); outline-offset: -2px; border-radius: var(--strand-radius-md) }
+.strand-tabbar__icon { flex: none; inline-size: 20px; block-size: 20px }
+.strand-tabbar__label { font-family: var(--strand-font-mono); font-size: var(--strand-tabbar-label-size, var(--strand-text-xs)); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tabbar-label-tracking, var(--strand-tracking-wider)); text-transform: uppercase; white-space: nowrap; line-height: var(--strand-leading-none); text-align: center; overflow-wrap: anywhere }"
+`;

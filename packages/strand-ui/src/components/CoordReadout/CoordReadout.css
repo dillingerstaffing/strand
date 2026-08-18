@@ -1,14 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ──────────────────────────────────────────────
-   FUI: COORDINATE READOUT
-   ──────────────────────────────────────────────
-   A small mono panel in the bottom-left corner that displays the
-   instrument's current coordinate (latitude/longitude, or any
-   tabular numeric pair). The blinking cursor before the values
-   is the alive signal -- the system is reading position right
-   now. */
-
 .strand-coord-readout {
   position: absolute;
   bottom: var(--strand-space-4);
@@ -28,6 +19,7 @@
   padding: var(--strand-space-2) var(--strand-space-3);
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
 }
+
 .strand-coord-readout::before {
   content: "";
   display: inline-block;
@@ -37,17 +29,24 @@
   border-radius: var(--strand-radius-sm);
   animation: strand-coord-blink 1.2s steps(2) infinite;
 }
+
 @keyframes strand-coord-blink {
-  0%, 49%   { opacity: 1; }
-  50%, 100% { opacity: 0; }
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
+
 .strand-coord-readout__lat,
 .strand-coord-readout__lng {
   display: inline-block;
 }
-/* The other half of the legend's narrow-viewport rule. Both primitives
-   hide below 640px; the selector is split because they live in separate
-   files, so neither file appears to define the other. */
+
 @media (max-width: 640px) {
   .strand-coord-readout {
     display: none;

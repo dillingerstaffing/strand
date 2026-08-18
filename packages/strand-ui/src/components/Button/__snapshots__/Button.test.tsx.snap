@@ -19,3 +19,42 @@ exports[`renders > loading 1`] = `"<button aria-busy="true" aria-disabled="true"
 exports[`renders > primary md 1`] = `"<button class="strand-btn strand-btn--primary strand-btn--md" type="button"><span class="strand-btn__content">Save</span></button>"`;
 
 exports[`renders > secondary 1`] = `"<button class="strand-btn strand-btn--secondary strand-btn--md" type="button"><span class="strand-btn__content">Cancel</span></button>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: var(--strand-space-2); border: 1px solid transparent; border-radius: var(--strand-radius-md); font-family: var(--strand-font-sans); font-weight: var(--strand-weight-medium); line-height: var(--strand-leading-snug); white-space: nowrap; cursor: pointer; user-select: none; transition: background var(--strand-duration-fast) var(--strand-ease-out-quart), border-color var(--strand-duration-fast) var(--strand-ease-out-quart), color var(--strand-duration-fast) var(--strand-ease-out-quart), transform var(--strand-duration-fast) var(--strand-ease-out-expo), box-shadow var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-btn:active:not(:disabled) { transform: translateY(0); transition-duration: 75ms }
+.strand-btn:disabled { opacity: var(--strand-opacity-disabled); cursor: not-allowed }
+.strand-btn--sm { padding: var(--strand-space-2) var(--strand-space-5); font-size: var(--strand-text-sm); min-height: var(--strand-btn-min-block-size, var(--strand-touch-target)) }
+.strand-btn--md { padding: var(--strand-space-3) var(--strand-space-8); font-size: var(--strand-text-sm); min-height: var(--strand-btn-min-block-size, var(--strand-touch-target)) }
+.strand-btn--lg { padding: var(--strand-space-3) var(--strand-space-10); font-size: var(--strand-text-base); min-height: var(--strand-btn-min-block-size, var(--strand-touch-target)) }
+.strand-btn--compact:not(.strand-btn--icon-only) { padding-inline: var(--strand-space-3) }
+.strand-btn--icon-only.strand-btn--sm { padding: var(--strand-space-1); min-width: var(--strand-touch-target) }
+.strand-btn--icon-only.strand-btn--md { padding: var(--strand-space-2); min-width: var(--strand-touch-target) }
+.strand-btn--icon-only.strand-btn--lg { padding: var(--strand-space-3); min-width: 48px }
+.strand-btn--circular { border-radius: var(--strand-radius-full); aspect-ratio: 1 }
+.strand-btn--full-width { width: 100% }
+.strand-btn--primary { background: var(--strand-blue-deep); color: var(--strand-on-blue-deep) }
+.strand-btn--primary:hover:not(:disabled) { background: var(--strand-blue-midnight); transform: translateY(-1px); box-shadow: var(--strand-hover-shadow-primary) }
+.strand-btn--primary:active:not(:disabled) { background: var(--strand-blue-abyss) }
+.strand-btn--secondary { background: var(--strand-surface-elevated); color: var(--strand-blue-midnight); border-color: var(--strand-gray-200) }
+.strand-btn--secondary:hover:not(:disabled) { background: var(--strand-blue-glow); border-color: var(--strand-blue-indicator); transform: translateY(-1px); box-shadow: var(--strand-elevation-1) }
+.strand-btn--secondary:active:not(:disabled) { background: var(--strand-blue-wash) }
+.strand-btn--ghost { background: transparent; color: var(--strand-btn-ghost-color, var(--strand-blue-midnight)); border-color: var(--strand-btn-ghost-border-color, transparent) }
+.strand-btn--ghost:hover:not(:disabled) { background: var(--strand-blue-glow); transform: translateY(-1px) }
+.strand-btn--ghost:active:not(:disabled) { background: var(--strand-blue-wash) }
+.strand-btn--danger { background: var(--strand-red-alert-vivid); color: var(--strand-on-red-alert-vivid) }
+.strand-btn--danger:hover:not(:disabled) { background: var(--strand-red-alert-deep); transform: translateY(-1px); box-shadow: var(--strand-hover-shadow-danger) }
+.strand-btn--danger:active:not(:disabled) { background: var(--strand-red-alert-abyss) }
+.strand-btn--loading { pointer-events: none }
+.strand-btn--loading .strand-btn__content { visibility: hidden }
+.strand-btn__spinner { position: absolute; width: 16px; height: 16px; border: 2px solid currentColor; border-top-color: transparent; border-radius: var(--strand-radius-full); animation: strand-btn-spin 0.8s linear infinite; opacity: 0.8 }
+.strand-btn--lg .strand-btn__spinner { width: 20px; height: 20px }
+@keyframes strand-btn-spin {
+  to { transform: rotate(360deg) }
+}
+.strand-btn__content { display: inline-flex; align-items: center; gap: var(--strand-space-2) }
+@media (prefers-reduced-motion: reduce) {
+  .strand-btn:hover:not(:disabled) { transform: none }
+  .strand-btn__spinner { animation: none; border-style: dotted }
+}"
+`;

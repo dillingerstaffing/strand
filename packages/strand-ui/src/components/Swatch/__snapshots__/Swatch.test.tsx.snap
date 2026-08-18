@@ -5,3 +5,10 @@ exports[`every export renders its element and class > Swatch 1`] = `"<div class=
 exports[`every export renders its element and class > SwatchGrid 1`] = `"<div class="strand-swatch-grid custom">x</div>"`;
 
 exports[`renders > swatch 1`] = `"<div class="strand-swatch" style="background: rgb(59, 142, 246); color: rgb(255, 255, 255);"><span class="strand-swatch__name">blue-primary</span><span class="strand-swatch__hex">#3B8EF6</span></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px }
+.strand-swatch { display: flex; flex-direction: column; gap: var(--strand-space-1); padding: 14px 14px 12px; border-radius: var(--strand-radius-md); border: 1px solid var(--strand-gray-200); min-height: 92px }
+.strand-swatch__name { font-family: var(--strand-font-mono); font-size: 10px; letter-spacing: var(--strand-tracking-widest); text-transform: uppercase; font-weight: var(--strand-weight-medium) }
+.strand-swatch__hex { font-family: var(--strand-font-mono); font-size: 11px; opacity: 0.75; margin-top: auto }"
+`;

@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/preact";
 import { FormField } from "./FormField.js";
@@ -169,6 +170,9 @@ describe("FormField", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./FormField.fixtures.js";
 
 snapshotFixtures(FormField, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./FormField.css"));

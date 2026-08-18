@@ -1,30 +1,14 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── StatStrip ──
-   A row of labelled value cells. Three untinted cells on a focal card,
-   four bordered ones on a detail panel: the same component at two
-   densities rather than two components.
-
-   NOT `DataReadout`. That renders ONE label-and-value pair as a unit and
-   its sizes are tuned for a single dominant figure. This is a ROW whose
-   cells are peers, compared across rather than read singly, so the cells
-   are equal-width and the values share a baseline.
-
-   Renders on BOTH surfaces: light in a detail panel, dark inside the
-   feature surface. The dark cascade lives with the surface. */
+/* cf: grid-tracks */
 
 .strand-stat-strip {
   display: grid;
-  /* Equal fractions so the cells are comparable by position. minmax(0,..)
-     because a long value would otherwise widen its own column and break
-     that comparison (10.4). */
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
   gap: var(--strand-space-6);
 }
 
-/* Bordered density: cells gain padding and a hairline rule between them,
-   for a strip that is its own panel rather than a row inside a card. */
 .strand-stat-strip--bordered {
   gap: 0;
   border: 1px solid var(--strand-stat-strip-border-color, var(--strand-gray-200));
@@ -37,8 +21,6 @@
   border-inline-start: 1px solid var(--strand-stat-strip-border-color, var(--strand-gray-200));
 }
 
-/* The first cell has no neighbour to its start side, so a border there
-   would double the panel's own edge. */
 .strand-stat-strip--bordered .strand-stat-strip__cell:first-child {
   border-inline-start: none;
 }
@@ -50,8 +32,6 @@
   min-inline-size: 0;
 }
 
-/* The overline pattern (4.7). gray-500 rather than the gray-400 a mockup
-   specifies here: a label is a word, so 14.2b makes it text at 4.5:1. */
 .strand-stat-strip__label {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
@@ -68,8 +48,6 @@
   font-weight: var(--strand-weight-semibold);
   font-variant-numeric: tabular-nums;
   color: var(--strand-stat-strip-value-color, var(--strand-blue-midnight));
-  /* Cells are compared across, so a long value wraps rather than widening
-     its column and pushing its neighbours out of alignment. */
   overflow-wrap: anywhere;
 }
 

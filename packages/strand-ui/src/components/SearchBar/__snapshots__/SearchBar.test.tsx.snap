@@ -1,28 +1,29 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-search-bar",
-  ".strand-search-bar--shifted",
-  ".strand-search-bar__inner",
-  ".strand-search-bar__inner:focus-within",
-  ".strand-search-bar__input",
-  ".strand-search-bar__input::placeholder",
-  ".strand-search-bar__action",
-  ".strand-search-bar__action:hover",
-  ".strand-search-bar__action:hover svg",
-  ".strand-search-bar__action:active",
-  ".strand-search-bar__action--danger",
-  ".strand-search-bar__action--danger:hover",
-  ".strand-search-bar__action[hidden]",
-  ".strand-search-bar__action--locating",
-  "@keyframes strand-search-bar-pulse",
-  "  0%, 100%",
-  "  50%",
-  "@media (max-width: 768px)",
-  "  .strand-search-bar, .strand-search-bar--shifted",
-  "  .strand-search-bar__action",
-  "@media (max-width: 640px)",
-  "  .strand-search-bar__input",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-search-bar { position: absolute; top: var(--strand-space-4); left: 50%; transform: translateX(-50%); z-index: 10; width: min(520px, calc(100% - var(--strand-space-8))); transition: left var(--strand-duration-normal) var(--strand-ease-out-expo), transform var(--strand-duration-normal) var(--strand-ease-out-expo), width var(--strand-duration-normal) var(--strand-ease-out-expo) }
+.strand-search-bar--shifted { left: calc(340px + var(--strand-space-4) + var(--strand-space-4)); transform: none; width: min(480px, calc(100% - 340px - var(--strand-space-4) * 3)) }
+.strand-search-bar__inner { display: flex; align-items: center; gap: var(--strand-space-2); background: linear-gradient( 135deg, rgba(15, 25, 42, 0.88) 0%, rgba(15, 23, 42, 0.85) 100% ); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border: 1px solid rgba(59, 142, 246, 0.15); border-radius: var(--strand-radius-lg); padding: var(--strand-space-2) var(--strand-space-4); box-shadow: var(--strand-instrument-shadow-deep); transition: border-color var(--strand-duration-normal) ease, box-shadow var(--strand-duration-normal) ease }
+.strand-search-bar__inner:focus-within { border-color: var(--strand-instrument-border-strong); box-shadow: var(--strand-instrument-shadow-deep), inset 0 0 24px rgba(59, 142, 246, 0.06) }
+.strand-search-bar__input { flex: 1; background: transparent; border: none; outline: none; font-family: var(--strand-font-sans); font-size: var(--strand-text-base); color: var(--strand-instrument-text-primary); padding: var(--strand-space-2) 0 }
+.strand-search-bar__input::placeholder { color: var(--strand-gray-500) }
+.strand-search-bar__action { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid rgba(59, 142, 246, 0.2); border-radius: var(--strand-radius-md); background: transparent; color: var(--strand-gray-400); cursor: pointer; transition: color var(--strand-duration-fast) ease, border-color var(--strand-duration-fast) ease, box-shadow var(--strand-duration-fast) ease }
+.strand-search-bar__action:hover { color: var(--strand-blue-primary); border-color: var(--strand-blue-primary); box-shadow: 0 0 8px rgba(59, 142, 246, 0.2) }
+.strand-search-bar__action:hover svg { filter: drop-shadow(0 0 3px rgba(59, 142, 246, 0.5)) }
+.strand-search-bar__action:active { transform: scale(0.95) }
+.strand-search-bar__action--danger { border-color: rgba(239, 68, 68, 0.2) }
+.strand-search-bar__action--danger:hover { color: var(--strand-red-alert); border-color: var(--strand-red-alert); box-shadow: 0 0 8px rgba(239, 68, 68, 0.2) }
+.strand-search-bar__action[hidden] { display: none }
+.strand-search-bar__action--locating { color: var(--strand-blue-primary); border-color: var(--strand-blue-primary); animation: strand-search-bar-pulse 1s var(--strand-ease-in-out-sine) infinite }
+@keyframes strand-search-bar-pulse {
+  0%, 100% { border-color: var(--strand-blue-primary) }
+  50% { border-color: rgba(59, 142, 246, 0.3) }
+}
+@media (max-width: 768px) {
+  .strand-search-bar, .strand-search-bar--shifted { top: var(--strand-space-3); left: var(--strand-space-4); width: calc(100% - (var(--strand-space-4) * 2)); transform: none; transition: none }
+  .strand-search-bar__action { width: 44px; height: 44px }
+}
+@media (max-width: 640px) {
+  .strand-search-bar__input { font-size: 16px }
+}"
 `;

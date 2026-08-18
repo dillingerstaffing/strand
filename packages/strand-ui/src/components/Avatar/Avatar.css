@@ -1,24 +1,8 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: component-knobs */
+
 /* ── Base ── */
-/*
- * TWO RUNTIME KNOBS, because an avatar's ground is per-person data.
- *
- * `background` and `color` were flat declarations, so a product that derives a
- * per-member tint (the near-universal fallback when a member has no photo) had
- * no way to express it except by overriding `.strand-avatar` itself, which is
- * exactly the design-system override a consumer must never write.
- *
- * The fallbacks ARE the previous values, so every existing caller renders byte
- * for byte what it did before and this is a pure addition. A consumer sets the
- * knobs on the element or any ancestor and inherits the rest of the primitive.
- *
- * Deliberately NOT a `tone` prop enumerating fixed hues: the caller's tint
- * comes from hashing an id, so the value space is continuous and an enum would
- * force every consumer to map a hash onto Strand's list. A custom property is
- * also the only form that reaches all 8 consumer types through the shared
- * stylesheet with no per-framework component change.
- */
 .strand-avatar {
   display: inline-flex;
   align-items: center;

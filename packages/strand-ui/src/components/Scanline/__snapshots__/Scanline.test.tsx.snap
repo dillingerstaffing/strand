@@ -1,19 +1,20 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-scanline",
-  ".strand-scanline--active",
-  "@keyframes strand-scan",
-  "  0%",
-  "  5%",
-  "  90%",
-  "  100%",
-  ".strand-scanline--ambient",
-  "@keyframes strand-scan-slow",
-  "  0%",
-  "  100%",
-  "@media (prefers-reduced-motion: reduce)",
-  "  .strand-scanline, .strand-scanline--ambient",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-scanline { position: absolute; left: 0; right: 0; height: 2px; top: -2px; background: linear-gradient( 90deg, transparent 0%, rgba(59, 142, 246, 0.2) 15%, var(--strand-instrument-glow-strong) 50%, rgba(59, 142, 246, 0.2) 85%, transparent 100% ); box-shadow: 0 0 16px rgba(59, 142, 246, 0.3), 0 0 48px rgba(59, 142, 246, 0.1), 0 1px 0 var(--strand-instrument-border); pointer-events: none; z-index: 5; opacity: 0 }
+.strand-scanline--active { animation: strand-scan 2s var(--strand-ease-out-quart) forwards }
+@keyframes strand-scan {
+  0% { top: -2px; opacity: 0 }
+  5% { opacity: 0.5 }
+  90% { opacity: 0.5 }
+  100% { top: 100%; opacity: 0 }
+}
+.strand-scanline--ambient { position: absolute; left: 0; right: 0; height: 1px; top: -1px; background: linear-gradient( 90deg, transparent 0%, rgba(59, 142, 246, 0.08) 30%, var(--strand-instrument-glow-medium) 50%, rgba(59, 142, 246, 0.08) 70%, transparent 100% ); pointer-events: none; z-index: 5; opacity: 1; animation: strand-scan-slow 6s linear infinite }
+@keyframes strand-scan-slow {
+  0% { top: -1px }
+  100% { top: 100% }
+}
+@media (prefers-reduced-motion: reduce) {
+  .strand-scanline, .strand-scanline--ambient { display: none }
+}"
 `;

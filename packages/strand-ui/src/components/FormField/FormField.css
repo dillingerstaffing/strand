@@ -1,5 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
+/* cf: form-field-messages */
+
 /* ── Base ── */
 .strand-form-field {
   display: flex;
@@ -18,10 +20,6 @@
   line-height: var(--strand-leading-snug);
 }
 
-/* ── Required indicator ──
-   Uses blue-primary, not red, because the asterisk is a "this is required"
-   accent (informational), not an error. Red is reserved for actual errors
-   inside .strand-form-field__error. */
 .strand-form-field__required {
   color: var(--strand-blue-deep);
   margin-left: var(--strand-space-1);
@@ -43,9 +41,6 @@
 }
 
 /* ── Error message ── */
-/* Validation copy is the one message a user cannot afford to miss, and at
-   text-xs red-alert reads 3.76:1. red-alert-deep is the same signal at the
-   text tier. The fill tier stays on the alert panel and the status glyph. */
 .strand-form-field__error {
   margin: 0;
   font-family: var(--strand-font-sans);
@@ -55,19 +50,6 @@
 }
 
 /* ── Success message ── */
-/* The third message state. The field already modelled "here is how to fill
-   this in" (hint) and "this is wrong" (error), but had nothing for "this is
-   confirmed good", which is what an availability check, a password-strength
-   meter or a verified address needs to say.
-
-   Without it the only way to render the answer was an element OUTSIDE the
-   field, which is not wired into the describedby chain and stacks under the
-   hint, so the reader gets "2 to 30 characters" and "Available." as two
-   competing lines about the same input.
-
-   green-positive-deep for the same reason error uses red-alert-deep: at
-   text-xs the fill tier does not clear 4.5:1 on a light surface. The fill tier
-   stays on chips and status glyphs. */
 .strand-form-field__success {
   margin: 0;
   font-family: var(--strand-font-sans);

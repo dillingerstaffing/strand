@@ -1,21 +1,7 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ══════════════════════════════════════════════════
-   INSTRUMENT VIEWPORT (DL Part 9.3: Dark Mode Island)
-   ══════════════════════════════════════════════════
-   The viewport is the only place dark backgrounds appear in the
-   lab. The frame around it stays the white lab surface. Inside
-   the viewport, every primitive (search bar, panel, pin, legend,
-   coordinate readout, scanline, vignette) is built from the
-   instrument tokens defined in tokens.css. None of these
-   primitives leak the dark surface to the rest of the page.
-
-   Three modes:
-   - Default (recessed inside a card)
-   - --grid (with subtle blue grid overlay)
-   - --full-bleed (page-filling instrument cabinet, requires
-     body to be marked .strand-body--instrument so the page
-     surface is dark all the way to the edges) */
+/* cf: instrument-map-slot */
+/* cf: surface-tokens */
 
 .strand-instrument-viewport {
   background: var(--strand-blue-abyss);
@@ -41,34 +27,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Map slot (base layer inside the viewport) ──
-   When the instrument viewport hosts a map (DL 9.3 explicitly
-   lists maps as supported content), the consumer's map library
-   container div must be given a known size. Without explicit
-   dimensions a raw <div> collapses to height: 0 and libraries
-   like maplibre-gl silently initialize into a zero-size canvas
-   and render nothing.
-
-   This slot primitive fills the viewport so the map canvas has
-   somewhere to paint. It deliberately does NOT set z-index: a
-   z-index would create a new stacking context that traps the
-   map library's markers below the viewport's FUI overlays
-   (scanline, vignette). Without a z-index, the markers can be
-   promoted into the viewport's own stacking context via the
-   library-specific marker rules below.
-
-   NOTE on specificity: the selector is scoped via the parent
-   .strand-instrument-viewport to outrank .maplibregl-map, which
-   maplibre-gl.css (appended at runtime, after strand-ui.css)
-   sets to position: relative. Without the descendant selector
-   the single-class rules would tie on specificity, and later
-   source order would hand the win to maplibre, leaving the
-   container as a relatively-positioned in-flow element whose
-   height: 100% can collapse to 0 in some mobile browsers when
-   the parent chain's explicit heights are not yet resolved at
-   paint time. Absolute positioning anchored via inset: 0
-   guarantees the container always fills its containing block,
-   regardless of maplibre's cascade. */
 .strand-instrument-viewport .strand-instrument-viewport__map {
   position: absolute;
   inset: 0;
@@ -88,10 +46,6 @@
   pointer-events: none;
 }
 
-/* ── Full-bleed variant (page-filling instrument cabinet) ──
-   The viewport occupies all the space below the nav. The body
-   must be marked .strand-body--instrument so the dark surface
-   reaches the edge of the screen, not just the rounded card. */
 .strand-instrument-viewport--full-bleed {
   width: 100%;
   height: calc(100vh - var(--strand-nav-height));
@@ -104,7 +58,8 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(var(--strand-viewport-grid-line) 1px, transparent 1px),
+  background-image:
+    linear-gradient(var(--strand-viewport-grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--strand-viewport-grid-line) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
@@ -116,42 +71,27 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 60% 50% at 50% 40%,
-    var(--strand-instrument-glow-soft) 0%,
-    transparent 70%
-  );
+  background: radial-gradient( ellipse 60% 50% at 50% 40%, var(--strand-instrument-glow-soft) 0%, transparent 70% );
   pointer-events: none;
   z-index: 2;
   animation: strand-instrument-breathe 8s var(--strand-ease-in-out-sine) infinite;
 }
 
 @keyframes strand-instrument-breathe {
-  0%, 100% { opacity: 0.5; }
-  50%      { opacity: 1; }
-}
+  0%,
+  100% {
+    opacity: 0.5;
+  }
 
-/* ──────────────────────────────────────────────
-   BODY MODE: full-bleed dark surface
-   ──────────────────────────────────────────────
-   When a page hosts a full-bleed instrument viewport, the body
-   itself must be dark all the way to the edges. The nav also
-   needs to switch to its instrument variant. Add
-   .strand-body--instrument to <body> to enable this mode. */
+  50% {
+    opacity: 1;
+  }
+}
 
 .strand-body--instrument {
   background: var(--strand-instrument-bg);
   overflow: hidden;
 }
-
-/* ──────────────────────────────────────────────
-   MAPLIBRE COMPATIBILITY OVERRIDES
-   ──────────────────────────────────────────────
-   When MapLibre GL is rendered inside an instrument viewport,
-   its default chrome must be muted and re-themed to fit the
-   dark cabinet. These overrides should ONLY take effect inside
-   .strand-instrument-viewport so they do not pollute lighter
-   maps elsewhere on the site. */
 
 .strand-instrument-viewport .maplibregl-marker {
   z-index: 6 !important;
@@ -211,7 +151,6 @@
   border-top-color: var(--strand-instrument-bg-translucent);
 }
 
-/* Dark surface: the primitives inside read these. cf: surface-tokens */
 .strand-instrument-viewport,
 .strand-body--instrument {
   --strand-alert-bg: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);

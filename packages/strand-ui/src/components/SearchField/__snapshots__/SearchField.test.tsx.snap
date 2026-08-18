@@ -3,3 +3,22 @@
 exports[`renders > field 1`] = `"<div class="strand-search-field" role="search"><svg aria-hidden="true" class="strand-search-field__icon" fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 14 14"></path></svg><input aria-label="Search" class="strand-search-field__input" placeholder="Search events" type="search"></div>"`;
 
 exports[`renders > full with value 1`] = `"<div class="strand-search-field strand-search-field--full" role="search"><svg aria-hidden="true" class="strand-search-field__icon" fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 14 14"></path></svg><input aria-label="Find" class="strand-search-field__input" placeholder="Search" type="search"></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-search-field { display: flex; align-items: center; gap: var(--strand-space-2); inline-size: var(--strand-search-field-inline-size, min(300px, 100%)); block-size: 36px; padding-inline: var(--strand-space-3); background: var(--strand-surface-recessed); border: 1px solid var(--strand-gray-200); border-radius: var(--strand-radius-lg); transition: border-color var(--strand-duration-fast) ease, box-shadow var(--strand-duration-fast) ease }
+.strand-search-field--full { inline-size: 100% }
+@media (pointer: coarse) {
+  .strand-search-field { block-size: 44px }
+}
+.strand-search-field:focus-within { border-color: var(--strand-blue-primary); box-shadow: 0 0 0 2px var(--strand-blue-primary) }
+.strand-search-field__icon { flex: none; inline-size: 16px; block-size: 16px; color: var(--strand-gray-500) }
+.strand-search-field__input { flex: 1; min-inline-size: 0; background: transparent; border: none; outline: none; padding: 0; font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); color: var(--strand-gray-800) }
+.strand-search-field__input::placeholder { color: var(--strand-gray-500); opacity: 1 }
+.strand-search-field__input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none }
+.strand-search-field__clear { flex: none; display: grid; place-items: center; inline-size: 24px; block-size: 24px; padding: 0; background: transparent; border: none; border-radius: var(--strand-radius-full); color: var(--strand-gray-500); cursor: pointer; transition: color var(--strand-duration-fast) ease, background-color var(--strand-duration-fast) ease }
+.strand-search-field__clear:hover { background: var(--strand-gray-200); color: var(--strand-gray-700) }
+@media (pointer: coarse) {
+  .strand-search-field__clear { inline-size: 44px; block-size: 44px; margin-inline-end: calc(var(--strand-space-3) * -1) }
+}
+.strand-search-field__clear[hidden] { display: none }"
+`;

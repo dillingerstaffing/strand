@@ -1,13 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-status-chip",
-  ".strand-status-chip > svg",
-  ".strand-status-chip--live",
-  ".strand-status-chip--neutral",
-  ".strand-status-chip--accent",
-  ".strand-status-chip--caution",
-  ".strand-status-chip--committed",
-]
+exports[`stylesheet > renders these rules 1`] = `
+".strand-status-chip { display: inline-flex; align-items: center; gap: var(--strand-space-1); font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-wide); text-transform: uppercase; padding: var(--strand-space-1) var(--strand-space-2); border-radius: var(--strand-radius-sm); line-height: var(--strand-leading-normal) }
+.strand-status-chip > svg { flex: none }
+.strand-status-chip--live { color: var(--strand-on-teal-tint); background: var(--strand-teal-tint) }
+.strand-status-chip--neutral { color: var(--strand-status-chip-neutral-color, var(--strand-gray-600)); background: var(--strand-status-chip-neutral-bg, var(--strand-gray-tint)); border: var(--strand-status-chip-neutral-border, none) }
+.strand-status-chip--accent { color: var(--strand-blue-deep); background: var(--strand-blue-tint) }
+.strand-status-chip--caution { color: var(--strand-on-amber-tint); background: var(--strand-amber-tint) }
+.strand-status-chip--committed { color: var(--strand-status-chip-committed-color, var(--strand-on-teal-tint)); background: color-mix(in srgb, var(--strand-teal-vital) 16%, transparent); border: 1px solid color-mix(in srgb, var(--strand-teal-vital) 30%, transparent) }"
 `;

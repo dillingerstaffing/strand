@@ -1,7 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Step indicator ──
-   Numbered position indicator for sequential steps. */
 .strand-step-indicator {
   display: inline-flex;
   align-items: center;

@@ -1,12 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ──────────────────────────────────────────────
-   MAP LOADING (instrument startup screen)
-   ──────────────────────────────────────────────
-   The full-bleed loading screen that hides the instrument while
-   it boots. Centered spinner, mono caption, sweeping bar.
-   Fades out via opacity transition. */
-
 .strand-map-loading {
   position: absolute;
   inset: 0;
@@ -36,7 +29,9 @@
 }
 
 @keyframes strand-map-loading-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .strand-map-loading__text {
@@ -60,18 +55,18 @@
   display: block;
   height: 100%;
   width: 40%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(59, 142, 246, 0.6),
-    transparent
-  );
+  background: linear-gradient( 90deg, transparent, rgba(59, 142, 246, 0.6), transparent );
   animation: strand-map-loading-sweep 1.4s var(--strand-ease-in-out-sine) infinite;
 }
 
 @keyframes strand-map-loading-sweep {
-  0%   { transform: translateX(-200%); }
-  100% { transform: translateX(500%); }
+  0% {
+    transform: translateX(-200%);
+  }
+
+  100% {
+    transform: translateX(500%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

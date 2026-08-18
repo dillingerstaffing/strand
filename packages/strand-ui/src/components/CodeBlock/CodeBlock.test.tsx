@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/preact";
 import { CodeBlock } from "./CodeBlock.js";
@@ -74,6 +75,9 @@ describe("CodeBlock", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./CodeBlock.fixtures.js";
 
 snapshotFixtures(CodeBlock, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./CodeBlock.css"));

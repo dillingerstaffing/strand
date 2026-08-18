@@ -3,3 +3,15 @@
 exports[`renders > empty 1`] = `"<div class="strand-table-wrapper"><table class="strand-table"><thead class="strand-table__head"><tr><th class="strand-table__th">A</th></tr></thead><tbody class="strand-table__body"></tbody></table></div>"`;
 
 exports[`renders > sortable 1`] = `"<div class="strand-table-wrapper"><table class="strand-table"><thead class="strand-table__head"><tr><th class="strand-table__th"><button aria-label="Sort by Name" class="strand-table__sort-btn" type="button">Name<span aria-hidden="true" class="strand-table__sort-indicator">↕</span></button></th><th class="strand-table__th" style="width: 120px;">Role</th></tr></thead><tbody class="strand-table__body"><tr class="strand-table__row"><td class="strand-table__td">Jane</td><td class="strand-table__td">Engineer</td></tr><tr class="strand-table__row"><td class="strand-table__td">Alex</td><td class="strand-table__td">Designer</td></tr></tbody></table></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch }
+.strand-table { width: 100%; border-collapse: collapse; border-spacing: 0 }
+.strand-table__th { padding: var(--strand-space-3) var(--strand-space-4); font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-medium); letter-spacing: var(--strand-tracking-widest); text-transform: uppercase; color: var(--strand-gray-500); text-align: left; border-bottom: 1px solid var(--strand-gray-200); white-space: nowrap }
+.strand-table__sort-btn { display: inline-flex; align-items: center; gap: var(--strand-space-1); padding: 0; border: none; background: none; font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; white-space: nowrap }
+.strand-table__sort-btn:hover { color: var(--strand-gray-600) }
+.strand-table__sort-indicator { font-size: var(--strand-text-xs); opacity: 0.6 }
+.strand-table__td { padding: var(--strand-space-3) var(--strand-space-4); font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); color: var(--strand-gray-600); border-bottom: 1px solid var(--strand-gray-200) }
+.strand-table__row { transition: background var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-table__row:hover { background: var(--strand-blue-glow) }"
+`;

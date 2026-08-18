@@ -1,10 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ── Joined chip (interactive pill) ──
-   A compact pill the user taps to toggle membership off. Used
-   for "joined channel" style affordances where the in-content
-   pill carries the active signal and the parent card chrome
-   stays quiet. Designed to live inside a card header row. */
 .strand-chip--joined {
   display: inline-flex;
   align-items: center;
@@ -26,14 +21,17 @@
     border-color var(--strand-duration-fast) var(--strand-ease-out-quart),
     color var(--strand-duration-fast) var(--strand-ease-out-quart);
 }
+
 .strand-chip--joined:hover:not(:disabled) {
   background: var(--strand-blue-tint);
   border-color: var(--strand-blue-deep);
 }
+
 .strand-chip--joined:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 .strand-chip--joined__check {
   font-size: 0.875em;
   line-height: 1;

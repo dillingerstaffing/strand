@@ -1,0 +1,5 @@
+# The palette sits under the reader's gaze, with one highlight and rows that never reflow
+
+`.strand-command-palette` aligns to the top of the backdrop, not the centre, so the results do not straddle the fold and the panel does not jump as the count changes while typing. It has no close button: Escape, backdrop and choosing a result close it, and the X cost the panel's top band. The search row is the same height class as an option row (the query is a row among rows), the list is bounded and scrolls inside the panel, and sublabels truncate so the list never reflows under the user's arrow keys. `__option--active` is the single highlight for both pointer and keyboard, with no separate `:hover` rule, so the two can never disagree about which row Enter acts on. Touch keeps its 44px rows under `@media (pointer: coarse)`. Secondary text is gray-600 because it sits on both white and the highlighted row's blue wash, and gray-500 fails on the wash.
+
+Where: `packages/strand-ui/src/components/CommandPalette/CommandPalette.css`

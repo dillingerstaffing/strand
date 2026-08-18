@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { html } from "../../test/render.js";
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./ContainerScale.fixtures.js";
 import * as family from "./ContainerScale.js";
 
@@ -16,3 +18,5 @@ describe("every export renders its element and class", () => {
     expect(html(<family.ContainerScaleBar width="60%">640</family.ContainerScaleBar>)).toMatchSnapshot();
   });
 });
+
+snapshotStylesheet(resolve(__dirname, "./ContainerScale.css"));

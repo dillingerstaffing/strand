@@ -1,3 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`renders > default 1`] = `"<div class="strand-app-shell">Page</div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-app-shell { inline-size: 100%; max-inline-size: var(--strand-frame-max); margin-inline: auto; background: var(--strand-surface-primary); border: 1px solid var(--strand-gray-200); border-radius: var(--strand-radius-xl); overflow: clip; box-shadow: var(--strand-elevation-3) }
+@media (max-width: 767.98px) {
+  .strand-app-shell { border: none; border-radius: 0; box-shadow: none }
+}"
+`;

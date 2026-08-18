@@ -5,3 +5,20 @@ exports[`renders > bounded value 1`] = `"<div class="strand-slider"><input aria-
 exports[`renders > default 1`] = `"<div class="strand-slider"><input aria-valuemax="100" aria-valuemin="0" class="strand-slider__field" max="100" min="0" step="1" type="range"></div>"`;
 
 exports[`renders > disabled 1`] = `"<div class="strand-slider strand-slider--disabled"><input aria-valuemax="100" aria-valuemin="0" class="strand-slider__field" disabled="" max="100" min="0" step="1" type="range"></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-slider { position: relative; display: flex; align-items: center; width: 100% }
+.strand-slider__field { width: 100%; min-height: var(--strand-touch-target); height: var(--strand-touch-target); appearance: none; background: transparent; outline: none; cursor: pointer }
+.strand-slider__field::-webkit-slider-runnable-track { height: 6px; background: var(--strand-gray-200); border-radius: var(--strand-radius-full) }
+.strand-slider__field::-webkit-slider-thumb { appearance: none; width: 20px; height: 20px; margin-top: -7px; background: var(--strand-blue-primary); border: none; border-radius: var(--strand-radius-full); cursor: pointer; box-shadow: var(--strand-elevation-1); transition: background var(--strand-duration-fast) var(--strand-ease-out-quart), transform var(--strand-duration-fast) var(--strand-ease-out-expo) }
+.strand-slider__field:hover:not(:disabled)::-webkit-slider-thumb { background: var(--strand-blue-vivid); transform: scale(1.15) }
+.strand-slider__field:active:not(:disabled)::-webkit-slider-thumb { background: var(--strand-blue-deep); transform: scale(1.05) }
+.strand-slider__field::-moz-range-thumb { width: 20px; height: 20px; background: var(--strand-blue-primary); border: none; border-radius: var(--strand-radius-full); cursor: pointer; box-shadow: var(--strand-elevation-1); transition: background var(--strand-duration-fast) var(--strand-ease-out-quart), transform var(--strand-duration-fast) var(--strand-ease-out-expo) }
+.strand-slider__field:hover:not(:disabled)::-moz-range-thumb { background: var(--strand-blue-vivid); transform: scale(1.15) }
+.strand-slider__field:active:not(:disabled)::-moz-range-thumb { background: var(--strand-blue-deep); transform: scale(1.05) }
+.strand-slider__field::-moz-range-track { height: 6px; background: var(--strand-gray-200); border-radius: var(--strand-radius-full) }
+.strand-slider__field:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px var(--strand-surface-elevated), 0 0 0 4px var(--strand-blue-primary) }
+.strand-slider__field:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 2px var(--strand-surface-elevated), 0 0 0 4px var(--strand-blue-primary) }
+.strand-slider--disabled { opacity: var(--strand-opacity-disabled); cursor: not-allowed }
+.strand-slider--disabled .strand-slider__field { cursor: not-allowed }"
+`;

@@ -13,3 +13,25 @@ exports[`renders > legacy interactive variant 1`] = `"<div class="strand-card st
 exports[`renders > outlined sm 1`] = `"<div class="strand-card strand-card--outlined strand-card--pad-sm">Body</div>"`;
 
 exports[`renders > warm xl 1`] = `"<div class="strand-card strand-card--warm strand-card--pad-xl">Body</div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-card { border-radius: var(--strand-radius-lg); background: var(--strand-surface-elevated); border: 1px solid var(--strand-border-subtle, rgba(148, 163, 184, 0.12)); box-shadow: var(--strand-elevation-1); padding: var(--strand-space-6); font-family: var(--strand-font-sans); overflow: hidden; box-sizing: border-box; max-width: 100% }
+.strand-card--outlined { box-shadow: none; border: 1px solid var(--strand-gray-200) }
+.strand-card--flat { box-shadow: none; border: none }
+.strand-card--warm { box-shadow: var(--strand-elevation-1-warm) }
+.strand-card--warm.strand-card--interactive:hover { box-shadow: var(--strand-elevation-2-warm) }
+.strand-card--interactive { cursor: pointer; text-decoration: none; color: inherit; display: block; position: relative; transition: transform var(--strand-duration-normal) var(--strand-ease-out-expo), box-shadow var(--strand-duration-normal) ease }
+.strand-card--interactive:hover { transform: translateY(-2px); box-shadow: var(--strand-elevation-2) }
+.strand-card--active;
+.strand-card--pad-none { padding: 0 }
+.strand-card--pad-sm { padding: var(--strand-space-4) }
+.strand-card--pad-md { padding: var(--strand-space-6) }
+.strand-card--pad-lg { padding: var(--strand-space-8) }
+.strand-card--pad-xl { padding: var(--strand-space-10) }
+.strand-card__section { display: block; padding: var(--strand-space-5) var(--strand-space-6); border-top: 1px solid var(--strand-gray-200) }
+.strand-card__section:first-child { border-top: 0 }
+.strand-card__section--header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--strand-space-4) }
+@media (prefers-reduced-motion: reduce) {
+  .strand-card--interactive:hover { transform: none }
+}"
+`;

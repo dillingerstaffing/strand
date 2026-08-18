@@ -1,13 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ──────────────────────────────────────────────
-   SEARCH BAR (floating glassmorphic, instrument)
-   ──────────────────────────────────────────────
-   A floating search bar centered above the viewport. Glass-
-   morphic dark surface, biosynthetic blue focus glow. This is
-   the input device the user reaches for first inside an
-   instrument viewport. */
-
 .strand-search-bar {
   position: absolute;
   top: var(--strand-space-4);
@@ -20,20 +12,18 @@
     transform var(--strand-duration-normal) var(--strand-ease-out-expo),
     width var(--strand-duration-normal) var(--strand-ease-out-expo);
 }
+
 .strand-search-bar--shifted {
   left: calc(340px + var(--strand-space-4) + var(--strand-space-4));
   transform: none;
   width: min(480px, calc(100% - 340px - var(--strand-space-4) * 3));
 }
+
 .strand-search-bar__inner {
   display: flex;
   align-items: center;
   gap: var(--strand-space-2);
-  background: linear-gradient(
-    135deg,
-    rgba(15, 25, 42, 0.88) 0%,
-    rgba(15, 23, 42, 0.85) 100%
-  );
+  background: linear-gradient( 135deg, rgba(15, 25, 42, 0.88) 0%, rgba(15, 23, 42, 0.85) 100% );
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(59, 142, 246, 0.15);
@@ -44,12 +34,12 @@
     border-color var(--strand-duration-normal) ease,
     box-shadow var(--strand-duration-normal) ease;
 }
+
 .strand-search-bar__inner:focus-within {
   border-color: var(--strand-instrument-border-strong);
-  box-shadow:
-    var(--strand-instrument-shadow-deep),
-    inset 0 0 24px rgba(59, 142, 246, 0.06);
+  box-shadow: var(--strand-instrument-shadow-deep), inset 0 0 24px rgba(59, 142, 246, 0.06);
 }
+
 .strand-search-bar__input {
   flex: 1;
   background: transparent;
@@ -60,9 +50,11 @@
   color: var(--strand-instrument-text-primary);
   padding: var(--strand-space-2) 0;
 }
+
 .strand-search-bar__input::placeholder {
   color: var(--strand-gray-500);
 }
+
 .strand-search-bar__action {
   display: flex;
   align-items: center;
@@ -79,44 +71,51 @@
     border-color var(--strand-duration-fast) ease,
     box-shadow var(--strand-duration-fast) ease;
 }
+
 .strand-search-bar__action:hover {
   color: var(--strand-blue-primary);
   border-color: var(--strand-blue-primary);
   box-shadow: 0 0 8px rgba(59, 142, 246, 0.2);
 }
+
 .strand-search-bar__action:hover svg {
   filter: drop-shadow(0 0 3px rgba(59, 142, 246, 0.5));
 }
+
 .strand-search-bar__action:active {
   transform: scale(0.95);
 }
+
 .strand-search-bar__action--danger {
   border-color: rgba(239, 68, 68, 0.2);
 }
+
 .strand-search-bar__action--danger:hover {
   color: var(--strand-red-alert);
   border-color: var(--strand-red-alert);
   box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
 }
+
 .strand-search-bar__action[hidden] {
   display: none;
 }
+
 .strand-search-bar__action--locating {
   color: var(--strand-blue-primary);
   border-color: var(--strand-blue-primary);
   animation: strand-search-bar-pulse 1s var(--strand-ease-in-out-sine) infinite;
 }
+
 @keyframes strand-search-bar-pulse {
-  0%, 100% { border-color: var(--strand-blue-primary); }
-  50%      { border-color: rgba(59, 142, 246, 0.3); }
+  0%,
+  100% {
+    border-color: var(--strand-blue-primary);
+  }
+
+  50% {
+    border-color: rgba(59, 142, 246, 0.3);
+  }
 }
-/* ──────────────────────────────────────────────
-   RESPONSIVE
-   ──────────────────────────────────────────────
-   On mobile, the results panel becomes a bottom sheet, the
-   detail panel slides up from the bottom, the search bar
-   takes the full width, and the FUI overlays (legend, coord
-   readout) hide because they would crowd small screens. */
 
 @media (max-width: 768px) {
   .strand-search-bar,
@@ -127,6 +126,7 @@
     transform: none;
     transition: none;
   }
+
   .strand-search-bar__action {
     width: 44px;
     height: 44px;

@@ -1,7 +1,3 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`stylesheet > declares its selectors 1`] = `
-[
-  ".strand-section-header",
-]
-`;
+exports[`stylesheet > renders these rules 1`] = `".strand-section-header { margin-bottom: clamp(2rem, 4vw, 4rem) }"`;

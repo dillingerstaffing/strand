@@ -7,3 +7,20 @@ exports[`renders > info 1`] = `"<div class="strand-alert strand-alert--info" rol
 exports[`renders > success dismissible 1`] = `"<div class="strand-alert strand-alert--success" role="status"><span class="strand-alert__status">COMPLETE</span><div class="strand-alert__content">Saved</div><button aria-label="Dismiss" class="strand-alert__dismiss" type="button">×</button></div>"`;
 
 exports[`renders > warning 1`] = `"<div class="strand-alert strand-alert--warning" role="alert"><span class="strand-alert__status">WARNING</span><div class="strand-alert__content">Careful</div></div>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-alert { position: relative; display: flex; align-items: center; justify-content: space-between; width: 100%; padding: var(--strand-space-6); border-radius: var(--strand-radius-md); font-family: var(--strand-font-sans); font-size: var(--strand-text-sm); background: var(--strand-alert-bg, var(--strand-surface-recessed)); color: var(--strand-alert-color, inherit) }
+.strand-alert--info { background: var(--strand-alert-bg, var(--strand-surface-recessed)) }
+.strand-alert--success { background: var(--strand-alert-bg, var(--strand-surface-recessed)) }
+.strand-alert--warning { background: var(--strand-alert-bg, var(--strand-surface-recessed)) }
+.strand-alert--error { background: var(--strand-alert-bg, var(--strand-surface-recessed)) }
+.strand-alert--stack { flex-direction: column; align-items: stretch; gap: var(--strand-space-3) }
+.strand-alert__status { font-family: var(--strand-font-mono); font-size: var(--strand-text-xs); font-weight: var(--strand-weight-semibold); letter-spacing: var(--strand-tracking-wider); text-transform: uppercase; margin-right: var(--strand-space-3); flex-shrink: 0 }
+.strand-alert--info .strand-alert__status { color: var(--strand-alert-info-status-color, var(--strand-blue-deep)) }
+.strand-alert--success .strand-alert__status { color: var(--strand-alert-success-status-color, var(--strand-on-teal-tint)) }
+.strand-alert--warning .strand-alert__status { color: var(--strand-alert-warning-status-color, var(--strand-on-amber-tint)) }
+.strand-alert--error .strand-alert__status { color: var(--strand-alert-error-status-color, var(--strand-red-alert-deep)) }
+.strand-alert__content { flex: 1; min-width: 0 }
+.strand-alert__dismiss { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: var(--strand-space-6); height: var(--strand-space-6); margin-left: var(--strand-space-4); padding: 0; border: none; border-radius: var(--strand-radius-md); background: transparent; color: var(--strand-alert-dismiss-color, var(--strand-gray-500)); font-size: var(--strand-text-base); cursor: pointer; transition: background var(--strand-duration-fast) var(--strand-ease-out-quart), color var(--strand-duration-fast) var(--strand-ease-out-quart) }
+.strand-alert__dismiss:hover { background: var(--strand-alert-dismiss-hover-bg, var(--strand-gray-100)); color: var(--strand-alert-dismiss-hover-color, var(--strand-gray-600)) }"
+`;

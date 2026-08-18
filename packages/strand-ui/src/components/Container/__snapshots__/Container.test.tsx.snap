@@ -7,3 +7,11 @@ exports[`renders > full 1`] = `"<div class="strand-container strand-container--f
 exports[`renders > narrow 1`] = `"<div class="strand-container strand-container--narrow">Content</div>"`;
 
 exports[`renders > wide as main 1`] = `"<main class="strand-container strand-container--wide">Content</main>"`;
+
+exports[`stylesheet > renders these rules 1`] = `
+".strand-container { width: 100%; max-width: var(--strand-content-full); margin-inline: auto; padding-inline: clamp(1.5rem, 5vw, 4rem) }
+.strand-container--narrow { max-width: var(--strand-content-narrow) }
+.strand-container--default { max-width: var(--strand-content-default) }
+.strand-container--wide { max-width: var(--strand-content-wide) }
+.strand-container--full { max-width: var(--strand-content-full) }"
+`;

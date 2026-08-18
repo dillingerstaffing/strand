@@ -1,8 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ═══ HERO BACKGROUND (DL Part IX.4: hero surface treatment) ═══
-   Full-bleed container behind hero content. Holds animated SVG,
-   WebGL canvas, gradient, or any hero visual. */
 .strand-hero-bg {
   position: absolute;
   inset: 0;
@@ -10,56 +7,118 @@
   pointer-events: none;
   z-index: 0;
 }
+
 .strand-hero-bg > * {
   width: 100%;
   height: 100%;
 }
-/* ═══ HERO NODE GRID (DL Part IX.4 + Principle 7: alive signal) ═══
-   Animated SVG background showing a field of pulsing connection
-   points. Use inside strand-hero-bg with an inline <svg>. Nodes and
-   lines inherit color via currentColor; wire animation delays with
-   the .strand-hero-grid__line--N modifiers (1-18). */
+
 .strand-hero-grid {
   color: var(--strand-blue-deep);
 }
+
 .strand-hero-grid svg {
   width: 100%;
   height: 100%;
 }
+
 .strand-hero-grid__nodes {
   fill: currentColor;
   opacity: 0.2;
 }
+
 .strand-hero-grid__lines {
   stroke: currentColor;
   fill: none;
   stroke-width: 0.5;
   opacity: 0.08;
 }
+
 .strand-hero-grid__line {
   animation: strand-hero-grid-glow 12s var(--strand-ease-in-out-sine) infinite;
 }
-.strand-hero-grid__line--1 { animation-delay: 0s; }
-.strand-hero-grid__line--2 { animation-delay: 1s; }
-.strand-hero-grid__line--3 { animation-delay: 2s; }
-.strand-hero-grid__line--4 { animation-delay: 0.5s; }
-.strand-hero-grid__line--5 { animation-delay: 3s; }
-.strand-hero-grid__line--6 { animation-delay: 1.5s; }
-.strand-hero-grid__line--7 { animation-delay: 4s; }
-.strand-hero-grid__line--8 { animation-delay: 2.5s; }
-.strand-hero-grid__line--9 { animation-delay: 5s; }
-.strand-hero-grid__line--10 { animation-delay: 3.5s; }
-.strand-hero-grid__line--11 { animation-delay: 6s; }
-.strand-hero-grid__line--12 { animation-delay: 4.5s; }
-.strand-hero-grid__line--13 { animation-delay: 7s; }
-.strand-hero-grid__line--14 { animation-delay: 5.5s; }
-.strand-hero-grid__line--15 { animation-delay: 8s; }
-.strand-hero-grid__line--16 { animation-delay: 6.5s; }
-.strand-hero-grid__line--17 { animation-delay: 9s; }
-.strand-hero-grid__line--18 { animation-delay: 7.5s; }
+
+.strand-hero-grid__line--1 {
+  animation-delay: 0s;
+}
+
+.strand-hero-grid__line--2 {
+  animation-delay: 1s;
+}
+
+.strand-hero-grid__line--3 {
+  animation-delay: 2s;
+}
+
+.strand-hero-grid__line--4 {
+  animation-delay: 0.5s;
+}
+
+.strand-hero-grid__line--5 {
+  animation-delay: 3s;
+}
+
+.strand-hero-grid__line--6 {
+  animation-delay: 1.5s;
+}
+
+.strand-hero-grid__line--7 {
+  animation-delay: 4s;
+}
+
+.strand-hero-grid__line--8 {
+  animation-delay: 2.5s;
+}
+
+.strand-hero-grid__line--9 {
+  animation-delay: 5s;
+}
+
+.strand-hero-grid__line--10 {
+  animation-delay: 3.5s;
+}
+
+.strand-hero-grid__line--11 {
+  animation-delay: 6s;
+}
+
+.strand-hero-grid__line--12 {
+  animation-delay: 4.5s;
+}
+
+.strand-hero-grid__line--13 {
+  animation-delay: 7s;
+}
+
+.strand-hero-grid__line--14 {
+  animation-delay: 5.5s;
+}
+
+.strand-hero-grid__line--15 {
+  animation-delay: 8s;
+}
+
+.strand-hero-grid__line--16 {
+  animation-delay: 6.5s;
+}
+
+.strand-hero-grid__line--17 {
+  animation-delay: 9s;
+}
+
+.strand-hero-grid__line--18 {
+  animation-delay: 7.5s;
+}
+
 @keyframes strand-hero-grid-glow {
-  0%, 100% { stroke-opacity: 0.08; }
-  50%      { stroke-opacity: 0.4; }
+  0%,
+  100% {
+    stroke-opacity: 0.08;
+  }
+
+  50% {
+    stroke-opacity: 0.4;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

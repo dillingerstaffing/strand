@@ -1,13 +1,5 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-/* ══════════════════════════════════════════════════
-   TOKEN SPECIMEN (spacing / radius / shadow tiles)
-   ══════════════════════════════════════════════════
-   Each specimen pairs a visual (spacer bar, radius box, or
-   shadow tile) with a mono label and value. Visuals set their
-   pixel dimensions and shadow/radius inline (per-token variance
-   is the whole point of the spec). */
-
 .strand-token-specimen-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));

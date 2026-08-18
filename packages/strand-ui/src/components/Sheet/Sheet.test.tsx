@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 // WHICH TIER PROVES WHAT, because this component spans all three and the
 // split is not a matter of taste.
 //
@@ -242,6 +243,9 @@ describe("dragOutcome", () => {
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
+import { snapshotStylesheet } from "../../test/stylesheet.js";
 import { fixtures } from "./Sheet.fixtures.js";
 
 snapshotFixtures(Sheet, fixtures);
+
+snapshotStylesheet(resolve(__dirname, "./Sheet.css"));
