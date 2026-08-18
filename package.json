@@ -39,6 +39,7 @@
 		"audit-dogfood": "node scripts/dogfood-audit.mjs",
 		"audit-components": "node scripts/component-audit.mjs",
 		"audit-css-home": "node scripts/css-home-audit.mjs",
+		"cf-check": "node scripts/cf-refs-check.mjs",
 		"purity-scan": "node scripts/purity-scan.mjs",
 		"build:docs": "node scripts/build-docs.mjs",
 		"test:scripts": "vitest run --config vitest.config.mjs",
