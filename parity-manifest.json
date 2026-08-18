@@ -278,7 +278,7 @@
 		}
 	},
 	"lockstepVersion": true,
-	"notes": "This manifest is the MVP parity contract. Extension to track prop shapes, CSS class names, and tokens is future work. The current contract asserts: (1) every component name here exists as a directory in every framework package's components folder, (2) every publishable package has the same version number.",
+	"notes": "The parity contract. It asserts: (1) every component name here exists as a directory in every framework package's components folder (test:parity), (2) every publishable package has the same version number (test:parity), (3) every prop a Preact component offers exists in the Vue and Svelte ports under each framework's idiom (test:prop-parity; deliberate divergences are recorded in propDrift with a reason), (4) every component stylesheet is reachable and defines only its own block (test:css-export-parity), (5) no rule in the bundle is unused by every known source (test:css-usage).",
 	"bundle": {
 		"files": {
 			"tokens.css": {
@@ -330,5 +330,6 @@
 		"Scanline",
 		"ViewportVignette"
 	],
-	"darkCabinetComponentsNote": "The dark instrument cabinet (DL 9.3). Text in these components is painted on the abyss, never on a light surface, so contrast-check judges them against the dark surface. Membership is a decision, so it is declared rather than inferred from a file boundary; the instrument furniture (search bar, map pins, cluster marker, coordinate readout, scanline, vignette) joined when it moved out of InstrumentViewport.css into its own directories. Add a component here only if its text genuinely never appears on a light surface. DetailPanel is a light island and stays out."
+	"darkCabinetComponentsNote": "The dark instrument cabinet (DL 9.3). Text in these components is painted on the abyss, never on a light surface, so contrast-check judges them against the dark surface. Membership is a decision, so it is declared rather than inferred from a file boundary; the instrument furniture (search bar, map pins, cluster marker, coordinate readout, scanline, vignette) joined when it moved out of InstrumentViewport.css into its own directories. Add a component here only if its text genuinely never appears on a light surface. DetailPanel is a light island and stays out.",
+	"propDrift": {}
 }

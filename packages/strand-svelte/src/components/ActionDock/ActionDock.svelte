@@ -28,25 +28,64 @@
   ```
 -->
 <script lang="ts">
-  /** Whether the dock is showing. Default false, so a dock that is never
-      driven occludes nothing rather than welding itself across content. */
-  export let visible: boolean = false
+  import { onDestroy, onMount } from 'svelte'
 
-  /** Additional CSS class, MERGED with the component's own.
-      Previously `class` arrived through $$restProps, which spreads AFTER the
-      class attribute and therefore REPLACED `strand-actiondock` outright. A
-      consumer adding one utility class silently lost the positioning class,
-      so the dock rendered as an ordinary in-flow div: precisely the failure
-      this primitive exists to prevent, and invisible because the element and
-      its content were still there. Preact and Vue both merged; only this port
-      did not. */
+  /** Showing; ignored when `watch` is set. */
+  export let visible: boolean = false
+  /** The in-flow control this dock stands in for; the dock shows itself while that control is off screen. */
+  export let watch: Element | null = null
+  /** When to show while watching; only `"hidden"` today. */
+  export let revealWhen: 'hidden' = 'hidden'
+  /** Additional CSS class, merged with the component's own. */
   let className: string = ''
   export { className as class }
+
+  let self: HTMLDivElement
+  let selfDriven = false
+  let inset = 0
+  let stopObserving: (() => void) | null = null
+  let resize: ResizeObserver | null = null
+
+  /** Whether `el` is outside the viewport trimmed by `inset` px at the bottom (cf: actiondock-reveal). */
+  function observeOffScreen(el: Element, onChange: (offScreen: boolean) => void, insetPx = 0): () => void {
+    if (typeof IntersectionObserver !== 'function') return () => {}
+    const io = new IntersectionObserver(([entry]) => onChange(entry.intersectionRatio < 1), {
+      rootMargin: `0px 0px -${Math.max(0, Math.round(insetPx))}px 0px`,
+      threshold: [0, 1],
+    })
+    io.observe(el)
+    return () => io.disconnect()
+  }
+
+  function observe(target: Element | null, when: 'hidden', insetPx: number) {
+    stopObserving?.()
+    stopObserving = null
+    if (!target || when !== 'hidden') return
+    stopObserving = observeOffScreen(target, (off) => { selfDriven = off }, insetPx)
+  }
+
+  onMount(() => {
+    if (self && typeof ResizeObserver === 'function') {
+      resize = new ResizeObserver(() => {
+        const h = self.offsetHeight
+        if (Math.abs(inset - h) > 1) inset = h
+      })
+      resize.observe(self)
+    }
+  })
+  $: observe(watch, revealWhen, inset)
+  onDestroy(() => {
+    stopObserving?.()
+    resize?.disconnect()
+  })
+
+  $: showing = watch ? selfDriven : visible
 </script>
 
 <div
+  bind:this={self}
   class={['strand-actiondock', className].filter(Boolean).join(' ')}
-  data-strand-actiondock={visible ? 'visible' : 'hidden'}
+  data-strand-actiondock={showing ? 'visible' : 'hidden'}
   {...$$restProps}
 >
   <slot />

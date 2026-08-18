@@ -27,6 +27,8 @@ interface Props {
   background?: 'primary' | 'elevated' | 'recessed'
   /** Top border separator */
   borderTop?: boolean
+  /** Root element */
+  as?: string
   /** Additional CSS class */
   className?: string
 }
@@ -35,6 +37,7 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'standard',
   background: 'primary',
   borderTop: false,
+  as: 'section',
   className: '',
 })
 
@@ -52,7 +55,7 @@ const classes = computed(() =>
 </script>
 
 <template>
-  <section :class="classes" v-bind="$attrs">
+  <component :is="as" :class="classes" v-bind="$attrs">
     <slot />
-  </section>
+  </component>
 </template>

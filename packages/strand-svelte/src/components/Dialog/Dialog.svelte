@@ -54,6 +54,8 @@
   export let dismissible: boolean = true
   /** Called when the dialog should close */
   export let onclose: (() => void) | undefined = undefined
+  /** The element to focus when the dialog opens; the first focusable child by default */
+  export let initialFocus: HTMLElement | null = null
 
   $: panelClasses = [
     'strand-dialog__panel',
@@ -85,7 +87,9 @@
     document.body.style.overflow = 'hidden'
 
     await tick()
-    if (panelEl) {
+    if (initialFocus) {
+      initialFocus.focus({ preventScroll: true })
+    } else if (panelEl) {
       const focusable = panelEl.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
       if (focusable.length > 0) {
         focusable[0].focus()

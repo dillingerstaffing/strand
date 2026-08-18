@@ -54,6 +54,8 @@ export interface DialogProps {
    * children carry their own inset (a query row, a scrolling list).
    */
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  /** The element to focus when the dialog opens; the first focusable child by default */
+  initialFocus?: HTMLElement | null
   /**
    * Whether to render the close button. Set `false` for overlays whose
    * convention has no X and whose dismissal is Escape or the backdrop.
@@ -68,6 +70,7 @@ const props = withDefaults(defineProps<DialogProps>(), {
   align: 'center',
   padding: 'lg',
   dismissible: true,
+  initialFocus: null,
 })
 
 const emit = defineEmits<{
@@ -143,7 +146,9 @@ watch(
 
       await nextTick()
       const panel = panelRef.value
-      if (panel) {
+      if (props.initialFocus) {
+        props.initialFocus.focus({ preventScroll: true })
+      } else if (panel) {
         const focusable = panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
         if (focusable.length > 0) {
           focusable[0].focus()

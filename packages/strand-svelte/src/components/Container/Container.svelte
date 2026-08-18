@@ -17,12 +17,15 @@
   /** Max-width constraint */
   export let size: 'narrow' | 'default' | 'wide' | 'full' = 'default'
 
+  /** Root element */
+  export let as: string = 'div'
+
   $: classes = [
     'strand-container',
     `strand-container--${size}`,
   ].filter(Boolean).join(' ')
 </script>
 
-<div class={classes} {...$$restProps}>
+<svelte:element this={as} class={classes} {...$$restProps}>
   <slot />
-</div>
+</svelte:element>

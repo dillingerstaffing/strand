@@ -27,6 +27,9 @@
   /** Enable flex-wrap */
   export let wrap: boolean = false
 
+  /** Root element */
+  export let as: string = 'div'
+
   $: classes = [
     'strand-stack',
     `strand-stack--${direction}`,
@@ -42,6 +45,6 @@
   $: inlineStyle = `gap: var(--strand-space-${gapStep});`
 </script>
 
-<div class={classes} style={inlineStyle} {...$$restProps}>
+<svelte:element this={as} class={classes} style={inlineStyle} {...$$restProps}>
   <slot />
-</div>
+</svelte:element>

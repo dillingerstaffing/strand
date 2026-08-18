@@ -24,31 +24,72 @@
   ```
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch as watchEffect } from 'vue'
 
 interface Props {
-  /** Whether the dock is showing. Default false, so a dock that is never
-      driven occludes nothing rather than welding itself across content. */
+  /** Showing; ignored when `watch` is set. */
   visible?: boolean
+  /** The in-flow control this dock stands in for; the dock shows itself while that control is off screen. */
+  watch?: Element | null
+  /** When to show while watching; only `"hidden"` today. */
+  revealWhen?: 'hidden'
   /** Additional CSS class */
   className?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   visible: false,
+  watch: null,
+  revealWhen: 'hidden',
   className: '',
 })
 
-const classes = computed(() =>
-  ['strand-actiondock', props.className].filter(Boolean).join(' '),
-)
+const self = ref<HTMLDivElement | null>(null)
+const selfDriven = ref(false)
+const inset = ref(0)
+let stopObserving: (() => void) | null = null
+let resize: ResizeObserver | null = null
+
+/** Whether `el` is outside the viewport trimmed by `inset` px at the bottom (cf: actiondock-reveal). */
+function observeOffScreen(el: Element, onChange: (offScreen: boolean) => void, insetPx = 0): () => void {
+  if (typeof IntersectionObserver !== 'function') return () => {}
+  const io = new IntersectionObserver(([entry]) => onChange(entry.intersectionRatio < 1), {
+    rootMargin: `0px 0px -${Math.max(0, Math.round(insetPx))}px 0px`,
+    threshold: [0, 1],
+  })
+  io.observe(el)
+  return () => io.disconnect()
+}
+
+function observe() {
+  stopObserving?.()
+  stopObserving = null
+  if (!props.watch || props.revealWhen !== 'hidden') return
+  stopObserving = observeOffScreen(props.watch, (off) => { selfDriven.value = off }, inset.value)
+}
+
+onMounted(() => {
+  if (self.value && typeof ResizeObserver === 'function') {
+    resize = new ResizeObserver(() => {
+      const h = self.value?.offsetHeight ?? 0
+      if (Math.abs(inset.value - h) > 1) inset.value = h
+    })
+    resize.observe(self.value)
+  }
+  observe()
+})
+watchEffect(() => [props.watch, props.revealWhen, inset.value], observe)
+onBeforeUnmount(() => {
+  stopObserving?.()
+  resize?.disconnect()
+})
+
+const showing = computed(() => (props.watch ? selfDriven.value : props.visible))
+const classes = computed(() => ['strand-actiondock', props.className].filter(Boolean).join(' '))
 </script>
 
 <template>
-  <div
-    :class="classes"
-    :data-strand-actiondock="visible ? 'visible' : 'hidden'"
-  >
+  <div ref="self" :class="classes" :data-strand-actiondock="showing ? 'visible' : 'hidden'">
     <slot />
   </div>
 </template>

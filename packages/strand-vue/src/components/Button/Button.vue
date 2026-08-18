@@ -33,6 +33,10 @@ export interface ButtonProps {
   disabled?: boolean
   /** Stretch to full container width */
   fullWidth?: boolean
+  /** Render an anchor with the button's classes; `href` implies it */
+  as?: 'button' | 'a'
+  /** Destination when rendered as an anchor */
+  href?: string
 }
 
 const props = withDefaults(defineProps<ButtonProps>(), {
@@ -43,7 +47,11 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'button',
   disabled: false,
   fullWidth: false,
+  as: undefined,
+  href: undefined,
 })
+
+const isAnchor = computed(() => props.as === 'a' || props.href != null)
 
 const emit = defineEmits<{
   (e: 'click', event: MouseEvent): void
@@ -72,7 +80,24 @@ function handleClick(event: MouseEvent) {
 </script>
 
 <template>
+  <a
+    v-if="isAnchor"
+    :class="classes"
+    :href="isDisabled ? undefined : href"
+    :aria-disabled="isDisabled ? 'true' : undefined"
+    :aria-busy="loading ? 'true' : undefined"
+    @click="handleClick"
+  >
+    <span v-if="loading" class="strand-btn__spinner" aria-hidden="true" />
+    <span
+      class="strand-btn__content"
+      :style="loading ? { visibility: 'hidden' } : undefined"
+    >
+      <slot />
+    </span>
+  </a>
   <button
+    v-else
     :type="type"
     :class="classes"
     :disabled="isDisabled"

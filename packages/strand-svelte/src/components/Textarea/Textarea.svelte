@@ -25,6 +25,8 @@
   export let disabled: boolean = false
   /** Controlled value */
   export let value: string = ''
+  /** Called on every input event, after the bound value updates */
+  export let oninput: ((e: Event) => void) | undefined = undefined
 
   let textareaEl: HTMLTextAreaElement
 
@@ -44,6 +46,7 @@
       textareaEl.style.height = 'auto'
       textareaEl.style.height = `${textareaEl.scrollHeight}px`
     }
+    oninput?.(e)
   }
 </script>
 

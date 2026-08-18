@@ -32,14 +32,17 @@ export interface BreadcrumbProps {
   items: BreadcrumbItem[]
   /** Separator character between items */
   separator?: string
+  /** Instrument treatment: mono, uppercase, tracked, for a tinted page header */
+  variant?: 'default' | 'instrument'
 }
 
 const props = withDefaults(defineProps<BreadcrumbProps>(), {
   separator: '/',
+  variant: 'default',
 })
 
 const classes = computed(() =>
-  ['strand-breadcrumb'].filter(Boolean).join(' '),
+  ['strand-breadcrumb', props.variant !== 'default' && `strand-breadcrumb--${props.variant}`].filter(Boolean).join(' '),
 )
 </script>
 

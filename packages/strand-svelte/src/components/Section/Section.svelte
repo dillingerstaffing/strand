@@ -23,6 +23,9 @@
   /** Top border separator */
   export let borderTop: boolean = false
 
+  /** Root element */
+  export let as: string = 'section'
+
   $: classes = [
     'strand-section',
     `strand-section--${variant}`,
@@ -31,6 +34,6 @@
   ].filter(Boolean).join(' ')
 </script>
 
-<section class={classes} {...$$restProps}>
+<svelte:element this={as} class={classes} {...$$restProps}>
   <slot />
-</section>
+</svelte:element>

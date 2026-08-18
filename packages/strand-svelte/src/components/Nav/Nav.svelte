@@ -42,11 +42,14 @@
    * needs the hamburger, so the default cannot change.
    */
   export let mobileMenu: boolean = true
-
-  let menuOpen = false
+  /** Open state of the mobile menu; bind it to control it, or leave it to the nav */
+  export let menuOpen: boolean = false
+  /** Called with the next open state whenever the hamburger is pressed */
+  export let onmenutoggle: ((open: boolean) => void) | undefined = undefined
 
   function toggleMenu() {
     menuOpen = !menuOpen
+    onmenutoggle?.(menuOpen)
   }
 
   function syncGlassClass(isGlass: boolean) {

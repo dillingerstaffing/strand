@@ -47,18 +47,30 @@ export interface NavProps {
    * needs the hamburger, so the default cannot change.
    */
   mobileMenu?: boolean
+  /** Controlled open state of the mobile menu; leave unset to let the nav own it */
+  menuOpen?: boolean
 }
 
 const props = withDefaults(defineProps<NavProps>(), {
   items: () => [],
   glass: false,
   mobileMenu: true,
+  menuOpen: undefined,
 })
 
-const menuOpen = ref(false)
+const emit = defineEmits<{
+  (e: 'update:menuOpen', open: boolean): void
+  (e: 'menuToggle', open: boolean): void
+}>()
+
+const ownOpen = ref(false)
+const menuOpen = computed(() => props.menuOpen ?? ownOpen.value)
 
 function toggleMenu() {
-  menuOpen.value = !menuOpen.value
+  const next = !menuOpen.value
+  if (props.menuOpen === undefined) ownOpen.value = next
+  emit('update:menuOpen', next)
+  emit('menuToggle', next)
 }
 
 function syncGlassClass(isGlass: boolean) {

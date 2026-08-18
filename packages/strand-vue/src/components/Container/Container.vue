@@ -21,12 +21,15 @@ import { computed } from 'vue'
 interface Props {
   /** Max-width constraint */
   size?: 'narrow' | 'default' | 'wide' | 'full'
+  /** Root element */
+  as?: string
   /** Additional CSS class */
   className?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: 'default',
+  as: 'div',
   className: '',
 })
 
@@ -42,7 +45,7 @@ const classes = computed(() =>
 </script>
 
 <template>
-  <div :class="classes" v-bind="$attrs">
+  <component :is="as" :class="classes" v-bind="$attrs">
     <slot />
-  </div>
+  </component>
 </template>

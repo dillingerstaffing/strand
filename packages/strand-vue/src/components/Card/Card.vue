@@ -21,9 +21,15 @@ import { computed } from 'vue'
 
 interface Props {
   /** Visual style variant */
-  variant?: 'elevated' | 'outlined' | 'interactive'
+  variant?: 'elevated' | 'outlined' | 'flat' | 'warm' | 'interactive'
   /** Inner padding */
-  padding?: 'none' | 'sm' | 'md' | 'lg'
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  /** Hover lift and pointer, without changing the variant */
+  interactive?: boolean
+  /** Marks the card as the active item; paints no chrome of its own */
+  active?: boolean
+  /** Root element */
+  as?: string
   /** Additional CSS class */
   className?: string
 }
@@ -31,14 +37,19 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   variant: 'elevated',
   padding: 'md',
+  interactive: false,
+  active: false,
+  as: 'div',
   className: '',
 })
 
 const classes = computed(() =>
   [
     'strand-card',
-    `strand-card--${props.variant}`,
+    props.variant !== 'elevated' && `strand-card--${props.variant}`,
     `strand-card--pad-${props.padding}`,
+    props.interactive && props.variant !== 'interactive' && 'strand-card--interactive',
+    props.active && 'strand-card--active',
     props.className,
   ]
     .filter(Boolean)
@@ -47,7 +58,7 @@ const classes = computed(() =>
 </script>
 
 <template>
-  <div :class="classes" v-bind="$attrs">
+  <component :is="as" :class="classes" v-bind="$attrs">
     <slot />
-  </div>
+  </component>
 </template>

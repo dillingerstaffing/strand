@@ -30,8 +30,13 @@
   export let fullWidth: boolean = false
   /** Click handler */
   export let onclick: ((event: MouseEvent) => void) | undefined = undefined
+  /** Render an anchor with the button's classes; `href` implies it */
+  export let as: 'button' | 'a' | undefined = undefined
+  /** Destination when rendered as an anchor */
+  export let href: string | undefined = undefined
 
   $: isDisabled = disabled || loading
+  $: isAnchor = as === 'a' || href != null
 
   $: classes = [
     'strand-btn',
@@ -49,21 +54,37 @@
   }
 </script>
 
-<button
-  {type}
-  class={classes}
-  disabled={isDisabled}
-  aria-disabled={isDisabled ? 'true' : undefined}
-  aria-busy={loading ? 'true' : undefined}
-  on:click={handleClick}
->
-  {#if loading}
-    <span class="strand-btn__spinner" aria-hidden="true"></span>
-  {/if}
-  <span
-    class="strand-btn__content"
-    style={loading ? 'visibility: hidden' : undefined}
+{#if isAnchor}
+  <a
+    class={classes}
+    href={isDisabled ? undefined : href}
+    aria-disabled={isDisabled ? 'true' : undefined}
+    aria-busy={loading ? 'true' : undefined}
+    on:click={handleClick}
+    {...$$restProps}
   >
-    <slot />
-  </span>
-</button>
+    {#if loading}
+      <span class="strand-btn__spinner" aria-hidden="true"></span>
+    {/if}
+    <span class="strand-btn__content" style={loading ? 'visibility: hidden' : undefined}>
+      <slot />
+    </span>
+  </a>
+{:else}
+  <button
+    {type}
+    class={classes}
+    disabled={isDisabled}
+    aria-disabled={isDisabled ? 'true' : undefined}
+    aria-busy={loading ? 'true' : undefined}
+    on:click={handleClick}
+    {...$$restProps}
+  >
+    {#if loading}
+      <span class="strand-btn__spinner" aria-hidden="true"></span>
+    {/if}
+    <span class="strand-btn__content" style={loading ? 'visibility: hidden' : undefined}>
+      <slot />
+    </span>
+  </button>
+{/if}

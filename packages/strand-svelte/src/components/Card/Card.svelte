@@ -16,17 +16,25 @@
 -->
 <script lang="ts">
   /** Visual style variant */
-  export let variant: 'elevated' | 'outlined' | 'interactive' = 'elevated'
+  export let variant: 'elevated' | 'outlined' | 'flat' | 'warm' | 'interactive' = 'elevated'
   /** Inner padding */
-  export let padding: 'none' | 'sm' | 'md' | 'lg' = 'md'
+  export let padding: 'none' | 'sm' | 'md' | 'lg' | 'xl' = 'md'
+  /** Hover lift and pointer, without changing the variant */
+  export let interactive: boolean = false
+  /** Marks the card as the active item; paints no chrome of its own */
+  export let active: boolean = false
+  /** Root element */
+  export let as: string = 'div'
 
   $: classes = [
     'strand-card',
-    `strand-card--${variant}`,
+    variant !== 'elevated' && `strand-card--${variant}`,
     `strand-card--pad-${padding}`,
+    interactive && variant !== 'interactive' && 'strand-card--interactive',
+    active && 'strand-card--active',
   ].filter(Boolean).join(' ')
 </script>
 
-<div class={classes} {...$$restProps}>
+<svelte:element this={as} class={classes} {...$$restProps}>
   <slot />
-</div>
+</svelte:element>

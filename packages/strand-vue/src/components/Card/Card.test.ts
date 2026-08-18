@@ -17,9 +17,9 @@ describe('Card', () => {
 
   // ── Variants ──
 
-  it('applies elevated variant class by default', () => {
+  it('is the elevated variant by default, which is the base class alone', () => {
     const { container } = render(Card, { slots: { default: 'Test' } })
-    expect(container.firstElementChild?.className).toContain('strand-card--elevated')
+    expect(container.firstElementChild?.className).toBe('strand-card strand-card--pad-md')
   })
 
   it('applies outlined variant class', () => {

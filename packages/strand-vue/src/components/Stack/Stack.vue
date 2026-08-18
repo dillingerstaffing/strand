@@ -31,6 +31,8 @@ interface Props {
   justify?: 'start' | 'center' | 'end' | 'between' | 'around'
   /** Enable flex-wrap */
   wrap?: boolean
+  /** Root element */
+  as?: string
   /** Additional CSS class */
   className?: string
 }
@@ -40,6 +42,7 @@ const props = withDefaults(defineProps<Props>(), {
   gap: 4,
   align: 'stretch',
   wrap: false,
+  as: 'div',
   className: '',
 })
 
@@ -62,7 +65,7 @@ const inlineStyle = computed(() => ({
 </script>
 
 <template>
-  <div :class="classes" :style="inlineStyle" v-bind="$attrs">
+  <component :is="as" :class="classes" :style="inlineStyle" v-bind="$attrs">
     <slot />
-  </div>
+  </component>
 </template>

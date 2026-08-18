@@ -9,11 +9,12 @@ describe('Card', () => {
     const { container } = render(Card)
     const el = container.querySelector('.strand-card')
     expect(el).toBeInTheDocument()
-    expect(el).toHaveClass('strand-card--elevated', 'strand-card--pad-md')
+    expect(el).toHaveClass('strand-card', 'strand-card--pad-md')
+    expect(el).not.toHaveClass('strand-card--elevated')
   })
 
   it('applies variant classes', () => {
-    const variants = ['elevated', 'outlined', 'interactive'] as const
+    const variants = ['outlined', 'flat', 'warm', 'interactive'] as const
     for (const variant of variants) {
       const { container, unmount } = render(Card, { props: { variant } })
       expect(container.querySelector('.strand-card')).toHaveClass(`strand-card--${variant}`)

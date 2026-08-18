@@ -27,9 +27,13 @@
   export let items: BreadcrumbItem[] = []
   /** Separator character between items */
   export let separator: string = '/'
+  /** Instrument treatment: mono, uppercase, tracked, for a tinted page header */
+  export let variant: 'default' | 'instrument' = 'default'
+
+  $: classes = ['strand-breadcrumb', variant !== 'default' && `strand-breadcrumb--${variant}`].filter(Boolean).join(' ')
 </script>
 
-<nav aria-label="Breadcrumb" class="strand-breadcrumb" {...$$restProps}>
+<nav aria-label="Breadcrumb" class={classes} {...$$restProps}>
   <ol class="strand-breadcrumb__list">
     {#each items as item, index (item.label + index)}
       <li class="strand-breadcrumb__item">
