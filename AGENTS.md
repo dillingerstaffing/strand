@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Strand is a design token system and UI component library. Zero-runtime CSS. 47 components across 8 categories. Ships to Preact, React, Vue, Svelte, vanilla HTML, tokens-only, Bulma, and Bootstrap consumers.
+Strand is a design token system and UI component library. Zero-runtime CSS. Every component listed in `parity-manifest.json#/components`, plus the class-only primitives in `#/cssOnlyComponents`. Ships to Preact, React, Vue, Svelte, vanilla HTML, tokens-only, Bulma, and Bootstrap consumers.
 
 ## Install
 

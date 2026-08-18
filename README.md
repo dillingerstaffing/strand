@@ -30,6 +30,8 @@
 | [AGENTS.md](./AGENTS.md) | AI coding agent usage instructions |
 | [HTML Reference](./generated/html-reference.md) | CSS class API for every component |
 | [Design Language](./docs/design-language.md) | Complete design specification |
+| [Component Patterns](./docs/component-patterns.md) | How every component is written and tested |
+| [CSS Architecture](./docs/css-architecture.md) | Where a rule lives, how it is written, and the checks that prove it |
 | [Consumers](./generated/consumers.md) | Consumer types and framework parity |
 | [Changelog](./generated/changelog.md) | Version history |
 | [Contributing](./CONTRIBUTING.md) | How to contribute |

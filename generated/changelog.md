@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - a feature surface can hand its inset to its panes, and a readout can leave the ladder (v0.48.0, gaps #102-#103)
 
 ### Changed
+- stylesheets carry rules, not essays; the reasoning moves to docs/cf
 - surfaces recolour primitives through tokens, not selectors
 - one focus ring, one reduced-motion rule, one disabled opacity
 - delete every rule no known source emits, and gate it

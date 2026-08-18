@@ -101,10 +101,11 @@ Every contribution must meet these standards:
 
 Each component requires:
 
-1. `Component.tsx` - Implementation
-2. `Component.css` - Styles using only Strand tokens
-3. `Component.test.tsx` - Tests (render, interaction, accessibility)
-4. `index.ts` - Public exports
+1. `Component.tsx` - A function component written per [Component patterns](./docs/component-patterns.md)
+2. `Component.css` - Every rule for this block and only this block, written per [CSS architecture](./docs/css-architecture.md)
+3. `Component.fixtures.ts` - Named prop sets; `snapshotFixtures` renders each to a snapshot
+4. `Component.test.tsx` - The fixtures snapshot, a stylesheet snapshot, and behaviour tests phrased as what a user sees
+5. `index.ts` - Public exports
 
 All components must support:
 - All interaction states (default, hover, focus-visible, active, disabled)
@@ -115,5 +116,7 @@ All components must support:
 ## Links
 
 - [Strand Design Language](./docs/design-language.md)
+- [Component Patterns](./docs/component-patterns.md)
+- [CSS Architecture](./docs/css-architecture.md)
 - [Dillinger Staffing](https://dillingerstaffing.com) - Project home
 - [Issues](https://github.com/dillingerstaffing/strand/issues)

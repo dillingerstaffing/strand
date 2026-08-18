@@ -6,6 +6,8 @@
 - [AGENTS.md](https://github.com/dillingerstaffing/strand/blob/main/AGENTS.md): AI coding agent usage instructions
 - [HTML Reference](https://github.com/dillingerstaffing/strand/blob/main/generated/html-reference.md): CSS class API for every component
 - [Design Language](https://github.com/dillingerstaffing/strand/blob/main/docs/design-language.md): Complete design specification
+- [Component Patterns](https://github.com/dillingerstaffing/strand/blob/main/docs/component-patterns.md): How every component is written and tested
+- [CSS Architecture](https://github.com/dillingerstaffing/strand/blob/main/docs/css-architecture.md): Where a rule lives, how it is written, and the checks that prove it
 - [Consumers](https://github.com/dillingerstaffing/strand/blob/main/generated/consumers.md): Consumer types and framework parity
 - [Strand Lab Page](https://dillingerstaffing.com/labs/strand): Live showcase and brand entry point
 

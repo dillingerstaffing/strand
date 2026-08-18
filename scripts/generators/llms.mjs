@@ -38,6 +38,20 @@ const PUBLIC_DOCS = [
 		section: "docs",
 	},
 	{
+		name: "Component Patterns",
+		path: "./docs/component-patterns.md",
+		purpose: "How every component is written and tested",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/docs/component-patterns.md",
+		section: "docs",
+	},
+	{
+		name: "CSS Architecture",
+		path: "./docs/css-architecture.md",
+		purpose: "Where a rule lives, how it is written, and the checks that prove it",
+		url: "https://github.com/dillingerstaffing/strand/blob/main/docs/css-architecture.md",
+		section: "docs",
+	},
+	{
 		name: "Consumers",
 		path: "./generated/consumers.md",
 		purpose: "Consumer types and framework parity",
