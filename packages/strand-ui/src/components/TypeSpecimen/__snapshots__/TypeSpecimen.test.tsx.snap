@@ -1,3 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`every export renders its element and class > TypeSpecimen 1`] = `"<div class="strand-type-specimen custom">x</div>"`;
+
+exports[`every export renders its element and class > TypeSpecimenMeta 1`] = `"<span class="strand-type-specimen__meta custom">x</span>"`;
+
+exports[`every export renders its element and class > meta keeps nested markup 1`] = `"<span class="strand-type-specimen__meta">Inter <b>48px</b></span>"`;
+
 exports[`renders > specimen 1`] = `"<div class="strand-type-specimen">display</div>"`;

@@ -1,3 +1,73 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`every export renders its element and class > LabBrand 1`] = `"<div class="strand-ref-shell__brand custom">x</div>"`;
+
+exports[`every export renders its element and class > LabBrandMark 1`] = `"<div class="strand-ref-shell__brand-mark custom">x</div>"`;
+
+exports[`every export renders its element and class > LabBrandSub 1`] = `"<span class="strand-ref-shell__brand-sub custom">x</span>"`;
+
+exports[`every export renders its element and class > LabBrandTitle 1`] = `"<span class="strand-ref-shell__brand-title custom">x</span>"`;
+
+exports[`every export renders its element and class > LabExample 1`] = `"<div class="strand-ref-example custom">x</div>"`;
+
+exports[`every export renders its element and class > LabExampleCaption 1`] = `"<p class="strand-ref-example__caption custom">x</p>"`;
+
+exports[`every export renders its element and class > LabExampleCode 1`] = `"<span class="strand-ref-example__code custom">x</span>"`;
+
+exports[`every export renders its element and class > LabExampleDemo 1`] = `"<div class="strand-ref-example__demo custom">x</div>"`;
+
+exports[`every export renders its element and class > LabExampleDemo modifiers 1`] = `"<div class="strand-ref-example__demo strand-ref-example__demo--pad-none strand-ref-example__demo--recessed">x</div>"`;
+
+exports[`every export renders its element and class > LabExampleLabel 1`] = `"<span class="strand-ref-example__label custom">x</span>"`;
+
+exports[`every export renders its element and class > LabExampleMeta 1`] = `"<div class="strand-ref-example__meta custom">x</div>"`;
+
+exports[`every export renders its element and class > LabHeader 1`] = `"<header class="strand-ref-header custom">x</header>"`;
+
+exports[`every export renders its element and class > LabHeaderLead 1`] = `"<p class="strand-ref-header__lead custom">x</p>"`;
+
+exports[`every export renders its element and class > LabHeaderMeta 1`] = `"<div class="strand-ref-header__meta custom">x</div>"`;
+
+exports[`every export renders its element and class > LabHeaderMetaItem 1`] = `"<div class="strand-ref-header__meta-item custom">x</div>"`;
+
+exports[`every export renders its element and class > LabHeaderMetaLabel 1`] = `"<span class="strand-ref-header__meta-label custom">x</span>"`;
+
+exports[`every export renders its element and class > LabHeaderMetaValue 1`] = `"<span class="strand-ref-header__meta-value custom">x</span>"`;
+
+exports[`every export renders its element and class > LabHeaderTitle 1`] = `"<h1 class="strand-ref-header__title custom">x</h1>"`;
+
+exports[`every export renders its element and class > LabMain 1`] = `"<main class="strand-ref-shell__main custom">x</main>"`;
+
+exports[`every export renders its element and class > LabSection 1`] = `"<section class="strand-ref-section custom">x</section>"`;
+
+exports[`every export renders its element and class > LabSectionBody 1`] = `"<div class="strand-ref-section__body custom">x</div>"`;
+
+exports[`every export renders its element and class > LabSectionHead 1`] = `"<div class="strand-ref-section__head custom">x</div>"`;
+
+exports[`every export renders its element and class > LabSectionHeadNote 1`] = `"<span class="strand-ref-section__head-note custom">x</span>"`;
+
+exports[`every export renders its element and class > LabShell 1`] = `"<div class="strand-ref-shell custom">x</div>"`;
+
+exports[`every export renders its element and class > LabSidebar 1`] = `"<aside class="strand-ref-shell__sidebar custom">x</aside>"`;
+
+exports[`every export renders its element and class > LabSidebarGroup 1`] = `"<div class="strand-ref-shell__group custom">x</div>"`;
+
+exports[`every export renders its element and class > LabSidebarGroupDot 1`] = `"<span class="strand-ref-shell__group-dot custom">x</span>"`;
+
+exports[`every export renders its element and class > LabSidebarGroupLabel 1`] = `"<span class="strand-ref-shell__group-label custom">x</span>"`;
+
+exports[`every export renders its element and class > LabSidebarGroupLink 1`] = `"<a class="strand-ref-shell__group-link custom"><span class="strand-ref-shell__group-dot"></span>x</a>"`;
+
+exports[`every export renders its element and class > LabSidebarGroupList 1`] = `"<nav class="strand-ref-shell__group-list custom">x</nav>"`;
+
+exports[`every export renders its element and class > LabSidebarHead 1`] = `"<div class="strand-ref-shell__sidebar-head custom">x</div>"`;
+
+exports[`every export renders its element and class > LabSidebarScroll 1`] = `"<div class="strand-ref-shell__sidebar-scroll custom">x</div>"`;
+
+exports[`every export renders its element and class > LabTaxonomy 1`] = `"<div class="strand-ref-taxonomy custom">x</div>"`;
+
+exports[`every export renders its element and class > LabTaxonomyList 1`] = `"<dl class="strand-ref-taxonomy__list custom">x</dl>"`;
+
+exports[`every export renders its element and class > LabTaxonomyTitle 1`] = `"<span class="strand-ref-taxonomy__title custom">x</span>"`;
+
 exports[`renders > shell 1`] = `"<div class="strand-ref-shell">main</div>"`;

@@ -1,56 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { render } from "@testing-library/preact";
-import {
-  TokenSpecimen,
-  TokenSpecimenGrid,
-  TokenSpecimenSpacer,
-  TokenSpecimenBox,
-} from "./TokenSpecimen.js";
-
-describe("TokenSpecimen", () => {
-  it("Grid base class", () => {
-    const { container } = render(<TokenSpecimenGrid>x</TokenSpecimenGrid>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-token-specimen-grid",
-    );
-  });
-
-  it("Specimen base class", () => {
-    const { container } = render(<TokenSpecimen>x</TokenSpecimen>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-token-specimen",
-    );
-  });
-
-  it("Spacer base class + inline width", () => {
-    const { container } = render(<TokenSpecimenSpacer width="48px" />);
-    const el = container.firstElementChild as HTMLElement;
-    expect(el.className).toContain("strand-token-specimen__spacer");
-    expect(el.style.width).toBe("48px");
-  });
-
-  it("Spacer accepts numeric width (converted to px)", () => {
-    const { container } = render(<TokenSpecimenSpacer width={48} />);
-    const el = container.firstElementChild as HTMLElement;
-    expect(el.style.width).toBe("48px");
-  });
-
-  it("Box base class + inline radius + shadow", () => {
-    const { container } = render(
-      <TokenSpecimenBox
-        radius="8px"
-        shadow="0 4px 12px rgba(0,0,0,0.1)"
-      />,
-    );
-    const el = container.firstElementChild as HTMLElement;
-    expect(el.className).toContain("strand-token-specimen__box");
-    expect(el.style.borderRadius).toBe("8px");
-    // JSDOM preserves the raw value without canonicalization
-    expect(el.style.boxShadow).toContain("rgba(0,0,0,0.1)");
-  });
-});
-
+import { html } from "../../test/render.js";
 import { snapshotFixtures } from "../../test/snapshot.js";
 import { fixtures } from "./TokenSpecimen.fixtures.js";
+import * as family from "./TokenSpecimen.js";
 
-snapshotFixtures(TokenSpecimen, fixtures);
+snapshotFixtures(family.TokenSpecimen, fixtures);
+
+describe("every export renders its element and class", () => {
+  for (const [exportName, Component] of Object.entries(family)) {
+    it(exportName, () => {
+      expect(html(<Component className="custom">x</Component>)).toMatchSnapshot();
+    });
+  }
+  it("spacer width and box radius and shadow", () => {
+    expect(html(<family.TokenSpecimenSpacer width={16} />)).toMatchSnapshot();
+    expect(html(<family.TokenSpecimenSpacer width="2rem" />)).toMatchSnapshot();
+    expect(html(<family.TokenSpecimenBox radius="8px" shadow="0 1px 2px black" />)).toMatchSnapshot();
+  });
+});

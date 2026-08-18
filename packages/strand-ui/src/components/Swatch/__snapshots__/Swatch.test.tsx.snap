@@ -1,3 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`every export renders its element and class > Swatch 1`] = `"<div class="strand-swatch custom"><span class="strand-swatch__name"></span><span class="strand-swatch__hex"></span></div>"`;
+
+exports[`every export renders its element and class > SwatchGrid 1`] = `"<div class="strand-swatch-grid custom">x</div>"`;
+
 exports[`renders > swatch 1`] = `"<div class="strand-swatch" style="background: rgb(59, 142, 246); color: rgb(255, 255, 255);"><span class="strand-swatch__name">blue-primary</span><span class="strand-swatch__hex">#3B8EF6</span></div>"`;

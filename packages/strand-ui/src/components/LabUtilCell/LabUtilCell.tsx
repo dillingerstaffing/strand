@@ -1,108 +1,19 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
 import type { JSX } from "preact";
-import { forwardRef } from "preact/compat";
+import { styled } from "../../internal/index.js";
 
-export interface LabUtilRowProps extends JSX.HTMLAttributes<HTMLDivElement> {}
+/** A row of utility specimens, each a cell with code, caption and demo. */
+export const LabUtilRow = styled("div", "strand-ref-util-row", "LabUtilRow");
+export const LabUtilCell = styled("div", "strand-ref-util-cell", "LabUtilCell");
+export const LabUtilCellCode = styled<HTMLSpanElement>("span", "strand-ref-util-cell__code", "LabUtilCellCode");
+export const LabUtilCellCaption = styled<HTMLSpanElement>("span", "strand-ref-util-cell__caption", "LabUtilCellCaption");
+export const LabUtilCellDemo = styled("div", "strand-ref-util-cell__demo", "LabUtilCellDemo");
+export const LabUtilCellBlock = styled<HTMLSpanElement>("span", "strand-ref-util-cell__block", "LabUtilCellBlock");
 
-export const LabUtilRow = forwardRef<HTMLDivElement, LabUtilRowProps>(
-  ({ className = "", children, ...rest }, ref) => (
-    <div
-      ref={ref}
-      className={["strand-ref-util-row", className].filter(Boolean).join(" ")}
-      {...rest}
-    >
-      {children}
-    </div>
-  ),
-);
-LabUtilRow.displayName = "LabUtilRow";
-
-export interface LabUtilCellProps extends JSX.HTMLAttributes<HTMLDivElement> {}
-
-export const LabUtilCell = forwardRef<HTMLDivElement, LabUtilCellProps>(
-  ({ className = "", children, ...rest }, ref) => (
-    <div
-      ref={ref}
-      className={["strand-ref-util-cell", className].filter(Boolean).join(" ")}
-      {...rest}
-    >
-      {children}
-    </div>
-  ),
-);
-LabUtilCell.displayName = "LabUtilCell";
-
-export interface LabUtilCellCodeProps
-  extends JSX.HTMLAttributes<HTMLSpanElement> {}
-
-export const LabUtilCellCode = forwardRef<HTMLSpanElement, LabUtilCellCodeProps>(
-  ({ className = "", children, ...rest }, ref) => (
-    <span
-      ref={ref}
-      className={["strand-ref-util-cell__code", className]
-        .filter(Boolean)
-        .join(" ")}
-      {...rest}
-    >
-      {children}
-    </span>
-  ),
-);
-LabUtilCellCode.displayName = "LabUtilCellCode";
-
-export interface LabUtilCellCaptionProps
-  extends JSX.HTMLAttributes<HTMLSpanElement> {}
-
-export const LabUtilCellCaption = forwardRef<
-  HTMLSpanElement,
-  LabUtilCellCaptionProps
->(({ className = "", children, ...rest }, ref) => (
-  <span
-    ref={ref}
-    className={["strand-ref-util-cell__caption", className]
-      .filter(Boolean)
-      .join(" ")}
-    {...rest}
-  >
-    {children}
-  </span>
-));
-LabUtilCellCaption.displayName = "LabUtilCellCaption";
-
-export interface LabUtilCellDemoProps
-  extends JSX.HTMLAttributes<HTMLDivElement> {}
-
-export const LabUtilCellDemo = forwardRef<HTMLDivElement, LabUtilCellDemoProps>(
-  ({ className = "", children, ...rest }, ref) => (
-    <div
-      ref={ref}
-      className={["strand-ref-util-cell__demo", className]
-        .filter(Boolean)
-        .join(" ")}
-      {...rest}
-    >
-      {children}
-    </div>
-  ),
-);
-LabUtilCellDemo.displayName = "LabUtilCellDemo";
-
-export interface LabUtilCellBlockProps
-  extends JSX.HTMLAttributes<HTMLSpanElement> {}
-
-export const LabUtilCellBlock = forwardRef<
-  HTMLSpanElement,
-  LabUtilCellBlockProps
->(({ className = "", children, ...rest }, ref) => (
-  <span
-    ref={ref}
-    className={["strand-ref-util-cell__block", className]
-      .filter(Boolean)
-      .join(" ")}
-    {...rest}
-  >
-    {children}
-  </span>
-));
-LabUtilCellBlock.displayName = "LabUtilCellBlock";
+export type LabUtilRowProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type LabUtilCellProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type LabUtilCellCodeProps = JSX.HTMLAttributes<HTMLSpanElement>;
+export type LabUtilCellCaptionProps = JSX.HTMLAttributes<HTMLSpanElement>;
+export type LabUtilCellDemoProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type LabUtilCellBlockProps = JSX.HTMLAttributes<HTMLSpanElement>;

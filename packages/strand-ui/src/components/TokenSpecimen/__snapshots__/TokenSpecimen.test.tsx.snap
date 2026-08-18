@@ -1,3 +1,17 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`every export renders its element and class > TokenSpecimen 1`] = `"<div class="strand-token-specimen custom">x</div>"`;
+
+exports[`every export renders its element and class > TokenSpecimenBox 1`] = `"<span class="strand-token-specimen__box custom">x</span>"`;
+
+exports[`every export renders its element and class > TokenSpecimenGrid 1`] = `"<div class="strand-token-specimen-grid custom">x</div>"`;
+
+exports[`every export renders its element and class > TokenSpecimenSpacer 1`] = `"<span class="strand-token-specimen__spacer custom">x</span>"`;
+
+exports[`every export renders its element and class > spacer width and box radius and shadow 1`] = `"<span class="strand-token-specimen__spacer" style="width: 16px;"></span>"`;
+
+exports[`every export renders its element and class > spacer width and box radius and shadow 2`] = `"<span class="strand-token-specimen__spacer" style="width: 2rem;"></span>"`;
+
+exports[`every export renders its element and class > spacer width and box radius and shadow 3`] = `"<span class="strand-token-specimen__box" style="border-radius: 8px; box-shadow: 0 1px 2px black;"></span>"`;
+
 exports[`renders > specimen 1`] = `"<div class="strand-token-specimen">visual</div>"`;

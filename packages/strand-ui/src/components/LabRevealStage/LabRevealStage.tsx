@@ -1,40 +1,11 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
 import type { JSX } from "preact";
-import { forwardRef } from "preact/compat";
+import { styled } from "../../internal/index.js";
 
-export interface LabRevealStageProps
-  extends JSX.HTMLAttributes<HTMLDivElement> {}
+/** A stage of lines that reveal in sequence. */
+export const LabRevealStage = styled("div", "strand-ref-reveal-stage", "LabRevealStage");
+export const LabRevealLine = styled("div", "strand-ref-reveal-line", "LabRevealLine");
 
-export const LabRevealStage = forwardRef<HTMLDivElement, LabRevealStageProps>(
-  ({ className = "", children, ...rest }, ref) => (
-    <div
-      ref={ref}
-      className={["strand-ref-reveal-stage", className]
-        .filter(Boolean)
-        .join(" ")}
-      {...rest}
-    >
-      {children}
-    </div>
-  ),
-);
-LabRevealStage.displayName = "LabRevealStage";
-
-export interface LabRevealLineProps
-  extends JSX.HTMLAttributes<HTMLDivElement> {}
-
-export const LabRevealLine = forwardRef<HTMLDivElement, LabRevealLineProps>(
-  ({ className = "", children, ...rest }, ref) => (
-    <div
-      ref={ref}
-      className={["strand-ref-reveal-line", className]
-        .filter(Boolean)
-        .join(" ")}
-      {...rest}
-    >
-      {children}
-    </div>
-  ),
-);
-LabRevealLine.displayName = "LabRevealLine";
+export type LabRevealStageProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type LabRevealLineProps = JSX.HTMLAttributes<HTMLDivElement>;

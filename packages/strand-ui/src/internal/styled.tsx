@@ -14,7 +14,7 @@ export function styled<E extends HTMLElement = HTMLDivElement>(
     // biome-ignore lint/suspicious/noExplicitAny: the tag is chosen at definition
     const Tag = tag as any;
     return (
-      <Tag ref={ref} className={cx(base, className as string)} {...rest}>
+      <Tag ref={ref} className={cx(base, className)} {...rest}>
         {children}
       </Tag>
     );

@@ -1,3 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`every export renders its element and class > LabRevealLine 1`] = `"<div class="strand-ref-reveal-line custom">x</div>"`;
+
+exports[`every export renders its element and class > LabRevealStage 1`] = `"<div class="strand-ref-reveal-stage custom">x</div>"`;
+
 exports[`renders > stage 1`] = `"<div class="strand-ref-reveal-stage">line</div>"`;

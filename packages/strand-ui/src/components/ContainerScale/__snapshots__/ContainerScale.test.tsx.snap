@@ -1,3 +1,21 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`every export renders its element and class > ContainerScale 1`] = `"<div class="strand-container-scale custom">x</div>"`;
+
+exports[`every export renders its element and class > ContainerScaleAxis 1`] = `"<div class="strand-container-scale__axis custom">x</div>"`;
+
+exports[`every export renders its element and class > ContainerScaleBar 1`] = `"<div class="strand-container-scale__bar custom">x</div>"`;
+
+exports[`every export renders its element and class > ContainerScaleCaption 1`] = `"<span class="strand-container-scale__caption custom">x</span>"`;
+
+exports[`every export renders its element and class > ContainerScaleLabel 1`] = `"<div class="strand-container-scale__label custom">x</div>"`;
+
+exports[`every export renders its element and class > ContainerScalePx 1`] = `"<span class="strand-container-scale__px custom">x</span>"`;
+
+exports[`every export renders its element and class > ContainerScaleRow 1`] = `"<div class="strand-container-scale__row custom">x</div>"`;
+
+exports[`every export renders its element and class > ContainerScaleTrack 1`] = `"<div class="strand-container-scale__track custom">x</div>"`;
+
+exports[`every export renders its element and class > bar width 1`] = `"<div class="strand-container-scale__bar" style="width: 60%;">640</div>"`;
+
 exports[`renders > stack 1`] = `"<div class="strand-container-scale">rows</div>"`;

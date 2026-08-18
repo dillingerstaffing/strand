@@ -1,40 +1,11 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
 import type { JSX } from "preact";
-import { forwardRef } from "preact/compat";
+import { styled } from "../../internal/index.js";
 
-export interface LabGlassStageProps
-  extends JSX.HTMLAttributes<HTMLDivElement> {}
+/** A dark stage with a glass panel on it. */
+export const LabGlassStage = styled("div", "strand-ref-glass-stage", "LabGlassStage");
+export const LabGlassPanel = styled("div", "strand-ref-glass-panel", "LabGlassPanel");
 
-export const LabGlassStage = forwardRef<HTMLDivElement, LabGlassStageProps>(
-  ({ className = "", children, ...rest }, ref) => (
-    <div
-      ref={ref}
-      className={["strand-ref-glass-stage", className]
-        .filter(Boolean)
-        .join(" ")}
-      {...rest}
-    >
-      {children}
-    </div>
-  ),
-);
-LabGlassStage.displayName = "LabGlassStage";
-
-export interface LabGlassPanelProps
-  extends JSX.HTMLAttributes<HTMLDivElement> {}
-
-export const LabGlassPanel = forwardRef<HTMLDivElement, LabGlassPanelProps>(
-  ({ className = "", children, ...rest }, ref) => (
-    <div
-      ref={ref}
-      className={["strand-ref-glass-panel", className]
-        .filter(Boolean)
-        .join(" ")}
-      {...rest}
-    >
-      {children}
-    </div>
-  ),
-);
-LabGlassPanel.displayName = "LabGlassPanel";
+export type LabGlassStageProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type LabGlassPanelProps = JSX.HTMLAttributes<HTMLDivElement>;

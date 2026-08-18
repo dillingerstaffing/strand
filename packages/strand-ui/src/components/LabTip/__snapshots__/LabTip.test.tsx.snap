@@ -1,5 +1,17 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`every export renders its element and class > LabTip 1`] = `"<span class="strand-ref-tip custom">x</span>"`;
+
+exports[`every export renders its element and class > LabTipBubble 1`] = `"<span class="strand-ref-tip__bubble strand-ref-tip__bubble--top custom" role="tooltip">x</span>"`;
+
+exports[`every export renders its element and class > bubble placements 1`] = `"<span class="strand-ref-tip__bubble strand-ref-tip__bubble--top" role="tooltip">tip</span>"`;
+
+exports[`every export renders its element and class > bubble placements 2`] = `"<span class="strand-ref-tip__bubble strand-ref-tip__bubble--bottom" role="tooltip">tip</span>"`;
+
+exports[`every export renders its element and class > bubble placements 3`] = `"<span class="strand-ref-tip__bubble strand-ref-tip__bubble--left" role="tooltip">tip</span>"`;
+
+exports[`every export renders its element and class > bubble placements 4`] = `"<span class="strand-ref-tip__bubble strand-ref-tip__bubble--right" role="tooltip">tip</span>"`;
+
 exports[`renders > pinned 1`] = `"<span class="strand-ref-tip strand-ref-tip--pinned">trigger</span>"`;
 
 exports[`renders > tip 1`] = `"<span class="strand-ref-tip">trigger</span>"`;

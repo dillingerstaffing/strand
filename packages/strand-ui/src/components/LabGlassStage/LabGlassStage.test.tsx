@@ -1,36 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { render } from "@testing-library/preact";
-import { LabGlassStage, LabGlassPanel } from "./LabGlassStage.js";
-
-describe("LabGlassStage", () => {
-  it("Stage base class", () => {
-    const { container } = render(<LabGlassStage>x</LabGlassStage>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-ref-glass-stage",
-    );
-  });
-
-  it("Panel base class", () => {
-    const { container } = render(<LabGlassPanel>x</LabGlassPanel>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-ref-glass-panel",
-    );
-  });
-
-  it("composes Stage with Panel child", () => {
-    const { container } = render(
-      <LabGlassStage>
-        <LabGlassPanel>Content</LabGlassPanel>
-      </LabGlassStage>,
-    );
-    const stage = container.firstElementChild;
-    const panel = stage?.firstElementChild;
-    expect(stage?.className).toContain("strand-ref-glass-stage");
-    expect(panel?.className).toContain("strand-ref-glass-panel");
-  });
-});
-
+import { html } from "../../test/render.js";
 import { snapshotFixtures } from "../../test/snapshot.js";
 import { fixtures } from "./LabGlassStage.fixtures.js";
+import * as family from "./LabGlassStage.js";
 
-snapshotFixtures(LabGlassStage, fixtures);
+snapshotFixtures(family.LabGlassStage, fixtures);
+
+describe("every export renders its element and class", () => {
+  for (const [exportName, Component] of Object.entries(family)) {
+    it(exportName, () => {
+      expect(html(<Component className="custom">x</Component>)).toMatchSnapshot();
+    });
+  }
+});

@@ -1,3 +1,41 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`every export renders its element and class > Dot colour, hidden content, and the close control 1`] = `"<span class="strand-ref-frame__dot" style="background: rgb(255, 95, 87);"></span>"`;
+
+exports[`every export renders its element and class > Dot colour, hidden content, and the close control 2`] = `"<div aria-hidden="true" class="strand-ref-frame__content">x</div>"`;
+
+exports[`every export renders its element and class > Dot colour, hidden content, and the close control 3`] = `"<button aria-label="Close" class="strand-ref-frame__panel-close" type="button">×</button>"`;
+
+exports[`every export renders its element and class > Dot colour, hidden content, and the close control 4`] = `"<button aria-label="Close dialog" class="strand-ref-frame__panel-close" type="button">Done</button>"`;
+
+exports[`every export renders its element and class > LabFrame 1`] = `"<div class="strand-ref-frame custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFrameActions 1`] = `"<div class="strand-ref-frame__actions custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFrameBody 1`] = `"<div class="strand-ref-frame__body custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFrameChrome 1`] = `"<div class="strand-ref-frame__chrome custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFrameContent 1`] = `"<div class="strand-ref-frame__content custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFrameContentHead 1`] = `"<div class="strand-ref-frame__content-head custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFrameDot 1`] = `"<span class="strand-ref-frame__dot custom">x</span>"`;
+
+exports[`every export renders its element and class > LabFrameOverlay 1`] = `"<div class="strand-ref-frame__overlay custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFramePanel 1`] = `"<div aria-modal="true" class="strand-ref-frame__panel custom" role="dialog">x</div>"`;
+
+exports[`every export renders its element and class > LabFramePanelBody 1`] = `"<div class="strand-ref-frame__panel-body custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFramePanelClose 1`] = `"<button aria-label="Close" class="strand-ref-frame__panel-close custom" type="button">x</button>"`;
+
+exports[`every export renders its element and class > LabFramePanelFooter 1`] = `"<div class="strand-ref-frame__panel-footer custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFramePanelHeader 1`] = `"<div class="strand-ref-frame__panel-header custom">x</div>"`;
+
+exports[`every export renders its element and class > LabFramePanelTitle 1`] = `"<h2 class="strand-ref-frame__panel-title custom">x</h2>"`;
+
+exports[`every export renders its element and class > LabFrameTitle 1`] = `"<span class="strand-ref-frame__title custom">x</span>"`;
+
 exports[`renders > frame 1`] = `"<div class="strand-ref-frame">chrome</div>"`;

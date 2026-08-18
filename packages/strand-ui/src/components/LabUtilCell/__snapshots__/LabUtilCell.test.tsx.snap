@@ -1,3 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`every export renders its element and class > LabUtilCell 1`] = `"<div class="strand-ref-util-cell custom">x</div>"`;
+
+exports[`every export renders its element and class > LabUtilCellBlock 1`] = `"<span class="strand-ref-util-cell__block custom">x</span>"`;
+
+exports[`every export renders its element and class > LabUtilCellCaption 1`] = `"<span class="strand-ref-util-cell__caption custom">x</span>"`;
+
+exports[`every export renders its element and class > LabUtilCellCode 1`] = `"<span class="strand-ref-util-cell__code custom">x</span>"`;
+
+exports[`every export renders its element and class > LabUtilCellDemo 1`] = `"<div class="strand-ref-util-cell__demo custom">x</div>"`;
+
+exports[`every export renders its element and class > LabUtilRow 1`] = `"<div class="strand-ref-util-row custom">x</div>"`;
+
 exports[`renders > cell 1`] = `"<div class="strand-ref-util-cell">demo</div>"`;

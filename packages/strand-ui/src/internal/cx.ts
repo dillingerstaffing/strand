@@ -1,8 +1,9 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-export type ClassValue = string | false | null | undefined | 0;
-
-/** Joins the truthy class names. */
-export function cx(...parts: ClassValue[]): string {
-  return parts.filter(Boolean).join(" ");
+/** Joins the truthy class names. `className` may arrive as a signal, so parts are stringified. */
+export function cx(...parts: unknown[]): string {
+  return parts
+    .filter(Boolean)
+    .map((p) => String(p))
+    .join(" ");
 }
