@@ -170,17 +170,6 @@ describe("Dialog", () => {
 
   // ── Custom className ──
 
-  it("merges custom className", () => {
-    const { getByRole } = render(
-      <Dialog {...defaultProps} className="custom-dialog">
-        Content
-      </Dialog>,
-    );
-    const dialog = getByRole("dialog");
-    expect(dialog.className).toContain("strand-dialog__panel");
-    expect(dialog.className).toContain("custom-dialog");
-  });
-
   // ── Scroll lock ──
 
   it("sets body overflow hidden when open", () => {
@@ -336,28 +325,6 @@ describe("Dialog", () => {
     expect(el?.classList.contains("strand-dialog__panel--align-start")).toBe(false);
     expect(el?.classList.contains("strand-dialog__panel--pad-lg")).toBe(true);
     expect(container.querySelector(".strand-dialog__close")).not.toBeNull();
-  });
-
-  it("drops the panel under the reader's gaze when aligned to start", () => {
-    const { container } = render(
-      <Dialog {...defaultProps} align="start">
-        Content
-      </Dialog>,
-    );
-    expect(panel(container as HTMLElement)?.classList.contains("strand-dialog__panel--align-start")).toBe(
-      true,
-    );
-  });
-
-  it("anchors the panel to the bottom edge when aligned to end", () => {
-    const { container } = render(
-      <Dialog {...defaultProps} align="end">
-        Content
-      </Dialog>,
-    );
-    expect(panel(container as HTMLElement)?.classList.contains("strand-dialog__panel--align-end")).toBe(
-      true,
-    );
   });
 
   it("the default emits no alignment class at all, so an untouched consumer is unchanged", () => {

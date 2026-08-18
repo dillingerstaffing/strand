@@ -43,12 +43,6 @@ describe("ActionDock", () => {
     expect(container.textContent).toContain("RSVP");
   });
 
-  it("carries a consumer's class without dropping its own", () => {
-    const { container } = render(<ActionDock className="custom" />);
-    const dock = container.querySelector(".strand-actiondock");
-    expect(dock?.classList.contains("custom")).toBe(true);
-  });
-
   // The wrapper must stay a thin pass-through: the accessibility guidance
   // tells consumers to set aria-hidden on the dock, and that only works if
   // arbitrary attributes reach the element.

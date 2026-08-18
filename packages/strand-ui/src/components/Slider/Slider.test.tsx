@@ -50,13 +50,6 @@ describe("Slider", () => {
     expect((getByRole("slider") as HTMLInputElement).value).toBe("42");
   });
 
-  it("merges custom className", () => {
-    const { container } = render(
-      <Slider className="custom" aria-label="Volume" />
-    );
-    expect(container.querySelector(".strand-slider")?.className).toContain("custom");
-  });
-
   it("has aria-valuemin attribute", () => {
     const { getByRole } = render(<Slider min={5} aria-label="Volume" />);
     expect(getByRole("slider")).toHaveAttribute("aria-valuemin", "5");

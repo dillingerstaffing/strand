@@ -8,15 +8,13 @@ import { cx, mergeRefs } from "../../internal/index.js";
 export interface ActionDockProps extends JSX.HTMLAttributes<HTMLDivElement> {
   /** Showing; ignored when `watch` is set. */
   visible?: boolean;
-  /** The in-flow control this dock stands in for; the dock then shows itself while that control is off screen. A selector string is accepted for vanilla markup and deprecated for components; pass a ref. */
+  /** The in-flow control this dock stands in for; the dock shows itself while that control is off screen (a selector string is deprecated; pass a ref). */
   watch?: RefObject<Element | null> | string;
   /** When to show while watching; only `"hidden"` today. */
   revealWhen?: "hidden";
 }
 
-/**
- * Whether `el` is outside the viewport trimmed by `inset` px at the bottom; entirely visible counts as present (cf: actiondock-reveal).
- */
+/** Whether `el` is outside the viewport trimmed by `inset` px at the bottom; entirely visible counts as present (cf: actiondock-reveal). */
 export function observeOffScreen(el: Element, onChange: (offScreen: boolean) => void, inset = 0): () => void {
   if (typeof IntersectionObserver !== "function") return () => {};
   const io = new IntersectionObserver(([entry]) => onChange(entry.intersectionRatio < 1), {
@@ -30,7 +28,7 @@ export function observeOffScreen(el: Element, onChange: (offScreen: boolean) => 
 let warnedSelector = false;
 
 /**
- * A bottom-anchored region carrying the one primary action of a view, where a thumb rests (DL 14.8); a thin wrapper over `.strand-actiondock`. Give a docked copy of an in-flow control `aria-hidden` and `tabIndex={-1}`.
+ * A bottom-anchored region carrying the one primary action of a view (DL 14.8); a thin wrapper over `.strand-actiondock`. Give a docked copy of an in-flow control `aria-hidden` and `tabIndex={-1}`.
  *
  * @example
  * const rsvp = useRef(null);

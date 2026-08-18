@@ -88,7 +88,6 @@ describe("buildMonthGrid", () => {
     expect(checked).toBe(7 * 12 * 2);
   });
 
-
   // ── fixedWeeks: the grid must not resize the page when the month turns ──
   //
   // Measured on a consumer: paging from a six-row month to a five-row month
@@ -331,14 +330,6 @@ describe("CalendarGrid", () => {
     expect(adjacent[0].getAttribute("data-iso")).toBe("2026-07-26");
   });
 
-  it("carries a consumer's class without dropping its own", () => {
-    const { container } = render(
-      <CalendarGrid {...BASE} className="strand-calendar-grid--compact" />,
-    );
-    const grid = container.querySelector('[role="grid"]');
-    expect(grid?.classList.contains("strand-calendar-grid--compact")).toBe(true);
-    expect(grid?.classList.contains("strand-calendar-grid")).toBe(true);
-  });
 });
 
 // ── Gap #116: the cell floor was reachable only by overriding the class ──

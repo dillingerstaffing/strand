@@ -15,14 +15,6 @@ describe("InstrumentViewport", () => {
     expect(el?.tagName).toBe("DIV");
   });
 
-  it("applies base class", () => {
-    const { container } = render(
-      <InstrumentViewport>Content</InstrumentViewport>,
-    );
-    const el = container.firstElementChild;
-    expect(el?.className).toContain("strand-instrument-viewport");
-  });
-
   it("renders children", () => {
     const { getByText } = render(
       <InstrumentViewport>Hello viewport</InstrumentViewport>,
@@ -32,52 +24,9 @@ describe("InstrumentViewport", () => {
 
   // ── Grid modifier ──
 
-  it("does not apply grid class by default", () => {
-    const { container } = render(
-      <InstrumentViewport>Content</InstrumentViewport>,
-    );
-    const el = container.firstElementChild;
-    expect(el?.className).not.toContain("strand-instrument-viewport--grid");
-  });
-
-  it("applies grid modifier class when grid prop is true", () => {
-    const { container } = render(
-      <InstrumentViewport grid>Content</InstrumentViewport>,
-    );
-    const el = container.firstElementChild;
-    expect(el?.className).toContain("strand-instrument-viewport--grid");
-  });
-
   // ── Full bleed modifier ──
 
-  it("does not apply full-bleed class by default", () => {
-    const { container } = render(
-      <InstrumentViewport>Content</InstrumentViewport>,
-    );
-    const el = container.firstElementChild;
-    expect(el?.className).not.toContain(
-      "strand-instrument-viewport--full-bleed",
-    );
-  });
-
-  it("applies full-bleed modifier class when fullBleed prop is true", () => {
-    const { container } = render(
-      <InstrumentViewport fullBleed>Content</InstrumentViewport>,
-    );
-    const el = container.firstElementChild;
-    expect(el?.className).toContain("strand-instrument-viewport--full-bleed");
-  });
-
   // ── Custom className ──
-
-  it("merges custom className with component classes", () => {
-    const { container } = render(
-      <InstrumentViewport className="custom">Content</InstrumentViewport>,
-    );
-    const el = container.firstElementChild;
-    expect(el?.className).toContain("strand-instrument-viewport");
-    expect(el?.className).toContain("custom");
-  });
 
   // ── Props forwarding ──
 

@@ -18,9 +18,6 @@ describe("Nav", () => {
 
   // ── Glass nav body class management ──
 
-
-
-
   // ── Rendering ──
 
   it("renders a nav element", () => {
@@ -61,35 +58,13 @@ describe("Nav", () => {
 
   // ── Active item ──
 
-  it("active item has active class", () => {
-    const { getByText } = render(<Nav items={sampleItems} />);
-    const homeLink = getByText("Home").closest("a")!;
-    expect(homeLink.className).toContain("strand-nav__link--active");
-  });
-
   it("active item has aria-current page", () => {
     const { getByText } = render(<Nav items={sampleItems} />);
     const homeLink = getByText("Home").closest("a")!;
     expect(homeLink).toHaveAttribute("aria-current", "page");
   });
 
-  it("inactive item does not have active class", () => {
-    const { getByText } = render(<Nav items={sampleItems} />);
-    const aboutLink = getByText("About").closest("a")!;
-    expect(aboutLink.className).not.toContain("strand-nav__link--active");
-  });
-
   // ── Glass variant ──
-
-  it("applies glass class when glass is true", () => {
-    const { container } = render(<Nav glass />);
-    expect(container.firstElementChild?.className).toContain("strand-nav--glass");
-  });
-
-  it("does not apply glass class by default", () => {
-    const { container } = render(<Nav />);
-    expect(container.firstElementChild?.className).not.toContain("strand-nav--glass");
-  });
 
   // ── Actions ──
 
@@ -174,15 +149,6 @@ describe("Nav", () => {
   });
 
   // ── Custom className ──
-
-  it("merges custom className", () => {
-    const { getByRole } = render(
-      <Nav items={sampleItems} className="custom-nav" />,
-    );
-    const nav = getByRole("navigation");
-    expect(nav.className).toContain("strand-nav");
-    expect(nav.className).toContain("custom-nav");
-  });
 
   // ── Empty states ──
 

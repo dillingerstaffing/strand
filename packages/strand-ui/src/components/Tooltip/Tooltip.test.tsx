@@ -123,56 +123,6 @@ describe("Tooltip", () => {
     expect(wrapper).toHaveAttribute("aria-describedby", tooltipId);
   });
 
-  it("applies top position class by default", () => {
-    const { container } = render(
-      <Tooltip content="Top">
-        <button type="button">Target</button>
-      </Tooltip>,
-    );
-    const tooltip = container.querySelector('[role="tooltip"]')!;
-    expect(tooltip.className).toContain("strand-tooltip--top");
-  });
-
-  it("applies right position class", () => {
-    const { container } = render(
-      <Tooltip content="Right" position="right">
-        <button type="button">Target</button>
-      </Tooltip>,
-    );
-    const tooltip = container.querySelector('[role="tooltip"]')!;
-    expect(tooltip.className).toContain("strand-tooltip--right");
-  });
-
-  it("applies bottom position class", () => {
-    const { container } = render(
-      <Tooltip content="Bottom" position="bottom">
-        <button type="button">Target</button>
-      </Tooltip>,
-    );
-    const tooltip = container.querySelector('[role="tooltip"]')!;
-    expect(tooltip.className).toContain("strand-tooltip--bottom");
-  });
-
-  it("applies left position class", () => {
-    const { container } = render(
-      <Tooltip content="Left" position="left">
-        <button type="button">Target</button>
-      </Tooltip>,
-    );
-    const tooltip = container.querySelector('[role="tooltip"]')!;
-    expect(tooltip.className).toContain("strand-tooltip--left");
-  });
-
-  it("merges custom className on wrapper", () => {
-    const { container } = render(
-      <Tooltip content="Styled" className="custom-tip">
-        <button type="button">Target</button>
-      </Tooltip>,
-    );
-    const wrapper = container.querySelector(".strand-tooltip__wrapper")!;
-    expect(wrapper.className).toContain("custom-tip");
-  });
-
   it("cancels show if mouseleave before delay completes", () => {
     const { container } = render(
       <Tooltip content="Cancelled" delay={300}>

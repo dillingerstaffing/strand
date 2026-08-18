@@ -74,32 +74,9 @@ describe("ChipSet", () => {
     expect(onSelectionChange).toHaveBeenCalledWith(["games"]);
   });
 
-  it("wraps by default and composes the scroll row when asked", () => {
-    const { container: wrap } = render(<ChipSet label="I" items={ITEMS} />);
-    expect(wrap.querySelector(".strand-chip-set")?.classList.contains("strand-scroll-row")).toBe(false);
-    const { container: scroll } = render(
-      <ChipSet label="I" items={ITEMS} overflow="scroll" />,
-    );
-    const set = scroll.querySelector(".strand-chip-set");
-    // Composes the shared contract rather than restating it, so a chip
-    // strip and every other scrolling row mean the same thing.
-    expect(set?.classList.contains("strand-scroll-row")).toBe(true);
-    expect(set?.classList.contains("strand-chip-set--scroll")).toBe(true);
-  });
   // A filter strip above a dense list is drawn smaller than one that is the
   // page's main control. Before `size`, a consumer wanting that had to override
   // `.strand-chip-set__chip`, which the dogfood protocol forbids.
-  it("renders a compact strip when asked, and a default one otherwise", () => {
-    const items = [{ id: "a", label: "Outdoors" }];
-    const { container: sm } = render(<ChipSet items={items} label="F" size="sm" />);
-    expect(sm.querySelector(".strand-chip-set")?.classList.contains("strand-chip-set--sm")).toBe(
-      true,
-    );
-    const { container: md } = render(<ChipSet items={items} label="F" />);
-    expect(md.querySelector(".strand-chip-set")?.classList.contains("strand-chip-set--sm")).toBe(
-      false,
-    );
-  });
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";

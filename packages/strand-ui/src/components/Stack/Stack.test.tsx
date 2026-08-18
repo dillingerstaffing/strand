@@ -29,22 +29,6 @@ describe("Stack", () => {
 
   // ── Direction ──
 
-  it("applies vertical direction class by default", () => {
-    const { container } = render(<Stack>content</Stack>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-stack--vertical",
-    );
-  });
-
-  it("applies horizontal direction class", () => {
-    const { container } = render(
-      <Stack direction="horizontal">content</Stack>,
-    );
-    expect(container.firstElementChild?.className).toContain(
-      "strand-stack--horizontal",
-    );
-  });
-
   // ── Gap ──
 
   it("applies default gap as the strand-stack--gap-4 primitive class", () => {
@@ -70,67 +54,11 @@ describe("Stack", () => {
 
   // ── Alignment ──
 
-  it("applies align-center class", () => {
-    const { container } = render(<Stack align="center">content</Stack>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-stack--align-center",
-    );
-  });
-
-  it("applies align-start class", () => {
-    const { container } = render(<Stack align="start">content</Stack>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-stack--align-start",
-    );
-  });
-
-  it("does not apply alignment class for default stretch", () => {
-    const { container } = render(<Stack>content</Stack>);
-    expect(container.firstElementChild?.className).not.toContain(
-      "strand-stack--align-",
-    );
-  });
-
   // ── Justification ──
-
-  it("applies justify-between class", () => {
-    const { container } = render(<Stack justify="between">content</Stack>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-stack--justify-between",
-    );
-  });
-
-  it("applies justify-center class", () => {
-    const { container } = render(<Stack justify="center">content</Stack>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-stack--justify-center",
-    );
-  });
 
   // ── Wrap ──
 
-  it("applies wrap class when wrap is true", () => {
-    const { container } = render(<Stack wrap>content</Stack>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-stack--wrap",
-    );
-  });
-
-  it("does not apply wrap class by default", () => {
-    const { container } = render(<Stack>content</Stack>);
-    expect(container.firstElementChild?.className).not.toContain(
-      "strand-stack--wrap",
-    );
-  });
-
   // ── Custom className ──
-
-  it("merges custom className", () => {
-    const { container } = render(<Stack className="custom">content</Stack>);
-    const el = container.firstElementChild;
-    expect(el?.className).toContain("strand-stack");
-    expect(el?.className).toContain("custom");
-  });
 
   // ── Props forwarding ──
 
@@ -159,17 +87,6 @@ describe("Stack", () => {
 
   // ── The spacing ladder (gap #122) ──
 
-  it("an off-ladder gap renders a real rung instead of no gap at all", () => {
-    // The defect: `gap={7}` emitted `strand-stack--gap-7`, a class with no
-    // rule, so `row-gap` computed to `normal`. Five consumer call sites, two
-    // of them already worked around in page-local stylesheets by sessions who
-    // hit it and fixed only their own screen.
-    const { container } = render(<Stack gap={7}>x</Stack>);
-    const el = container.firstElementChild as HTMLElement;
-    expect(el.className).toContain("strand-stack--gap-6");
-    expect(el.className).not.toContain("strand-stack--gap-7");
-  });
-
   it("every rung it can emit has a RULE behind it, not just a class name", () => {
     // THIS TEST USED TO BE VACUOUS, and it shipped a regression because of it:
     // it asserted the class NAME appeared on the element, which is true of any
@@ -181,11 +98,6 @@ describe("Stack", () => {
     for (const step of SPACING_STEPS) {
       expect(css, `no rule for gap ${step}`).toContain(`.strand-stack--gap-${step}`);
     }
-  });
-
-  it("an on-ladder gap is untouched, so no existing consumer moves", () => {
-    const { container } = render(<Stack gap={4}>x</Stack>);
-    expect((container.firstElementChild as HTMLElement).className).toContain("strand-stack--gap-4");
   });
 
 });

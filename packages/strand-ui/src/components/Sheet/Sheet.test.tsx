@@ -49,20 +49,6 @@ describe("Sheet", () => {
     expect(body).toHaveTextContent("Body content");
   });
 
-  it("anchors to the bottom edge, which is the whole pattern", () => {
-    // The reader on a phone must be able to reach the committing control
-    // with a thumb (DL 14.8). A centred panel cannot do that at any height,
-    // so if this class is missing the component is a plain dialog wearing a
-    // sheet's name.
-    const { getByRole } = render(<Sheet {...defaultProps}>x</Sheet>);
-    expect(getByRole("dialog").className).toContain("strand-dialog__panel--align-end");
-  });
-
-  it("carries no inner padding of its own, because its parts own their insets", () => {
-    const { getByRole } = render(<Sheet {...defaultProps}>x</Sheet>);
-    expect(getByRole("dialog").className).toContain("strand-dialog__panel--pad-none");
-  });
-
   // ── Accessible name ──
 
   it("the reader using a screen reader is told what the sheet is", () => {

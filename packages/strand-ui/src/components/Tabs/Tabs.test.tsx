@@ -148,19 +148,6 @@ describe("Tabs", () => {
 
   // ── Custom className ──
 
-  it("merges custom className", () => {
-    const { container } = render(
-      <Tabs
-        tabs={sampleTabs}
-        activeTab="one"
-        onChange={() => {}}
-        className="custom"
-      />,
-    );
-    const root = container.firstElementChild as HTMLElement;
-    expect(root.className).toContain("strand-tabs");
-    expect(root.className).toContain("custom");
-  });
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";

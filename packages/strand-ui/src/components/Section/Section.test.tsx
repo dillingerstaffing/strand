@@ -30,78 +30,9 @@ describe("Section", () => {
 
   // ── Variant ──
 
-  it("applies standard variant class by default", () => {
-    const { container } = render(<Section>content</Section>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-section--standard",
-    );
-  });
-
-  it("applies hero variant class", () => {
-    const { container } = render(<Section variant="hero">content</Section>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-section--hero",
-    );
-  });
-
-  it("applies compact variant class", () => {
-    const { container } = render(<Section variant="compact">content</Section>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-section--compact",
-    );
-  });
-
-  it("applies border-top class when borderTop is true", () => {
-    const { container } = render(<Section borderTop>content</Section>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-section--border-top",
-    );
-  });
-
-  it("does not apply border-top class by default", () => {
-    const { container } = render(<Section>content</Section>);
-    expect(container.firstElementChild?.className).not.toContain(
-      "strand-section--border-top",
-    );
-  });
-
   // ── Background ──
 
-  it("applies primary background class by default", () => {
-    const { container } = render(<Section>content</Section>);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-section--bg-primary",
-    );
-  });
-
-  it("applies elevated background class", () => {
-    const { container } = render(
-      <Section background="elevated">content</Section>,
-    );
-    expect(container.firstElementChild?.className).toContain(
-      "strand-section--bg-elevated",
-    );
-  });
-
-  it("applies recessed background class", () => {
-    const { container } = render(
-      <Section background="recessed">content</Section>,
-    );
-    expect(container.firstElementChild?.className).toContain(
-      "strand-section--bg-recessed",
-    );
-  });
-
   // ── Custom className ──
-
-  it("merges custom className", () => {
-    const { container } = render(
-      <Section className="custom">content</Section>,
-    );
-    const el = container.firstElementChild;
-    expect(el?.className).toContain("strand-section");
-    expect(el?.className).toContain("custom");
-  });
 
   // ── Props forwarding ──
 

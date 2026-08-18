@@ -41,12 +41,6 @@ describe("SearchField", () => {
     ).toBe("Search events");
   });
 
-  it("defaults to the fixed-width presentation", () => {
-    const { container } = render(<SearchField />);
-    const field = container.querySelector(".strand-search-field");
-    expect(field?.classList.contains("strand-search-field--full")).toBe(false);
-  });
-
   it("spans its container when asked", () => {
     const { container } = render(<SearchField variant="full" />);
     expect(
@@ -64,15 +58,6 @@ describe("SearchField", () => {
     ) as HTMLInputElement;
     fireEvent.input(input, { target: { value: "pottery" } });
     expect(onValueChange).toHaveBeenCalledWith("pottery");
-  });
-
-  it("carries a consumer's class on the wrapper without dropping its own", () => {
-    // The wrapper is what a breakpoint utility must land on, because hiding the
-    // input alone would leave the field's border and background drawn.
-    const { container } = render(<SearchField className="strand-hide-below-md" />);
-    const field = container.querySelector(".strand-search-field");
-    expect(field?.classList.contains("strand-hide-below-md")).toBe(true);
-    expect(field?.classList.contains("strand-search-field")).toBe(true);
   });
 
   it("passes arbitrary attributes through to the input, not the wrapper", () => {

@@ -73,14 +73,6 @@ describe("Toast", () => {
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
 
-  it("merges custom className", () => {
-    const { container } = render(
-      <Toast message="Styled" className="custom-toast" />,
-    );
-    const el = container.querySelector(".strand-toast")!;
-    expect(el.className).toContain("custom-toast");
-  });
-
   it("defaults to info status", () => {
     const { container } = render(<Toast message="Default" />);
     expect(

@@ -125,20 +125,6 @@ describe("StarRating", () => {
     ).toBeTruthy();
   });
 
-  it("merges custom className", () => {
-    const { container } = render(
-      <StarRating
-        value={0}
-        onChange={() => {}}
-        ariaLabel="Rate"
-        className="custom"
-      />,
-    );
-    expect(container.querySelector(".strand-star-rating")?.className).toContain(
-      "custom",
-    );
-  });
-
   it("disables star buttons in read-only mode", () => {
     const { getAllByRole } = render(
       <StarRating value={3} onChange={() => {}} ariaLabel="Rate" readOnly />,

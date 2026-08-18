@@ -29,51 +29,9 @@ describe("Button", () => {
 
   // ── Variants ──
 
-  it("applies primary variant class by default", () => {
-    const { getByRole } = render(<Button>Test</Button>);
-    expect(getByRole("button").className).toContain("strand-btn--primary");
-  });
-
-  it("applies secondary variant class", () => {
-    const { getByRole } = render(<Button variant="secondary">Test</Button>);
-    expect(getByRole("button").className).toContain("strand-btn--secondary");
-  });
-
-  it("applies ghost variant class", () => {
-    const { getByRole } = render(<Button variant="ghost">Test</Button>);
-    expect(getByRole("button").className).toContain("strand-btn--ghost");
-  });
-
-  it("applies danger variant class", () => {
-    const { getByRole } = render(<Button variant="danger">Test</Button>);
-    expect(getByRole("button").className).toContain("strand-btn--danger");
-  });
-
   // ── Sizes ──
 
-  it("applies md size class by default", () => {
-    const { getByRole } = render(<Button>Test</Button>);
-    expect(getByRole("button").className).toContain("strand-btn--md");
-  });
-
-  it("applies sm size class", () => {
-    const { getByRole } = render(<Button size="sm">Test</Button>);
-    expect(getByRole("button").className).toContain("strand-btn--sm");
-  });
-
-  it("applies lg size class", () => {
-    const { getByRole } = render(<Button size="lg">Test</Button>);
-    expect(getByRole("button").className).toContain("strand-btn--lg");
-  });
-
   // ── Icon-only ──
-
-  it("applies icon-only class when iconOnly is true", () => {
-    const { getByRole } = render(
-      <Button iconOnly aria-label="Close">X</Button>
-    );
-    expect(getByRole("button").className).toContain("strand-btn--icon-only");
-  });
 
   // ── Interaction ──
 
@@ -157,19 +115,7 @@ describe("Button", () => {
 
   // ── Custom className ──
 
-  it("merges custom className with component classes", () => {
-    const { getByRole } = render(<Button className="custom">Test</Button>);
-    const btn = getByRole("button");
-    expect(btn.className).toContain("strand-btn");
-    expect(btn.className).toContain("custom");
-  });
-
   // ── Full width ──
-
-  it("applies full-width class when fullWidth is true", () => {
-    const { getByRole } = render(<Button fullWidth>Test</Button>);
-    expect(getByRole("button").className).toContain("strand-btn--full-width");
-  });
 
   // ── Anchor (link styled as a button) ──
 

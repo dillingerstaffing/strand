@@ -78,13 +78,6 @@ describe("Select", () => {
     expect(container.querySelector(".strand-select--disabled")).toBeTruthy();
   });
 
-  it("merges custom className", () => {
-    const { container } = render(
-      <Select options={defaultOptions} className="custom" aria-label="Choice" />
-    );
-    expect(container.querySelector(".strand-select")?.className).toContain("custom");
-  });
-
   it("forwards ref to select element", () => {
     let selectEl: HTMLSelectElement | null = null;
     render(

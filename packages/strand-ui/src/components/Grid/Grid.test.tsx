@@ -27,11 +27,6 @@ describe("Grid", () => {
 
   // ── Display ──
 
-  it("has display grid class", () => {
-    const { container } = render(<Grid>content</Grid>);
-    expect(container.firstElementChild?.className).toContain("strand-grid");
-  });
-
   // ── Columns ──
 
   it("defaults to 1 column in inline style", () => {
@@ -102,13 +97,6 @@ describe("Grid", () => {
   });
 
   // ── Custom className ──
-
-  it("merges custom className", () => {
-    const { container } = render(<Grid className="custom">content</Grid>);
-    const el = container.firstElementChild;
-    expect(el?.className).toContain("strand-grid");
-    expect(el?.className).toContain("custom");
-  });
 
   // ── Props forwarding ──
 

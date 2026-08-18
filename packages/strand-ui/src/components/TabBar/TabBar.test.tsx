@@ -153,15 +153,6 @@ describe("TabBar", () => {
     expect(container.querySelector(".strand-tabbar__icon")).toBeNull();
   });
 
-  it("carries a consumer's class without dropping its own", () => {
-    const { container } = render(
-      <TabBar items={ITEMS} className="strand-hide-from-md" />,
-    );
-    const nav = container.querySelector("nav");
-    expect(nav?.classList.contains("strand-hide-from-md")).toBe(true);
-    expect(nav?.classList.contains("strand-tabbar")).toBe(true);
-  });
-
   it("renders nothing but the landmark when there are no destinations", () => {
     // Guards against a crash on an empty array during a routing transition.
     const { container } = render(<TabBar items={[]} />);

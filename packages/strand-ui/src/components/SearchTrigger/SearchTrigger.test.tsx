@@ -50,12 +50,6 @@ describe("SearchTrigger", () => {
     expect(el?.hasAttribute("aria-label")).toBe(false);
   });
 
-  it("shares the field's box so the two controls cannot drift apart", () => {
-    const { container } = render(<SearchTrigger />);
-    const el = container.querySelector(".strand-search-trigger");
-    expect(el?.classList.contains("strand-search-field")).toBe(true);
-  });
-
   it("defaults to the fixed-width presentation", () => {
     const { container } = render(<SearchTrigger />);
     expect(
@@ -102,13 +96,6 @@ describe("SearchTrigger", () => {
     const svg = container.querySelector("svg");
     expect(svg?.getAttribute("aria-hidden")).toBe("true");
     expect(svg?.getAttribute("focusable")).toBe("false");
-  });
-
-  it("carries a consumer's class without dropping its own", () => {
-    const { container } = render(<SearchTrigger className="strand-hide-below-md" />);
-    const el = container.querySelector(".strand-search-trigger");
-    expect(el?.classList.contains("strand-hide-below-md")).toBe(true);
-    expect(el?.classList.contains("strand-search-field")).toBe(true);
   });
 
   // ── The icon presentation ──

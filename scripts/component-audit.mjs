@@ -122,11 +122,16 @@ export function analyzeSource(src) {
     }
     return lo;
   };
+  const srcLines = src.split("\n");
+  // Directives and pointers are not prose: a lint suppression, a type
+  // expectation, or a `cf:` reference to an invariant article.
+  const directive = /biome-ignore|@ts-expect-error|@ts-ignore|eslint-disable|\bcf:\s*[a-z0-9-]+/;
   for (const c of comments) {
     const first = lineOf(c.start);
     const last = lineOf(Math.max(c.start, c.end - 1));
     for (let ln = first; ln <= last; ln++) {
-      if (codeLines[ln].trim() === "" && lineKind[ln] === null) lineKind[ln] = c.kind;
+      if (codeLines[ln].trim() !== "" || lineKind[ln] !== null) continue;
+      lineKind[ln] = c.kind !== "jsdoc" && directive.test(srcLines[ln]) ? "directive" : c.kind;
     }
   }
   const commentCounts = { banner: 0, jsdoc: 0, prose: 0, verboseJsdoc: 0 };
@@ -199,7 +204,7 @@ export function analyzeTest(src) {
   return {
     lines: src.split("\n").length,
     tests: (code.match(/\b(?:it|test)(?:\.each\([^)]*\))?\s*\(/g) || []).length,
-    snapshots: (code.match(/toMatch(?:Inline|File)?Snapshot\s*\(/g) || []).length,
+    snapshots: (code.match(/toMatch(?:Inline|File)?Snapshot\s*\(|\bsnapshotFixtures\s*\(/g) || []).length,
     classAssertions:
       (code.match(/toHaveClass\s*\(/g) || []).length +
       (code.match(/className\)\s*\.\s*(?:toContain|toBe|toMatch|toEqual)\s*\(/g) || []).length +

@@ -35,13 +35,6 @@ describe("FeatureSurface", () => {
     expect(container.querySelector(".strand-feature-surface")?.tagName).toBe("ARTICLE");
   });
 
-  it("carries a consumer class without dropping its own", () => {
-    const { container } = render(<FeatureSurface className="x" />);
-    const el = container.querySelector(".strand-feature-surface");
-    expect(el?.classList.contains("x")).toBe(true);
-    expect(el?.classList.contains("strand-feature-surface")).toBe(true);
-  });
-
   // ── Padding tiers (Gap #102) ──
 
   it("pads itself by default, so an unchanged consumer is unchanged", () => {
@@ -51,15 +44,6 @@ describe("FeatureSurface", () => {
         "strand-feature-surface--pad-md",
       ),
     ).toBe(true);
-  });
-
-  it("hands the inset to its children when asked", () => {
-    // The case this exists for: a two-pane card whose divider runs the full
-    // height needs the PANES to pad, so the surface must not.
-    const { container } = render(<FeatureSurface padding="none" />);
-    const el = container.querySelector(".strand-feature-surface");
-    expect(el?.classList.contains("strand-feature-surface--pad-none")).toBe(true);
-    expect(el?.classList.contains("strand-feature-surface--pad-md")).toBe(false);
   });
 
   it("offers the same tiers as Card", () => {

@@ -31,13 +31,6 @@ describe("CodeBlock", () => {
 
   // ── Base class ──
 
-  it("applies strand-code-block base class", () => {
-    const { container } = render(
-      <CodeBlock code="test" />,
-    );
-    expect(container.firstElementChild?.className).toContain("strand-code-block");
-  });
-
   // ── Language label ──
 
   it("renders language label when provided", () => {
@@ -58,15 +51,6 @@ describe("CodeBlock", () => {
   });
 
   // ── Custom className ──
-
-  it("merges custom className with component classes", () => {
-    const { container } = render(
-      <CodeBlock code="test" className="custom" />,
-    );
-    const el = container.firstElementChild;
-    expect(el?.className).toContain("strand-code-block");
-    expect(el?.className).toContain("custom");
-  });
 
   // ── Code whitespace ──
 

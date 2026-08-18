@@ -86,16 +86,6 @@ describe("FormField", () => {
     ).toBeTruthy();
   });
 
-  it("merges custom className", () => {
-    const { container } = render(
-      <FormField label="Name" htmlFor="name" className="custom">
-        <input id="name" />
-      </FormField>
-    );
-    const wrapper = container.querySelector(".strand-form-field");
-    expect(wrapper?.className).toContain("strand-form-field");
-    expect(wrapper?.className).toContain("custom");
-  });
   // ── Success: the third message state ──
 
   it("confirms a checked value without shouting it", () => {

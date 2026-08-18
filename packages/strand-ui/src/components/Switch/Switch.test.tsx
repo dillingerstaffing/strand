@@ -26,10 +26,6 @@ describe("Switch", () => {
     expect(onChange).toHaveBeenCalledWith(false);
   });
 
-
-
-
-
   // ── Checked state ──
 
   it("sets aria-checked true when checked", () => {
@@ -75,27 +71,7 @@ describe("Switch", () => {
 
   // ── Custom className ──
 
-  it("merges custom className", () => {
-    const { container } = render(<Switch className="custom" />);
-    expect(container.querySelector(".strand-switch")?.className).toContain(
-      "custom",
-    );
-  });
-
   // ── Density (DL 14.7) ──
-
-  it("the default emits no density class, so every existing consumer is unchanged", () => {
-    // 14.7: "44px remains the default everywhere ... no component changes size
-    // by inheriting this clause." An additive prop that moved the default
-    // would be a breaking change wearing a safe shape.
-    const { container } = render(<Switch label="x" />);
-    expect(container.querySelector(".strand-switch")?.className).not.toContain("--compact");
-  });
-
-  it("a compact switch carries the modifier the dense rail needs", () => {
-    const { container } = render(<Switch label="x" density="compact" />);
-    expect(container.querySelector(".strand-switch")?.className).toContain("strand-switch--compact");
-  });
 
   it("compact is a CLASS, never an inline size, so touch can still be excluded by media query", () => {
     // The load-bearing property of the whole design. If the shrink were

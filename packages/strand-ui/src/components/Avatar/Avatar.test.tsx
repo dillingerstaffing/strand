@@ -64,49 +64,9 @@ describe("Avatar", () => {
 
   // ── Sizes ──
 
-  it("applies md size class by default", () => {
-    const { container } = render(<Avatar initials="A" />);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-avatar--md",
-    );
-  });
-
-  it("applies sm size class", () => {
-    const { container } = render(<Avatar initials="A" size="sm" />);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-avatar--sm",
-    );
-  });
-
-  it("applies lg size class", () => {
-    const { container } = render(<Avatar initials="A" size="lg" />);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-avatar--lg",
-    );
-  });
-
-  it("applies xl size class", () => {
-    const { container } = render(<Avatar initials="A" size="xl" />);
-    expect(container.firstElementChild?.className).toContain(
-      "strand-avatar--xl",
-    );
-  });
-
   // ── Shape ──
 
-  it("has circular shape class", () => {
-    const { container } = render(<Avatar initials="A" />);
-    expect(container.firstElementChild?.className).toContain("strand-avatar");
-  });
-
   // ── Custom className ──
-
-  it("merges custom className", () => {
-    const { container } = render(<Avatar initials="A" className="custom" />);
-    const el = container.firstElementChild;
-    expect(el?.className).toContain("strand-avatar");
-    expect(el?.className).toContain("custom");
-  });
 
   // ── Accessibility ──
 

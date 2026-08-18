@@ -18,12 +18,7 @@ export interface CalendarDay {
 const pad = (n: number) => String(n).padStart(2, "0");
 const isoOf = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
-/**
- * The weeks of a month, including the leading and trailing days that complete them (cf: calendar-grid-arithmetic).
- * @param month zero-based, as `Date.getMonth()`
- * @param weekStartsOn 0 Sunday, 1 Monday
- * @param fixedWeeks pad to exactly this many rows
- */
+/** The weeks of a month with the adjacent days that complete them; `month` is zero-based, `fixedWeeks` pads to a row count (cf: calendar-grid-arithmetic). */
 export function buildMonthGrid(year: number, month: number, weekStartsOn = 0, fixedWeeks?: number): CalendarDay[][] {
   const first = new Date(year, month, 1);
   const lead = (first.getDay() - weekStartsOn + 7) % 7;
@@ -48,7 +43,7 @@ export interface CalendarGridProps extends Omit<JSX.HTMLAttributes<HTMLDivElemen
   /** Zero-based, as `Date.getMonth()`. */
   month: number;
   weekStartsOn?: 0 | 1;
-  /** Render exactly this many rows so the grid keeps its height across months (DL 6.6.1); six never truncates. */
+  /** Rows to render, padding from adjacent months, so the grid keeps its height across months (six never truncates). */
   fixedWeeks?: number;
   /** Accessible name, e.g. "August 2026". */
   label: string;

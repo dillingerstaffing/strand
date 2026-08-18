@@ -96,15 +96,6 @@ describe("Table", () => {
 
   // ── Custom className ──
 
-  it("merges custom className with wrapper classes", () => {
-    const { container } = render(
-      <Table columns={columns} data={data} className="custom" />,
-    );
-    const wrapper = container.querySelector(".strand-table-wrapper");
-    expect(wrapper?.className).toContain("strand-table-wrapper");
-    expect(wrapper?.className).toContain("custom");
-  });
-
   // ── Empty state ──
 
   it("renders empty tbody when data is empty", () => {

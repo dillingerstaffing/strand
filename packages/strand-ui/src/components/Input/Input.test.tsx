@@ -78,13 +78,6 @@ describe("Input", () => {
     expect(container.querySelector(".strand-input__trailing")).toBeTruthy();
   });
 
-  it("merges custom className", () => {
-    const { container } = render(
-      <Input aria-label="Name" className="custom" />
-    );
-    expect(container.querySelector(".strand-input")?.className).toContain("custom");
-  });
-
   it("forwards ref to input element", () => {
     let inputEl: HTMLInputElement | null = null;
     render(

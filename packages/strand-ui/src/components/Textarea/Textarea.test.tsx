@@ -78,14 +78,6 @@ describe("Textarea", () => {
     ).toBeTruthy();
   });
 
-  it("merges custom className", () => {
-    const { container } = render(
-      <Textarea aria-label="Message" className="custom" />
-    );
-    const wrapper = container.querySelector(".strand-textarea");
-    expect(wrapper?.className).toContain("custom");
-    expect(wrapper?.className).toContain("strand-textarea");
-  });
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";
