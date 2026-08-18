@@ -30,9 +30,7 @@ import { computed } from 'vue'
 interface Props {
   /** Whether the real content has arrived. Drives the cross-fade. */
   ready?: boolean
-  /** The answer arrived and there is nothing to show. Collapses the region
-      by taking the placeholder out of flow, which `ready` alone cannot do.
-      Wins over `ready`. */
+  /** The answer arrived and there is nothing to show. */
   empty?: boolean
   /** Reserved minimum height, base breakpoint. Any CSS length. */
   height?: string

@@ -22,14 +22,7 @@
   export let hint: string | undefined = undefined
   /** Error text displayed below the input (replaces hint) */
   export let error: string | undefined = undefined
-  /**
-   * Confirmation text displayed below the input (replaces hint, yields to error).
-   *
-   * For a value that has been CHECKED and found good: an available username, a
-   * verified address, a valid coupon. Announced politely where `error` is
-   * assertive, because success arrives while the member is still typing and an
-   * assertive region would interrupt a screen reader to deliver good news.
-   */
+  /** Confirmation text displayed below the input (replaces hint, yields to error). */
   export let success: string | undefined = undefined
   /** Show required indicator */
   export let required: boolean = false
@@ -49,22 +42,6 @@
         : undefined
 
   // Point the labelled control at whichever message is showing.
-  //
-  // SAME BEHAVIOUR AS THE PREACT AND VUE BUILDS, DIFFERENT MECHANISM, AND THE
-  // DIFFERENCE IS FORCED BY THE RENDERER RATHER THAN CHOSEN.
-  //
-  // Those two clone the child vnode (cloneElement / cloneVNode) so the
-  // description is part of the same render that produces the message. Svelte
-  // has no equivalent: slot content is compiled into the PARENT's fragment and
-  // is opaque here, so there is no node to clone.
-  //
-  // Writing the attribute is safe in Svelte specifically, and would not be in
-  // Preact. Svelte compiles targeted update code only for attributes that
-  // appear in a template, so an attribute no one templated is never diffed and
-  // never clobbered. Preact re-diffs the whole vnode subtree on every parent
-  // render, which is why the same write there would be a race.
-  //
-  // Consumer-set values survive: the field removes only the ids it mints.
   let fieldEl: HTMLDivElement | undefined
 
   function syncDescribedBy(root: HTMLElement | undefined, id: string, msg: string | undefined) {

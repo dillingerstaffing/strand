@@ -28,24 +28,11 @@ interface Props {
   gap?: number
   /** Additional CSS class */
   className?: string
-  /**
-   * Minimum column width (px) for a responsive auto-fit track. When set, the
-   * grid renders repeat(auto-fit, minmax(${minColWidth}px, 1fr)) and columns
-   * is ignored.
-   */
+  /** Minimum column width (px) for a responsive auto-fit track. */
   minColWidth?: number
-  /**
-   * A fixed 264px rail beside a flexible main track, collapsing to one
-   * column below the md breakpoint. Takes precedence over columns and
-   * minColWidth. Put the rail FIRST in the markup: below the breakpoint
-   * the regions stack in source order, and a filter met after the results
-   * it filters is one the reader has already scrolled past.
-   */
+  /** A fixed 264px rail beside a flexible main track, collapsing to one column below the md breakpoint. */
   sidebar?: boolean
-  /** A flexible main track beside a fixed-width panel, collapsing to one
-      column below md. `sidebar` mirrored. Set the width with
-      --strand-split-panel (default 600px). Put the MAIN track first: the
-      regions stack in source order below the breakpoint. */
+  /** A flexible main track beside a fixed-width panel, collapsing to one column below md. */
   split?: boolean
 }
 
@@ -69,18 +56,12 @@ const classes = computed(() =>
     .join(' '),
 )
 
-// The sidebar preset lives in the stylesheet because its column
-// definition changes at a breakpoint, and an inline style cannot carry a
-// media query. This branch emits no gridTemplateColumns at all rather
-// than one the class would then have to fight.
+// The sidebar preset lives in the stylesheet: its columns change at a breakpoint (cf: grid-tracks).
 const inlineStyle = computed(() => ({
   ...(props.sidebar || props.split
     ? {}
     : {
-        // `minmax(0, 1fr)`, never a bare `1fr`: a bare one floors at the
-        // track's min-content width, so a single long unbroken string widens
-        // the grid past its container. The base rule's `min-width: 0` on
-        // children handles the ITEM; this handles the TRACK.
+        // `minmax(0, 1fr)`, never a bare `1fr` (cf: grid-tracks).
         gridTemplateColumns:
           props.minColWidth != null
             ? `repeat(auto-fit, minmax(${props.minColWidth}px, 1fr))`

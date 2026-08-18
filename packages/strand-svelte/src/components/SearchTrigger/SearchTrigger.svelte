@@ -27,18 +27,10 @@
   ```
 -->
 <script lang="ts">
-  /** `field` is the fixed-width header presentation, `full` spans its
-      container, `icon` is a square button at the touch-target floor for
-      the band where a header has stopped having room for a field but has
-      not yet handed over to a phone layout. `icon` keeps the label in the
-      accessibility tree (clipped, not display:none), because the label is
-      the accessible name and WCAG 2.5.3 requires it to survive. */
+  /** `field` is the fixed-width header presentation, `full` spans its container, `icon` is a square touch-target button (cf: search-trigger). */
   export let variant: 'field' | 'full' | 'icon' = 'field'
 
-  /** Visible standing text, which is ALSO the accessible name. There is no
-      aria-label override: WCAG 2.5.3 (Label in Name) requires the
-      accessible name to contain the visible text, so a speech-input user
-      saying what they can see activates the control. */
+  /** Visible standing text, which is ALSO the accessible name. */
   export let label: string = 'Search'
 
   /** Whether the overlay this opens is currently showing. */
@@ -47,10 +39,7 @@
   /** `id` of the overlay, when one is rendered. */
   export let controls: string | undefined = undefined
 
-  /** Additional CSS class, MERGED with the component's own. Explicit prop
-      rather than $$restProps, which spreads AFTER the class attribute and
-      would REPLACE the component's classes outright -- the ActionDock
-      defect the component-test-parity guard found. */
+  /** Additional CSS class, MERGED with the component's own. */
   let className: string = ''
   export { className as class }
 

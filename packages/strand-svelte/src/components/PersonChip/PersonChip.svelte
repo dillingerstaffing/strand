@@ -12,9 +12,7 @@
 </script>
 <script lang="ts">
   export let name: string
-  /** A second, subordinate label: a display name beside a username, a role
-      beside a name. Inline rather than a second line, because the pill's own
-      rule is that it stays one line tall in a wrapping strip. */
+  /** A second, subordinate label: a display name beside a username, a role beside a name. */
   export let secondary: string | undefined = undefined
   export let initials: string | undefined = undefined
   /** Makes the chip a button. */

@@ -40,14 +40,7 @@
   export const isoOf = (d: Date) =>
     `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 
-  /**
-   * The weeks of a month, including the leading and trailing days needed
-   * to complete the first and last weeks.
-   *
-   * Dates are constructed from local y/m/d rather than parsed from
-   * strings: new Date("2026-08-01") parses as UTC midnight and renders as
-   * the previous day for anyone west of Greenwich.
-   */
+  /** The weeks of a month, including the leading and trailing days needed to complete the first and last weeks. */
   export function buildMonthGrid(
     year: number,
     month: number,
@@ -63,9 +56,7 @@
 
     const lead = (new Date(year, month, 1).getDay() - weekStartsOn + 7) % 7
     const cursor = new Date(year, month, 1 - lead)
-    // Day 0 of the next month is the last day of this one. Comparing
-    // against it rather than against the week's month is what stops a
-    // month ending exactly on a week boundary from growing an extra row.
+    // Day 0 of the next month is the last day of this one (cf: calendar-grid-arithmetic).
     const lastOfMonth = new Date(year, month + 1, 0)
     const weeks: CalendarDay[][] = []
 
@@ -95,15 +86,10 @@
   export let month: number
   export let weekStartsOn: 0 | 1 = 0
 
-  /** Render exactly this many week rows, padding from the adjacent months.
-      A month is four to six weeks long, so a grid that stops when the month
-      is covered changes height as the reader pages and moves everything
-      beneath it. That is 6.6.1's space contract and 10.6 one level up.
-      Six never truncates. */
+  /** Render exactly this many week rows, padding from the adjacent months. */
   export let fixedWeeks: number | undefined = undefined
 
-  /** Accessible name, e.g. "August 2026". A grid with no name is announced
-      as an unlabelled table of numbers. */
+  /** Accessible name of the grid, such as "Pick a date". */
   export let label: string
 
   export let dayNames: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -112,8 +98,7 @@
   ]
   export let selected: string | undefined = undefined
 
-  /** The day treated as today. Pass it explicitly for a deterministic
-      server render. */
+  /** The day treated as today. */
   export let today: Date | undefined = undefined
 
   /** 10.6's declared capacity, measured at the SMALLEST sanctioned size. */
@@ -124,9 +109,7 @@
   export let onmonthchange: ((year: number, month: number) => void) | undefined =
     undefined
 
-  /** Additional CSS class, MERGED with the component's own. Explicit prop
-      rather than $$restProps, which spreads AFTER the class attribute and
-      would REPLACE the grid's own class outright. */
+  /** Additional CSS class, MERGED with the component's own. */
   let className: string = ''
   export { className as class }
 
@@ -139,9 +122,7 @@
   $: ordered = Array.from({ length: 7 }, (_, i) => (i + weekStartsOn) % 7)
   $: classes = ['strand-calendar-grid', className].filter(Boolean).join(' ')
 
-  // The roving tabindex's holder: the selection when it is in view, else
-  // the first day of the month, so a keyboard user arrives somewhere
-  // meaningful rather than on a trailing day of the previous month.
+  // The roving tabindex holder: the selection when in view, else the first day of the month (cf: calendar-grid-arithmetic).
   $: rovingIso =
     focused ??
     (selected && flat.some((d) => d.iso === selected)
@@ -173,8 +154,7 @@
       move(day, deltas[event.key])
       return
     }
-    // Home and End are within the WEEK, per the grid pattern. The month is
-    // PageUp and PageDown's job.
+    // Home and End move within the week (cf: calendar-grid-arithmetic).
     if (event.key === 'Home' || event.key === 'End') {
       event.preventDefault()
       const offset = (day.date.getDay() - weekStartsOn + 7) % 7

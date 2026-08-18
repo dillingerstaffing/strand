@@ -60,9 +60,7 @@ const props = withDefaults(defineProps<Props>(), {
   className: '',
 })
 
-// Attributes land on the nav explicitly rather than by Vue's automatic
-// inheritance, so a consumer's id cannot end up on both the landmark and
-// something inside it. Same reasoning as SearchField.
+// Attributes land on the nav explicitly rather than by Vue's automatic inheritance, so a consumer's id cannot end up on both the landmark and something inside it.
 defineOptions({ inheritAttrs: false })
 
 const emit = defineEmits<{ navigate: [id: string] }>()
@@ -71,15 +69,7 @@ const classes = computed(() =>
   ['strand-tabbar', props.className].filter(Boolean).join(' '),
 )
 
-// A destination with a href is a real link, so without this a consumer
-// wiring `navigate` to a client-side router gets BOTH: the router sets its
-// state and the browser then hard-navigates on top of it, discarding the
-// application. The handler owns the click only when it is going to handle it.
-//
-// But only a plain primary click. A modified or middle click is the user
-// asking for a new tab, which is the entire reason these stay links rather
-// than buttons. Those fall through untouched and do NOT emit, because the
-// current view is not the one changing.
+// A destination with a href stays a real link; only a plain click is owned (cf: tabbar-modified-click).
 function onItemClick(event: MouseEvent, item: TabBarItem) {
   if (item.href) {
     if (

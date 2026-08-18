@@ -24,24 +24,13 @@
   /** Minimum column width (px) for a responsive auto-fit track. When set, columns is ignored. */
   export let minColWidth: number | undefined = undefined
 
-  /**
-   * A fixed 264px rail beside a flexible main track, collapsing to one
-   * column below the md breakpoint. Takes precedence over columns and
-   * minColWidth. Put the rail FIRST in the markup: below the breakpoint
-   * the regions stack in source order, and a filter met after the results
-   * it filters is one the reader has already scrolled past.
-   */
+  /** A fixed 264px rail beside a flexible main track, collapsing to one column below the md breakpoint. */
   export let sidebar: boolean = false
 
-  /** A flexible main track beside a fixed-width panel, collapsing to one
-      column below md. `sidebar` mirrored. Set the width with
-      --strand-split-panel (default 600px). Put the MAIN track first: the
-      regions stack in source order below the breakpoint. */
+  /** A flexible main track beside a fixed-width panel, collapsing to one column below md. */
   export let split: boolean = false
 
-  /** Additional CSS class, MERGED with the component's own. Explicit prop
-      rather than $$restProps, which spreads AFTER the class attribute and
-      would REPLACE `strand-grid` outright. */
+  /** Additional CSS class, MERGED with the component's own. */
   let className: string = ''
   export { className as class }
 
@@ -49,14 +38,7 @@
     .filter(Boolean)
     .join(' ')
 
-  // The sidebar preset lives in the stylesheet because its column
-  // definition changes at a breakpoint, and an inline style cannot carry a
-  // media query. This emits no grid-template-columns at all in that case
-  // rather than one the class would then have to fight.
-  // `minmax(0, 1fr)`, never a bare `1fr`: a bare one floors at the track's
-  // min-content width, so a single long unbroken string widens the grid past
-  // its container. The base rule's `min-width: 0` on children handles the
-  // ITEM; this handles the TRACK.
+  // The sidebar preset lives in the stylesheet: its columns change at a breakpoint (cf: grid-tracks).
   $: gridTemplateColumns =
     minColWidth != null
       ? `repeat(auto-fit, minmax(${minColWidth}px, 1fr))`

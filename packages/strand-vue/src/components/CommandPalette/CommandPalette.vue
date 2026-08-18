@@ -90,8 +90,7 @@ function wrapIndex(index: number, delta: number, length: number): number {
   return (((index + delta) % length) + length) % length
 }
 
-// A shorter list can leave the highlight past the end, which would make
-// Enter select nothing. Reset whenever the result set changes identity.
+// A shorter list can leave the highlight past the end, which would make Enter select nothing.
 watch(
   () => props.items,
   () => {
@@ -108,16 +107,6 @@ watch(
 )
 
 // Put the caret in the search field when the palette opens.
-//
-// Dialog focuses the FIRST focusable element in its panel, which is its own
-// close button, and the input comes after it in the DOM. For most dialogs that
-// is the right default. For this one it is fatal: the entire interaction model
-// is "open and type", so a visitor who opened with the keyboard was typing into
-// a button and nothing filtered. Measured in a real browser: activeElement was
-// BUTTON.strand-dialog__close on open.
-//
-// Not fixed by changing Dialog's policy, which would alter behaviour for every
-// other consumer to serve one component's need.
 watch(
   () => props.open,
   async (isOpen) => {
@@ -127,23 +116,17 @@ watch(
       inputRef.value?.focus()
     })
   },
-  // immediate, because a plain watch fires only on CHANGE: a palette mounted
-  // already open (which is how a consumer that conditionally renders it
-  // behaves, and how the tests mount it) would never focus at all.
+  // Immediate: a palette mounted already open must focus too, and a plain watch fires only on change (cf: command-palette).
   { immediate: true },
 )
 
-// Keyboard selection can move the highlight outside the scroll viewport,
-// where the user is driving a list they cannot see.
+// Keyboard selection keeps the highlight in view (cf: command-palette).
 watch(active, async (index) => {
   await nextTick()
   const list = listRef.value
   if (!list) return
   const el = list.querySelector<HTMLElement>(`#${CSS.escape(optionId(index))}`)
-  // Guarded rather than called bare: scrollIntoView is absent in jsdom and in
-  // any non-browser renderer, and an unguarded call there rejects on every
-  // selection change. The scroll is a courtesy; losing it must not break the
-  // component.
+  // Guarded: scrollIntoView is absent outside a browser, and the scroll is a courtesy (cf: command-palette).
   if (typeof el?.scrollIntoView === 'function') {
     el.scrollIntoView({ block: 'nearest' })
   }
@@ -172,8 +155,7 @@ function handleKeyDown(event: KeyboardEvent) {
   }
   if (event.key === 'Enter') {
     const item = props.items[active.value]
-    // Enter on an empty result set must do nothing rather than throw while
-    // the user is mid-keystroke.
+    // Enter on an empty result set must do nothing rather than throw while the user is mid-keystroke.
     if (!item) return
     event.preventDefault()
     emit('select', item)

@@ -28,19 +28,15 @@
 import { computed } from 'vue'
 
 interface Props {
-  /** `field` is the fixed-width header presentation, `full` spans its
-      container. A prop rather than a second component: the two differ in
-      exactly one CSS property. */
+  /** `field` is the fixed-width header presentation, `full` spans its container. */
   variant?: 'field' | 'full'
   /** Placeholder. Name real content: "Search trail runs, pottery, chess". */
   placeholder?: string
-  /** Accessible name. A placeholder is a hint, not a name: it disappears on
-      the first keystroke and leaves the field announced as unlabelled. */
+  /** Accessible name. */
   label?: string
   /** Current value. v-model works through this. */
   modelValue?: string
-  /** Renders a clear control when the field is non-empty. Requires
-      modelValue, since the component cannot otherwise know it is empty. */
+  /** Renders a clear control when the field is non-empty. */
   clearable?: boolean
   /** Additional CSS class, merged onto the wrapper. */
   className?: string
@@ -55,12 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
   className: '',
 })
 
-// Vue puts unrecognised attributes on the ROOT element by default, so a
-// consumer's id landed on the wrapper AND on the input once $attrs was
-// bound explicitly below: a duplicate id in the document, and the wrapper
-// holding the handle the consumer meant for the control. This is the Vue
-// shape of the $$restProps defect the component-test-parity guard found in
-// Svelte's ActionDock, and the parity test caught it the same way.
+// Attributes are bound to the input, not the wrapper, so a consumer's id lands on the field once (cf: search-field).
 defineOptions({ inheritAttrs: false })
 
 const emit = defineEmits<{

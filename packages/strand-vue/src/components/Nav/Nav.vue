@@ -36,16 +36,7 @@ export interface NavProps {
   items?: NavItem[]
   /** Glassmorphic variant (fixed, backdrop-filter, DL 11.5) */
   glass?: boolean
-  /**
-   * Render the hamburger and its slide-down panel below the md breakpoint.
-   * Defaults to `true`, which is the right answer for a content surface.
-   *
-   * Pass `false` when the surface is an application shell that already carries
-   * its destinations in a persistent viewport-anchored region (DL 19.1.1). A
-   * bottom bar coexisting with a hamburger is two answers to one question, and
-   * the spec rules it out. A consumer with no other mobile navigation still
-   * needs the hamburger, so the default cannot change.
-   */
+  /** Render the hamburger and its slide-down panel below the md breakpoint. */
   mobileMenu?: boolean
   /** Controlled open state of the mobile menu; leave unset to let the nav own it */
   menuOpen?: boolean

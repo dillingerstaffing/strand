@@ -20,15 +20,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, onUnmounted, nextTick } from 'vue'
 
-// ATTRIBUTES LAND ON THE PANEL, not on the backdrop.
-//
-// Vue's fallthrough targets a component's ROOT element, which here is the
-// backdrop, so `<Dialog aria-label="Filters">` named the wrong box. Measured
-// on the shipped CommandPalette before this: the backdrop carried the label
-// and the element with role="dialog" carried none, so a screen reader
-// announced an unnamed dialog. The Preact build spreads `...rest` onto the
-// panel and the Svelte build now spreads `$$restProps` there, so this makes
-// all three agree.
+// Attributes land on the panel, the box with role="dialog", not on the backdrop.
 defineOptions({ inheritAttrs: false })
 
 export interface DialogProps {
@@ -40,27 +32,13 @@ export interface DialogProps {
   closeOnOutsideClick?: boolean
   /** Close when pressing Escape */
   closeOnEscape?: boolean
-  /**
-   * Where the panel sits in the viewport. `center` is right for a
-   * confirmation. `start` drops it under the reader's gaze, which is where
-   * a search or command overlay belongs: centred, a fixed-height panel
-   * straddles the fold on a short viewport and its input is the last thing
-   * the eye reaches.
-   */
+  /** Where the panel sits in the viewport. */
   align?: 'center' | 'start' | 'end'
-  /**
-   * Inner padding. The same ladder `Card` carries, at the same values.
-   * `none` also clips content to the panel's radius, for panels whose
-   * children carry their own inset (a query row, a scrolling list).
-   */
+  /** Inner padding. */
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
   /** The element to focus when the dialog opens; the first focusable child by default */
   initialFocus?: HTMLElement | null
-  /**
-   * Whether to render the close button. Set `false` for overlays whose
-   * convention has no X and whose dismissal is Escape or the backdrop.
-   * Escape and backdrop dismissal are unaffected.
-   */
+  /** Whether to render the close button. */
   dismissible?: boolean
 }
 

@@ -18,11 +18,7 @@
   export let code: string
   /** Optional language label (e.g. "html", "css", "bash") */
   export let language: string | undefined = undefined
-  /**
-   * Render the one-click copy-to-clipboard button. Defaults to true so
-   * every CodeBlock is copyable out of the box; pass false to opt out
-   * for blocks that should not advertise a copy affordance.
-   */
+  /** Render the one-click copy-to-clipboard button. */
   export let copyable = true
 
   const COPIED_DURATION_MS = 1500

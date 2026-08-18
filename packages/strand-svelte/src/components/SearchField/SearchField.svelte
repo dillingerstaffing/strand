@@ -31,42 +31,29 @@
   ```
 -->
 <script lang="ts">
-  /** `field` is the fixed-width header presentation, `full` spans its
-      container. A prop rather than a second component: the two differ in
-      exactly one CSS property. */
+  /** `field` is the fixed-width header presentation, `full` spans its container. */
   export let variant: 'field' | 'full' = 'field'
 
   /** Placeholder. Name real content: "Search trail runs, pottery, chess". */
   export let placeholder: string = 'Search'
 
-  /** Accessible name. A placeholder is a hint, not a name: it disappears on
-      the first keystroke and leaves the field announced as unlabelled. */
+  /** Accessible name. */
   export let label: string = 'Search'
 
   /** Current value. Bindable. */
   export let value: string | undefined = undefined
 
-  /** Renders a clear control when the field is non-empty. Requires `value`,
-      since the component cannot otherwise know it is empty. */
+  /** Renders a clear control when the field is non-empty. */
   export let clearable: boolean = false
 
-  /** Additional CSS class, MERGED with the component's own. Declared as an
-      explicit prop rather than left to $$restProps, which spreads AFTER the
-      class attribute and would therefore REPLACE `strand-search-field`
-      outright -- the ActionDock defect found by the component-test-parity
-      guard. A consumer adding one breakpoint utility would otherwise lose
-      the field's entire box. */
+  /** Additional CSS class, MERGED with the component's own. */
   let className: string = ''
   export { className as class }
 
-  /** Called when the clear control is pressed. A callback prop rather than
-      createEventDispatcher, which is the house convention here and the
-      Svelte 5 idiom: component.$on was removed in 5, so a dispatched event
-      has no supported consumer-side listener on an instance. */
+  /** Called when the clear control is pressed. */
   export let onclear: (() => void) | undefined = undefined
 
-  /** Called with the current value on every keystroke. `bind:value` also
-      works; this exists so a consumer can react without binding. */
+  /** Called with the current value on every keystroke. */
   export let onvaluechange: ((value: string) => void) | undefined = undefined
 
   function handleInput(event: Event) {

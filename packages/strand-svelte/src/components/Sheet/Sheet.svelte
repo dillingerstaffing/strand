@@ -36,12 +36,7 @@
   export let open: boolean = false
   /** Accessible name. A sheet has no visible heading, so this is the only one. */
   export let label: string = ''
-  /**
-   * Whether the sheet can be dragged away.
-   *
-   * `false` removes the grabber rather than leaving one that does nothing. An
-   * affordance that promises a gesture it does not have is worse than none.
-   */
+  /** Whether the sheet can be dragged away. */
   export let draggable: boolean = true
   /** Called when the sheet should close */
   export let onclose: (() => void) | undefined = undefined
@@ -54,20 +49,16 @@
   let panelEl: HTMLDivElement
 
   function handlePointerDown(e: PointerEvent) {
-    // A press with no usable coordinate starts no drag. Storing a null would
-    // make every later handler's "has a drag begun" check answer yes to a
-    // gesture that can never be measured.
+    // A press with no usable coordinate starts no drag.
     if (!Number.isFinite(e.clientY)) return
     startY = e.clientY
-    // CAPTURE, or the drag stops tracking the moment the pointer leaves the
-    // grabber, which is immediately.
+    // The grabber captures the pointer (cf: sheet-pointer-capture).
     ;(e.currentTarget as HTMLElement | null)?.setPointerCapture?.(e.pointerId)
   }
 
   function handlePointerMove(e: PointerEvent) {
     if (startY === null) return
-    // Downward only. An upward drag is a request for more sheet, and this one
-    // is already at its height.
+    // Downward only.
     drag = Math.max(0, e.clientY - startY)
   }
 
@@ -78,14 +69,11 @@
     const travelled = Math.max(0, e.clientY - startY)
     startY = null
     drag = 0
-    // A fraction of the sheet's OWN height, so the same gesture means the same
-    // thing on a short phone and a tall one.
+    // A fraction of the sheet's OWN height, so the same gesture means the same thing on a short phone and a tall one.
     if (travelled > height * DISMISS_FRACTION) onclose?.()
   }
 
-  // A cancelled pointer is an ABANDONED gesture, not a completed one. Routing
-  // it through the release path would let the OS taking the pointer away
-  // dismiss the sheet on the reader's behalf.
+  // A cancelled pointer never dismisses (cf: sheet-pointer-capture).
   function handlePointerCancel() {
     startY = null
     drag = 0

@@ -9,9 +9,7 @@
 import { computed } from 'vue'
 interface Props {
   name: string
-  /** A second, subordinate label: a display name beside a username, a role
-   * beside a name. Inline rather than a second line, because the pill's own
-   * rule is that it stays one line tall in a wrapping strip. */
+  /** A second, subordinate label: a display name beside a username, a role beside a name. */
   secondary?: string
   initials?: string
   /** Makes the chip a button. */

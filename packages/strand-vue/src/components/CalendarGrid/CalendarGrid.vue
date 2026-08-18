@@ -36,20 +36,14 @@ interface Props {
   year: number
   month: number
   weekStartsOn?: 0 | 1
-  /** Render exactly this many week rows, padding from the adjacent months.
-      A month is four to six weeks long, so a grid that stops when the month
-      is covered changes height as the reader pages and moves everything
-      beneath it. That is 6.6.1's space contract and 10.6 one level up.
-      Six never truncates. */
+  /** Render exactly this many week rows, padding from the adjacent months. */
   fixedWeeks?: number
-  /** Accessible name, e.g. "August 2026". A grid with no name is announced
-      as an unlabelled table of numbers. */
+  /** Accessible name of the grid, such as "Pick a date". */
   label: string
   dayNames?: string[]
   dayNamesLong?: string[]
   selected?: string
-  /** The day treated as today. Pass it explicitly for a deterministic
-      server render. */
+  /** The day treated as today. */
   today?: Date
   /** 10.6's declared capacity, measured at the SMALLEST sanctioned size. */
   capacity?: number
@@ -95,9 +89,7 @@ const ordered = computed(() =>
   Array.from({ length: 7 }, (_, i) => (i + props.weekStartsOn) % 7),
 )
 
-// The roving tabindex's holder: the selection when it is in view, else the
-// first day of the month, so a keyboard user arrives somewhere meaningful
-// rather than on a trailing day of the previous month.
+// The roving tabindex holder: the selection when in view, else the first day of the month (cf: calendar-grid-arithmetic).
 const rovingIso = computed(() => {
   if (focused.value) return focused.value
   if (props.selected && flat.value.some((d) => d.iso === props.selected)) {
@@ -137,8 +129,7 @@ function onKeyDown(event: KeyboardEvent, day: CalendarDay) {
     move(day, deltas[event.key])
     return
   }
-  // Home and End are within the WEEK, per the grid pattern. The month is
-  // PageUp and PageDown's job.
+  // Home and End move within the week (cf: calendar-grid-arithmetic).
   if (event.key === 'Home' || event.key === 'End') {
     event.preventDefault()
     const offset = (day.date.getDay() - props.weekStartsOn + 7) % 7

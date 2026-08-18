@@ -27,14 +27,7 @@ export interface FormFieldProps {
   hint?: string
   /** Error text displayed below the input (replaces hint) */
   error?: string
-  /**
-   * Confirmation text displayed below the input (replaces hint, yields to error).
-   *
-   * For a value that has been CHECKED and found good: an available username, a
-   * verified address, a valid coupon. Announced politely where `error` is
-   * assertive, because success arrives while the member is still typing and an
-   * assertive region would interrupt a screen reader to deliver good news.
-   */
+  /** Confirmation text displayed below the input (replaces hint, yields to error). */
   success?: string
   /** Show required indicator */
   required?: boolean
@@ -65,11 +58,6 @@ const messageId = computed(() =>
 )
 
 // Hand the wrapped control the id of whichever message is showing.
-//
-// cloneVNode, Vue's own equivalent of the Preact build's cloneElement, so this
-// is part of the render rather than a DOM write racing the renderer. The
-// field's contract is ONE control, so anything else passes through untouched.
-// A caller's own aria-describedby is preserved and this id appended.
 const slots = defineSlots<{ default?: () => VNode[] }>()
 
 const describedControl = computed(() => {

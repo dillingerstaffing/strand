@@ -26,17 +26,9 @@
 import { computed } from 'vue'
 
 interface Props {
-  /** `field` is the fixed-width header presentation, `full` spans its
-      container, `icon` is a square button at the touch-target floor for
-      the band where a header has stopped having room for a field but has
-      not yet handed over to a phone layout. `icon` keeps the label in the
-      accessibility tree (clipped, not display:none), because the label is
-      the accessible name and WCAG 2.5.3 requires it to survive. */
+  /** `field` is the fixed-width header presentation, `full` spans its container, `icon` is a square touch-target button (cf: search-trigger). */
   variant?: 'field' | 'full' | 'icon'
-  /** Visible standing text, which is ALSO the accessible name. There is no
-      aria-label override: WCAG 2.5.3 (Label in Name) requires the
-      accessible name to contain the visible text, so a speech-input user
-      saying what they can see activates the control. */
+  /** Visible standing text, which is ALSO the accessible name. */
   label?: string
   /** Whether the overlay this opens is currently showing. */
   expanded?: boolean

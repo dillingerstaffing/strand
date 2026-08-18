@@ -27,9 +27,7 @@
 <script lang="ts">
   /** Whether the real content has arrived. Drives the cross-fade. */
   export let ready: boolean = false
-  /** The answer arrived and there is nothing to show. Collapses the region
-      by taking the placeholder out of flow, which `ready` alone cannot do.
-      Wins over `ready`. */
+  /** The answer arrived and there is nothing to show. */
   export let empty: boolean = false
   /** Reserved minimum height, base breakpoint. Any CSS length. */
   export let height: string | undefined = undefined

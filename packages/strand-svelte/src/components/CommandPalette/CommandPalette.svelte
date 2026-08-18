@@ -81,42 +81,23 @@
     return (((index + delta) % length) + length) % length
   }
 
-  // A shorter list can leave the highlight past the end, which would make
-  // Enter select nothing. Reset whenever the result set changes identity,
-  // and again on open so reopening does not resume an old position.
+  // A shorter list can leave the highlight past the end, which would make Enter select nothing.
   $: if (items) active = 0
   $: if (open) active = 0
 
   // Put the caret in the search field when the palette opens.
-  //
-  // Dialog focuses the FIRST focusable element in its panel, which is its own
-  // close button, and the input comes after it in the DOM. For most dialogs
-  // that is the right default. For this one it is fatal: the entire
-  // interaction model is "open and type", so a visitor who opened with the
-  // keyboard was typing into a button and nothing filtered. Measured in a real
-  // browser: activeElement was BUTTON.strand-dialog__close on open.
-  //
-  // Deferred to a frame rather than run synchronously, because Dialog does not
-  // focus immediately either: it SCHEDULES a requestAnimationFrame. Focusing
-  // synchronously here would land first and Dialog's callback would steal it
-  // back to the close button, intermittently. Enqueued after Dialog's, and
-  // rAF callbacks run FIFO, so this one wins.
   $: if (open && typeof requestAnimationFrame === 'function') {
     requestAnimationFrame(() => inputEl?.focus())
   }
 
-  // Keyboard selection can move the highlight outside the scroll viewport,
-  // where the user is driving a list they cannot see.
+  // Keyboard selection keeps the highlight in view (cf: command-palette).
   $: if (active >= 0 && listEl) scrollActiveIntoView(active)
 
   async function scrollActiveIntoView(index: number) {
     await tick()
     if (!listEl) return
     const el = listEl.querySelector<HTMLElement>(`#${CSS.escape(optionId(index))}`)
-    // Guarded rather than called bare: scrollIntoView is absent in jsdom and
-    // in any non-browser renderer, and an unguarded call there rejects on
-    // every selection change. The scroll is a courtesy; losing it must not
-    // break the component.
+    // Guarded: scrollIntoView is absent outside a browser, and the scroll is a courtesy (cf: command-palette).
     if (typeof el?.scrollIntoView === 'function') {
       el.scrollIntoView({ block: 'nearest' })
     }
@@ -145,8 +126,7 @@
     }
     if (event.key === 'Enter') {
       const item = items[active]
-      // Enter on an empty result set must do nothing rather than throw while
-      // the user is mid-keystroke.
+      // Enter on an empty result set must do nothing rather than throw while the user is mid-keystroke.
       if (!item) return
       event.preventDefault()
       onselect?.(item)

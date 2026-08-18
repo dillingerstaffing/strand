@@ -23,11 +23,7 @@ interface Props {
   language?: string
   /** Additional CSS class */
   className?: string
-  /**
-   * Render the one-click copy-to-clipboard button. Defaults to true so
-   * every CodeBlock is copyable out of the box; pass false to opt out
-   * for blocks that should not advertise a copy affordance.
-   */
+  /** Render the one-click copy-to-clipboard button. */
   copyable?: boolean
 }
 

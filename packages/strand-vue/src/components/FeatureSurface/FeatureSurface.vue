@@ -17,12 +17,7 @@ import { computed } from 'vue'
 interface Props {
   /** Render as a different element, e.g. "article" or "section". */
   as?: 'div' | 'article' | 'section'
-  /**
-   * Inner padding. The same ladder Card ships. `none` also clips to the
-   * surface's radius, so panes laid against the corners cannot square them
-   * off — use it when the CHILDREN carry the inset, e.g. a two-pane card
-   * whose divider runs the full height.
-   */
+  /** Inner padding. */
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
   className?: string
 }

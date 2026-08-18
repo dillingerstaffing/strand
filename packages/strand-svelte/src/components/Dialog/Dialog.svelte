@@ -25,32 +25,11 @@
   export let closeOnOutsideClick: boolean = true
   /** Close when pressing Escape */
   export let closeOnEscape: boolean = true
-  /**
-   * Where the panel sits in the viewport. `center` is right for a
-   * confirmation. `start` drops it under the reader's gaze, which is where
-   * a search or command overlay belongs: centred, a fixed-height panel
-   * straddles the fold on a short viewport and its input is the last thing
-   * the eye reaches.
-   *
-   * `end` anchors the panel to the bottom edge as a SHEET: full-bleed,
-   * top-only radius, slide-up entrance. This is the pattern DL 11.6 names,
-   * and it exists because 14.8 requires a touch view's primary action to
-   * reach the bottom third of the viewport, which a centred panel cannot do
-   * at any height. Prefer `Sheet`, which composes this with the grabber, the
-   * scrolling body and the drag gesture the pattern also owns.
-   */
+  /** Where the panel sits in the viewport. */
   export let align: 'center' | 'start' | 'end' = 'center'
-  /**
-   * Inner padding. The same ladder `Card` carries, at the same values.
-   * `none` also clips content to the panel's radius, for panels whose
-   * children carry their own inset (a query row, a scrolling list).
-   */
+  /** Inner padding. */
   export let padding: 'none' | 'sm' | 'md' | 'lg' | 'xl' = 'lg'
-  /**
-   * Whether to render the close button. Set `false` for overlays whose
-   * convention has no X and whose dismissal is Escape or the backdrop.
-   * Escape and backdrop dismissal are unaffected.
-   */
+  /** Whether to render the close button. */
   export let dismissible: boolean = true
   /** Called when the dialog should close */
   export let onclose: (() => void) | undefined = undefined

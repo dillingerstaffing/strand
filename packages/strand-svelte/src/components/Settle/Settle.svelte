@@ -31,10 +31,7 @@
   ```
 -->
 <script lang="ts">
-  /** The value this region is showing. When it changes, the element is
-      REPLACED rather than patched, which is what makes the fade fire.
-      Pass the value the user is being told about, not a counter: it is
-      compared, so an unchanged value must not re-announce itself. */
+  /** The value this region is showing. */
   export let on: string | number | boolean | null | undefined = undefined
   /** Element to render. Defaults to a div; use span inline. */
   export let as: string = 'div'

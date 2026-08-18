@@ -32,10 +32,7 @@
 import { computed } from 'vue'
 
 interface Props {
-  /** The value this region is showing. When it changes, the element is
-      REPLACED rather than patched, which is what makes the fade fire.
-      Pass the value the user is being told about, not a counter: it is
-      compared, so an unchanged value must not re-announce itself. */
+  /** The value this region is showing. */
   on?: string | number | boolean | null
   /** Element to render. Defaults to a div; use span inline. */
   as?: string
@@ -52,10 +49,7 @@ const classes = computed(() =>
   ['strand-settle', props.className].filter(Boolean).join(' '),
 )
 
-// undefined and null both mean "no forced identity", which is the
-// insertion-only case: the element is new anyway, so there is nothing to
-// force. Deliberately NOT a truthiness check -- `on = 0` is a real value and
-// is exactly the one a consumer most wants to announce.
+// undefined and null both mean "no forced identity", which is the insertion-only case: the element is new anyway, so there is nothing to force.
 const identity = computed(() =>
   props.on === undefined || props.on === null ? undefined : String(props.on),
 )
