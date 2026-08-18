@@ -5,10 +5,11 @@
 //
 //   pnpm css-move-guard <before.css> <after.css> [--allow-removed] [--json out]
 
-import { readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseRules } from "./css-home-audit.mjs";
+import { libraryPairs } from "./css-usage.mjs";
 
 // ── Pure decision layer ─────────────────────────────────────────────────
 
@@ -50,13 +51,25 @@ export function targetsOf(selector) {
   return out;
 }
 
-/** Whether two target sets can name one element. "*" meets any target with the same pseudo-element. */
-export function targetsMeet(a, b) {
+/**
+ * Whether two target sets can name one element. "*" meets any target with the
+ * same pseudo-element, and two blocks meet when a known source composes them
+ * on one element (`pairs`: "a b" strings, a < b, no pseudo-element).
+ */
+export function targetsMeet(a, b, pairs = new Set()) {
   for (const t of a) {
     if (b.has(t)) return true;
     const pseudo = t.match(/::[\w-]+$/)?.[0] || "";
     if (t === `*${pseudo}` || b.has(`*${pseudo}`)) {
       for (const u of b) if ((u.match(/::[\w-]+$/)?.[0] || "") === pseudo) return true;
+    }
+    if (pairs.size) {
+      const bare = t.slice(0, t.length - pseudo.length);
+      for (const u of b) {
+        if ((u.match(/::[\w-]+$/)?.[0] || "") !== pseudo) continue;
+        const other = u.slice(0, u.length - pseudo.length);
+        if (pairs.has([bare, other].sort().join(" "))) return true;
+      }
     }
   }
   return false;
@@ -87,8 +100,8 @@ export function declarationMap(declarations) {
  * same element to different values. Two rules that agree on every property
  * they share can swap freely.
  */
-export function mayCollide(x, y) {
-  if (!targetsMeet(x.targets, y.targets)) return false;
+export function mayCollide(x, y, pairs = new Set()) {
+  if (!targetsMeet(x.targets, y.targets, pairs)) return false;
   let sharedFamily = false;
   for (const f of x.families) if (y.families.has(f)) sharedFamily = true;
   if (!sharedFamily) return false;
@@ -105,8 +118,9 @@ const key = (r) => `${r.atRule || ""} || ${r.selector} || ${r.declarations}`;
 /**
  * @param {string} before css
  * @param {string} after css
+ * @param {Set<string>} pairs blocks known to share one element, "a b" with a < b
  */
-export function guard(before, after) {
+export function guard(before, after, pairs = new Set()) {
   const a = parseRules(before);
   const b = parseRules(after);
   const countA = new Map();
@@ -139,7 +153,7 @@ export function guard(before, after) {
       const x = info[i];
       const y = info[j];
       if (x.spec !== y.spec || (x.r.atRule || "") !== (y.r.atRule || "")) continue;
-      if (!mayCollide(x, y)) continue;
+      if (!mayCollide(x, y, pairs)) continue;
       const px = positionB.get(x.k);
       const py = positionB.get(y.k);
       if (!px || !py) continue;
@@ -168,11 +182,22 @@ export function summarize({ removed, added, reordered, universalReorders = [], b
 
 // ── Impure shell ────────────────────────────────────────────────────────
 
+/** Every block pair the library's own sources or a recorded consumer put on one element. */
+export function knownPairs() {
+  const pairs = new Set(libraryPairs().map((p) => p.join(" ")));
+  const usagePath = resolve(dirname(fileURLToPath(import.meta.url)), "../consumer-usage.json");
+  if (existsSync(usagePath)) {
+    const record = JSON.parse(readFileSync(usagePath, "utf-8"));
+    for (const c of Object.values(record.consumers || {})) for (const p of c.pairs || []) pairs.add(p.join(" "));
+  }
+  return pairs;
+}
+
 function main() {
   const args = process.argv.slice(2);
   const [beforePath, afterPath] = args;
   const allowRemoved = args.includes("--allow-removed");
-  const result = guard(readFileSync(beforePath, "utf-8"), readFileSync(afterPath, "utf-8"));
+  const result = guard(readFileSync(beforePath, "utf-8"), readFileSync(afterPath, "utf-8"), knownPairs());
   const { ok, text } = summarize(result, allowRemoved);
   console.log(text);
   const jsonAt = args.indexOf("--json");

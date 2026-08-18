@@ -49,6 +49,18 @@ describe("guard", () => {
     expect(targetsMeet(targetsOf(".strand-x > *"), targetsOf(".strand-y"))).toBe(true);
     expect(targetsMeet(targetsOf(".strand-x > *"), targetsOf(".strand-y::before"))).toBe(false);
   });
+  it("targetsMeet: two blocks a consumer composes on one element meet, and only with the same pseudo-element", () => {
+    const pairs = new Set(["strand-empty-collection__action strand-link"]);
+    expect(targetsMeet(targetsOf(".strand-link"), targetsOf(".strand-empty-collection__action"))).toBe(false);
+    expect(targetsMeet(targetsOf(".strand-link"), targetsOf(".strand-empty-collection__action"), pairs)).toBe(true);
+    expect(targetsMeet(targetsOf(".strand-link::before"), targetsOf(".strand-empty-collection__action"), pairs)).toBe(false);
+  });
+  it("guard reports a swap between two rules that meet only through a recorded pair", () => {
+    const before = ".strand-link { color: red }\n.strand-empty-collection__action { color: blue }";
+    const after = ".strand-empty-collection__action { color: blue }\n.strand-link { color: red }";
+    expect(guard(before, after).reordered).toEqual([]);
+    expect(guard(before, after, new Set(["strand-empty-collection__action strand-link"])).reordered).toHaveLength(1);
+  });
   it("familiesOf folds longhands into their shorthand family", () => {
     expect([...familiesOf("border-color: red; background-image: none; -webkit-backdrop-filter: blur(1px)")]).toEqual(["border", "background", "backdrop"]);
   });

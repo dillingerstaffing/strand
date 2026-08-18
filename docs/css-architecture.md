@@ -16,7 +16,7 @@ There are five kinds of file, and a rule belongs to exactly one.
 
 The test for "is this global or local" is one question: **does a component directory own the block this selector defines?** If yes, the rule lives there and nowhere else. If no block owns it and it is a text style, it is typography; a single-property helper, a utility; otherwise it is a class-only primitive that gets its own directory and a manifest entry. `base.css` never defines a `.strand-` block except `.strand-prose`; a class on `body` or `html` there is a document mode, not a block.
 
-The bundle order is explicit in `packages/strand-ui/vite.config.ts`: every component sheet in code-point order, then typography, utilities and static. Order between files is never load-bearing: `pnpm css-move-guard <before> <after>` fails a change that swaps two rules which can meet on one element at equal specificity and disagree.
+The bundle order is explicit in `packages/strand-ui/vite.config.ts`: every component sheet in code-point order, then typography, utilities and static. Order between files is never load-bearing: `pnpm css-move-guard <before> <after>` fails a change that swaps two rules which can meet on one element at equal specificity and disagree. Two blocks meet when a selector puts them on one element, and also when a known source composes them on one element: the library's own sources and each consumer's recorded class pairs in `consumer-usage.json` (`pnpm css-usage --export-consumer` records them, so `.strand-empty-collection__action` on a `.strand-link` is a meeting the guard sees).
 
 ## How a rule is written
 

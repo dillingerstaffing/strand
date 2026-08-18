@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   branchVerdict,
+  collectPairs,
   collectUsage,
   isUsed,
   mergeUsage,
@@ -140,5 +141,38 @@ describe("mergeUsage", () => {
     expect(u.literals.has("strand-x")).toBe(true);
     expect(isUsed("strand-y--any", u)).toBe(true);
     expect(u.attributes.has("data-strand-z")).toBe(true);
+  });
+});
+
+describe("collectPairs", () => {
+  it("records the blocks that share one class attribute, modifiers folded into their block", () => {
+    const pairs = collectPairs([{ file: "a.html", text: '<a class="strand-link strand-link--cta strand-empty-collection__action">x</a>' }], {});
+    expect(pairs).toEqual([["strand-empty-collection__action", "strand-link"]]);
+  });
+  it("reads class expressions in JSX, htm and Svelte, including cx() calls", () => {
+    const sources = [
+      { file: "a.tsx", text: 'const x = <div className={cx("strand-card", on && "strand-card--active", "strand-scroll-row")} />;' },
+      { file: "b.js", text: "html`<span class=${`strand-chip ${on ? \"strand-chip--joined\" : \"\"} strand-mt-2`}>`" },
+      { file: "c.svelte", text: "<div class={['strand-stack', 'strand-value--positive'].filter(Boolean).join(' ')}></div>" },
+    ];
+    expect(collectPairs(sources, {})).toEqual([
+      ["strand-card", "strand-scroll-row"],
+      ["strand-chip", "strand-mt-2"],
+      ["strand-stack", "strand-value"],
+    ]);
+  });
+  it("pairs a class given to a component with the block that component renders", () => {
+    const sources = [
+      { file: "a.jsx", text: 'import { Link } from "./ui.js";\n<Link className="strand-empty-collection__action" href="/">Browse</Link>' },
+      { file: "b.js", text: 'import { Button } from "./ui.js";\nhtml`<${Button} class="strand-mt-4">Go</${Button}>`' },
+      { file: "c.tsx", text: 'const Tag = as; return <Tag className="strand-card">x</Tag>;' },
+    ];
+    expect(collectPairs(sources, { Link: "strand-link", Button: "strand-btn" })).toEqual([
+      ["strand-btn", "strand-mt-4"],
+      ["strand-empty-collection__action", "strand-link"],
+    ]);
+  });
+  it("ignores a lone class and a class that only meets its own modifiers", () => {
+    expect(collectPairs([{ file: "a.html", text: '<div class="strand-stack strand-stack--vertical strand-stack--gap-4"></div>' }], {})).toEqual([]);
   });
 });

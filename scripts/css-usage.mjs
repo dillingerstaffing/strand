@@ -65,6 +65,76 @@ function commentFree(file, text) {
   return text.replace(/<!--[\s\S]*?-->/g, " ").replace(/\/\*[\s\S]*?\*\//g, " ");
 }
 
+/** The text of one class expression starting at `from`: a quoted string, or a balanced brace or paren group. */
+function classExpression(code, from) {
+  const open = code[from];
+  const close = { "{": "}", "(": ")", '"': '"', "'": "'", "`": "`" }[open];
+  if (!close) return "";
+  if (open === "{" || open === "(") {
+    let depth = 0;
+    for (let i = from; i < code.length; i++) {
+      if (code[i] === open) depth++;
+      else if (code[i] === close && --depth === 0) return code.slice(from, i + 1);
+    }
+    return code.slice(from);
+  }
+  // A template literal may nest `${...}` with its own quotes; walk it by depth too.
+  if (open === "`") {
+    let depth = 0;
+    for (let i = from + 1; i < code.length; i++) {
+      if (code[i] === "$" && code[i + 1] === "{") depth++;
+      else if (code[i] === "}" && depth > 0) depth--;
+      else if (code[i] === "`" && depth === 0) return code.slice(from, i + 1);
+    }
+    return code.slice(from);
+  }
+  const end = code.indexOf(close, from + 1);
+  return end === -1 ? code.slice(from) : code.slice(from, end + 1);
+}
+
+/** A class token as the move guard sees it: the block or element, modifier stripped. */
+const targetOf = (cls) => cls.split("--")[0];
+
+/**
+ * The pairs of blocks that the sources put on ONE element: every class
+ * expression (`class="..."`, `className={...}`, `class=${...}`, `cx(...)`) with
+ * two or more distinct targets, plus a class handed to a component paired with
+ * the block that component renders (`componentBlocks`: Name -> block).
+ * @param {{file: string, text: string}[]} sources
+ * @param {Record<string, string>} componentBlocks
+ * @returns {[string, string][]} sorted unordered pairs
+ */
+export function collectPairs(sources, componentBlocks = {}) {
+  const pairs = new Set();
+  const record = (targets) => {
+    const list = [...new Set(targets)].sort();
+    for (let i = 0; i < list.length; i++) for (let j = i + 1; j < list.length; j++) pairs.add(`${list[i]} ${list[j]}`);
+  };
+  const componentNames = Object.keys(componentBlocks);
+  const OPENERS = /\b(?:class(?:Name)?\s*=\s*|cx\()/g;
+  for (const { file, text } of sources) {
+    const code = commentFree(file, text);
+    // A component only counts where the file imports it by name; `<Tag>` as a
+    // local polymorphic alias is not the Tag component.
+    const imported = new Set(componentNames.filter((n) => new RegExp(`import[^;]*\\b${n}\\b[^;]*from`).test(code)));
+    for (const m of code.matchAll(OPENERS)) {
+      const at = m.index + m[0].length;
+      const start = m[0].startsWith("cx(") ? at - 1 : code[at] === "$" && code[at + 1] === "{" ? at + 1 : at;
+      const expr = classExpression(code, start);
+      const targets = [...expr.matchAll(CLASS_TOKEN)].map((t) => targetOf(t[0]));
+      // The element that carries the expression may be a component that renders its own block.
+      if (componentNames.length && !m[0].startsWith("cx(")) {
+        const tagStart = code.lastIndexOf("<", m.index);
+        const tag = tagStart === -1 ? "" : code.slice(tagStart, m.index);
+        const name = tag.match(/^<\$?\{?([A-Z][A-Za-z0-9]*)/)?.[1];
+        if (name && imported.has(name)) targets.push(componentBlocks[name]);
+      }
+      if (targets.length >= 2) record(targets);
+    }
+  }
+  return [...pairs].sort().map((p) => p.split(" "));
+}
+
 /**
  * Every strand class, dynamic prefix and data attribute the sources mention.
  * @param {{file: string, text: string}[]} sources
@@ -307,6 +377,29 @@ function stylesheets() {
   return out;
 }
 
+/**
+ * Component name -> the block its root element renders, read from the Preact
+ * fixture snapshots, so a class handed to `<Link className=...>` is known to
+ * land beside `strand-link`.
+ */
+export function componentBlocks() {
+  const out = {};
+  const componentsDir = join(UI, "components");
+  if (!existsSync(componentsDir)) return out;
+  for (const d of readdirSync(componentsDir, { withFileTypes: true }).filter((e) => e.isDirectory())) {
+    const snap = join(componentsDir, d.name, "__snapshots__", `${d.name}.test.tsx.snap`);
+    if (!existsSync(snap)) continue;
+    const m = readFileSync(snap, "utf-8").match(/exports\[`renders > [^`]*`\] = `"<[a-z][^>]*?class="(strand-[a-z0-9_-]+)/);
+    if (m) out[d.name] = m[1].split("--")[0];
+  }
+  return out;
+}
+
+/** The block pairs the library's own sources compose on one element. */
+export function libraryPairs() {
+  return collectPairs(readSources(corpusFiles([])), componentBlocks());
+}
+
 function readSources(files) {
   // Only markup-emitting sources decide usage; a stylesheet naming a class as
   // context is not a use, so library stylesheets are excluded.
@@ -319,14 +412,16 @@ function exportConsumer(name, roots) {
   const usage = collectUsage(readSources(files));
   const record = existsSync(CONSUMER_USAGE) ? JSON.parse(readFileSync(CONSUMER_USAGE, "utf-8")) : { description: "", consumers: {} };
   record.description =
-    "Strand classes, dynamic class prefixes and data attributes each known consumer emits, recorded from inside that consumer's checkout with `pnpm css-usage --export-consumer <name> --corpus <dir>...`. The css-usage gate reads this so a rule a real site depends on is never judged from the library alone.";
+    "Strand classes, dynamic class prefixes, data attributes and the class pairs composed on one element that each known consumer emits, recorded from inside that consumer's checkout with `pnpm css-usage --export-consumer <name> --corpus <dir>...`. The css-usage gate reads the classes so a rule a real site depends on is never judged from the library alone; css-move-guard reads the pairs so two blocks a site composes on one element are known to meet.";
+  const pairs = collectPairs(readSources(files), componentBlocks());
   record.consumers[name] = {
     classes: [...usage.literals].sort(),
     prefixes: [...usage.prefixes].sort(),
     attributes: [...usage.attributes].sort(),
+    pairs,
   };
   writeFileSync(CONSUMER_USAGE, `${JSON.stringify(record, null, "\t")}\n`);
-  console.log(`  recorded ${usage.literals.size} classes, ${usage.prefixes.size} prefixes, ${usage.attributes.size} attributes for "${name}" from ${files.length} sources.`);
+  console.log(`  recorded ${usage.literals.size} classes, ${usage.prefixes.size} prefixes, ${usage.attributes.size} attributes, ${pairs.length} class pairs for "${name}" from ${files.length} sources.`);
 }
 
 function main() {
