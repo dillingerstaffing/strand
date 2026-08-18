@@ -16,7 +16,7 @@
   ```
 -->
 <script setup lang="ts">
-import { type VNode, cloneVNode, computed, onUnmounted, ref, useId, useSlots, watch } from 'vue'
+import { type VNode, cloneVNode, computed, onUnmounted, ref, useId, watch } from 'vue'
 
 export interface TooltipProps {
   /** Tooltip text */
@@ -43,7 +43,7 @@ const emit = defineEmits<{
   (e: 'openChange', open: boolean): void
 }>()
 
-const slots = useSlots()
+const slots = defineSlots<{ default?: () => VNode[] }>()
 const tooltipId = useId()
 const ownOpen = ref(props.defaultOpen)
 const isOpen = computed(() => props.open ?? ownOpen.value)

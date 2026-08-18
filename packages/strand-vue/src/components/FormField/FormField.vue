@@ -16,7 +16,7 @@
   ```
 -->
 <script setup lang="ts">
-import { computed, cloneVNode, useSlots } from 'vue'
+import { type VNode, computed, cloneVNode } from 'vue'
 
 export interface FormFieldProps {
   /** Label text */
@@ -70,7 +70,7 @@ const messageId = computed(() =>
 // is part of the render rather than a DOM write racing the renderer. The
 // field's contract is ONE control, so anything else passes through untouched.
 // A caller's own aria-describedby is preserved and this id appended.
-const slots = useSlots()
+const slots = defineSlots<{ default?: () => VNode[] }>()
 
 const describedControl = computed(() => {
   const nodes = slots.default?.() ?? []
