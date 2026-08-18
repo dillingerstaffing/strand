@@ -119,6 +119,7 @@ exports[`stylesheet > renders these rules 1`] = `
 .strand-ref-example__demo--pad-none { padding: 0; overflow: hidden }
 .strand-ref-example__demo--recessed { background: var(--strand-surface-recessed) }
 .strand-ref-example__caption { margin-top: var(--strand-space-2); font-size: 12px; line-height: 1.55; color: var(--strand-gray-500); max-width: 560px }
+.strand-ref-mobile-trigger { display: none }
 .strand-ref-shell__nav-scrim { display: none }
 @media (max-width: 1040px) {
   .strand-ref-shell { grid-template-columns: minmax(0, 1fr) }
@@ -126,6 +127,7 @@ exports[`stylesheet > renders these rules 1`] = `
   .strand-ref-shell.is-nav-open .strand-ref-shell__sidebar { transform: translateX(0); visibility: visible }
   .strand-ref-shell__nav-scrim { position: fixed; top: var(--strand-ref-sticky-top, 0); left: 0; right: 0; bottom: 0; z-index: 75; background: rgba(15, 23, 42, 0.4) }
   .strand-ref-shell.is-nav-open .strand-ref-shell__nav-scrim { display: block }
+  .strand-ref-mobile-trigger { display: inline-flex; position: fixed; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); right: 16px; z-index: 85; box-shadow: var(--strand-elevation-3, 0 8px 24px rgba(15, 23, 42, 0.2)); border-radius: var(--strand-radius-full, 9999px) }
   .strand-ref-shell__main { padding: var(--strand-space-8) var(--strand-space-6) var(--strand-space-16) }
   .strand-ref-example { grid-template-columns: minmax(0, 1fr) }
   .strand-ref-header__meta { grid-template-columns: 1fr 1fr; gap: var(--strand-space-6) var(--strand-space-8) }

@@ -294,16 +294,16 @@
 				"gzipped_bytes": 1594
 			},
 			"strand-ui.css": {
-				"raw_bytes": 180479,
-				"gzipped_bytes": 23699
+				"raw_bytes": 180835,
+				"gzipped_bytes": 23768
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 212225,
-		"total_gz_bytes": 33816,
+		"total_raw_bytes": 212581,
+		"total_gz_bytes": 33885,
 		"total_gz_kb": 33
 	},
 	"foreignBlocks": {
@@ -313,9 +313,12 @@
 		"Nav": [
 			"strand-glass-nav-active",
 			"strand-banner-active"
+		],
+		"LabShell": [
+			"strand-ref-mobile-trigger"
 		]
 	},
-	"foreignBlocksNote": "Blocks a component stylesheet defines that are neither its own name, nor rendered by its component, nor declared under cssOnlyComponents. Recorded so the exception is legible and cannot grow silently; every entry carries its reason here. InstrumentViewport defines .strand-body--instrument, the page-scale form of the same dark surface: one token set, two scopes. Nav defines the body classes .strand-glass-nav-active and .strand-banner-active, which the vanilla runtime toggles for browsers without :has() so the fixed nav can reserve its height.",
+	"foreignBlocksNote": "Blocks a component stylesheet defines that are neither its own name, nor rendered by its component, nor declared under cssOnlyComponents. Recorded so the exception is legible and cannot grow silently; every entry carries its reason here. InstrumentViewport defines .strand-body--instrument, the page-scale form of the same dark surface: one token set, two scopes. Nav defines the body classes .strand-glass-nav-active and .strand-banner-active, which the vanilla runtime toggles for browsers without :has() so the fixed nav can reserve its height. LabShell defines .strand-ref-mobile-trigger, the drawer's floating trigger, which a consumer composes from Button classes in its own markup; the shell only positions it.",
 	"darkCabinetComponents": [
 		"InstrumentViewport",
 		"MapLegend",
