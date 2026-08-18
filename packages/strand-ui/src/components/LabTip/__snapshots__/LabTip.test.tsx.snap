@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > pinned 1`] = `"<span class="strand-ref-tip strand-ref-tip--pinned">trigger</span>"`;
+
+exports[`renders > tip 1`] = `"<span class="strand-ref-tip">trigger</span>"`;

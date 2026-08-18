@@ -121,3 +121,8 @@ describe("FeatureSurface", () => {
   });
 
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./FeatureSurface.fixtures.js";
+
+snapshotFixtures(FeatureSurface, fixtures);

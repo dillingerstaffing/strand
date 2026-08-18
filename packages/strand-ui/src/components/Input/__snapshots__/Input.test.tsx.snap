@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > addons 1`] = `"<div class="strand-input strand-input--has-leading strand-input--has-trailing"><span aria-hidden="true" class="strand-input__leading">$</span><input type="text" class="strand-input__field"><span aria-hidden="true" class="strand-input__trailing">.00</span></div>"`;
+
+exports[`renders > disabled 1`] = `"<div class="strand-input strand-input--disabled"><input type="text" disabled="" class="strand-input__field"></div>"`;
+
+exports[`renders > email error 1`] = `"<div class="strand-input strand-input--error"><input type="email" aria-invalid="true" class="strand-input__field"></div>"`;
+
+exports[`renders > search 1`] = `"<div class="strand-input"><input type="search" class="strand-input__field"></div>"`;
+
+exports[`renders > text 1`] = `"<div class="strand-input"><input type="text" placeholder="Name" class="strand-input__field"></div>"`;

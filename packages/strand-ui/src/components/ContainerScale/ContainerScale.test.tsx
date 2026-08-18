@@ -55,3 +55,8 @@ describe("ContainerScale", () => {
     expect(el.style.width).toBe("60%");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./ContainerScale.fixtures.js";
+
+snapshotFixtures(ContainerScale, fixtures);

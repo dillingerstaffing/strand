@@ -101,3 +101,8 @@ describe("ChipSet", () => {
     );
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./ChipSet.fixtures.js";
+
+snapshotFixtures(ChipSet, fixtures);

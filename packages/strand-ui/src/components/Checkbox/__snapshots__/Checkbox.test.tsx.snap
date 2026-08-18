@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > checked 1`] = `"<label class="strand-checkbox strand-checkbox--checked"><input type="checkbox" aria-checked="true" role="checkbox" class="strand-checkbox__native"><span aria-hidden="true" class="strand-checkbox__control"><svg viewBox="0 0 16 16" fill="none" class="strand-checkbox__icon"><path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="strand-checkbox__label">Accept</span></label>"`;
+
+exports[`renders > compact no label 1`] = `"<label class="strand-checkbox strand-checkbox--compact"><input type="checkbox" aria-checked="false" role="checkbox" class="strand-checkbox__native"><span aria-hidden="true" class="strand-checkbox__control"></span></label>"`;
+
+exports[`renders > disabled checked 1`] = `"<label class="strand-checkbox strand-checkbox--checked strand-checkbox--disabled"><input type="checkbox" disabled="" aria-checked="true" role="checkbox" class="strand-checkbox__native"><span aria-hidden="true" class="strand-checkbox__control"><svg viewBox="0 0 16 16" fill="none" class="strand-checkbox__icon"><path d="M3.5 8L6.5 11L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="strand-checkbox__label">Locked</span></label>"`;
+
+exports[`renders > indeterminate 1`] = `"<label class="strand-checkbox strand-checkbox--indeterminate"><input type="checkbox" aria-checked="mixed" role="checkbox" class="strand-checkbox__native"><span aria-hidden="true" class="strand-checkbox__control"><svg viewBox="0 0 16 16" fill="none" class="strand-checkbox__icon"><line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line></svg></span><span class="strand-checkbox__label">Some</span></label>"`;
+
+exports[`renders > unchecked 1`] = `"<label class="strand-checkbox"><input type="checkbox" aria-checked="false" role="checkbox" class="strand-checkbox__native"><span aria-hidden="true" class="strand-checkbox__control"></span><span class="strand-checkbox__label">Accept</span></label>"`;

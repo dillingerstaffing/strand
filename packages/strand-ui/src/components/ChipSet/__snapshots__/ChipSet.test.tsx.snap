@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > empty 1`] = `"<div role="group" aria-label="None" class="strand-chip-set"></div>"`;
+
+exports[`renders > multi wrap 1`] = `"<div role="group" aria-label="Interests" class="strand-chip-set"><button type="button" aria-pressed="true" class="strand-chip-set__chip">Trails</button><button type="button" aria-pressed="false" class="strand-chip-set__chip">Chess</button></div>"`;
+
+exports[`renders > single scroll sm 1`] = `"<div role="radiogroup" aria-label="Filter" class="strand-chip-set strand-chip-set--scroll strand-chip-set--sm strand-scroll-row"><button type="button" role="radio" aria-checked="true" class="strand-chip-set__chip">All</button><button type="button" role="radio" aria-checked="false" class="strand-chip-set__chip">Mine</button></div>"`;

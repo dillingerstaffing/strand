@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > field 1`] = `"<div role="search" class="strand-search-field"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="strand-search-field__icon"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 14 14"></path></svg><input type="search" aria-label="Search" placeholder="Search events" class="strand-search-field__input"></div>"`;
+
+exports[`renders > full with value 1`] = `"<div role="search" class="strand-search-field strand-search-field--full"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="strand-search-field__icon"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 14 14"></path></svg><input type="search" aria-label="Find" placeholder="Search" class="strand-search-field__input"></div>"`;

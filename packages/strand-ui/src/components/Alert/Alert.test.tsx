@@ -120,3 +120,8 @@ describe("Alert", () => {
     expect(el.className).toContain("custom");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Alert.fixtures.js";
+
+snapshotFixtures(Alert, fixtures);

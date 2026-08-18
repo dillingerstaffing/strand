@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > plain 1`] = `"<div class="strand-kv strand-kv--editorial"><span class="strand-kv__label">Owner</span><span class="strand-kv__value">Ada</span></div>"`;
+
+exports[`renders > status 1`] = `"<div class="strand-kv strand-kv--editorial"><span class="strand-kv__label">Status</span><span class="strand-kv__value strand-kv__value--status">Live</span></div>"`;

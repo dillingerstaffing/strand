@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > default 1`] = `"<div class="strand-container strand-container--default">Content</div>"`;
+
+exports[`renders > full 1`] = `"<div class="strand-container strand-container--full">Content</div>"`;
+
+exports[`renders > narrow 1`] = `"<div class="strand-container strand-container--narrow">Content</div>"`;
+
+exports[`renders > wide as main 1`] = `"<main class="strand-container strand-container--wide">Content</main>"`;

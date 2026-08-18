@@ -49,3 +49,8 @@ describe("TokenSpecimen", () => {
     expect(el.style.boxShadow).toContain("rgba(0,0,0,0.1)");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./TokenSpecimen.fixtures.js";
+
+snapshotFixtures(TokenSpecimen, fixtures);

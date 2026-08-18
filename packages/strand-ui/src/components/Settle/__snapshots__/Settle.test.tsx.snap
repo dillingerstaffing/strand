@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > div 1`] = `"<div class="strand-settle">6 people</div>"`;
+
+exports[`renders > span keyed 1`] = `"<span class="strand-settle">7 people</span>"`;

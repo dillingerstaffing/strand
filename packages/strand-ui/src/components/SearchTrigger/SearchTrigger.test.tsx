@@ -175,3 +175,8 @@ describe("SearchTrigger", () => {
     }
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./SearchTrigger.fixtures.js";
+
+snapshotFixtures(SearchTrigger, fixtures);

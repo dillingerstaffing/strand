@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > shell 1`] = `"<div class="strand-ref-shell">main</div>"`;

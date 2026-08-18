@@ -81,3 +81,8 @@ describe("CardSection", () => {
     expect(el?.className).toContain("strand-card__section--header");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./CardSection.fixtures.js";
+
+snapshotFixtures(CardSection, fixtures);

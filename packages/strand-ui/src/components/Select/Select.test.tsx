@@ -97,3 +97,8 @@ describe("Select", () => {
     expect(selectEl).toBeInstanceOf(HTMLSelectElement);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Select.fixtures.js";
+
+snapshotFixtures(Select, fixtures);

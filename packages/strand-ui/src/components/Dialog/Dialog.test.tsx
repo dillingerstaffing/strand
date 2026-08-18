@@ -427,3 +427,8 @@ describe("Dialog", () => {
     expect(document.activeElement).toBe(input);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Dialog.fixtures.js";
+
+snapshotFixtures(Dialog, fixtures);

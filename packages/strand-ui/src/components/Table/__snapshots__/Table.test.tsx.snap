@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > empty 1`] = `"<div class="strand-table-wrapper"><table class="strand-table"><thead class="strand-table__head"><tr><th class="strand-table__th">A</th></tr></thead><tbody class="strand-table__body"></tbody></table></div>"`;
+
+exports[`renders > sortable 1`] = `"<div class="strand-table-wrapper"><table class="strand-table"><thead class="strand-table__head"><tr><th class="strand-table__th"><button type="button" aria-label="Sort by Name" class="strand-table__sort-btn">Name<span aria-hidden="true" class="strand-table__sort-indicator">↕</span></button></th><th style="width: 120px;" class="strand-table__th">Role</th></tr></thead><tbody class="strand-table__body"><tr class="strand-table__row"><td class="strand-table__td">Jane</td><td class="strand-table__td">Engineer</td></tr><tr class="strand-table__row"><td class="strand-table__td">Alex</td><td class="strand-table__td">Designer</td></tr></tbody></table></div>"`;

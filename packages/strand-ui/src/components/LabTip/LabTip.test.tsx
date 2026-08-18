@@ -46,3 +46,8 @@ describe("LabTip", () => {
     expect(container.firstElementChild?.getAttribute("role")).toBe("tooltip");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./LabTip.fixtures.js";
+
+snapshotFixtures(LabTip, fixtures);

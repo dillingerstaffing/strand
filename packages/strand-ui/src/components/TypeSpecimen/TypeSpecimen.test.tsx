@@ -37,3 +37,8 @@ describe("TypeSpecimen", () => {
     expect(container.querySelector("b")?.textContent).toBe("48px");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./TypeSpecimen.fixtures.js";
+
+snapshotFixtures(TypeSpecimen, fixtures);

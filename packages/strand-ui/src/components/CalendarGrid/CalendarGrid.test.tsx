@@ -375,3 +375,8 @@ describe("CalendarGrid CSS source", () => {
     );
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./CalendarGrid.fixtures.js";
+
+snapshotFixtures(CalendarGrid, fixtures);

@@ -162,3 +162,8 @@ describe("Avatar CSS source", () => {
     );
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Avatar.fixtures.js";
+
+snapshotFixtures(Avatar, fixtures);

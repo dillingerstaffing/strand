@@ -62,3 +62,8 @@ describe("Swatch", () => {
     expect(container.firstElementChild?.className).toContain("custom");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Swatch.fixtures.js";
+
+snapshotFixtures(Swatch, fixtures);

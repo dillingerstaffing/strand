@@ -69,3 +69,8 @@ describe("BigMonoTime", () => {
     expect(el?.classList.contains("x")).toBe(true);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./BigMonoTime.fixtures.js";
+
+snapshotFixtures(BigMonoTime, fixtures);

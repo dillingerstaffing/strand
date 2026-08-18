@@ -180,3 +180,8 @@ describe("StarRating focus is visible (SC 2.4.11)", () => {
     expect(rule).not.toContain("--strand-focus-ring");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./StarRating.fixtures.js";
+
+snapshotFixtures(StarRating, fixtures);

@@ -140,3 +140,8 @@ describe("Reserve", () => {
     expect(el.getAttribute("aria-live")).toBe("polite");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Reserve.fixtures.js";
+
+snapshotFixtures(Reserve, fixtures);

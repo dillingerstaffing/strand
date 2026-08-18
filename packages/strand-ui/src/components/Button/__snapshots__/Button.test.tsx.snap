@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > anchor 1`] = `"<a href="/docs" class="strand-btn strand-btn--primary strand-btn--md"><span class="strand-btn__content">Docs</span></a>"`;
+
+exports[`renders > danger lg 1`] = `"<button type="button" class="strand-btn strand-btn--danger strand-btn--lg"><span class="strand-btn__content">Delete</span></button>"`;
+
+exports[`renders > disabled 1`] = `"<button type="button" disabled="" aria-disabled="true" class="strand-btn strand-btn--primary strand-btn--md"><span class="strand-btn__content">Save</span></button>"`;
+
+exports[`renders > disabled anchor 1`] = `"<a aria-disabled="true" class="strand-btn strand-btn--primary strand-btn--md"><span class="strand-btn__content">Docs</span></a>"`;
+
+exports[`renders > full width submit 1`] = `"<button type="submit" class="strand-btn strand-btn--primary strand-btn--md strand-btn--full-width"><span class="strand-btn__content">Send</span></button>"`;
+
+exports[`renders > ghost sm 1`] = `"<button type="button" class="strand-btn strand-btn--ghost strand-btn--sm"><span class="strand-btn__content">More</span></button>"`;
+
+exports[`renders > icon only 1`] = `"<button type="button" aria-label="Close" class="strand-btn strand-btn--primary strand-btn--md strand-btn--icon-only"><span class="strand-btn__content">x</span></button>"`;
+
+exports[`renders > loading 1`] = `"<button type="button" disabled="" aria-disabled="true" aria-busy="true" class="strand-btn strand-btn--primary strand-btn--md strand-btn--loading"><span aria-hidden="true" class="strand-btn__spinner"></span><span style="visibility: hidden;" class="strand-btn__content">Saving</span></button>"`;
+
+exports[`renders > primary md 1`] = `"<button type="button" class="strand-btn strand-btn--primary strand-btn--md"><span class="strand-btn__content">Save</span></button>"`;
+
+exports[`renders > secondary 1`] = `"<button type="button" class="strand-btn strand-btn--secondary strand-btn--md"><span class="strand-btn__content">Cancel</span></button>"`;

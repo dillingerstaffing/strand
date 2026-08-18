@@ -62,3 +62,8 @@ describe("ResultCard", () => {
     expect(container.querySelector(".strand-result-card")?.hasAttribute("aria-current")).toBe(false);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./ResultCard.fixtures.js";
+
+snapshotFixtures(ResultCard, fixtures);

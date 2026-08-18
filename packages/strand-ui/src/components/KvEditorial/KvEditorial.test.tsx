@@ -75,3 +75,8 @@ describe("KvEditorial", () => {
     expect(container.querySelector(".strand-kv__value em")).toBeTruthy();
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./KvEditorial.fixtures.js";
+
+snapshotFixtures(KvEditorial, fixtures);

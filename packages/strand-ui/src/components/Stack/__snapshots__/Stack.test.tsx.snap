@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > as ul gap 0 1`] = `"<ul class="strand-stack strand-stack--vertical strand-stack--gap-0">items</ul>"`;
+
+exports[`renders > end around 1`] = `"<div class="strand-stack strand-stack--vertical strand-stack--gap-4 strand-stack--align-end strand-stack--justify-around">items</div>"`;
+
+exports[`renders > horizontal center between wrap 1`] = `"<div class="strand-stack strand-stack--horizontal strand-stack--gap-2 strand-stack--align-center strand-stack--justify-between strand-stack--wrap">items</div>"`;
+
+exports[`renders > off ladder gap 1`] = `"<div class="strand-stack strand-stack--vertical strand-stack--gap-6">items</div>"`;
+
+exports[`renders > vertical 1`] = `"<div class="strand-stack strand-stack--vertical strand-stack--gap-4">items</div>"`;

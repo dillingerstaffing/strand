@@ -208,3 +208,8 @@ describe("DataReadout size API", () => {
     }
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./DataReadout.fixtures.js";
+
+snapshotFixtures(DataReadout, fixtures);

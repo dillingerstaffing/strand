@@ -241,3 +241,8 @@ describe("Button", () => {
     expect(css).not.toMatch(/min-height:\s*var\(--strand-touch-target\)\s*;/);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Button.fixtures.js";
+
+snapshotFixtures(Button, fixtures);

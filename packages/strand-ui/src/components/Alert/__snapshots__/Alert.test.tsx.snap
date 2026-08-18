@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > error 1`] = `"<div role="alert" class="strand-alert strand-alert--error"><span class="strand-alert__status">ERROR</span><div class="strand-alert__content">Failed</div></div>"`;
+
+exports[`renders > info 1`] = `"<div role="status" class="strand-alert strand-alert--info"><span class="strand-alert__status">INFO</span><div class="strand-alert__content">Message</div></div>"`;
+
+exports[`renders > success dismissible 1`] = `"<div role="status" class="strand-alert strand-alert--success"><span class="strand-alert__status">COMPLETE</span><div class="strand-alert__content">Saved</div><button type="button" aria-label="Dismiss" class="strand-alert__dismiss">×</button></div>"`;
+
+exports[`renders > warning 1`] = `"<div role="alert" class="strand-alert strand-alert--warning"><span class="strand-alert__status">WARNING</span><div class="strand-alert__content">Careful</div></div>"`;

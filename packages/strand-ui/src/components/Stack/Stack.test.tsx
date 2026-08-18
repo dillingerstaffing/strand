@@ -189,3 +189,8 @@ describe("Stack", () => {
   });
 
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Stack.fixtures.js";
+
+snapshotFixtures(Stack, fixtures);

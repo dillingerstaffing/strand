@@ -57,3 +57,8 @@ describe("AppShell", () => {
     expect(el?.getAttribute("id")).toBe("app");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./AppShell.fixtures.js";
+
+snapshotFixtures(AppShell, fixtures);

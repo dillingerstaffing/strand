@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > lg 1`] = `"<div class="strand-data-readout strand-data-readout--lg"><span class="strand-data-readout__label">Uptime</span><span class="strand-data-readout__value">1</span></div>"`;
+
+exports[`renders > md 1`] = `"<div class="strand-data-readout"><span class="strand-data-readout__label">Uptime</span><span class="strand-data-readout__value">99.9%</span></div>"`;
+
+exports[`renders > sm 1`] = `"<div class="strand-data-readout strand-data-readout--sm"><span class="strand-data-readout__label">Uptime</span><span class="strand-data-readout__value">42</span></div>"`;
+
+exports[`renders > xl 1`] = `"<div class="strand-data-readout strand-data-readout--xl"><span class="strand-data-readout__label">Uptime</span><span class="strand-data-readout__value">1</span></div>"`;

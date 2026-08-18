@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > count and resize 1`] = `"<div class="strand-textarea strand-textarea--auto-resize"><textarea maxlength="100" class="strand-textarea__field"></textarea><span aria-live="polite" class="strand-textarea__count">5/100</span></div>"`;
+
+exports[`renders > error disabled 1`] = `"<div class="strand-textarea strand-textarea--error strand-textarea--disabled"><textarea disabled="" aria-invalid="true" class="strand-textarea__field"></textarea></div>"`;
+
+exports[`renders > plain 1`] = `"<div class="strand-textarea"><textarea placeholder="Notes" class="strand-textarea__field"></textarea></div>"`;

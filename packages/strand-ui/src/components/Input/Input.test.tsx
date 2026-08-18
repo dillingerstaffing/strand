@@ -93,3 +93,8 @@ describe("Input", () => {
     expect(inputEl).toBeInstanceOf(HTMLInputElement);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Input.fixtures.js";
+
+snapshotFixtures(Input, fixtures);

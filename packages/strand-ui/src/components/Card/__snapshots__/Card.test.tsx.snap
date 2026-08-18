@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > as article lg 1`] = `"<article class="strand-card strand-card--pad-lg">Body</article>"`;
+
+exports[`renders > elevated md 1`] = `"<div class="strand-card strand-card--pad-md">Body</div>"`;
+
+exports[`renders > flat none 1`] = `"<div class="strand-card strand-card--flat strand-card--pad-none">Body</div>"`;
+
+exports[`renders > interactive active 1`] = `"<div class="strand-card strand-card--pad-md strand-card--interactive strand-card--active">Body</div>"`;
+
+exports[`renders > legacy interactive variant 1`] = `"<div class="strand-card strand-card--interactive strand-card--pad-md">Body</div>"`;
+
+exports[`renders > outlined sm 1`] = `"<div class="strand-card strand-card--outlined strand-card--pad-sm">Body</div>"`;
+
+exports[`renders > warm xl 1`] = `"<div class="strand-card strand-card--warm strand-card--pad-xl">Body</div>"`;

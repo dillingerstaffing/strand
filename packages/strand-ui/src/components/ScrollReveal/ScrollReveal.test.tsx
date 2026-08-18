@@ -188,3 +188,8 @@ describe("reduced motion covers every reveal selector", () => {
     expect(uncovered, "reveal selectors with motion and no reduced-motion rule").toEqual([]);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./ScrollReveal.fixtures.js";
+
+snapshotFixtures(ScrollReveal, fixtures);

@@ -58,3 +58,8 @@ describe("StatStrip", () => {
     expect(container.querySelector(".strand-stat-strip")?.classList.contains("x")).toBe(true);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./StatStrip.fixtures.js";
+
+snapshotFixtures(StatStrip, fixtures);

@@ -58,3 +58,8 @@ describe("MapLegend", () => {
     expect(el?.classList.contains("x")).toBe(true);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./MapLegend.fixtures.js";
+
+snapshotFixtures(MapLegend, fixtures);

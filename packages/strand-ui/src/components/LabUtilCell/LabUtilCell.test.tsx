@@ -43,3 +43,8 @@ describe("LabUtilCell family", () => {
     ).toContain("strand-ref-util-cell__block");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./LabUtilCell.fixtures.js";
+
+snapshotFixtures(LabUtilCell, fixtures);

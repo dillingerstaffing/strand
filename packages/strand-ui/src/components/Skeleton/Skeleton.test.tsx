@@ -94,3 +94,8 @@ describe("Skeleton", () => {
     expect(el?.className).toContain("custom");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Skeleton.fixtures.js";
+
+snapshotFixtures(Skeleton, fixtures);

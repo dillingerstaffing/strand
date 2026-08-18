@@ -132,3 +132,8 @@ describe("Table", () => {
     expect(indicators.length).toBe(2);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Table.fixtures.js";
+
+snapshotFixtures(Table, fixtures);

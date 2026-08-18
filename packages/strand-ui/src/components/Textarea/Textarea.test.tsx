@@ -87,3 +87,8 @@ describe("Textarea", () => {
     expect(wrapper?.className).toContain("strand-textarea");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Textarea.fixtures.js";
+
+snapshotFixtures(Textarea, fixtures);

@@ -261,3 +261,8 @@ describe("Grid CSS source", () => {
   });
 
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Grid.fixtures.js";
+
+snapshotFixtures(Grid, fixtures);

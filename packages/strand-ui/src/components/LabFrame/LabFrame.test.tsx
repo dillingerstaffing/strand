@@ -131,3 +131,8 @@ describe("LabFrame family", () => {
     expect(onClick).toHaveBeenCalledOnce();
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./LabFrame.fixtures.js";
+
+snapshotFixtures(LabFrame, fixtures);

@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > bordered 1`] = `"<dl class="strand-stat-strip strand-stat-strip--bordered"><div class="strand-stat-strip__cell"><dt class="strand-stat-strip__label">A</dt><dd class="strand-stat-strip__value">1</dd></div></dl>"`;
+
+exports[`renders > plain 1`] = `"<dl class="strand-stat-strip"><div class="strand-stat-strip__cell"><dt class="strand-stat-strip__label">Group</dt><dd class="strand-stat-strip__value">East Bay</dd></div><div class="strand-stat-strip__cell"><dt class="strand-stat-strip__label">Meet at</dt><dd class="strand-stat-strip__value">Skyline Gate</dd></div></dl>"`;

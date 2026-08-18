@@ -245,3 +245,8 @@ describe("ToastProvider + useToast", () => {
     expect(toastContainer.className).toContain("custom-provider");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Toast.fixtures.js";
+
+snapshotFixtures(Toast, fixtures);

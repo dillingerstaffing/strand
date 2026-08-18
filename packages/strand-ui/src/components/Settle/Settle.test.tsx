@@ -127,3 +127,8 @@ describe("Settle", () => {
     expect(el.getAttribute("style")).toBeNull();
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Settle.fixtures.js";
+
+snapshotFixtures(Settle, fixtures);

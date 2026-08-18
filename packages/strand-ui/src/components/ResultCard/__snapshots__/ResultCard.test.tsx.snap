@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > full 1`] = `"<article class="strand-result-card"><div class="strand-result-card__title">Systems Engineer</div><div class="strand-result-card__company">Acme</div><div class="strand-result-card__meta"><span class="strand-result-card__location">Oakland</span><span class="strand-result-card__salary">$100k</span><span class="strand-result-card__badge strand-result-card__badge--remote">Remote</span><span class="strand-result-card__badge strand-result-card__badge--source">Board</span><span class="strand-result-card__badge">Plain</span></div></article>"`;
+
+exports[`renders > title only active 1`] = `"<article aria-current="true" class="strand-result-card strand-result-card--active"><div class="strand-result-card__title">Only</div></article>"`;

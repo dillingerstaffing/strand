@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > instrument with separator 1`] = `"<nav aria-label="Breadcrumb" class="strand-breadcrumb strand-breadcrumb--instrument"><ol class="strand-breadcrumb__list"><li class="strand-breadcrumb__item"><a href="/a" class="strand-breadcrumb__link">A</a></li><li class="strand-breadcrumb__item"><span aria-hidden="true" class="strand-breadcrumb__separator">&gt;</span><span aria-current="page" class="strand-breadcrumb__current">B</span></li></ol></nav>"`;
+
+exports[`renders > one item 1`] = `"<nav aria-label="Breadcrumb" class="strand-breadcrumb"><ol class="strand-breadcrumb__list"><li class="strand-breadcrumb__item"><span aria-current="page" class="strand-breadcrumb__current">Only</span></li></ol></nav>"`;
+
+exports[`renders > three items 1`] = `"<nav aria-label="Breadcrumb" class="strand-breadcrumb"><ol class="strand-breadcrumb__list"><li class="strand-breadcrumb__item"><a href="/" class="strand-breadcrumb__link">Home</a></li><li class="strand-breadcrumb__item"><span aria-hidden="true" class="strand-breadcrumb__separator">/</span><a href="/settings" class="strand-breadcrumb__link">Settings</a></li><li class="strand-breadcrumb__item"><span aria-hidden="true" class="strand-breadcrumb__separator">/</span><span aria-current="page" class="strand-breadcrumb__current">Profile</span></li></ol></nav>"`;

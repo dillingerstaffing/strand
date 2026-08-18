@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > default 1`] = `"<div class="strand-reveal">Fades</div>"`;
+
+exports[`renders > threshold not once 1`] = `"<div class="strand-reveal">Fades</div>"`;

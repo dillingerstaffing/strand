@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > bottom 1`] = `"<span aria-describedby="strand-tooltip-20" class="strand-tooltip__wrapper">Trigger<span id="strand-tooltip-20" role="tooltip" aria-hidden="true" class="strand-tooltip strand-tooltip--bottom">Save</span></span>"`;
+
+exports[`renders > left 1`] = `"<span aria-describedby="strand-tooltip-21" class="strand-tooltip__wrapper">T<span id="strand-tooltip-21" role="tooltip" aria-hidden="true" class="strand-tooltip strand-tooltip--left">L</span></span>"`;
+
+exports[`renders > right 1`] = `"<span aria-describedby="strand-tooltip-22" class="strand-tooltip__wrapper">T<span id="strand-tooltip-22" role="tooltip" aria-hidden="true" class="strand-tooltip strand-tooltip--right">R</span></span>"`;
+
+exports[`renders > top 1`] = `"<span aria-describedby="strand-tooltip-19" class="strand-tooltip__wrapper">Trigger<span id="strand-tooltip-19" role="tooltip" aria-hidden="true" class="strand-tooltip strand-tooltip--top">Save</span></span>"`;

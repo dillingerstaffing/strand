@@ -122,3 +122,8 @@ describe("Switch", () => {
   });
 
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Switch.fixtures.js";
+
+snapshotFixtures(Switch, fixtures);

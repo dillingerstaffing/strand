@@ -85,3 +85,8 @@ describe("PersonChip", () => {
     expect(container.querySelector(".strand-person-chip")?.textContent).not.toContain("\u00b7");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./PersonChip.fixtures.js";
+
+snapshotFixtures(PersonChip, fixtures);

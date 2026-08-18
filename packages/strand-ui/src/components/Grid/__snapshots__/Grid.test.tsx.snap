@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > auto fit 1`] = `"<div style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--strand-space-3);" class="strand-grid">cells</div>"`;
+
+exports[`renders > default 1`] = `"<div style="grid-template-columns: repeat(1, minmax(0, 1fr)); gap: var(--strand-space-4);" class="strand-grid">cells</div>"`;
+
+exports[`renders > off ladder gap 1`] = `"<div style="grid-template-columns: repeat(1, minmax(0, 1fr)); gap: var(--strand-space-6);" class="strand-grid">cells</div>"`;
+
+exports[`renders > sidebar 1`] = `"<div style="gap: var(--strand-space-4);" class="strand-grid strand-grid--sidebar">cells</div>"`;
+
+exports[`renders > split 1`] = `"<div style="gap: var(--strand-space-4);" class="strand-grid strand-grid--split">cells</div>"`;
+
+exports[`renders > three columns gap 6 1`] = `"<div style="grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--strand-space-6);" class="strand-grid">cells</div>"`;

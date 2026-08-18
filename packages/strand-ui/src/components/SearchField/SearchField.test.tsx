@@ -173,3 +173,8 @@ describe("SearchField", () => {
     expect(body).not.toMatch(/rgba?\([^)]*[/,]\s*(0?\.\d+|\d+%)\s*\)/);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./SearchField.fixtures.js";
+
+snapshotFixtures(SearchField, fixtures);

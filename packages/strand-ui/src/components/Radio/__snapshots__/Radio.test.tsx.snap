@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > checked 1`] = `"<label class="strand-radio strand-radio--checked"><input type="radio" name="plan" class="strand-radio__native" value="pro"><span aria-hidden="true" class="strand-radio__control"><span class="strand-radio__dot"></span></span><span class="strand-radio__label">Pro</span></label>"`;
+
+exports[`renders > disabled compact 1`] = `"<label class="strand-radio strand-radio--compact strand-radio--disabled"><input type="radio" disabled="" name="plan" class="strand-radio__native" value="x"><span aria-hidden="true" class="strand-radio__control"><span class="strand-radio__dot"></span></span></label>"`;
+
+exports[`renders > unchecked 1`] = `"<label class="strand-radio"><input type="radio" name="plan" class="strand-radio__native" value="free"><span aria-hidden="true" class="strand-radio__control"><span class="strand-radio__dot"></span></span><span class="strand-radio__label">Free</span></label>"`;

@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > explicit initials 1`] = `"<span class="strand-person-chip"><span aria-hidden="true" class="strand-person-chip__avatar">AR</span><span class="strand-person-chip__name">Ana Ruiz</span></span>"`;
+
+exports[`renders > name 1`] = `"<span class="strand-person-chip"><span aria-hidden="true" class="strand-person-chip__avatar">MK</span><span class="strand-person-chip__name">Maria Klein</span></span>"`;
+
+exports[`renders > secondary 1`] = `"<span class="strand-person-chip"><span aria-hidden="true" class="strand-person-chip__avatar">S</span><span class="strand-person-chip__name">steady-kestrel-865</span><span class="strand-person-chip__secondary">Grace</span></span>"`;

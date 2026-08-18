@@ -242,3 +242,8 @@ describe("every dark-washed component answers for its whole variant family", () 
     expect(viewportCss).not.toContain("strand-toast");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./InstrumentViewport.fixtures.js";
+
+snapshotFixtures(InstrumentViewport, fixtures);

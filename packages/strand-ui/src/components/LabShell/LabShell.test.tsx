@@ -328,3 +328,8 @@ describe("LabShell boundary integrity (CSS source guard)", () => {
     expect(css).toMatch(/\.strand-ref-example\s*>\s*\*\s*\{[^}]*min-width:\s*0/);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./LabShell.fixtures.js";
+
+snapshotFixtures(LabShell, fixtures);

@@ -116,3 +116,8 @@ describe("Checkbox", () => {
   });
 
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Checkbox.fixtures.js";
+
+snapshotFixtures(Checkbox, fixtures);

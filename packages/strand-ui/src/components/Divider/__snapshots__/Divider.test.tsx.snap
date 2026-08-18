@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > horizontal 1`] = `"<hr role="separator" aria-orientation="horizontal" class="strand-divider strand-divider--horizontal">"`;
+
+exports[`renders > labeled 1`] = `"<div role="separator" aria-orientation="horizontal" class="strand-divider strand-divider--horizontal strand-divider--labeled"><span class="strand-divider__line"></span><span class="strand-divider__label">OR</span><span class="strand-divider__line"></span></div>"`;
+
+exports[`renders > vertical 1`] = `"<div role="separator" aria-orientation="vertical" class="strand-divider strand-divider--vertical"></div>"`;

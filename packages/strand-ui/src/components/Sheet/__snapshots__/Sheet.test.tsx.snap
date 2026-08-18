@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > closed 1`] = `""`;
+
+exports[`renders > open not draggable 1`] = `"<div class="strand-dialog__backdrop"><div role="dialog" aria-modal="true" tabindex="-1" aria-label="Filters" class="strand-dialog__panel strand-dialog__panel--align-end strand-dialog__panel--pad-none"><div class="strand-dialog__body"><div class="strand-sheet__panel"><div class="strand-sheet__body">Body</div></div></div></div></div>"`;
+
+exports[`renders > open with head and action 1`] = `"<div class="strand-dialog__backdrop"><div role="dialog" aria-modal="true" tabindex="-1" aria-label="Filters" class="strand-dialog__panel strand-dialog__panel--align-end strand-dialog__panel--pad-none"><div class="strand-dialog__body"><div class="strand-sheet__panel"><div data-testid="sheet-grab" class="strand-sheet__grab"><span aria-hidden="true" class="strand-sheet__grabber"></span></div><div data-testid="sheet-head" class="strand-sheet__head">Head</div><div class="strand-sheet__body">Body</div><div data-testid="sheet-foot" class="strand-sheet__foot">Show 6</div></div></div></div></div>"`;

@@ -110,3 +110,8 @@ describe("Tag", () => {
     expect(tag?.getAttribute("id")).toBe("tag-1");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Tag.fixtures.js";
+
+snapshotFixtures(Tag, fixtures);

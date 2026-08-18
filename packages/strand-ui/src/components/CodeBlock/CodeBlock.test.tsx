@@ -88,3 +88,8 @@ describe("CodeBlock", () => {
     expect(container.firstElementChild?.getAttribute("id")).toBe("my-code");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./CodeBlock.fixtures.js";
+
+snapshotFixtures(CodeBlock, fixtures);

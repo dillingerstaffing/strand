@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > body 1`] = `"<div class="strand-card__section">Body</div>"`;
+
+exports[`renders > header 1`] = `"<div class="strand-card__section strand-card__section--header">Title</div>"`;

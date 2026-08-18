@@ -167,3 +167,8 @@ describe("CommandPalette", () => {
     expect(container.querySelectorAll(".strand-command-palette__badge")).toHaveLength(1);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./CommandPalette.fixtures.js";
+
+snapshotFixtures(CommandPalette, fixtures);

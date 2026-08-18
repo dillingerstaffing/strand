@@ -29,3 +29,8 @@ describe("LabGlassStage", () => {
     expect(panel?.className).toContain("strand-ref-glass-panel");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./LabGlassStage.fixtures.js";
+
+snapshotFixtures(LabGlassStage, fixtures);

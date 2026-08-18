@@ -194,3 +194,8 @@ describe("Tooltip", () => {
     expect(tooltip).toHaveAttribute("aria-hidden", "true");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Tooltip.fixtures.js";
+
+snapshotFixtures(Tooltip, fixtures);

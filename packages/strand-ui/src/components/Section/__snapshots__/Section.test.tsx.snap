@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > compact elevated border as footer 1`] = `"<footer class="strand-section strand-section--compact strand-section--bg-elevated strand-section--border-top">Body</footer>"`;
+
+exports[`renders > hero recessed 1`] = `"<section class="strand-section strand-section--hero strand-section--bg-recessed">Body</section>"`;
+
+exports[`renders > standard 1`] = `"<section class="strand-section strand-section--standard strand-section--bg-primary">Body</section>"`;

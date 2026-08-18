@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > default 1`] = `"<div class="strand-instrument-viewport">Readouts</div>"`;
+
+exports[`renders > full bleed 1`] = `"<div class="strand-instrument-viewport strand-instrument-viewport--full-bleed">Readouts</div>"`;
+
+exports[`renders > grid 1`] = `"<div class="strand-instrument-viewport strand-instrument-viewport--grid">Readouts</div>"`;

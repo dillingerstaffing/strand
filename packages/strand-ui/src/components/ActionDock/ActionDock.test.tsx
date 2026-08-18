@@ -189,3 +189,8 @@ describe("ActionDock", () => {
     vi.unstubAllGlobals();
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./ActionDock.fixtures.js";
+
+snapshotFixtures(ActionDock, fixtures);

@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > custom title 1`] = `"<div class="strand-map-legend"><div class="strand-map-legend__title">Sectors</div><div class="strand-map-legend__item"><span aria-hidden="true" class="strand-map-legend__dot strand-map-legend__dot--trades"></span>Trades</div><div class="strand-map-legend__item"><span aria-hidden="true" class="strand-map-legend__dot strand-map-legend__dot--finance"></span>Finance</div></div>"`;
+
+exports[`renders > plain items 1`] = `"<div class="strand-map-legend"><div class="strand-map-legend__title">Legend</div><div class="strand-map-legend__item"><span aria-hidden="true" class="strand-map-legend__dot strand-map-legend__dot--tech"></span>Technology</div><div class="strand-map-legend__item"><span aria-hidden="true" class="strand-map-legend__dot strand-map-legend__dot--health"></span>Health</div></div>"`;

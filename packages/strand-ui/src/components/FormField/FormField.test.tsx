@@ -177,3 +177,8 @@ describe("FormField", () => {
     expect(container.querySelector("#name")?.getAttribute("aria-describedby")).toBeNull();
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./FormField.fixtures.js";
+
+snapshotFixtures(FormField, fixtures);

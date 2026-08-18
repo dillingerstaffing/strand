@@ -200,3 +200,8 @@ describe("Badge fills carry small white text at AA", () => {
     expect(still.querySelector(".strand-badge--live")).toBeNull();
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Badge.fixtures.js";
+
+snapshotFixtures(Badge, fixtures);

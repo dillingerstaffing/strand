@@ -129,3 +129,8 @@ describe("Breadcrumb", () => {
     expect(instrument.replace(" strand-breadcrumb--instrument", "")).toBe(plain);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Breadcrumb.fixtures.js";
+
+snapshotFixtures(Breadcrumb, fixtures);

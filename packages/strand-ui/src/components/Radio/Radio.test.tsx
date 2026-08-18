@@ -104,3 +104,8 @@ describe("Radio", () => {
   });
 
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Radio.fixtures.js";
+
+snapshotFixtures(Radio, fixtures);

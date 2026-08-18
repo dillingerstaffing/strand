@@ -147,3 +147,8 @@ describe("Section", () => {
     );
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Section.fixtures.js";
+
+snapshotFixtures(Section, fixtures);

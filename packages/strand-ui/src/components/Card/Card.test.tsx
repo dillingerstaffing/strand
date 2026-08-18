@@ -168,3 +168,8 @@ describe("Card", () => {
     expect(el?.className).toContain("strand-card");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Card.fixtures.js";
+
+snapshotFixtures(Card, fixtures);

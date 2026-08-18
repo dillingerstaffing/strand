@@ -68,3 +68,8 @@ describe("ResultsPanel", () => {
     expect(container.querySelector(".strand-results-panel")?.hasAttribute("hidden")).toBe(true);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./ResultsPanel.fixtures.js";
+
+snapshotFixtures(ResultsPanel, fixtures);

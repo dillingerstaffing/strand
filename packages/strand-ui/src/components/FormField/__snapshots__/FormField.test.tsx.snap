@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > error 1`] = `"<div class="strand-form-field strand-form-field--error"><label for="email" class="strand-form-field__label">Email</label><div class="strand-form-field__control">control</div><p id="email-error" role="alert" class="strand-form-field__error">Required</p></div>"`;
+
+exports[`renders > hint required 1`] = `"<div class="strand-form-field"><label for="email" class="strand-form-field__label">Email<span aria-hidden="true" class="strand-form-field__required">*</span></label><div class="strand-form-field__control">control</div><p id="email-hint" class="strand-form-field__hint">Work email</p></div>"`;
+
+exports[`renders > label only 1`] = `"<div class="strand-form-field"><label for="email" class="strand-form-field__label">Email</label><div class="strand-form-field__control">control</div></div>"`;
+
+exports[`renders > success 1`] = `"<div class="strand-form-field strand-form-field--success"><label for="name" class="strand-form-field__label">Name</label><div class="strand-form-field__control">control</div><p id="name-success" role="status" class="strand-form-field__success">Available</p></div>"`;

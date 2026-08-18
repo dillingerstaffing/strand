@@ -94,3 +94,8 @@ describe("Container", () => {
     expect(el?.className).toContain("strand-container");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Container.fixtures.js";
+
+snapshotFixtures(Container, fixtures);

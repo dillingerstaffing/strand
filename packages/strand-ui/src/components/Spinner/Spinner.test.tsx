@@ -54,3 +54,8 @@ describe("Spinner", () => {
     expect(el.className).toContain("custom");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Spinner.fixtures.js";
+
+snapshotFixtures(Spinner, fixtures);

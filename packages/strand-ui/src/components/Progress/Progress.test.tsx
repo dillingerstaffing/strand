@@ -91,3 +91,8 @@ describe("Progress", () => {
     expect(el.className).toContain("custom");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Progress.fixtures.js";
+
+snapshotFixtures(Progress, fixtures);

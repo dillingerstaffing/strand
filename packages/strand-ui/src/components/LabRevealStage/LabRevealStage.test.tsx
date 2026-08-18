@@ -33,3 +33,8 @@ describe("LabRevealStage", () => {
     }
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./LabRevealStage.fixtures.js";
+
+snapshotFixtures(LabRevealStage, fixtures);

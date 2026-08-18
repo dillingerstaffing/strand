@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > article none 1`] = `"<article class="strand-feature-surface strand-feature-surface--pad-none">Body</article>"`;
+
+exports[`renders > default 1`] = `"<div class="strand-feature-surface strand-feature-surface--pad-md">Body</div>"`;
+
+exports[`renders > section xl 1`] = `"<section class="strand-feature-surface strand-feature-surface--pad-xl">Body</section>"`;

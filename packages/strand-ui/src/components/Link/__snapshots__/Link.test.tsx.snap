@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > cta 1`] = `"<a href="/docs" class="strand-link strand-link--cta">Docs</a>"`;
+
+exports[`renders > default 1`] = `"<a href="/docs" class="strand-link">Docs</a>"`;
+
+exports[`renders > inherit 1`] = `"<a href="/x" class="strand-link strand-link--inherit">Title</a>"`;
+
+exports[`renders > mono external 1`] = `"<a href="https://example.com" target="_blank" rel="noopener noreferrer" class="strand-link strand-link--mono">Site</a>"`;

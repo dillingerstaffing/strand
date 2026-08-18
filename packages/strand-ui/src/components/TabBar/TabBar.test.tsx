@@ -227,3 +227,8 @@ describe("TabBar", () => {
     expect(tokens, `${fallback} is not defined in tokens.css`).toContain(`${fallback}:`);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./TabBar.fixtures.js";
+
+snapshotFixtures(TabBar, fixtures);

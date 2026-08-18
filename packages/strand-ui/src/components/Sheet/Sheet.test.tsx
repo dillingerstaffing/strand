@@ -254,3 +254,8 @@ describe("dragOutcome", () => {
     expect(dragOutcome(0, 200, HEIGHT, 0.5).dismiss).toBe(false);
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Sheet.fixtures.js";
+
+snapshotFixtures(Sheet, fixtures);

@@ -162,3 +162,8 @@ describe("Tabs", () => {
     expect(root.className).toContain("custom");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Tabs.fixtures.js";
+
+snapshotFixtures(Tabs, fixtures);

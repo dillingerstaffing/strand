@@ -84,3 +84,8 @@ describe("Divider", () => {
     expect(getByRole("separator").tagName).toBe("DIV");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Divider.fixtures.js";
+
+snapshotFixtures(Divider, fixtures);

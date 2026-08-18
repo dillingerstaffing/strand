@@ -412,3 +412,8 @@ describe("the nav wordmark answers hover and press", () => {
     expect(container.querySelector(".strand-nav__mobile-menu")).toBeTruthy();
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./Nav.fixtures.js";
+
+snapshotFixtures(Nav, fixtures);

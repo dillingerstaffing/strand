@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > lg 1`] = `"<span role="status" class="strand-spinner strand-spinner--lg"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-spinner__sr-only">Loading</span></span>"`;
+
+exports[`renders > md 1`] = `"<span role="status" class="strand-spinner strand-spinner--md"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-spinner__sr-only">Loading</span></span>"`;
+
+exports[`renders > sm 1`] = `"<span role="status" class="strand-spinner strand-spinner--sm"><span aria-hidden="true" class="strand-spinner__ring"></span><span class="strand-spinner__sr-only">Loading</span></span>"`;

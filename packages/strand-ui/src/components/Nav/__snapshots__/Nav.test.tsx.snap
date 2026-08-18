@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders > empty 1`] = `"<nav aria-label="Main navigation" class="strand-nav"><div class="strand-nav__inner"><div class="strand-nav__items"></div><button type="button" aria-expanded="false" aria-label="Menu" class="strand-nav__hamburger"><span aria-hidden="true" class="strand-nav__hamburger-icon"></span></button></div></nav>"`;
+
+exports[`renders > glass 1`] = `"<nav aria-label="Main navigation" class="strand-nav strand-nav--glass"><div class="strand-nav__inner"><div class="strand-nav__items"><a href="/" class="strand-nav__link">Home</a></div><button type="button" aria-expanded="false" aria-label="Menu" class="strand-nav__hamburger"><span aria-hidden="true" class="strand-nav__hamburger-icon"></span></button></div></nav>"`;
+
+exports[`renders > items and slots 1`] = `"<nav aria-label="Main navigation" class="strand-nav"><div class="strand-nav__inner"><div class="strand-nav__logo">Brand</div><div class="strand-nav__items"><a href="/" aria-current="page" class="strand-nav__link strand-nav__link--active">Home</a><a href="/about" class="strand-nav__link">About</a></div><div class="strand-nav__actions">Sign in</div><button type="button" aria-expanded="false" aria-label="Menu" class="strand-nav__hamburger"><span aria-hidden="true" class="strand-nav__hamburger-icon"></span></button></div></nav>"`;
+
+exports[`renders > no mobile menu 1`] = `"<nav aria-label="Main navigation" class="strand-nav"><div class="strand-nav__inner"><div class="strand-nav__items"><a href="/" class="strand-nav__link">Home</a></div></div></nav>"`;

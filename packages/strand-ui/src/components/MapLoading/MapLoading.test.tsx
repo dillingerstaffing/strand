@@ -47,3 +47,8 @@ describe("MapLoading", () => {
     expect(container.querySelector(".strand-map-loading__bar")?.getAttribute("aria-hidden")).toBe("true");
   });
 });
+
+import { snapshotFixtures } from "../../test/snapshot.js";
+import { fixtures } from "./MapLoading.fixtures.js";
+
+snapshotFixtures(MapLoading, fixtures);
