@@ -1,5 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > hidden custom text 1`] = `"<div role="status" aria-live="polite" aria-busy="false" class="strand-map-loading strand-map-loading--hidden"><div aria-hidden="true" class="strand-map-loading__spinner"></div><div class="strand-map-loading__text">Scanning</div><div aria-hidden="true" class="strand-map-loading__bar"></div></div>"`;
+exports[`renders > hidden custom text 1`] = `"<div aria-busy="false" aria-live="polite" class="strand-map-loading strand-map-loading--hidden" role="status"><div aria-hidden="true" class="strand-map-loading__spinner"></div><div class="strand-map-loading__text">Scanning</div><div aria-hidden="true" class="strand-map-loading__bar"></div></div>"`;
 
-exports[`renders > visible 1`] = `"<div role="status" aria-live="polite" aria-busy="true" class="strand-map-loading"><div aria-hidden="true" class="strand-map-loading__spinner"></div><div class="strand-map-loading__text">Processing</div><div aria-hidden="true" class="strand-map-loading__bar"></div></div>"`;
+exports[`renders > visible 1`] = `"<div aria-busy="true" aria-live="polite" class="strand-map-loading" role="status"><div aria-hidden="true" class="strand-map-loading__spinner"></div><div class="strand-map-loading__text">Processing</div><div aria-hidden="true" class="strand-map-loading__bar"></div></div>"`;

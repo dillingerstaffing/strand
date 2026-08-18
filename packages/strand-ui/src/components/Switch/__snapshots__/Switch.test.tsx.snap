@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > disabled compact 1`] = `"<label class="strand-switch strand-switch--compact strand-switch--disabled"><button type="button" role="switch" aria-checked="false" disabled="" class="strand-switch__track"><span aria-hidden="true" class="strand-switch__thumb"></span></button></label>"`;
+exports[`renders > disabled compact 1`] = `"<label class="strand-switch strand-switch--compact strand-switch--disabled"><button aria-checked="false" class="strand-switch__track" disabled="" role="switch" type="button"><span aria-hidden="true" class="strand-switch__thumb"></span></button></label>"`;
 
-exports[`renders > off 1`] = `"<label class="strand-switch"><button type="button" role="switch" aria-checked="false" class="strand-switch__track"><span aria-hidden="true" class="strand-switch__thumb"></span></button><span class="strand-switch__label">Dark mode</span></label>"`;
+exports[`renders > off 1`] = `"<label class="strand-switch"><button aria-checked="false" class="strand-switch__track" role="switch" type="button"><span aria-hidden="true" class="strand-switch__thumb"></span></button><span class="strand-switch__label">Dark mode</span></label>"`;
 
-exports[`renders > on 1`] = `"<label class="strand-switch strand-switch--checked"><button type="button" role="switch" aria-checked="true" class="strand-switch__track"><span aria-hidden="true" class="strand-switch__thumb"></span></button><span class="strand-switch__label">Dark mode</span></label>"`;
+exports[`renders > on 1`] = `"<label class="strand-switch strand-switch--checked"><button aria-checked="true" class="strand-switch__track" role="switch" type="button"><span aria-hidden="true" class="strand-switch__thumb"></span></button><span class="strand-switch__label">Dark mode</span></label>"`;

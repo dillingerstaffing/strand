@@ -6,4 +6,4 @@ exports[`renders > range lg 1`] = `"<span class="strand-big-mono-time strand-big
 
 exports[`renders > single 1`] = `"<span class="strand-big-mono-time">06:45</span>"`;
 
-exports[`renders > sm with datetime 1`] = `"<time datetime="2026-08-13T06:45" class="strand-big-mono-time strand-big-mono-time--sm">06:45</time>"`;
+exports[`renders > sm with datetime 1`] = `"<time class="strand-big-mono-time strand-big-mono-time--sm" datetime="2026-08-13T06:45">06:45</time>"`;

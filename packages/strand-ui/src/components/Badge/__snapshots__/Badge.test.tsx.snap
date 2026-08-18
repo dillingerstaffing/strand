@@ -1,15 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > amber 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="1 notifications" role="status" class="strand-badge__indicator strand-badge--count strand-badge--amber">1</span></span>"`;
+exports[`renders > amber 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="1 notifications" class="strand-badge__indicator strand-badge--count strand-badge--amber" role="status">1</span></span>"`;
 
-exports[`renders > blue 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="1 notifications" role="status" class="strand-badge__indicator strand-badge--count strand-badge--blue">1</span></span>"`;
+exports[`renders > blue 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="1 notifications" class="strand-badge__indicator strand-badge--count strand-badge--blue" role="status">1</span></span>"`;
 
-exports[`renders > count 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="5 notifications" role="status" class="strand-badge__indicator strand-badge--count strand-badge--default">5</span></span>"`;
+exports[`renders > count 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="5 notifications" class="strand-badge__indicator strand-badge--count strand-badge--default" role="status">5</span></span>"`;
 
-exports[`renders > count over max 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="120 notifications" role="status" class="strand-badge__indicator strand-badge--count strand-badge--default">99+</span></span>"`;
+exports[`renders > count over max 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="120 notifications" class="strand-badge__indicator strand-badge--count strand-badge--default" role="status">99+</span></span>"`;
 
-exports[`renders > count red wrapping content 1`] = `"<span class="strand-badge">Inbox<span aria-label="3 notifications" role="status" class="strand-badge__indicator strand-badge--count strand-badge--red">3</span></span>"`;
+exports[`renders > count red wrapping content 1`] = `"<span class="strand-badge">Inbox<span aria-label="3 notifications" class="strand-badge__indicator strand-badge--count strand-badge--red" role="status">3</span></span>"`;
 
-exports[`renders > dot 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="Status indicator" role="status" class="strand-badge__indicator strand-badge--dot strand-badge--default"></span></span>"`;
+exports[`renders > dot 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="Status indicator" class="strand-badge__indicator strand-badge--dot strand-badge--default" role="status"></span></span>"`;
 
-exports[`renders > dot live teal 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="Status indicator" role="status" class="strand-badge__indicator strand-badge--dot strand-badge--teal strand-badge--live"></span></span>"`;
+exports[`renders > dot live teal 1`] = `"<span class="strand-badge strand-badge--inline"><span aria-label="Status indicator" class="strand-badge__indicator strand-badge--dot strand-badge--teal strand-badge--live" role="status"></span></span>"`;

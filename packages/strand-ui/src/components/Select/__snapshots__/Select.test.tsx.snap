@@ -2,4 +2,4 @@
 
 exports[`renders > options 1`] = `"<div class="strand-select"><select class="strand-select__field"><option value="eng">Engineer</option><option value="design">Designer</option></select><span aria-hidden="true" class="strand-select__arrow"></span></div>"`;
 
-exports[`renders > placeholder error disabled 1`] = `"<div class="strand-select strand-select--error strand-select--disabled"><select disabled="" aria-invalid="true" class="strand-select__field"><option disabled="" value="">Choose</option><option value="a">A</option></select><span aria-hidden="true" class="strand-select__arrow"></span></div>"`;
+exports[`renders > placeholder error disabled 1`] = `"<div class="strand-select strand-select--error strand-select--disabled"><select aria-invalid="true" class="strand-select__field" disabled=""><option disabled="" value="">Choose</option><option value="a">A</option></select><span aria-hidden="true" class="strand-select__arrow"></span></div>"`;

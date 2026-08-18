@@ -1,13 +1,13 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > empty 1`] = `"<div role="img" aria-label="" class="strand-avatar strand-avatar--md"><span aria-hidden="true" class="strand-avatar__initials"></span></div>"`;
+exports[`renders > empty 1`] = `"<div aria-label="" class="strand-avatar strand-avatar--md" role="img"><span aria-hidden="true" class="strand-avatar__initials"></span></div>"`;
 
-exports[`renders > image 1`] = `"<div role="img" aria-label="Ada" class="strand-avatar strand-avatar--md"><img src="/a.png" alt="Ada" class="strand-avatar__img"></div>"`;
+exports[`renders > image 1`] = `"<div aria-label="Ada" class="strand-avatar strand-avatar--md" role="img"><img alt="Ada" class="strand-avatar__img" src="/a.png"></div>"`;
 
-exports[`renders > initials lg 1`] = `"<div role="img" aria-label="AL" class="strand-avatar strand-avatar--lg"><span aria-hidden="true" class="strand-avatar__initials">AL</span></div>"`;
+exports[`renders > initials lg 1`] = `"<div aria-label="AL" class="strand-avatar strand-avatar--lg" role="img"><span aria-hidden="true" class="strand-avatar__initials">AL</span></div>"`;
 
-exports[`renders > initials md 1`] = `"<div role="img" aria-label="AB" class="strand-avatar strand-avatar--md"><span aria-hidden="true" class="strand-avatar__initials">AB</span></div>"`;
+exports[`renders > initials md 1`] = `"<div aria-label="AB" class="strand-avatar strand-avatar--md" role="img"><span aria-hidden="true" class="strand-avatar__initials">AB</span></div>"`;
 
-exports[`renders > initials sm 1`] = `"<div role="img" aria-label="AD" class="strand-avatar strand-avatar--sm"><span aria-hidden="true" class="strand-avatar__initials">AD</span></div>"`;
+exports[`renders > initials sm 1`] = `"<div aria-label="AD" class="strand-avatar strand-avatar--sm" role="img"><span aria-hidden="true" class="strand-avatar__initials">AD</span></div>"`;
 
-exports[`renders > initials xl 1`] = `"<div role="img" aria-label="AL" class="strand-avatar strand-avatar--xl"><span aria-hidden="true" class="strand-avatar__initials">AL</span></div>"`;
+exports[`renders > initials xl 1`] = `"<div aria-label="AL" class="strand-avatar strand-avatar--xl" role="img"><span aria-hidden="true" class="strand-avatar__initials">AL</span></div>"`;

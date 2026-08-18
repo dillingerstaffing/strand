@@ -1,5 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > hidden by default 1`] = `"<div data-strand-actiondock="hidden" class="strand-actiondock">Action</div>"`;
+exports[`renders > hidden by default 1`] = `"<div class="strand-actiondock" data-strand-actiondock="hidden">Action</div>"`;
 
-exports[`renders > visible 1`] = `"<div data-strand-actiondock="visible" class="strand-actiondock">Action</div>"`;
+exports[`renders > visible 1`] = `"<div class="strand-actiondock" data-strand-actiondock="visible">Action</div>"`;

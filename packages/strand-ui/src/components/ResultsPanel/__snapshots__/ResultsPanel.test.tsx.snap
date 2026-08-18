@@ -2,6 +2,6 @@
 
 exports[`renders > empty state 1`] = `"<section aria-label="Results" class="strand-results-panel"><div class="strand-results-panel__state"><div class="strand-results-panel__state-title">0 matches detected</div><div class="strand-results-panel__state-hint">Widen the search</div></div></section>"`;
 
-exports[`renders > error state hidden 1`] = `"<section aria-label="Jobs" hidden="" class="strand-results-panel"><div class="strand-results-panel__state"><div class="strand-results-panel__state-title">Process interrupted</div></div></section>"`;
+exports[`renders > error state hidden 1`] = `"<section aria-label="Jobs" class="strand-results-panel" hidden=""><div class="strand-results-panel__state"><div class="strand-results-panel__state-title">Process interrupted</div></div></section>"`;
 
 exports[`renders > results 1`] = `"<section aria-label="Results" class="strand-results-panel"><div aria-live="polite" class="strand-results-panel__count">12 matches detected</div><div class="strand-results-panel__items">items</div></section>"`;

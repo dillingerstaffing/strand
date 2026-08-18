@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > empty 1`] = `"<div data-strand-reserve="empty" class="strand-reserve"><div aria-hidden="true" class="strand-reserve__placeholder">...</div><div class="strand-reserve__content">content</div></div>"`;
+exports[`renders > empty 1`] = `"<div class="strand-reserve" data-strand-reserve="empty"><div aria-hidden="true" class="strand-reserve__placeholder">...</div><div class="strand-reserve__content">content</div></div>"`;
 
-exports[`renders > pending 1`] = `"<div data-strand-reserve="pending" class="strand-reserve"><div aria-hidden="true" class="strand-reserve__placeholder">...</div><div class="strand-reserve__content">content</div></div>"`;
+exports[`renders > pending 1`] = `"<div class="strand-reserve" data-strand-reserve="pending"><div aria-hidden="true" class="strand-reserve__placeholder">...</div><div class="strand-reserve__content">content</div></div>"`;
 
-exports[`renders > ready with heights 1`] = `"<div data-strand-reserve="ready" style="--strand-reserve-h: 42px; --strand-reserve-h-md: 60px; --strand-reserve-h-lg: 80px;" class="strand-reserve"><div aria-hidden="true" class="strand-reserve__placeholder">...</div><div class="strand-reserve__content">content</div></div>"`;
+exports[`renders > ready with heights 1`] = `"<div class="strand-reserve" data-strand-reserve="ready" style="--strand-reserve-h: 42px; --strand-reserve-h-md: 60px; --strand-reserve-h-lg: 80px;"><div aria-hidden="true" class="strand-reserve__placeholder">...</div><div class="strand-reserve__content">content</div></div>"`;

@@ -1,5 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > buttons 1`] = `"<nav aria-label="Sections" class="strand-tabbar"><button type="button" class="strand-tabbar__item"><span class="strand-tabbar__label">One</span></button><button type="button" class="strand-tabbar__item"><span class="strand-tabbar__label">Two</span></button></nav>"`;
+exports[`renders > buttons 1`] = `"<nav aria-label="Sections" class="strand-tabbar"><button class="strand-tabbar__item" type="button"><span class="strand-tabbar__label">One</span></button><button class="strand-tabbar__item" type="button"><span class="strand-tabbar__label">Two</span></button></nav>"`;
 
-exports[`renders > links with current 1`] = `"<nav aria-label="Primary" class="strand-tabbar"><a href="/" class="strand-tabbar__item"><span class="strand-tabbar__label">Discover</span></a><a href="/calendar" aria-current="page" class="strand-tabbar__item"><span class="strand-tabbar__label">Calendar</span></a></nav>"`;
+exports[`renders > links with current 1`] = `"<nav aria-label="Primary" class="strand-tabbar"><a class="strand-tabbar__item" href="/"><span class="strand-tabbar__label">Discover</span></a><a aria-current="page" class="strand-tabbar__item" href="/calendar"><span class="strand-tabbar__label">Calendar</span></a></nav>"`;
