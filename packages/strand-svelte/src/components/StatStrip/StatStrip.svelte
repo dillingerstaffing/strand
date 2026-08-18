@@ -2,8 +2,11 @@
 <!-- A row of labelled value cells, compared across rather than read singly.
      Renders as a <dl>: a row of divs would give a screen reader six
      unrelated strings instead of three pairs. -->
-<script lang="ts">
+<script lang="ts" context="module">
   export interface StatStripItem { label: string; value: string }
+</script>
+
+<script lang="ts">
   export let items: StatStripItem[] = []
   export let variant: 'plain' | 'bordered' = 'plain'
   /** Merged explicitly; $$restProps spreads after class and would replace it. */

@@ -50,7 +50,8 @@
   "scripts": {
     "prepack": "pnpm run build",
     "build": "vite build && cp ../../generated/html-reference.md ./HTML_REFERENCE.md && cp ../../docs/design-language.md ./DESIGN_LANGUAGE.md",
-    "test": "vitest run"
+    "test": "vitest run",
+    "check": "svelte-check --tsconfig ./tsconfig.json --threshold warning --fail-on-warnings"
   },
   "peerDependencies": {
     "svelte": "^4.0.0 || ^5.0.0"

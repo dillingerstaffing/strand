@@ -66,7 +66,7 @@
     {/each}
   </div>
 {:else}
-  <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+  <!-- svelte-ignore a11y_interactive_supports_focus -->
   <div class={classes} role="radiogroup" aria-label={ariaLabel} data-strand-component="star-rating" data-value={String(value)} on:keydown={onKeyDown}>
     {#each values as n (n)}
       <button

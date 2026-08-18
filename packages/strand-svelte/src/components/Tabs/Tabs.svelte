@@ -65,7 +65,7 @@
 </script>
 
 <div class={classes} {...$$restProps}>
-  <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+  <!-- svelte-ignore a11y_interactive_supports_focus -->
   <div role="tablist" on:keydown={handleKeyDown}>
     {#each tabs as tab, index (tab.id)}
       {@const isActive = tab.id === active}

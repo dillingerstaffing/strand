@@ -18,14 +18,16 @@
   </Nav>
   ```
 -->
-<script lang="ts">
-  import { onMount, onDestroy } from 'svelte'
-
+<script lang="ts" context="module">
   export interface NavItem {
     label: string
     href: string
     active?: boolean
   }
+</script>
+
+<script lang="ts">
+  import { onMount, onDestroy } from 'svelte'
 
   /** Navigation items */
   export let items: NavItem[] = []

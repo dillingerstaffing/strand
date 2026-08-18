@@ -16,12 +16,14 @@
   <Select placeholder="Choose a role" {options} bind:value={role} />
   ```
 -->
-<script lang="ts">
+<script lang="ts" context="module">
   export interface SelectOption {
     value: string
     label: string
   }
+</script>
 
+<script lang="ts">
   /** Array of options to display */
   export let options: SelectOption[] = []
   /** Disabled state */

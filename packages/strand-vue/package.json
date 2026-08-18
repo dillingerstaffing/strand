@@ -47,7 +47,8 @@
   "scripts": {
     "prepack": "pnpm run build",
     "build": "vite build && cp ../../generated/html-reference.md ./HTML_REFERENCE.md && cp ../../docs/design-language.md ./DESIGN_LANGUAGE.md",
-    "test": "vitest run"
+    "test": "vitest run",
+    "check": "vue-tsc --noEmit -p tsconfig.json"
   },
   "peerDependencies": {
     "vue": "^3.4.0"
@@ -63,6 +64,7 @@
     "vite": "^6.0.0",
     "vite-plugin-dts": "^4.0.0",
     "vitest": "^3.0.0",
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "vue-tsc": "^2"
   }
 }

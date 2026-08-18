@@ -30,10 +30,7 @@
   />
   ```
 -->
-<script lang="ts">
-  import { tick } from 'svelte'
-  import Dialog from '../Dialog/Dialog.svelte'
-
+<script lang="ts" context="module">
   export interface CommandPaletteItem {
     /** Stable identity. Used for keys and for the active-descendant id. */
     id: string
@@ -44,6 +41,11 @@
     /** Optional short trailing token, such as a category or shortcut hint. */
     badge?: string
   }
+</script>
+
+<script lang="ts">
+  import { tick } from 'svelte'
+  import Dialog from '../Dialog/Dialog.svelte'
 
   /** Whether the palette is open */
   export let open: boolean = false

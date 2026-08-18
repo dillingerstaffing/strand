@@ -35,7 +35,7 @@
   />
   ```
 -->
-<script lang="ts">
+<script lang="ts" context="module">
   export interface TabBarItem {
     /** Stable identity, and what `onnavigate` receives. */
     id: string
@@ -44,7 +44,9 @@
     /** Destination. Omit for a button-style item driven by `onnavigate`. */
     href?: string
   }
+</script>
 
+<script lang="ts">
   /** Three to five top-level destinations, per 19.1.1. */
   export let items: TabBarItem[] = []
 

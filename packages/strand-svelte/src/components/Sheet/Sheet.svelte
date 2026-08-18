@@ -108,6 +108,7 @@
     style={drag ? `transform: translateY(${drag}px)` : undefined}
   >
     {#if draggable}
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
         class="strand-sheet__grab"
         data-testid="sheet-grab"

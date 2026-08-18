@@ -59,7 +59,7 @@
   }
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_interactive_supports_focus -->
 <div class={classes} role={single ? 'radiogroup' : 'group'} aria-label={label} on:keydown={onKeyDown} {...$$restProps}>
   {#each items as item, index (item.id)}
     <button

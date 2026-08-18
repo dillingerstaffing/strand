@@ -5,13 +5,16 @@
   the colour is data rather than decoration. An item is a button when it
   filters and a plain row when it does not.
 -->
-<script lang="ts">
+<script lang="ts" context="module">
   export interface MapLegendItem {
     category: 'tech' | 'health' | 'trades' | 'finance'
     label: string
     /** Present means the row filters, so it renders as a button. */
     selectable?: boolean
   }
+</script>
+
+<script lang="ts">
   export let title: string = 'Legend'
   export let items: MapLegendItem[] = []
   export let onselect: ((category: string) => void) | undefined = undefined

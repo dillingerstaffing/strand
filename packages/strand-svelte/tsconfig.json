@@ -6,7 +6,8 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "svelte"],
+    "allowJs": true,
     "verbatimModuleSyntax": false
   },
   "include": ["src/**/*.ts", "src/**/*.svelte"],
