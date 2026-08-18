@@ -33,8 +33,8 @@
   color: var(--strand-amber-caution);
 }
 
-.strand-star-rating__star:not(:disabled):hover .strand-star-rating__glyph,
-.strand-star-rating__star:not(:disabled):focus-visible .strand-star-rating__glyph {
+.strand-star-rating__star:hover .strand-star-rating__glyph,
+.strand-star-rating__star:focus-visible .strand-star-rating__glyph {
   transform: scale(1.08);
 }
 
@@ -60,11 +60,6 @@
   font-size: 1.5rem;
 }
 
-.strand-star-rating--md .strand-star-rating__star {
-  min-width: var(--strand-touch-target);
-  min-height: var(--strand-touch-target);
-}
-
 .strand-star-rating--lg {
   font-size: 2.25rem;
 }
@@ -82,8 +77,8 @@
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .strand-star-rating__star:not(:disabled):hover .strand-star-rating__glyph,
-  .strand-star-rating__star:not(:disabled):focus-visible .strand-star-rating__glyph {
+  .strand-star-rating__star:hover .strand-star-rating__glyph,
+  .strand-star-rating__star:focus-visible .strand-star-rating__glyph {
     transform: none;
   }
 }

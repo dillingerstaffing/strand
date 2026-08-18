@@ -40,13 +40,15 @@ describe('StarRating', () => {
     expect(onChange).toHaveBeenCalledWith(4)
   })
 
-  it('does not call onChange in readOnly mode', async () => {
+  it('reads as an image named with the rating when read only, and takes no input', () => {
     const onChange = vi.fn()
-    const { container } = render(StarRating, {
-      props: { value: 2, ariaLabel: 'Rate', readOnly: true, onChange },
+    const { container, getByRole } = render(StarRating, {
+      props: { value: 4, ariaLabel: 'Rated', readOnly: true, onChange },
     })
-    const radios = container.querySelectorAll('[role="radio"]')
-    await fireEvent.click(radios[4])
+    expect(getByRole('img', { name: 'Rated, 4 of 5 stars' })).toBeTruthy()
+    expect(container.querySelectorAll('[role="radio"]').length).toBe(0)
+    expect(container.querySelectorAll('button').length).toBe(0)
+    expect(container.querySelectorAll('.strand-star-rating__star--active').length).toBe(4)
     expect(onChange).not.toHaveBeenCalled()
   })
 
@@ -89,23 +91,33 @@ describe('StarRating', () => {
     expect(container.querySelector('[aria-label="Rate event"]')).toBeInTheDocument()
   })
 
-  it('activates a star on Space keydown', async () => {
-    const onChange = vi.fn()
-    const { container } = render(StarRating, {
-      props: { value: 0, ariaLabel: 'Rate', onChange },
-    })
-    const radios = container.querySelectorAll('[role="radio"]')
-    await fireEvent.keyDown(radios[1], { key: ' ' })
-    expect(onChange).toHaveBeenCalledWith(2)
+  it('renders count stars and keeps only the selected one, or the first when unset, in the tab order', () => {
+    const { container } = render(StarRating, { props: { value: 7, ariaLabel: 'Rate', count: 10 } })
+    const radios = Array.from(container.querySelectorAll<HTMLElement>('[role="radio"]'))
+    expect(radios.length).toBe(10)
+    expect(radios.map((r) => r.tabIndex).filter((t) => t === 0).length).toBe(1)
+    expect(radios[6].tabIndex).toBe(0)
   })
 
-  it('disables star buttons in read-only mode', () => {
-    const { container } = render(StarRating, {
-      props: { value: 3, ariaLabel: 'Rate', readOnly: true },
-    })
-    const radios = container.querySelectorAll('[role="radio"]')
-    for (const r of radios) {
-      expect(r).toBeDisabled()
-    }
+  it('clears the rating when the selected star is clicked again and allowClear is set', async () => {
+    const onChange = vi.fn()
+    const { container } = render(StarRating, { props: { value: 4, ariaLabel: 'Rate', allowClear: true, onChange } })
+    await fireEvent.click(container.querySelectorAll('[role="radio"]')[3])
+    expect(onChange).toHaveBeenCalledWith(0)
+  })
+
+  it('moves the rating and focus with the arrow keys, Home and End', async () => {
+    const onChange = vi.fn()
+    const { container } = render(StarRating, { props: { value: 2, ariaLabel: 'Rate', onChange } })
+    const radios = container.querySelectorAll<HTMLElement>('[role="radio"]')
+    await fireEvent.keyDown(radios[1], { key: 'ArrowRight' })
+    expect(onChange).toHaveBeenLastCalledWith(3)
+    expect(document.activeElement).toBe(radios[2])
+    await fireEvent.keyDown(radios[1], { key: 'ArrowLeft' })
+    expect(onChange).toHaveBeenLastCalledWith(1)
+    await fireEvent.keyDown(radios[1], { key: 'End' })
+    expect(onChange).toHaveBeenLastCalledWith(5)
+    await fireEvent.keyDown(radios[1], { key: 'Home' })
+    expect(onChange).toHaveBeenLastCalledWith(1)
   })
 })
