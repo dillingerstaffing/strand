@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- the move guard sees two blocks a source composes on one element
 - the wave-2 bar-raises across Preact, Vue and Svelte
 - checkbox, radio and switch paint state from the platform and work uncontrolled
 - roving tabindex, arrow keys, count, allowClear, read-only image
@@ -16,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - controlled open, Escape dismissal, and the trigger itself is described
 
 ### Changed
+- every Preact fixture renders the same markup through the Vue and Svelte ports
+- dillingerstaffing.com re-exports its class usage after consuming 0.64.0
+- v0.64.0
 - vue-tsc and svelte-check run in test:all, and both ports are clean
 - tag and release from the version, not from the last commit's diff
 
@@ -24,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Divider omits the inherited ref and Alert the inherited title
 
 ### Documentation
+- the Vue and Svelte components carry one line per prop and one pointer per invariant
 - regenerate the reference, changelog and contributing table
 
 ## [0.63.0] - 2026-08-18

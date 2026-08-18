@@ -5467,6 +5467,7 @@ Every component in `packages/strand-ui` is written the same way, so a reader who
 ## How a component is tested
 
 - `Component.fixtures.ts` names the prop sets worth rendering; `snapshotFixtures` renders each and snapshots the HTML.
+- The same fixtures are the cross-port contract: the Vue and Svelte suites render every fixture through their port (children and slot-typed props become slots, `value`/`checked` become `modelValue` where Vue declares it) and compare the normalized markup (`src/test/serialize.ts`: attributes in name order, comment nodes and generated ids neutralised) against the Preact snapshot. A deliberate divergence is recorded in `parity-manifest.json#/markupDrift` with a reason; anything else fails the port's suite.
 - `snapshotStylesheet` snapshots the component's rules.
 - Behaviour tests read as what a user sees: "clicking the hamburger opens the menu and updates aria-expanded", never "has class strand-nav--open".
 
@@ -5492,7 +5493,7 @@ There are five kinds of file, and a rule belongs to exactly one.
 
 The test for "is this global or local" is one question: **does a component directory own the block this selector defines?** If yes, the rule lives there and nowhere else. If no block owns it and it is a text style, it is typography; a single-property helper, a utility; otherwise it is a class-only primitive that gets its own directory and a manifest entry. `base.css` never defines a `.strand-` block except `.strand-prose`; a class on `body` or `html` there is a document mode, not a block.
 
-The bundle order is explicit in `packages/strand-ui/vite.config.ts`: every component sheet in code-point order, then typography, utilities and static. Order between files is never load-bearing: `pnpm css-move-guard <before> <after>` fails a change that swaps two rules which can meet on one element at equal specificity and disagree.
+The bundle order is explicit in `packages/strand-ui/vite.config.ts`: every component sheet in code-point order, then typography, utilities and static. Order between files is never load-bearing: `pnpm css-move-guard <before> <after>` fails a change that swaps two rules which can meet on one element at equal specificity and disagree. Two blocks meet when a selector puts them on one element, and also when a known source composes them on one element: the library's own sources and each consumer's recorded class pairs in `consumer-usage.json` (`pnpm css-usage --export-consumer` records them, so `.strand-empty-collection__action` on a `.strand-link` is a meeting the guard sees).
 
 ## How a rule is written
 
@@ -5664,6 +5665,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- the move guard sees two blocks a source composes on one element
 - the wave-2 bar-raises across Preact, Vue and Svelte
 - checkbox, radio and switch paint state from the platform and work uncontrolled
 - roving tabindex, arrow keys, count, allowClear, read-only image
@@ -5672,6 +5674,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - controlled open, Escape dismissal, and the trigger itself is described
 
 ### Changed
+- every Preact fixture renders the same markup through the Vue and Svelte ports
+- dillingerstaffing.com re-exports its class usage after consuming 0.64.0
+- v0.64.0
 - vue-tsc and svelte-check run in test:all, and both ports are clean
 - tag and release from the version, not from the last commit's diff
 
@@ -5680,6 +5685,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Divider omits the inherited ref and Alert the inherited title
 
 ### Documentation
+- the Vue and Svelte components carry one line per prop and one pointer per invariant
 - regenerate the reference, changelog and contributing table
 
 ## [0.63.0] - 2026-08-18
