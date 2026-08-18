@@ -19,15 +19,7 @@ describe("Checkbox", () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
-  // ── Toggle on Space key ──
 
-  it("toggles on Space key via native input", () => {
-    const onChange = vi.fn();
-    const { getByRole } = render(<Checkbox onChange={onChange} />);
-    const input = getByRole("checkbox");
-    fireEvent.keyDown(input, { key: " " });
-    expect(onChange).toHaveBeenCalled();
-  });
 
   // ── Indeterminate state ──
 

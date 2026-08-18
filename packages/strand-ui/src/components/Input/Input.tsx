@@ -1,79 +1,50 @@
 /*! Strand UI | MIT License | dillingerstaffing.com */
 
-import type { JSX, ComponentChildren } from "preact";
+import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
+import { cx } from "../../internal/index.js";
 
-export interface InputProps
-  extends Omit<JSX.HTMLAttributes<HTMLInputElement>, "size"> {
-  /** Input type */
+export interface InputProps extends Omit<JSX.HTMLAttributes<HTMLInputElement>, "size"> {
   type?: "text" | "email" | "password" | "search" | "number";
-  /** Show error styling */
+  /** Error styling and `aria-invalid`. */
   error?: boolean;
-  /** Element rendered before the input */
+  /** Rendered before the field. */
   leadingAddon?: ComponentChildren;
-  /** Element rendered after the input */
+  /** Rendered after the field. */
   trailingAddon?: ComponentChildren;
-  /** Disabled state */
   disabled?: boolean;
 }
 
 /**
- * Text input field with optional leading/trailing addons and error state.
+ * Text input with optional addons.
  *
  * @example
- * ```tsx
- * import { Input } from '@dillingerstaffing/strand-ui';
- *
- * <Input type="email" placeholder="you@example.com" error={false} />
- * ```
+ * <Input type="email" placeholder="you@example.com" />
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      type = "text",
-      error = false,
-      leadingAddon,
-      trailingAddon,
-      className = "",
-      disabled,
-      ...rest
-    },
-    ref,
-  ) => {
-    const wrapperClasses = [
-      "strand-input",
-      error && "strand-input--error",
-      disabled && "strand-input--disabled",
-      leadingAddon && "strand-input--has-leading",
-      trailingAddon && "strand-input--has-trailing",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-    return (
-      <div className={wrapperClasses}>
-        {leadingAddon && (
-          <span className="strand-input__leading" aria-hidden="true">
-            {leadingAddon}
-          </span>
-        )}
-        <input
-          ref={ref}
-          type={type}
-          className="strand-input__field"
-          disabled={disabled}
-          aria-invalid={error ? "true" : undefined}
-          {...rest}
-        />
-        {trailingAddon && (
-          <span className="strand-input__trailing" aria-hidden="true">
-            {trailingAddon}
-          </span>
-        )}
-      </div>
-    );
-  },
+  ({ type = "text", error = false, leadingAddon, trailingAddon, className = "", disabled, ...rest }, ref) => (
+    <div
+      className={cx(
+        "strand-input",
+        error && "strand-input--error",
+        disabled && "strand-input--disabled",
+        leadingAddon && "strand-input--has-leading",
+        trailingAddon && "strand-input--has-trailing",
+        className,
+      )}
+    >
+      {leadingAddon && (
+        <span className="strand-input__leading" aria-hidden="true">
+          {leadingAddon}
+        </span>
+      )}
+      <input ref={ref} type={type} className="strand-input__field" disabled={disabled} aria-invalid={error ? "true" : undefined} {...rest} />
+      {trailingAddon && (
+        <span className="strand-input__trailing" aria-hidden="true">
+          {trailingAddon}
+        </span>
+      )}
+    </div>
+  ),
 );
-
 Input.displayName = "Input";

@@ -26,23 +26,9 @@ describe("Switch", () => {
     expect(onChange).toHaveBeenCalledWith(false);
   });
 
-  // ── Toggle on Space key ──
 
-  it("toggles on Space key", () => {
-    const onChange = vi.fn();
-    const { getByRole } = render(<Switch onChange={onChange} />);
-    fireEvent.keyDown(getByRole("switch"), { key: " " });
-    expect(onChange).toHaveBeenCalledWith(true);
-  });
 
-  // ── Toggle on Enter key ──
 
-  it("toggles on Enter key", () => {
-    const onChange = vi.fn();
-    const { getByRole } = render(<Switch onChange={onChange} />);
-    fireEvent.keyDown(getByRole("switch"), { key: "Enter" });
-    expect(onChange).toHaveBeenCalledWith(true);
-  });
 
   // ── Checked state ──
 

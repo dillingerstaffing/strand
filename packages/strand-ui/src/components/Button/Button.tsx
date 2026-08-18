@@ -2,69 +2,37 @@
 
 import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
+import { cx } from "../../internal/index.js";
 
-export interface ButtonProps
-  extends Omit<
-    JSX.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>,
-    "size" | "loading" | "type" | "ref"
-  > {
-  /** Visual style variant */
+export interface ButtonProps extends Omit<JSX.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>, "size" | "loading" | "type" | "ref"> {
   variant?: "primary" | "secondary" | "ghost" | "danger";
-  /** Button size */
   size?: "sm" | "md" | "lg";
-  /** Show loading spinner and disable interaction */
+  /** Shows the spinner and disables interaction. */
   loading?: boolean;
-  /** Square button for icon-only use */
+  /** Square, for an icon with an `aria-label`. */
   iconOnly?: boolean;
-  /** HTML button type */
   type?: "button" | "submit" | "reset";
-  /** Disabled state */
   disabled?: boolean;
-  /** Stretch to full container width */
+  /** Stretch to the container width. */
   fullWidth?: boolean;
-  /**
-   * Render as an anchor styled as a button (for links / CTAs). Inferred when
-   * `href` is set; a disabled anchor drops its href and is aria-disabled.
-   */
+  /** Render an anchor styled as a button; inferred when `href` is set. */
   as?: "button" | "a";
-  /** Link destination when rendering as an anchor. */
   href?: string;
 }
 
 /**
- * Primary action trigger with multiple visual variants and sizes.
+ * Primary action trigger.
  *
  * @example
- * ```tsx
- * import { Button } from '@dillingerstaffing/strand-ui';
- *
- * <Button variant="primary" size="md" onClick={() => {}}>
- *   Submit
- * </Button>
- * ```
+ * <Button variant="primary" size="md" onClick={save}>Save</Button>
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    {
-      variant = "primary",
-      size = "md",
-      loading = false,
-      iconOnly = false,
-      fullWidth = false,
-      disabled = false,
-      className = "",
-      children,
-      onClick,
-      type = "button",
-      as,
-      href,
-      ...rest
-    },
+    { variant = "primary", size = "md", loading = false, iconOnly = false, fullWidth = false, disabled = false, className = "", children, onClick, type = "button", as, href, ...rest },
     ref,
   ) => {
     const isDisabled = disabled || loading;
-
-    const classes = [
+    const classes = cx(
       "strand-btn",
       `strand-btn--${variant}`,
       `strand-btn--${size}`,
@@ -72,28 +40,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth && "strand-btn--full-width",
       loading && "strand-btn--loading",
       className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
+    );
     const inner = (
       <>
         {loading && <span className="strand-btn__spinner" aria-hidden="true" />}
-        <span
-          className="strand-btn__content"
-          style={loading ? { visibility: "hidden" } : undefined}
-        >
+        <span className="strand-btn__content" style={loading ? { visibility: "hidden" } : undefined}>
           {children}
         </span>
       </>
     );
-
-    // Anchor mode: a link styled as a button (CTAs, calendar links, downloads).
-    // A disabled link is not navigable, so drop href and mark aria-disabled.
     if (as === "a" || href != null) {
       return (
         <a
-          // biome-ignore lint/suspicious/noExplicitAny: anchor/button polymorphic ref boundary
+          // biome-ignore lint/suspicious/noExplicitAny: anchor and button share one ref prop
           ref={ref as any}
           className={classes}
           href={isDisabled ? undefined : href}
@@ -106,7 +65,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         </a>
       );
     }
-
     return (
       <button
         ref={ref}
@@ -123,5 +81,4 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
-
 Button.displayName = "Button";

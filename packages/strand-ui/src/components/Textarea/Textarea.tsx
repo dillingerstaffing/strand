@@ -2,117 +2,68 @@
 
 import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
-import { useCallback, useRef } from "preact/hooks";
+import { useLayoutEffect, useRef } from "preact/hooks";
+import { cx, mergeRefs } from "../../internal/index.js";
 
-export interface TextareaProps
-  extends Omit<JSX.HTMLAttributes<HTMLTextAreaElement>, "onInput" | "value"> {
-  /** Auto-resize to fit content */
+export interface TextareaProps extends Omit<JSX.HTMLAttributes<HTMLTextAreaElement>, "onInput" | "value"> {
+  /** Grow to fit the content. */
   autoResize?: boolean;
-  /** Show character count (requires maxLength) */
+  /** Show `length/maxLength`; needs `maxLength`. */
   showCount?: boolean;
-  /** Show error styling */
+  /** Error styling and `aria-invalid`. */
   error?: boolean;
-  /** Maximum character count */
   maxLength?: number;
-  /** Input handler */
   onInput?: JSX.GenericEventHandler<HTMLTextAreaElement>;
-  /** Disabled state */
   disabled?: boolean;
-  /** Controlled value */
   value?: string;
 }
 
+/** Fits a textarea's height to its content; the only imperative write, and it needs the box. */
+function fit(el: HTMLTextAreaElement | null): void {
+  if (!el) return;
+  const previous = el.style.height;
+  el.style.height = "auto";
+  const content = el.scrollHeight;
+  // A zero scrollHeight means no layout engine is running; leave the element as it was.
+  if (content > 0) el.style.height = `${content}px`;
+  else if (previous) el.style.height = previous;
+  else if (el.style.length === 0 || (el.style.length === 1 && el.style.height === "auto")) el.removeAttribute("style");
+}
+
 /**
- * Multi-line text input with auto-resize, character count, and error state.
+ * Multi-line text input with autosize and a character count.
  *
  * @example
- * ```tsx
- * import { Textarea } from '@dillingerstaffing/strand-ui';
- *
- * <Textarea
- *   value={text}
- *   onInput={(e) => setText(e.currentTarget.value)}
- *   maxLength={500}
- *   showCount
- *   autoResize
- * />
- * ```
+ * <Textarea value={text} onInput={(e) => setText(e.currentTarget.value)} maxLength={500} showCount autoResize />
  */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  (
-    {
-      autoResize = false,
-      showCount = false,
-      error = false,
-      maxLength,
-      disabled,
-      className = "",
-      value,
-      onInput,
-      ...rest
-    },
-    ref,
-  ) => {
-    const internalRef = useRef<HTMLTextAreaElement | null>(null);
-
-    const setRef = useCallback(
-      (el: HTMLTextAreaElement | null) => {
-        internalRef.current = el;
-        if (typeof ref === "function") {
-          ref(el);
-        } else if (ref) {
-          (ref as { current: HTMLTextAreaElement | null }).current = el;
-        }
-      },
-      [ref],
-    );
-
-    const handleInput: JSX.GenericEventHandler<HTMLTextAreaElement> = useCallback(
-      (e) => {
-        if (autoResize && internalRef.current) {
-          internalRef.current.style.height = "auto";
-          internalRef.current.style.height = `${internalRef.current.scrollHeight}px`;
-        }
-        if (onInput) {
-          onInput(e);
-        }
-      },
-      [autoResize, onInput],
-    );
-
-    const wrapperClasses = [
-      "strand-textarea",
-      error && "strand-textarea--error",
-      disabled && "strand-textarea--disabled",
-      autoResize && "strand-textarea--auto-resize",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-    const currentLength =
-      typeof value === "string" ? value.length : 0;
-
+  ({ autoResize = false, showCount = false, error = false, maxLength, disabled, className = "", value, onInput, ...rest }, ref) => {
+    const own = useRef<HTMLTextAreaElement | null>(null);
+    useLayoutEffect(() => {
+      if (autoResize) fit(own.current);
+    }, [autoResize, value]);
     return (
-      <div className={wrapperClasses}>
+      <div className={cx("strand-textarea", error && "strand-textarea--error", disabled && "strand-textarea--disabled", autoResize && "strand-textarea--auto-resize", className)}>
         <textarea
-          ref={setRef}
+          ref={mergeRefs(own, ref)}
           className="strand-textarea__field"
           disabled={disabled}
           aria-invalid={error ? "true" : undefined}
           maxLength={maxLength}
           value={value}
-          onInput={handleInput}
+          onInput={(e) => {
+            if (autoResize) fit(e.currentTarget);
+            onInput?.(e);
+          }}
           {...rest}
         />
         {showCount && maxLength != null && (
           <span className="strand-textarea__count" aria-live="polite">
-            {currentLength}/{maxLength}
+            {typeof value === "string" ? value.length : 0}/{maxLength}
           </span>
         )}
       </div>
     );
   },
 );
-
 Textarea.displayName = "Textarea";

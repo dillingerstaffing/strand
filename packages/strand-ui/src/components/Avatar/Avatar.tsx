@@ -2,77 +2,37 @@
 
 import type { JSX } from "preact";
 import { forwardRef } from "preact/compat";
-import { useState, useCallback } from "preact/hooks";
+import { useState } from "preact/hooks";
+import { cx } from "../../internal/index.js";
 
-export interface AvatarProps
-  extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "size"> {
-  /** Image URL */
+export interface AvatarProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "size"> {
+  /** Image URL; falls back to initials if it fails to load. */
   src?: string;
-  /** Alt text for image */
   alt?: string;
-  /** Fallback initials (1-2 characters) */
+  /** One or two characters shown without an image. */
   initials?: string;
-  /** Avatar size */
   size?: "sm" | "md" | "lg" | "xl";
 }
 
 /**
- * Circular user representation with image, initials fallback, and multiple sizes.
+ * Circular person mark: an image, or initials.
  *
  * @example
- * ```tsx
- * import { Avatar } from '@dillingerstaffing/strand-ui';
- *
  * <Avatar src="/photo.jpg" alt="Jane Doe" size="lg" />
- * <Avatar initials="JD" size="md" />
- * ```
  */
-export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
-  (
-    {
-      src,
-      alt = "",
-      initials = "",
-      size = "md",
-      className = "",
-      ...rest
-    },
-    ref,
-  ) => {
-    const [imgError, setImgError] = useState(false);
-
-    const handleError = useCallback(() => {
-      setImgError(true);
-    }, []);
-
-    const showImage = src && !imgError;
-    const displayInitials = initials.slice(0, 2).toUpperCase();
-
-    const classes = [
-      "strand-avatar",
-      `strand-avatar--${size}`,
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-    return (
-      <div ref={ref} className={classes} role="img" aria-label={alt || displayInitials} {...rest}>
-        {showImage ? (
-          <img
-            className="strand-avatar__img"
-            src={src}
-            alt={alt}
-            onError={handleError}
-          />
-        ) : (
-          <span className="strand-avatar__initials" aria-hidden="true">
-            {displayInitials}
-          </span>
-        )}
-      </div>
-    );
-  },
-);
-
+export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(({ src, alt = "", initials = "", size = "md", className = "", ...rest }, ref) => {
+  const [imgError, setImgError] = useState(false);
+  const displayInitials = initials.slice(0, 2).toUpperCase();
+  return (
+    <div ref={ref} className={cx("strand-avatar", `strand-avatar--${size}`, className)} role="img" aria-label={alt || displayInitials} {...rest}>
+      {src && !imgError ? (
+        <img className="strand-avatar__img" src={src} alt={alt} onError={() => setImgError(true)} />
+      ) : (
+        <span className="strand-avatar__initials" aria-hidden="true">
+          {displayInitials}
+        </span>
+      )}
+    </div>
+  );
+});
 Avatar.displayName = "Avatar";
