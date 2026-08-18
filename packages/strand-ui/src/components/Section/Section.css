@@ -71,3 +71,19 @@
 .strand-section--scroll-target {
 	scroll-margin-top: calc(var(--strand-nav-height) + var(--strand-banner-height, 0px));
 }
+
+/* Recessed surface: the primitives inside read these. cf: surface-tokens */
+.strand-section--bg-recessed {
+  --strand-form-field-hint-color: var(--strand-gray-600);
+  --strand-form-field-label-color: var(--strand-gray-600);
+  --strand-lead-color: var(--strand-gray-600);
+  --strand-overline-accent-color: var(--strand-blue-deep);
+  --strand-overline-color: var(--strand-gray-600);
+  --strand-step-indicator-color: var(--strand-blue-deep);
+  --strand-tabs-tab-active-border-color: var(--strand-blue-deep);
+  --strand-tabs-tab-active-color: var(--strand-blue-deep);
+  --strand-tabs-tab-color: var(--strand-gray-600);
+  --strand-tabs-tab-hover-color: var(--strand-gray-600);
+  --strand-tabs-tab-pressed-color: var(--strand-gray-600);
+  --strand-text-secondary-color: var(--strand-gray-600);
+}

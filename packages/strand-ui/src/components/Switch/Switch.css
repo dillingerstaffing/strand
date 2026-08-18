@@ -73,7 +73,7 @@
 
 /* ── Label ── */
 .strand-switch__label {
-  color: var(--strand-gray-900);
+  color: var(--strand-switch-label-color, var(--strand-gray-900));
 }
 
 /* ── Disabled ── */

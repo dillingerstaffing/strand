@@ -3,7 +3,7 @@
 /* ── Bar base ── */
 .strand-progress--bar {
   width: 100%;
-  background: var(--strand-gray-200);
+  background: var(--strand-progress-track-color, var(--strand-gray-200));
   border-radius: var(--strand-radius-full);
   overflow: hidden;
 }
@@ -53,7 +53,7 @@
 
 /* ── Ring track and fill ── */
 .strand-progress__track {
-  stroke: var(--strand-gray-200);
+  stroke: var(--strand-progress-track-color, var(--strand-gray-200));
 }
 
 .strand-progress__fill {

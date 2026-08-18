@@ -77,118 +77,37 @@ describe("InstrumentViewport", () => {
   // the message was invisible. The dark-context cascade must state BOTH
   // the panel background and the content color.
 
-  it("gives an alert on the dark viewport its own background and text color", () => {
-    const css = readFileSync(
-      resolve(__dirname, "./InstrumentViewport.css"),
-      "utf-8",
-    );
-    const match = css.match(
-      /\.strand-instrument-viewport \.strand-alert\s*\{([^}]*)\}/,
-    );
-    expect(match).not.toBeNull();
-    const body = match?.[1] ?? "";
-    expect(body).toContain("background");
-    // Without an explicit color the content inherits the viewport's
-    // near-white and disappears against the panel.
-    expect(body).toContain("color");
-    // The full-page instrument mode must be scoped identically.
-    expect(css).toContain(".strand-body--instrument .strand-alert");
+// The dark surface recolours the primitives inside it through their tokens
+// (cf: surface-tokens). These guard the set: whatever the surface has to
+// answer for, it answers for the whole family, and the page-scale body mode
+// shares the block.
+describe("the dark surface sets every token its primitives need", () => {
+  const css = readFileSync(resolve(__dirname, "./InstrumentViewport.css"), "utf-8");
+  const block = css.match(/\.strand-instrument-viewport,\s*\.strand-body--instrument\s*\{([^}]*)\}/)?.[1] ?? "";
+  const alertCss = readFileSync(resolve(__dirname, "../Alert/Alert.css"), "utf-8");
+
+  it("shares one block between the viewport and the page-scale body mode", () => {
+    expect(block).not.toBe("");
   });
 
-  it("carries form-control labels on dark, the last primitives the cascade missed", () => {
-    const css = readFileSync(
-      resolve(__dirname, "./InstrumentViewport.css"),
-      "utf-8",
-    );
-    // switch / checkbox / radio labels are gray-900 on the light surface, so
-    // a labelled toggle on the viewport rendered near-black on dark (~1.2:1)
-    // and the label was invisible rather than merely low-contrast.
-    expect(css).toMatch(
-      /\.strand-instrument-viewport \.strand-switch__label[\s\S]{0,400}?color:\s*var\(--strand-on-blue-primary\)/,
-    );
-    expect(css).toContain(".strand-instrument-viewport .strand-checkbox__label");
-    expect(css).toContain(".strand-instrument-viewport .strand-radio__label");
-    expect(css).toContain(".strand-instrument-viewport .strand-form-field__label");
-    expect(css).toContain(".strand-instrument-viewport .strand-form-field__hint");
+  it("gives an alert its own wash and content colour, and every status variant its on-dark colour", () => {
+    expect(block).toMatch(/--strand-alert-bg:/);
+    expect(block).toMatch(/--strand-alert-color:/);
+    const variants = [...alertCss.matchAll(/var\((--strand-alert-[a-z]+-status-color),/g)].map((m) => m[1]);
+    expect(variants.length).toBeGreaterThanOrEqual(4);
+    for (const v of variants) expect(block, `${v} is read by Alert.css and not set on dark`).toMatch(new RegExp(`${v}:`));
   });
 
-  it("gives those same labels back to a light island nested in the viewport", () => {
-    const css = readFileSync(
-      resolve(__dirname, "./InstrumentViewport.css"),
-      "utf-8",
-    );
-    expect(css).toContain(".strand-surface-light .strand-switch__label");
-    expect(css).toContain(".strand-surface-light .strand-form-field__label");
+  it("carries form-control labels on dark", () => {
+    for (const t of ["--strand-switch-label-color", "--strand-checkbox-label-color", "--strand-radio-label-color", "--strand-form-field-label-color", "--strand-form-field-hint-color"]) {
+      expect(block).toMatch(new RegExp(`${t}:\\s*var\\(--strand-(?:on-blue-primary|gray-300)\\)`));
+    }
   });
 
-  it("restores the light-surface alert inside the nested light detail panel", () => {
-    const css = readFileSync(
-      resolve(__dirname, "./InstrumentViewport.css"),
-      "utf-8",
-    );
-    // DL 9.6: the detail panel is a light island inside the dark cabinet,
-    // so the on-dark alert wash must not leak into it.
-    const match = css.match(
-      /\.strand-detail-panel \.strand-alert,\s*\.strand-surface-light \.strand-alert\s*\{([^}]*)\}/,
-    );
-    expect(match).not.toBeNull();
-    const body = match?.[1] ?? "";
-    expect(body).toContain("background");
-    expect(body).toContain("color");
-  });
-});
-
-// ── On-dark completeness for per-variant colours ──
-//
-// The viewport dark-washes .strand-alert, which invalidates every colour
-// Alert.css chose against that variant's LIGHT tint background. The on-dark
-// block covered --info and left --success, --warning and --error reading
-// their light-surface colours on a dark panel: 1.92, 1.52 and 1.67 against a
-// 4.5 threshold.
-//
-// The defect is not three missing colours, it is that a rule was written for
-// the variant in front of the author rather than for the family -- the same
-// shape as the log and bar-chart readouts missed in 0.27.2. A contrast pass
-// cannot catch it either: scripts/contrast-check.mjs only sees rules that
-// name the viewport, so a variant with NO rule there is invisible to it.
-//
-// So this guards the set, not the values: whatever variants Alert.css colours
-// individually, InstrumentViewport.css must answer for all of them.
-describe("every dark-washed component answers for its whole variant family", () => {
-  const read = async (rel: string) => {
-    const { readFileSync } = await import("node:fs");
-    const { resolve } = await import("node:path");
-    return readFileSync(resolve(__dirname, rel), "utf8");
-  };
-
-  it("every alert variant with a light-surface status colour has an on-dark rule", async () => {
-    const alertCss = await read("../Alert/Alert.css");
-    const viewportCss = await read("./InstrumentViewport.css");
-
-    const lightVariants = [
-      ...alertCss.matchAll(/\.strand-alert--([a-z]+)\s+\.strand-alert__status\s*\{/g),
-    ].map((m) => m[1]);
-    const darkVariants = [
-      ...viewportCss.matchAll(
-        /\.strand-instrument-viewport\s+\.strand-alert--([a-z]+)\s+\.strand-alert__status\s*[,{]/g,
-      ),
-    ].map((m) => m[1]);
-
-    // Guards the parse: if either regex stops matching, the comparison below
-    // would trivially succeed on two empty lists.
-    expect(lightVariants.length).toBeGreaterThanOrEqual(4);
-    expect([...new Set(darkVariants)].sort()).toEqual([...new Set(lightVariants)].sort());
-  });
-
-  it("the dark-washed alert is the only component needing this, and toast is not", async () => {
-    // Toast declares an opaque surface-elevated background and the viewport
-    // never washes it, so it stays a light island and its light-surface status
-    // colours remain correct. Pinned because it looks like the same bug and
-    // is not: a fix here would break it.
-    const toastCss = await read("../Toast/Toast.css");
-    const viewportCss = await read("./InstrumentViewport.css");
+  it("does not wash the toast, which keeps its own opaque light surface", () => {
+    const toastCss = readFileSync(resolve(__dirname, "../Toast/Toast.css"), "utf-8");
     expect(toastCss).toMatch(/\.strand-toast\s*\{[^}]*background:\s*var\(--strand-surface-elevated\)/);
-    expect(viewportCss).not.toContain("strand-toast");
+    expect(css).not.toContain("strand-toast");
   });
 });
 

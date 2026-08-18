@@ -184,7 +184,8 @@
    WCAG 2.2 AA 4.5:1 comfortably, and preserves the blue identity. */
 .strand-btn--ghost {
   background: transparent;
-  color: var(--strand-blue-midnight);
+  color: var(--strand-btn-ghost-color, var(--strand-blue-midnight));
+  border-color: var(--strand-btn-ghost-border-color, transparent);
 }
 
 .strand-btn--ghost:hover:not(:disabled) {

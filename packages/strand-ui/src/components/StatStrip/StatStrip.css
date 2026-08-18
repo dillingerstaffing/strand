@@ -27,14 +27,14 @@
    for a strip that is its own panel rather than a row inside a card. */
 .strand-stat-strip--bordered {
   gap: 0;
-  border: 1px solid var(--strand-gray-200);
+  border: 1px solid var(--strand-stat-strip-border-color, var(--strand-gray-200));
   border-radius: var(--strand-radius-lg);
   overflow: clip;
 }
 
 .strand-stat-strip--bordered .strand-stat-strip__cell {
   padding: var(--strand-space-5);
-  border-inline-start: 1px solid var(--strand-gray-200);
+  border-inline-start: 1px solid var(--strand-stat-strip-border-color, var(--strand-gray-200));
 }
 
 /* The first cell has no neighbour to its start side, so a border there
@@ -58,7 +58,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-widest);
   text-transform: uppercase;
-  color: var(--strand-gray-500);
+  color: var(--strand-stat-strip-label-color, var(--strand-gray-500));
   line-height: var(--strand-leading-normal);
 }
 
@@ -67,7 +67,7 @@
   font-size: var(--strand-text-base);
   font-weight: var(--strand-weight-semibold);
   font-variant-numeric: tabular-nums;
-  color: var(--strand-blue-midnight);
+  color: var(--strand-stat-strip-value-color, var(--strand-blue-midnight));
   /* Cells are compared across, so a long value wraps rather than widening
      its column and pushing its neighbours out of alignment. */
   overflow-wrap: anywhere;

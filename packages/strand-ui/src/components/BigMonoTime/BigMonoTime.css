@@ -28,7 +28,7 @@
      without touching the figure advance, which tabular-nums fixes. */
   letter-spacing: var(--strand-tracking-tight);
   line-height: var(--strand-leading-none);
-  color: var(--strand-blue-midnight);
+  color: var(--strand-big-mono-time-color, var(--strand-blue-midnight));
 }
 
 .strand-big-mono-time--lg {
@@ -43,6 +43,6 @@
    two times rather than one string, and non-selectable so copying the
    element yields the times rather than the punctuation. */
 .strand-big-mono-time__sep {
-  color: var(--strand-gray-500);
+  color: var(--strand-big-mono-time-sep-color, var(--strand-gray-500));
   padding-inline: var(--strand-space-1);
 }

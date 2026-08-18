@@ -312,3 +312,57 @@
      interactive in the host. */
   z-index: 1;
 }
+
+/* Light island: primitives inside return to their light values. cf: surface-tokens */
+.strand-surface-light {
+  --strand-alert-bg: initial;
+  --strand-alert-color: var(--strand-gray-700);
+  --strand-alert-dismiss-color: initial;
+  --strand-alert-dismiss-hover-bg: initial;
+  --strand-alert-dismiss-hover-color: var(--strand-gray-500);
+  --strand-alert-error-status-color: initial;
+  --strand-alert-info-status-color: initial;
+  --strand-alert-success-status-color: initial;
+  --strand-alert-warning-status-color: initial;
+  --strand-bar-chart-amount-color: initial;
+  --strand-bar-chart-label-color: initial;
+  --strand-big-mono-time-color: initial;
+  --strand-big-mono-time-sep-color: initial;
+  --strand-btn-ghost-border-color: initial;
+  --strand-btn-ghost-color: initial;
+  --strand-checkbox-label-color: initial;
+  --strand-data-readout-label-color: initial;
+  --strand-data-readout-value-color: initial;
+  --strand-form-field-hint-color: initial;
+  --strand-form-field-label-color: initial;
+  --strand-heading-sm-color: initial;
+  --strand-headline-color: initial;
+  --strand-kv-label-color: initial;
+  --strand-kv-value-color: initial;
+  --strand-kv-value-status-color: var(--strand-gray-700);
+  --strand-lead-color: initial;
+  --strand-link-color: initial;
+  --strand-link-mono-color: var(--strand-blue-deep);
+  --strand-link-mono-hover-color: initial;
+  --strand-link-underline: initial;
+  --strand-log-text-color: initial;
+  --strand-log-text-strong-color: initial;
+  --strand-log-time-color: initial;
+  --strand-overline-accent-color: initial;
+  --strand-overline-color: initial;
+  --strand-progress-track-color: initial;
+  --strand-radio-label-color: initial;
+  --strand-stat-strip-border-color: initial;
+  --strand-stat-strip-label-color: initial;
+  --strand-stat-strip-value-color: initial;
+  --strand-status-chip-committed-color: initial;
+  --strand-status-chip-neutral-bg: initial;
+  --strand-status-chip-neutral-border: initial;
+  --strand-status-chip-neutral-color: initial;
+  --strand-switch-label-color: initial;
+  --strand-text-secondary-color: initial;
+  --strand-text-secondary-xs-color: var(--strand-gray-500);
+  --strand-title-color: initial;
+  --strand-value-negative-color: initial;
+  --strand-value-positive-color: initial;
+}

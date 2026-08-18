@@ -21,7 +21,7 @@ describe("value tone utilities win any component color rule", () => {
   // color at higher specificity, so a tone composed onto a value must carry
   // !important or the composition silently loses the cascade.
   it("positive and negative tones are !important", () => {
-    expect(ruleFor(".strand-value--positive")).toMatch(/color:\s*var\(--strand-green-positive-deep\)\s*!important/);
-    expect(ruleFor(".strand-value--negative")).toMatch(/color:\s*var\(--strand-red-alert-deep\)\s*!important/);
+    expect(ruleFor(".strand-value--positive")).toMatch(/color:\s*var\(--strand-value-positive-color, var\(--strand-green-positive-deep\)\)\s*!important/);
+    expect(ruleFor(".strand-value--negative")).toMatch(/color:\s*var\(--strand-value-negative-color, var\(--strand-red-alert-deep\)\)\s*!important/);
   });
 });

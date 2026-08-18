@@ -36,5 +36,6 @@ exports[`stylesheet > declares its selectors 1`] = `
   "  .strand-detail-panel > .strand-overline",
   "@media (prefers-reduced-motion: reduce)",
   "  .strand-detail-panel.is-open > .strand-overline, .strand-detail-panel.open > .strand-overline, .strand-detail-panel.is-open .strand-detail-panel__title, .strand-detail-panel.open .strand-detail-panel__title, .strand-detail-panel.is-open .strand-detail-panel__meta, .strand-detail-panel.open .strand-detail-panel__meta, .strand-detail-panel.is-open .strand-detail-panel__salary, .strand-detail-panel.open .strand-detail-panel__salary, .strand-detail-panel.is-open .strand-detail-panel__cta, .strand-detail-panel.open .strand-detail-panel__cta, .strand-detail-panel.is-open .strand-detail-panel__source, .strand-detail-panel.open .strand-detail-panel__source",
+  ".strand-detail-panel",
 ]
 `;

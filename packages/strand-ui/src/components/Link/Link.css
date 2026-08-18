@@ -5,10 +5,10 @@
    remains correct where it is a fill, a border or a focus ring, all of which
    sit at the 3:1 threshold -- see the focus ring below, which keeps it. */
 .strand-link {
-  color: var(--strand-blue-deep);
+  color: var(--strand-link-color, var(--strand-blue-deep));
   text-decoration: none;
   font-family: var(--strand-font-sans);
-  background-image: linear-gradient(currentColor, currentColor);
+  background-image: var(--strand-link-underline, linear-gradient(currentColor, currentColor));
   background-position: 0% 100%;
   background-repeat: no-repeat;
   background-size: 0% 1px;
@@ -39,16 +39,16 @@
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
   letter-spacing: var(--strand-tracking-wider);
-  color: var(--strand-gray-500);
-  background-image: none;
+  color: var(--strand-link-mono-color, var(--strand-gray-500));
+  background-image: var(--strand-link-underline, none);
 }
 
 .strand-link--mono:hover {
-  color: var(--strand-blue-deep);
+  color: var(--strand-link-mono-hover-color, var(--strand-blue-deep));
 }
 
 /* ── Link: inherit color ──
    A link that should read as body/heading text, not the accent link
    color (e.g. a whole card title wrapped in <a>). Replaces inline
    `color:inherit;background-image:none`. */
-.strand-link--inherit { color: inherit; background-image: none; }
+.strand-link--inherit { color: var(--strand-link-color, inherit); background-image: var(--strand-link-underline, none); }

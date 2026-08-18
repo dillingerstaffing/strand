@@ -45,5 +45,6 @@ exports[`stylesheet > declares its selectors 1`] = `
   ".strand-embed-16x9 > iframe, .strand-embed-16x9 > *",
   ".strand-stretch-link-host",
   ".strand-stretch-link::after",
+  ".strand-surface-light",
 ]
 `;

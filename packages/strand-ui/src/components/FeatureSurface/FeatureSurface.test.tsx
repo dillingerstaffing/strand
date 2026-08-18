@@ -66,44 +66,21 @@ describe("FeatureSurface", () => {
     expect(container.textContent).toContain("Next ship");
   });
 
-  // The guard the instrument viewport already has, mirrored here because this
-  // surface shipped without it and the alert cascade was the part that got
-  // missed. A variant covered nowhere renders its light-surface colour on a
-  // dark ground, which is how --success measured 1.52 on the viewport before
-  // its own fix; --success is the RSVP affirmation, so it is the most-seen.
-  it("every alert variant with a light-surface status colour has an on-dark rule", async () => {
+  // The surface recolours the primitives inside it through their tokens
+  // (cf: surface-tokens); this guards the set for the alert family, the
+  // part that was missed when the surface first shipped.
+  it("sets the alert wash and every alert status colour on dark", async () => {
     const { readFileSync } = await import("node:fs");
     const { resolve } = await import("node:path");
     const read = (rel: string) => readFileSync(resolve(__dirname, rel), "utf8");
-
-    const alertCss = read("../Alert/Alert.css");
-    const surfaceCss = read("../InstrumentViewport/InstrumentViewport.css");
-
-    const lightVariants = [
-      ...alertCss.matchAll(/\.strand-alert--([a-z]+)\s+\.strand-alert__status\s*\{/g),
-    ].map((m) => m[1]);
-    const darkVariants = [
-      ...surfaceCss.matchAll(
-        /\.strand-feature-surface\s+\.strand-alert--([a-z]+)\s+\.strand-alert__status\s*[,{]/g,
-      ),
-    ].map((m) => m[1]);
-
-    // Guards the parse: without this, two empty lists would compare equal and
-    // the assertion would pass while checking nothing.
-    expect(lightVariants.length).toBeGreaterThanOrEqual(4);
-    expect([...new Set(darkVariants)].sort()).toEqual([...new Set(lightVariants)].sort());
+    const blocks = [...read("./FeatureSurface.css").matchAll(/\.strand-feature-surface\s*\{([^}]*)\}/g)].map((m) => m[1]);
+    const block = blocks.find((b) => b.includes("--strand-alert-bg")) ?? "";
+    expect(block).toMatch(/--strand-alert-bg:/);
+    expect(block).toMatch(/--strand-alert-color:/);
+    const variants = [...read("../Alert/Alert.css").matchAll(/var\((--strand-alert-[a-z]+-status-color),/g)].map((m) => m[1]);
+    expect(variants.length).toBeGreaterThanOrEqual(4);
+    for (const v of variants) expect(block, `${v} is not set on the feature surface`).toMatch(new RegExp(`${v}:`));
   });
-
-  it("washes the alert panel itself, not only its status prefix", async () => {
-    const { readFileSync } = await import("node:fs");
-    const { resolve } = await import("node:path");
-    const css = readFileSync(
-      resolve(__dirname, "../InstrumentViewport/InstrumentViewport.css"),
-      "utf8",
-    );
-    expect(css).toMatch(/\.strand-feature-surface\s+\.strand-alert\s*[,{]/);
-  });
-
 });
 
 import { snapshotFixtures } from "../../test/snapshot.js";

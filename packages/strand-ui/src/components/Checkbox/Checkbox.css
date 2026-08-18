@@ -81,7 +81,7 @@
 
 /* ── Label ── */
 .strand-checkbox__label {
-  color: var(--strand-gray-900);
+  color: var(--strand-checkbox-label-color, var(--strand-gray-900));
 }
 
 /* ── Disabled ── */

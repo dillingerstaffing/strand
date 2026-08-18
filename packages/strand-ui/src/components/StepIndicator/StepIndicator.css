@@ -10,7 +10,7 @@
   height: var(--strand-space-8);
   border-radius: var(--strand-radius-full);
   background: var(--strand-blue-glow);
-  color: var(--strand-blue-deep);
+  color: var(--strand-step-indicator-color, var(--strand-blue-deep));
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-sm);
   font-weight: var(--strand-weight-semibold);

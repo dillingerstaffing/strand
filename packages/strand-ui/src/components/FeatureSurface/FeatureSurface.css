@@ -76,152 +76,48 @@
 .strand-feature-surface--pad-xl {
   padding: var(--strand-space-10);
 }
-
-/* ── Text cascade on midnight ──
-   Mirrors the instrument viewport's cascade in structure and differs in
-   every value that needed to. */
-
-.strand-feature-surface .strand-headline,
-.strand-feature-surface .strand-title {
-  color: var(--strand-on-blue-primary);
-}
-
-/* gray-300 at 7.46, where the instrument uses gray-400. gray-400
-   measures 4.36 here and an overline is text. */
-/* Headings and values. The instrument cascade shipped without these and
-   a heading rendered ~1.2:1 on the live site; this surface had the
-   identical hole, and the focal card was about to swap onto it, which
-   would have moved the defect into the single most prominent element in
-   the product rather than fixing it. */
-/* ── The screen primitives, on midnight ──
-   Same roles, and the readout is the sharpest case for why this surface
-   needs its own cascade rather than inheriting the abyss one: its light
-   value IS blue-midnight, so on this ground it measured 1.00:1 -- the
-   same colour as the surface, invisible rather than merely dim. */
-.strand-feature-surface .strand-big-mono-time,
-.strand-feature-surface .strand-stat-strip__value {
-  color: var(--strand-on-blue-primary);
-}
-
-.strand-feature-surface .strand-big-mono-time__sep,
-.strand-feature-surface .strand-stat-strip__label {
-  color: var(--strand-gray-300);
-}
-
-.strand-feature-surface .strand-stat-strip--bordered,
-.strand-feature-surface .strand-stat-strip--bordered .strand-stat-strip__cell {
-  border-color: var(--strand-instrument-border);
-}
-
-.strand-feature-surface .strand-heading--sm,
-.strand-feature-surface .strand-lead {
-  color: var(--strand-on-blue-primary);
-}
-
-/* Targeted by the MODIFIER: `.strand-heading--sm` ships without a base
-   class and no `.strand-heading` rule exists, so a cascade written against
-   the base matches nothing. */
-
-/* Semantic values, and the rung is the TINT rather than the mid-tone.
-   Measured every member of both families against midnight: nothing in
-   between works. teal-vital is 4.42 and green-positive 4.34, both just
-   under; every -deep and -vivid is worse, because they were derived to sit
-   on a LIGHT ground. The only members that clear 4.5 while still reading
-   as their hue are the tints -- teal-tint at 9.76 and red-tint at 10.05.
-
-   That is the tier logic pointed the other way, and it is worth stating as
-   a rule rather than a lookup: on a light ground a hue goes DEEP to gain
-   contrast, and on a dark ground it goes to its TINT. The abyss does not
-   need this because it is dark enough for the mid-tones (teal-vital is
-   7.07 there); midnight is the lighter dark, which is precisely why it is
-   a separate role and not a shade.
-
-   !important for the same reason as the instrument cascade: the base
-   utilities carry it so the tone beats a host component (Gap #44), and
-   between two rules both claiming that, the surface is the one that knows
-   what is legible. */
-.strand-feature-surface .strand-value--positive {
-  color: var(--strand-teal-tint) !important;
-}
-
-.strand-feature-surface .strand-value--negative {
-  color: var(--strand-red-tint) !important;
-}
-
-.strand-feature-surface .strand-link--mono {
-  color: var(--strand-blue-indicator);
-}
-
-.strand-feature-surface .strand-overline {
-  color: var(--strand-gray-300);
-}
-
-.strand-feature-surface .strand-overline--accent {
-  color: var(--strand-blue-indicator);
-}
-
-.strand-feature-surface .strand-text-secondary {
-  color: var(--strand-gray-200);
-}
-
-/* The quiet tier drops one step and stops there, at 7.46. On the abyss
-   this tier goes to gray-400; here that is the failing value. */
-.strand-feature-surface .strand-text-secondary--xs {
-  color: var(--strand-gray-300);
-}
-
-.strand-feature-surface .strand-lead {
-  color: var(--strand-gray-200);
-}
-
-.strand-feature-surface .strand-data-readout__label,
-.strand-feature-surface .strand-kv__label {
-  color: var(--strand-gray-300);
-}
-
-.strand-feature-surface .strand-data-readout__value,
-.strand-feature-surface .strand-kv__value {
-  color: var(--strand-on-blue-primary);
-}
-
-/* teal-vital is 4.42 here and 7.07 on the abyss, so the status value
-   takes the same white as any other value rather than the accent the
-   instrument gives it. The status is carried by its label, not by
-   tinting the number below a legible ratio. */
-.strand-feature-surface .strand-kv__value--status {
-  color: var(--strand-on-blue-primary);
-}
-
-.strand-feature-surface .strand-link {
-  color: var(--strand-blue-indicator);
-}
-
-/* A meter's fill is a graphical object at 3:1, not text, so blue-primary
-   is correct here at 3.34 where it would fail as a word. The track takes
-   the same subtle structure value the instrument cabinet uses. */
-.strand-feature-surface .strand-progress--bar {
-  background: var(--strand-instrument-border);
-}
-
-.strand-feature-surface .strand-progress__track {
-  stroke: var(--strand-instrument-border);
-}
-
-/* Ghost buttons and neutral chips lose their light-surface contrast
-   here, the same way they do on the abyss. */
-.strand-feature-surface .strand-btn--ghost {
-  color: var(--strand-on-blue-primary);
-  border-color: var(--strand-instrument-border-strong);
-}
-
-.strand-feature-surface .strand-status-chip--neutral {
-  background: color-mix(in srgb, var(--strand-gray-300) 14%, transparent);
-  color: var(--strand-gray-200);
-  border: 1px solid color-mix(in srgb, var(--strand-gray-300) 22%, transparent);
-}
 /* ── Panels and status dots on midnight ──
    Alerts and badges take the SAME treatment here as on the instrument
    viewport, so the rules live once, in InstrumentViewport.css, with this
    surface added to their selector lists. Two parallel blocks would be two
    places to forget a variant, which is the failure both of them exist to fix.
    FeatureSurface.test.tsx guards the completeness from here. */
+
+/* Dark surface: the primitives inside read these. cf: surface-tokens */
+.strand-feature-surface {
+  --strand-alert-bg: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);
+  --strand-alert-color: var(--strand-on-blue-primary);
+  --strand-alert-error-status-color: var(--strand-red-tint);
+  --strand-alert-info-status-color: var(--strand-blue-indicator);
+  --strand-alert-success-status-color: var(--strand-teal-tint);
+  --strand-alert-warning-status-color: var(--strand-amber-tint);
+  --strand-big-mono-time-color: var(--strand-on-blue-primary);
+  --strand-big-mono-time-sep-color: var(--strand-gray-300);
+  --strand-btn-ghost-border-color: var(--strand-instrument-border-strong);
+  --strand-btn-ghost-color: var(--strand-on-blue-primary);
+  --strand-data-readout-label-color: var(--strand-gray-300);
+  --strand-data-readout-value-color: var(--strand-on-blue-primary);
+  --strand-heading-sm-color: var(--strand-on-blue-primary);
+  --strand-headline-color: var(--strand-on-blue-primary);
+  --strand-kv-label-color: var(--strand-gray-300);
+  --strand-kv-value-color: var(--strand-on-blue-primary);
+  --strand-kv-value-status-color: var(--strand-on-blue-primary);
+  --strand-lead-color: var(--strand-gray-200);
+  --strand-link-color: var(--strand-blue-indicator);
+  --strand-link-mono-color: var(--strand-blue-indicator);
+  --strand-link-mono-hover-color: var(--strand-blue-indicator);
+  --strand-overline-accent-color: var(--strand-blue-indicator);
+  --strand-overline-color: var(--strand-gray-300);
+  --strand-progress-track-color: var(--strand-instrument-border);
+  --strand-stat-strip-border-color: var(--strand-instrument-border);
+  --strand-stat-strip-label-color: var(--strand-gray-300);
+  --strand-stat-strip-value-color: var(--strand-on-blue-primary);
+  --strand-status-chip-neutral-bg: color-mix(in srgb, var(--strand-gray-300) 14%, transparent);
+  --strand-status-chip-neutral-border: 1px solid color-mix(in srgb, var(--strand-gray-300) 22%, transparent);
+  --strand-status-chip-neutral-color: var(--strand-gray-200);
+  --strand-text-secondary-color: var(--strand-gray-200);
+  --strand-text-secondary-xs-color: var(--strand-gray-300);
+  --strand-title-color: var(--strand-on-blue-primary);
+  --strand-value-negative-color: var(--strand-red-tint);
+  --strand-value-positive-color: var(--strand-teal-tint);
+}

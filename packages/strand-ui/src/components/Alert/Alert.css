@@ -11,24 +11,25 @@
   border-radius: var(--strand-radius-md);
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-sm);
-  background: var(--strand-surface-recessed);
+  background: var(--strand-alert-bg, var(--strand-surface-recessed));
+  color: var(--strand-alert-color, inherit);
 }
 
 /* ── Status variants (neutral background, status color on prefix only) ── */
 .strand-alert--info {
-  background: var(--strand-surface-recessed);
+  background: var(--strand-alert-bg, var(--strand-surface-recessed));
 }
 
 .strand-alert--success {
-  background: var(--strand-surface-recessed);
+  background: var(--strand-alert-bg, var(--strand-surface-recessed));
 }
 
 .strand-alert--warning {
-  background: var(--strand-surface-recessed);
+  background: var(--strand-alert-bg, var(--strand-surface-recessed));
 }
 
 .strand-alert--error {
-  background: var(--strand-surface-recessed);
+  background: var(--strand-alert-bg, var(--strand-surface-recessed));
 }
 
 /* ── Stacked layout ──
@@ -55,10 +56,10 @@
   flex-shrink: 0;
 }
 
-.strand-alert--info .strand-alert__status { color: var(--strand-blue-deep); }
-.strand-alert--success .strand-alert__status { color: var(--strand-on-teal-tint); }
-.strand-alert--warning .strand-alert__status { color: var(--strand-on-amber-tint); }
-.strand-alert--error .strand-alert__status { color: var(--strand-red-alert-deep); }
+.strand-alert--info .strand-alert__status { color: var(--strand-alert-info-status-color, var(--strand-blue-deep)); }
+.strand-alert--success .strand-alert__status { color: var(--strand-alert-success-status-color, var(--strand-on-teal-tint)); }
+.strand-alert--warning .strand-alert__status { color: var(--strand-alert-warning-status-color, var(--strand-on-amber-tint)); }
+.strand-alert--error .strand-alert__status { color: var(--strand-alert-error-status-color, var(--strand-red-alert-deep)); }
 
 /* ── Content ── */
 .strand-alert__content {
@@ -79,7 +80,7 @@
   border: none;
   border-radius: var(--strand-radius-md);
   background: transparent;
-  color: var(--strand-gray-500);
+  color: var(--strand-alert-dismiss-color, var(--strand-gray-500));
   font-size: var(--strand-text-base);
   cursor: pointer;
   transition: background var(--strand-duration-fast) var(--strand-ease-out-quart),
@@ -87,6 +88,6 @@
 }
 
 .strand-alert__dismiss:hover {
-  background: var(--strand-gray-100);
-  color: var(--strand-gray-600);
+  background: var(--strand-alert-dismiss-hover-bg, var(--strand-gray-100));
+  color: var(--strand-alert-dismiss-hover-color, var(--strand-gray-600));
 }

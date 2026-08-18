@@ -81,7 +81,7 @@
 
 /* ── Label ── */
 .strand-radio__label {
-  color: var(--strand-gray-900);
+  color: var(--strand-radio-label-color, var(--strand-gray-900));
 }
 
 /* ── Disabled ── */

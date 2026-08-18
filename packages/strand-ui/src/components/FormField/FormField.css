@@ -14,7 +14,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-widest);
   text-transform: uppercase;
-  color: var(--strand-gray-500);
+  color: var(--strand-form-field-label-color, var(--strand-gray-500));
   line-height: var(--strand-leading-snug);
 }
 
@@ -38,7 +38,7 @@
   margin: 0;
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-xs);
-  color: var(--strand-gray-500);
+  color: var(--strand-form-field-hint-color, var(--strand-gray-500));
   line-height: var(--strand-leading-normal);
 }
 

@@ -125,6 +125,13 @@ export const EXCLUSIONS = [
 		why: "graphical rating, meaning carried by fill shape rather than hue",
 	},
 	{
+		// The idle readout's placeholder is a faint dash standing in for a value
+		// that does not exist yet; its meaning is the absence, deliberately kept
+		// below text weight so it never reads as a figure.
+		pattern: /idle-readout/,
+		why: "placeholder glyph for an absent value, faint by design (design language 21.1)",
+	},
+	{
 		// Token specimens and utility cells exist to DISPLAY a palette value.
 		// Distorting the swatch to make the swatch pass would defeat its purpose.
 		pattern: /swatch|token-specimen|ref-util-cell|ref-example__demo/,

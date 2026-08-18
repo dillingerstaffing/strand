@@ -26,349 +26,6 @@
   padding: var(--strand-space-5);
 }
 
-/* Dark-surface overrides: KV and log text needs higher contrast on #0F192A */
-.strand-instrument-viewport .strand-kv__label { color: var(--strand-gray-400); }
-.strand-instrument-viewport .strand-kv__value { color: var(--strand-gray-200); }
-
-/* Dark-surface cascades for status chips and ghost buttons.
-   The light-surface defaults of .strand-status-chip--neutral and
-   .strand-btn--ghost lose contrast when placed on the dark
-   instrument viewport (full-bleed body or recessed panel). Apply
-   matching on-dark treatments so consumers never need inline
-   style overrides. Scoped to both .strand-body--instrument (full
-   page mode) and .strand-instrument-viewport (recessed panel). */
-.strand-body--instrument .strand-status-chip--neutral,
-.strand-instrument-viewport .strand-status-chip--neutral {
-  background: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);
-  color: var(--strand-gray-300);
-  border: 1px solid color-mix(in srgb, var(--strand-gray-400) 20%, transparent);
-}
-
-.strand-body--instrument .strand-btn--ghost,
-.strand-instrument-viewport .strand-btn--ghost {
-  color: var(--strand-on-blue-primary);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-/* ── Dark-context text cascade (DL Part 9.3) ──
-   The generic text primitives assume the white lab surface: their default
-   colors (blue-midnight headlines, gray-500 secondary/overline text) lose
-   contrast on the dark viewport. DL 9.3 defines the viewport as a
-   self-contained dark island where all text switches to on-dark colors, so
-   a consumer places any of these primitives directly on the viewport and
-   never hand-tints them. Scoped to both the full-page body mode and the
-   recessed panel, matching the kv / status-chip / ghost cascades above. */
-.strand-body--instrument .strand-headline,
-.strand-instrument-viewport .strand-headline {
-  color: var(--strand-on-blue-primary);
-}
-
-.strand-body--instrument .strand-text-secondary,
-.strand-instrument-viewport .strand-text-secondary {
-  color: var(--strand-gray-200);
-}
-
-/* The --xs caption tier drops one gray step so it reads as a quieter
-   subordinate line. Declared after the base rule so it wins for an element
-   carrying both classes (equal specificity, later source order). */
-.strand-body--instrument .strand-text-secondary--xs,
-.strand-instrument-viewport .strand-text-secondary--xs {
-  color: var(--strand-gray-300);
-}
-
-.strand-body--instrument .strand-overline,
-.strand-instrument-viewport .strand-overline {
-  color: var(--strand-gray-400);
-}
-
-/* Accent overline: blue-deep is tuned for AA contrast on the white surface
-   but goes muddy on the abyss. On dark, the light blue-indicator carries
-   the accent. Scoped to the viewport only so the static.css light-surface
-   rule keeps blue-deep everywhere else. */
-.strand-body--instrument .strand-overline--accent,
-.strand-instrument-viewport .strand-overline--accent {
-  color: var(--strand-blue-indicator);
-}
-
-.strand-body--instrument .strand-data-readout__label,
-.strand-instrument-viewport .strand-data-readout__label {
-  color: var(--strand-gray-400);
-}
-
-/* ── Headings and values, on dark (DL 9.3) ──
-   SHIPPED DEFECT, found on the live site rather than by a gate: the
-   hero card's "SHIP 001" rendered gray-800 (#1E2B3B) on the abyss
-   (#0F192A), about 1.2:1 -- a heading that was very nearly invisible on
-   the most prominent card in the product.
-
-   The cascade below it covers nine text roles and was verified for all
-   of them. `.strand-heading` was simply not in the set anybody
-   enumerated, so it kept its light-surface colour and fell through in
-   silence. That is why the compositional check now exists: this class is
-   CORRECT on its own surface, so a per-declaration audit passes it, and
-   the failing pair only comes into existence when a consumer puts the
-   heading inside a dark card. Contrast is a property of a PAIRING, and a
-   pairing that is created by composition cannot be found by reading
-   declarations. */
-.strand-body--instrument .strand-heading--sm,
-.strand-instrument-viewport .strand-heading--sm,
-.strand-body--instrument .strand-title,
-.strand-instrument-viewport .strand-title,
-.strand-body--instrument .strand-lead,
-.strand-instrument-viewport .strand-lead {
-  color: var(--strand-on-blue-primary);
-}
-
-/* The heading tier is targeted by its MODIFIER, not by a base class, and
-   that is not a style choice. `.strand-heading--sm` is written without
-   `.strand-heading` throughout, and no `.strand-heading` rule exists to
-   inherit from -- the modifier IS the class. A cascade written against the
-   base matches nothing.
-
-   Recorded because I got it wrong first: the fix targeted `.strand-heading`
-   and looked complete, and the compositional check measured it still at
-   1.23:1. A cascade is only as correct as the selectors consumers actually
-   ship, and reading the fix cannot tell you that. */
-
-/* These carry !important, which is not an escalation war: the base
-   utilities carry it too, deliberately, so the semantic tone wins over a
-   host component's own colour (Gap #44). That contract did not anticipate
-   a dark ground. Both rules are saying "beat the component", and between
-   them the SURFACE is the one that knows what is actually legible, so the
-   surface wins. Without the marker here the light-surface tone survives
-   onto the abyss at 2.7:1 and onto midnight at 1.7:1.
-
-   The tone is preserved, only its rung changes: positive stays green-family
-   and negative stays red-family, so the meaning a reader takes from the
-   colour is unchanged. */
-.strand-body--instrument .strand-value--positive,
-.strand-instrument-viewport .strand-value--positive {
-  color: var(--strand-teal-vital) !important;
-}
-
-.strand-body--instrument .strand-value--negative,
-.strand-instrument-viewport .strand-value--negative {
-  color: var(--strand-red-alert) !important;
-}
-
-.strand-body--instrument .strand-link--mono,
-.strand-instrument-viewport .strand-link--mono {
-  color: var(--strand-blue-indicator);
-}
-
-/* ── The screen primitives, on dark (DL 9.3) ──
-   Added WITH the components rather than after a consumer found them
-   illegible, which is the sequence the 1.23:1 heading earned.
-
-   These were briefly missing: the components were parked out of the tree
-   during an unrelated diagnosis and restored, but only the untracked
-   component directories came back -- these tracked cascade edits did
-   not. `test:dark-composition` caught it at 1.60:1 here and 1.00:1 on
-   the feature surface, where the readout was painting midnight on
-   midnight and was literally invisible. A restore that returns most of a
-   change is the failure mode a compositional check exists for. */
-.strand-body--instrument .strand-big-mono-time,
-.strand-instrument-viewport .strand-big-mono-time,
-.strand-body--instrument .strand-stat-strip__value,
-.strand-instrument-viewport .strand-stat-strip__value {
-  color: var(--strand-on-blue-primary);
-}
-
-.strand-body--instrument .strand-big-mono-time__sep,
-.strand-instrument-viewport .strand-big-mono-time__sep,
-.strand-body--instrument .strand-stat-strip__label,
-.strand-instrument-viewport .strand-stat-strip__label {
-  color: var(--strand-gray-300);
-}
-
-/* The bordered strip's rules are gray-200, a near-white line on the
-   abyss. The instrument border is this cabinet's value for subtle
-   structure. */
-.strand-body--instrument .strand-stat-strip--bordered,
-.strand-instrument-viewport .strand-stat-strip--bordered,
-.strand-body--instrument .strand-stat-strip--bordered .strand-stat-strip__cell,
-.strand-instrument-viewport .strand-stat-strip--bordered .strand-stat-strip__cell {
-  border-color: var(--strand-instrument-border);
-}
-
-/* ── Progress, on dark (DL 9.3) ──
-   The bar's track is gray-200, which is correct on a light card and
-   inverted on the cabinet: a near-white bar reading as FULL, with the
-   blue fill marking the part that is empty. The meter states the
-   opposite of the truth, which is worse than being merely hard to read,
-   and it is why this is a defect rather than a polish item.
-
-   The fill is deliberately NOT changed. blue-primary measures 5.35:1 on
-   the abyss and clears SC 1.4.11's 3:1 for a non-text graphical object,
-   so the value that is correct on light is correct here too.
-
-   --strand-instrument-border rather than a white alpha: it is the
-   established "subtle structure on dark" value in this cabinet, it keeps
-   the empty portion of the meter in the same blue family as the fill,
-   and 16.3 forbids writing the raw rgba a mockup would specify. The
-   track and fill stay distinguishable because the token is 12% blue over
-   the abyss while the fill is the full brand blue. */
-.strand-body--instrument .strand-progress--bar,
-.strand-instrument-viewport .strand-progress--bar {
-  background: var(--strand-instrument-border);
-}
-
-/* The ring paints its track with stroke, not background, so the bar rule
-   above cannot reach it. Same omission, same context, different
-   property. */
-.strand-body--instrument .strand-progress__track,
-.strand-instrument-viewport .strand-progress__track {
-  stroke: var(--strand-instrument-border);
-}
-
-/* ── Diagnostic log and bar chart, on dark (DL 9.3) ──
-   These are FUI readouts and the viewport is where they normally live, but
-   they are declared in static.css and had never been given an on-dark rule.
-   Their light-surface defaults WERE on-dark values (gray-100 to gray-400),
-   which is why the omission stayed invisible: the single definition worked
-   on the cabinet and failed on the lab surface, where the log text measured
-   1.47:1 and its strong runs 1.09:1.
-
-   The contrast pass gave them proper light-surface colors, which moved the
-   failure to the dark side instead of removing it. Both sides need a rule.
-   The values below are exactly what the defaults used to be, so the dark
-   rendering is unchanged and only the light one is fixed. */
-.strand-body--instrument .strand-log__time,
-.strand-instrument-viewport .strand-log__time,
-.strand-body--instrument .strand-bar-chart__label,
-.strand-instrument-viewport .strand-bar-chart__label {
-  color: var(--strand-gray-400);
-}
-
-.strand-body--instrument .strand-log__text,
-.strand-instrument-viewport .strand-log__text,
-.strand-body--instrument .strand-bar-chart__amount,
-.strand-instrument-viewport .strand-bar-chart__amount {
-  color: var(--strand-gray-300);
-}
-
-.strand-body--instrument .strand-log__text strong,
-.strand-instrument-viewport .strand-log__text strong {
-  color: var(--strand-gray-100);
-}
-
-/* teal-vital is the fill tier and fails as text on a light surface, but on
-   the abyss it is the correct high-contrast value and on-teal-tint is far
-   too dark. Same split as the accent overline above. */
-.strand-body--instrument .strand-kv__value--status,
-.strand-instrument-viewport .strand-kv__value--status {
-  color: var(--strand-teal-vital);
-}
-
-/* The readout value's default blue-midnight is near-invisible on the abyss.
-   DL 9.3 pairs the on-dark label with an on-dark value, so the full readout
-   stays legible on the viewport, not just its label. */
-.strand-body--instrument .strand-data-readout__value,
-.strand-instrument-viewport .strand-data-readout__value {
-  color: var(--strand-on-blue-primary);
-}
-
-/* A link placed directly on the dark viewport reads as instrument text:
-   inherit the surrounding color and drop the light-surface gradient
-   underline. The higher specificity (0,2,0) wins over the base
-   .strand-link rule in Link.css regardless of bundle order. */
-.strand-body--instrument .strand-link,
-.strand-instrument-viewport .strand-link {
-  color: inherit;
-  background-image: none;
-}
-
-/* An alert placed on the dark viewport. Alert.css sets an opaque
-   light-surface background (--strand-surface-recessed) and sets no color of
-   its own, so on the abyss the panel stayed near-white while its text
-   inherited the viewport's near-white --strand-gray-100: white on white,
-   with the message effectively invisible. Give the panel the same
-   translucent wash the neutral status chip uses on dark, and state the
-   content color explicitly rather than leaving it to inherit. The status
-   prefix keeps its semantic color (DL 11.6). */
-.strand-body--instrument .strand-alert,
-.strand-feature-surface .strand-alert,
-.strand-instrument-viewport .strand-alert {
-  background: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);
-  color: var(--strand-on-blue-primary);
-}
-
-/* The status prefix, on the washed panel. Alert.css gives each variant a
-   colour chosen against that variant's LIGHT tint background; the rule above
-   replaces that background with a dark wash, so all four need a value for the
-   new surface, not just one.
-
-   This block covered --info only. --success, --warning and --error kept their
-   light-surface colours on a dark panel and measured 1.92, 1.52 and 1.67
-   against 4.5. --success is the RSVP affirmation, the panel a member sees the
-   moment they commit, so it was the most-seen failure of the set.
-
-   Each variant inverts to a light value of its OWN hue, so the pairing turns
-   over rather than picking up a new colour: the tints these variants already
-   use as their light backgrounds become their dark-surface text. They clear
-   4.5:1 with room on any plausible composite of the wash (9.6:1 or better).
-   --info keeps blue-indicator, which was already correct and reads as blue
-   more clearly than the near-white blue-tint would.
-
-   Completeness is guarded in InstrumentViewport.test.tsx: every variant with
-   a per-variant colour in Alert.css must have a rule here. */
-.strand-body--instrument .strand-alert--info .strand-alert__status,
-.strand-feature-surface .strand-alert--info .strand-alert__status,
-.strand-instrument-viewport .strand-alert--info .strand-alert__status {
-  color: var(--strand-blue-indicator);
-}
-
-.strand-body--instrument .strand-alert--success .strand-alert__status,
-.strand-feature-surface .strand-alert--success .strand-alert__status,
-.strand-instrument-viewport .strand-alert--success .strand-alert__status {
-  color: var(--strand-teal-tint);
-}
-
-.strand-body--instrument .strand-alert--warning .strand-alert__status,
-.strand-feature-surface .strand-alert--warning .strand-alert__status,
-.strand-instrument-viewport .strand-alert--warning .strand-alert__status {
-  color: var(--strand-amber-tint);
-}
-
-.strand-body--instrument .strand-alert--error .strand-alert__status,
-.strand-feature-surface .strand-alert--error .strand-alert__status,
-.strand-instrument-viewport .strand-alert--error .strand-alert__status {
-  color: var(--strand-red-tint);
-}
-
-.strand-body--instrument .strand-alert__dismiss,
-.strand-instrument-viewport .strand-alert__dismiss {
-  color: var(--strand-gray-300);
-}
-
-.strand-body--instrument .strand-alert__dismiss:hover,
-.strand-instrument-viewport .strand-alert__dismiss:hover {
-  background: color-mix(in srgb, var(--strand-gray-400) 20%, transparent);
-  color: var(--strand-on-blue-primary);
-}
-
-/* Form-control labels. These assume the white lab surface and are the last
-   text primitives the cascade did not reach, which made them the worst
-   offenders rather than merely low-contrast ones: switch / checkbox / radio
-   labels are gray-900, i.e. near-black, so a labelled toggle placed on the
-   viewport rendered dark-on-dark at about 1.2:1 and the label was invisible.
-   Field labels and hints are gray-500 and landed near 2.8:1. */
-.strand-body--instrument .strand-switch__label,
-.strand-instrument-viewport .strand-switch__label,
-.strand-body--instrument .strand-checkbox__label,
-.strand-instrument-viewport .strand-checkbox__label,
-.strand-body--instrument .strand-radio__label,
-.strand-instrument-viewport .strand-radio__label {
-  color: var(--strand-on-blue-primary);
-}
-
-.strand-body--instrument .strand-form-field__label,
-.strand-instrument-viewport .strand-form-field__label,
-.strand-body--instrument .strand-form-field__hint,
-.strand-instrument-viewport .strand-form-field__hint {
-  color: var(--strand-gray-300);
-}
-
 .strand-instrument-viewport__label {
   color: var(--strand-gray-400);
   font-family: var(--strand-font-mono);
@@ -554,130 +211,57 @@
   border-top-color: var(--strand-instrument-bg-translucent);
 }
 
-/*! Strand UI | MIT License | dillingerstaffing.com */
-
-/* ── Light island restore (DL Part 9.6) ──
-   A LIGHT surface nested inside the dark cabinet must not have its text
-   tinted by the dark-context cascade above (e.g. a consumer's "Position
-   Analysis" overline). Re-assert the light-surface base colors for any
-   generic text primitive composed inside it. Equal specificity to the
-   cascade (0,2,0); declared afterwards so it wins for a node that matches
-   both selectors.
-
-   Two selectors share these rules:
-
-     .strand-detail-panel   the slide-in drawer component. Carries its own
-                            positioning, sizing and transform.
-     .strand-surface-light  a COLORS-ONLY utility for any other light panel a
-                            consumer nests in a viewport: a white card, an
-                            alert, a callout. It sets no background, no
-                            geometry and no position, so it composes onto a
-                            surface that already has its own.
-
-   The utility exists because consumers kept reaching for .strand-detail-panel
-   to get these colors and inheriting a positioned drawer with it, which
-   yanks the panel out of flow and off-screen. If you want the colors, use
-   .strand-surface-light; if you want the drawer, use .strand-detail-panel. */
-.strand-detail-panel .strand-headline,
-.strand-surface-light .strand-headline {
-  color: var(--strand-blue-midnight);
-}
-.strand-detail-panel .strand-text-secondary,
-.strand-detail-panel .strand-text-secondary--xs,
-.strand-surface-light .strand-text-secondary,
-.strand-surface-light .strand-text-secondary--xs {
-  color: var(--strand-gray-500);
-}
-.strand-detail-panel .strand-overline,
-.strand-surface-light .strand-overline {
-  color: var(--strand-gray-500);
-}
-.strand-detail-panel .strand-overline--accent,
-.strand-surface-light .strand-overline--accent {
-  color: var(--strand-blue-deep);
-}
-.strand-detail-panel .strand-data-readout__label,
-.strand-surface-light .strand-data-readout__label {
-  color: var(--strand-gray-500);
-}
-.strand-detail-panel .strand-data-readout__value,
-.strand-surface-light .strand-data-readout__value {
-  color: var(--strand-blue-midnight);
-}
-/* Light-island restore (DL 9.6). These two selectors reach INTO a light panel
-   nested in the dark cabinet, so their text pairs against a light surface and
-   takes the text tier, not the fill tier that the surrounding dark context
-   uses. blue-primary reads 3.29:1 here. */
-.strand-detail-panel .strand-link,
-.strand-surface-light .strand-link {
-  color: var(--strand-blue-deep);
-  background-image: linear-gradient(currentColor, currentColor);
-}
-/* An alert inside the light island keeps its light-surface panel and text
-   rather than the on-dark wash applied by the cascade above. */
-.strand-detail-panel .strand-alert,
-.strand-surface-light .strand-alert {
-  background: var(--strand-surface-recessed);
-  color: var(--strand-gray-700);
-}
-/* The three cascades declared ABOVE the text block (kv, neutral status chip,
-   ghost button) need restoring too, or a light island silently inherits
-   on-dark treatments for them. The ghost button was the worst of these: the
-   cascade gives it near-white text and a translucent white border, so a
-   ghost-weight action placed on a light panel inside a viewport rendered
-   white-on-light and was effectively invisible. */
-.strand-detail-panel .strand-kv__label,
-.strand-surface-light .strand-kv__label {
-  color: var(--strand-gray-500);
-}
-.strand-detail-panel .strand-kv__value,
-.strand-surface-light .strand-kv__value {
-  color: var(--strand-gray-700);
-}
-.strand-detail-panel .strand-status-chip--neutral,
-.strand-surface-light .strand-status-chip--neutral {
-  background: var(--strand-gray-tint);
-  color: var(--strand-gray-600);
-  border: none;
-}
-.strand-detail-panel .strand-btn--ghost,
-.strand-surface-light .strand-btn--ghost {
-  color: var(--strand-blue-midnight);
-  border-color: transparent;
-}
-.strand-detail-panel .strand-alert__dismiss,
-.strand-surface-light .strand-alert__dismiss {
-  color: var(--strand-gray-500);
-}
-.strand-detail-panel .strand-switch__label,
-.strand-surface-light .strand-switch__label,
-.strand-detail-panel .strand-checkbox__label,
-.strand-surface-light .strand-checkbox__label,
-.strand-detail-panel .strand-radio__label,
-.strand-surface-light .strand-radio__label {
-  color: var(--strand-gray-900);
-}
-.strand-detail-panel .strand-form-field__label,
-.strand-surface-light .strand-form-field__label,
-.strand-detail-panel .strand-form-field__hint,
-.strand-surface-light .strand-form-field__hint {
-  color: var(--strand-gray-500);
-}
-/* Light-island restore (DL 9.6). The status label is an uppercase mono WORD,
-   so it is text at 4.5:1, and on the light panel blue-primary reads 3.29:1.
-   Matches the light-surface default in Alert.css. */
-.strand-detail-panel .strand-alert--info .strand-alert__status {
-  color: var(--strand-blue-deep);
-}
-
-/* The committed status chip, on dark (DL 9.3).
-   Its background is a translucent teal that composites against whatever it
-   sits on, so the chip works on both surfaces but its text does not: the
-   light default is on-teal-tint (4.86:1 over #D9F4F1) and that value is
-   1.93:1 on the cabinet. teal-vital is the correct value here, and it is
-   exactly what the single definition in static.css used to carry, so dark
-   rendering is unchanged and only the light surface moved. */
-.strand-body--instrument .strand-status-chip--committed,
-.strand-instrument-viewport .strand-status-chip--committed {
-  color: var(--strand-teal-vital);
+/* Dark surface: the primitives inside read these. cf: surface-tokens */
+.strand-instrument-viewport,
+.strand-body--instrument {
+  --strand-alert-bg: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);
+  --strand-alert-color: var(--strand-on-blue-primary);
+  --strand-alert-dismiss-color: var(--strand-gray-300);
+  --strand-alert-dismiss-hover-bg: color-mix(in srgb, var(--strand-gray-400) 20%, transparent);
+  --strand-alert-dismiss-hover-color: var(--strand-on-blue-primary);
+  --strand-alert-error-status-color: var(--strand-red-tint);
+  --strand-alert-info-status-color: var(--strand-blue-indicator);
+  --strand-alert-success-status-color: var(--strand-teal-tint);
+  --strand-alert-warning-status-color: var(--strand-amber-tint);
+  --strand-bar-chart-amount-color: var(--strand-gray-300);
+  --strand-bar-chart-label-color: var(--strand-gray-400);
+  --strand-big-mono-time-color: var(--strand-on-blue-primary);
+  --strand-big-mono-time-sep-color: var(--strand-gray-300);
+  --strand-btn-ghost-border-color: rgba(255, 255, 255, 0.2);
+  --strand-btn-ghost-color: var(--strand-on-blue-primary);
+  --strand-checkbox-label-color: var(--strand-on-blue-primary);
+  --strand-data-readout-label-color: var(--strand-gray-400);
+  --strand-data-readout-value-color: var(--strand-on-blue-primary);
+  --strand-form-field-hint-color: var(--strand-gray-300);
+  --strand-form-field-label-color: var(--strand-gray-300);
+  --strand-heading-sm-color: var(--strand-on-blue-primary);
+  --strand-headline-color: var(--strand-on-blue-primary);
+  --strand-kv-label-color: var(--strand-gray-400);
+  --strand-kv-value-color: var(--strand-gray-200);
+  --strand-kv-value-status-color: var(--strand-teal-vital);
+  --strand-lead-color: var(--strand-on-blue-primary);
+  --strand-link-color: currentColor;
+  --strand-link-mono-color: currentColor;
+  --strand-link-mono-hover-color: currentColor;
+  --strand-link-underline: none;
+  --strand-log-text-color: var(--strand-gray-300);
+  --strand-log-text-strong-color: var(--strand-gray-100);
+  --strand-log-time-color: var(--strand-gray-400);
+  --strand-overline-accent-color: var(--strand-blue-indicator);
+  --strand-overline-color: var(--strand-gray-400);
+  --strand-progress-track-color: var(--strand-instrument-border);
+  --strand-radio-label-color: var(--strand-on-blue-primary);
+  --strand-stat-strip-border-color: var(--strand-instrument-border);
+  --strand-stat-strip-label-color: var(--strand-gray-300);
+  --strand-stat-strip-value-color: var(--strand-on-blue-primary);
+  --strand-status-chip-committed-color: var(--strand-teal-vital);
+  --strand-status-chip-neutral-bg: color-mix(in srgb, var(--strand-gray-400) 12%, transparent);
+  --strand-status-chip-neutral-border: 1px solid color-mix(in srgb, var(--strand-gray-400) 20%, transparent);
+  --strand-status-chip-neutral-color: var(--strand-gray-300);
+  --strand-switch-label-color: var(--strand-on-blue-primary);
+  --strand-text-secondary-color: var(--strand-gray-200);
+  --strand-text-secondary-xs-color: var(--strand-gray-300);
+  --strand-title-color: var(--strand-on-blue-primary);
+  --strand-value-negative-color: var(--strand-red-alert);
+  --strand-value-positive-color: var(--strand-teal-vital);
 }

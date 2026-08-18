@@ -43,8 +43,9 @@
   background: var(--strand-teal-tint);
 }
 .strand-status-chip--neutral {
-  color: var(--strand-gray-600);
-  background: var(--strand-gray-tint);
+  color: var(--strand-status-chip-neutral-color, var(--strand-gray-600));
+  background: var(--strand-status-chip-neutral-bg, var(--strand-gray-tint));
+  border: var(--strand-status-chip-neutral-border, none);
 }
 .strand-status-chip--accent {
   color: var(--strand-blue-deep);
@@ -68,7 +69,7 @@
 
    Same split as the kv status value in InstrumentViewport.css. */
 .strand-status-chip--committed {
-  color: var(--strand-on-teal-tint);
+  color: var(--strand-status-chip-committed-color, var(--strand-on-teal-tint));
   background: color-mix(in srgb, var(--strand-teal-vital) 16%, transparent);
   border: 1px solid color-mix(in srgb, var(--strand-teal-vital) 30%, transparent);
 }

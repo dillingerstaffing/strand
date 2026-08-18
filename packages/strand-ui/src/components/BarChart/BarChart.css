@@ -35,7 +35,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-wider);
   text-transform: uppercase;
-  color: var(--strand-gray-500);
+  color: var(--strand-bar-chart-amount-color, var(--strand-gray-500));
   font-variant-numeric: tabular-nums;
 }
 .strand-bar-chart__label {
@@ -44,7 +44,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-wider);
   text-transform: uppercase;
-  color: var(--strand-gray-500);
+  color: var(--strand-bar-chart-label-color, var(--strand-gray-500));
 }
 /* ── Bar chart size modifiers ── */
 .strand-bar-chart--sm { height: var(--strand-space-24); }

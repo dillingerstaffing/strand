@@ -40,7 +40,7 @@
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-sm);
   font-weight: var(--strand-weight-medium);
-  color: var(--strand-gray-500);
+  color: var(--strand-tabs-tab-color, var(--strand-gray-500));
   cursor: pointer;
   transition:
     color var(--strand-duration-fast) var(--strand-ease-out-quart),
@@ -48,7 +48,7 @@
 }
 
 .strand-tabs__tab:hover {
-  color: var(--strand-gray-600);
+  color: var(--strand-tabs-tab-hover-color, var(--strand-gray-600));
 }
 
 /* Pressed. The tab had hover and focus but no active state, so a click
@@ -58,12 +58,12 @@
    on the page background against hover's 7.21:1, so the press is the most
    legible state rather than the least. */
 .strand-tabs__tab:active {
-  color: var(--strand-gray-700);
+  color: var(--strand-tabs-tab-pressed-color, var(--strand-gray-700));
 }
 
 .strand-tabs__tab--active {
-  color: var(--strand-blue-deep);
-  border-bottom-color: var(--strand-blue-primary);
+  color: var(--strand-tabs-tab-active-color, var(--strand-blue-deep));
+  border-bottom-color: var(--strand-tabs-tab-active-border-color, var(--strand-blue-primary));
 }
 
 /* ── Instrument variant (mono uppercase, control-panel feel) ──
@@ -87,13 +87,13 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-widest);
   text-transform: uppercase;
-  color: var(--strand-gray-600);
+  color: var(--strand-tabs-tab-color, var(--strand-gray-600));
   padding: var(--strand-space-3) var(--strand-space-6);
 }
 
 .strand-tabs--instrument .strand-tabs__tab--active {
-  color: var(--strand-blue-midnight);
-  border-bottom-color: var(--strand-blue-primary);
+  color: var(--strand-tabs-tab-active-color, var(--strand-blue-midnight));
+  border-bottom-color: var(--strand-tabs-tab-active-border-color, var(--strand-blue-primary));
 }
 
 /* ── Panel ── */

@@ -29,35 +29,3 @@
   transition: none !important;
   animation: none !important;
 }
-
-/* DL Part XVII.2: Contrast-safe pairing on recessed surfaces.
-   gray-500 now clears AA on surface-recessed on its own (4.77:1), so this
-   is no longer a correctness patch. It stays because recessed sections are
-   the busiest surface in the language, and the extra step to gray-600
-   (6.74:1 there) buys back the margin that a darker ground spends. */
-.strand-section--bg-recessed .strand-overline {
-  color: var(--strand-gray-600);
-}
-.strand-section--bg-recessed .strand-overline--accent {
-  color: var(--strand-blue-deep);
-}
-.strand-section--bg-recessed .strand-lead {
-  color: var(--strand-gray-600);
-}
-.strand-section--bg-recessed .strand-text-secondary {
-  color: var(--strand-gray-600);
-}
-.strand-section--bg-recessed .strand-step-indicator {
-  color: var(--strand-blue-deep);
-}
-/* All small text on recessed surfaces needs darker colors for WCAG 4.5:1 */
-.strand-section--bg-recessed .strand-tabs__tab,
-.strand-section--bg-recessed .strand-form-field__label,
-.strand-section--bg-recessed .strand-form-field__hint,
-.strand-section--bg-recessed .strand-badge--default {
-  color: var(--strand-gray-600);
-}
-.strand-section--bg-recessed .strand-tabs__tab--active {
-  color: var(--strand-blue-deep);
-  border-bottom-color: var(--strand-blue-deep);
-}

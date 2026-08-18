@@ -18,7 +18,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-wider);
   text-transform: uppercase;
-  color: var(--strand-gray-500);
+  color: var(--strand-log-time-color, var(--strand-gray-500));
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -42,10 +42,10 @@
 .strand-log__text {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
-  color: var(--strand-gray-500);
+  color: var(--strand-log-text-color, var(--strand-gray-500));
   line-height: var(--strand-leading-normal);
 }
 .strand-log__text strong {
   font-weight: var(--strand-weight-semibold);
-  color: var(--strand-gray-700);
+  color: var(--strand-log-text-strong-color, var(--strand-gray-700));
 }

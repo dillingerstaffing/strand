@@ -7,7 +7,7 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-ultra);
   text-transform: uppercase;
-  color: var(--strand-gray-500);
+  color: var(--strand-overline-color, var(--strand-gray-500));
   line-height: var(--strand-leading-normal);
 }
 /* ── Overline accent variant (blue instead of gray) ──
@@ -16,7 +16,7 @@
    only scores 3.28:1 at 10.4px mono. blue-deep stays vibrant
    without violating contrast. */
 .strand-overline--accent {
-  color: var(--strand-blue-deep);
+  color: var(--strand-overline-accent-color, var(--strand-blue-deep));
 }
 /* ── Overline with pulse dot (DL Part 7: alive signal) ──
    Adds an animated dot prefix that pulses in a slow rhythm. Use on
@@ -55,7 +55,7 @@
   font-weight: var(--strand-weight-light);
   letter-spacing: var(--strand-tracking-widest);
   text-transform: uppercase;
-  color: var(--strand-blue-midnight);
+  color: var(--strand-headline-color, var(--strand-blue-midnight));
   line-height: var(--strand-leading-tight);
 }
 .strand-headline--xl {
@@ -78,21 +78,21 @@
   font-family: var(--strand-font-sans);
   font-weight: var(--strand-weight-light);
   letter-spacing: var(--strand-tracking-tighter);
-  color: var(--strand-blue-midnight);
+  color: var(--strand-title-color, var(--strand-blue-midnight));
   font-size: clamp(1.5rem, 3vw + 0.5rem, 2.5rem);
   line-height: var(--strand-leading-snug);
 }
 /* ── Lead (intro paragraph, DL Part IV.6) ── */
 .strand-lead {
   font-size: var(--strand-text-lg);
-  color: var(--strand-gray-500);
+  color: var(--strand-lead-color, var(--strand-gray-500));
   max-width: 50ch;
   line-height: var(--strand-leading-relaxed);
 }
 /* ── Secondary text (caption/description, DL Part III.8 Color Roles) ── */
 .strand-text-secondary {
   font-size: var(--strand-text-sm);
-  color: var(--strand-gray-500);
+  color: var(--strand-text-secondary-color, var(--strand-gray-500));
   line-height: var(--strand-leading-relaxed);
 }
 .strand-text-secondary strong {
@@ -110,6 +110,7 @@
 }
 .strand-text-secondary--xs {
   font-size: var(--strand-text-xs);
+  color: var(--strand-text-secondary-xs-color, var(--strand-text-secondary-color, var(--strand-gray-500)));
 }
 /* ── Typographic utilities ──
    Pure single-property utilities for composing text styles when
@@ -166,10 +167,10 @@
   font-variant-numeric: tabular-nums;
 }
 .strand-value--positive {
-  color: var(--strand-green-positive-deep) !important;
+  color: var(--strand-value-positive-color, var(--strand-green-positive-deep)) !important;
 }
 .strand-value--negative {
-  color: var(--strand-red-alert-deep) !important;
+  color: var(--strand-value-negative-color, var(--strand-red-alert-deep)) !important;
 }
 /* ── Text center ── */
 .strand-text-center {
@@ -187,7 +188,7 @@
 .strand-heading--sm {
   font-size: var(--strand-text-lg);
   font-weight: var(--strand-weight-medium);
-  color: var(--strand-gray-800);
+  color: var(--strand-heading-sm-color, var(--strand-gray-800));
   margin: 0;
 }
 /* ═══ HEADLINE MONO VARIANT (DL Part IV.5) ═══

@@ -18,12 +18,12 @@
   font-weight: var(--strand-weight-medium);
   letter-spacing: var(--strand-tracking-wider);
   text-transform: uppercase;
-  color: var(--strand-gray-500);
+  color: var(--strand-kv-label-color, var(--strand-gray-500));
 }
 .strand-kv__value {
   font-family: var(--strand-font-mono);
   font-size: var(--strand-text-xs);
-  color: var(--strand-gray-700);
+  color: var(--strand-kv-value-color, var(--strand-gray-700));
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
@@ -31,7 +31,7 @@
    same hue at the text tier, which is what a status VALUE needs since the
    word itself carries the meaning here rather than a glyph beside it. */
 .strand-kv__value--status {
-  color: var(--strand-on-teal-tint);
+  color: var(--strand-kv-value-status-color, var(--strand-on-teal-tint));
 }
 /* ── Key-Value Row: editorial modifier ──
    Additive modifier on .strand-kv for card-metadata contexts
@@ -56,7 +56,7 @@
 .strand-kv--editorial .strand-kv__value {
   font-family: var(--strand-font-sans);
   font-size: var(--strand-text-sm);
-  color: var(--strand-blue-midnight);
+  color: var(--strand-kv-value-color, var(--strand-blue-midnight));
   font-weight: var(--strand-weight-medium);
   font-variant-numeric: normal;
 }
