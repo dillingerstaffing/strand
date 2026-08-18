@@ -135,50 +135,36 @@ jobs:
             echo "Skipped strand-ui@$LOCAL (already published)"
           fi
 
+      # The tag and the release key off the version itself, never off "did the
+      # last commit touch package.json": a push that carries the release commit
+      # plus fixes on top of it publishes to npm (those steps compare against
+      # the registry) but its HEAD~1..HEAD diff shows no bump, and 0.63.0 shipped
+      # to npm with no tag and no release that way. Idempotent: an existing tag
+      # or release is left alone.
       - name: Tag release version
         run: |
-          CHANGED=false
-          for pkg in packages/tokens/package.json packages/strand-ui/package.json packages/strand-vue/package.json packages/strand-svelte/package.json packages/cli/package.json; do
-            if git diff HEAD~1 HEAD -- "$pkg" | grep -q '"version"'; then
-              CHANGED=true
-              break
-            fi
-          done
-          if [ "$CHANGED" = "true" ]; then
-            VERSION=$(node -p "require('./packages/tokens/package.json').version")
-            git tag "v${VERSION}" || echo "Tag v${VERSION} already exists"
-            git push origin "v${VERSION}" || echo "Tag push skipped"
+          VERSION=$(node -p "require('./packages/tokens/package.json').version")
+          if git ls-remote --exit-code --tags origin "v${VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${VERSION} already exists"
+          else
+            git tag "v${VERSION}"
+            git push origin "v${VERSION}"
           fi
 
-      - name: Create release if versions changed
+      - name: Create release for the version
         run: |
-          CHANGED=false
-          for pkg in packages/tokens/package.json packages/strand-ui/package.json packages/strand-vue/package.json packages/strand-svelte/package.json packages/cli/package.json; do
-            if git diff HEAD~1 HEAD -- "$pkg" | grep -q '"version"'; then
-              CHANGED=true
-              break
-            fi
-          done
-          if [ "$CHANGED" = "true" ]; then
-            VERSION=$(node -p "
-              const fs = require('fs');
-              const versions = ['packages/tokens','packages/strand-ui','packages/strand-vue','packages/strand-svelte','packages/cli']
-                .map(d => JSON.parse(fs.readFileSync(d+'/package.json')).version);
-              versions.sort((a,b) => b.localeCompare(a, undefined, {numeric:true}));
-              versions[0];
-            ")
-            # Idempotent: if the release already exists (prior failed run,
-            # manual tag, race with a rerun) skip re-creation instead of
-            # returning HTTP 422 and failing the whole job. The actual
-            # npm publish above is already idempotent per-package.
-            if gh release view "v${VERSION}" --json tagName >/dev/null 2>&1; then
-              echo "Release v${VERSION} already exists; skipping create"
-            else
-              gh release create "v${VERSION}" --title "v${VERSION}" --generate-notes --target main
-              echo "Created release v${VERSION}"
-            fi
+          VERSION=$(node -p "
+            const fs = require('fs');
+            const versions = ['packages/tokens','packages/strand-ui','packages/strand-vue','packages/strand-svelte','packages/cli']
+              .map(d => JSON.parse(fs.readFileSync(d+'/package.json')).version);
+            versions.sort((a,b) => b.localeCompare(a, undefined, {numeric:true}));
+            versions[0];
+          ")
+          if gh release view "v${VERSION}" --json tagName >/dev/null 2>&1; then
+            echo "Release v${VERSION} already exists; skipping create"
           else
-            echo "No version changes, skipping release"
+            gh release create "v${VERSION}" --title "v${VERSION}" --generate-notes --target main
+            echo "Created release v${VERSION}"
           fi
         env:
           GH_TOKEN: ${{ github.token }}
