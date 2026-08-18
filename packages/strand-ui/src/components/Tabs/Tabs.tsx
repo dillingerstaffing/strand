@@ -2,7 +2,8 @@
 
 import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
-import { useRef, useCallback } from "preact/hooks";
+import { useRef } from "preact/hooks";
+import { cx } from "../../internal/index.js";
 
 export interface TabItem {
   id: string;
@@ -10,134 +11,71 @@ export interface TabItem {
   content: ComponentChildren;
 }
 
-export interface TabsProps
-  extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "onChange"> {
-  /** Tab definitions */
+export interface TabsProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "onChange"> {
   tabs: TabItem[];
-  /** Currently active tab id (controlled) */
+  /** Active tab id (controlled). */
   activeTab: string;
-  /** Called when active tab changes */
   onChange: (id: string) => void;
 }
 
 /**
- * Tabbed content switcher with keyboard navigation and ARIA tab pattern.
+ * Tabbed content switcher with the ARIA tabs pattern: arrows, Home and End move and select.
  *
  * @example
- * ```tsx
- * import { Tabs } from '@dillingerstaffing/strand-ui';
- *
- * <Tabs
- *   tabs={[
- *     { id: 'overview', label: 'Overview', content: <p>Overview</p> },
- *     { id: 'details', label: 'Details', content: <p>Details</p> },
- *   ]}
- *   activeTab="overview"
- *   onChange={(id) => console.log(id)}
- * />
- * ```
+ * <Tabs tabs={[{ id: "a", label: "A", content: <p>A</p> }]} activeTab="a" onChange={setTab} />
  */
-export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
-  ({ tabs, activeTab, onChange, className = "", ...rest }, ref) => {
-    const tablistRef = useRef<HTMLDivElement>(null);
-
-    const classes = ["strand-tabs", className].filter(Boolean).join(" ");
-
-    const focusAndSelect = useCallback(
-      (index: number) => {
-        const tab = tabs[index];
-        if (tab) {
-          onChange(tab.id);
-          const buttons =
-            tablistRef.current?.querySelectorAll<HTMLButtonElement>(
-              '[role="tab"]',
-            );
-          buttons?.[index]?.focus();
-        }
-      },
-      [tabs, onChange],
-    );
-
-    const handleKeyDown = useCallback(
-      (e: KeyboardEvent) => {
-        const currentIndex = tabs.findIndex((t) => t.id === activeTab);
-        let nextIndex: number | null = null;
-
-        switch (e.key) {
-          case "ArrowRight":
-            nextIndex = (currentIndex + 1) % tabs.length;
-            break;
-          case "ArrowLeft":
-            nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-            break;
-          case "Home":
-            nextIndex = 0;
-            break;
-          case "End":
-            nextIndex = tabs.length - 1;
-            break;
-          default:
-            return;
-        }
-
-        e.preventDefault();
-        focusAndSelect(nextIndex);
-      },
-      [tabs, activeTab, focusAndSelect],
-    );
-
-    return (
-      <div ref={ref} className={classes} {...rest}>
-        <div
-          ref={tablistRef}
-          role="tablist"
-          onKeyDown={handleKeyDown}
-        >
-          {tabs.map((tab) => {
-            const isActive = tab.id === activeTab;
-            const buttonClasses = [
-              "strand-tabs__tab",
-              isActive && "strand-tabs__tab--active",
-            ]
-              .filter(Boolean)
-              .join(" ");
-
-            return (
-              <button
-                key={tab.id}
-                id={`tab-${tab.id}`}
-                role="tab"
-                type="button"
-                className={buttonClasses}
-                aria-selected={isActive ? "true" : "false"}
-                aria-controls={`panel-${tab.id}`}
-                tabIndex={isActive ? 0 : -1}
-                onClick={() => onChange(tab.id)}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-
+export const Tabs = forwardRef<HTMLDivElement, TabsProps>(({ tabs, activeTab, onChange, className = "", ...rest }, ref) => {
+  const buttons = useRef(new Map<string, HTMLButtonElement>());
+  const select = (index: number) => {
+    const tab = tabs[index];
+    if (!tab) return;
+    onChange(tab.id);
+    buttons.current.get(tab.id)?.focus();
+  };
+  const onKeyDown = (e: KeyboardEvent) => {
+    const current = tabs.findIndex((t) => t.id === activeTab);
+    const next: Record<string, number> = {
+      ArrowRight: (current + 1) % tabs.length,
+      ArrowLeft: (current - 1 + tabs.length) % tabs.length,
+      Home: 0,
+      End: tabs.length - 1,
+    };
+    if (!(e.key in next)) return;
+    e.preventDefault();
+    select(next[e.key]);
+  };
+  return (
+    <div ref={ref} className={cx("strand-tabs", className)} {...rest}>
+      <div role="tablist" onKeyDown={onKeyDown}>
         {tabs.map((tab) => {
           const isActive = tab.id === activeTab;
           return (
-            <div
+            <button
               key={tab.id}
-              id={`panel-${tab.id}`}
-              role="tabpanel"
-              aria-labelledby={`tab-${tab.id}`}
-              hidden={!isActive}
-              tabIndex={0}
+              ref={(el) => {
+                if (el) buttons.current.set(tab.id, el);
+                else buttons.current.delete(tab.id);
+              }}
+              id={`tab-${tab.id}`}
+              role="tab"
+              type="button"
+              className={cx("strand-tabs__tab", isActive && "strand-tabs__tab--active")}
+              aria-selected={isActive ? "true" : "false"}
+              aria-controls={`panel-${tab.id}`}
+              tabIndex={isActive ? 0 : -1}
+              onClick={() => onChange(tab.id)}
             >
-              {tab.content}
-            </div>
+              {tab.label}
+            </button>
           );
         })}
       </div>
-    );
-  },
-);
-
+      {tabs.map((tab) => (
+        <div key={tab.id} id={`panel-${tab.id}`} role="tabpanel" aria-labelledby={`tab-${tab.id}`} hidden={tab.id !== activeTab} tabIndex={0}>
+          {tab.content}
+        </div>
+      ))}
+    </div>
+  );
+});
 Tabs.displayName = "Tabs";

@@ -73,56 +73,56 @@ describe("Sheet", () => {
   // ── The parts ──
 
   it("a sheet with an action renders it in a foot that does not scroll away", () => {
-    const { getByTestId } = render(
+    const { container } = render(
       <Sheet {...defaultProps} action={<button type="button">Show 6 events</button>}>
         x
       </Sheet>,
     );
-    const foot = getByTestId("sheet-foot");
+    const foot = (container.querySelector(".strand-sheet__foot") as HTMLElement);
     expect(foot).toHaveTextContent("Show 6 events");
   });
 
   it("a sheet with no action renders no foot at all, rather than an empty band", () => {
-    const { queryByTestId } = render(<Sheet {...defaultProps}>x</Sheet>);
-    expect(queryByTestId("sheet-foot")).toBeNull();
+    const { container } = render(<Sheet {...defaultProps}>x</Sheet>);
+    expect(container.querySelector(".strand-sheet__foot")).toBeNull();
   });
 
   it("a sheet with head content renders it above the body", () => {
-    const { getByTestId } = render(
+    const { container } = render(
       <Sheet {...defaultProps} head={<button type="button">Clear</button>}>
         x
       </Sheet>,
     );
-    expect(getByTestId("sheet-head")).toHaveTextContent("Clear");
+    expect((container.querySelector(".strand-sheet__head") as HTMLElement)).toHaveTextContent("Clear");
   });
 
   it("a sheet with no head content renders no head, so the body is the first row", () => {
-    const { queryByTestId } = render(<Sheet {...defaultProps}>x</Sheet>);
-    expect(queryByTestId("sheet-head")).toBeNull();
+    const { container } = render(<Sheet {...defaultProps}>x</Sheet>);
+    expect(container.querySelector(".strand-sheet__head")).toBeNull();
   });
 
   // ── The grabber ──
 
   it("the grabber is present, because a drag nobody can see is a gesture only its author knows", () => {
-    const { getByTestId } = render(<Sheet {...defaultProps}>x</Sheet>);
-    expect(getByTestId("sheet-grab")).toBeTruthy();
+    const { container } = render(<Sheet {...defaultProps}>x</Sheet>);
+    expect((container.querySelector(".strand-sheet__grab") as HTMLElement)).toBeTruthy();
   });
 
   it("the grabber is hidden from assistive tech, which has Escape and the action", () => {
-    const { getByTestId } = render(<Sheet {...defaultProps}>x</Sheet>);
-    const bar = getByTestId("sheet-grab").querySelector(".strand-sheet__grabber");
+    const { container } = render(<Sheet {...defaultProps}>x</Sheet>);
+    const bar = (container.querySelector(".strand-sheet__grab") as HTMLElement).querySelector(".strand-sheet__grabber");
     expect(bar).toHaveAttribute("aria-hidden", "true");
   });
 
   it("a sheet that cannot be dragged renders no grabber, rather than one that does nothing", () => {
     // An affordance that promises a gesture it does not have is worse than
     // no affordance at all.
-    const { queryByTestId } = render(
+    const { container } = render(
       <Sheet {...defaultProps} draggable={false}>
         x
       </Sheet>,
     );
-    expect(queryByTestId("sheet-grab")).toBeNull();
+    expect(container.querySelector(".strand-sheet__grab")).toBeNull();
   });
 
   // ── The environment, pinned ──
@@ -150,13 +150,13 @@ describe("Sheet", () => {
     // null, every later handler's "has a drag begun" check answers yes, and
     // the arithmetic runs on null.
     const onClose = vi.fn();
-    const { getByTestId, getByRole } = render(
+    const { container, getByRole } = render(
       <Sheet {...defaultProps} onClose={onClose}>
         x
       </Sheet>,
     );
     const panel = getByRole("dialog").querySelector(".strand-sheet__panel") as HTMLElement;
-    const grab = getByTestId("sheet-grab");
+    const grab = (container.querySelector(".strand-sheet__grab") as HTMLElement);
     fireEvent.pointerDown(grab, { clientY: 100, pointerId: 1 });
     fireEvent.pointerMove(grab, { clientY: 400, pointerId: 1 });
     fireEvent.pointerUp(grab, { clientY: 400, pointerId: 1 });

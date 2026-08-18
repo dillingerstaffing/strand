@@ -18,22 +18,8 @@ describe("Nav", () => {
 
   // ── Glass nav body class management ──
 
-  it("adds strand-glass-nav-active to body when glass is true", () => {
-    render(<Nav glass />);
-    expect(document.body.classList.contains("strand-glass-nav-active")).toBe(true);
-  });
 
-  it("does not add strand-glass-nav-active when glass is false", () => {
-    render(<Nav />);
-    expect(document.body.classList.contains("strand-glass-nav-active")).toBe(false);
-  });
 
-  it("removes strand-glass-nav-active from body on unmount", () => {
-    const { unmount } = render(<Nav glass />);
-    expect(document.body.classList.contains("strand-glass-nav-active")).toBe(true);
-    unmount();
-    expect(document.body.classList.contains("strand-glass-nav-active")).toBe(false);
-  });
 
   // ── Rendering ──
 

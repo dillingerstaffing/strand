@@ -2,7 +2,8 @@
 
 import type { ComponentChildren, JSX } from "preact";
 import { forwardRef } from "preact/compat";
-import { useState, useCallback, useEffect } from "preact/hooks";
+import { useState } from "preact/hooks";
+import { cx } from "../../internal/index.js";
 
 export interface NavItem {
   label: string;
@@ -10,142 +11,58 @@ export interface NavItem {
   active?: boolean;
 }
 
-export interface NavProps
-  extends Omit<JSX.HTMLAttributes<HTMLElement>, "logo"> {
-  /** Logo element rendered on the left */
+export interface NavProps extends Omit<JSX.HTMLAttributes<HTMLElement>, "logo"> {
+  /** Rendered on the left. */
   logo?: ComponentChildren;
-  /** Navigation items */
   items?: NavItem[];
-  /** Right-side action elements */
+  /** Rendered on the right. */
   actions?: ComponentChildren;
-  /** Glassmorphic variant (fixed, backdrop-filter, DL 11.5) */
+  /** Fixed, frosted bar (DL 11.5); the stylesheet pads `body` for it via `body:has(.strand-nav--glass)`. */
   glass?: boolean;
-  /**
-   * Render the hamburger and its slide-down panel below the md breakpoint.
-   * Defaults to `true`, which is the right answer for a content surface.
-   *
-   * Pass `false` when the surface is an application shell that already carries
-   * its destinations in a persistent viewport-anchored region (DL 19.1.1). A
-   * bottom bar coexisting with a hamburger is two answers to one question, and
-   * the spec rules it out; without this prop the only way to comply was to
-   * override `.strand-nav__hamburger` from the consumer, which the strand-first
-   * gate forbids.
-   *
-   * A consumer with no other mobile navigation still needs the hamburger, so
-   * the default cannot change.
-   */
+  /** Render the hamburger and its panel below the md breakpoint. Pass `false` for an application shell that carries its destinations in a tab bar (DL 19.1.1). */
   mobileMenu?: boolean;
+  /** Controlled open state of the mobile menu; internal when omitted. */
+  menuOpen?: boolean;
+  /** Called with the next open state when the hamburger is pressed. */
+  onMenuToggle?: (open: boolean) => void;
 }
 
 /**
- * Top-level navigation bar with logo slot, link items, actions, and responsive mobile menu.
+ * Top navigation bar with a logo slot, links, actions and a mobile menu.
  *
  * @example
- * ```tsx
- * import { Nav } from '@dillingerstaffing/strand-ui';
- *
- * <Nav
- *   logo={<img src="/logo.svg" alt="Brand" />}
- *   items={[
- *     { label: 'Home', href: '/', active: true },
- *     { label: 'About', href: '/about' },
- *   ]}
- *   glass
- * />
- * ```
+ * <Nav logo={<img src="/logo.svg" alt="Brand" />} items={[{ label: "Home", href: "/", active: true }]} glass />
  */
 export const Nav = forwardRef<HTMLElement, NavProps>(
-  (
-    { logo, items = [], actions, glass = false, mobileMenu = true, className = "", ...rest },
-    ref,
-  ) => {
-    const [menuOpen, setMenuOpen] = useState(false);
-
-    const toggleMenu = useCallback(() => {
-      setMenuOpen((prev) => !prev);
-    }, []);
-
-    useEffect(() => {
-      if (glass) {
-        document.body.classList.add("strand-glass-nav-active");
-        return () => document.body.classList.remove("strand-glass-nav-active");
-      }
-    }, [glass]);
-
-    const classes = ["strand-nav", glass && "strand-nav--glass", className].filter(Boolean).join(" ");
-
+  ({ logo, items = [], actions, glass = false, mobileMenu = true, menuOpen, onMenuToggle, className = "", ...rest }, ref) => {
+    const [ownOpen, setOwnOpen] = useState(false);
+    const open = menuOpen ?? ownOpen;
+    const toggle = () => {
+      const next = !open;
+      if (menuOpen === undefined) setOwnOpen(next);
+      onMenuToggle?.(next);
+    };
+    const links = (base: string) =>
+      items.map((item) => (
+        <a key={item.href} href={item.href} className={cx(base, item.active && `${base}--active`)} aria-current={item.active ? "page" : undefined}>
+          {item.label}
+        </a>
+      ));
     return (
-      <nav ref={ref} className={classes} aria-label="Main navigation" {...rest}>
+      <nav ref={ref} className={cx("strand-nav", glass && "strand-nav--glass", className)} aria-label="Main navigation" {...rest}>
         <div className="strand-nav__inner">
           {logo && <div className="strand-nav__logo">{logo}</div>}
-
-          <div className="strand-nav__items">
-            {items.map((item) => {
-              const linkClasses = [
-                "strand-nav__link",
-                item.active && "strand-nav__link--active",
-              ]
-                .filter(Boolean)
-                .join(" ");
-
-              return (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={linkClasses}
-                  aria-current={item.active ? "page" : undefined}
-                >
-                  {item.label}
-                </a>
-              );
-            })}
-          </div>
-
+          <div className="strand-nav__items">{links("strand-nav__link")}</div>
           {actions && <div className="strand-nav__actions">{actions}</div>}
-
-          {/* Not rendered rather than hidden. A `display: none` control is out
-              of the accessibility tree but still in the DOM and still a thing
-              to reason about; a surface that has declared it has no mobile menu
-              should not ship the button that opens one. */}
           {mobileMenu && (
-            <button
-              type="button"
-              className="strand-nav__hamburger"
-              aria-expanded={menuOpen ? "true" : "false"}
-              aria-label={menuOpen ? "Close menu" : "Menu"}
-              onClick={toggleMenu}
-            >
+            <button type="button" className="strand-nav__hamburger" aria-expanded={open ? "true" : "false"} aria-label={open ? "Close menu" : "Menu"} onClick={toggle}>
               <span className="strand-nav__hamburger-icon" aria-hidden="true" />
             </button>
           )}
         </div>
-
-        {mobileMenu && menuOpen && (
-          <div className="strand-nav__mobile-menu">
-            {items.map((item) => {
-              const linkClasses = [
-                "strand-nav__mobile-link",
-                item.active && "strand-nav__mobile-link--active",
-              ]
-                .filter(Boolean)
-                .join(" ");
-
-              return (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={linkClasses}
-                  aria-current={item.active ? "page" : undefined}
-                >
-                  {item.label}
-                </a>
-              );
-            })}
-          </div>
-        )}
+        {mobileMenu && open && <div className="strand-nav__mobile-menu">{links("strand-nav__mobile-link")}</div>}
       </nav>
     );
   },
 );
-
 Nav.displayName = "Nav";

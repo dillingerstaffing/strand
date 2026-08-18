@@ -3,13 +3,15 @@
 import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { forwardRef } from "preact/compat";
-import { useState, useContext, useEffect, useCallback, useRef } from "preact/hooks";
+import { useCallback, useContext, useEffect, useRef, useState } from "preact/hooks";
+import { cx } from "../../internal/index.js";
 
 export type ToastStatus = "info" | "success" | "warning" | "error";
 
 export interface ToastOptions {
   message: string;
   status?: ToastStatus;
+  /** Milliseconds before auto-dismiss; 0 keeps it until dismissed. */
   duration?: number;
 }
 
@@ -24,15 +26,12 @@ interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue | null>(null);
 
+/** The `toast()` function of the nearest `ToastProvider`. */
 export function useToast(): ToastContextValue {
   const ctx = useContext(ToastContext);
-  if (!ctx) {
-    throw new Error("useToast must be used within a ToastProvider");
-  }
+  if (!ctx) throw new Error("useToast must be used within a ToastProvider");
   return ctx;
 }
-
-let toastIdCounter = 0;
 
 export interface ToastProviderProps {
   children?: ComponentChildren;
@@ -40,177 +39,69 @@ export interface ToastProviderProps {
 }
 
 /**
- * Context provider that manages toast notifications for its subtree.
+ * Manages the toasts of its subtree.
  *
  * @example
- * ```tsx
- * import { ToastProvider, useToast } from '@dillingerstaffing/strand-ui';
- *
- * function App() {
- *   return (
- *     <ToastProvider>
- *       <Page />
- *     </ToastProvider>
- *   );
- * }
- *
- * function Page() {
- *   const { toast } = useToast();
- *   return <Button onClick={() => toast({ message: 'Saved', status: 'success' })}>Save</Button>;
- * }
- * ```
+ * <ToastProvider><Page /></ToastProvider>
+ * const { toast } = useToast(); toast({ message: "Saved", status: "success" });
  */
 export const ToastProvider = ({ children, className = "" }: ToastProviderProps) => {
   const [toasts, setToasts] = useState<ToastEntry[]>([]);
-
-  const removeToast = useCallback((id: number) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
-
+  const nextId = useRef(0);
+  const removeToast = useCallback((id: number) => setToasts((prev) => prev.filter((t) => t.id !== id)), []);
   const addToast = useCallback((options: ToastOptions) => {
-    const entry: ToastEntry = {
-      id: ++toastIdCounter,
-      message: options.message,
-      status: options.status ?? "info",
-      duration: options.duration ?? 5000,
-    };
+    const entry: ToastEntry = { id: ++nextId.current, message: options.message, status: options.status ?? "info", duration: options.duration ?? 5000 };
     setToasts((prev) => [...prev, entry]);
   }, []);
-
-  const containerClasses = ["strand-toast__container", className]
-    .filter(Boolean)
-    .join(" ");
-
   return (
     <ToastContext.Provider value={{ toast: addToast }}>
       {children}
       {toasts.length > 0 && (
-        <div className={containerClasses}>
+        <div className={cx("strand-toast__container", className)}>
           {toasts.map((entry) => (
-            <ToastItem
-              key={entry.id}
-              entry={entry}
-              onDismiss={() => removeToast(entry.id)}
-            />
+            <ToastItem key={entry.id} entry={entry} onDismiss={() => removeToast(entry.id)} />
           ))}
         </div>
       )}
     </ToastContext.Provider>
   );
 };
-
 ToastProvider.displayName = "ToastProvider";
 
-/* ── Individual toast item ── */
-
-interface ToastItemProps {
-  entry: ToastEntry;
-  onDismiss: () => void;
-}
-
-function ToastItem({ entry, onDismiss }: ToastItemProps) {
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
+function ToastItem({ entry, onDismiss }: { entry: ToastEntry; onDismiss: () => void }) {
   useEffect(() => {
-    if (entry.duration > 0) {
-      timerRef.current = setTimeout(onDismiss, entry.duration);
-    }
-    return () => {
-      if (timerRef.current !== null) {
-        clearTimeout(timerRef.current);
-      }
-    };
+    if (entry.duration <= 0) return;
+    const timer = setTimeout(onDismiss, entry.duration);
+    return () => clearTimeout(timer);
   }, [entry.duration, onDismiss]);
-
-  const isUrgent = entry.status === "error" || entry.status === "warning";
-
-  const classes = ["strand-toast", `strand-toast--${entry.status}`]
-    .filter(Boolean)
-    .join(" ");
-
-  const statusLabel =
-    entry.status === "success" ? "COMPLETE" : entry.status.toUpperCase();
-
-  return (
-    <div
-      className={classes}
-      role="status"
-      aria-live={isUrgent ? "assertive" : "polite"}
-    >
-      <span className="strand-toast__status">{statusLabel}</span>
-      <span className="strand-toast__message">{entry.message}</span>
-      <button
-        type="button"
-        className="strand-toast__dismiss"
-        aria-label="Dismiss"
-        onClick={onDismiss}
-      >
-        &#215;
-      </button>
-    </div>
-  );
+  return <Toast status={entry.status} message={entry.message} onDismiss={onDismiss} />;
 }
 
-/* ── Standalone Toast (for direct rendering) ── */
-
-export interface ToastProps
-  extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "status"> {
-  /** Visual status */
+export interface ToastProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "status"> {
   status?: ToastStatus;
-  /** Toast message text */
   message: string;
-  /** Called when dismiss button is clicked */
+  /** Renders the dismiss control. */
   onDismiss?: () => void;
 }
 
 /**
- * Standalone notification message with status indicator and optional dismiss.
+ * Standalone notification message.
  *
  * @example
- * ```tsx
- * import { Toast } from '@dillingerstaffing/strand-ui';
- *
- * <Toast status="success" message="Changes saved." onDismiss={() => {}} />
- * ```
+ * <Toast status="success" message="Changes saved." onDismiss={close} />
  */
-export const Toast = forwardRef<HTMLDivElement, ToastProps>(
-  ({ status = "info", message, onDismiss, className = "", ...rest }, ref) => {
-    const isUrgent = status === "error" || status === "warning";
-
-    const classes = [
-      "strand-toast",
-      `strand-toast--${status}`,
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-    const statusLabel =
-      status === "success" ? "COMPLETE" : status.toUpperCase();
-
-    return (
-      <div
-        ref={ref}
-        className={classes}
-        role="status"
-        aria-live={isUrgent ? "assertive" : "polite"}
-        {...rest}
-      >
-        <span className="strand-toast__status">{statusLabel}</span>
-        <span className="strand-toast__message">{message}</span>
-        {onDismiss && (
-          <button
-            type="button"
-            className="strand-toast__dismiss"
-            aria-label="Dismiss"
-            onClick={onDismiss}
-          >
-            &#215;
-          </button>
-        )}
-      </div>
-    );
-  },
-);
-
+export const Toast = forwardRef<HTMLDivElement, ToastProps>(({ status = "info", message, onDismiss, className = "", ...rest }, ref) => {
+  const isUrgent = status === "error" || status === "warning";
+  return (
+    <div ref={ref} className={cx("strand-toast", `strand-toast--${status}`, className)} role="status" aria-live={isUrgent ? "assertive" : "polite"} {...rest}>
+      <span className="strand-toast__status">{status === "success" ? "COMPLETE" : status.toUpperCase()}</span>
+      <span className="strand-toast__message">{message}</span>
+      {onDismiss && (
+        <button type="button" className="strand-toast__dismiss" aria-label="Dismiss" onClick={onDismiss}>
+          &#215;
+        </button>
+      )}
+    </div>
+  );
+});
 Toast.displayName = "Toast";

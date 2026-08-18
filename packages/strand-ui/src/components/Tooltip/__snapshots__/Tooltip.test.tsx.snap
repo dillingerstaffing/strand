@@ -1,9 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > bottom 1`] = `"<span aria-describedby="strand-tooltip-20" class="strand-tooltip__wrapper">Trigger<span aria-hidden="true" class="strand-tooltip strand-tooltip--bottom" id="strand-tooltip-20" role="tooltip">Save</span></span>"`;
+exports[`renders > bottom 1`] = `"<span aria-describedby="P0-0" class="strand-tooltip__wrapper">Trigger<span aria-hidden="true" class="strand-tooltip strand-tooltip--bottom" id="P0-0" role="tooltip">Save</span></span>"`;
 
-exports[`renders > left 1`] = `"<span aria-describedby="strand-tooltip-21" class="strand-tooltip__wrapper">T<span aria-hidden="true" class="strand-tooltip strand-tooltip--left" id="strand-tooltip-21" role="tooltip">L</span></span>"`;
+exports[`renders > left 1`] = `"<span aria-describedby="P0-0" class="strand-tooltip__wrapper">T<span aria-hidden="true" class="strand-tooltip strand-tooltip--left" id="P0-0" role="tooltip">L</span></span>"`;
 
-exports[`renders > right 1`] = `"<span aria-describedby="strand-tooltip-22" class="strand-tooltip__wrapper">T<span aria-hidden="true" class="strand-tooltip strand-tooltip--right" id="strand-tooltip-22" role="tooltip">R</span></span>"`;
+exports[`renders > right 1`] = `"<span aria-describedby="P0-0" class="strand-tooltip__wrapper">T<span aria-hidden="true" class="strand-tooltip strand-tooltip--right" id="P0-0" role="tooltip">R</span></span>"`;
 
-exports[`renders > top 1`] = `"<span aria-describedby="strand-tooltip-19" class="strand-tooltip__wrapper">Trigger<span aria-hidden="true" class="strand-tooltip strand-tooltip--top" id="strand-tooltip-19" role="tooltip">Save</span></span>"`;
+exports[`renders > top 1`] = `"<span aria-describedby="P0-0" class="strand-tooltip__wrapper">Trigger<span aria-hidden="true" class="strand-tooltip strand-tooltip--top" id="P0-0" role="tooltip">Save</span></span>"`;
