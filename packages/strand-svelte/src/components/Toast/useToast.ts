@@ -21,50 +21,79 @@ export interface ToastEntry {
 
 export interface ToastContextValue {
   toasts: Writable<ToastEntry[]>
-  toast: (options: ToastOptions) => void
+  /** Shows a toast and returns its id. */
+  toast: (options: ToastOptions) => number
+  /** Removes the toast with that id, if it is still showing. */
+  dismiss: (id: number) => void
+  /** Kept for consumers on the earlier name. */
   removeToast: (id: number) => void
+  /** Pause and resume a toast's auto-dismiss (the provider wires these to hover and focus). */
+  hold: (id: number) => void
+  release: (id: number) => void
+}
+
+export interface ToastContextOptions {
+  /** How many toasts show at once; the oldest leaves when a new one arrives past it. Unbounded by default. */
+  maxCount?: number
+  /** Auto-dismiss waits while the pointer or focus is on a toast (WCAG 2.2.1). */
+  pauseOnHover?: boolean
 }
 
 const TOAST_KEY = Symbol('StrandToast')
 
 let toastIdCounter = 0
 
-export function createToastContext(): ToastContextValue {
+export function createToastContext(options: ToastContextOptions = {}): ToastContextValue {
+  const maxCount = Math.max(1, options.maxCount ?? Number.POSITIVE_INFINITY)
+  const pauseOnHover = options.pauseOnHover ?? true
   const toasts = writable<ToastEntry[]>([])
   const timers = new Map<number, ReturnType<typeof setTimeout>>()
+  const entries = new Map<number, ToastEntry>()
 
-  function removeToast(id: number) {
+  function clearTimer(id: number) {
     const timer = timers.get(id)
     if (timer !== undefined) {
       clearTimeout(timer)
       timers.delete(id)
     }
+  }
+  function startTimer(entry: ToastEntry) {
+    if (entry.duration <= 0) return
+    timers.set(entry.id, setTimeout(() => dismiss(entry.id), entry.duration))
+  }
+  function dismiss(id: number) {
+    clearTimer(id)
+    entries.delete(id)
     toasts.update((prev) => prev.filter((t) => t.id !== id))
   }
-
-  function addToast(options: ToastOptions) {
+  function toast(options: ToastOptions): number {
     const entry: ToastEntry = {
       id: ++toastIdCounter,
       message: options.message,
       status: options.status ?? 'info',
       duration: options.duration ?? 5000,
     }
-    toasts.update((prev) => [...prev, entry])
-
-    if (entry.duration > 0) {
-      const timer = setTimeout(() => {
-        removeToast(entry.id)
-      }, entry.duration)
-      timers.set(entry.id, timer)
-    }
+    entries.set(entry.id, entry)
+    toasts.update((prev) => {
+      const next = [...prev, entry]
+      for (const e of next.slice(0, Math.max(0, next.length - maxCount))) {
+        clearTimer(e.id)
+        entries.delete(e.id)
+      }
+      return next.slice(-maxCount)
+    })
+    startTimer(entry)
+    return entry.id
+  }
+  function hold(id: number) {
+    if (pauseOnHover) clearTimer(id)
+  }
+  function release(id: number) {
+    const entry = entries.get(id)
+    if (pauseOnHover && entry && !timers.has(id)) startTimer(entry)
   }
 
-  const ctx: ToastContextValue = {
-    toasts,
-    toast: addToast,
-    removeToast,
-  }
-
+  const ctx: ToastContextValue = { toasts, toast, dismiss, removeToast: dismiss, hold, release }
   setContext(TOAST_KEY, ctx)
   return ctx
 }

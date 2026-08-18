@@ -1,12 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renders > error 1`] = `"<div aria-live="assertive" class="strand-toast strand-toast--error" role="status"><span class="strand-toast__status">ERROR</span><span class="strand-toast__message">Failed</span></div>"`;
+exports[`renders > error 1`] = `"<div aria-live="assertive" class="strand-toast strand-toast--error" role="alert"><span class="strand-toast__status">ERROR</span><span class="strand-toast__message">Failed</span></div>"`;
 
 exports[`renders > info 1`] = `"<div aria-live="polite" class="strand-toast strand-toast--info" role="status"><span class="strand-toast__status">INFO</span><span class="strand-toast__message">Saved</span></div>"`;
 
 exports[`renders > success 1`] = `"<div aria-live="polite" class="strand-toast strand-toast--success" role="status"><span class="strand-toast__status">COMPLETE</span><span class="strand-toast__message">Done</span></div>"`;
 
-exports[`renders > warning 1`] = `"<div aria-live="assertive" class="strand-toast strand-toast--warning" role="status"><span class="strand-toast__status">WARNING</span><span class="strand-toast__message">Careful</span></div>"`;
+exports[`renders > warning 1`] = `"<div aria-live="assertive" class="strand-toast strand-toast--warning" role="alert"><span class="strand-toast__status">WARNING</span><span class="strand-toast__message">Careful</span></div>"`;
 
 exports[`stylesheet > renders these rules 1`] = `
 ".strand-toast__container { position: fixed; right: var(--strand-space-6); bottom: var(--strand-space-6); z-index: 1100; display: flex; flex-direction: column-reverse; gap: var(--strand-space-3); pointer-events: none }

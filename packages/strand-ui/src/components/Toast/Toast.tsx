@@ -21,7 +21,10 @@ interface ToastEntry extends Required<Omit<ToastOptions, "duration">> {
 }
 
 interface ToastContextValue {
-  toast: (options: ToastOptions) => void;
+  /** Shows a toast and returns its id. */
+  toast: (options: ToastOptions) => number;
+  /** Removes the toast with that id, if it is still showing. */
+  dismiss: (id: number) => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -36,6 +39,10 @@ export function useToast(): ToastContextValue {
 export interface ToastProviderProps {
   children?: ComponentChildren;
   className?: string;
+  /** How many toasts show at once; the oldest leaves when a new one arrives past it. Unbounded by default. */
+  maxCount?: number;
+  /** Auto-dismiss waits while the pointer or focus is on a toast (WCAG 2.2.1). */
+  pauseOnHover?: boolean;
 }
 
 /**
@@ -43,23 +50,27 @@ export interface ToastProviderProps {
  *
  * @example
  * <ToastProvider><Page /></ToastProvider>
- * const { toast } = useToast(); toast({ message: "Saved", status: "success" });
+ * const { toast, dismiss } = useToast(); const id = toast({ message: "Saved", status: "success" });
  */
-export const ToastProvider = ({ children, className = "" }: ToastProviderProps) => {
+export const ToastProvider = ({ children, className = "", maxCount = Number.POSITIVE_INFINITY, pauseOnHover = true }: ToastProviderProps) => {
   const [toasts, setToasts] = useState<ToastEntry[]>([]);
   const nextId = useRef(0);
-  const removeToast = useCallback((id: number) => setToasts((prev) => prev.filter((t) => t.id !== id)), []);
-  const addToast = useCallback((options: ToastOptions) => {
-    const entry: ToastEntry = { id: ++nextId.current, message: options.message, status: options.status ?? "info", duration: options.duration ?? 5000 };
-    setToasts((prev) => [...prev, entry]);
-  }, []);
+  const dismiss = useCallback((id: number) => setToasts((prev) => prev.filter((t) => t.id !== id)), []);
+  const toast = useCallback(
+    (options: ToastOptions) => {
+      const entry: ToastEntry = { id: ++nextId.current, message: options.message, status: options.status ?? "info", duration: options.duration ?? 5000 };
+      setToasts((prev) => [...prev, entry].slice(-Math.max(1, maxCount)));
+      return entry.id;
+    },
+    [maxCount],
+  );
   return (
-    <ToastContext.Provider value={{ toast: addToast }}>
+    <ToastContext.Provider value={{ toast, dismiss }}>
       {children}
       {toasts.length > 0 && (
         <div className={cx("strand-toast__container", className)}>
           {toasts.map((entry) => (
-            <ToastItem key={entry.id} entry={entry} onDismiss={() => removeToast(entry.id)} />
+            <ToastItem key={entry.id} entry={entry} pauseOnHover={pauseOnHover} onDismiss={() => dismiss(entry.id)} />
           ))}
         </div>
       )}
@@ -68,13 +79,15 @@ export const ToastProvider = ({ children, className = "" }: ToastProviderProps) 
 };
 ToastProvider.displayName = "ToastProvider";
 
-function ToastItem({ entry, onDismiss }: { entry: ToastEntry; onDismiss: () => void }) {
+function ToastItem({ entry, pauseOnHover, onDismiss }: { entry: ToastEntry; pauseOnHover: boolean; onDismiss: () => void }) {
+  const [paused, setPaused] = useState(false);
   useEffect(() => {
-    if (entry.duration <= 0) return;
+    if (entry.duration <= 0 || paused) return;
     const timer = setTimeout(onDismiss, entry.duration);
     return () => clearTimeout(timer);
-  }, [entry.duration, onDismiss]);
-  return <Toast status={entry.status} message={entry.message} onDismiss={onDismiss} />;
+  }, [entry.duration, paused, onDismiss]);
+  const hold = pauseOnHover ? { onMouseEnter: () => setPaused(true), onMouseLeave: () => setPaused(false), onFocusIn: () => setPaused(true), onFocusOut: () => setPaused(false) } : {};
+  return <Toast status={entry.status} message={entry.message} onDismiss={onDismiss} {...hold} />;
 }
 
 export interface ToastProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "status"> {
@@ -93,7 +106,7 @@ export interface ToastProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, "st
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(({ status = "info", message, onDismiss, className = "", ...rest }, ref) => {
   const isUrgent = status === "error" || status === "warning";
   return (
-    <div ref={ref} className={cx("strand-toast", `strand-toast--${status}`, className)} role="status" aria-live={isUrgent ? "assertive" : "polite"} {...rest}>
+    <div ref={ref} className={cx("strand-toast", `strand-toast--${status}`, className)} role={isUrgent ? "alert" : "status"} aria-live={isUrgent ? "assertive" : "polite"} {...rest}>
       <span className="strand-toast__status">{status === "success" ? "COMPLETE" : status.toUpperCase()}</span>
       <span className="strand-toast__message">{message}</span>
       {onDismiss && (

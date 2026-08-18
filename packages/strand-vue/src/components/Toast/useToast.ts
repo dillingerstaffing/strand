@@ -12,7 +12,10 @@ export interface ToastOptions {
 }
 
 export interface ToastContextValue {
-  toast: (options: ToastOptions) => void
+  /** Shows a toast and returns its id. */
+  toast: (options: ToastOptions) => number
+  /** Removes the toast with that id, if it is still showing. */
+  dismiss: (id: number) => void
 }
 
 export const ToastKey: InjectionKey<ToastContextValue> = Symbol('StrandToast')

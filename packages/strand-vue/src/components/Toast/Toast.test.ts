@@ -60,11 +60,11 @@ describe('Toast', () => {
     expect(getByRole('status')).toBeTruthy()
   })
 
-  it('error toast has aria-live assertive', () => {
+  it('an error toast is an alert, announced assertively', () => {
     const { getByRole } = render(Toast, {
       props: { message: 'Fail', status: 'error' },
     })
-    expect(getByRole('status')).toHaveAttribute('aria-live', 'assertive')
+    expect(getByRole('alert')).toHaveAttribute('aria-live', 'assertive')
   })
 
   it('info toast has aria-live polite', () => {
@@ -74,11 +74,11 @@ describe('Toast', () => {
     expect(getByRole('status')).toHaveAttribute('aria-live', 'polite')
   })
 
-  it('warning toast has aria-live assertive', () => {
+  it('a warning toast is an alert, announced assertively', () => {
     const { getByRole } = render(Toast, {
       props: { message: 'Warn', status: 'warning' },
     })
-    expect(getByRole('status')).toHaveAttribute('aria-live', 'assertive')
+    expect(getByRole('alert')).toHaveAttribute('aria-live', 'assertive')
   })
 
   it('emits dismiss when dismiss button is clicked', async () => {

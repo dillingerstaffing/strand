@@ -55,7 +55,7 @@ const statusLabel = computed(() => statusLabels[props.status] ?? props.status.to
 <template>
   <div
     :class="classes"
-    role="status"
+    :role="isUrgent ? 'alert' : 'status'"
     :aria-live="isUrgent ? 'assertive' : 'polite'"
   >
     <span class="strand-toast__status">{{ statusLabel }}</span>

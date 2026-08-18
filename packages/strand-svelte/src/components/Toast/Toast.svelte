@@ -37,7 +37,7 @@
   $: statusLabel = statusLabels[status] ?? status.toUpperCase()
 </script>
 
-<div class={classes} role="status" aria-live={isUrgent ? 'assertive' : 'polite'} {...$$restProps}>
+<div class={classes} role={isUrgent ? 'alert' : 'status'} aria-live={isUrgent ? 'assertive' : 'polite'} {...$$restProps}>
   <span class="strand-toast__status">{statusLabel}</span>
   <span class="strand-toast__message">{message}</span>
   <button

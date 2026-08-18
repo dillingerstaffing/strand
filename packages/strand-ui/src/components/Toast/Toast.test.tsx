@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { render, fireEvent, act } from "@testing-library/preact";
 import { Toast, ToastProvider, useToast } from "./Toast.js";
+import { useRef } from "preact/hooks";
 
 /** Helper component that triggers a toast via the hook */
 function TestTrigger({
@@ -44,11 +45,11 @@ describe("Toast", () => {
     expect(getByRole("status")).toBeTruthy();
   });
 
-  it("error toast has aria-live assertive", () => {
+  it("an error toast is an alert, announced assertively", () => {
     const { getByRole } = render(
       <Toast message="Fail" status="error" />,
     );
-    expect(getByRole("status")).toHaveAttribute("aria-live", "assertive");
+    expect(getByRole("alert")).toHaveAttribute("aria-live", "assertive");
   });
 
   it("info toast has aria-live polite", () => {
@@ -58,11 +59,11 @@ describe("Toast", () => {
     expect(getByRole("status")).toHaveAttribute("aria-live", "polite");
   });
 
-  it("warning toast has aria-live assertive", () => {
+  it("a warning toast is an alert, announced assertively", () => {
     const { getByRole } = render(
       <Toast message="Warn" status="warning" />,
     );
-    expect(getByRole("status")).toHaveAttribute("aria-live", "assertive");
+    expect(getByRole("alert")).toHaveAttribute("aria-live", "assertive");
   });
 
   it("renders dismiss button when onDismiss provided", () => {
@@ -186,6 +187,65 @@ describe("ToastProvider + useToast", () => {
     });
 
     expect(queryByText("Vanishing")).toBeNull();
+  });
+
+  it("auto-dismiss waits while the pointer rests on the toast", () => {
+    const { getByText, queryByText } = render(
+      <ToastProvider>
+        <TestTrigger message="Held" duration={1000} />
+      </ToastProvider>,
+    );
+    fireEvent.click(getByText("Trigger"));
+    const toastEl = getByText("Held").closest(".strand-toast")!;
+    fireEvent.mouseEnter(toastEl);
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
+    expect(queryByText("Held")).toBeTruthy();
+    fireEvent.mouseLeave(toastEl);
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(queryByText("Held")).toBeNull();
+  });
+
+  it("shows at most maxCount toasts, the newest kept", () => {
+    const { getByText, queryByText } = render(
+      <ToastProvider maxCount={2}>
+        <TestTrigger message="One" duration={0} />
+        <TestTrigger message="Two" duration={0} />
+        <TestTrigger message="Three" duration={0} />
+      </ToastProvider>,
+    );
+    const buttons = document.querySelectorAll("button");
+    fireEvent.click(buttons[0]);
+    fireEvent.click(buttons[1]);
+    fireEvent.click(buttons[2]);
+    expect(queryByText("One")).toBeNull();
+    expect(getByText("Two")).toBeTruthy();
+    expect(getByText("Three")).toBeTruthy();
+  });
+
+  it("a toast can be dismissed by the id toast() returned", () => {
+    function Owner() {
+      const { toast, dismiss } = useToast();
+      const id = useRef<number | null>(null);
+      return (
+        <>
+          <button type="button" onClick={() => { id.current = toast({ message: "Owned", duration: 0 }); }}>Show</button>
+          <button type="button" onClick={() => { if (id.current != null) dismiss(id.current); }}>Hide</button>
+        </>
+      );
+    }
+    const { getByText, queryByText } = render(
+      <ToastProvider>
+        <Owner />
+      </ToastProvider>,
+    );
+    fireEvent.click(getByText("Show"));
+    expect(getByText("Owned")).toBeTruthy();
+    fireEvent.click(getByText("Hide"));
+    expect(queryByText("Owned")).toBeNull();
   });
 
   it("dismiss button removes toast", () => {
