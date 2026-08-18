@@ -86,15 +86,8 @@
 
 /* ── Disabled ── */
 .strand-checkbox--disabled {
-  opacity: 0.4;
+  opacity: var(--strand-opacity-disabled);
   cursor: not-allowed;
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-checkbox__control {
-    transition: none;
-  }
 }
 
 /* ── Compact density ──

@@ -681,16 +681,3 @@
 .strand-instrument-viewport .strand-status-chip--committed {
   color: var(--strand-teal-vital);
 }
-
-/* ──────────────────────────────────────────────
-   REDUCED MOTION
-   ──────────────────────────────────────────────
-   Strip every animation and transition from the FUI primitives
-   when the user has prefers-reduced-motion. The instrument is
-   still readable, just static. */
-
-@media (prefers-reduced-motion: reduce) {
-  .strand-instrument-viewport--full-bleed::after {
-    animation: none;
-  }
-}

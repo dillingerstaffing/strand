@@ -64,17 +64,10 @@
 
 /* ── Disabled ── */
 .strand-textarea--disabled {
-  opacity: 0.4;
+  opacity: var(--strand-opacity-disabled);
   cursor: not-allowed;
 }
 
 .strand-textarea--disabled .strand-textarea__field {
   cursor: not-allowed;
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-textarea {
-    transition: none;
-  }
 }

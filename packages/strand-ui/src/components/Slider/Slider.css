@@ -120,20 +120,10 @@
 
 /* ── Disabled ── */
 .strand-slider--disabled {
-  opacity: 0.4;
+  opacity: var(--strand-opacity-disabled);
   cursor: not-allowed;
 }
 
 .strand-slider--disabled .strand-slider__field {
   cursor: not-allowed;
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-slider__field::-webkit-slider-thumb {
-    transition: none;
-  }
-  .strand-slider__field::-moz-range-thumb {
-    transition: none;
-  }
 }

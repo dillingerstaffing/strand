@@ -86,9 +86,3 @@
 .strand-ref-tip:focus-within .strand-ref-tip__bubble--right {
   transform: translateX(0) translateY(-50%);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .strand-ref-tip__bubble {
-    transition: none;
-  }
-}

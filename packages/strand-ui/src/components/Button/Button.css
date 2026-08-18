@@ -29,7 +29,7 @@
 }
 
 .strand-btn:disabled {
-  opacity: 0.4;
+  opacity: var(--strand-opacity-disabled);
   cursor: not-allowed;
 }
 
@@ -262,17 +262,8 @@
   gap: var(--strand-space-2);
 }
 
-/* ── Focus ring (Part XII: Accessibility Ring) ── */
-.strand-btn:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
-}
-
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .strand-btn {
-    transition: none;
-  }
   .strand-btn:hover:not(:disabled) {
     transform: none;
   }

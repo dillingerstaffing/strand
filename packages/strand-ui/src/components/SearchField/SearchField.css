@@ -211,11 +211,6 @@
   color: var(--strand-gray-700);
 }
 
-.strand-search-field__clear:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
-}
-
 /* 14.7 again, and it applies to the clear control on its own terms: 24px
    is a comfortable glyph under a mouse and an unhittable one under a
    thumb. At 44 the button is exactly flush with the coarse-pointer field

@@ -89,10 +89,3 @@
 .strand-tag__remove:hover {
   opacity: 1;
 }
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-tag__remove {
-    transition: none;
-  }
-}

@@ -86,16 +86,8 @@
 
 /* ── Disabled ── */
 .strand-radio--disabled {
-  opacity: 0.4;
+  opacity: var(--strand-opacity-disabled);
   cursor: not-allowed;
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-radio__control,
-  .strand-radio__dot {
-    transition: none;
-  }
 }
 
 /* ── Compact density ──

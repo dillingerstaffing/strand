@@ -109,7 +109,7 @@ describe("CSS design language compliance", () => {
     }
   });
 
-  it("Disabled states use opacity 0.4", () => {
+  it("Disabled states use the disabled opacity token", () => {
     // Components with :disabled or --disabled class
     const componentsWithDisabled: { name: string; cssPath: string }[] = [
       { name: "Button", cssPath: resolve(componentDir, "Button/Button.css") },
@@ -127,11 +127,7 @@ describe("CSS design language compliance", () => {
       const hasDisabled = css.includes(":disabled") || css.includes("--disabled");
       expect(hasDisabled, `${name} expected to have disabled styles`).toBe(true);
 
-      // Verify opacity: 0.4 is present
-      expect(
-        css,
-        `${name} disabled state should use opacity: 0.4`,
-      ).toContain("opacity: 0.4");
+      expect(css, `${name} disabled state should read --strand-opacity-disabled`).toContain("opacity: var(--strand-opacity-disabled)");
     }
   });
 });

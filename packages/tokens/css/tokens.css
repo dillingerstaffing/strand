@@ -194,6 +194,9 @@
   --strand-focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.1);
   --strand-focus-ring-error: 0 0 0 3px rgba(239, 68, 68, 0.1);
 
+  /* ── INTERACTION: DISABLED ── */
+  --strand-opacity-disabled: 0.4;
+
   /* ── INTERACTION: HOVER SHADOWS ── */
   --strand-hover-shadow-primary: 0 4px 12px rgba(37, 99, 235, 0.2);
   --strand-hover-shadow-danger: 0 4px 12px rgba(239, 68, 68, 0.2);

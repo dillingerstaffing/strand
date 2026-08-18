@@ -7,7 +7,5 @@ exports[`stylesheet > declares its selectors 1`] = `
   ".strand-footer__link",
   ".strand-footer__link:hover",
   ".strand-footer__copy",
-  "@media (prefers-reduced-motion: reduce)",
-  "  .strand-footer__link",
 ]
 `;

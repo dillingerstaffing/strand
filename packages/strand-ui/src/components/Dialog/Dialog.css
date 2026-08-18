@@ -119,15 +119,6 @@
   }
 }
 
-/* The entrance is the only motion here, and it is the whole of what
-   reduced motion has to remove. The panel still arrives; it simply
-   arrives already in place. */
-@media (prefers-reduced-motion: reduce) {
-  .strand-dialog__panel--align-end {
-    animation: none;
-  }
-}
-
 /* ── Padding modifiers ──
    The same five-rung ladder `.strand-card` carries, at the same values, so
    the two surface primitives do not disagree about what "lg" means. The
@@ -212,11 +203,4 @@
   padding-top: var(--strand-space-6);
   color: var(--strand-gray-600);
   font-size: var(--strand-text-sm);
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-dialog__close {
-    transition: none;
-  }
 }

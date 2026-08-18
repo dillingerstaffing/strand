@@ -95,9 +95,3 @@
 .strand-badge--live {
   animation: strand-pulse-glow 3s var(--strand-ease-in-out-sine) infinite;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .strand-badge--live {
-    animation: none;
-  }
-}

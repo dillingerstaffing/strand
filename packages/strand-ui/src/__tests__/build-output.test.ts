@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { stripComments } from "../../build/strip-comments.mjs";
 
 const distDir = resolve(__dirname, "../../dist");
+const componentDirs = () =>
+  readdirSync(resolve(__dirname, "../components"), { withFileTypes: true })
+    .filter((d) => d.isDirectory() && existsSync(resolve(__dirname, `../components/${d.name}/${d.name}.css`)))
+    .map((d) => d.name);
 
 describe("Build output", () => {
   it("produces index.js bundle", () => {
@@ -151,37 +155,30 @@ describe("Build output", () => {
     expect(matches, `Hardcoded border-radius values found: ${matches.join(", ")}`).toEqual([]);
   });
 
-  it("All interactive component CSS files include :focus-visible", () => {
-    const interactiveComponents = [
-      "Button", "Link", "Card", "Checkbox", "Input", "Radio",
-      "Select", "Slider", "Switch", "Tabs", "Breadcrumb", "Nav", "Table",
-    ];
-
-    for (const name of interactiveComponents) {
-      const cssPath = resolve(__dirname, `../components/${name}/${name}.css`);
-      const css = readFileSync(cssPath, "utf-8");
-      // Compound inputs (Input, Select, Textarea) use :focus-within on the wrapper,
-      // which is equivalent for components with a visually hidden native input
-      const hasFocusHandling = css.includes(":focus-visible") || css.includes(":focus-within");
-      expect(hasFocusHandling, `${name}.css missing :focus-visible or :focus-within`).toBe(true);
+  // The focus ring and reduced motion are global: base.css draws one ring on
+  // every :focus-visible and reset.css collapses every duration under
+  // prefers-reduced-motion. A component sheet that restates either is
+  // duplication, so the invariant is the absence of the copy.
+  it("no component sheet restates the base focus ring", () => {
+    const base = /outline:\s*2px solid var\(--strand-blue-primary\);\s*outline-offset:\s*2px;/;
+    for (const name of componentDirs()) {
+      const css = readFileSync(resolve(__dirname, `../components/${name}/${name}.css`), "utf-8");
+      for (const rule of css.matchAll(/([^{}]+):focus-visible\s*\{([^}]*)\}/g)) {
+        const body = rule[2].replace(/\/\*[\s\S]*?\*\//g, "").trim();
+        expect(base.test(body) && body.split(";").filter(Boolean).length === 2, `${name}.css restates the base focus ring on ${rule[1].trim()}`).toBe(false);
+      }
     }
   });
 
-  it("All animated component CSS files include prefers-reduced-motion", () => {
-    const allComponents = [
-      "Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Card",
-      "Checkbox", "Container", "DataReadout", "Dialog", "Divider",
-      "FormField", "Grid", "Input", "Link", "Nav", "Progress", "Radio",
-      "Section", "Select", "Skeleton", "Slider", "Spinner", "Stack",
-      "Switch", "Table", "Tabs", "Tag", "Textarea", "Toast", "Tooltip",
-    ];
-
-    for (const name of allComponents) {
-      const cssPath = resolve(__dirname, `../components/${name}/${name}.css`);
-      const css = readFileSync(cssPath, "utf-8");
-      const usesAnimation = /\banimation\b/.test(css) || /\btransition\b/.test(css);
-      if (usesAnimation) {
-        expect(css, `${name}.css uses animation/transition but missing prefers-reduced-motion`).toContain("prefers-reduced-motion");
+  it("no component sheet carries a reduced-motion rule the reset already covers", () => {
+    for (const name of componentDirs()) {
+      const css = readFileSync(resolve(__dirname, `../components/${name}/${name}.css`), "utf-8");
+      const reduced = css.match(/@media \(prefers-reduced-motion: reduce\)\s*\{([\s\S]*?)\n\}/g) ?? [];
+      for (const block of reduced) {
+        for (const rule of block.matchAll(/([^{}]+)\{([^}]*)\}/g)) {
+          const body = rule[2].replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s+/g, " ").trim();
+          expect(/^transition: none;?$/.test(body), `${name}.css: ${rule[1].trim()} only sets transition: none, which reset.css already does`).toBe(false);
+        }
       }
     }
   });

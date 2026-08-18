@@ -76,17 +76,10 @@
 
 /* ── Disabled ── */
 .strand-select--disabled {
-  opacity: 0.4;
+  opacity: var(--strand-opacity-disabled);
   cursor: not-allowed;
 }
 
 .strand-select--disabled .strand-select__field {
   cursor: not-allowed;
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-select {
-    transition: none;
-  }
 }

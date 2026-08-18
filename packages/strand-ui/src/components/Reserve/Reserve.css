@@ -129,14 +129,3 @@
 .strand-reserve:not([data-strand-reserve]) > .strand-reserve__placeholder {
   display: none;
 }
-
-/* ── Reduced motion ──
-   The cross-fade goes; the reservation stays (6.6.2). Removing the space
-   contract along with the animation would make the reduced-motion
-   experience jumpier than the default, which inverts the preference. */
-@media (prefers-reduced-motion: reduce) {
-  .strand-reserve__placeholder,
-  .strand-reserve__content {
-    transition: none;
-  }
-}

@@ -196,16 +196,3 @@
   text-align: center;
   overflow-wrap: anywhere;
 }
-
-/* The companion utility that reserves the space this bar occupies lives
-   in static.css as `strand-tabbar-offset`, beside `strand-nav-offset`
-   which does the same job for the fixed glass nav. It belongs there
-   rather than here because it is applied to the CONTENT, not to the bar,
-   so it is not part of this component's markup at all. The
-   css-export-parity guard caught it sitting in this file. */
-
-@media (prefers-reduced-motion: reduce) {
-  .strand-tabbar__item {
-    transition: none;
-  }
-}

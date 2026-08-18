@@ -282,8 +282,8 @@
 	"bundle": {
 		"files": {
 			"tokens.css": {
-				"raw_bytes": 13626,
-				"gzipped_bytes": 4718
+				"raw_bytes": 13705,
+				"gzipped_bytes": 4742
 			},
 			"reset.css": {
 				"raw_bytes": 1857,
@@ -294,17 +294,17 @@
 				"gzipped_bytes": 3718
 			},
 			"strand-ui.css": {
-				"raw_bytes": 185244,
-				"gzipped_bytes": 24373
+				"raw_bytes": 179428,
+				"gzipped_bytes": 23895
 			},
 			"strand-ui.js": {
 				"raw_bytes": 10741,
 				"gzipped_bytes": 2905
 			}
 		},
-		"total_raw_bytes": 221770,
-		"total_gz_bytes": 36590,
-		"total_gz_kb": 36
+		"total_raw_bytes": 216033,
+		"total_gz_bytes": 36136,
+		"total_gz_kb": 35
 	},
 	"foreignBlocks": {
 		"InstrumentViewport": [

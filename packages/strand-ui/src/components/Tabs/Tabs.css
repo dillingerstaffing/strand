@@ -61,11 +61,6 @@
   color: var(--strand-gray-700);
 }
 
-.strand-tabs__tab:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
-}
-
 .strand-tabs__tab--active {
   color: var(--strand-blue-deep);
   border-bottom-color: var(--strand-blue-primary);
@@ -127,9 +122,6 @@
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .strand-tabs__tab {
-    transition: none;
-  }
   .strand-tabs__panel--reveal {
     animation: none;
   }

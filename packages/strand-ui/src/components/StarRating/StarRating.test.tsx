@@ -146,23 +146,13 @@ describe("StarRating", () => {
 // No axe rule covers 2.4.11 -- focus appearance is not automatable that way --
 // so every contrast suite in the project was blind to it. Hence a guard here.
 describe("StarRating focus is visible (SC 2.4.11)", () => {
+  // The base stylesheet draws the ring on every :focus-visible; a star must
+  // not suppress it, and must not lean on the low-alpha focus-ring token as its
+  // only indicator.
   const css = readFileSync(resolve(__dirname, "StarRating.css"), "utf8");
-  const rule = css.match(/\.strand-star-rating__star:focus-visible\s*\{([^}]*)\}/)?.[1];
-
-  it("finds the focus rule (guards the parse)", () => {
-    expect(rule).toBeDefined();
-  });
-
-  it("draws a real outline rather than suppressing it", () => {
-    expect(rule).toMatch(/outline:\s*2px\s+solid/);
+  it("neither suppresses the base ring nor replaces it with the low-alpha glow", () => {
+    const rule = css.match(/\.strand-star-rating__star:focus-visible\s*\{([^}]*)\}/)?.[1] ?? "";
     expect(rule).not.toMatch(/outline:\s*none/);
-  });
-
-  it("does not lean on the low-alpha focus ring as its only indicator", () => {
-    // The shared token stays as it is: six of its nine usages pair it with a
-    // border-color change where subtle glow is correct, so raising it would
-    // make six correct components look heavy. The fix belongs to the two
-    // places that used it alone, not to the token.
     expect(rule).not.toContain("--strand-focus-ring");
   });
 });

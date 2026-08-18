@@ -101,12 +101,6 @@
   padding: var(--strand-space-10);
 }
 
-/* CF-REF: focus-visible.md [4] */
-.strand-card--interactive:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
-}
-
 /* ── Card section (BEM element, stacked rows inside a card) ──
    A horizontal row inside a composed card. Use multiple
    .strand-card__section children inside a .strand-card--pad-none
@@ -137,9 +131,6 @@
 
 /* CF-REF: reduced-motion.md [9] */
 @media (prefers-reduced-motion: reduce) {
-  .strand-card--interactive {
-    transition: none;
-  }
   .strand-card--interactive:hover {
     transform: none;
   }

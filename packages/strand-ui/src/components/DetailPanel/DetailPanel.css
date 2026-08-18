@@ -210,9 +210,6 @@
    still readable, just static. */
 
 @media (prefers-reduced-motion: reduce) {
-  .strand-detail-panel {
-    transition: none;
-  }
   .strand-detail-panel.is-open > .strand-overline,
 .strand-detail-panel.open > .strand-overline,
 .strand-detail-panel.is-open .strand-detail-panel__title,

@@ -128,11 +128,6 @@
   transition-duration: 75ms;
 }
 
-.strand-code-block__copy:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
-}
-
 /* Success state: check icon, green accent, pinned opacity. */
 /* green-positive is the fill tier (2.54:1 as text). The label reads "Copied",
    so the confirmation is carried by words and needs the text tier; the border
@@ -168,9 +163,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .strand-code-block__copy {
-    transition: none;
-  }
   .strand-code-block__copy:hover,
   .strand-code-block__copy:active,
   .strand-code-block__copy--copied {

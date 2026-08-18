@@ -122,10 +122,10 @@
   .strand-search-bar,
   .strand-search-bar--shifted {
     top: var(--strand-space-3);
-    left: var(--strand-space-4) !important;
-    width: calc(100% - (var(--strand-space-4) * 2)) !important;
-    transform: none !important;
-    transition: none !important;
+    left: var(--strand-space-4);
+    width: calc(100% - (var(--strand-space-4) * 2));
+    transform: none;
+    transition: none;
   }
   .strand-search-bar__action {
     width: 44px;
@@ -136,18 +136,5 @@
 @media (max-width: 640px) {
   .strand-search-bar__input {
     font-size: 16px;
-  }
-}
-
-/* ──────────────────────────────────────────────
-   REDUCED MOTION
-   ──────────────────────────────────────────────
-   Strip every animation and transition from the FUI primitives
-   when the user has prefers-reduced-motion. The instrument is
-   still readable, just static. */
-
-@media (prefers-reduced-motion: reduce) {
-  .strand-search-bar__action--locating {
-    animation: none;
   }
 }

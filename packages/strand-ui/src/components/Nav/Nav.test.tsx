@@ -238,13 +238,6 @@ describe("the nav wordmark answers hover and press", () => {
     expect(ruleFor(".strand-nav__logo:active")).toContain("--strand-blue-abyss");
   });
 
-  it("resets its transition under reduced motion at matching specificity", () => {
-    // Gap #56: a reset that under-specifies the rule it undoes does nothing
-    // silently. Both are (0,1,0).
-    const reduced = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"));
-    expect(reduced).toMatch(/\.strand-nav__logo\s*\{[^}]*transition:\s*none/);
-  });
-
   // ── Gap #93: the bar spans its parent rather than capping at a measure ──
 
   it("does not cap or centre its inner row", () => {

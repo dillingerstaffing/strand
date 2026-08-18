@@ -124,17 +124,6 @@
   .strand-map-pin {
     animation: none;
   }
-  .strand-map-pin::before,
-  .strand-map-pin::after {
-    animation: none;
-  }
-  .strand-map-pin:hover {
-    animation: none;
-  }
-  .strand-map-pin:hover::before,
-  .strand-map-pin:hover::after {
-    animation: none;
-  }
 }
 
 /* ──────────────────────────────────────────────

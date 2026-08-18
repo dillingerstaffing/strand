@@ -10,7 +10,5 @@ exports[`stylesheet > declares its selectors 1`] = `
   ".strand-coord-readout__lat, .strand-coord-readout__lng",
   "@media (max-width: 640px)",
   "  .strand-coord-readout",
-  "@media (prefers-reduced-motion: reduce)",
-  "  .strand-coord-readout::before",
 ]
 `;

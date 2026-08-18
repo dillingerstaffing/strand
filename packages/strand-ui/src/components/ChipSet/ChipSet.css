@@ -73,11 +73,6 @@
   color: var(--strand-gray-800);
 }
 
-.strand-chip-set__chip:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
-}
-
 /* Selected. Styled from the ARIA state rather than a class, so the
    painted state and the announced state cannot drift apart -- there is no
    way to paint a chip selected without also saying so. */
@@ -94,12 +89,6 @@
   background: var(--strand-blue-abyss);
   border-color: var(--strand-blue-abyss);
   color: var(--strand-on-blue-primary);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .strand-chip-set__chip {
-    transition: none;
-  }
 }
 
 /* ── Compact ──

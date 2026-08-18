@@ -24,7 +24,5 @@ exports[`stylesheet > declares its selectors 1`] = `
   "  .strand-search-bar__action",
   "@media (max-width: 640px)",
   "  .strand-search-bar__input",
-  "@media (prefers-reduced-motion: reduce)",
-  "  .strand-search-bar__action--locating",
 ]
 `;

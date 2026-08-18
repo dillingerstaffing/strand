@@ -9,8 +9,6 @@ exports[`stylesheet > declares its selectors 1`] = `
   "@keyframes strand-overline-pulse",
   "  0%, 100%",
   "  50%",
-  "@media (prefers-reduced-motion: reduce)",
-  "  .strand-overline--pulse::before",
   ".strand-headline",
   ".strand-headline--xl",
   ".strand-headline--lg",

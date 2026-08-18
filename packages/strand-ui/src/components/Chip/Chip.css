@@ -30,10 +30,6 @@
   background: var(--strand-blue-tint);
   border-color: var(--strand-blue-deep);
 }
-.strand-chip--joined:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
-}
 .strand-chip--joined:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -41,11 +37,4 @@
 .strand-chip--joined__check {
   font-size: 0.875em;
   line-height: 1;
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-chip--joined {
-    transition: none;
-  }
 }

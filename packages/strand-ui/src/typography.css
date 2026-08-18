@@ -31,7 +31,7 @@
 .strand-overline--pulse {
   position: relative;
   padding-left: var(--strand-space-4);
-  display: inline-block !important;
+  display: inline-block;
 }
 .strand-overline--pulse::before {
   content: "";
@@ -48,11 +48,6 @@
 @keyframes strand-overline-pulse {
   0%, 100% { opacity: 1; }
   50%      { opacity: 0.4; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .strand-overline--pulse::before {
-    animation: none;
-  }
 }
 /* ── Headline (display heading, DL Part IV.5) ── */
 .strand-headline {

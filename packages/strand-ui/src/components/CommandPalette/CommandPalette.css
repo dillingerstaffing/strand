@@ -160,9 +160,3 @@
   font-size: var(--strand-text-sm);
   color: var(--strand-gray-500);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .strand-command-palette__option {
-    transition: none;
-  }
-}

@@ -78,20 +78,12 @@
 
 /* ── Disabled ── */
 .strand-switch--disabled {
-  opacity: 0.4;
+  opacity: var(--strand-opacity-disabled);
   cursor: not-allowed;
 }
 
 .strand-switch--disabled .strand-switch__track {
   cursor: not-allowed;
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-switch__track,
-  .strand-switch__thumb {
-    transition: none;
-  }
 }
 
 /* ── Compact density ──

@@ -29,8 +29,3 @@
   font-size: var(--strand-text-xs);
   color: var(--strand-gray-500);
 }
-@media (prefers-reduced-motion: reduce) {
-  .strand-footer__link {
-    transition: none;
-  }
-}

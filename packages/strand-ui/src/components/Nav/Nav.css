@@ -114,12 +114,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	/* Matching specificity, per Gap #56: a reset that under-specifies the rule
-	   it undoes silently does nothing. .strand-nav__logo is (0,1,0) and so is
-	   this, so the colour transition above is genuinely removed. */
-	.strand-nav__logo {
-		transition: none;
-	}
 	.strand-nav__logo--pulse::after {
 		animation: none;
 		opacity: 0.6;
@@ -222,11 +216,6 @@
 	color: var(--strand-gray-900);
 }
 
-.strand-nav__link:focus-visible {
-	outline: 2px solid var(--strand-blue-primary);
-	outline-offset: 2px;
-}
-
 .strand-nav__link--active {
 	color: var(--strand-blue-deep);
 	font-weight: var(--strand-weight-medium);
@@ -287,11 +276,6 @@
 
 .strand-nav__hamburger:hover {
 	background: var(--strand-gray-200);
-}
-
-.strand-nav__hamburger:focus-visible {
-	outline: 2px solid var(--strand-blue-primary);
-	outline-offset: 2px;
 }
 
 .strand-nav__hamburger-icon {
@@ -513,16 +497,6 @@
 .strand-nav--glass {
 	transition: box-shadow var(--strand-duration-normal) ease, border-color
 		var(--strand-duration-normal) ease;
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-	.strand-nav__link,
-	.strand-nav__mobile-link,
-	.strand-nav__hamburger,
-	.strand-nav--glass {
-		transition: none;
-	}
 }
 
 /* ──────────────────────────────────────────────

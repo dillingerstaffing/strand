@@ -88,13 +88,3 @@
     transform: translateY(0);
   }
 }
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .strand-toast {
-    animation: none;
-  }
-  .strand-toast__dismiss {
-    transition: none;
-  }
-}

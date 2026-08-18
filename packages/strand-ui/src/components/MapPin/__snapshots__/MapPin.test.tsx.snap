@@ -29,9 +29,6 @@ exports[`stylesheet > declares its selectors 1`] = `
   "  50%",
   "@media (prefers-reduced-motion: reduce)",
   "  .strand-map-pin",
-  "  .strand-map-pin::before, .strand-map-pin::after",
-  "  .strand-map-pin:hover",
-  "  .strand-map-pin:hover::before, .strand-map-pin:hover::after",
   "@media (max-width: 768px)",
   "  .strand-map-pin",
 ]

@@ -143,11 +143,6 @@
   color: var(--strand-blue-midnight);
 }
 
-.strand-ref-frame__panel-close:focus-visible {
-  outline: 2px solid var(--strand-blue-primary);
-  outline-offset: 2px;
-}
-
 .strand-ref-frame__panel-body {
   padding: 0 22px var(--strand-space-5);
   font-size: 14px;
@@ -168,8 +163,5 @@
   .strand-ref-frame__overlay,
   .strand-ref-frame__panel {
     animation: none;
-  }
-  .strand-ref-frame__content {
-    transition: none;
   }
 }

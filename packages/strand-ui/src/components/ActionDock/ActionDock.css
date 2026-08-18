@@ -82,14 +82,3 @@
   transform: translateY(0);
   visibility: visible;
 }
-
-/* design-language.md 6.7, and the gap #62 lesson restated: reduced motion
-   removes the ANIMATION and never the positioning. The dock still arrives,
-   it simply arrives instantly. Dropping the transform along with the
-   transition would leave the control off-screen for a user who asked only
-   for less movement, which inverts the preference. */
-@media (prefers-reduced-motion: reduce) {
-  .strand-actiondock {
-    transition: none;
-  }
-}
