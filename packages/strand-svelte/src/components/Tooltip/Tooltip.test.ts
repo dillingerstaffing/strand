@@ -1,7 +1,8 @@
 /*! Strand Svelte | MIT License | dillingerstaffing.com */
 
-import { describe, it, expect } from 'vitest'
-import { render } from '@testing-library/svelte'
+import { describe, it, expect, vi } from 'vitest'
+import { tick } from 'svelte'
+import { render, fireEvent } from '@testing-library/svelte'
 import Tooltip from './Tooltip.svelte'
 
 describe('Tooltip', () => {
@@ -46,5 +47,36 @@ describe('Tooltip', () => {
   it('defaults to top position', () => {
     const { container } = render(Tooltip, { props: { content: 'Tip' } })
     expect(container.querySelector('.strand-tooltip')).toHaveClass('strand-tooltip--top')
+  })
+})
+
+describe('Tooltip visibility', () => {
+  it('shows after the delay when the trigger takes focus, hides on Escape, and reports both', async () => {
+    vi.useFakeTimers()
+    const onopenchange = vi.fn()
+    const { container } = render(Tooltip, { props: { content: 'Hint', delay: 10, onopenchange } })
+    const wrapper = container.querySelector('.strand-tooltip__wrapper')!
+    const tip = container.querySelector('[role="tooltip"]')!
+    await fireEvent.focusIn(wrapper)
+    vi.advanceTimersByTime(20)
+    await tick()
+    expect(tip).toHaveAttribute('aria-hidden', 'false')
+    expect(onopenchange).toHaveBeenLastCalledWith(true)
+    await fireEvent.keyDown(wrapper, { key: 'Escape' })
+    await tick()
+    expect(tip).toHaveAttribute('aria-hidden', 'true')
+    expect(onopenchange).toHaveBeenLastCalledWith(false)
+    vi.useRealTimers()
+  })
+
+  it('a controlled tooltip shows what its owner says', async () => {
+    const { container, rerender } = render(Tooltip, { props: { content: 'Owned', open: true } })
+    const tip = container.querySelector('[role="tooltip"]')!
+    expect(tip).toHaveAttribute('aria-hidden', 'false')
+    await fireEvent.mouseLeave(container.querySelector('.strand-tooltip__wrapper')!)
+    await tick()
+    expect(tip).toHaveAttribute('aria-hidden', 'false')
+    await rerender({ content: 'Owned', open: false })
+    expect(tip).toHaveAttribute('aria-hidden', 'true')
   })
 })

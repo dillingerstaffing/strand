@@ -16,7 +16,7 @@
   ```
 -->
 <script setup lang="ts">
-import { computed, ref, onUnmounted } from 'vue'
+import { type VNode, cloneVNode, computed, onUnmounted, ref, useId, useSlots, watch } from 'vue'
 
 export interface TooltipProps {
   /** Tooltip text */
@@ -25,22 +25,42 @@ export interface TooltipProps {
   position?: 'top' | 'right' | 'bottom' | 'left'
   /** Delay in ms before showing */
   delay?: number
+  /** Controlled visibility */
+  open?: boolean
+  /** Visibility to start with when uncontrolled */
+  defaultOpen?: boolean
 }
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   position: 'top',
   delay: 200,
+  open: undefined,
+  defaultOpen: false,
 })
 
-let tooltipIdCounter = 0
-const tooltipId = `strand-tooltip-${++tooltipIdCounter}`
+const emit = defineEmits<{
+  (e: 'update:open', open: boolean): void
+  (e: 'openChange', open: boolean): void
+}>()
 
-const visible = ref(false)
+const slots = useSlots()
+const tooltipId = useId()
+const ownOpen = ref(props.defaultOpen)
+const isOpen = computed(() => props.open ?? ownOpen.value)
 let timer: ReturnType<typeof setTimeout> | null = null
 
+function setOwn(next: boolean) {
+  if (ownOpen.value === next) return
+  ownOpen.value = next
+  emit('update:open', next)
+  emit('openChange', next)
+}
+
 function show() {
+  if (timer !== null) clearTimeout(timer)
   timer = setTimeout(() => {
-    visible.value = true
+    timer = null
+    setOwn(true)
   }, props.delay)
 }
 
@@ -49,25 +69,30 @@ function hide() {
     clearTimeout(timer)
     timer = null
   }
-  visible.value = false
+  setOwn(false)
+}
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape' && isOpen.value) hide()
 }
 
 onUnmounted(() => {
-  if (timer !== null) {
-    clearTimeout(timer)
-  }
+  if (timer !== null) clearTimeout(timer)
 })
 
-const wrapperClasses = computed(() =>
-  ['strand-tooltip__wrapper'].filter(Boolean).join(' '),
-)
+/** A single slotted element receives aria-describedby; anything else is described through the wrapper. */
+const Trigger = () => {
+  const nodes = (slots.default?.() ?? []) as VNode[]
+  if (nodes.length === 1 && typeof nodes[0].type !== 'symbol') return [cloneVNode(nodes[0], { 'aria-describedby': tooltipId })]
+  return nodes
+}
+const singleTrigger = computed(() => {
+  const nodes = (slots.default?.() ?? []) as VNode[]
+  return nodes.length === 1 && typeof nodes[0].type !== 'symbol'
+})
 
 const tooltipClasses = computed(() =>
-  [
-    'strand-tooltip',
-    `strand-tooltip--${props.position}`,
-    visible.value && 'strand-tooltip--visible',
-  ]
+  ['strand-tooltip', `strand-tooltip--${props.position}`, isOpen.value && 'strand-tooltip--visible']
     .filter(Boolean)
     .join(' '),
 )
@@ -75,20 +100,16 @@ const tooltipClasses = computed(() =>
 
 <template>
   <span
-    :class="wrapperClasses"
-    :aria-describedby="tooltipId"
+    class="strand-tooltip__wrapper"
+    :aria-describedby="singleTrigger ? undefined : tooltipId"
     @mouseenter="show"
     @mouseleave="hide"
-    @focus="show"
-    @blur="hide"
+    @focusin="show"
+    @focusout="hide"
+    @keydown="onKeydown"
   >
-    <slot />
-    <span
-      :id="tooltipId"
-      :class="tooltipClasses"
-      role="tooltip"
-      :aria-hidden="!visible"
-    >
+    <Trigger />
+    <span :id="tooltipId" :class="tooltipClasses" role="tooltip" :aria-hidden="!isOpen">
       {{ content }}
     </span>
   </span>

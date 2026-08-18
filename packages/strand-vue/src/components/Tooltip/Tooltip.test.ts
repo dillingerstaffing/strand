@@ -65,12 +65,37 @@ describe('Tooltip', () => {
     expect(tooltip).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('wrapper has aria-describedby pointing to tooltip id', () => {
+  it('the trigger element itself is described by the tooltip', () => {
     const { container } = renderTooltip({ content: 'Described' })
+    const button = container.querySelector('button')!
+    const tooltip = container.querySelector('[role="tooltip"]')!
+    expect(button).toHaveAttribute('aria-describedby', tooltip.getAttribute('id'))
+    expect(container.querySelector('.strand-tooltip__wrapper')).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('Escape dismisses an open tooltip and reports the change', async () => {
+    const { container, emitted } = renderTooltip({ content: 'Dismiss', delay: 0 })
     const wrapper = container.querySelector('.strand-tooltip__wrapper')!
     const tooltip = container.querySelector('[role="tooltip"]')!
-    const tooltipId = tooltip.getAttribute('id')
-    expect(wrapper).toHaveAttribute('aria-describedby', tooltipId)
+    await fireEvent.mouseEnter(wrapper)
+    vi.advanceTimersByTime(1)
+    await vi.dynamicImportSettled()
+    expect(tooltip).toHaveAttribute('aria-hidden', 'false')
+    await fireEvent.keyDown(wrapper, { key: 'Escape' })
+    await vi.dynamicImportSettled()
+    expect(tooltip).toHaveAttribute('aria-hidden', 'true')
+    expect(emitted()['update:open']).toEqual([[true], [false]])
+  })
+
+  it('a controlled tooltip shows what its owner says', async () => {
+    const { container, rerender } = renderTooltip({ content: 'Owned', open: true })
+    const tooltip = container.querySelector('[role="tooltip"]')!
+    expect(tooltip).toHaveAttribute('aria-hidden', 'false')
+    await fireEvent.mouseLeave(container.querySelector('.strand-tooltip__wrapper')!)
+    await vi.dynamicImportSettled()
+    expect(tooltip).toHaveAttribute('aria-hidden', 'false')
+    await rerender({ content: 'Owned', open: false })
+    expect(tooltip).toHaveAttribute('aria-hidden', 'true')
   })
 
   it('tooltip has role tooltip', () => {
@@ -121,7 +146,7 @@ describe('Tooltip', () => {
     const wrapper = container.querySelector('.strand-tooltip__wrapper')!
     const tooltip = container.querySelector('[role="tooltip"]')!
 
-    await fireEvent.focus(wrapper)
+    await fireEvent.focusIn(container.querySelector('button')!)
     vi.advanceTimersByTime(100)
     await vi.dynamicImportSettled()
 
@@ -133,12 +158,12 @@ describe('Tooltip', () => {
     const wrapper = container.querySelector('.strand-tooltip__wrapper')!
     const tooltip = container.querySelector('[role="tooltip"]')!
 
-    await fireEvent.focus(wrapper)
+    await fireEvent.focusIn(container.querySelector('button')!)
     vi.advanceTimersByTime(100)
     await vi.dynamicImportSettled()
     expect(tooltip).toHaveAttribute('aria-hidden', 'false')
 
-    await fireEvent.blur(wrapper)
+    await fireEvent.focusOut(container.querySelector('button')!)
     await vi.dynamicImportSettled()
     expect(tooltip).toHaveAttribute('aria-hidden', 'true')
   })

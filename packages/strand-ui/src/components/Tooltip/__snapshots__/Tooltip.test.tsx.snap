@@ -4,6 +4,8 @@ exports[`renders > bottom 1`] = `"<span aria-describedby="P0-0" class="strand-to
 
 exports[`renders > left 1`] = `"<span aria-describedby="P0-0" class="strand-tooltip__wrapper">T<span aria-hidden="true" class="strand-tooltip strand-tooltip--left" id="P0-0" role="tooltip">L</span></span>"`;
 
+exports[`renders > open 1`] = `"<span aria-describedby="P0-0" class="strand-tooltip__wrapper">T<span aria-hidden="false" class="strand-tooltip strand-tooltip--top strand-tooltip--visible" id="P0-0" role="tooltip">Owned</span></span>"`;
+
 exports[`renders > right 1`] = `"<span aria-describedby="P0-0" class="strand-tooltip__wrapper">T<span aria-hidden="true" class="strand-tooltip strand-tooltip--right" id="P0-0" role="tooltip">R</span></span>"`;
 
 exports[`renders > top 1`] = `"<span aria-describedby="P0-0" class="strand-tooltip__wrapper">Trigger<span aria-hidden="true" class="strand-tooltip strand-tooltip--top" id="P0-0" role="tooltip">Save</span></span>"`;
